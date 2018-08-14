@@ -1,20 +1,17 @@
 const pg = require('pg');
 const express = require('express');
-var cors = require('cors');
 const app =  express();
-app.use(cors())
-
+var cors = require('cors');
 const express_graphql = require('express-graphql');
 const { buildSchema } = require('graphql');
-var Strquery,GraphResult ;
-
 const Config = require('../Configuration/Configuration.js');
-console.log(Config);
 
 const schema = buildSchema(`
-type Query{
+type Query
+{
 	companies(Id:Int): [BusinessCompany]
 }
+
 
 type BusinessCompany{
 	Id: Int
@@ -42,78 +39,49 @@ type BusinessCompany{
 }
 `);
 
+var Strquery,GraphResult ;
+app.use(cors());
 
+//Conection to BD
+const pool = new pg.Pool(Config);
+async function query (q) {
+  const client = await pool.connect();
 
-let companies = (args) => {
-	try {
+  let res
+  try {
+    await client.query('BEGIN')
+    try {
+      res = await client.query(q)
+      await client.query('COMMIT')
+    } catch (err) {
+      await client.query('ROLLBACK')
+      throw err
+    }
+  } finally {
+    client.release()
+  }
+  return res
+}
 
-			if (args.Id)
+//Method Connect to table BusinessCompany
+async function getCompanies (args) {
+  try {
+	
+	  	if (args.Id)
     		{
     			Strquery = 'select * from public."BusinessCompany" where "Id" = '+ args.Id
     		}
     	    else{Strquery = 'select * from public."BusinessCompany"';}
 
-			var client = new pg.Client(Config); 
-			client.connect(err => {
-				console.log("error 1 ",err);
-			         if (err) {
-			         	console.log("se sale ",err);
-			             console.log(err);
-			             return;
-			         }
-			         client.query(Strquery, (err, data) => {
-			             console.log("entra a la query ");
-			             if (err) {
-			             	console.log("error 2 ",err);
-			                 console.log(err);
-			             } else {
-
-			             	console.log("Resolvio query");
-			             	console.log("data ",data.rows);
-			                   GraphResult = data.rows;
-			                   return GraphResult;
-			             }
-			             return GraphResult;
-			             client.end();
-			         });
-			     });
-		console.log("Retornar data ",Strquery);
-  		return GraphResult;
-		} catch (err) {console.log(err);}
-};
-/*let companies = (args) => (async function () {
-    	try {
-   			if (args.Id)
-    		{Strquery = 'select * from public."BusinessCompany" where "Id" = '+ args.Id}
-    	    else{ Strquery = 'select * from public."BusinessCompany"';}
-
-			var client = new pg.Client(Config); 
-			client.connect(function(err,client,done) {
-			      if(err) {
-			         console.error('could not connect to postgres', err);
-			      }
-			     	   client.query(Strquery, function(err,result) {
-			     	   	GraphResult = result.rows;
-
-			           if(err){
-			               console.log(err);
-			           }else{
-			            GraphResult = result.rows;
-			           }
-			          client.end();
-			       });
-			    });
-		return GraphResult;
-    } catch (err) {
-       console.log(err);
-    }
-})();*/
-
-
-
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+  }
+}
 
 const root = {
-companies: companies,
+companies: getCompanies,
 }
 
 app.use('/graphql',express_graphql({
@@ -122,9 +90,11 @@ app.use('/graphql',express_graphql({
     graphiql:true,
 }));
 
+app.listen((process.env.PORT || 3000), function () {
+    console.log('Server is running.. on Port 3000');
+});
 
-//Servidor localhots
-//app.listen(3000, function () {console.log('Server is running.. on Port 3000');});
 
-//Servidor heroku
-app.listen((process.env.PORT || 3000), ()=>{console.log('server on port 3000');});
+/*app.listen(3000, function () {
+    console.log('Server is running.. on Port 3000');
+});*/
