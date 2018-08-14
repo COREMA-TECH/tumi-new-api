@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node Company/index.js",
     "dev": "babel-node src/index.js"
   },
   "keywords": [],
