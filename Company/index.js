@@ -124,6 +124,7 @@ type BusinessCompany{
 		Date_Created: String
 		Date_Updated: String
 		ImageURL: String
+		Address: String
 }
 
 type ElectronicAddress{
@@ -279,12 +280,15 @@ async function query (q) {
 //Method Connect to table BusinessCompany
 async function getCompanies (args) {
   try {
-	
+	var Strtable="'BusinessCompany'";
+
 	  	if (args.Id)
     		{
-    			Strquery = 'select * from public."BusinessCompany" where "Id" = '+ args.Id
+    			Strquery = 'select * from VWBusinessCompany  where "Id" = '+ args.Id
     		}
-    	    else{Strquery = 'select * from public."BusinessCompany"';}
+    	    else{Strquery = 'select * from VWBusinessCompany ';}
+
+	console.log(Strquery);
 
     const { rows } = await query(Strquery)
     return rows;
