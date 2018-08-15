@@ -90,6 +90,8 @@ type Query
 type Mutation{
 	inscompanies(input: iParamBC): BusinessCompany 
 	updcompanies(input: iParamBC): BusinessCompany
+	delcompanies(Id:Int,IsActive:Int): BusinessCompany
+
 
 	inselectronicaddress(input: iParamEA): ElectronicAddress
 	updelectronicaddress(input: iParamEA): ElectronicAddress
@@ -179,7 +181,7 @@ var Strquery,GraphResult ;
 app.use(cors());
 
 class BusinessCompany {
-  constructor(Id,Code, Code01,Id_Company,BusinessType,Name,Description,Start_Week,End_Week,Start_Day,Legal_Name,Country,State,Region,City,Id_Parent,IsActive,User_Created,User_Updated,Date_Created,Date_Updated,ImageURL) {
+  constructor(Id,Code, Code01,Id_Company,BusinessType,Name,Description,Start_Week,End_Week,Start_Day,Legal_Name,Country,State,Region,City,Id_Parent,IsActive,User_Created,User_Updated,Date_Created,Date_Updated,ImageURL,Address) {
 	this.Id= Id;
 	this.Code= Code;
 	this.Code01= Code01;
@@ -202,6 +204,7 @@ class BusinessCompany {
 	this.Date_Created= Date_Created;
 	this.Date_Updated= Date_Updated;
 	this.ImageURL= ImageURL;
+	this.Address = Address;
   }
 }
 
@@ -284,7 +287,7 @@ async function getCompanies (args) {
 
 	  	if (args.Id)
     		{
-    			Strquery = 'select * from VWBusinessCompany  where "Id" = '+ args.Id
+    			Strquery = 'select * from VWBusinessCompany  where "Id" = '+ args.Id;
     		}
     	    else{Strquery = 'select * from VWBusinessCompany ';}
 
@@ -317,6 +320,27 @@ async function UpdCompanies (args) {
 	  	if (args)
     		{
     			Strquery = 'UPDATE public."BusinessCompany" SET "Code"='+ args.input.Code +',"Code01"='+ args.input.Code01 +',"Id_Company"='+args.input.Id_Company +', "BusinessType"='+args.input.BusinessType +', "Name"='+args.input.Name +', "Description"='+ args.input.Description +', "Start_Week"='+ args.input.Start_Week +', "End_Week"='+ args.input.End_Week +', "Start_Day"='+ args.input.Start_Day +', "Legal_Name"='+ args.input.Legal_Name +', "Country"='+ args.input.Country +', "State"='+ args.input.Country +', "Region"='+ args.input.Region +', "City"='+args.input.City+', "Id_Parent"='+args.input.Id_Parent+', "IsActive"='+args.input.IsActive+', "User_Created"='+args.input.User_Created+', "User_Updated"='+args.input.User_Updated+', "Date_Created"='+args.input.Date_Created+', "Date_Updated"='+args.input.Date_Updated+', "ImageURL"='+ args.input.ImageURL +' where "Id"=' + args.input.Id 
+    		}
+    	    else{console.log("Error Update Data");}
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+  }
+}
+
+
+async function DelCompanies (args) {
+  try {
+  	console.log("hola desde el del");
+	  	console.log("aqui variable ",args.Id);
+	  	console.log("aqui variable2 ",args.IsActive);
+	  	
+	  	if (args)
+    		{
+    			Strquery = 'UPDATE public."BusinessCompany" SET "IsActive"='+args.IsActive+' where "Id"=' + args.Id 
+    		console.log(Strquery);
     		}
     	    else{console.log("Error Update Data");}
 
@@ -475,6 +499,8 @@ const root = {
 getcompanies: getCompanies,
 inscompanies: InsCompanies,
 updcompanies: UpdCompanies,
+delcompanies: DelCompanies,
+
 
 getelectronicaddress: getElectronicAddress,
 inselectronicaddress: InsElectronicAddress,
