@@ -81,7 +81,7 @@ input iParamBC {
 
 type Query
 {
-	getcompanies(Id:Int): [BusinessCompany]
+	getcompanies(Id:Int,IsActive:Int): [BusinessCompany]
 	getelectronicaddress(Id:Int): [ElectronicAddress]
 	getphonenumbers(Id:Int): [PhoneNumbers]
 	getaddress(Id:Int): [Address]
@@ -283,13 +283,23 @@ async function query (q) {
 //Method Connect to table BusinessCompany
 async function getCompanies (args) {
   try {
-	var Strtable="'BusinessCompany'";
+	var iparam;
+	console.log(args.IsActive);
+
+		if (args.IsActive>=0) {
+				iparam = ' Where "IsActive" = coalesce('+ args.IsActive+',"IsActive")';
+		}
+		else{
+			    iparam = "";
+		}
+
+		
 
 	  	if (args.Id)
     		{
-    			Strquery = 'select * from VWBusinessCompany  where "Id" = '+ args.Id;
+    			Strquery = 'select * from VWBusinessCompany  where "Id" = '+ args.Id ;
     		}
-    	    else{Strquery = 'select * from VWBusinessCompany ';}
+    	    else{Strquery = 'select * from VWBusinessCompany'+ iparam;}
 
 	console.log(Strquery);
 
