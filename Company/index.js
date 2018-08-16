@@ -54,6 +54,20 @@ Date_Created: String
 Date_Updated: String
 }
 
+input iParamC {
+Id : Int
+Id_Company: Int
+Full_Name: String
+Electronic_Address: String
+Phone_Number: String
+Contact_Type: Int
+IsActive: Int
+User_Created: Int
+User_Updated: Int
+Date_Created: String
+Date_Updated: String
+}
+
 input iParamBC {
   	Id: Int
   	Code: String
@@ -64,7 +78,7 @@ input iParamBC {
 	Description: String
 	Start_Week: Int
 	End_Week: Int
-	Start_Day: Int
+	Start_Date: String
 	Legal_Name: String
 	Country: Int
 	State: Int
@@ -82,9 +96,11 @@ input iParamBC {
 type Query
 {
 	getcompanies(Id:Int,IsActive:Int): [BusinessCompany]
-	getelectronicaddress(Id:Int): [ElectronicAddress]
-	getphonenumbers(Id:Int): [PhoneNumbers]
-	getaddress(Id:Int): [Address]
+
+	getelectronicaddress(Id:Int,IsActive:Int, Related_Table: String, Id_Entity :Int): [ElectronicAddress]
+	getphonenumbers(Id:Int,IsActive:Int,Related_Table:String,Id_Entity :Int): [PhoneNumbers]
+	getaddress(Id:Int,IsActive:Int,Related_Table: String, Id_Entity :Int): [Address]
+	getcontactscompany(Id:Int,IsActive:Int, Related_Table: String, Id_Entity :Int): [ContactsCompany]
 }
 
 type Mutation{
@@ -101,6 +117,9 @@ type Mutation{
 
 	insaddress(input: iParamA): Address
 	updaddress(input: iParamA): Address
+
+	inscontactscompany(input: iParamC): ContactsCompany
+	updcontactscompany(input: iParamC): ContactsCompany
 }
 
 type BusinessCompany{
@@ -113,7 +132,7 @@ type BusinessCompany{
 		Description: String
 		Start_Week: Int
 		End_Week: Int
-		Start_Day: Int
+		Start_Date: String
 		Legal_Name: String
 		Country: Int
 		State: Int
@@ -136,6 +155,20 @@ type ElectronicAddress{
 		Electronic_Address_Type: Int
 		Electronic_Address: String
 		IsPrimary: Int
+		IsActive: Int
+		User_Created: Int
+		User_Updated: Int
+		Date_Created: String
+		Date_Updated: String
+}
+
+type ContactsCompany{
+		Id : Int
+		Id_Company: Int
+		Full_Name: String
+		Electronic_Address: String
+		Phone_Number: String
+		Contact_Type: Int
 		IsActive: Int
 		User_Created: Int
 		User_Updated: Int
@@ -177,7 +210,7 @@ type Address{
 
 `);
 
-var Strquery,GraphResult ;
+var Strquery,iparam; ;
 app.use(cors());
 
 class BusinessCompany {
@@ -260,6 +293,24 @@ class Address {
 	this.Date_Updated = Date_Updated;
   }
 }
+
+class ContactsCompany {
+  constructor(Id,Id_Company, Full_Name,Electronic_Address,Phone_Number,Contact_Type,IsActive,User_Created,User_Updated,Date_Created,Date_Updated) {
+	this.Id = Id;
+	this.Id_Company= Id_Company;
+	this.Full_Name = Full_Name;
+	this.Electronic_Address = Electronic_Address;
+	this.Phone_Number = Phone_Number;
+	this.Contact_Type = Contact_Type;
+	this.IsActive = IsActive;
+	this.User_Created = User_Created;
+	this.User_Updated = User_Updated;
+	this.Date_Created = Date_Created;
+	this.Date_Updated = Date_Updated;
+  }
+}
+
+
 //Conection to BD
 const pool = new pg.Pool(Config);
 async function query (q) {
@@ -283,23 +334,21 @@ async function query (q) {
 //Method Connect to table BusinessCompany
 async function getCompanies (args) {
   try {
-	var iparam;
+	
 	console.log(args.IsActive);
+	var strparam1,strparam2,strparam3
+	
+		if (args.IsActive>=0) {strparam1= args.IsActive  ;}
+		else{strparam1 = null;}
 
-		if (args.IsActive>=0) {
-				iparam = ' Where "IsActive" = coalesce('+ args.IsActive+',"IsActive")';
-		}
-		else{
-			    iparam = "";
-		}
+		if (args.Id>=0) {strparam2= args.Id  ;}
+		else{strparam2 = null;}
 
-		
+//	  	if (args.Id)
+  //  		{Strquery = 'select * from VWBusinessCompany where "IsActive" = coalesce('+ args.IsActive +',"IsActive") and "Id" = '+ args.Id; }
+    //	    else{Strquery = 'select * from VWBusinessCompany'+ iparam;}
 
-	  	if (args.Id)
-    		{
-    			Strquery = 'select * from VWBusinessCompany  where "Id" = '+ args.Id ;
-    		}
-    	    else{Strquery = 'select * from VWBusinessCompany'+ iparam;}
+	Strquery = 'select * from VWBusinessCompany where "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id")';
 
 	console.log(Strquery);
 
@@ -362,14 +411,39 @@ async function DelCompanies (args) {
 }
 
 //Method Connect to table ElectronicAddress
+//getelectronicaddress(Id:Int,IsActive:Int, Related_Table: String, Id_Entity :Int): [ElectronicAddress]
 async function getElectronicAddress (args) {
   try {
+
+ 	var strparam1,strparam2,strparam3,strparam4
+	
+		if (args.IsActive>=0) {strparam1= args.IsActive  ;}
+		else{strparam1 = null;}
+
+		if (args.Id>=0) {strparam2= args.Id  ;}
+		else{strparam2 = null;}
+
+		if (args.Related_Table>=0) {strparam3= args.Related_Table  ;}
+		else{strparam3 = null;}
+
+		if(args.Id_Entity>=0){strparam4= args.Id_Entity;}
+		else{strparam4 = null;}
+
+
+  		/*if (args.IsActive>=0) 
+  			{iparam = ' Where "IsActive" = coalesce('+ args.IsActive+',"IsActive")';}
+		else
+		{
+			iparam = '';
+		}
 	
 	  	if (args.Id)
     		{
-    			Strquery = 'select * from public."ElectronicAddress" where "Id" = '+ args.Id
+    			Strquery = 'select * from public."ElectronicAddress" '+ iparam +' and "Id" = '+ args.Id
     		}
-    	    else{Strquery = 'select * from public."ElectronicAddress"';}
+    	    else{Strquery = 'select * from public."ElectronicAddress" ' + iparam;}*/
+
+	Strquery = 'select * from public."ElectronicAddress"  Where and "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Related_Table" = coalesce('+ strparam3 +',"Related_Table") and Id_Entity coalesce('+ strparam4 +',"Id_Entity")  and "Id" = coalesce('+ strparam2 +',"Id")';
 
     const { rows } = await query(Strquery)
     return rows;
@@ -412,12 +486,36 @@ async function UpdElectronicAddress (args) {
 //Method Connect to table PhoneNumbers
 async function getPhoneNumbers (args) {
   try {
+
+  	var strparam1,strparam2,strparam3,strparam4
 	
-	  	if (args.Id)
-    		{
-    			Strquery = 'select * from public."PhoneNumbers" where "Id" = '+ args.Id
-    		}
-    	    else{Strquery = 'select * from public."PhoneNumbers"';}
+		if (args.IsActive>=0) {strparam1= args.IsActive  ;}
+		else{strparam1 = null;}
+
+		if (args.Id>=0) {strparam2= args.Id  ;}
+		else{strparam2 = null;}
+
+		if (args.Related_Table>=0) {strparam3= args.Related_Table  ;}
+		else{strparam3 = null;}
+
+		if(args.Id_Entity>=0){strparam4= args.Id_Entity;}
+		else{strparam4 = null;}
+
+  	/*if (args.IsActive>=0) 
+  			{
+  				iparam = ' Where "IsActive" = coalesce('+ args.IsActive+',"IsActive")';
+  			}
+		else
+		{
+			iparam = '';
+		}*/
+	
+	
+//	  	if (args.Id)
+  //  		{
+    			Strquery = 'select * from public."PhoneNumbers" Where and "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Related_Table" = coalesce('+ strparam3 +',"Related_Table") and "Id_Entity" = coalesce('+ strparam4 +',"Id_Entity")  and "Id" = coalesce('+ strparam2 +',"Id")'
+    		//}
+    	    //else{Strquery = 'select * from public."PhoneNumbers" '+ iparam;}
 
     const { rows } = await query(Strquery)
     return rows;
@@ -460,12 +558,37 @@ async function UpdPhoneNumbers (args) {
 //Method Connect to table Address
 async function getAddress (args) {
   try {
+  	var strparam1,strparam2,strparam3,strparam4
+	
+		if (args.IsActive>=0) {strparam1= args.IsActive  ;}
+		else{strparam1 = null;}
+
+		if (args.Id>=0) {strparam2= args.Id  ;}
+		else{strparam2 = null;}
+
+		if (args.Related_Table>=0) {strparam3= args.Related_Table  ;}
+		else{strparam3 = null;}
+
+		if(args.Id_Entity>=0){strparam4= args.Id_Entity;}
+		else{strparam4 = null;}
+  	/*if (args.IsActive>=0) 
+  			{
+  				iparam = ' Where "IsActive" = coalesce('+ args.IsActive+',"IsActive")';
+  			}
+		else
+		{
+			iparam = '';
+		}
+	
 	
 	  	if (args.Id)
     		{
-    			Strquery = 'select * from public."Address" where "Id" = '+ args.Id
+    			Strquery = 'select * from public."Address" '+iparam+' and "Id" = '+ args.Id
     		}
-    	    else{Strquery = 'select * from public."Address"';}
+    	    else{Strquery = 'select * from public."Address" '+ iparam;}*/
+
+    	    Strquery = 'select * from public."Address" Where and "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Related_Table" = coalesce('+ strparam3 +',"Related_Table") and Id_Entity = coalesce('+ strparam4 +',"Id_Entity")  and "Id" = coalesce('+ strparam2 +',"Id")'
+    		
 
     const { rows } = await query(Strquery)
     return rows;
@@ -505,6 +628,79 @@ async function UpdAddress (args) {
   }
 }
 
+//Method Connect to table ContactsCompany
+async function getContactsCompany (args) {
+  try {
+
+  		var strparam1,strparam2,strparam3
+	
+		if (args.IsActive>=0) {strparam1= args.IsActive  ;}
+		else{strparam1 = null;}
+
+		if (args.Id>=0) {strparam2= args.Id  ;}
+		else{strparam2 = null;}
+
+		if (args.Id_Company>=0) {strparam3= args.Id_Company  ;}
+		else{strparam3 = null;}
+
+		
+  	/*if (args.IsActive>=0) 
+  			{
+  				iparam = ' Where "IsActive" = coalesce('+ args.IsActive+',"IsActive")';
+  			}
+		else
+		{
+			iparam = '';
+		}
+	
+	
+	  	if (args.Id)
+    		{
+    			Strquery = 'select * from public."ContactsCompany" '+iparam+' and "Id" = '+ args.Id
+    		}
+    	    else{Strquery = 'select * from public."ContactsCompany" '+ iparam;}*/
+
+    	     Strquery = 'select * from public."ContactsCompany" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Company" = coalesce('+ strparam3 +',"Id_Company")  and "Id" = coalesce('+ strparam2 +',"Id")'
+    		console.log(Strquery);
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+  }
+}
+
+async function InsContactsCompany (args) {
+  try {
+  	console.log("entro aqui");
+	  	if (args)
+    		{
+    			Strquery = 'INSERT INTO public."ContactsCompany" ("Id_Company", "Full_Name", "Electronic_Address", "Phone_Number", "Contact_Type" , "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated") VALUES('+ args.input.Id_Company +','+ args.input.Full_Name +',' +args.input.Electronic_Address +','+args.input.Phone_Number+','+args.input.Contact_Type +','+args.input.IsActive +','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+')'
+    		}
+    	    else{console.log("Error Insert Data");}
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+  }
+}
+
+async function UpdContactsCompany (args) {
+  try {
+	  	if (args)
+    		{
+    			Strquery = 'UPDATE public."ContactsCompany" SET "Id_Company"='+ args.input.Id_Company +',"Full_Name"='+ args.input.Full_Name +',"Electronic_Address"='+args.input.Electronic_Address +', "Phone_Number"='+args.input.Phone_Number +', "Contact_Type"='+args.input.Contact_Type +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' where "Id"=' + args.input.Id 
+    		}
+    	    else{console.log("Error Update Data");}
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+  }
+}
+
 const root = {
 getcompanies: getCompanies,
 inscompanies: InsCompanies,
@@ -523,6 +719,10 @@ updphonenumbers: UpdPhoneNumbers,
 getaddress: getAddress,
 insaddress: InsAddress,
 updaddress: UpdAddress,
+
+getcontactscompany: getContactsCompany,
+inscontactscompany: InsContactsCompany,
+updcontactscompany: UpdContactsCompany,
 }
 
 app.use('/graphql',express_graphql({
