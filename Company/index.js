@@ -100,7 +100,7 @@ type Query
 	getelectronicaddress(Id:Int,IsActive:Int, Related_Table: String, Id_Entity :Int): [ElectronicAddress]
 	getphonenumbers(Id:Int,IsActive:Int,Related_Table:String,Id_Entity :Int): [PhoneNumbers]
 	getaddress(Id:Int,IsActive:Int,Related_Table: String, Id_Entity :Int): [Address]
-	getcontactscompany(Id:Int,IsActive:Int, Related_Table: String, Id_Entity :Int): [ContactsCompany]
+	getcontactscompany(Id:Int,IsActive:Int, Id_Company :Int): [ContactsCompany]
 }
 
 type Mutation{
@@ -214,7 +214,7 @@ var Strquery,iparam; ;
 app.use(cors());
 
 class BusinessCompany {
-  constructor(Id,Code, Code01,Id_Company,BusinessType,Name,Description,Start_Week,End_Week,Start_Day,Legal_Name,Country,State,Region,City,Id_Parent,IsActive,User_Created,User_Updated,Date_Created,Date_Updated,ImageURL,Address) {
+  constructor(Id,Code, Code01,Id_Company,BusinessType,Name,Description,Start_Week,End_Week,Start_Date,Legal_Name,Country,State,Region,City,Id_Parent,IsActive,User_Created,User_Updated,Date_Created,Date_Updated,ImageURL,Address) {
 	this.Id= Id;
 	this.Code= Code;
 	this.Code01= Code01;
@@ -224,7 +224,7 @@ class BusinessCompany {
 	this.Description= Description;
 	this.Start_Week= Start_Week;
 	this.End_Week= End_Week;
-	this.Start_Day= Start_Day;
+	this.Start_Date= Start_Date;
 	this.Legal_Name= Country;
 	this.Country= Country;
 	this.State= State;
@@ -363,10 +363,11 @@ async function InsCompanies (args) {
   try {
 	  	if (args)
     		{
-    			Strquery = 'INSERT INTO public."BusinessCompany" ("Code", "Code01","Id_Company","BusinessType","Name","Description","Start_Week","End_Week","Start_Day","Legal_Name","Country","State","Region","City","Id_Parent","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","ImageURL") VALUES('+ args.input.Code +','+ args.input.Code01 +',' +args.input.Id_Company +','+args.input.BusinessType+','+args.input.Name +','+args.input.Description +','+args.input.Start_Week+','+args.input.End_Week+','+args.input.Start_Day+','+args.input.Legal_Name+','+args.input.Country+','+args.input.State+','+args.input.Region+','+args.input.City+','+args.input.Id_Parent+','+args.input.IsActive+','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+','+args.input.ImageURL+')'
+    			Strquery = 'INSERT INTO public."BusinessCompany" ("Code", "Code01","Id_Company","BusinessType","Name","Description","Start_Week","End_Week","Start_Date","Legal_Name","Country","State","Region","City","Id_Parent","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","ImageURL") VALUES('+ args.input.Code +','+ args.input.Code01 +',' +args.input.Id_Company +','+args.input.BusinessType+','+args.input.Name +','+args.input.Description +','+args.input.Start_Week+','+args.input.End_Week+','+args.input.Start_Date+','+args.input.Legal_Name+','+args.input.Country+','+args.input.State+','+args.input.Region+','+args.input.City+','+args.input.Id_Parent+','+args.input.IsActive+','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+','+args.input.ImageURL+')'
     		}
     	    else{console.log("Error Insert Data");}
 
+console.log(Strquery);
     const { rows } = await query(Strquery)
     return rows;
   } catch (err) {
@@ -679,6 +680,7 @@ async function InsContactsCompany (args) {
     		}
     	    else{console.log("Error Insert Data");}
 
+console.log(Strquery);
     const { rows } = await query(Strquery)
     return rows;
   } catch (err) {
