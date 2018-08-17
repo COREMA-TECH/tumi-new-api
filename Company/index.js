@@ -101,6 +101,10 @@ type Query
 	getphonenumbers(Id:Int,IsActive:Int,Related_Table:String,Id_Entity :Int): [PhoneNumbers]
 	getaddress(Id:Int,IsActive:Int,Related_Table: String, Id_Entity :Int): [Address]
 	getcontactscompany(Id:Int,IsActive:Int, Id_Company :Int): [ContactsCompany]
+
+	getcatalog(Id:Int,IsActive:Int): [Catalog]
+	getcatalogitem(Id:Int,IsActive:Int,Id_Catalog:Int,IdParent:Int): [Catalog]
+
 }
 
 type Mutation{
@@ -147,6 +151,36 @@ type BusinessCompany{
 		ImageURL: String
 		Address: String
 }
+
+type Catalog{
+	Id: Int
+    Name: String
+    Description: String
+    IsActive: Int
+    User_Created: Int
+    User_Updated: Int
+    Date_Created: String
+    Date_Updated : String
+}
+type CatalogItem{
+	Id: Int
+	Id_Catalog: Int
+	Id_Parent: Int
+	Name: String
+	DisplayLabel: String
+	Description: String
+	Value: String
+	Value01: String
+	Value02: String
+	Value03: String
+	Value04: String
+	IsActive: Int,
+    User_Created: Int,
+    User_Updated: Int,
+    Date_Created: String
+    Date_Updated : String
+}
+
 
 type ElectronicAddress{
 		Id : Int
@@ -344,10 +378,6 @@ async function getCompanies (args) {
 		if (args.Id>=0) {strparam2= args.Id  ;}
 		else{strparam2 = null;}
 
-//	  	if (args.Id)
-  //  		{Strquery = 'select * from VWBusinessCompany where "IsActive" = coalesce('+ args.IsActive +',"IsActive") and "Id" = '+ args.Id; }
-    //	    else{Strquery = 'select * from VWBusinessCompany'+ iparam;}
-
 	Strquery = 'select * from VWBusinessCompany where "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id")';
 
 	console.log(Strquery);
@@ -412,7 +442,6 @@ async function DelCompanies (args) {
 }
 
 //Method Connect to table ElectronicAddress
-//getelectronicaddress(Id:Int,IsActive:Int, Related_Table: String, Id_Entity :Int): [ElectronicAddress]
 async function getElectronicAddress (args) {
   try {
 
@@ -429,20 +458,6 @@ async function getElectronicAddress (args) {
 
 		if(args.Id_Entity>=0){strparam4= args.Id_Entity;}
 		else{strparam4 = null;}
-
-
-  		/*if (args.IsActive>=0) 
-  			{iparam = ' Where "IsActive" = coalesce('+ args.IsActive+',"IsActive")';}
-		else
-		{
-			iparam = '';
-		}
-	
-	  	if (args.Id)
-    		{
-    			Strquery = 'select * from public."ElectronicAddress" '+ iparam +' and "Id" = '+ args.Id
-    		}
-    	    else{Strquery = 'select * from public."ElectronicAddress" ' + iparam;}*/
 
 	Strquery = 'select * from public."ElectronicAddress"  Where and "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Related_Table" = coalesce('+ strparam3 +',"Related_Table") and Id_Entity coalesce('+ strparam4 +',"Id_Entity")  and "Id" = coalesce('+ strparam2 +',"Id")';
 
@@ -502,22 +517,9 @@ async function getPhoneNumbers (args) {
 		if(args.Id_Entity>=0){strparam4= args.Id_Entity;}
 		else{strparam4 = null;}
 
-  	/*if (args.IsActive>=0) 
-  			{
-  				iparam = ' Where "IsActive" = coalesce('+ args.IsActive+',"IsActive")';
-  			}
-		else
-		{
-			iparam = '';
-		}*/
-	
-	
-//	  	if (args.Id)
-  //  		{
-    			Strquery = 'select * from public."PhoneNumbers" Where and "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Related_Table" = coalesce('+ strparam3 +',"Related_Table") and "Id_Entity" = coalesce('+ strparam4 +',"Id_Entity")  and "Id" = coalesce('+ strparam2 +',"Id")'
-    		//}
-    	    //else{Strquery = 'select * from public."PhoneNumbers" '+ iparam;}
-
+  
+    	Strquery = 'select * from public."PhoneNumbers" Where and "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Related_Table" = coalesce('+ strparam3 +',"Related_Table") and "Id_Entity" = coalesce('+ strparam4 +',"Id_Entity")  and "Id" = coalesce('+ strparam2 +',"Id")'
+  
     const { rows } = await query(Strquery)
     return rows;
   } catch (err) {
@@ -572,26 +574,10 @@ async function getAddress (args) {
 
 		if(args.Id_Entity>=0){strparam4= args.Id_Entity;}
 		else{strparam4 = null;}
-  	/*if (args.IsActive>=0) 
-  			{
-  				iparam = ' Where "IsActive" = coalesce('+ args.IsActive+',"IsActive")';
-  			}
-		else
-		{
-			iparam = '';
-		}
-	
-	
-	  	if (args.Id)
-    		{
-    			Strquery = 'select * from public."Address" '+iparam+' and "Id" = '+ args.Id
-    		}
-    	    else{Strquery = 'select * from public."Address" '+ iparam;}*/
-
+  	
     	    Strquery = 'select * from public."Address" Where and "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Related_Table" = coalesce('+ strparam3 +',"Related_Table") and Id_Entity = coalesce('+ strparam4 +',"Id_Entity")  and "Id" = coalesce('+ strparam2 +',"Id")'
     		
-
-    const { rows } = await query(Strquery)
+	const { rows } = await query(Strquery)
     return rows;
   } catch (err) {
     console.log('Database ' + err)
@@ -644,24 +630,7 @@ async function getContactsCompany (args) {
 		if (args.Id_Company>=0) {strparam3= args.Id_Company  ;}
 		else{strparam3 = null;}
 
-		
-  	/*if (args.IsActive>=0) 
-  			{
-  				iparam = ' Where "IsActive" = coalesce('+ args.IsActive+',"IsActive")';
-  			}
-		else
-		{
-			iparam = '';
-		}
-	
-	
-	  	if (args.Id)
-    		{
-    			Strquery = 'select * from public."ContactsCompany" '+iparam+' and "Id" = '+ args.Id
-    		}
-    	    else{Strquery = 'select * from public."ContactsCompany" '+ iparam;}*/
-
-    	     Strquery = 'select * from public."ContactsCompany" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Company" = coalesce('+ strparam3 +',"Id_Company")  and "Id" = coalesce('+ strparam2 +',"Id")'
+		     Strquery = 'select * from public."ContactsCompany" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Company" = coalesce('+ strparam3 +',"Id_Company")  and "Id" = coalesce('+ strparam2 +',"Id")'
     		console.log(Strquery);
 
     const { rows } = await query(Strquery)
@@ -703,6 +672,58 @@ async function UpdContactsCompany (args) {
   }
 }
 
+
+//Method Connect to table Catalog
+async function getCatalog (args) {
+  try {
+
+  		var strparam1,strparam2,strparam3
+	
+		if (args.IsActive>=0) {strparam1= args.IsActive  ;}
+		else{strparam1 = null;}
+
+		if (args.Id>=0) {strparam2= args.Id  ;}
+		else{strparam2 = null;}
+
+		     Strquery = 'select * from public."Catalog" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id")'
+    		console.log(Strquery);
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+  }
+}
+
+//Method Connect to table CatalogItem
+async function getCatalogItem (args) {
+  try {
+
+  		var strparam1,strparam2,strparam3
+	
+		if (args.IsActive>=0) {strparam1= args.IsActive  ;}
+		else{strparam1 = null;}
+
+		if (args.Id>=0) {strparam2= args.Id  ;}
+		else{strparam2 = null;}
+
+		if (args.Id_Catalog>=0) {strparam3= args.Id_Catalog  ;}
+		else{strparam3 = null;}
+
+		if (args.Id_Parent>=0) {strparam4= args.Id_Parent  ;}
+		else{strparam4 = 0;}
+
+		     Strquery = 'select * from public."CatalogItem" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Catalog" = coalesce('+ strparam3 +',"Id_Catalog")  and "Id" = coalesce('+ strparam2 +',"Id") and "Id_Parent" = coalesce('+ strparam4 +',"Id_Parent")'
+    		console.log(Strquery);
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+  }
+}
+
+
 const root = {
 getcompanies: getCompanies,
 inscompanies: InsCompanies,
@@ -725,6 +746,11 @@ updaddress: UpdAddress,
 getcontactscompany: getContactsCompany,
 inscontactscompany: InsContactsCompany,
 updcontactscompany: UpdContactsCompany,
+
+getcatalog: getCatalog,
+getcatalogitem: getCatalogItem,
+
+
 }
 
 app.use('/graphql',express_graphql({
