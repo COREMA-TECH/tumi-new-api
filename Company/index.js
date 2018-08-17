@@ -56,7 +56,7 @@ Date_Updated: String
 
 input iParamC {
 Id : Int
-Id_Company: Int
+Id_Entity: Int
 Full_Name: String
 Electronic_Address: String
 Phone_Number: String
@@ -66,6 +66,25 @@ User_Created: Int
 User_Updated: Int
 Date_Created: String
 Date_Updated: String
+}
+
+type iParamCI{
+	Id: Int
+	Id_Catalog: Int
+	Id_Parent: Int
+	Name: String
+	DisplayLabel: String
+	Description: String
+	Value: String
+	Value01: String
+	Value02: String
+	Value03: String
+	Value04: String
+	IsActive: Int,
+    User_Created: Int,
+    User_Updated: Int,
+    Date_Created: String
+    Date_Updated : String
 }
 
 input iParamBC {
@@ -100,11 +119,10 @@ type Query
 	getelectronicaddress(Id:Int,IsActive:Int, Related_Table: String, Id_Entity :Int): [ElectronicAddress]
 	getphonenumbers(Id:Int,IsActive:Int,Related_Table:String,Id_Entity :Int): [PhoneNumbers]
 	getaddress(Id:Int,IsActive:Int,Related_Table: String, Id_Entity :Int): [Address]
-	getcontactscompany(Id:Int,IsActive:Int, Id_Company :Int): [ContactsCompany]
+	getcontacts(Id:Int,IsActive:Int, Id_Entity :Int): [Contacts]
 
 	getcatalog(Id:Int,IsActive:Int): [Catalog]
-	getcatalogitem(Id:Int,IsActive:Int,Id_Catalog:Int,IdParent:Int): [Catalog]
-
+	getcatalogitem(Id:Int,IsActive:Int,Id_Catalog:Int,Id_Parent:Int): [CatalogItem]
 }
 
 type Mutation{
@@ -122,8 +140,10 @@ type Mutation{
 	insaddress(input: iParamA): Address
 	updaddress(input: iParamA): Address
 
-	inscontactscompany(input: iParamC): ContactsCompany
-	updcontactscompany(input: iParamC): ContactsCompany
+	inscontacts(input: iParamC): Contacts
+	updcontacts(input: iParamC): Contacts
+
+	
 }
 
 type BusinessCompany{
@@ -196,9 +216,9 @@ type ElectronicAddress{
 		Date_Updated: String
 }
 
-type ContactsCompany{
+type Contacts{
 		Id : Int
-		Id_Company: Int
+		Id_Entity: Int
 		Full_Name: String
 		Electronic_Address: String
 		Phone_Number: String
@@ -328,14 +348,47 @@ class Address {
   }
 }
 
-class ContactsCompany {
-  constructor(Id,Id_Company, Full_Name,Electronic_Address,Phone_Number,Contact_Type,IsActive,User_Created,User_Updated,Date_Created,Date_Updated) {
+class Contacts {
+  constructor(Id,Id_Entity, Full_Name,Electronic_Address,Phone_Number,Contact_Type,IsActive,User_Created,User_Updated,Date_Created,Date_Updated) {
 	this.Id = Id;
-	this.Id_Company= Id_Company;
+	this.Id_Entity= Id_Entity;
 	this.Full_Name = Full_Name;
 	this.Electronic_Address = Electronic_Address;
 	this.Phone_Number = Phone_Number;
 	this.Contact_Type = Contact_Type;
+	this.IsActive = IsActive;
+	this.User_Created = User_Created;
+	this.User_Updated = User_Updated;
+	this.Date_Created = Date_Created;
+	this.Date_Updated = Date_Updated;
+  }}
+
+  class Catalog {
+  constructor(Id, Name, Description, IsActive,User_Created,User_Updated,Date_Created,Date_Updated) {
+	this.Id = Id;
+	this.Name= Name;
+	this.Description = Description;
+	this.IsActive = IsActive;
+	this.User_Created = User_Created;
+	this.User_Updated = User_Updated;
+	this.Date_Created = Date_Created;
+	this.Date_Updated = Date_Updated;
+  }
+}
+
+  class CatalogItem {
+  constructor(Id, Id_Catalog, Id_Parent, Name, DisplayLabel, Description, Value, Value01, Value02, Value03, Value04,IsActive,User_Created,User_Updated,Date_Created,Date_Updated) {
+	this.Id = Id;
+	this.Id_Catalog= Id_Catalog;
+	this.Id_Parent = Id_Parent;
+	this.Name = Name;
+	this.DisplayLabel = DisplayLabel;
+	this.Description = Description;
+	this.Value = Value;
+	this.Value01 = Value01;
+	this.Value02 = Value02;
+	this.Value03 = Value03;
+	this.Value04 = Value04;
 	this.IsActive = IsActive;
 	this.User_Created = User_Created;
 	this.User_Updated = User_Updated;
@@ -616,7 +669,7 @@ async function UpdAddress (args) {
 }
 
 //Method Connect to table ContactsCompany
-async function getContactsCompany (args) {
+async function getContacts (args) {
   try {
 
   		var strparam1,strparam2,strparam3
@@ -627,10 +680,10 @@ async function getContactsCompany (args) {
 		if (args.Id>=0) {strparam2= args.Id  ;}
 		else{strparam2 = null;}
 
-		if (args.Id_Company>=0) {strparam3= args.Id_Company  ;}
+		if (args.Id_Entity>=0) {strparam3= args.Id_Entity  ;}
 		else{strparam3 = null;}
 
-		     Strquery = 'select * from public."ContactsCompany" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Company" = coalesce('+ strparam3 +',"Id_Company")  and "Id" = coalesce('+ strparam2 +',"Id")'
+		     Strquery = 'select * from public."Contacts" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Entity" = coalesce('+ strparam3 +',"Id_Entity")  and "Id" = coalesce('+ strparam2 +',"Id")'
     		console.log(Strquery);
 
     const { rows } = await query(Strquery)
@@ -640,16 +693,14 @@ async function getContactsCompany (args) {
   }
 }
 
-async function InsContactsCompany (args) {
+async function InsContacts (args) {
   try {
-  	console.log("entro aqui");
-	  	if (args)
+  	  	if (args)
     		{
-    			Strquery = 'INSERT INTO public."ContactsCompany" ("Id_Company", "Full_Name", "Electronic_Address", "Phone_Number", "Contact_Type" , "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated") VALUES('+ args.input.Id_Company +','+ args.input.Full_Name +',' +args.input.Electronic_Address +','+args.input.Phone_Number+','+args.input.Contact_Type +','+args.input.IsActive +','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+')'
+    			Strquery = 'INSERT INTO public."Contacts" ("Id_Entity", "Full_Name", "Electronic_Address", "Phone_Number", "Contact_Type" , "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated") VALUES('+ args.input.Id_Entity +','+ args.input.Full_Name +',' +args.input.Electronic_Address +','+args.input.Phone_Number+','+args.input.Contact_Type +','+args.input.IsActive +','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+')'
     		}
     	    else{console.log("Error Insert Data");}
 
-console.log(Strquery);
     const { rows } = await query(Strquery)
     return rows;
   } catch (err) {
@@ -657,11 +708,11 @@ console.log(Strquery);
   }
 }
 
-async function UpdContactsCompany (args) {
+async function UpdContacts (args) {
   try {
 	  	if (args)
     		{
-    			Strquery = 'UPDATE public."ContactsCompany" SET "Id_Company"='+ args.input.Id_Company +',"Full_Name"='+ args.input.Full_Name +',"Electronic_Address"='+args.input.Electronic_Address +', "Phone_Number"='+args.input.Phone_Number +', "Contact_Type"='+args.input.Contact_Type +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' where "Id"=' + args.input.Id 
+    			Strquery = 'UPDATE public."Contacts" SET "Id_Entity"='+ args.input.Id_Entity +',"Full_Name"='+ args.input.Full_Name +',"Electronic_Address"='+args.input.Electronic_Address +', "Phone_Number"='+args.input.Phone_Number +', "Contact_Type"='+args.input.Contact_Type +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' where "Id"=' + args.input.Id 
     		}
     	    else{console.log("Error Update Data");}
 
@@ -676,6 +727,7 @@ async function UpdContactsCompany (args) {
 //Method Connect to table Catalog
 async function getCatalog (args) {
   try {
+console.log('entro aqui');
 
   		var strparam1,strparam2,strparam3
 	
@@ -723,6 +775,35 @@ async function getCatalogItem (args) {
   }
 }
 
+async function InsCatalogItem (args) {
+  try {
+  	  	if (args)
+    		{
+    			Strquery = 'INSERT INTO public."CatalogItem" ( "Id_Catalog", "Id_Parent", "Name", "DisplayLabel", "Description", "Value", "Value01", "Value02", "Value03", "Value04", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated")) VALUES('+ args.input.Id_Catalog +','+ args.input.Id_Parent +',' +args.input.Name +','+args.input.DisplayLabel+','+args.input.Description +','+args.input.Value +','+args.input.Value01+','+args.input.Value02+','+args.input.Value03+','+args.input.Value04 +','+args.input.IsActive +','+args.input.User_Created +','+args.input.User_Updated +','+args.input.Date_Created +','+ args.input.Date_Updated +')'
+    		}
+    	    else{console.log("Error Insert Data");}
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+  }
+}
+
+async function UpdCatalogItem (args) {
+  try {
+  	  	if (args)
+    		{
+    			Strquery = 'INSERT INTO public."CatalogItem" ( "Id_Catalog", "Id_Parent", "Name", "DisplayLabel", "Description", "Value", "Value01", "Value02", "Value03", "Value04", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated")) VALUES('+ args.input.Id_Catalog +','+ args.input.Id_Parent +',' +args.input.Name +','+args.input.DisplayLabel+','+args.input.Description +','+args.input.Value +','+args.input.Value01+','+args.input.Value02+','+args.input.Value03+','+args.input.Value04 +','+args.input.IsActive +','+args.input.User_Created +','+args.input.User_Updated +','+args.input.Date_Created +','+ args.input.Date_Updated +')'
+    		}
+    	    else{console.log("Error Insert Data");}
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+  }
+}
 
 const root = {
 getcompanies: getCompanies,
@@ -743,14 +824,15 @@ getaddress: getAddress,
 insaddress: InsAddress,
 updaddress: UpdAddress,
 
-getcontactscompany: getContactsCompany,
-inscontactscompany: InsContactsCompany,
-updcontactscompany: UpdContactsCompany,
+getcontacts: getContacts,
+inscontacts: InsContacts,
+updcontacts: UpdContacts,
 
 getcatalog: getCatalog,
 getcatalogitem: getCatalogItem,
 
-
+//inscatalogitem:InsCatalogItem,
+//updcatalogitem: UpdCatalogItem,
 }
 
 app.use('/graphql',express_graphql({
