@@ -1,3 +1,5 @@
+const { buildSchema } = require('graphql');
+
 const schema = buildSchema(`
 input iParamEA {
 Id : Int
@@ -92,7 +94,6 @@ input iParamBC {
 	Legal_Name: String
 	Country: Int
 	State: Int
-	Region: Int
 	City: Int
 	Id_Parent: Int
 	IsActive: Int
@@ -101,6 +102,9 @@ input iParamBC {
 	Date_Created: String
 	Date_Updated: String
 	ImageURL: String
+	Location: String
+	Location01: String
+	Rate: Float
 }
 
 type Query
@@ -151,7 +155,6 @@ type BusinessCompany{
 		Legal_Name: String
 		Country: Int
 		State: Int
-		Region: Int
 		City: Int
 		Id_Parent: Int
 		IsActive: Int
@@ -161,6 +164,9 @@ type BusinessCompany{
 		Date_Updated: String
 		ImageURL: String
 		Address: String
+		Location: String
+		Location01: String
+		Rate: Float
 }
 
 type Catalog{

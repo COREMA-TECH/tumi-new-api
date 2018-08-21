@@ -21,6 +21,7 @@
     "mssql": "^3.3.0",
     "pg": "^7.4.3",
     "pg-promise": "^8.4.5",
+    "sequelize": "^4.38.0",
     "sudo": "^1.0.3"
   },
   "devDependencies": {
