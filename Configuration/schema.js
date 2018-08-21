@@ -105,6 +105,7 @@ input iParamBC {
 	Location: String
 	Location01: String
 	Rate: Float
+	Zipcode: String
 }
 
 type Query
@@ -167,6 +168,7 @@ type BusinessCompany{
 		Location: String
 		Location01: String
 		Rate: Float
+		Zipcode: String
 }
 
 type Catalog{
