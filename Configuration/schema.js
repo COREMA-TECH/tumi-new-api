@@ -138,6 +138,8 @@ type Query
 	getcontacts(Id:Int,IsActive:Int, Id_Entity :Int): [Contacts]
 	getposition(Id:Int,IsActive:Int, Id_Entity :Int): [PositionRate]
 
+	getsupervisor(Id:Int,IsActive:Int,Id_Entity :Int): [Contacts]
+	
 	getcatalog(Id:Int,IsActive:Int): [Catalog]
 	getcatalogitem(Id:Int,IsActive:Int,Id_Catalog:Int,Id_Parent:Int): [CatalogItem]
 }
