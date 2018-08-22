@@ -74,8 +74,6 @@ User_Updated: Int
 Date_Created: String
 Date_Updated: String
 Id_Supervisor: Int
-IsPrimary: Int
-IsSecundary: Int
 Id_Deparment: Int
 }
 
@@ -261,8 +259,6 @@ type Contacts{
 		Date_Created: String
 		Date_Updated: String
 		Id_Supervisor: Int
-		IsPrimary: Int
-    	IsSecundary: Int
     	Id_Deparment: Int
 }
 
