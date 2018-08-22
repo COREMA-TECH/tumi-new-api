@@ -15,6 +15,20 @@ Date_Created: String
 Date_Updated: String
 }
 
+input iParamPR {
+Id : Int
+Id_Entity : Int
+Id_Department : Int
+Position: String
+Bill_Rate: Float
+Pay_Rate: Float
+IsActive : Int
+User_Created : Int
+User_Updated : Int
+Date_Created: String
+Date_Updated: String
+}
+
 input iParamA {
 Id: Int
 Related_Table: String
@@ -59,6 +73,10 @@ User_Created: Int
 User_Updated: Int
 Date_Created: String
 Date_Updated: String
+Id_Supervisor: Int
+IsPrimary: Int
+IsSecundary: Int
+Id_Deparment: Int
 }
 
 type iParamCI{
@@ -120,6 +138,7 @@ type Query
 	getphonenumbers(Id:Int,IsActive:Int,Related_Table:String,Id_Entity :Int): [PhoneNumbers]
 	getaddress(Id:Int,IsActive:Int,Related_Table: String, Id_Entity :Int): [Address]
 	getcontacts(Id:Int,IsActive:Int, Id_Entity :Int): [Contacts]
+	getposition(Id:Int,IsActive:Int, Id_Entity :Int): [PositionRate]
 
 	getcatalog(Id:Int,IsActive:Int): [Catalog]
 	getcatalogitem(Id:Int,IsActive:Int,Id_Catalog:Int,Id_Parent:Int): [CatalogItem]
@@ -142,6 +161,12 @@ type Mutation{
 
 	inscontacts(input: iParamC): Contacts
 	updcontacts(input: iParamC): Contacts
+	delcontacts(Id:Int,IsActive:Int): Contacts
+
+
+	insposition(input: iParamPR): PositionRate
+	updposition(input: iParamPR): PositionRate
+	delposition(Id:Int,IsActive:Int): PositionRate
 
 	
 }
@@ -235,6 +260,10 @@ type Contacts{
 		User_Updated: Int
 		Date_Created: String
 		Date_Updated: String
+		Id_Supervisor: Int
+		IsPrimary: Int
+    	IsSecundary: Int
+    	Id_Deparment: Int
 }
 
 type PhoneNumbers{
@@ -267,6 +296,20 @@ type Address{
 		User_Updated: Int
 		Date_Created: String
 		Date_Updated: String
+}
+
+type PositionRate{
+	Id : Int
+	Id_Entity : Int
+	Id_Department : Int
+	Position: String
+	Bill_Rate: Float
+	Pay_Rate: Float
+	IsActive : Int
+	User_Created : Int
+	User_Updated : Int
+	Date_Created: String
+	Date_Updated: String
 }
 
 `);

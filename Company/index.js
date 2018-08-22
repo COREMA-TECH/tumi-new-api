@@ -323,12 +323,18 @@ async function InsContacts (args) {
   try {
   	  	if (args)
     		{
-    			Strquery = 'INSERT INTO public."Contacts" ("Id_Entity", "Full_Name", "Electronic_Address", "Phone_Number", "Contact_Type" , "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated") VALUES('+ args.input.Id_Entity +','+ args.input.Full_Name +',' +args.input.Electronic_Address +','+args.input.Phone_Number+','+args.input.Contact_Type +','+args.input.IsActive +','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+')'
+    			Strquery = 'INSERT INTO public."Contacts" ("Id_Entity", "Full_Name", "Electronic_Address", "Phone_Number", "Contact_Type" , "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Id_Supervisor", "IsPrimary", "IsSecundary", "Id_Deparment") VALUES('+ args.input.Id_Entity +','+ args.input.Full_Name +',' +args.input.Electronic_Address +','+args.input.Phone_Number+','+args.input.Contact_Type +','+args.input.IsActive +','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+','+args.input.Id_Supervisor+','+args.input.IsPrimary+','+args.input.IsSecundary+','+args.input.Id_Deparment+') RETURNING "Id","Id_Entity", "Full_Name", "Electronic_Address", "Phone_Number", "Contact_Type" , "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Id_Supervisor","IsPrimary", "IsSecundary", "Id_Deparment"'
     		}
     	    else{console.log("Error Insert Data");}
 
     const { rows } = await query(Strquery)
-    return rows;
+    //const { Id }  = await query('select max("Id") as "Id" from public."Contacts"' )
+
+    console.log(rows);
+
+	
+    
+    return rows[0]; 
   } catch (err) {
     console.log('Database ' + err)
   }
@@ -338,7 +344,24 @@ async function UpdContacts (args) {
   try {
 	  	if (args)
     		{
-    			Strquery = 'UPDATE public."Contacts" SET "Id_Entity"='+ args.input.Id_Entity +',"Full_Name"='+ args.input.Full_Name +',"Electronic_Address"='+args.input.Electronic_Address +', "Phone_Number"='+args.input.Phone_Number +', "Contact_Type"='+args.input.Contact_Type +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' where "Id"=' + args.input.Id 
+    			Strquery = 'UPDATE public."Contacts" SET "Id_Entity"='+ args.input.Id_Entity +',"Full_Name"='+ args.input.Full_Name +',"Electronic_Address"='+args.input.Electronic_Address +', "Phone_Number"='+args.input.Phone_Number +', "Contact_Type"='+args.input.Contact_Type +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' , "Id_Supervisor"='+ args.input.Id_Supervisor +' , "IsPrimary"='+ args.input.IsPrimary +' , "IsSecundary"='+ args.input.IsSecundary +' , "Id_Deparment"='+ args.input.Id_Deparment +' where "Id"=' + args.input.Id 
+    		}
+    	    else{console.log("Error Update Data");}
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+  }
+}
+
+async function DelContacts (args) {
+  try {
+	  	if (args)
+    		{
+    	//		Strquery = 'UPDATE public."Contacts" SET "Id_Entity"='+ args.input.Id_Entity +',"Full_Name"='+ args.input.Full_Name +',"Electronic_Address"='+args.input.Electronic_Address +', "Phone_Number"='+args.input.Phone_Number +', "Contact_Type"='+args.input.Contact_Type +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' , "Id_Supervisor"='+ args.input.Id_Supervisor +' , "IsPrimary"='+ args.input.IsPrimary +' , "IsSecundary"='+ args.input.IsSecundary +' , "Id_Deparment"='+ args.input.Id_Deparment +' where "Id"=' + args.input.Id 
+    				Strquery = 'UPDATE public."Contacts" SET "IsActive"='+args.IsActive+' where "Id"=' + args.Id 
+    	
     		}
     	    else{console.log("Error Update Data");}
 
@@ -431,6 +454,84 @@ async function UpdCatalogItem (args) {
   }
 }
 
+//Method Connect to table Position and rate of Company
+async function getPosition (args) {
+  try {
+
+  		var strparam1,strparam2,strparam3
+	
+		if (args.IsActive>=0) {strparam1= args.IsActive  ;}
+		else{strparam1 = null;}
+
+		if (args.Id>=0) {strparam2= args.Id  ;}
+		else{strparam2 = null;}
+
+		if (args.Id_Entity>=0) {strparam3= args.Id_Entity  ;}
+		else{strparam3 = null;}
+
+		     Strquery = 'select * from public."PositionRate" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Entity" = coalesce('+ strparam3 +',"Id_Entity")  and "Id" = coalesce('+ strparam2 +',"Id")'
+    		console.log(Strquery);
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+  }
+}
+
+async function InsPosition (args) {
+  try {
+  	  	if (args)
+    		{
+    			Strquery = 'INSERT INTO public."PositionRate" ("Id_Entity", "Id_Department", "Position", "Bill_Rate", "Pay_Rate", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated") VALUES('+ args.input.Id_Entity +','+ args.input.Id_Department +',' +args.input.Position +','+args.input.Bill_Rate+','+args.input.Pay_Rate +','+args.input.IsActive +','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+') RETURNING "Id", "Id_Entity", "Id_Department", "Position", "Bill_Rate", "Pay_Rate", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated"'
+    		}
+    	    else{console.log("Error Insert Data");}
+ console.log(Strquery);
+    const { rows } = await query(Strquery)
+    //const { Id }  = await query('select max("Id") as "Id" from public."Contacts"' )
+
+   
+
+	
+    
+    return rows[0]; 
+  } catch (err) {
+    console.log('Database ' + err)
+  }
+}
+
+async function UpdPosition (args) {
+  try {
+	  	if (args)
+    		{
+    			Strquery = 'UPDATE public."PositionRate" SET "Id_Entity"='+ args.input.Id_Entity +',"Id_Department"='+ args.input.Id_Department +',"Position"='+args.input.Position +', "Bill_Rate"='+args.input.Bill_Rate +', "Pay_Rate"='+args.input.Pay_Rate +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' where "Id"=' + args.input.Id 
+    		}
+    	    else{console.log("Error Update Data");}
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+  }
+}
+
+async function DelPosition (args) {
+  try {
+	  	if (args)
+    		{
+    	//		Strquery = 'UPDATE public."Contacts" SET "Id_Entity"='+ args.input.Id_Entity +',"Full_Name"='+ args.input.Full_Name +',"Electronic_Address"='+args.input.Electronic_Address +', "Phone_Number"='+args.input.Phone_Number +', "Contact_Type"='+args.input.Contact_Type +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' , "Id_Supervisor"='+ args.input.Id_Supervisor +' , "IsPrimary"='+ args.input.IsPrimary +' , "IsSecundary"='+ args.input.IsSecundary +' , "Id_Deparment"='+ args.input.Id_Deparment +' where "Id"=' + args.input.Id 
+    				Strquery = 'UPDATE public."PositionRate" SET "IsActive"='+args.IsActive+' where "Id"=' + args.Id 
+    	
+    		}
+    	    else{console.log("Error Update Data");}
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+  }
+}
+
 const root = {
 getcompanies: getCompanies,
 inscompanies: InsCompanies,
@@ -453,6 +554,12 @@ updaddress: UpdAddress,
 getcontacts: getContacts,
 inscontacts: InsContacts,
 updcontacts: UpdContacts,
+delcontacts: DelContacts,
+
+getposition: getPosition,
+insposition: InsPosition,
+updposition: UpdPosition,
+delposition: DelPosition,
 
 getcatalog: getCatalog,
 getcatalogitem: getCatalogItem,
