@@ -331,10 +331,10 @@ async function getSupervisor (args) {
 		else{strparam3 = null;}
 
 		if (args.Id>0) {
-		     Strquery = 'select * from public."Contacts" Where "Id" <> ('+ args.Id +')  and   "Id" not in (SELECT "Id" FROM public."Contacts" where "Id_Supervisor" =  '+  args.Id +') and   "Id" not in (SELECT "Id" FROM public."Contacts" where "Id_Supervisor" in (SELECT "Id" FROM public."Contacts" where "Id_Supervisor" = ' +  args.Id +')) and "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Entity" = coalesce('+ strparam3 +',"Id_Entity" )'
+		     Strquery = 'select * from public.vwsupervisor Where "Id" <> ('+ args.Id +')  and   "Id" not in (SELECT "Id" FROM public."Contacts" where "Id_Supervisor" =  '+  args.Id +') and   "Id" not in (SELECT "Id" FROM public."Contacts" where "Id_Supervisor" in (SELECT "Id" FROM public."Contacts" where "Id_Supervisor" = ' +  args.Id +')) and "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Entity" = coalesce('+ strparam3 +',"Id_Entity" )'
 		}
 		if (args.Id==0) {
-		     Strquery = 'select * from public."Contacts" Where "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Entity" = coalesce('+ strparam3 +',"Id_Entity" )'
+		     Strquery = 'select * from public.vwsupervisor Where "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Entity" = coalesce('+ strparam3 +',"Id_Entity" )'
 		}
 
 
@@ -355,7 +355,8 @@ async function InsContacts (args) {
   try {
   	  	if (args)
     		{
-    			Strquery = 'INSERT INTO public."Contacts" ("Id_Entity", "Full_Name", "Electronic_Address", "Phone_Number", "Contact_Type" , "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Id_Supervisor", "Id_Deparment") VALUES('+ args.input.Id_Entity +','+ args.input.Full_Name +',' +args.input.Electronic_Address +','+args.input.Phone_Number+','+args.input.Contact_Type +','+args.input.IsActive +','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+','+args.input.Id_Supervisor+','+args.input.Id_Deparment+') RETURNING "Id","Id_Entity", "Full_Name", "Electronic_Address", "Phone_Number", "Contact_Type" , "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Id_Supervisor", "Id_Deparment"'
+    	console.log(args);
+    			Strquery = 'INSERT INTO public."Contacts" ("Id_Entity", "First_Name", "Middle_Name", "Last_Name", "Electronic_Address", "Phone_Number", "Contact_Type" , "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Id_Supervisor", "Id_Deparment") VALUES('+ args.input.Id_Entity +','+ args.input.First_Name +','+ args.input.Middle_Name +','+ args.input.Last_Name  +',' +args.input.Electronic_Address +','+args.input.Phone_Number+','+args.input.Contact_Type +','+args.input.IsActive +','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+','+args.input.Id_Supervisor+','+args.input.Id_Deparment+') RETURNING "Id","Id_Entity", "First_Name","Middle_Name","Last_Name", "Electronic_Address", "Phone_Number", "Contact_Type" , "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Id_Supervisor", "Id_Deparment"'
     		}
     	    else{console.log("Error Insert Data");}
   console.log(Strquery);
@@ -376,13 +377,14 @@ async function UpdContacts (args) {
   try {
 	  	if (args)
     		{
-    			Strquery = 'UPDATE public."Contacts" SET "Id_Entity"='+ args.input.Id_Entity +',"Full_Name"='+ args.input.Full_Name +',"Electronic_Address"='+args.input.Electronic_Address +', "Phone_Number"='+args.input.Phone_Number +', "Contact_Type"='+args.input.Contact_Type +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' , "Id_Supervisor"='+ args.input.Id_Supervisor +' , "Id_Deparment"='+ args.input.Id_Deparment +' where "Id"=' + args.input.Id 
+    			Strquery = 'UPDATE public."Contacts" SET "Id_Entity"='+ args.input.Id_Entity +',"First_Name"='+ args.input.First_Name +',"Middle_Name"='+ args.input.Middle_Name +',"Last_Name"='+ args.input.Last_Name +',"Electronic_Address"='+args.input.Electronic_Address +', "Phone_Number"='+args.input.Phone_Number +', "Contact_Type"='+args.input.Contact_Type +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' , "Id_Supervisor"='+ args.input.Id_Supervisor +' , "Id_Deparment"='+ args.input.Id_Deparment +' where "Id"=' + args.input.Id 
     		}
     	    else{console.log("Error Update Data");}
 
     const { rows } = await query(Strquery)
     return rows;
   } catch (err) {
+  	return err;
     console.log('Database ' + err)
   }
 }
@@ -391,7 +393,6 @@ async function DelContacts (args) {
   try {
 	  	if (args)
     		{
-    	//		Strquery = 'UPDATE public."Contacts" SET "Id_Entity"='+ args.input.Id_Entity +',"Full_Name"='+ args.input.Full_Name +',"Electronic_Address"='+args.input.Electronic_Address +', "Phone_Number"='+args.input.Phone_Number +', "Contact_Type"='+args.input.Contact_Type +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' , "Id_Supervisor"='+ args.input.Id_Supervisor +' , "IsPrimary"='+ args.input.IsPrimary +' , "IsSecundary"='+ args.input.IsSecundary +' , "Id_Deparment"='+ args.input.Id_Deparment +' where "Id"=' + args.input.Id 
     				Strquery = 'UPDATE public."Contacts" SET "IsActive"='+args.IsActive+' where "Id"=' + args.Id 
     	
     		}
@@ -400,7 +401,8 @@ async function DelContacts (args) {
     const { rows } = await query(Strquery)
     return rows;
   } catch (err) {
-    console.log('Database ' + err)
+	console.log('Database ' + err)
+	return err;
   }
 }
 

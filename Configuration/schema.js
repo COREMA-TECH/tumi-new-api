@@ -64,7 +64,9 @@ Date_Updated: String
 input iParamC {
 Id : Int
 Id_Entity: Int
-Full_Name: String
+First_Name: String
+Middle_Name: String 
+Last_Name: String
 Electronic_Address: String
 Phone_Number: String
 Contact_Type: Int
@@ -138,7 +140,7 @@ type Query
 	getcontacts(Id:Int,IsActive:Int, Id_Entity :Int): [Contacts]
 	getposition(Id:Int,IsActive:Int, Id_Entity :Int): [PositionRate]
 
-	getsupervisor(Id:Int,IsActive:Int,Id_Entity :Int): [Contacts]
+	getsupervisor(Id:Int,IsActive:Int,Id_Entity :Int): [Supervisor]
 	
 	getcatalog(Id:Int,IsActive:Int): [Catalog]
 	getcatalogitem(Id:Int,IsActive:Int,Id_Catalog:Int,Id_Parent:Int): [CatalogItem]
@@ -251,7 +253,9 @@ type ElectronicAddress{
 type Contacts{
 		Id : Int
 		Id_Entity: Int
-		Full_Name: String
+		First_Name: String
+		Middle_Name: String
+		Last_Name: String
 		Electronic_Address: String
 		Phone_Number: String
 		Contact_Type: Int
@@ -262,6 +266,11 @@ type Contacts{
 		Date_Updated: String
 		Id_Supervisor: Int
     	Id_Deparment: Int
+}
+
+type Supervisor{
+		Id : Int
+		Full_Name: String
 }
 
 type PhoneNumbers{
