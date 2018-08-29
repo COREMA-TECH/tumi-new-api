@@ -142,9 +142,40 @@ input iParamBC {
     Primary_Email: String
 }
 
+input iRoles{
+	Id : Int
+	Id_Company : Int
+	Description : String
+	IsActive : Int
+	User_Created : Int
+	User_Updated : Int
+	Date_Created: String
+	Date_Updated: String
+}
+
+input iCompany{
+		Id : Int
+	    Name : String
+	    Description : String
+	    LegalName : String
+	    CompanyType: Int
+	    Country : Int
+	    State : Int
+	    Region : Int
+	    City : Int
+		IsActive: Int
+		User_Created: Int
+		User_Updated: Int
+		Date_Created: String
+		Date_Updated: String
+}
+
+
 type Query
 {
-	getcompanies(Id:Int,IsActive:Int): [BusinessCompany]
+	getcompanies(Id:Int,IsActive:Int): [Company]
+
+	getbusinesscompanies(Id:Int,IsActive:Int): [BusinessCompany]
 
 	getelectronicaddress(Id:Int,IsActive:Int, Related_Table: String, Id_Entity :Int): [ElectronicAddress]
 	getphonenumbers(Id:Int,IsActive:Int,Related_Table:String,Id_Entity :Int): [PhoneNumbers]
@@ -156,12 +187,14 @@ type Query
 	
 	getcatalog(Id:Int,IsActive:Int): [Catalog]
 	getcatalogitem(Id:Int,IsActive:Int,Id_Catalog:Int,Id_Parent:Int): [CatalogItem]
+
+	getroles(Id:Int,IsActive:Int,Id_Company:Int): [Roles]
 }
 
 type Mutation{
-	inscompanies(input: iParamBC): BusinessCompany 
-	updcompanies(input: iParamBC): BusinessCompany
-	delcompanies(Id:Int,IsActive:Int): BusinessCompany
+	insbusinesscompanies(input: iParamBC): BusinessCompany 
+	updbusinesscompanies(input: iParamBC): BusinessCompany
+	delbusinesscompanies(Id:Int,IsActive:Int): BusinessCompany
 
 
 	inselectronicaddress(input: iParamEA): ElectronicAddress
@@ -191,6 +224,26 @@ type Mutation{
 	updcatalogitem(input: iParamCI): CatalogItem
 	delcatalogitem(Id:Int,IsActive:Int): CatalogItem
 
+	insroles(input: iRoles): Roles
+	updroles(input: iRoles): Roles
+	delroles(Id:Int,IsActive:Int): Roles
+}
+
+type Company{
+		Id : Int
+	    Name : String
+	    Description : String
+	    LegalName : String
+	    CompanyType: Int
+	    Country : Int
+	    State : Int
+	    Region : Int
+	    City : Int
+		IsActive: Int
+		User_Created: Int
+		User_Updated: Int
+		Date_Created: String
+		Date_Updated: String
 }
 
 type BusinessCompany{
@@ -333,6 +386,17 @@ type PositionRate{
 	Position: String
 	Bill_Rate: Float
 	Pay_Rate: Float
+	IsActive : Int
+	User_Created : Int
+	User_Updated : Int
+	Date_Created: String
+	Date_Updated: String
+}
+
+type Roles{
+	Id : Int
+	Id_Company : Int
+	Description : String
 	IsActive : Int
 	User_Created : Int
 	User_Updated : Int
