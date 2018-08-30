@@ -76,7 +76,7 @@ async function InsBusinessCompanies (args) {
   try {
 	  	if (args)
     		{
-    			Strquery = 'INSERT INTO public."BusinessCompany" ("Code", "Code01","Id_Company","BusinessType","Name","Description","Start_Week","End_Week","Start_Date","Legal_Name","Country","State","City","Id_Parent","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","ImageURL","Location","Location01","Rate","Zipcode", "Fax", "Phone_Prefix", "Phone_Number", "Primary_Email") VALUES('+ args.input.Code +','+ args.input.Code01 +',' +args.input.Id_Company +','+args.input.BusinessType+','+args.input.Name +','+args.input.Description +','+args.input.Start_Week+','+args.input.End_Week+','+args.input.Start_Date+','+args.input.Legal_Name+','+args.input.Country+','+args.input.State+','+args.input.City+','+args.input.Id_Parent+','+args.input.IsActive+','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+','+args.input.ImageURL+','+args.input.Location+','+args.input.Location01+','+args.input.Rate+','+args.input.Zipcode+','+args.input.Fax+','+args.input.Phone_Prefix+','+args.input.Phone_Number+','+args.input.Primary_Email+')'
+    			Strquery = 'INSERT INTO public."BusinessCompany" ("Code", "Code01","Id_Company","BusinessType","Name","Description","Start_Week","End_Week","Start_Date","Legal_Name","Country","State","City","Id_Parent","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","ImageURL","Location","Location01","Rate","Zipcode", "Fax", "Phone_Prefix", "Phone_Number", "Primary_Email","Contract_URL", "Insurace_URL", "Other_URL", "Other01_URL") VALUES('+ args.input.Code +','+ args.input.Code01 +',' +args.input.Id_Company +','+args.input.BusinessType+','+args.input.Name +','+args.input.Description +','+args.input.Start_Week+','+args.input.End_Week+','+args.input.Start_Date+','+args.input.Legal_Name+','+args.input.Country+','+args.input.State+','+args.input.City+','+args.input.Id_Parent+','+args.input.IsActive+','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+','+args.input.ImageURL+','+args.input.Location+','+args.input.Location01+','+args.input.Rate+','+args.input.Zipcode+','+args.input.Fax+','+args.input.Phone_Prefix+','+args.input.Phone_Number+','+args.input.Primary_Email +','+args.input.Contract_URL +','+args.input.Insurace_URL+','+args.input.Other_URL +','+args.input.Other01_URL +')'
     		console.log(Strquery);	
     		}
     	    else{console.log("Error Insert Data");}
@@ -95,7 +95,7 @@ async function UpdBusinessCompanies (args) {
   try {
 	  	if (args)
     		{
-    			Strquery = 'UPDATE public."BusinessCompany" SET "Code"='+ args.input.Code +',"Code01"='+ args.input.Code01 +',"Id_Company"='+args.input.Id_Company +', "BusinessType"='+args.input.BusinessType +', "Name"='+args.input.Name +', "Description"='+ args.input.Description +', "Start_Week"='+ args.input.Start_Week +', "End_Week"='+ args.input.End_Week +', "Start_Date"='+ args.input.Start_Date +', "Legal_Name"='+ args.input.Legal_Name +', "Country"='+ args.input.Country +', "State"='+ args.input.Country +', "City"='+args.input.City+', "Id_Parent"='+args.input.Id_Parent+', "IsActive"='+args.input.IsActive+', "User_Created"='+args.input.User_Created+', "User_Updated"='+args.input.User_Updated+', "Date_Created"='+args.input.Date_Created+', "Date_Updated"='+args.input.Date_Updated+', "ImageURL"='+ args.input.ImageURL +', "Location"='+ args.input.Location +', "Location01"='+ args.input.Location01 +', "Rate"='+ args.input.Rate +', "Zipcode"='+ args.input.Zipcode +', "Fax"='+ args.input.Fax +', "Phone_Prefix"='+ args.input.Phone_Prefix +', "Phone_Number"='+ args.input.Phone_Number +', "Primary_Email"='+ args.input.Primary_Email +' where "Id"=' + args.input.Id 
+    			Strquery = 'UPDATE public."BusinessCompany" SET "Code"='+ args.input.Code +',"Code01"='+ args.input.Code01 +',"Id_Company"='+args.input.Id_Company +', "BusinessType"='+args.input.BusinessType +', "Name"='+args.input.Name +', "Description"='+ args.input.Description +', "Start_Week"='+ args.input.Start_Week +', "End_Week"='+ args.input.End_Week +', "Start_Date"='+ args.input.Start_Date +', "Legal_Name"='+ args.input.Legal_Name +', "Country"='+ args.input.Country +', "State"='+ args.input.Country +', "City"='+args.input.City+', "Id_Parent"='+args.input.Id_Parent+', "IsActive"='+args.input.IsActive+', "User_Created"='+args.input.User_Created+', "User_Updated"='+args.input.User_Updated+', "Date_Created"='+args.input.Date_Created+', "Date_Updated"='+args.input.Date_Updated+', "ImageURL"='+ args.input.ImageURL +', "Location"='+ args.input.Location +', "Location01"='+ args.input.Location01 +', "Rate"='+ args.input.Rate +', "Zipcode"='+ args.input.Zipcode +', "Fax"='+ args.input.Fax +', "Phone_Prefix"='+ args.input.Phone_Prefix +', "Phone_Number"='+ args.input.Phone_Number +', "Primary_Email"='+ args.input.Primary_Email +', "Contract_URL"='+ args.input.Contract_URL +', "Insurace_URL"='+ args.input.Insurace_URL +', "Other_URL"='+ args.input.Other_URL +', "Other_URL01"='+ args.input.Other01_URL +' where "Id"=' + args.input.Id 
     	    console.log(Strquery);
 
     		}
@@ -353,7 +353,7 @@ async function getSupervisor (args) {
 		if (args.IsActive>=0) {strparam1= args.IsActive  ;}
 		else{strparam1 = null;}
 
-		if (args.Id_Entity>=0) {strparam3= args.Id_Entity  ;}
+		if (args.Id_Entity>0) {strparam3= args.Id_Entity  ;}
 		else{strparam3 = null;}
 
 		if (args.Id>0) {
@@ -362,6 +362,8 @@ async function getSupervisor (args) {
 		if (args.Id==0) {
 		     Strquery = 'select * from public.vwsupervisor Where "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Entity" = coalesce('+ strparam3 +',"Id_Entity" )'
 		}
+
+    console.log(Strquery);
 
     const { rows } = await query(Strquery)
     return rows;
@@ -774,7 +776,7 @@ async function getForms (args) {
     else{strparam2 = null;}
 
          Strquery = 'select * from public."Forms" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") order by "Code"'
-        //console.log(Strquery);
+        console.log(Strquery);
 
     const { rows } = await query(Strquery)
     return rows;
@@ -850,7 +852,7 @@ async function getRolesForms (args) {
     if (args.Id>=0) {strparam2= args.Id  ;}
     else{strparam2 = null;}
 
-         Strquery = 'select * from public."RolesForms" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") order by "Code"'
+         Strquery = 'select * from public."RolesForms" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") order by "IdRoles"'
         //console.log(Strquery);
 
     const { rows } = await query(Strquery)
@@ -903,6 +905,107 @@ async function DelRolesForms (args) {
       if (args)
         {
             Strquery = 'UPDATE public."RolesForms" SET "IsActive"='+args.IsActive+' where "Id"=' + args.Id 
+      
+        }
+          else{console.log("Error Update Data");}
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+  console.log('Database ' + err)
+  return err;
+  }
+}
+
+//Method Connect to table ContactsCompany
+async function getContacts (args) {
+  try {
+
+      var strparam1,strparam2,strparam3
+  
+    if (args.IsActive>=0) {strparam1= args.IsActive  ;}
+    else{strparam1 = null;}
+
+    if (args.Id>=0) {strparam2= args.Id  ;}
+    else{strparam2 = null;}
+
+    if (args.Id_Entity>=0) {strparam3= args.Id_Entity  ;}
+    else{strparam3 = null;}
+
+         Strquery = 'select * from public."Contacts" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Entity" = coalesce('+ strparam3 +',"Id_Entity")  and "Id" = coalesce('+ strparam2 +',"Id")'
+        console.log(Strquery);
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+    return err;
+  }
+}
+
+async function getUsers (args) {
+  try {
+
+      var strparam1,strparam2,strparam3
+  
+    if (args.IsActive>=0) {strparam1= args.IsActive  ;}
+    else{strparam1 = null;}
+
+    if (args.Id>=0) {strparam2= args.Id  ;}
+    else{strparam2 = null;}
+
+             Strquery = 'select * from public."Users" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") order by "Code_User"'
+    
+    console.log(Strquery);
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+    return err;
+  }
+}
+
+
+async function InsUsers (args) {
+  try {
+        if (args)
+        {
+      console.log(args);
+          Strquery = 'INSERT INTO public."Users" ("Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Languaje", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated") VALUES('+ args.input.Id_Entity +','+ args.input.Id_Contact +','+ args.input.Id_Roles +','+ args.input.Code_User  +',' +args.input.Full_Name +','+args.input.Electronic_Address+','+args.input.Phone_Number +','+args.input.Password +','+ args.input.Id_Languaje +','+ args.input.IsAdmin +','+ args.input.AllowDelete +','+ args.input.AllowInsert +','+ args.input.AllowEdit +','+ args.input.AllowExport +','+ args.input.IsActive +','+ args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated +') RETURNING "Id","Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Languaje", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated"'
+        }
+          else{console.log("Error Insert Data");}
+ 
+    const { rows } = await query(Strquery)   
+    return rows[0]; 
+  } catch (err) {
+    console.log('Database ' + err)
+    return err;
+  }
+}
+
+async function UpdUsers (args) {
+  try {
+      if (args)
+        {
+          Strquery = 'UPDATE public."Users" SET "Id_Entity"='+ args.input.Id_Entity +',"Id_Contact"='+ args.input.Id_Contact +',"Id_Roles"='+ args.input.Id_Roles +',"Code_User"='+ args.input.Code_User +',"Full_Name"='+args.input.Full_Name +', "Electronic_Address"='+args.input.Electronic_Address +', "Phone_Number"='+args.input.Phone_Number +', "Password"='+ args.input.Password +', "Id_Languaje"='+ args.input.Id_Languaje +', "IsAdmin"='+ args.input.IsAdmin +', "AllowDelete"='+ args.input.AllowDelete +', "AllowInsert"='+ args.input.AllowInsert +', "AllowEdit"='+ args.input.AllowEdit +', "AllowExport"='+ args.input.AllowExport +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' , "Id_Supervisor"='+ args.input.Id_Supervisor +' , "Id_Deparment"='+ args.input.Id_Deparment +' where "Id"=' + args.input.Id 
+        }
+          else{console.log("Error Update Data");}
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    return err;
+    console.log('Database ' + err)
+    return err;
+  }
+}
+
+async function DelUsers (args) {
+  try {
+      if (args)
+        {
+            Strquery = 'UPDATE public."Users" SET "IsActive"='+args.IsActive+' where "Id"=' + args.Id 
       
         }
           else{console.log("Error Update Data");}
@@ -973,6 +1076,11 @@ getrolesforms: getRolesForms,
 insrolesforms: InsRolesForms,
 updrolesforms: UpdRolesForms,
 delrolesforms: DelRolesForms,
+
+getusers: getUsers,
+insusers: InsUsers,
+updusers: UpdUsers,
+delusers: DelUsers,
 
 }
 

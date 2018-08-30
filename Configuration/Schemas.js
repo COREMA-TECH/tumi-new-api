@@ -157,6 +157,10 @@ input iParamBC {
     Phone_Prefix: String
     Phone_Number:String
     Primary_Email: String
+    Contract_URL: String
+	Insurace_URL: String
+	Other_URL:String
+	Other01_URL: String
 }
 
 input iRoles{
@@ -198,6 +202,29 @@ input iRolesForms{
 		Date_Updated: String
 }
 
+input iUsers{
+	Id: Int
+    Id_Entity: Int
+    Id_Contact: Int
+    Id_Roles: Int
+    Code_User: String
+    Full_Name: String
+    Electronic_Address: String
+    Phone_Number: String
+    Password: String
+    Id_Languaje: Int
+    IsAdmin: Int
+    AllowDelete: Int
+    AllowInsert: Int
+    AllowEdit: Int
+    AllowExport: Int
+    IsActive: Int
+    User_Created: Int
+    User_Updated: Int
+    Date_Created: String
+    Date_Updated: String
+}
+
 type Query
 {
 	getcompanies(Id:Int,IsActive:Int): [Company]
@@ -222,6 +249,8 @@ type Query
 	getforms(Id:Int,IsActive:Int): [Forms]
 
 	getrolesforms(Id:Int,IsActive:Int): [RolesForms]
+
+	getusers(Id:Int,IsActive:Int): [Users]
 }
 
 type Mutation{
@@ -268,6 +297,10 @@ type Mutation{
 	insrolesforms(input: iRolesForms): RolesForms
 	updrolesforms(input: iRolesForms): RolesForms
 	delrolesforms(Id:Int,IsActive:Int): RolesForms
+
+	insusers(input: iUsers): Users
+	updusers(input: iUsers): Users
+	delusers(Id:Int,IsActive:Int): Users
 }
 
 type Company{
@@ -318,6 +351,10 @@ type BusinessCompany{
 	    Phone_Prefix: String
 	    Phone_Number:String
 	    Primary_Email: String
+	    Contract_URL: String
+	    Insurace_URL: String
+	    Other_URL:String
+	    Other01_URL: String
 }
 
 type Catalog{
@@ -492,6 +529,28 @@ type RolesForms{
 		Date_Updated: String
 }
 
+type Users{
+	Id: Int
+    Id_Entity: Int
+    Id_Contact: Int
+    Id_Roles: Int
+    Code_User: String
+    Full_Name: String
+    Electronic_Address: String
+    Phone_Number: String
+    Password: String
+    Id_Languaje: Int
+    IsAdmin: Int
+    AllowDelete: Int
+    AllowInsert: Int
+    AllowEdit: Int
+    AllowExport: Int
+    IsActive: Int
+    User_Created: Int
+    User_Updated: Int
+    Date_Created: String
+    Date_Updated: String
+}
 
 `);
 
