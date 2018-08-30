@@ -28,8 +28,7 @@ async function query (q) {
 async function getCompanies (args) {
   try {
   
-  console.log(args.IsActive);
-  var strparam1,strparam2,strparam3
+    var strparam1,strparam2,strparam3
   
     if (args.IsActive>=0) {strparam1= args.IsActive  ;}
     else{strparam1 = null;}
@@ -37,9 +36,7 @@ async function getCompanies (args) {
     if (args.Id>=0) {strparam2= args.Id  ;}
     else{strparam2 = null;}
 
-  Strquery = 'select * from public."Company"  where "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") order by "Name"';
-
-  console.log("query de companies ", Strquery);
+    Strquery = 'select * from public."Company"  where "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") order by "Name"';
 
     const { rows } = await query(Strquery)
     return rows;
@@ -515,10 +512,44 @@ async function getCatalogItem (args) {
 		else{strparam3 = null;}
 
 		if (args.Id_Parent>=0) {strparam4= args.Id_Parent  ;}
-		else{strparam4 = 0;}
+		else{strparam4 = null;}
 
-		     Strquery = 'select * from public."CatalogItem" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Catalog" = coalesce('+ strparam3 +',"Id_Catalog")  and "Id" = coalesce('+ strparam2 +',"Id") and "Id_Parent" = coalesce('+ strparam4 +',"Id_Parent")'
-    		console.log(Strquery);
+		     Strquery = 'select * from public."CatalogItem" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Catalog" = coalesce('+ strparam3 +',"Id_Catalog")  and "Id" = coalesce('+ strparam2 +',"Id") and "Id_Parent" = coalesce('+ strparam4 +',"Id_Parent") order by "Id_Catalog","DisplayLabel"'
+    		//console.log(Strquery);
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+    return err;
+  }
+}
+
+async function getParentCatalogItem (args) {
+ try {
+
+        console.log("getParentCatalogItem estoy aqui ");
+  
+      var strparam1,strparam2,strparam3
+  
+    if (args.IsActive>=0) {strparam1= args.IsActive  ;}
+    else{strparam1 = null;}
+
+    if (args.Id_Catalog>=-2) {strparam2= args.Id_Catalog  ;}
+    else{strparam2 = null;}
+
+    if (args.Id_Entity>=0) {strparam3= args.Id_Entity  ;}
+    else{strparam3 = null;}
+
+    if (args.Id>0) {
+         Strquery = 'select * from public."CatalogParent" Where "Id_Catalog" =  coalesce('+  strparam2 +',"Id_Catalog") and "Id" <> ('+ args.Id +') and "Id" not in (SELECT "Id" FROM public."CatalogItem" where "Id_Parent" =  '+  args.Id +') and "Id" not in (SELECT "Id" FROM public."CatalogItem" where "Id_Parent" in (SELECT "Id" FROM public."CatalogItem" where "Id_Parent" = ' +  args.Id +')) and "IsActive" = coalesce('+ strparam1 +',"IsActive")'
+        console.log(Strquery);
+    }
+    if (args.Id==0) {
+         Strquery = 'select * from public."CatalogParent" Where "Id_Catalog" =  coalesce('+  strparam2 +',"Id_Catalog") and "Id" <> ('+ args.Id +') and "IsActive" = coalesce('+ strparam1 +',"IsActive") '
+          console.log(Strquery);
+    }
+
 
     const { rows } = await query(Strquery)
     return rows;
@@ -552,6 +583,8 @@ async function UpdCatalogItem (args) {
     			Strquery = 'UPDATE public."CatalogItem" SET "Id_Catalog"='+ args.input.Id_Catalog +',"Id_Parent"='+ args.input.Id_Parent +',"Name"='+ args.input.Name +',"DisplayLabel"='+ args.input.DisplayLabel +',"Description"='+args.input.Description +', "Value"='+args.input.Value +', "Value01"='+args.input.Value01 +', "Value02"='+args.input.Value02 +', "Value03"='+args.input.Value03 +', "Value04"='+args.input.Value04 +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' where "Id"=' + args.input.Id 
     		}
     	    else{console.log("Error Insert Data");}
+
+    console.log(Strquery);
 
     const { rows } = await query(Strquery)
     return rows;
@@ -608,7 +641,7 @@ async function InsPosition (args) {
   try {
   	  	if (args)
     		{
-    			Strquery = 'INSERT INTO public."PositionRate" ("Id_Entity", "Id_Department", "Position", "Bill_Rate", "Pay_Rate", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated") VALUES('+ args.input.Id_Entity +','+ args.input.Id_Department +',' +args.input.Position +','+args.input.Bill_Rate+','+args.input.Pay_Rate +','+args.input.IsActive +','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+') RETURNING "Id", "Id_Entity", "Id_Department", "Position", "Bill_Rate", "Pay_Rate", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated"'
+    			Strquery = 'INSERT INTO public."PositionRate" ("Id_Entity", "Id_Department", "Position", "Bill_Rate", "Pay_Rate", "Shift","IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated") VALUES('+ args.input.Id_Entity +','+ args.input.Id_Department +',' +args.input.Position +','+args.input.Bill_Rate+','+args.input.Pay_Rate +','+args.input.Shift +','+args.input.IsActive +','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+') RETURNING "Id", "Id_Entity", "Id_Department", "Position", "Bill_Rate", "Pay_Rate", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated"'
     		}
     	    else{console.log("Error Insert Data");}
  
@@ -624,7 +657,7 @@ async function UpdPosition (args) {
   try {
 	  	if (args)
     		{
-    			Strquery = 'UPDATE public."PositionRate" SET "Id_Entity"='+ args.input.Id_Entity +',"Id_Department"='+ args.input.Id_Department +',"Position"='+args.input.Position +', "Bill_Rate"='+args.input.Bill_Rate +', "Pay_Rate"='+args.input.Pay_Rate +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' where "Id"=' + args.input.Id 
+    			Strquery = 'UPDATE public."PositionRate" SET "Id_Entity"='+ args.input.Id_Entity +',"Id_Department"='+ args.input.Id_Department +',"Position"='+args.input.Position +', "Bill_Rate"='+args.input.Bill_Rate +', "Pay_Rate"='+args.input.Pay_Rate +', "Shift"='+ args.input.Shift +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' where "Id"=' + args.input.Id 
     		}
     	    else{console.log("Error Update Data");}
 
@@ -728,6 +761,161 @@ async function DelRoles (args) {
   }
 }
 
+//Method Connect to table CatalogItem
+async function getForms (args) {
+  try {
+
+      var strparam1,strparam2,strparam3
+  
+    if (args.IsActive>=0) {strparam1= args.IsActive  ;}
+    else{strparam1 = null;}
+
+    if (args.Id>=0) {strparam2= args.Id  ;}
+    else{strparam2 = null;}
+
+         Strquery = 'select * from public."Forms" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") order by "Code"'
+        //console.log(Strquery);
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+    return err;
+  }
+}
+
+async function InsForms (args) {
+  try {
+        if (args)
+        {
+          Strquery = 'INSERT INTO public."Forms" ( "Code", "Name", "Value", "Value01", "Value02", "Value03", "Value04", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated") VALUES('+ args.input.Code +','+ args.input.Name +','+args.input.Value +','+args.input.Value01+','+args.input.Value02+','+args.input.Value03+','+args.input.Value04 +','+args.input.IsActive +','+args.input.User_Created +','+args.input.User_Updated +','+args.input.Date_Created +','+ args.input.Date_Updated +')'
+        
+        }
+          else{console.log("Error Insert Data");}
+
+    console.log(Strquery);
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+    return err;
+  }
+}
+
+async function UpdForms (args) {
+  try {
+        if (args)
+        {
+          Strquery = 'UPDATE public."Forms" SET "Code"='+ args.input.Code +',"Name"='+ args.input.Name +', "Value"='+args.input.Value +', "Value01"='+args.input.Value01 +', "Value02"='+args.input.Value02 +', "Value03"='+args.input.Value03 +', "Value04"='+args.input.Value04 +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' where "Id"=' + args.input.Id 
+        }
+          else{console.log("Error Insert Data");}
+
+    console.log(Strquery);
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+    return err;
+  }
+}
+
+async function DelForms (args) {
+  try {
+      if (args)
+        {
+            Strquery = 'UPDATE public."Forms" SET "IsActive"='+args.IsActive+' where "Id"=' + args.Id 
+      
+        }
+          else{console.log("Error Update Data");}
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+  console.log('Database ' + err)
+  return err;
+  }
+}
+
+//Method Connect to table RolesForms
+async function getRolesForms (args) {
+  try {
+
+      var strparam1,strparam2,strparam3
+  
+    if (args.IsActive>=0) {strparam1= args.IsActive  ;}
+    else{strparam1 = null;}
+
+    if (args.Id>=0) {strparam2= args.Id  ;}
+    else{strparam2 = null;}
+
+         Strquery = 'select * from public."RolesForms" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") order by "Code"'
+        //console.log(Strquery);
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+    return err;
+  }
+}
+
+async function InsRolesForms (args) {
+  try {
+        if (args)
+        {
+          Strquery = 'INSERT INTO public."RolesForms" ("IdRoles", "IdForms", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated") VALUES('+ args.input.IdRoles +','+ args.input.IdForms +','+args.input.IdForms +','+args.input.IsActive +','+args.input.User_Created +','+args.input.User_Updated +','+args.input.Date_Created +','+ args.input.Date_Updated +')'
+        
+        }
+          else{console.log("Error Insert Data");}
+
+    console.log(Strquery);
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+    return err;
+  }
+}
+
+async function UpdRolesForms (args) {
+  try {
+        if (args)
+        {
+          Strquery = 'UPDATE public."RolesForms" SET "IdRoles"='+ args.input.IdRoles +',"IdForms"='+ args.input.IdForms +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' where "Id"=' + args.input.Id 
+        }
+          else{console.log("Error Insert Data");}
+
+    console.log(Strquery);
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+    return err;
+  }
+}
+
+async function DelRolesForms (args) {
+  try {
+      if (args)
+        {
+            Strquery = 'UPDATE public."RolesForms" SET "IsActive"='+args.IsActive+' where "Id"=' + args.Id 
+      
+        }
+          else{console.log("Error Update Data");}
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+  console.log('Database ' + err)
+  return err;
+  }
+}
+
+
 const root = {
 getcompanies: getCompanies,
 
@@ -769,11 +957,23 @@ getcatalogitem: getCatalogItem,
 inscatalogitem:InsCatalogItem,
 updcatalogitem: UpdCatalogItem,
 delcatalogitem: DelCatalogItem,
+getparentcatalogitem: getParentCatalogItem,
 
 getroles: getRoles,
 insroles:InsRoles,
 updroles: UpdRoles,
 delroles: DelRoles,
+
+getforms: getForms,
+insforms: InsForms,
+updforms: UpdForms,
+delforms: DelForms,
+
+getrolesforms: getRolesForms,
+insrolesforms: InsRolesForms,
+updrolesforms: UpdRolesForms,
+delrolesforms: DelRolesForms,
+
 }
 
 

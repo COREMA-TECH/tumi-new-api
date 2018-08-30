@@ -22,6 +22,7 @@ Id_Department : Int
 Position: String
 Bill_Rate: Float
 Pay_Rate: Float
+Shift: String
 IsActive : Int
 User_Created : Int
 User_Updated : Int
@@ -86,6 +87,22 @@ input iParamCI{
 	Name: String
 	DisplayLabel: String
 	Description: String
+	Value: String
+	Value01: String
+	Value02: String
+	Value03: String
+	Value04: String
+	IsActive: Int
+    User_Created: Int
+    User_Updated: Int
+    Date_Created: String
+    Date_Updated : String
+}
+
+input iForms{
+	Id: Int
+	Code: String
+	Name: String
 	Value: String
 	Value01: String
 	Value02: String
@@ -170,6 +187,16 @@ input iCompany{
 		Date_Updated: String
 }
 
+input iRolesForms{
+		Id : Int
+	    IdRoles : Int
+    	IdForms : Int
+		IsActive: Int
+		User_Created: Int
+		User_Updated: Int
+		Date_Created: String
+		Date_Updated: String
+}
 
 type Query
 {
@@ -184,11 +211,17 @@ type Query
 	getposition(Id:Int,IsActive:Int, Id_Entity :Int): [PositionRate]
 
 	getsupervisor(Id:Int,IsActive:Int,Id_Entity :Int): [Supervisor]
+
+	getparentcatalogitem(Id:Int,Id_Catalog: Int,IsActive:Int): [CatalogParent]
 	
 	getcatalog(Id:Int,IsActive:Int): [Catalog]
 	getcatalogitem(Id:Int,IsActive:Int,Id_Catalog:Int,Id_Parent:Int): [CatalogItem]
 
 	getroles(Id:Int,IsActive:Int,Id_Company:Int): [Roles]
+
+	getforms(Id:Int,IsActive:Int): [Forms]
+
+	getrolesforms(Id:Int,IsActive:Int): [RolesForms]
 }
 
 type Mutation{
@@ -227,6 +260,14 @@ type Mutation{
 	insroles(input: iRoles): Roles
 	updroles(input: iRoles): Roles
 	delroles(Id:Int,IsActive:Int): Roles
+
+	insforms(input: iForms): Forms
+	updforms(input: iForms): Forms
+	delforms(Id:Int,IsActive:Int): Forms
+
+	insrolesforms(input: iRolesForms): RolesForms
+	updrolesforms(input: iRolesForms): RolesForms
+	delrolesforms(Id:Int,IsActive:Int): RolesForms
 }
 
 type Company{
@@ -347,6 +388,25 @@ type Supervisor{
 		Full_Name: String
 }
 
+type CatalogParent{
+	Id: Int
+	Id_Catalog: Int
+	Id_Parent: Int
+	Name: String
+	DisplayLabel: String
+	Description: String
+	Value: String
+	Value01: String
+	Value02: String
+	Value03: String
+	Value04: String
+	IsActive: Int,
+    User_Created: Int,
+    User_Updated: Int,
+    Date_Created: String
+    Date_Updated : String
+}
+
 type PhoneNumbers{
 		Id : Int
 		Related_Table: String
@@ -386,6 +446,7 @@ type PositionRate{
 	Position: String
 	Bill_Rate: Float
 	Pay_Rate: Float
+	Shift: String
 	IsActive : Int
 	User_Created : Int
 	User_Updated : Int
@@ -403,6 +464,34 @@ type Roles{
 	Date_Created: String
 	Date_Updated: String
 }
+
+type Forms{
+	Id: Int
+	Code: String
+	Name: String
+	Value: String
+	Value01: String
+	Value02: String
+	Value03: String
+	Value04: String
+	IsActive: Int
+    User_Created: Int
+    User_Updated: Int
+    Date_Created: String
+    Date_Updated : String
+}
+
+type RolesForms{
+		Id : Int
+	    IdRoles : Int
+    	IdForms : Int
+		IsActive: Int
+		User_Created: Int
+		User_Updated: Int
+		Date_Created: String
+		Date_Updated: String
+}
+
 
 `);
 
