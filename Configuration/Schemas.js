@@ -131,6 +131,7 @@ input iParamBC {
   	Id: Int
   	Code: String
 	Code01: String
+	Id_Contract: Int
 	Id_Company: Int
 	BusinessType: Int
 	Name: String
@@ -161,6 +162,8 @@ input iParamBC {
 	Insurace_URL: String
 	Other_URL:String
 	Other01_URL: String
+	Suite:Int
+	 Contract_Status : String
 }
 
 input iRoles{
@@ -212,7 +215,7 @@ input iUsers{
     Electronic_Address: String
     Phone_Number: String
     Password: String
-    Id_Languaje: Int
+    Id_Language: Int
     IsAdmin: Int
     AllowDelete: Int
     AllowInsert: Int
@@ -225,32 +228,61 @@ input iUsers{
     Date_Updated: String
 }
 
+input iContracts{
+		Id : Int
+	    Id_Company: Int
+	    Contract_Name: String
+	    Contrat_Owner: String
+	    Id_Entity: Int
+	    Id_User_Signed: Int
+	    User_Signed_Title: String
+	    Signed_Date: String
+	    Contract_Status: String
+	    Contract_Start_Date: String
+	    Contract_Term: Int
+	    Owner_Expiration_Notification: Int
+	    Company_Signed: String
+	    Company_Signed_Date: String
+	    Id_User_Billing_Contact: Int
+	    Billing_Street: String
+	    Billing_City: Int
+	    Billing_State: Int
+	    Billing_Zip_Code: Int
+	    Billing_Country: Int
+	    Contract_Terms: String
+	    Exhibit_B: String
+	    Exhibit_C: String
+	    Exhibit_D: String
+	    Exhibit_E: String
+	    Exhibit_F: String
+		IsActive: Int
+		User_Created: Int
+		User_Updated: Int
+		Date_Created: String
+		Date_Updated: String
+}
+
 type Query
 {
+	getcontracts(Id:Int,IsActive:Int): [Contacts]
 	getcompanies(Id:Int,IsActive:Int): [Company]
-
-	getbusinesscompanies(Id:Int,IsActive:Int): [BusinessCompany]
-
+	getbusinesscompanies(Id:Int,IsActive:Int,Contract_Status:String): [BusinessCompany]
 	getelectronicaddress(Id:Int,IsActive:Int, Related_Table: String, Id_Entity :Int): [ElectronicAddress]
 	getphonenumbers(Id:Int,IsActive:Int,Related_Table:String,Id_Entity :Int): [PhoneNumbers]
 	getaddress(Id:Int,IsActive:Int,Related_Table: String, Id_Entity :Int): [Address]
 	getcontacts(Id:Int,IsActive:Int, Id_Entity :Int): [Contacts]
 	getposition(Id:Int,IsActive:Int, Id_Entity :Int): [PositionRate]
-
 	getsupervisor(Id:Int,IsActive:Int,Id_Entity :Int): [Supervisor]
-
 	getparentcatalogitem(Id:Int,Id_Catalog: Int,IsActive:Int): [CatalogParent]
-	
 	getcatalog(Id:Int,IsActive:Int): [Catalog]
 	getcatalogitem(Id:Int,IsActive:Int,Id_Catalog:Int,Id_Parent:Int): [CatalogItem]
-
 	getroles(Id:Int,IsActive:Int,Id_Company:Int): [Roles]
-
 	getforms(Id:Int,IsActive:Int): [Forms]
-
 	getrolesforms(Id:Int,IsActive:Int): [RolesForms]
-
 	getusers(Id:Int,IsActive:Int): [Users]
+	getvalid_users(Code_User:String,Password:String): [Users]
+
+	
 }
 
 type Mutation{
@@ -301,6 +333,44 @@ type Mutation{
 	insusers(input: iUsers): Users
 	updusers(input: iUsers): Users
 	delusers(Id:Int,IsActive:Int): Users
+
+    inscontracts(input: iContracts): Contracts
+	updcontracts(input: iContracts): Contracts
+	delcontracts(Id:Int,IsActive:Int): Contracts
+}
+
+type Contracts{
+		Id : Int
+	    Id_Company: Int
+	    Contract_Name: String
+	    Contrat_Owner: String
+	    Id_Entity: Int
+	    Id_User_Signed: Int
+	    User_Signed_Title: String
+	    Signed_Date: String
+	    Contract_Status: String
+	    Contract_Start_Date: String
+	    Contract_Term: Int
+	    Owner_Expiration_Notification: Int
+	    Company_Signed: String
+	    Company_Signed_Date: String
+	    Id_User_Billing_Contact: Int
+	    Billing_Street: String
+	    Billing_City: Int
+	    Billing_State: Int
+	    Billing_Zip_Code: Int
+	    Billing_Country: Int
+	    Contract_Terms: String
+	    Exhibit_B: String
+	    Exhibit_C: String
+	    Exhibit_D: String
+	    Exhibit_E: String
+	    Exhibit_F: String
+		IsActive: Int
+		User_Created: Int
+		User_Updated: Int
+		Date_Created: String
+		Date_Updated: String
 }
 
 type Company{
@@ -324,6 +394,7 @@ type BusinessCompany{
 		Id: Int
 		Code: String
 		Code01: String
+		Id_Contract: Int
 		Id_Company: Int
 		BusinessType: Int
 		Name: String
@@ -355,6 +426,8 @@ type BusinessCompany{
 	    Insurace_URL: String
 	    Other_URL:String
 	    Other01_URL: String
+	    Suite: Int
+	    Contract_Status : String
 }
 
 type Catalog{
@@ -539,7 +612,7 @@ type Users{
     Electronic_Address: String
     Phone_Number: String
     Password: String
-    Id_Languaje: Int
+    Id_Language: Int
     IsAdmin: Int
     AllowDelete: Int
     AllowInsert: Int
