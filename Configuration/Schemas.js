@@ -337,6 +337,8 @@ type Mutation{
     inscontracts(input: iContracts): Contracts
 	updcontracts(input: iContracts): Contracts
 	delcontracts(Id:Int,IsActive:Int): Contracts
+
+	updcontracstexhibit(Id:Int,Exhibit_B:String,Exhibit_C:String,Exhibit_D:String,Exhibit_E:String,Exhibit_F:String) : Contracts
 }
 
 type Contracts{

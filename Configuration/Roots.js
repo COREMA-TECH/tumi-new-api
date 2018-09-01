@@ -1105,6 +1105,26 @@ async function UpdContracts (args) {
   }
 }
 
+async function UpdContractsExhibit (args) {
+  try {
+      if (args)
+        {
+          Strquery = 'UPDATE public."Contracts" SET "Exhibit_B"='+args.input.Exhibit_B +', "Exhibit_C"='+args.input.Exhibit_C +', "Exhibit_D"='+args.input.Exhibit_D +', "Exhibit_E"='+args.input.Exhibit_E +', "Exhibit_F"='+args.input.Exhibit_F+ ' where "Id"=' + args.input.Id 
+          console.log(Strquery);
+
+        }
+          else{console.log("Error Update Data");}
+
+
+          console.log(Strquery);
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+    return err;
+  }
+}
 
 async function DelContracts (args) {
   try {
@@ -1194,7 +1214,7 @@ updcontracts: UpdContracts,
 delcontracts: DelContracts,
 
 getvalid_users : getValid_Users,
-
+updcontracstexhibit: UpdContractsExhibit,
 }
 
 
