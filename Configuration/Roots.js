@@ -1107,9 +1107,11 @@ async function UpdContracts (args) {
 
 async function UpdContractsExhibit (args) {
   try {
+          console.log("parametros ",args);
+ 
       if (args)
         {
-          Strquery = 'UPDATE public."Contracts" SET "Exhibit_B"='+args.input.Exhibit_B +', "Exhibit_C"='+args.input.Exhibit_C +', "Exhibit_D"='+args.input.Exhibit_D +', "Exhibit_E"='+args.input.Exhibit_E +', "Exhibit_F"='+args.input.Exhibit_F+ ' where "Id"=' + args.input.Id 
+          Strquery = 'UPDATE public."Contracts" SET "Exhibit_B"='+args.Exhibit_B +', "Exhibit_C"='+args.Exhibit_C +', "Exhibit_D"='+args.Exhibit_D +', "Exhibit_E"='+args.Exhibit_E +', "Exhibit_F"='+args.Exhibit_F+ ' where "Id"=' + args.Id 
           console.log(Strquery);
 
         }

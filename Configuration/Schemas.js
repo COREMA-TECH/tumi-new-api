@@ -264,7 +264,7 @@ input iContracts{
 
 type Query
 {
-	getcontracts(Id:Int,IsActive:Int): [Contacts]
+	getcontracts(Id:Int,IsActive:Int): [Contracts]
 	getcompanies(Id:Int,IsActive:Int): [Company]
 	getbusinesscompanies(Id:Int,IsActive:Int,Contract_Status:String): [BusinessCompany]
 	getelectronicaddress(Id:Int,IsActive:Int, Related_Table: String, Id_Entity :Int): [ElectronicAddress]
