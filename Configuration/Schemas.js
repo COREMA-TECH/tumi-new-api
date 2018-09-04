@@ -28,6 +28,7 @@ User_Created : Int
 User_Updated : Int
 Date_Created: String
 Date_Updated: String
+Id_Contract: Int
 }
 
 input iParamA {
@@ -229,7 +230,7 @@ input iUsers{
 }
 
 input iContracts{
-		Id : Int
+		Id: Int
 	    Id_Company: Int
 	    Contract_Name: String
 	    Contrat_Owner: String
@@ -260,13 +261,15 @@ input iContracts{
 		User_Updated: Int
 		Date_Created: String
 		Date_Updated: String
+		Client_Signature: String
+		Company_Signature: String
 }
 
 type Query
 {
 	getcontracts(Id:Int,IsActive:Int): [Contracts]
 	getcompanies(Id:Int,IsActive:Int): [Company]
-	getbusinesscompanies(Id:Int,IsActive:Int,Contract_Status:String): [BusinessCompany]
+	getbusinesscompanies(Id:Int,IsActive:Int,Contract_Status:String,Id_Parent:Int): [BusinessCompany]
 	getelectronicaddress(Id:Int,IsActive:Int, Related_Table: String, Id_Entity :Int): [ElectronicAddress]
 	getphonenumbers(Id:Int,IsActive:Int,Related_Table:String,Id_Entity :Int): [PhoneNumbers]
 	getaddress(Id:Int,IsActive:Int,Related_Table: String, Id_Entity :Int): [Address]
@@ -339,10 +342,12 @@ type Mutation{
 	delcontracts(Id:Int,IsActive:Int): Contracts
 
 	updcontracstexhibit(Id:Int,Exhibit_B:String,Exhibit_C:String,Exhibit_D:String,Exhibit_E:String,Exhibit_F:String) : Contracts
+	updcontracstsignature(Id:Int,Client_Signature:String,Company_Signature:String) : Contracts
+
 }
 
 type Contracts{
-		Id : Int
+		Id: Int
 	    Id_Company: Int
 	    Contract_Name: String
 	    Contrat_Owner: String
@@ -373,6 +378,8 @@ type Contracts{
 		User_Updated: Int
 		Date_Created: String
 		Date_Updated: String
+		Client_Signature: String
+		Company_Signature: String
 }
 
 type Company{
@@ -553,6 +560,7 @@ type Address{
 
 type PositionRate{
 	Id : Int
+	Id_Contract: Int
 	Id_Entity : Int
 	Id_Department : Int
 	Position: String

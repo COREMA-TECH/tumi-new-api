@@ -52,7 +52,7 @@ async function getCompanies (args) {
 async function getBusinessCompanies (args) {
   try {
 	
-	console.log(args.IsActive);
+	//console.log(args.IsActive);
 	var strparam1,strparam2,strparam3
 	
 		if (args.IsActive>=0) {strparam1= args.IsActive  ;}
@@ -61,9 +61,12 @@ async function getBusinessCompanies (args) {
 		if (args.Id>=0) {strparam2= args.Id  ;}
 		else{strparam2 = null;}
 
+    if (args.Id_Parent>=0) {strparam4= args.Id_Parent  ;}
+    else{strparam4 = null;}
+
     strparam3 = args.Contract_Status;
 
-	Strquery = 'select * from public."BusinessCompany"  where "Contract_Status" ='+ strparam3 +' and "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") order by "Name"';
+	Strquery = 'select * from public."BusinessCompany"  where "Contract_Status" =coalesce('+ strparam3 +',"Contract_Status") and "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") and "Id_Parent" = coalesce('+ strparam4 +',"Id_Parent") order by "Name"';
 
 	console.log("query de companies ", Strquery);
 
@@ -79,7 +82,7 @@ async function InsBusinessCompanies (args) {
   try {
 	  	if (args)
     		{
-    			Strquery = 'INSERT INTO public."BusinessCompany" ("Code", "Code01","Id_Contract","Id_Company","BusinessType","Name","Description","Start_Week","End_Week","Start_Date","Legal_Name","Country","State","City","Id_Parent","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","ImageURL","Location","Location01","Rate","Zipcode", "Fax", "Phone_Prefix", "Phone_Number", "Primary_Email","Contract_URL", "Insurace_URL", "Other_URL", "Other01_URL","Suite") VALUES('+ args.input.Code +','+ args.input.Code01 +',' + args.input.Id_Contract +',' + args.input.Id_Company +','+args.input.BusinessType+','+args.input.Name +','+args.input.Description +','+args.input.Start_Week+','+args.input.End_Week+','+args.input.Start_Date+','+args.input.Legal_Name+','+args.input.Country+','+args.input.State+','+args.input.City+','+args.input.Id_Parent+','+args.input.IsActive+','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+','+args.input.ImageURL+','+args.input.Location+','+args.input.Location01+','+args.input.Rate+','+args.input.Zipcode+','+args.input.Fax+','+args.input.Phone_Prefix+','+args.input.Phone_Number+','+args.input.Primary_Email +','+args.input.Contract_URL +','+args.input.Insurace_URL+','+args.input.Other_URL +','+args.input.Other01_URL +','+ args.input.Suite +')'
+    			Strquery = 'INSERT INTO public."BusinessCompany" ("Code", "Code01","Id_Contract","Id_Company","BusinessType","Name","Description","Start_Week","End_Week","Start_Date","Legal_Name","Country","State","City","Id_Parent","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","ImageURL","Location","Location01","Rate","Zipcode", "Fax", "Phone_Prefix", "Phone_Number", "Primary_Email","Contract_URL", "Insurace_URL", "Other_URL", "Other01_URL","Suite","Contract_Status") VALUES('+ args.input.Code +','+ args.input.Code01 +',' + args.input.Id_Contract +',' + args.input.Id_Company +','+args.input.BusinessType+','+args.input.Name +','+args.input.Description +','+args.input.Start_Week+','+args.input.End_Week+','+args.input.Start_Date+','+args.input.Legal_Name+','+args.input.Country+','+args.input.State+','+args.input.City+','+args.input.Id_Parent+','+args.input.IsActive+','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+','+args.input.ImageURL+','+args.input.Location+','+args.input.Location01+','+args.input.Rate+','+args.input.Zipcode+','+args.input.Fax+','+args.input.Phone_Prefix+','+args.input.Phone_Number+','+args.input.Primary_Email +','+args.input.Contract_URL +','+args.input.Insurace_URL+','+args.input.Other_URL +','+args.input.Other01_URL +','+ args.input.Suite + ','+ args.input.Contract_Status +') RETURNING "Id"'
     		console.log(Strquery);	
     		}
     	    else{console.log("Error Insert Data");}
@@ -646,10 +649,10 @@ async function InsPosition (args) {
   try {
   	  	if (args)
     		{
-    			Strquery = 'INSERT INTO public."PositionRate" ("Id_Entity", "Id_Department", "Position", "Bill_Rate", "Pay_Rate", "Shift","IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated") VALUES('+ args.input.Id_Entity +','+ args.input.Id_Department +',' +args.input.Position +','+args.input.Bill_Rate+','+args.input.Pay_Rate +','+args.input.Shift +','+args.input.IsActive +','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+') RETURNING "Id", "Id_Entity", "Id_Department", "Position", "Bill_Rate", "Pay_Rate", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated"'
+    			Strquery = 'INSERT INTO public."PositionRate" ("Id_Entity", "Id_Department", "Position", "Bill_Rate", "Pay_Rate", "Shift","IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated","Id_Contract") VALUES('+ args.input.Id_Entity +','+ args.input.Id_Department +',' +args.input.Position +','+args.input.Bill_Rate+','+args.input.Pay_Rate +','+args.input.Shift +','+args.input.IsActive +','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+','+args.input.Id_Contract+') RETURNING "Id", "Id_Entity", "Id_Department", "Position", "Bill_Rate", "Pay_Rate", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated"'
     		}
     	    else{console.log("Error Insert Data");}
- 
+ console.log(Strquery);
     const { rows } = await query(Strquery) 
     return rows[0]; 
   } catch (err) {
@@ -662,7 +665,7 @@ async function UpdPosition (args) {
   try {
 	  	if (args)
     		{
-    			Strquery = 'UPDATE public."PositionRate" SET "Id_Entity"='+ args.input.Id_Entity +',"Id_Department"='+ args.input.Id_Department +',"Position"='+args.input.Position +', "Bill_Rate"='+args.input.Bill_Rate +', "Pay_Rate"='+args.input.Pay_Rate +', "Shift"='+ args.input.Shift +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' where "Id"=' + args.input.Id 
+    			Strquery = 'UPDATE public."PositionRate" SET "Id_Entity"='+ args.input.Id_Entity +',"Id_Department"='+ args.input.Id_Department +',"Position"='+args.input.Position +', "Bill_Rate"='+args.input.Bill_Rate +', "Pay_Rate"='+args.input.Pay_Rate +', "Shift"='+ args.input.Shift +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +', "Id_Contract"='+ args.input.Id_Contract +' where "Id"=' + args.input.Id 
     		}
     	    else{console.log("Error Update Data");}
 
@@ -1069,7 +1072,7 @@ async function InsContracts (args) {
   try {
       if (args)
         {
-          Strquery = 'INSERT INTO public."Contracts" ("Id_Company", "Contract_Name", "Contrat_Owner", "Id_Entity", "Id_User_Signed", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed","Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F","IsActive","User_Created","User_Updated","Date_Created","Date_Updated") VALUES('+ args.input.Id_Company +','+ args.input.Contract_Name +',' + args.input.Contrat_Owner +',' + args.input.Id_Entity +','+args.input.Id_User_Signed+','+args.input.User_Signed_Title +','+args.input.Signed_Date +','+args.input.Contract_Status+','+args.input.Contract_Start_Date+','+args.input.Contract_Term+','+args.input.Owner_Expiration_Notification+','+args.input.Company_Signed+','+ args.input.Company_Signed_Date +','+args.input.Id_User_Billing_Contact+','+args.input.Billing_Street+','+args.input.Billing_City +','+args.input.Billing_State +','+args.input.Billing_Zip_Code +','+args.input.Billing_Country +','+args.input.Contract_Terms +','+args.input.Exhibit_B +','+args.input.Exhibit_C +','+args.input.Exhibit_D +','+args.input.Exhibit_E +','+args.input.Exhibit_F +','+args.input.IsActive+','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+') RETURNING "Id","Id_Company", "Contract_Name", "Contrat_Owner", "Id_Entity", "Id_User_Signed", "User_Signed_Title", "Signed_Date", "Contract_Status","Contract_Start_Date","Contract_Term", "Owner_Expiration_Notification", "Company_Signed", "Id_User_Billing_Contact", "Billing_Street", "Billing_City","Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F" '
+          Strquery = 'INSERT INTO public."Contracts" ("Id_Company", "Contract_Name", "Contrat_Owner", "Id_Entity", "Id_User_Signed", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed","Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F","IsActive","User_Created","User_Updated","Date_Created","Date_Updated") VALUES('+ args.input.Id_Company +','+ args.input.Contract_Name +',' + args.input.Contrat_Owner +',' + args.input.Id_Entity +','+args.input.Id_User_Signed+','+args.input.User_Signed_Title +','+args.input.Signed_Date +','+args.input.Contract_Status+','+args.input.Contract_Start_Date+','+args.input.Contract_Term+','+args.input.Owner_Expiration_Notification+','+args.input.Company_Signed+','+ args.input.Company_Signed_Date +','+args.input.Id_User_Billing_Contact+','+args.input.Billing_Street+','+args.input.Billing_City +','+args.input.Billing_State +','+args.input.Billing_Zip_Code +','+args.input.Billing_Country +','+args.input.Contract_Terms +','+args.input.Exhibit_B +','+args.input.Exhibit_C +','+args.input.Exhibit_D +','+args.input.Exhibit_E +','+args.input.Exhibit_F +','+args.input.IsActive+','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+') RETURNING "Id"'
         
         }
           else{console.log("Error Insert Data");}
@@ -1077,7 +1080,7 @@ async function InsContracts (args) {
   console.log(Strquery);
     
     const { rows } = await query(Strquery)
-    return rows;
+    return rows[0];
   } catch (err) {
     console.log('Database ' + err)
     return err;
@@ -1112,6 +1115,28 @@ async function UpdContractsExhibit (args) {
       if (args)
         {
           Strquery = 'UPDATE public."Contracts" SET "Exhibit_B"='+args.Exhibit_B +', "Exhibit_C"='+args.Exhibit_C +', "Exhibit_D"='+args.Exhibit_D +', "Exhibit_E"='+args.Exhibit_E +', "Exhibit_F"='+args.Exhibit_F+ ' where "Id"=' + args.Id 
+          console.log(Strquery);
+
+        }
+          else{console.log("Error Update Data");}
+
+
+          console.log(Strquery);
+
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+    return err;
+  }
+}
+
+async function UpdContracstSignature (args) {
+  try {
+      
+      if (args)
+        {
+          Strquery = 'UPDATE public."Contracts" SET "Client_Signature"='+args.Client_Signature +', "Company_Signature"='+ args.Company_Signature + ' where "Id"=' + args.Id 
           console.log(Strquery);
 
         }
@@ -1217,6 +1242,7 @@ delcontracts: DelContracts,
 
 getvalid_users : getValid_Users,
 updcontracstexhibit: UpdContractsExhibit,
+updcontracstsignature: UpdContracstSignature,
 }
 
 
