@@ -1171,6 +1171,30 @@ async function DelContracts (args) {
   }
 }
 
+//Method Connect to table ContractTemplate
+async function getContractTemplate (args) {
+  try {
+  
+  console.log(args.IsActive);
+  var strparam1,strparam2,strparam3
+  
+    if (args.IsActive>=0) {strparam1= args.IsActive  ;}
+    else{strparam1 = null;}
+
+    if (args.Id>=0) {strparam2= args.Id  ;}
+    else{strparam2 = null;}
+
+    Strquery = 'select * from public."ContractsTemplates"  where "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") order by "Id"';
+
+console.log(Strquery);
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+    return err;
+  }
+}
+
 
 const root = {
 getcompanies: getCompanies,
@@ -1243,6 +1267,9 @@ delcontracts: DelContracts,
 getvalid_users : getValid_Users,
 updcontracstexhibit: UpdContractsExhibit,
 updcontracstsignature: UpdContracstSignature,
+
+getcontracttemplate: getContractTemplate,
+
 }
 
 

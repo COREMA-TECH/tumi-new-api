@@ -265,6 +265,19 @@ input iContracts{
 		Company_Signature: String
 }
 
+input iContractsTemplates{
+	Id: Int
+	Name_Contract_Template:String
+	Contract_Template: String
+	Exhibit_B: String
+	Exhibit_C: String
+	Exhibit_D: String
+	Exhibit_E: String
+	Exhibit_F: String
+	Exhibit_G: String
+	IsActive: Int
+}
+
 type Query
 {
 	getcontracts(Id:Int,IsActive:Int): [Contracts]
@@ -284,6 +297,7 @@ type Query
 	getrolesforms(Id:Int,IsActive:Int): [RolesForms]
 	getusers(Id:Int,IsActive:Int): [Users]
 	getvalid_users(Code_User:String,Password:String): [Users]
+	getcontracttemplate(Id:Int,IsActive:Int): [ContractsTemplates]
 
 	
 }
@@ -345,7 +359,18 @@ type Mutation{
 	updcontracstsignature(Id:Int,Client_Signature:String,Company_Signature:String) : Contracts
 
 }
-
+type ContractsTemplates{
+	Id: Int
+	Name_Contract_Template:String
+	Contract_Template: String
+	Exhibit_B: String
+	Exhibit_C: String
+	Exhibit_D: String
+	Exhibit_E: String
+	Exhibit_F: String
+	Exhibit_G: String
+	IsActive: Int
+}
 type Contracts{
 		Id: Int
 	    Id_Company: Int
