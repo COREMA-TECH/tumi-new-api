@@ -263,6 +263,7 @@ input iContracts{
 		Date_Updated: String
 		Client_Signature: String
 		Company_Signature: String
+		Contract_Expiration_Date: String
 }
 
 input iContractsTemplates{
@@ -405,6 +406,7 @@ type Contracts{
 		Date_Updated: String
 		Client_Signature: String
 		Company_Signature: String
+		Contract_Expiration_Date: String
 }
 
 type Company{
