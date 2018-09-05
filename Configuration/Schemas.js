@@ -267,7 +267,7 @@ input iContracts{
 
 input iContractsTemplates{
 	Id: Int
-	Name_Contract_Template:String
+	Name:String
 	Contract_Template: String
 	Exhibit_B: String
 	Exhibit_C: String
@@ -361,7 +361,7 @@ type Mutation{
 }
 type ContractsTemplates{
 	Id: Int
-	Name_Contract_Template:String
+	Name:String
 	Contract_Template: String
 	Exhibit_B: String
 	Exhibit_C: String
