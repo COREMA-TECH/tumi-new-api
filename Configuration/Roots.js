@@ -38,6 +38,7 @@ async function getCompanies (args) {
     else{strparam2 = null;}
 
     Strquery = 'select * from public."Company"  where "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") order by "Name"';
+console.log("query de companies ", Strquery);
 
     const { rows } = await query(Strquery)
     return rows;
@@ -66,9 +67,9 @@ async function getBusinessCompanies (args) {
 
     strparam3 = args.Contract_Status;
 
-	Strquery = 'select * from public."BusinessCompany"  where "Contract_Status" =coalesce('+ strparam3 +',"Contract_Status") and "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") and "Id_Parent" = coalesce('+ strparam4 +',"Id_Parent") order by "Name"';
+	Strquery = 'SELECT "Id", "Id_Contract", "Id_Company", "Code", "Code01", "BusinessType", "Name", "Description", "Start_Week", "End_Week", "Legal_Name", "Country", "State", "City", "Id_Parent", "ImageURL", CAST ("Start_Date" AS DATE) as "Start_Date", "Location", "Location01", "Rate", "Zipcode", "Fax", "Phone_Prefix", "Phone_Number", "Primary_Email", "Contract_URL", "Insurace_URL", "Other_URL", "Other01_URL", "Suite", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Contract_Status" from public."BusinessCompany"  where "Contract_Status" =coalesce('+ strparam3 +',"Contract_Status") and "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") and "Id_Parent" = coalesce('+ strparam4 +',"Id_Parent") order by "Name"';
 
-	//console.log("query de companies ", Strquery);
+	console.log("query de companies ", Strquery);
 
     const { rows } = await query(Strquery)
     return rows;
@@ -101,7 +102,8 @@ async function UpdBusinessCompanies (args) {
   try {
 	  	if (args)
     		{
-    			Strquery = 'UPDATE public."BusinessCompany" SET "Code"='+ args.input.Code +',"Code01"='+ args.input.Code01 +',"Id_Contract"='+ args.input.Id_Contract +',"Id_Company"='+args.input.Id_Company +', "BusinessType"='+args.input.BusinessType +', "Name"='+args.input.Name +', "Description"='+ args.input.Description +', "Start_Week"='+ args.input.Start_Week +', "End_Week"='+ args.input.End_Week +', "Start_Date"='+ args.input.Start_Date +', "Legal_Name"='+ args.input.Legal_Name +', "Country"='+ args.input.Country +', "State"='+ args.input.Country +', "City"='+args.input.City+', "Id_Parent"='+args.input.Id_Parent+', "IsActive"='+args.input.IsActive+', "User_Created"='+args.input.User_Created+', "User_Updated"='+args.input.User_Updated+', "Date_Created"='+args.input.Date_Created+', "Date_Updated"='+args.input.Date_Updated+', "ImageURL"='+ args.input.ImageURL +', "Location"='+ args.input.Location +', "Location01"='+ args.input.Location01 +', "Rate"='+ args.input.Rate +', "Zipcode"='+ args.input.Zipcode +', "Fax"='+ args.input.Fax +', "Phone_Prefix"='+ args.input.Phone_Prefix +', "Phone_Number"='+ args.input.Phone_Number +', "Primary_Email"='+ args.input.Primary_Email +', "Contract_URL"='+ args.input.Contract_URL +', "Insurace_URL"='+ args.input.Insurace_URL +', "Other_URL"='+ args.input.Other_URL +', "Other01_URL"='+ args.input.Other01_URL + ',"Suite"='+ args.input.Suite +' where "Id"=' + args.input.Id 
+          console.log(args);
+    			Strquery = 'UPDATE public."BusinessCompany" SET "Code"='+ args.input.Code +',"Code01"='+ args.input.Code01 +',"Id_Contract"='+ args.input.Id_Contract +',"Id_Company"='+args.input.Id_Company +', "BusinessType"='+args.input.BusinessType +', "Name"='+args.input.Name +', "Description"='+ args.input.Description +', "Start_Week"='+ args.input.Start_Week +', "End_Week"='+ args.input.End_Week +', "Start_Date"='+ args.input.Start_Date +', "Legal_Name"='+ args.input.Legal_Name +', "Country"='+ args.input.Country +', "State"='+ args.input.State +', "City"='+args.input.City+', "Id_Parent"='+args.input.Id_Parent+', "IsActive"='+args.input.IsActive+', "User_Created"='+args.input.User_Created+', "User_Updated"='+args.input.User_Updated+', "Date_Created"='+args.input.Date_Created+', "Date_Updated"='+args.input.Date_Updated+', "ImageURL"='+ args.input.ImageURL +', "Location"='+ args.input.Location +', "Location01"='+ args.input.Location01 +', "Rate"='+ args.input.Rate +', "Zipcode"='+ args.input.Zipcode +', "Fax"='+ args.input.Fax +', "Phone_Prefix"='+ args.input.Phone_Prefix +', "Phone_Number"='+ args.input.Phone_Number +', "Primary_Email"='+ args.input.Primary_Email +', "Contract_URL"='+ args.input.Contract_URL +', "Insurace_URL"='+ args.input.Insurace_URL +', "Other_URL"='+ args.input.Other_URL +', "Other01_URL"='+ args.input.Other01_URL + ',"Suite"='+ args.input.Suite +' where "Id"=' + args.input.Id 
     	    console.log(Strquery);
 
     		}
@@ -443,7 +445,7 @@ async function getCatalog (args) {
 		if (args.Id>=0) {strparam2= args.Id  ;}
 		else{strparam2 = null;}
 
-		     Strquery = 'select * from public."Catalogs" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id")'
+		     Strquery = 'select * from public."Catalogs" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") order by "Id"'
     		console.log(Strquery);
 
     const { rows } = await query(Strquery)
