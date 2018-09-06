@@ -2,7 +2,56 @@ const pg = require('pg');
 const express = require('express');
 const Config = require('../Configuration/Configuration.js');
 
+//Requerimos el paquete
+const nodemailer = require('nodemailer');
+const config = require('./Configuration.js');
+const pdf = require('html-pdf');
+
 var Strquery; 
+
+
+var transporter = nodemailer.createTransport({
+    service: 'Hotmail',
+    auth: {
+        user: 'coremagroup@hotmail.com',
+        pass: 'Corema123'
+    }
+});;
+
+
+var contenido = '<p>Tumi welcomes and we thank you for trusting us.</p>' +
+    '<p>We have attached your contract,asdasdasdasdasdasdasdasdasdasdasdsadas if you need more information you can contact us.</p>';
+
+pdf.create(contenido).toFile('./Contract.pdf', function (err, res) {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log(res);
+    }
+});
+
+var mailOptions = {
+    from: 'coremagroup@hotmail.com',
+    to: 'mppomar@gmail.com',
+    subject: 'Contracto',
+    //text: 'Tumi welcomes and we thank you for trusting us.',
+    //html: '<b>Tumi welcomes and we thank you for trusting us.</b></br> <b>We just need you to sign your contract, for that click on the following link</b></br>'
+    // HTML body
+    html:
+        '<p>Tumi welcomes and we thank you for trusting us.</p>' +
+        '<p>We have attached your contract, if you need more information you can contact us.</p>',
+    attachments: [
+        // String attachment
+        {
+            filename: 'Contract.pdf',
+            content: 'Some notes about this e-mail',
+            path: './Contract.pdf',
+            // contentType: 'application/pdf'
+            contentType: 'text/plain' // optional, would be detected from the filename
+        },
+    ]
+};
+
 //var strparam1,strparam2,strparam3,strparam3,strparam5
   
 //Conection to BD
@@ -1082,6 +1131,16 @@ async function InsContracts (args) {
   console.log(Strquery);
     
     const { rows } = await query(Strquery)
+
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email enviado: ' + info.response);
+        }
+    });
+
     return rows[0];
   } catch (err) {
     console.log('Database ' + err)
