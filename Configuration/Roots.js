@@ -1092,7 +1092,7 @@ async function InsContracts (args) {
         }
           else{console.log("Error Insert Data");}
 
-    console.log('por aqui el insert');
+    
     
     
     const { rows } = await query(Strquery)
@@ -1103,8 +1103,14 @@ async function InsContracts (args) {
     var StrContact = 'SELECT * FROM public."Contacts" where "Id"= '+ args.input.Id_User_Signed;
     const { rows_contact } = await query(StrContact)    
      
+     console.log(StrContact);
+     console.log(rows_contact);
+
     var StrCompany = 'SELECT * FROM public."Company" where "Id"= '+ args.input.Id_Company;
     const { rows_company } = await query(StrCompany)    
+
+      console.log(StrCompany);
+     console.log(rows_company);
 
    pdf.create(contenido).toFile('./'+Strfilename, function (err, res) {
           if (err) {
