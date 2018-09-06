@@ -264,6 +264,8 @@ input iContracts{
 		Client_Signature: String
 		Company_Signature: String
 		Contract_Expiration_Date: String
+		Electronic_Address: String
+		Primary_Email: String
 }
 
 input iContractsTemplates{
