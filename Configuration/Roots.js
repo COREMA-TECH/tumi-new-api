@@ -1103,14 +1103,14 @@ async function InsContracts (args) {
     var StrContact = 'SELECT * FROM public."Contacts" where "Id"= '+ args.input.Id_User_Signed;
     const { rows_contact } = await query(StrContact)    
      
-     console.log(StrContact);
-     console.log(rows_contact);
+    console.log(StrContact);
+    console.log(rows_contact);
 
     var StrCompany = 'SELECT * FROM public."Company" where "Id"= '+ args.input.Id_Company;
     const { rows_company } = await query(StrCompany)    
 
-      console.log(StrCompany);
-     console.log(rows_company);
+    console.log(StrCompany);
+    console.log(rows_company);
 
    pdf.create(contenido).toFile('./'+Strfilename, function (err, res) {
           if (err) {
@@ -1122,8 +1122,8 @@ async function InsContracts (args) {
 
    var mailOptions = {
     from: 'coremagroup@hotmail.com',
-    to: rows_contact[0].Electronic_Address,
-    cc: rows_company[0].Primary_Email,
+    to: 'mppomar@gmail.com',//rows_contact[0].Electronic_Address,
+    cc: 'mppomar@gmail.com',//rows_company[0].Primary_Email,
     subject: 'Contracts',
     //text: 'Tumi welcomes and we thank you for trusting us.',
     //html: '<b>Tumi welcomes and we thank you for trusting us.</b></br> <b>We just need you to sign your contract, for that click on the following link</b></br>'
