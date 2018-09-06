@@ -17,30 +17,6 @@ var transporter = nodemailer.createTransport({
         pass: 'Corema123'
     }
 });;
-
-var mailOptions = {
-    from: 'coremagroup@hotmail.com',
-    to: 'mppomar@gmail.com',
-    subject: 'Contracto',
-    //text: 'Tumi welcomes and we thank you for trusting us.',
-    //html: '<b>Tumi welcomes and we thank you for trusting us.</b></br> <b>We just need you to sign your contract, for that click on the following link</b></br>'
-    // HTML body
-    html:
-        '<p>Tumi welcomes and we thank you for trusting us.</p>' +
-        '<p>We have attached your contract, if you need more information you can contact us.</p>',
-    attachments: [
-        // String attachment
-        {
-            filename: Strfilename,
-            content: 'Some notes about this e-mail',
-            path: './'+Strfilename,
-            // contentType: 'application/pdf'
-            contentType: 'text/plain' // optional, would be detected from the filename
-        },
-    ]
-};
-
-//var strparam1,strparam2,strparam3,strparam3,strparam5
   
 //Conection to BD
 const pool = new pg.Pool(Config);
@@ -106,7 +82,7 @@ async function getBusinessCompanies (args) {
 
 	Strquery = 'SELECT * from public.vwBusinessCompany_Format  where "Contract_Status" =coalesce('+ strparam3 +',"Contract_Status") and "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") and "Id_Parent" = coalesce('+ strparam4 +',"Id_Parent") order by "Name"';
 
-	console.log("query de companies ", Strquery);
+//	console.log("query de companies ", Strquery);
 
     const { rows } = await query(Strquery)
     return rows;
@@ -1111,28 +1087,53 @@ async function InsContracts (args) {
   try {
       if (args)
         {
-          Strquery = 'INSERT INTO public."Contracts" ("Id_Company", "Contract_Name", "Contrat_Owner", "Id_Entity", "Id_User_Signed", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed","Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","Contract_Expiration_Date") VALUES('+ args.input.Id_Company +','+ args.input.Contract_Name +',' + args.input.Contrat_Owner +',' + args.input.Id_Entity +','+args.input.Id_User_Signed+','+args.input.User_Signed_Title +','+args.input.Signed_Date +','+args.input.Contract_Status+','+args.input.Contract_Start_Date+','+args.input.Contract_Term+','+args.input.Owner_Expiration_Notification+','+args.input.Company_Signed+','+ args.input.Company_Signed_Date +','+args.input.Id_User_Billing_Contact+','+args.input.Billing_Street+','+args.input.Billing_City +','+args.input.Billing_State +','+args.input.Billing_Zip_Code +','+args.input.Billing_Country +','+args.input.Contract_Terms +','+args.input.Exhibit_B +','+args.input.Exhibit_C +','+args.input.Exhibit_D +','+args.input.Exhibit_E +','+args.input.Exhibit_F +','+args.input.IsActive+','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+','+ args.input.Contract_Expiration_Date +') RETURNING "Id"'
+          Strquery = 'INSERT INTO public."Contracts" ("Id_Company", "Contract_Name", "Contrat_Owner", "Id_Entity", "Id_User_Signed", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed","Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","Contract_Expiration_Date") VALUES('+ args.input.Id_Company +','+ args.input.Contract_Name +',' + args.input.Contrat_Owner +',' + args.input.Id_Entity +','+args.input.Id_User_Signed+','+args.input.User_Signed_Title +','+args.input.Signed_Date +','+args.input.Contract_Status+','+args.input.Contract_Start_Date+','+args.input.Contract_Term+','+args.input.Owner_Expiration_Notification+','+args.input.Company_Signed+','+ args.input.Company_Signed_Date +','+args.input.Id_User_Billing_Contact+','+args.input.Billing_Street+','+args.input.Billing_City +','+args.input.Billing_State +','+args.input.Billing_Zip_Code +','+args.input.Billing_Country +','+args.input.Contract_Terms +','+args.input.Exhibit_B +','+args.input.Exhibit_C +','+args.input.Exhibit_D +','+args.input.Exhibit_E +','+args.input.Exhibit_F +','+args.input.IsActive+','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+','+ args.input.Contract_Expiration_Date +') RETURNING "Id","Id_Company", "Contract_Name", "Contrat_Owner", "Id_Entity", "Id_User_Signed", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed","Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","Contract_Expiration_Date"'
         
         }
           else{console.log("Error Insert Data");}
 
-    console.log(Strquery);
+    console.log('por aqui el insert');
+    
     
     const { rows } = await query(Strquery)
 
-
-    var contenido = args.input.Contract_Terms;
-    Strfilename ='Contract_'+args.input.Contract_Name+'.pdf';
+console.log(rows[0]);
+console.log(rows[0].Contract_Name);
+    
+    var contenido = rows[0].Contract_Terms;
+    Strfilename ='Contract_'+rows[0].Contract_Name+'.pdf';
 
    console.log(Strfilename);
-
-    pdf.create(contenido).toFile('./'+Strfilename, function (err, res) {
+ 
+ pdf.create(contenido).toFile('./'+Strfilename, function (err, res) {
         if (err) {
             console.log(err);
         } else {
             console.log(res);
         }
     });
+
+   var mailOptions = {
+    from: 'coremagroup@hotmail.com',
+    to: 'mppomar@gmail.com',
+    subject: 'Contracto',
+    //text: 'Tumi welcomes and we thank you for trusting us.',
+    //html: '<b>Tumi welcomes and we thank you for trusting us.</b></br> <b>We just need you to sign your contract, for that click on the following link</b></br>'
+    // HTML body
+    html:
+        '<p>Tumi welcomes and we thank you for trusting us.</p>' +
+        '<p>We have attached your contract, if you need more information you can contact us.</p>',
+    attachments: [
+        // String attachment
+        {
+            filename: Strfilename,
+            content: 'Some notes about this e-mail',
+            path: './'+Strfilename,
+            // contentType: 'application/pdf'
+            contentType: 'text/plain' // optional, would be detected from the filename
+        },
+    ]
+};
 
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
