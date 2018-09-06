@@ -1097,26 +1097,28 @@ async function InsContracts (args) {
     
     const { rows } = await query(Strquery)
 
-console.log(rows[0]);
-console.log(rows[0].Contract_Name);
-    
     var contenido = rows[0].Contract_Terms;
     Strfilename ='Contract_'+rows[0].Contract_Name+'.pdf';
 
-   console.log(Strfilename);
- 
- pdf.create(contenido).toFile('./'+Strfilename, function (err, res) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(res);
-        }
-    });
+    var StrContact = 'SELECT * FROM public."Contacts" where "Id"= '+ args.input.Id_User_Signed;
+    const { rows_contact } = await query(StrContact)    
+     
+    var StrCompany = 'SELECT * FROM public."Company" where "Id"= '+ args.input.Id_Company;
+    const { rows_company } = await query(StrCompany)    
+
+   pdf.create(contenido).toFile('./'+Strfilename, function (err, res) {
+          if (err) {
+              console.log(err);
+          } else {
+              console.log(res);
+          }
+      });
 
    var mailOptions = {
     from: 'coremagroup@hotmail.com',
-    to: 'mppomar@gmail.com',
-    subject: 'Contracto',
+    to: rows_contact[0].Electronic_Address,
+    cc: rows_company[0].Primary_Email,
+    subject: 'Contracts',
     //text: 'Tumi welcomes and we thank you for trusting us.',
     //html: '<b>Tumi welcomes and we thank you for trusting us.</b></br> <b>We just need you to sign your contract, for that click on the following link</b></br>'
     // HTML body
