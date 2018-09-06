@@ -67,7 +67,7 @@ async function getBusinessCompanies (args) {
 
     strparam3 = args.Contract_Status;
 
-	Strquery = 'SELECT "Id", "Id_Contract", "Id_Company", "Code", "Code01", "BusinessType", "Name", "Description", "Start_Week", "End_Week", "Legal_Name", "Country", "State", "City", "Id_Parent", "ImageURL", CAST ("Start_Date" AS DATE) as "Start_Date", "Location", "Location01", "Rate", "Zipcode", "Fax", "Phone_Prefix", "Phone_Number", "Primary_Email", "Contract_URL", "Insurace_URL", "Other_URL", "Other01_URL", "Suite", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Contract_Status" from public."BusinessCompany"  where "Contract_Status" =coalesce('+ strparam3 +',"Contract_Status") and "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") and "Id_Parent" = coalesce('+ strparam4 +',"Id_Parent") order by "Name"';
+	Strquery = 'SELECT * from public.vwBusinessCompany_Format  where "Contract_Status" =coalesce('+ strparam3 +',"Contract_Status") and "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") and "Id_Parent" = coalesce('+ strparam4 +',"Id_Parent") order by "Name"';
 
 	console.log("query de companies ", Strquery);
 
