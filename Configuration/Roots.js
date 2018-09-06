@@ -7,7 +7,7 @@ const nodemailer = require('nodemailer');
 const config = require('./Configuration.js');
 const pdf = require('html-pdf');
 
-var Strquery; 
+var Strquery,Strfilename; 
 
 
 var transporter = nodemailer.createTransport({
@@ -17,18 +17,6 @@ var transporter = nodemailer.createTransport({
         pass: 'Corema123'
     }
 });;
-
-
-var contenido = '<p>Tumi welcomes and we thank you for trusting us.</p>' +
-    '<p>We have attached your contract,asdasdasdasdasdasdasdasdasdasdasdsadas if you need more information you can contact us.</p>';
-
-pdf.create(contenido).toFile('./Contract.pdf', function (err, res) {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log(res);
-    }
-});
 
 var mailOptions = {
     from: 'coremagroup@hotmail.com',
@@ -43,9 +31,9 @@ var mailOptions = {
     attachments: [
         // String attachment
         {
-            filename: 'Contract.pdf',
+            filename: Strfilename,
             content: 'Some notes about this e-mail',
-            path: './Contract.pdf',
+            path: './'+Strfilename,
             // contentType: 'application/pdf'
             contentType: 'text/plain' // optional, would be detected from the filename
         },
@@ -1128,10 +1116,23 @@ async function InsContracts (args) {
         }
           else{console.log("Error Insert Data");}
 
-  console.log(Strquery);
+    console.log(Strquery);
     
     const { rows } = await query(Strquery)
 
+
+    var contenido = args.input.Contract_Terms;
+    Strfilename ='Contract_'+args.input.Contract_Name+'.pdf';
+
+   console.log(Strfilename);
+
+    pdf.create(contenido).toFile('./'+Strfilename, function (err, res) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(res);
+        }
+    });
 
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
