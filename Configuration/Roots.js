@@ -1100,7 +1100,7 @@ async function InsContracts (args) {
     var contenido = rows[0].Contract_Terms;
     Strfilename ='Contract_'+rows[0].Contract_Name+'.pdf';
 
-    var StrContact = 'SELECT * FROM public."Contacts" where "Id"= '+ args.input.Id_User_Signed;
+   /* var StrContact = 'SELECT * FROM public."Contacts" where "Id"= '+ args.input.Id_User_Signed;
     const { rows_contact } = await query(StrContact)    
      
     console.log(StrContact);
@@ -1110,7 +1110,7 @@ async function InsContracts (args) {
     const { rows_company } = await query(StrCompany)    
 
     console.log(StrCompany);
-    console.log(rows_company);
+    console.log(rows_company);*/
 
    pdf.create(contenido).toFile('./'+Strfilename, function (err, res) {
           if (err) {
