@@ -428,6 +428,7 @@ type Company{
 		User_Updated: Int
 		Date_Created: String
 		Date_Updated: String
+		Primary_Email: String
 }
 
 type BusinessCompany{
