@@ -1073,7 +1073,7 @@ async function getContracts (args) {
     if (args.Id>=0) {strparam2= args.Id  ;}
     else{strparam2 = null;}
 
-    Strquery = 'select "Id", "Id_Company", "Id_Entity", "Contract_Name", "Contrat_Owner", "Id_User_Signed", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed", "Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", concat("Contract_Terms", CHR(10),"Exhibit_B",CHR(10),"Exhibit_C",CHR(10),"Exhibit_D",CHR(10),"Exhibit_E",CHR(10),"Exhibit_F") as "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Client_Signature", "Company_Signature","Contract_Expiration_Date" from public."Contracts"  where "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") order by "Id"';
+    Strquery = ' select * from public.vwcontracts_Format  where "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") order by "Id"';
 
     const { rows } = await query(Strquery)
     return rows;
@@ -1095,16 +1095,20 @@ async function InsContracts (args) {
      const { rows } = await query(Strquery)
     // console.log(Strquery);
    
-    var contenido = rows[0].Contract_Terms;
+    var content = rows[0].Contract_Terms;
     Strfilename ='Contract_'+rows[0].Contract_Name+'.pdf';
 
-     pdf.create(contenido).toFile('./'+Strfilename, function (err, res) {
+        //  var content = rows[0].Contract_Terms;
+         // Strfilename ='Contract_'+rows[0].Contract_Name+'.pdf';
+
+          pdf.create(content).toFile('./'+Strfilename, function (err, res) {
           if (err) {
               console.log(err);
           } else {
               console.log(res);
           }
-      });
+          });
+     
 
       var mailOptions = {
     from: 'coremagroup@hotmail.com',
@@ -1252,6 +1256,23 @@ console.log(Strquery);
   }
 }
 
+/*async function InsContracts (args) {
+  try {
+      if (args)
+        {
+          var content = rows[0].Contract_Terms;
+          Strfilename ='Contract_'+rows[0].Contract_Name+'.pdf';
+
+          pdf.create(content).toFile('./'+Strfilename, function (err, res) {
+          if (err) {
+              console.log(err);
+          } else {
+              console.log(res);
+          }
+          });
+        }
+      }
+}*/
 
 const root = {
 getcompanies: getCompanies,

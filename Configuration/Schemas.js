@@ -361,8 +361,6 @@ type Mutation{
 	updcontracstexhibit(Id:Int,Exhibit_B:String,Exhibit_C:String,Exhibit_D:String,Exhibit_E:String,Exhibit_F:String) : Contracts
 	updcontracstsignature(Id:Int,Client_Signature:String,Company_Signature:String) : Contracts
 
-	sendmails(Id_Contract:Int): Contracts
-
 }
 type ContractsTemplates{
 	Id: Int
