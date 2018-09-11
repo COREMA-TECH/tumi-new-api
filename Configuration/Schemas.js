@@ -523,6 +523,7 @@ type Contacts{
 		Electronic_Address: String
 		Phone_Number: String
 		Contact_Type: Int
+		Department: String
 		IsActive: Int
 		User_Created: Int
 		User_Updated: Int

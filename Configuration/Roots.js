@@ -355,7 +355,7 @@ async function getContacts (args) {
 		if (args.Id_Entity>=0) {strparam3= args.Id_Entity  ;}
 		else{strparam3 = null;}
 
-		     Strquery = 'select * from public."Contacts" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Entity" = coalesce('+ strparam3 +',"Id_Entity")  and "Id" = coalesce('+ strparam2 +',"Id")'
+		     Strquery = 'select "Id", "Id_Entity", "First_Name", "Middle_Name", "Last_Name", "Electronic_Address", "Phone_Number", "Contact_Type", "Id_Supervisor","Id_Deparment",(select "DisplayLabel" from public."CatalogItem" where "Id" = "Contacts"."Id_Deparment") AS "Department", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated" from public."Contacts" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Entity" = coalesce('+ strparam3 +',"Id_Entity")  and "Id" = coalesce('+ strparam2 +',"Id")'
     		console.log(Strquery);
 
     const { rows } = await query(Strquery)
@@ -935,32 +935,6 @@ async function DelRolesForms (args) {
   } catch (err) {
   console.log('Database ' + err)
   return err;
-  }
-}
-
-//Method Connect to table ContactsCompany
-async function getContacts (args) {
-  try {
-
-      var strparam1,strparam2,strparam3
-  
-    if (args.IsActive>=0) {strparam1= args.IsActive  ;}
-    else{strparam1 = null;}
-
-    if (args.Id>=0) {strparam2= args.Id  ;}
-    else{strparam2 = null;}
-
-    if (args.Id_Entity>=0) {strparam3= args.Id_Entity  ;}
-    else{strparam3 = null;}
-
-         Strquery = 'select * from public."Contacts" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Entity" = coalesce('+ strparam3 +',"Id_Entity")  and "Id" = coalesce('+ strparam2 +',"Id")'
-        console.log(Strquery);
-
-    const { rows } = await query(Strquery)
-    return rows;
-  } catch (err) {
-    console.log('Database ' + err)
-    return err;
   }
 }
 
