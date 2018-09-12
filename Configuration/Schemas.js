@@ -266,6 +266,7 @@ input iContracts{
 		Contract_Expiration_Date: String
 		Electronic_Address: String
 		Primary_Email: String
+		Id_Contract_Template: Int
 }
 
 input iContractsTemplates{
@@ -411,6 +412,7 @@ type Contracts{
 		Contract_Expiration_Date: String
 		Electronic_Address: String
 		Primary_Email: String
+		Id_Contract_Template: Int
 }
 
 type Company{
