@@ -1211,7 +1211,7 @@ async function DelContracts (args) {
       
       if (args)
         {
-          Strquery = 'UPDATE public."Contract" SET "IsActive"='+args.IsActive+' where "Id"=' + args.Id 
+          Strquery = 'UPDATE public."Contracts" SET "IsActive"='+args.IsActive+' where "Id"=' + args.Id 
         console.log(Strquery);
         }
           else{console.log("Error Update Data");}
