@@ -301,7 +301,7 @@ type Query
 	getusers(Id:Int,IsActive:Int): [Users]
 	getvalid_users(Code_User:String,Password:String): [Users]
 	getcontracttemplate(Id:Int,IsActive:Int): [ContractsTemplates]
-
+	sendcontracts(Id:Int,IsActive:Int): [Contracts]
 	
 }
 
@@ -409,6 +409,8 @@ type Contracts{
 		Client_Signature: String
 		Company_Signature: String
 		Contract_Expiration_Date: String
+		Electronic_Address: String
+		Primary_Email: String
 }
 
 type Company{

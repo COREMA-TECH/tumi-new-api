@@ -964,9 +964,6 @@ async function getUsers (args) {
 
 async function getValid_Users (args) {
   try {
-
-    
-
              Strquery = 'select "Id" from public.vwValid_User Where  "Code_User" = '+ args.Code_User +' and "Password" = '+ args.Password
     
     console.log(Strquery);
@@ -1057,37 +1054,40 @@ async function getContracts (args) {
   }
 }
 
-async function InsContracts (args) {
+//Method Connect to table BusinessCompany
+async function SendContracts (args) {
   try {
-      if (args)
-        {
-          console.log(args);
-          Strquery = 'INSERT INTO public."Contracts" ("Id_Company", "Contract_Name", "Contrat_Owner", "Id_Entity", "Id_User_Signed", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed","Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","Contract_Expiration_Date") VALUES('+ args.input.Id_Company +','+ args.input.Contract_Name +',' + args.input.Contrat_Owner +',' + args.input.Id_Entity +','+args.input.Id_User_Signed+','+args.input.User_Signed_Title +','+args.input.Signed_Date +','+args.input.Contract_Status+','+args.input.Contract_Start_Date+','+args.input.Contract_Term+','+args.input.Owner_Expiration_Notification+','+args.input.Company_Signed+','+ args.input.Company_Signed_Date +','+args.input.Id_User_Billing_Contact+','+args.input.Billing_Street+','+args.input.Billing_City +','+args.input.Billing_State +','+args.input.Billing_Zip_Code +','+args.input.Billing_Country +','+args.input.Contract_Terms +','+args.input.Exhibit_B +','+args.input.Exhibit_C +','+args.input.Exhibit_D +','+args.input.Exhibit_E +','+args.input.Exhibit_F +','+args.input.IsActive+','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+','+ args.input.Contract_Expiration_Date +') RETURNING "Id","Id_Company", "Contract_Name", "Contrat_Owner", "Id_Entity", "Id_User_Signed", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed","Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","Contract_Expiration_Date"'
-        }else{console.log("Error Insert Data");}
+  
+  console.log(args.IsActive);
+  var strparam1,strparam2,strparam3
+  
+    if (args.IsActive>=0) {strparam1= args.IsActive  ;}
+    else{strparam1 = null;}
 
-    
-     const { rows } = await query(Strquery)
-    // console.log(Strquery);
-   
-    var content = rows[0].Contract_Terms;
+    if (args.Id>=0) {strparam2= args.Id  ;}
+    else{strparam2 = null;}
+
+    Strquery = ' select "Id", "Id_Company", "Id_Entity", "Contract_Name", "Contrat_Owner", "Id_User_Signed",(SELECT "Electronic_Address" FROM public."Contacts" where "Id"= "Contracts"."Id_User_Signed") as "Electronic_Address", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed", "Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Client_Signature", "Company_Signature","Contract_Expiration_Date",(SELECT "Primary_Email" FROM public."Company" where "Id"= "Contracts"."Id_Company") as "Primary_Email" from public."Contracts"  where "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") order by "Id"';
+
+console.log(Strquery);
+    const { rows } = await query(Strquery)
+
+     var content = rows[0].Contract_Terms;
     Strfilename ='Contract_'+rows[0].Contract_Name+'.pdf';
-
-        //  var content = rows[0].Contract_Terms;
-         // Strfilename ='Contract_'+rows[0].Contract_Name+'.pdf';
-
-          pdf.create(content).toFile('./'+Strfilename, function (err, res) {
+  
+  pdf.create(content).toFile('./'+Strfilename, function (err, res) {
           if (err) {
               console.log(err);
           } else {
               console.log(res);
           }
           });
-     
+
 
       var mailOptions = {
     from: 'coremagroup@hotmail.com',
-    to: args.input.Electronic_Address,
-    cc: args.input.Primary_Email,
+    to: rows[0].Electronic_Address,
+    cc: rows[0].Primary_Email,
     subject: Strfilename,
     //text: 'Tumi welcomes and we thank you for trusting us.',
     //html: '<b>Tumi welcomes and we thank you for trusting us.</b></br> <b>We just need you to sign your contract, for that click on the following link</b></br>'
@@ -1107,7 +1107,7 @@ async function InsContracts (args) {
     ]
 };
 
-    transporter.sendMail(mailOptions, function (error, info) {
+ transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.log(error);
         } else {
@@ -1115,6 +1115,24 @@ async function InsContracts (args) {
         }
     });
 
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+    return err;
+  }
+}
+
+async function InsContracts (args) {
+  try {
+      if (args)
+        {
+          console.log(args);
+          Strquery = 'INSERT INTO public."Contracts" ("Id_Company", "Contract_Name", "Contrat_Owner", "Id_Entity", "Id_User_Signed", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed","Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","Contract_Expiration_Date") VALUES('+ args.input.Id_Company +','+ args.input.Contract_Name +',' + args.input.Contrat_Owner +',' + args.input.Id_Entity +','+args.input.Id_User_Signed+','+args.input.User_Signed_Title +','+args.input.Signed_Date +','+args.input.Contract_Status+','+args.input.Contract_Start_Date+','+args.input.Contract_Term+','+args.input.Owner_Expiration_Notification+','+args.input.Company_Signed+','+ args.input.Company_Signed_Date +','+args.input.Id_User_Billing_Contact+','+args.input.Billing_Street+','+args.input.Billing_City +','+args.input.Billing_State +','+args.input.Billing_Zip_Code +','+args.input.Billing_Country +','+args.input.Contract_Terms +','+args.input.Exhibit_B +','+args.input.Exhibit_C +','+args.input.Exhibit_D +','+args.input.Exhibit_E +','+args.input.Exhibit_F +','+args.input.IsActive+','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+','+ args.input.Contract_Expiration_Date +') RETURNING "Id","Id_Company", "Contract_Name", "Contrat_Owner", "Id_Entity", "Id_User_Signed", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed","Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","Contract_Expiration_Date"'
+        }else{console.log("Error Insert Data");}
+
+    
+     const { rows } = await query(Strquery)
+   
     return rows[0];
   } catch (err) {
     console.log('Database ' + err)
@@ -1275,6 +1293,7 @@ updcontacts: UpdContacts,
 delcontacts: DelContacts,
 getsupervisor: getSupervisor,
 
+
 getposition: getPosition,
 insposition: InsPosition,
 updposition: UpdPosition,
@@ -1321,6 +1340,8 @@ updcontracstexhibit: UpdContractsExhibit,
 updcontracstsignature: UpdContracstSignature,
 
 getcontracttemplate: getContractTemplate,
+
+sendcontracts: SendContracts,
 
 }
 
