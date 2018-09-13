@@ -355,7 +355,7 @@ async function getContacts (args) {
 		if (args.Id_Entity>=0) {strparam3= args.Id_Entity  ;}
 		else{strparam3 = null;}
 
-		     Strquery = 'select "Id", "Id_Entity", "First_Name", "Middle_Name", "Last_Name", "Electronic_Address", "Phone_Number", "Contact_Type", "Id_Supervisor","Id_Deparment",(select "DisplayLabel" from public."CatalogItem" where "Id" = "Contacts"."Id_Deparment") AS "Department", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated" from public."Contacts" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Entity" = coalesce('+ strparam3 +',"Id_Entity")  and "Id" = coalesce('+ strparam2 +',"Id")'
+		     Strquery = 'select "Id", "Id_Entity", "First_Name", "Middle_Name", "Last_Name", "Electronic_Address", "Phone_Number",(select "DisplayLabel" from public."CatalogItem" where "Id" = "Contacts"."Contact_Type") AS "Type" ,"Contact_Type", "Id_Supervisor","Id_Deparment",(select "DisplayLabel" from public."CatalogItem" where "Id" = "Contacts"."Id_Deparment") AS "Department", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated" from public."Contacts" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Entity" = coalesce('+ strparam3 +',"Id_Entity")  and "Id" = coalesce('+ strparam2 +',"Id")'
     		console.log(Strquery);
 
     const { rows } = await query(Strquery)

@@ -532,6 +532,7 @@ type Contacts{
 		Last_Name: String
 		Electronic_Address: String
 		Phone_Number: String
+		Type:String
 		Contact_Type: Int
 		Department: String
 		IsActive: Int
