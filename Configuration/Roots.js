@@ -1285,7 +1285,7 @@ async function ValidTokens (args) {
     if (args.IsActive>=0) {strparam2= args.IsActive  ;}
     else{strparam2 = null;}
 
-    Strquery = ' select "IsActive","Token" from public."Token" where "IsActive" = 1 and "Token" = '+ args.Token ;
+    Strquery = ' select "IsActive","Token","Id_Contact" from public."Token" where "IsActive" = 1 and "Token" = '+ args.Token ;
 
 
     const { rows } = await query(Strquery)
