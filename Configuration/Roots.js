@@ -1208,7 +1208,7 @@ async function UpdContracstSignature (args) {
             console.log(Strquery);
           if (args.Signatory=='C')
             {
-                    Strquery = 'UPDATE public."Contracts" SET "Contract_Terms" = replace("Contract_Terms",'+ signature +','+ args.Signature +'), "Client_Signature"='+args.Signature + ' where "Id"=' + args.Id 
+                    Strquery = 'UPDATE public."Contracts" SET "Contract_Terms" = replace("Contract_Terms",'+ signature +','+ "<img src=" + args.Signature + " alt="" width="153" height="69" />" +'), "Client_Signature"='+args.Signature + ' where "Id"=' + args.Id 
                 console.log(Strquery);
             }
             if (args.Signatory=='E')
