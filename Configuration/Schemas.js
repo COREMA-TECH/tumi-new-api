@@ -303,7 +303,7 @@ type Query
 	getvalid_users(Code_User:String,Password:String): [Users]
 	getcontracttemplate(Id:Int,IsActive:Int): [ContractsTemplates]
 	sendcontracts(Id:Int,IsActive:Int): [Contracts]
-	validtokens(Token:String,IsActive:Int):[Token]
+	validtokens(Token:String):[Token]
 }
 
 type Mutation{

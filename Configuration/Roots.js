@@ -1282,7 +1282,7 @@ console.log(args);
     if (args.IsActive>=0) {strparam2= args.IsActive  ;}
     else{strparam2 = null;}
 
-    Strquery = ' select "IsActive","Token" from public."Token" where "IsActive" = '+ args.IsActive +' and "Token" = '+ args.Token ;
+    Strquery = ' select "IsActive","Token" from public."Token" where "IsActive" = 0 and "Token" = '+ args.Token ;
 
 console.log(Strquery);
     const { rows } = await query(Strquery)
