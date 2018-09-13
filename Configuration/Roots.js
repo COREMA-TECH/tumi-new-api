@@ -1182,18 +1182,14 @@ async function UpdContracts (args) {
 
 async function UpdContractsExhibit (args) {
   try {
-          console.log("parametros ",args);
- 
+         
       if (args)
         {
           Strquery = 'UPDATE public."Contracts" SET "Exhibit_B"='+args.Exhibit_B +', "Exhibit_C"='+args.Exhibit_C +', "Exhibit_D"='+args.Exhibit_D +', "Exhibit_E"='+args.Exhibit_E +', "Exhibit_F"='+args.Exhibit_F+ ' where "Id"=' + args.Id 
-          console.log(Strquery);
-
+         
         }
           else{console.log("Error Update Data");}
 
-
-          console.log(Strquery);
 
     const { rows } = await query(Strquery)
     return rows;
@@ -1208,14 +1204,21 @@ async function UpdContracstSignature (args) {
       
       if (args)
         {
-          Strquery = 'UPDATE public."Contracts" SET "Client_Signature"='+args.Client_Signature +', "Company_Signature"='+ args.Company_Signature + ' where "Id"=' + args.Id 
-          console.log(Strquery);
+            
+          if (args.Customer=='C')
+            {
+                    Strquery = 'UPDATE public."Contracts" SET "Client_Signature"='+args.Signature + ' where "Id"=' + args.Id 
+                console.log(Strquery);
+            }
+            if (args.Customer=='E')
+            {
+                    Strquery = 'UPDATE public."Contracts" SET "Company_Signature"='+ args.Signature + ' where "Id"=' + args.Id 
+                console.log(Strquery);
+            }
 
+  
         }
           else{console.log("Error Update Data");}
-
-
-          console.log(Strquery);
 
     const { rows } = await query(Strquery)
     return rows;
@@ -1231,7 +1234,7 @@ async function DelContracts (args) {
       if (args)
         {
           Strquery = 'UPDATE public."Contracts" SET "IsActive"='+args.IsActive+' where "Id"=' + args.Id 
-        console.log(Strquery);
+       
         }
           else{console.log("Error Update Data");}
 
@@ -1247,7 +1250,7 @@ async function DelContracts (args) {
 async function getContractTemplate (args) {
   try {
   
-  console.log(args.IsActive);
+ 
   var strparam1,strparam2,strparam3
   
     if (args.IsActive>=0) {strparam1= args.IsActive  ;}
@@ -1258,7 +1261,7 @@ async function getContractTemplate (args) {
 
     Strquery = 'select * from public."ContractsTemplates"  where "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") order by "Id"';
 
-console.log(Strquery);
+
     const { rows } = await query(Strquery)
     return rows;
   } catch (err) {
@@ -1272,7 +1275,7 @@ async function ValidTokens (args) {
   try {
 
 
-console.log(args);
+
   
   var strparam1,strparam2
   
@@ -1284,7 +1287,7 @@ console.log(args);
 
     Strquery = ' select "IsActive","Token" from public."Token" where "IsActive" = 1 and "Token" = '+ args.Token ;
 
-console.log(Strquery);
+
     const { rows } = await query(Strquery)
     return rows;
   } catch (err) {

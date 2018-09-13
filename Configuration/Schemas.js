@@ -360,13 +360,14 @@ type Mutation{
 	delcontracts(Id:Int,IsActive:Int): Contracts
 
 	updcontracstexhibit(Id:Int,Exhibit_B:String,Exhibit_C:String,Exhibit_D:String,Exhibit_E:String,Exhibit_F:String) : Contracts
-	updcontracstsignature(Id:Int,Client_Signature:String,Company_Signature:String) : Contracts
+	updcontracstsignature(Id:Int,Signature:String,Customer:String) : Contracts
 
 }
 type Token{
 	Id: Int
 	Token:String
 	IsActive: Int
+	Id_Contract: Int
 }
 type ContractsTemplates{
 	Id: Int
