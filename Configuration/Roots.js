@@ -1090,7 +1090,7 @@ console.log(Strquery);
     subject: Strfilename,
     html:
         '<p>Tumi welcomes and we thank you for trusting us.</p>' +
-        '<p>We have attached your contract, to sign the contract click here </p> <a href="https://corema-dev-env.herokuapp.com/home/signature/?token=980973?Customer=1">Sign</a>',
+        '<p>We have attached your contract, to sign the contract click here </p> <a href="https://corema-dev-env.herokuapp.com/home/signature/?token=980973?Customer=C">Sign</a>',
     attachments: [
         {
             filename: Strfilename,
@@ -1115,7 +1115,7 @@ console.log(Strquery);
     subject: Strfilename,
     html:
         '<p>Tumi welcomes and we thank you for trusting us.</p>' +
-        '<p>We have attached your contract, to sign the contract click here </p> <a href="https://corema-dev-env.herokuapp.com/home/signature/?token=980973?Customer=0">Sign</a>', 
+        '<p>We have attached your contract, to sign the contract click here </p> <a href="https://corema-dev-env.herokuapp.com/home/signature/?token=980973?Customer=E">Sign</a>', 
     attachments: [
         {
             filename: Strfilename,
