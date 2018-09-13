@@ -1090,7 +1090,7 @@ console.log(Strquery);
     subject: Strfilename,
     html:
         '<p>Tumi welcomes and we thank you for trusting us.</p>' +
-        '<p>We have attached your contract, to sign the contract click here </p> <a href="https://corema-dev-env.herokuapp.com/home/signature/?token=980973?Customer=C">Sign</a>',
+        '<p>We have attached your contract, to sign the contract click <a href="https://corema-dev-env.herokuapp.com/home/signature/?token=980973?Signatory=C"> here </a></p>',
     attachments: [
         {
             filename: Strfilename,
@@ -1115,7 +1115,7 @@ console.log(Strquery);
     subject: Strfilename,
     html:
         '<p>Tumi welcomes and we thank you for trusting us.</p>' +
-        '<p>We have attached your contract, to sign the contract click here </p> <a href="https://corema-dev-env.herokuapp.com/home/signature/?token=980973?Customer=E">Sign</a>', 
+        '<p>We have attached your contract, to sign the contract click <a href="https://corema-dev-env.herokuapp.com/home/signature/?token=980973?Signatory=E"> here </a> </p> ', 
     attachments: [
         {
             filename: Strfilename,
@@ -1204,13 +1204,13 @@ async function UpdContracstSignature (args) {
       
       if (args)
         {
-            
-          if (args.Customer=='C')
+            console.log(Strquery);
+          if (args.Signatory=='C')
             {
                     Strquery = 'UPDATE public."Contracts" SET "Client_Signature"='+args.Signature + ' where "Id"=' + args.Id 
                 console.log(Strquery);
             }
-            if (args.Customer=='E')
+            if (args.Signatory=='E')
             {
                     Strquery = 'UPDATE public."Contracts" SET "Company_Signature"='+ args.Signature + ' where "Id"=' + args.Id 
                 console.log(Strquery);
@@ -1273,10 +1273,6 @@ async function getContractTemplate (args) {
 //Method Connect to table Tokens
 async function ValidTokens (args) {
   try {
-
-
-
-  
   var strparam1,strparam2
   
     if (args.Token>=0) {strparam1= args.Token  ;}
@@ -1285,9 +1281,9 @@ async function ValidTokens (args) {
     if (args.IsActive>=0) {strparam2= args.IsActive  ;}
     else{strparam2 = null;}
 
-    Strquery = ' select "IsActive","Token","Id_Contract" from public."Token" where "IsActive" = 1 and "Token" = '+ args.Token ;
+    Strquery = ' select "IsActive","Token","Id_Contract","Signatory" from public."Token" where "IsActive" = 1 and "Signatory" ='+ args.Signatory +' and  "Token" = '+ args.Token ;
 
-
+console.log(Strquery);
     const { rows } = await query(Strquery)
     return rows;
   } catch (err) {
