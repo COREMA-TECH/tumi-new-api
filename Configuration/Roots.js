@@ -1202,17 +1202,18 @@ async function UpdContractsExhibit (args) {
 async function UpdContracstSignature (args) {
   try {
       
+      var signature = `'{signatureclient}'`;
       if (args)
         {
             console.log(Strquery);
           if (args.Signatory=='C')
             {
-                    Strquery = 'UPDATE public."Contracts" SET "Client_Signature"='+args.Signature + ' where "Id"=' + args.Id 
+                    Strquery = 'UPDATE public."Contracts" SET "Contract_Terms" = replace("Contract_Terms",'+ signature +','+ args.Signature +'), "Client_Signature"='+args.Signature + ' where "Id"=' + args.Id 
                 console.log(Strquery);
             }
             if (args.Signatory=='E')
             {
-                    Strquery = 'UPDATE public."Contracts" SET "Company_Signature"='+ args.Signature + ' where "Id"=' + args.Id 
+                    Strquery = 'UPDATE public."Contracts" SET "Contract_Terms" = replace("Contract_Terms",'+ signature +','+ args.Signature +'), "Company_Signature"='+ args.Signature + ' where "Id"=' + args.Id 
                 console.log(Strquery);
             }
 
