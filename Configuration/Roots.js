@@ -1087,22 +1087,41 @@ console.log(Strquery);
       var mailOptions = {
     from: 'coremagroup@hotmail.com',
     to: rows[0].Electronic_Address,
-    cc: rows[0].Primary_Email,
     subject: Strfilename,
-    //text: 'Tumi welcomes and we thank you for trusting us.',
-    //html: '<b>Tumi welcomes and we thank you for trusting us.</b></br> <b>We just need you to sign your contract, for that click on the following link</b></br>'
-    // HTML body
     html:
         '<p>Tumi welcomes and we thank you for trusting us.</p>' +
-        '<p>We have attached your contract, if you need more information you can contact us.</p>',
+        '<p>We have attached your contract, to sign the contract click here </p> <a href="https://corema-dev-env.herokuapp.com/home/signature/?token=980973?Customer=1">Sign</a>',
     attachments: [
-        // String attachment
         {
             filename: Strfilename,
             content: 'Some notes about this e-mail',
             path: './'+Strfilename,
-            // contentType: 'application/pdf'
-            contentType: 'text/plain' // optional, would be detected from the filename
+            contentType: 'text/plain' 
+        },
+    ]
+};
+
+ transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email enviado: ' + info.response);
+        }
+    });
+
+  var mailOptions = {
+    from: 'coremagroup@hotmail.com',
+    to: rows[0].Primary_Email,
+    subject: Strfilename,
+    html:
+        '<p>Tumi welcomes and we thank you for trusting us.</p>' +
+        '<p>We have attached your contract, to sign the contract click here </p> <a href="https://corema-dev-env.herokuapp.com/home/signature/?token=980973?Customer=0">Sign</a>', 
+    attachments: [
+        {
+            filename: Strfilename,
+            content: 'Some notes about this e-mail',
+            path: './'+Strfilename,
+            contentType: 'text/plain' 
         },
     ]
 };
@@ -1248,23 +1267,31 @@ console.log(Strquery);
   }
 }
 
-/*async function InsContracts (args) {
+//Method Connect to table Tokens
+async function ValidTokens (args) {
   try {
-      if (args)
-        {
-          var content = rows[0].Contract_Terms;
-          Strfilename ='Contract_'+rows[0].Contract_Name+'.pdf';
 
-          pdf.create(content).toFile('./'+Strfilename, function (err, res) {
-          if (err) {
-              console.log(err);
-          } else {
-              console.log(res);
-          }
-          });
-        }
-      }
-}*/
+
+console.log(args);
+  
+  var strparam1,strparam2
+  
+    if (args.Token>=0) {strparam1= args.Token  ;}
+    else{strparam1 = null;}
+
+    if (args.IsActive>=0) {strparam2= args.IsActive  ;}
+    else{strparam2 = null;}
+
+    Strquery = ' select "IsActive","Token" from public."Token" where "IsActive" = '+ args.IsActive +' and "Token" = '+ args.Token ;
+
+console.log(Strquery);
+    const { rows } = await query(Strquery)
+    return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+    return err;
+  }
+}
 
 const root = {
 getcompanies: getCompanies,
@@ -1343,6 +1370,7 @@ getcontracttemplate: getContractTemplate,
 
 sendcontracts: SendContracts,
 
+validtokens : ValidTokens,
 }
 
 
