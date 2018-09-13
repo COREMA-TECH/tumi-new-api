@@ -72,6 +72,7 @@ Last_Name: String
 Electronic_Address: String
 Phone_Number: String
 Contact_Type: Int
+Contact_Title: Int
 IsActive: Int
 User_Created: Int
 User_Updated: Int
@@ -534,6 +535,8 @@ type Contacts{
 		Phone_Number: String
 		Type:String
 		Contact_Type: Int
+		Title: String
+		Contact_Title: Int
 		Department: String
 		IsActive: Int
 		User_Created: Int

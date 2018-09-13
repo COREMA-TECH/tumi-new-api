@@ -355,7 +355,7 @@ async function getContacts (args) {
 		if (args.Id_Entity>=0) {strparam3= args.Id_Entity  ;}
 		else{strparam3 = null;}
 
-		     Strquery = 'select "Id", "Id_Entity", "First_Name", "Middle_Name", "Last_Name", "Electronic_Address", "Phone_Number",(select "DisplayLabel" from public."CatalogItem" where "Id" = "Contacts"."Contact_Type") AS "Type" ,"Contact_Type", "Id_Supervisor","Id_Deparment",(select "DisplayLabel" from public."CatalogItem" where "Id" = "Contacts"."Id_Deparment") AS "Department", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated" from public."Contacts" Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Entity" = coalesce('+ strparam3 +',"Id_Entity")  and "Id" = coalesce('+ strparam2 +',"Id")'
+		     Strquery = 'select * from public.vwContacts Where  "IsActive" = coalesce('+ strparam1 +',"IsActive") and  "Id_Entity" = coalesce('+ strparam3 +',"Id_Entity")  and "Id" = coalesce('+ strparam2 +',"Id")'
     		console.log(Strquery);
 
     const { rows } = await query(Strquery)
@@ -400,7 +400,7 @@ async function InsContacts (args) {
   	  	if (args)
     		{
     	console.log(args);
-    			Strquery = 'INSERT INTO public."Contacts" ("Id_Entity", "First_Name", "Middle_Name", "Last_Name", "Electronic_Address", "Phone_Number", "Contact_Type" , "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Id_Supervisor", "Id_Deparment") VALUES('+ args.input.Id_Entity +','+ args.input.First_Name +','+ args.input.Middle_Name +','+ args.input.Last_Name  +',' +args.input.Electronic_Address +','+args.input.Phone_Number+','+args.input.Contact_Type +','+args.input.IsActive +','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+','+args.input.Id_Supervisor+','+args.input.Id_Deparment+') RETURNING "Id","Id_Entity", "First_Name","Middle_Name","Last_Name", "Electronic_Address", "Phone_Number", "Contact_Type" , "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Id_Supervisor", "Id_Deparment"'
+    			Strquery = 'INSERT INTO public."Contacts" ("Id_Entity", "First_Name", "Middle_Name", "Last_Name", "Electronic_Address", "Phone_Number", "Contact_Type" , "Contact_Title", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Id_Supervisor", "Id_Deparment") VALUES('+ args.input.Id_Entity +','+ args.input.First_Name +','+ args.input.Middle_Name +','+ args.input.Last_Name  +',' +args.input.Electronic_Address +','+args.input.Phone_Number+','+args.input.Contact_Type +','+ args.input.Contact_Title +','+args.input.IsActive +','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+','+args.input.Id_Supervisor+','+args.input.Id_Deparment+') RETURNING "Id","Id_Entity", "First_Name","Middle_Name","Last_Name", "Electronic_Address", "Phone_Number", "Contact_Type","Contact_Title" , "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Id_Supervisor", "Id_Deparment"'
     		}
     	    else{console.log("Error Insert Data");}
  
@@ -416,7 +416,7 @@ async function UpdContacts (args) {
   try {
 	  	if (args)
     		{
-    			Strquery = 'UPDATE public."Contacts" SET "Id_Entity"='+ args.input.Id_Entity +',"First_Name"='+ args.input.First_Name +',"Middle_Name"='+ args.input.Middle_Name +',"Last_Name"='+ args.input.Last_Name +',"Electronic_Address"='+args.input.Electronic_Address +', "Phone_Number"='+args.input.Phone_Number +', "Contact_Type"='+args.input.Contact_Type +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' , "Id_Supervisor"='+ args.input.Id_Supervisor +' , "Id_Deparment"='+ args.input.Id_Deparment +' where "Id"=' + args.input.Id 
+    			Strquery = 'UPDATE public."Contacts" SET "Id_Entity"='+ args.input.Id_Entity +',"First_Name"='+ args.input.First_Name +',"Middle_Name"='+ args.input.Middle_Name +',"Last_Name"='+ args.input.Last_Name +',"Electronic_Address"='+args.input.Electronic_Address +', "Phone_Number"='+args.input.Phone_Number +', "Contact_Type"='+args.input.Contact_Type +', "Contact_Title"='+args.input.Contact_Title +', "IsActive"='+ args.input.IsActive +', "User_Created"='+ args.input.User_Created +', "User_Updated"='+ args.input.User_Updated +', "Date_Created"='+ args.input.Date_Created +', "Date_Updated"='+ args.input.Date_Updated +' , "Id_Supervisor"='+ args.input.Id_Supervisor +' , "Id_Deparment"='+ args.input.Id_Deparment +' where "Id"=' + args.input.Id 
     		}
     	    else{console.log("Error Update Data");}
 
