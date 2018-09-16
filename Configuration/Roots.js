@@ -96,7 +96,7 @@ async function InsBusinessCompanies (args) {
   try {
 	  	if (args)
     		{
-    			Strquery = 'INSERT INTO public."BusinessCompany" ("Code", "Code01","Id_Contract","Id_Company","BusinessType","Name","Description","Start_Week","End_Week","Start_Date","Legal_Name","Country","State","City","Id_Parent","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","ImageURL","Location","Location01","Rate","Zipcode", "Fax", "Phone_Prefix", "Phone_Number", "Primary_Email","Contract_URL", "Insurace_URL", "Other_URL", "Other01_URL","Suite","Contract_Status") VALUES('+ args.input.Code +','+ args.input.Code01 +',' + args.input.Id_Contract +',' + args.input.Id_Company +','+args.input.BusinessType+','+args.input.Name +','+args.input.Description +','+args.input.Start_Week+','+args.input.End_Week+','+args.input.Start_Date+','+args.input.Legal_Name+','+args.input.Country+','+args.input.State+','+args.input.City+','+args.input.Id_Parent+','+args.input.IsActive+','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+','+args.input.ImageURL+','+args.input.Location+','+args.input.Location01+','+args.input.Rate+','+args.input.Zipcode+','+args.input.Fax+','+args.input.Phone_Prefix+','+args.input.Phone_Number+','+args.input.Primary_Email +','+args.input.Contract_URL +','+args.input.Insurace_URL+','+args.input.Other_URL +','+args.input.Other01_URL +','+ args.input.Suite + ','+ args.input.Contract_Status +') RETURNING "Id"'
+    			Strquery = 'INSERT INTO public."BusinessCompany" ("Code", "Code01","Id_Contract","Id_Company","BusinessType","Name","Description","Start_Week","End_Week","Start_Date","Legal_Name","Country","State","City","Id_Parent","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","ImageURL","Location","Location01","Rate","Zipcode", "Fax", "Phone_Prefix", "Phone_Number", "Primary_Email","Contract_URL", "Insurace_URL", "Other_URL", "Other01_URL","Suite","Contract_Status") VALUES('+ args.input.Code +','+ args.input.Code01 +',' + args.input.Id_Contract +',' + args.input.Id_Company +','+args.input.BusinessType+','+args.input.Name +','+args.input.Description +','+args.input.Start_Week+','+args.input.End_Week+','+args.input.Start_Date+','+args.input.Legal_Name+','+args.input.Country+','+args.input.State+','+args.input.City+','+args.input.Id_Parent+','+args.input.IsActive+','+args.input.User_Created+','+args.input.User_Updated+','+args.input.Date_Created+','+args.input.Date_Updated+','+args.input.ImageURL+','+args.input.Location+','+args.input.Location01+','+args.input.Rate+','+args.input.Zipcode+','+args.input.Fax+','+args.input.Phone_Prefix+','+args.input.Phone_Number+','+args.input.Primary_Email +','+args.input.Contract_URL +','+args.input.Insurace_URL+','+args.input.Other_URL +','+args.input.Other01_URL +','+ args.input.Suite + ','+ args.input.Contract_Status +') RETURNING "Id", "Code", "Code01","Id_Contract","Id_Company","BusinessType","Name","Description","Start_Week","End_Week","Start_Date","Legal_Name","Country","State","City","Id_Parent","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","ImageURL","Location","Location01","Rate","Zipcode", "Fax", "Phone_Prefix", "Phone_Number", "Primary_Email","Contract_URL", "Insurace_URL", "Other_URL", "Other01_URL","Suite","Contract_Status"'
     		console.log(Strquery);	
     		}
     	    else{console.log("Error Insert Data");}
@@ -964,7 +964,7 @@ async function getUsers (args) {
 
 async function getValid_Users (args) {
   try {
-             Strquery = 'select "Id" from public.vwValid_User Where  "Code_User" = '+ args.Code_User +' and "Password" = '+ args.Password
+             Strquery = 'select "Id","Password","Code_User","Full_Name"  ,"Electronic_Address"  ,"Phone_Number"  ,"Id_Language"  ,"IsAdmin"  ,"AllowEdit"  ,"AllowDelete"  ,"AllowInsert","AllowExport" ,"IsActive" from public.vwValid_User Where  "Code_User" = '+ args.Code_User +' and "Password" = '+ args.Password
     
     console.log(Strquery);
 
@@ -1203,17 +1203,20 @@ async function UpdContracstSignature (args) {
   try {
       
       var signature = `'{signatureclient}'`;
+      var signatory = `'<img src="` + args.Signature + `" alt="" width="153" height="69" />'`;
       if (args)
         {
             console.log(Strquery);
           if (args.Signatory=='C')
             {
-                    Strquery = 'UPDATE public."Contracts" SET "Contract_Terms" = replace("Contract_Terms",'+ signature +','+ '<img src=" + args.Signature + " alt="" width="153" height="69" />' +'), "Client_Signature"='+args.Signature + ' where "Id"=' + args.Id 
+                    Strquery = 'UPDATE public."Contracts" SET "Contract_Terms" = replace("Contract_Terms",'+ signature +','+ signatory +'), "Client_Signature"='+args.Signature + ' where "Id"=' + args.Id 
                 console.log(Strquery);
             }
             if (args.Signatory=='E')
             {
-                    Strquery = 'UPDATE public."Contracts" SET "Contract_Terms" = replace("Contract_Terms",'+ signature +','+ args.Signature +'), "Company_Signature"='+ args.Signature + ' where "Id"=' + args.Id 
+               console.log(signatory);
+            
+                    Strquery = 'UPDATE public."Contracts" SET "Contract_Terms" = replace("Contract_Terms",'+ signature +','+ signatory +'), "Company_Signature"='+ args.Signature + ' where "Id"=' + args.Id 
                 console.log(Strquery);
             }
 
