@@ -1204,6 +1204,11 @@ async function UpdContracstSignature (args) {
       
       var signatureclient = `'{signatureclient}'`;
       var signatureemploye = `'{signatureemploye}'`;
+
+      var datesignatureclient = `'{datesignatureclient}'`;
+      var signatureemployedate = `'{signatureemployedate}'`;
+
+      var format = 'YYYY-MM-DD';
       
       var signature = "'<img src=" + args.Signature + "  width=153 height=69 />'";
       
@@ -1212,13 +1217,13 @@ async function UpdContracstSignature (args) {
             
           if (args.Signatory=='C')
             {
-                    Strquery = 'UPDATE public."Contracts" SET "Contract_Terms" = replace("Contract_Terms",'+ signatureclient +','+ signature +'), "Client_Signature"='+ `'` + args.Signature + `'` + ' where "Id"=' + args.Id 
+                    Strquery = 'UPDATE public."Contracts" SET "Contract_Terms" = replace(Replace("Contract_Terms",'+datesignatureclient+',to_char(Now(),' +`'` + format +`'` +')),'+ signatureclient +','+ signature +'), "Client_Signature"='+ `'` + args.Signature + `'` + ' where "Id"=' + args.Id 
                 console.log(Strquery);
             }
             if (args.Signatory=='E')
-            {
+            { 
               
-                    Strquery = 'UPDATE public."Contracts" SET "Contract_Terms" = replace("Contract_Terms",'+ signatureemploye +','+ signature +'), "Company_Signature"='+ `'`+ args.Signature + `'` + ' where "Id"=' + args.Id 
+                    Strquery = 'UPDATE public."Contracts" SET "Contract_Terms" = replace(Replace("Contract_Terms",'+datesignatureclient+',to_char(Now(),' + `'` + format +`'` +')),'+ signatureemploye +','+ signature +'), "Company_Signature"='+ `'`+ args.Signature + `'` + ' where "Id"=' + args.Id 
                 console.log(Strquery);
             }
 
