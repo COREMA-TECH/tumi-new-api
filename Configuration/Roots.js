@@ -1202,21 +1202,23 @@ async function UpdContractsExhibit (args) {
 async function UpdContracstSignature (args) {
   try {
       
-      var signature = `'{signatureclient}'`;
-      var signatory = `'<img src="` + args.Signature + `" alt="" width="153" height="69" />'`;
+      var signatureclient = `'{signatureclient}'`;
+      var signatureemploye = `'{signatureemploye}'`;
+      
+      var signature = "'<img src=" + args.Signature + "  width=153 height=69 />'";
+      
       if (args)
         {
-            console.log(Strquery);
+            
           if (args.Signatory=='C')
             {
-                    Strquery = 'UPDATE public."Contracts" SET "Contract_Terms" = replace("Contract_Terms",'+ signature +','+ signatory +'), "Client_Signature"='+args.Signature + ' where "Id"=' + args.Id 
+                    Strquery = 'UPDATE public."Contracts" SET "Contract_Terms" = replace("Contract_Terms",'+ signatureclient +','+ signature +'), "Client_Signature"='+ `'` + args.Signature + `'` + ' where "Id"=' + args.Id 
                 console.log(Strquery);
             }
             if (args.Signatory=='E')
             {
-               console.log(signatory);
-            
-                    Strquery = 'UPDATE public."Contracts" SET "Contract_Terms" = replace("Contract_Terms",'+ signature +','+ signatory +'), "Company_Signature"='+ args.Signature + ' where "Id"=' + args.Id 
+              
+                    Strquery = 'UPDATE public."Contracts" SET "Contract_Terms" = replace("Contract_Terms",'+ signatureemploye +','+ signature +'), "Company_Signature"='+ `'`+ args.Signature + `'` + ' where "Id"=' + args.Id 
                 console.log(Strquery);
             }
 
