@@ -1223,7 +1223,7 @@ async function UpdContracstSignature (args) {
             if (args.Signatory=='E')
             { 
               
-                    Strquery = 'UPDATE public."Contracts" SET "Contract_Terms" = replace(Replace("Contract_Terms",'+datesignatureclient+',to_char(Now(),' + `'` + format +`'` +')),'+ signatureemploye +','+ signature +'), "Company_Signature"='+ `'`+ args.Signature + `'` + ' where "Id"=' + args.Id 
+                    Strquery = 'UPDATE public."Contracts" SET "Contract_Terms" = replace(Replace("Contract_Terms",'+signatureemployedate+',to_char(Now(),' + `'` + format +`'` +')),'+ signatureemploye +','+ signature +'), "Company_Signature"='+ `'`+ args.Signature + `'` + ' where "Id"=' + args.Id 
                 console.log(Strquery);
             }
 
