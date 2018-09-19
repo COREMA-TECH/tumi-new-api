@@ -104,7 +104,8 @@ async function InsBusinessCompanies (args) {
 	console.log(Strquery);
     
     const { rows } = await query(Strquery)
-    return rows;
+    //return rows;
+     return rows[0]; 
   } catch (err) {
     console.log('Database ' + err)
     return err;
@@ -1210,7 +1211,7 @@ async function UpdContracstSignature (args) {
 
       var format = 'YYYY-MM-DD';
       
-      var signature = "'<img src=" + args.Signature + "  width=153 height=69 />'";
+      var signature = "'<img src=" + args.Signature + "  width=250 height=100 />'";
       
       if (args)
         {
