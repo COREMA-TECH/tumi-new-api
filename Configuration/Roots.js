@@ -587,13 +587,13 @@ async function InsCatalogItem (args) {
   try {
   	  	if (args)
     		{
-    			Strquery = 'INSERT INTO public."CatalogItem" ( "Id_Catalog", "Id_Parent", "Name", "DisplayLabel", "Description", "Value", "Value01", "Value02", "Value03", "Value04", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated") VALUES('+ args.input.Id_Catalog +','+ args.input.Id_Parent +',' +args.input.Name +','+args.input.DisplayLabel+','+args.input.Description +','+args.input.Value +','+args.input.Value01+','+args.input.Value02+','+args.input.Value03+','+args.input.Value04 +','+args.input.IsActive +','+args.input.User_Created +','+args.input.User_Updated +','+args.input.Date_Created +','+ args.input.Date_Updated +')'
-    		
+    			Strquery = 'INSERT INTO public."CatalogItem" ( "Id_Catalog", "Id_Parent", "Name", "DisplayLabel", "Description", "Value", "Value01", "Value02", "Value03", "Value04", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated") VALUES('+ args.input.Id_Catalog +','+ args.input.Id_Parent +',' +args.input.Name +','+args.input.DisplayLabel+','+args.input.Description +','+args.input.Value +','+args.input.Value01+','+args.input.Value02+','+args.input.Value03+','+args.input.Value04 +','+args.input.IsActive +','+args.input.User_Created +','+args.input.User_Updated +','+args.input.Date_Created +','+ args.input.Date_Updated +') RETURNING "Id","Id_Catalog", "Id_Parent", "Name", "DisplayLabel", "Description", "Value", "Value01", "Value02", "Value03", "Value04", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated"'
+    		console.log(Strquery);
     		}
     	    else{console.log("Error Insert Data");}
 
     const { rows } = await query(Strquery)
-    return rows;
+    return rows[0];
   } catch (err) {
     console.log('Database ' + err)
     return err;
@@ -785,7 +785,7 @@ async function DelRoles (args) {
   }
 }
 
-//Method Connect to table CatalogItem
+//Method Connect to table Forms
 async function getForms (args) {
   try {
 
@@ -1055,7 +1055,7 @@ async function getContracts (args) {
   }
 }
 
-//Method Connect to table BusinessCompany
+//Method Connect to Send Contracts by emails 
 async function SendContracts (args) {
   try {
   
@@ -1136,6 +1136,31 @@ console.log(Strquery);
     });
 
     return rows;
+  } catch (err) {
+    console.log('Database ' + err)
+    return err;
+  }
+}
+
+//Method Connect to Send Contracts by emails 
+async function CreatePdfContracts (args) {
+  try {
+  
+    console.log(Strquery);
+    const { rows } = await query(Strquery)
+
+     var content = args.Contract_Terms;
+    Strfilename ='Contract_'+ args.Contract_Name+'.pdf';
+  
+  pdf.create(content).toFile('./'+Strfilename, function (err, res) {
+          if (err) {
+              console.log(err);
+          } else {
+              console.log(res);
+          }
+          });
+
+    return Strfilename;
   } catch (err) {
     console.log('Database ' + err)
     return err;
