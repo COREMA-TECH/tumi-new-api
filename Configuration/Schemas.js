@@ -164,8 +164,11 @@ input iParamBC {
 	Insurace_URL: String
 	Other_URL:String
 	Other01_URL: String
-	Suite:Int
-	 Contract_Status : String
+	Other_Name: String
+	Other01_Name: String
+	Suite:String
+	Rooms: Int
+	Contract_Status : String
 }
 
 input iRoles{
@@ -476,7 +479,10 @@ type BusinessCompany{
 	    Insurace_URL: String
 	    Other_URL:String
 	    Other01_URL: String
-	    Suite: Int
+	    Other_Name: String
+		Other01_Name: String
+		Suite:String
+		Rooms: Int
 	    Contract_Status : String
 }
 
