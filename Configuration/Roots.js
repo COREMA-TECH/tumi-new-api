@@ -1065,9 +1065,10 @@ async function SendContracts (args) {
     if (args.Id>=0) {strparam2= args.Id  ;}
     else{strparam2 = null;}
 
-    Strquery = ' select "Id", "Id_Company", "Id_Entity", "Contract_Name", "Contrat_Owner", "Id_User_Signed",(SELECT "Electronic_Address" FROM public."Contacts" where "Id"= "Contracts"."Id_User_Signed") as "Electronic_Address", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed", "Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Client_Signature", "Company_Signature","Contract_Expiration_Date",(SELECT "Primary_Email" FROM public."Company" where "Id"= "Contracts"."Id_Company") as "Primary_Email" from public."Contracts"  where "IsActive" = coalesce('+ strparam1 +',"IsActive") and "Id" = coalesce('+ strparam2 +',"Id") order by "Id"';
+    Strquery = 'select "Contracts"."Id","Token"."Token","Token"."Signatory", "Id_Company", "Id_Entity", "Contract_Name", "Contrat_Owner", "Id_User_Signed",(SELECT "Electronic_Address" FROM public."Contacts" where "Id"= "Contracts"."Id_User_Signed") as "Electronic_Address", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed", "Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F", "Client_Signature", "Company_Signature","Contract_Expiration_Date",(SELECT "Primary_Email" FROM public."Company" where "Id"= "Contracts"."Id_Company") as "Primary_Email"  from public."Contracts" inner join public."Token" on "Token"."Id_Contract" = "Contracts"."Id"  where "Contracts"."IsActive" = coalesce('+ strparam1 +',"Contracts"."IsActive") and "Contracts"."Id" = coalesce('+ strparam2 +',"Contracts"."Id") order by "Contracts"."Id"';
 
-console.log(Strquery);
+    console.log(Strquery);
+
     const { rows } = await query(Strquery)
 
      var content = rows[0].Contract_Terms;
@@ -1082,13 +1083,13 @@ console.log(Strquery);
           });
 
 
-      var mailOptions = {
+    var mailOptions = {
     from: 'coremagroup@hotmail.com',
     to: rows[0].Electronic_Address,
     subject: Strfilename,
     html:
         '<p>Tumi welcomes and we thank you for trusting us.</p>' +
-        '<p>We have attached your contract, to sign the contract click <a href="https://corema-dev-env.herokuapp.com/home/signature/?token=980973&signatory=C"> here </a></p>',
+        '<p>We have attached your contract, to sign the contract click <a href="https://corema-dev-env.herokuapp.com/home/signature/?token='+ rows[0].Token +'&signatory=C"> here </a></p>',
     attachments: [
         {
             filename: Strfilename,
@@ -1113,7 +1114,7 @@ console.log(Strquery);
     subject: Strfilename,
     html:
         '<p>Tumi welcomes and we thank you for trusting us.</p>' +
-        '<p>We have attached your contract, to sign the contract click <a href="https://corema-dev-env.herokuapp.com/home/signature/?token=980973&signatory=E"> here </a> </p> ', 
+        '<p>We have attached your contract, to sign the contract click <a href="https://corema-dev-env.herokuapp.com/home/signature/?token='+ rows[1].Token +'&signatory=E"> here </a> </p> ', 
     attachments: [
         {
             filename: Strfilename,
@@ -1131,6 +1132,10 @@ console.log(Strquery);
             console.log('Email enviado: ' + info.response);
         }
     });
+
+console.log("Solo row", rows);
+console.log("Solo row0", rows[0]);
+console.log("Solo row1", rows[1]);
 
     return rows;
   } catch (err) {

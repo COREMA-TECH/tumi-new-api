@@ -388,6 +388,7 @@ type ContractsTemplates{
 type Contracts{
 		Id: Int
 	    Id_Company: Int
+	    Token: String
 	    Contract_Name: String
 	    Contrat_Owner: String
 	    Id_Entity: Int
