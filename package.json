@@ -1,34 +1,49 @@
 {
-  "name": "API",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node Company/index.js",
-    "dev": "babel-node src/index.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "apollo-server-express": "^2.0.0",
-    "cors": "^2.8.4",
-    "express": "^4.16.3",
-    "express-graphql": "^0.6.12",
-    "graphql": "^0.13.2",
-    "graphql-tools": "^3.1.1",
-    "html-pdf": "^2.2.0",
-    "mongose": "0.0.2-security",
-    "mssql": "^3.3.0",
-    "nodemailer": "^4.6.8",
-    "pg": "^7.4.3",
-    "pg-promise": "^8.4.5",
-    "sequelize": "^4.38.0",
-    "sudo": "^1.0.3"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0"
-  }
+	"name": "API",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "babel-node src/index.js",
+		"babel-node": "babel-node --presets=latest",
+		"start": "nodemon --exec npm run babel-node -- ./index.js",
+		"build": "babel src -d dist"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"apollo-server-express": "^2.0.0",
+		"cors": "^2.8.4",
+		"express": "^4.16.3",
+		"express-graphql": "^0.6.12",
+		"graphql": "^0.12.0 || ^0.13.0",
+		"graphql-date": "^1.0.3",
+		"graphql-relay": "^0.5.5",
+		"graphql-sequelize": "^9.0.1",
+		"graphql-tools": "^3.1.1",
+		"html-pdf": "^2.2.0",
+		"mongose": "0.0.2-security",
+		"mssql": "^3.3.0",
+		"nodemailer": "^4.6.8",
+		"pg": "^7.4.3",
+		"pg-promise": "^8.4.5",
+		"sequelize": "^4.38.1",
+		"sudo": "^1.0.3"
+	},
+	"devDependencies": {
+		"@babel/preset-stage-3": "^7.0.0",
+		"babel-cli": "^6.26.0",
+		"babel-core": "^6.26.3",
+		"babel-plugin-transform-es2015-destructuring": "^6.23.0",
+		"babel-plugin-transform-object-rest-spread": "^6.26.0",
+		"babel-preset-env": "^1.7.0",
+		"babel-preset-latest": "^6.24.1",
+		"nodemon": "^1.18.4"
+	},
+	"babel": {
+		"presets": [
+			"latest"
+		]
+	}
 }
