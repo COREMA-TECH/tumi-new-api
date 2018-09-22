@@ -1,15 +1,12 @@
 import {
-	GraphQLObjectType,
 	GraphQLInt,
 	GraphQLString,
-	GraphQLList,
 	GraphQLNonNull,
 	GraphQLBoolean,
-	GraphQLInputObjectType
+	GraphQLInputObjectType,
+	GraphQLObjectType
 } from 'graphql';
 import GraphQLDate from 'graphql-date';
-
-import Db from '../models/models';
 
 const fields = {
 	firstName: {
@@ -89,7 +86,7 @@ const fields = {
 		description: 'Applicant Comment'
 	}
 };
-const inputApplication = new GraphQLInputObjectType({
+const inputType = new GraphQLInputObjectType({
 	name: 'inputApplication',
 	description: 'Inputs for Application Mutation',
 
@@ -98,7 +95,7 @@ const inputApplication = new GraphQLInputObjectType({
 	}
 });
 
-const type = new GraphQLObjectType({
+const outputType = new GraphQLObjectType({
 	name: 'Applications',
 	description: 'This is for application form',
 	fields: {
@@ -110,55 +107,4 @@ const type = new GraphQLObjectType({
 	}
 });
 
-const ApplicationQuery = {
-	applications: {
-		type: new GraphQLList(type),
-		description: 'List applications records',
-		args: {
-			id: {
-				type: GraphQLInt
-			},
-			firstName: {
-				type: GraphQLString
-			}
-		},
-		resolve(root, args) {
-			return Db.models.Applications.findAll({ where: args });
-		}
-	}
-};
-
-const ApplicationMutation = {
-	addApplication: {
-		type: type,
-		description: 'Add application record to database',
-		args: {
-			application: { type: inputApplication }
-		},
-		resolve(source, args) {
-			return Db.models.Applications.create({
-				firstName: args.application.firstName,
-				middleName: args.application.middleName,
-				lastName: args.application.lastName,
-				date: args.application.date,
-				streetAddress: args.application.streetAddress,
-				aptNumber: args.application.aptNumber,
-				city: args.application.city,
-				state: args.application.state,
-				zipCode: args.application.zipCode,
-				homePhone: args.application.homePhone,
-				cellPhone: args.application.cellPhone,
-				socialSecurityNumber: args.application.socialSecurityNumber,
-				positionApplyingFor: args.application.positionApplyingFor,
-				dateAvailable: args.application.dateAvailable,
-				scheduleRestrictions: args.application.scheduleRestrictions,
-				scheduleExplain: args.application.scheduleExplain,
-				convicted: args.application.convicted,
-				convictedExplain: args.application.convictedExplain,
-				comment: args.application.comment
-			});
-		}
-	}
-};
-
-export { ApplicationQuery, ApplicationMutation };
+export { inputType, outputType };

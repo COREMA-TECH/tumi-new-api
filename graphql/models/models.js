@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
-import AppllicationModel from './application';
-import ElectronicAddressModel from './electronicaddress';
+import AppllicationModel from './applicationTable';
+import ElectronicAddressModel from './electronicaddressTable';
 
 const Conn = new Sequelize('Tumi_Dev', 'postgres', 'S0l040.246.', {
 	dialect: 'postgres',

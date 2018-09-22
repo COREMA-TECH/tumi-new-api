@@ -1,6 +1,7 @@
 import { GraphQLSchema, GraphQLObjectType } from 'graphql';
 
-import { ApplicationMutation, ApplicationQuery } from './application';
+import { ApplicationQuery, ApplicationMutation } from './application/';
+
 import { ElectronicAddressMutation, ElectronicAddressQuery } from './electronicaddress';
 
 const RootQuery = new GraphQLObjectType({
