@@ -1,24 +1,22 @@
 const express = require('express');
-const GraphHTTP = require('express-graphql');
-const Schema = require('./schema').default;
-//const root = require('./Configuration/Roots.js');
-
-var APP_PORT = 4000;
+const app = express();
 var cors = require('cors');
-var app = express();
+const express_graphql = require('express-graphql');
+const schema = require('./Configuration/Schemas.js');
+const root = require('./Configuration/Roots.js');
 
 app.use(cors());
 
 app.use(
 	'/graphql',
-	GraphHTTP({
-		schema: Schema,
-		pretty: true,
-		graphiql: true
-		//,rootValue: root
+	express_graphql({
+		schema: schema,
+		rootValue: root,
+		graphiql: true,
+		pretty: true
 	})
 );
 
-app.listen(process.env.PORT || APP_PORT, function() {
-	console.log(`Server is running.. on Port ${APP_PORT}`);
+app.listen(process.env.PORT || 4000, function() {
+	console.log('Server is running.. on Port 4000');
 });

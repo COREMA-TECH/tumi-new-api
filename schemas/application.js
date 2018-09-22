@@ -1,18 +1,17 @@
-//const { resolver } = require('graphql-sequelize');
 import {
 	GraphQLObjectType,
 	GraphQLInt,
 	GraphQLString,
 	GraphQLList,
 	GraphQLNonNull,
-	GraphQLSchema,
-	GraphQLBoolean
+	GraphQLBoolean,
+	GraphQLInputObjectType
 } from 'graphql';
 import GraphQLDate from 'graphql-date';
 
-import Db from './models';
+import Db from '../models/models';
 
-const applicationFields = {
+const fields = {
 	firstName: {
 		type: new GraphQLNonNull(GraphQLString),
 		description: 'Applicant First Name'
@@ -90,7 +89,16 @@ const applicationFields = {
 		description: 'Applicant Comment'
 	}
 };
-const applicantionType = new GraphQLObjectType({
+const inputApplication = new GraphQLInputObjectType({
+	name: 'inputApplication',
+	description: 'Inputs for Application Mutation',
+
+	fields: {
+		...fields
+	}
+});
+
+const type = new GraphQLObjectType({
 	name: 'Applications',
 	description: 'This is for application form',
 	fields: {
@@ -98,71 +106,59 @@ const applicantionType = new GraphQLObjectType({
 			type: new GraphQLNonNull(GraphQLInt),
 			description: 'Applicant Id'
 		},
-		...applicationFields
+		...fields
 	}
 });
 
-const Query = new GraphQLObjectType({
-	name: 'Query',
-	description: 'This is a root query',
-	fields: () => {
-		return {
-			applications: {
-				type: new GraphQLList(applicantionType),
-				args: {
-					id: {
-						type: GraphQLInt
-					},
-					firstName: {
-						type: GraphQLString
-					}
-				},
-				resolve(root, args) {
-					return Db.models.Applications.findAll({ where: args });
-				}
+const ApplicationQuery = {
+	applications: {
+		type: new GraphQLList(type),
+		description: 'List applications records',
+		args: {
+			id: {
+				type: GraphQLInt
+			},
+			firstName: {
+				type: GraphQLString
 			}
-		};
+		},
+		resolve(root, args) {
+			return Db.models.Applications.findAll({ where: args });
+		}
 	}
-});
+};
 
-const Mutation = new GraphQLObjectType({
-	name: 'Mutations',
-	description: 'Functions to set stuff',
-	fields() {
-		return {
-			addApplication: {
-				type: applicantionType,
-				args: applicationFields,
-				resolve(source, args) {
-					return Db.models.Applications.create({
-						firstName: args.firstName,
-						middleName: args.middleName,
-						lastName: args.lastName,
-						date: args.date,
-						streetAddress: args.streetAddress,
-						aptNumber: args.aptNumber,
-						city: args.city,
-						state: args.state,
-						zipCode: args.zipCode,
-						homePhone: args.homePhone,
-						cellPhone: args.cellPhone,
-						socialSecurityNumber: args.socialSecurityNumber,
-						positionApplyingFor: args.positionApplyingFor,
-						dateAvailable: args.dateAvailable,
-						scheduleRestrictions: args.scheduleRestrictions,
-						scheduleExplain: args.scheduleExplain,
-						convicted: args.convicted,
-						convictedExplain: args.convictedExplain,
-						comment: args.comment
-					});
-				}
-			}
-		};
+const ApplicationMutation = {
+	addApplication: {
+		type: type,
+		description: 'Add application record to database',
+		args: {
+			application: { type: inputApplication }
+		},
+		resolve(source, args) {
+			return Db.models.Applications.create({
+				firstName: args.application.firstName,
+				middleName: args.application.middleName,
+				lastName: args.application.lastName,
+				date: args.application.date,
+				streetAddress: args.application.streetAddress,
+				aptNumber: args.application.aptNumber,
+				city: args.application.city,
+				state: args.application.state,
+				zipCode: args.application.zipCode,
+				homePhone: args.application.homePhone,
+				cellPhone: args.application.cellPhone,
+				socialSecurityNumber: args.application.socialSecurityNumber,
+				positionApplyingFor: args.application.positionApplyingFor,
+				dateAvailable: args.application.dateAvailable,
+				scheduleRestrictions: args.application.scheduleRestrictions,
+				scheduleExplain: args.application.scheduleExplain,
+				convicted: args.application.convicted,
+				convictedExplain: args.application.convictedExplain,
+				comment: args.application.comment
+			});
+		}
 	}
-});
-const Schema = new GraphQLSchema({
-	query: Query,
-	mutation: Mutation
-});
+};
 
-export default Schema;
+export { ApplicationQuery, ApplicationMutation };

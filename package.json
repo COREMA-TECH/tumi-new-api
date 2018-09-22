@@ -23,6 +23,7 @@
 		"graphql-sequelize": "^9.0.1",
 		"graphql-tools": "^3.1.1",
 		"html-pdf": "^2.2.0",
+		"merge-graphql-schemas": "^1.5.5",
 		"mongose": "0.0.2-security",
 		"mssql": "^3.3.0",
 		"nodemailer": "^4.6.8",
