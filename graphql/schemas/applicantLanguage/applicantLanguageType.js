@@ -1,6 +1,10 @@
 import { GraphQLInt, GraphQLNonNull, GraphQLInputObjectType, GraphQLObjectType } from 'graphql';
 
 const fields = {
+	ApplicationId: {
+		type: new GraphQLNonNull(GraphQLInt),
+		description: 'Application Form Id'
+	},
 	idLanguage: {
 		type: new GraphQLNonNull(GraphQLInt),
 		description: 'Language Id'

@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import AppllicationModel from './applicationTable';
+import ApplicationModel from './applicationTable';
 import ElectronicAddressModel from './electronicaddressTable';
 import ApplicantLanaguageModel from './applicantLanguage';
 
@@ -12,11 +12,11 @@ const Conn = new Sequelize('Tumi_Dev', 'postgres', 'S0l040.246.', {
 });
 
 const ElectronicAddress = ElectronicAddressModel.createModel(Conn);
-const Appllication = AppllicationModel.createModel(Conn);
+const Application = ApplicationModel.createModel(Conn);
 const ApplicantLanguage = ApplicantLanaguageModel.createModel(Conn);
 
-Appllication.hasMany(ApplicantLanguage);
-ApplicantLanguage.belongsTo(Appllication);
+Application.hasMany(ApplicantLanguage);
+ApplicantLanguage.belongsTo(Application);
 
 Conn.authenticate()
 	.then(() => {

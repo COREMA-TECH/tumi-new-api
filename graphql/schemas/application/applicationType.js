@@ -4,7 +4,8 @@ import {
 	GraphQLNonNull,
 	GraphQLBoolean,
 	GraphQLInputObjectType,
-	GraphQLObjectType
+	GraphQLObjectType,
+	GraphQLList
 } from 'graphql';
 import GraphQLDate from 'graphql-date';
 import { applicantLanguageType } from '../applicantLanguage/applicantLanguageType';
@@ -119,9 +120,9 @@ const outputType = new GraphQLObjectType({
 		},
 		...fields,
 		applicantLanguages: {
-			type: applicantLanguageType,
+			type: new GraphQLList(applicantLanguageType),
 			resolve(application) {
-				application.getApplicantLanguages();
+				return application.getApplicantLanguages();
 			}
 		}
 	}
