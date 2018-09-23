@@ -86,11 +86,24 @@ const fields = {
 		description: 'Applicant Comment'
 	}
 };
-const inputType = new GraphQLInputObjectType({
-	name: 'inputApplication',
+const inputInsertType = new GraphQLInputObjectType({
+	name: 'inputInsertApplication',
 	description: 'Inputs for Application Mutation',
 
 	fields: {
+		...fields
+	}
+});
+
+const inputUpdateType = new GraphQLInputObjectType({
+	name: 'inputUpdateApplication',
+	description: 'Inputs for Application Mutation',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Applicant Id'
+		},
 		...fields
 	}
 });
@@ -107,4 +120,4 @@ const outputType = new GraphQLObjectType({
 	}
 });
 
-export { inputType, outputType };
+export { inputInsertType, inputUpdateType, outputType };
