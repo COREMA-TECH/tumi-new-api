@@ -2,6 +2,8 @@ import { GraphQLSchema, GraphQLObjectType } from 'graphql';
 
 import { ApplicationQuery, ApplicationMutation } from './application/';
 
+import { ApplicantLanguageQuery, ApplicantLanguageMutation } from './applicantLanguage/';
+
 import { ElectronicAddressMutation, ElectronicAddressQuery } from './electronicaddress';
 
 const RootQuery = new GraphQLObjectType({
@@ -9,6 +11,7 @@ const RootQuery = new GraphQLObjectType({
 	description: 'Root Query',
 	fields: {
 		...ApplicationQuery,
+		...ApplicantLanguageQuery,
 		...ElectronicAddressQuery
 	}
 });
@@ -17,6 +20,7 @@ const RootMutation = new GraphQLObjectType({
 	description: 'Root Mutation',
 	fields: {
 		...ApplicationMutation,
+		...ApplicantLanguageMutation,
 		...ElectronicAddressMutation
 	}
 });

@@ -7,6 +7,7 @@ import {
 	GraphQLObjectType
 } from 'graphql';
 import GraphQLDate from 'graphql-date';
+import { applicantLanguageType } from '../applicantLanguage/applicantLanguageType';
 
 const fields = {
 	firstName: {
@@ -116,7 +117,13 @@ const outputType = new GraphQLObjectType({
 			type: new GraphQLNonNull(GraphQLInt),
 			description: 'Applicant Id'
 		},
-		...fields
+		...fields,
+		applicantLanguages: {
+			type: applicantLanguageType,
+			resolve(application) {
+				application.getApplicantLanguages();
+			}
+		}
 	}
 });
 

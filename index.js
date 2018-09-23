@@ -1,7 +1,6 @@
 const express = require('express');
 const GraphHTTP = require('express-graphql');
 const Schema = require('./graphql/schemas/schemas').default;
-//const root = require('./Configuration/Roots.js');
 
 var APP_PORT = 4000;
 var cors = require('cors');
@@ -15,7 +14,6 @@ app.use(
 		schema: Schema,
 		pretty: true,
 		graphiql: true
-		//,rootValue: root
 	})
 );
 
