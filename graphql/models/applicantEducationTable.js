@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 
 export default {
 	createModel(Conn) {
-		return Conn.define('ApplicantEducation', {
+		return Conn.define('ApplicantEducations', {
 			schoolType: {
 				type: Sequelize.INTEGER,
 				allowNull: false
