@@ -3,11 +3,13 @@ import ApplicationFields from './applicationFields';
 import ElectronicAddressFields from './electronicAddressFields';
 import ApplicantEducationFields from './applicantEducationFields';
 import ApplicantPreviousEmploymentFields from './applicantPreviousEmployementFields';
+import ApplicantMilitaryServiceFields from './appicantMilitaryServiceFields';
 
 export {
 	ApplicantLanguagesFields,
 	ApplicationFields,
 	ElectronicAddressFields,
 	ApplicantEducationFields,
-	ApplicantPreviousEmploymentFields
+	ApplicantPreviousEmploymentFields,
+	ApplicantMilitaryServiceFields
 };

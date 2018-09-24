@@ -3,7 +3,8 @@ import {
 	ApplicantLanguagesFields,
 	ApplicationFields,
 	ApplicantEducationFields,
-	ApplicantPreviousEmploymentFields
+	ApplicantPreviousEmploymentFields,
+	ApplicantMilitaryServiceFields
 } from '../fields';
 
 const inputUpdateApplication = new GraphQLInputObjectType({
@@ -57,9 +58,24 @@ const inputUpdateApplicantPreviousEmployment = new GraphQLInputObjectType({
 		...ApplicantPreviousEmploymentFields
 	}
 });
+
+const inputUpdateApplicantMilitaryService = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantMilitaryService',
+	description: 'Inputs for Applicant Military Service Mutation',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Applicant Id'
+		},
+		...ApplicantMilitaryServiceFields
+	}
+});
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
 	inputUpdateApplicantEducation,
-	inputUpdateApplicantPreviousEmployment
+	inputUpdateApplicantPreviousEmployment,
+	inputUpdateApplicantMilitaryService
 };
