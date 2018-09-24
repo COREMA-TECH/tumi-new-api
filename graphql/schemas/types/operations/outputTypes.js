@@ -33,7 +33,7 @@ const ApplicationType = new GraphQLObjectType({
 			employments: {
 				type: new GraphQLList(ApplicantPreviousEmploymentType),
 				resolve(application) {
-					return application.getApplicationPreviousEmployments();
+					return application.getApplicantPreviousEmployments();
 				}
 			}
 		};
