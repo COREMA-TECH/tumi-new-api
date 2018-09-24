@@ -29,7 +29,7 @@ const ApplicantPreviousEmploymentMutation = {
 		type: ApplicantPreviousEmploymentType,
 		description: 'Update Applicant previous employment Record Info',
 		args: {
-			applicantLanguage: { type: inputUpdateApplicantPreviousEmployment }
+			applicantPreviousEmployment: { type: inputUpdateApplicantPreviousEmployment }
 		},
 		resolve(source, args) {
 			return Db.models.ApplicantPreviousEmployments
