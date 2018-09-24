@@ -27,11 +27,11 @@ const ApplicationFields = {
 		description: 'Applicant Apt Number'
 	},
 	city: {
-		type: new GraphQLNonNull(GraphQLInt),
+		type: new GraphQLNonNull(GraphQLString),
 		description: 'Applicant City'
 	},
 	state: {
-		type: new GraphQLNonNull(GraphQLInt),
+		type: new GraphQLNonNull(GraphQLString),
 		description: 'Applicant State'
 	},
 	zipCode: {

@@ -1,6 +1,11 @@
 import { GraphQLInt, GraphQLNonNull, GraphQLObjectType, GraphQLList } from 'graphql';
 
-import { ApplicantLanguagesFields, ApplicationFields, ElectronicAddressFields } from '../fields';
+import {
+	ApplicantLanguagesFields,
+	ApplicationFields,
+	ElectronicAddressFields,
+	ApplicantEducationFields
+} from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
 	name: 'Applications',
@@ -16,6 +21,12 @@ const ApplicationType = new GraphQLObjectType({
 				type: new GraphQLList(ApplicantLanguageType),
 				resolve(application) {
 					return application.getApplicantLanguages();
+				}
+			},
+			educations: {
+				type: new GraphQLList(ApplicantEducationType),
+				resolve(application) {
+					return application.getApplicantEducations();
 				}
 			}
 		};
@@ -42,6 +53,26 @@ const ApplicantLanguageType = new GraphQLObjectType({
 	}
 });
 
+const ApplicantEducationType = new GraphQLObjectType({
+	name: 'ApplicantEducations',
+	description: 'This is for Applicant Educations Table',
+	fields: () => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Applicant Education Id'
+			},
+			...ApplicantEducationFields,
+			application: {
+				type: ApplicationType,
+				resolve(applicantEducation) {
+					return applicantEducation.getApplication();
+				}
+			}
+		};
+	}
+});
+
 const ElectronicAddressType = new GraphQLObjectType({
 	name: 'ElectronicAddress',
 	description: 'This is for electronic address',
@@ -53,4 +84,4 @@ const ElectronicAddressType = new GraphQLObjectType({
 	}
 });
 
-export { ApplicationType, ApplicantLanguageType, ElectronicAddressType };
+export { ApplicationType, ApplicantLanguageType, ElectronicAddressType, ApplicantEducationType };

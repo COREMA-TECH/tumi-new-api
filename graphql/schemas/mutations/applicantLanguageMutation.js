@@ -21,9 +21,9 @@ const ApplicantLanguageMutation = {
 	},
 	updateApplicantLanguage: {
 		type: ApplicantLanguageType,
-		description: 'Delete application record to database',
+		description: 'Update Applicant Language Record Info',
 		args: {
-			application: { type: inputUpdateApplicantLanguage }
+			applicantLanguage: { type: inputUpdateApplicantLanguage }
 		},
 		resolve(source, args) {
 			return Db.models.ApplicantLanguages

@@ -1,6 +1,6 @@
-import { GraphQLInt, GraphQLNonNull, GraphQLInputObjectType } from 'graphql';
+import { GraphQLInt, GraphQLNonNull } from 'graphql';
 
-const ApplicantLanguageFilds = {
+const ApplicantLanguageFields = {
 	ApplicationId: {
 		type: new GraphQLNonNull(GraphQLInt),
 		description: 'Application Form Id'
@@ -23,4 +23,4 @@ const ApplicantLanguageFilds = {
 	}
 };
 
-export default ApplicantLanguageFilds;
+export default ApplicantLanguageFields;

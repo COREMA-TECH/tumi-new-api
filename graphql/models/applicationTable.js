@@ -28,11 +28,11 @@ export default {
 				allowNull: false
 			},
 			city: {
-				type: Sequelize.INTEGER,
+				type: Sequelize.STRING(50),
 				allowNull: false
 			},
 			state: {
-				type: Sequelize.INTEGER,
+				type: Sequelize.STRING(50),
 				allowNull: false
 			},
 			zipCode: {

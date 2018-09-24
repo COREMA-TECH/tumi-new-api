@@ -1,18 +1,5 @@
-import { GraphQLInt, GraphQLNonNull, GraphQLInputObjectType, GraphQLObjectType } from 'graphql';
-import { ApplicantLanguagesFields, ApplicationFields } from '../fields';
-
-const inputUpdateApplicantLanguage = new GraphQLInputObjectType({
-	name: 'inputUpdateApplicantLanguage',
-	description: 'Inputs for Applicant Languages Mutation',
-
-	fields: {
-		id: {
-			type: new GraphQLNonNull(GraphQLInt),
-			description: 'Applicant Id'
-		},
-		...ApplicantLanguagesFields
-	}
-});
+import { GraphQLInt, GraphQLNonNull, GraphQLInputObjectType } from 'graphql';
+import { ApplicantLanguagesFields, ApplicationFields, ApplicantEducationFields } from '../fields';
 
 const inputUpdateApplication = new GraphQLInputObjectType({
 	name: 'inputUpdateApplication',
@@ -27,4 +14,30 @@ const inputUpdateApplication = new GraphQLInputObjectType({
 	}
 });
 
-export { inputUpdateApplicantLanguage, inputUpdateApplication };
+const inputUpdateApplicantLanguage = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantLanguage',
+	description: 'Inputs for Applicant Languages Mutation',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Applicant Id'
+		},
+		...ApplicantLanguagesFields
+	}
+});
+
+const inputUpdateApplicantEducation = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantEducation',
+	description: 'Inputs for Applicant Education Mutation',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Applicant Id'
+		},
+		...ApplicantEducationFields
+	}
+});
+
+export { inputUpdateApplicantLanguage, inputUpdateApplication, inputUpdateApplicantEducation };

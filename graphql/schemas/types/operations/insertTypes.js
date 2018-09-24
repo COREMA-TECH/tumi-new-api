@@ -1,15 +1,11 @@
 import { GraphQLInputObjectType } from 'graphql';
 
-import { ApplicantLanguagesFields, ApplicationFields, ElectronicAddressFields } from '../fields';
-
-const inputInsertApplicantLanguage = new GraphQLInputObjectType({
-	name: 'inputInsertApplicantLanguage',
-	description: 'Inputs for Applicant Languages Mutation',
-
-	fields: {
-		...ApplicantLanguagesFields
-	}
-});
+import {
+	ApplicantLanguagesFields,
+	ApplicationFields,
+	ElectronicAddressFields,
+	ApplicantEducationFields
+} from '../fields';
 
 const inputInsertApplication = new GraphQLInputObjectType({
 	name: 'inputInsertApplication',
@@ -17,6 +13,24 @@ const inputInsertApplication = new GraphQLInputObjectType({
 
 	fields: {
 		...ApplicationFields
+	}
+});
+
+const inputInsertApplicantEducation = new GraphQLInputObjectType({
+	name: 'inputInsertApplicantEducation',
+	description: 'Inputs for Applicant Educations Mutation',
+
+	fields: {
+		...ApplicantEducationFields
+	}
+});
+
+const inputInsertApplicantLanguage = new GraphQLInputObjectType({
+	name: 'inputInsertApplicantLanguage',
+	description: 'Inputs for Applicant Languages Mutation',
+
+	fields: {
+		...ApplicantLanguagesFields
 	}
 });
 
@@ -29,4 +43,4 @@ const iParamEA = new GraphQLInputObjectType({
 	}
 });
 
-export { inputInsertApplicantLanguage, inputInsertApplication, iParamEA };
+export { inputInsertApplicantLanguage, inputInsertApplication, inputInsertApplicantEducation, iParamEA };
