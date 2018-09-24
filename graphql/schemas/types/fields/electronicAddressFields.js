@@ -1,5 +1,5 @@
-import { GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLInputObjectType } from 'graphql';
-const fields = {
+import { GraphQLInt, GraphQLString, GraphQLNonNull } from 'graphql';
+const ElectronicAddressFields = {
 	Related_Table: {
 		type: new GraphQLNonNull(GraphQLString)
 	},
@@ -31,24 +31,4 @@ const fields = {
 		type: new GraphQLNonNull(GraphQLString)
 	}
 };
-const inputType = new GraphQLInputObjectType({
-	name: 'iParamEA',
-	description: 'Input Parameter for Electronic Address Mutation',
-
-	fields: {
-		...fields
-	}
-});
-
-const outputType = new GraphQLObjectType({
-	name: 'ElectronicAddress',
-	description: 'This is for electronic address',
-	fields: {
-		Id: {
-			type: new GraphQLNonNull(GraphQLInt)
-		},
-		...fields
-	}
-});
-
-export { inputType, outputType };
+export default ElectronicAddressFields;

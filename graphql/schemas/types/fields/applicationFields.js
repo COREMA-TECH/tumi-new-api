@@ -1,16 +1,7 @@
-import {
-	GraphQLInt,
-	GraphQLString,
-	GraphQLNonNull,
-	GraphQLBoolean,
-	GraphQLInputObjectType,
-	GraphQLObjectType,
-	GraphQLList
-} from 'graphql';
+import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLBoolean } from 'graphql';
 import GraphQLDate from 'graphql-date';
-import { applicantLanguageType } from '../applicantLanguage/applicantLanguageType';
 
-const fields = {
+const ApplicationFields = {
 	firstName: {
 		type: new GraphQLNonNull(GraphQLString),
 		description: 'Applicant First Name'
@@ -88,44 +79,5 @@ const fields = {
 		description: 'Applicant Comment'
 	}
 };
-const inputInsertType = new GraphQLInputObjectType({
-	name: 'inputInsertApplication',
-	description: 'Inputs for Application Mutation',
 
-	fields: {
-		...fields
-	}
-});
-
-const inputUpdateType = new GraphQLInputObjectType({
-	name: 'inputUpdateApplication',
-	description: 'Inputs for Application Mutation',
-
-	fields: {
-		id: {
-			type: new GraphQLNonNull(GraphQLInt),
-			description: 'Applicant Id'
-		},
-		...fields
-	}
-});
-
-const outputType = new GraphQLObjectType({
-	name: 'Applications',
-	description: 'This is for application form',
-	fields: {
-		id: {
-			type: new GraphQLNonNull(GraphQLInt),
-			description: 'Applicant Id'
-		},
-		...fields,
-		applicantLanguages: {
-			type: new GraphQLList(applicantLanguageType),
-			resolve(application) {
-				return application.getApplicantLanguages();
-			}
-		}
-	}
-});
-
-export { inputInsertType, inputUpdateType, outputType };
+export default ApplicationFields;

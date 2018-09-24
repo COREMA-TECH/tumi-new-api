@@ -1,12 +1,13 @@
-import { inputType, outputType } from './electronicaddressType';
+import { iParamEA } from '../types/operations/insertTypes';
+import { ElectronicAddressType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 const ElectronicAddressMutation = {
 	inselectronicaddress: {
-		type: outputType,
+		type: ElectronicAddressType,
 		description: 'Insert an Electronic Address record',
 		args: {
-			iParamEA: { type: inputType }
+			iParamEA: { type: iParamEA }
 		},
 		resolve(source, args) {
 			return Db.models.ElectronicAddress.create({

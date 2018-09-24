@@ -1,10 +1,10 @@
 import { GraphQLInt, GraphQLList } from 'graphql';
-import { applicantLanguageType } from './applicantLanguageType';
+import { ApplicantLanguageType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 const ApplicantLanguageQuery = {
 	applicantLanguages: {
-		type: new GraphQLList(applicantLanguageType),
+		type: new GraphQLList(ApplicantLanguageType),
 		description: 'List languages of applicant',
 		args: {
 			id: {

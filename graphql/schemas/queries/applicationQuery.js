@@ -1,10 +1,10 @@
 import { GraphQLInt, GraphQLString, GraphQLList } from 'graphql';
-import { outputType } from './applicationType';
+import { ApplicationType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 const ApplicationQuery = {
 	applications: {
-		type: new GraphQLList(outputType),
+		type: new GraphQLList(ApplicationType),
 		description: 'List applications records',
 		args: {
 			id: {

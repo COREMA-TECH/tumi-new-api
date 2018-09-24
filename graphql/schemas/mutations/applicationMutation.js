@@ -1,12 +1,15 @@
-import { inputInsertType, inputUpdateType, outputType } from './applicationType';
+import { inputInsertApplication } from '../types/operations/insertTypes';
+import { inputUpdateApplication } from '../types/operations/updateTypes';
+import { ApplicationType } from '../types/operations/outputTypes';
+
 import Db from '../../models/models';
 
 const ApplicationMutation = {
 	addApplication: {
-		type: outputType,
+		type: ApplicationType,
 		description: 'Add application record to database',
 		args: {
-			application: { type: inputInsertType }
+			application: { type: inputInsertApplication }
 		},
 		resolve(source, args) {
 			return Db.models.Applications.create({
@@ -33,10 +36,10 @@ const ApplicationMutation = {
 		}
 	},
 	updateApplication: {
-		type: outputType,
+		type: ApplicationType,
 		description: 'Delete application record to database',
 		args: {
-			application: { type: inputUpdateType }
+			application: { type: inputUpdateApplication }
 		},
 		resolve(source, args) {
 			return Db.models.Applications

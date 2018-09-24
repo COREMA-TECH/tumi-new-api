@@ -1,11 +1,11 @@
 import { GraphQLInt, GraphQLString, GraphQLList } from 'graphql';
-import { outputType } from './electronicaddressType';
+import { ElectronicAddressType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 const ElectronicAddressQuery = {
 	getelectronicaddress: {
 		description: 'List all the electronic addresses',
-		type: new GraphQLList(outputType),
+		type: new GraphQLList(ElectronicAddressType),
 		args: {
 			Id: { type: GraphQLInt },
 			IsActive: { type: GraphQLInt },
