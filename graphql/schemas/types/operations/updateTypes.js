@@ -1,5 +1,10 @@
 import { GraphQLInt, GraphQLNonNull, GraphQLInputObjectType } from 'graphql';
-import { ApplicantLanguagesFields, ApplicationFields, ApplicantEducationFields } from '../fields';
+import {
+	ApplicantLanguagesFields,
+	ApplicationFields,
+	ApplicantEducationFields,
+	ApplicantPreviousEmploymentFields
+} from '../fields';
 
 const inputUpdateApplication = new GraphQLInputObjectType({
 	name: 'inputUpdateApplication',
@@ -40,4 +45,21 @@ const inputUpdateApplicantEducation = new GraphQLInputObjectType({
 	}
 });
 
-export { inputUpdateApplicantLanguage, inputUpdateApplication, inputUpdateApplicantEducation };
+const inputUpdateApplicantPreviousEmployment = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantPreviousEmployment',
+	description: 'Inputs for Applicant Previous Employment Mutation',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Applicant Id'
+		},
+		...ApplicantPreviousEmploymentFields
+	}
+});
+export {
+	inputUpdateApplicantLanguage,
+	inputUpdateApplication,
+	inputUpdateApplicantEducation,
+	inputUpdateApplicantPreviousEmployment
+};
