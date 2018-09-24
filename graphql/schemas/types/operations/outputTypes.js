@@ -81,7 +81,7 @@ const ApplicantEducationType = new GraphQLObjectType({
 });
 
 const ApplicantPreviousEmploymentType = new GraphQLObjectType({
-	name: 'ApplicantEmployments',
+	name: 'ApplicantPreviousEmployment',
 	description: 'This is for Applicant Employments Table',
 	fields: () => {
 		return {

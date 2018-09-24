@@ -23,7 +23,7 @@ const ApplicantEducationMutation = {
 			});
 		}
 	},
-	updateApplicantLanguage: {
+	updateApplicantEducation: {
 		type: ApplicantEducationType,
 		description: 'Update Applicant Language Record Info',
 		args: {
