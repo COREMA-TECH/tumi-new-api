@@ -4,6 +4,7 @@ import ElectronicAddressFields from './electronicAddressFields';
 import ApplicantEducationFields from './applicantEducationFields';
 import ApplicantPreviousEmploymentFields from './applicantPreviousEmployementFields';
 import ApplicantMilitaryServiceFields from './appicantMilitaryServiceFields';
+import ApplicantSkillFields from './applicantSkillFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -11,5 +12,6 @@ export {
 	ElectronicAddressFields,
 	ApplicantEducationFields,
 	ApplicantPreviousEmploymentFields,
-	ApplicantMilitaryServiceFields
+	ApplicantMilitaryServiceFields,
+	ApplicantSkillFields
 };

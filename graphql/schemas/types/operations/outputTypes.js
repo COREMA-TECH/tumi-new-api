@@ -6,7 +6,8 @@ import {
 	ElectronicAddressFields,
 	ApplicantEducationFields,
 	ApplicantPreviousEmploymentFields,
-	ApplicantMilitaryServiceFields
+	ApplicantMilitaryServiceFields,
+	ApplicantSkillFields
 } from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
@@ -41,6 +42,12 @@ const ApplicationType = new GraphQLObjectType({
 				type: new GraphQLList(ApplicantMilitaryServiceType),
 				resolve(application) {
 					return application.getApplicantMilitaryServices();
+				}
+			},
+			skills: {
+				type: new GraphQLList(ApplicantSkillType),
+				resolve(application) {
+					return application.getApplicantSkills();
 				}
 			}
 		};
@@ -125,6 +132,26 @@ const ApplicantMilitaryServiceType = new GraphQLObjectType({
 		};
 	}
 });
+
+const ApplicantSkillType = new GraphQLObjectType({
+	name: 'ApplicantSkillType',
+	description: 'This is for Applicant Skills Table',
+	fields: () => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Applicant Education Id'
+			},
+			...ApplicantSkillFields,
+			application: {
+				type: ApplicationType,
+				resolve(applicantSkill) {
+					return applicantSkill.getApplication();
+				}
+			}
+		};
+	}
+});
 const ElectronicAddressType = new GraphQLObjectType({
 	name: 'ElectronicAddress',
 	description: 'This is for electronic address',
@@ -142,5 +169,6 @@ export {
 	ElectronicAddressType,
 	ApplicantEducationType,
 	ApplicantPreviousEmploymentType,
-	ApplicantMilitaryServiceType
+	ApplicantMilitaryServiceType,
+	ApplicantSkillType
 };
