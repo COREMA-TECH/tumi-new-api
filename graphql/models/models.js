@@ -4,6 +4,7 @@ import ElectronicAddressModel from './electronicaddressTable';
 import ApplicantLanaguageModel from './applicantLanguageTable';
 import ApplicantEducationModel from './applicantEducationTable';
 import ApplicantPreviousEmploymentModel from './applicantPreviousEmploymentTable';
+import ApplicantMilitaryServicesModel from './applicantMilitaryServiceTable';
 
 const Conn = new Sequelize('Tumi_Dev', 'postgres', 'S0l040.246.', {
 	dialect: 'postgres',
@@ -18,14 +19,17 @@ const Application = ApplicationModel.createModel(Conn);
 const ApplicantLanguage = ApplicantLanaguageModel.createModel(Conn);
 const ApplicantEducation = ApplicantEducationModel.createModel(Conn);
 const ApplicantPreviousEmployment = ApplicantPreviousEmploymentModel.createModel(Conn);
+const ApplicantMilitaryServices = ApplicantMilitaryServicesModel.createModel(Conn);
 
 Application.hasMany(ApplicantLanguage);
 Application.hasMany(ApplicantEducation);
 Application.hasMany(ApplicantPreviousEmployment);
+Application.hasMany(ApplicantMilitaryServices);
 
 ApplicantLanguage.belongsTo(Application);
 ApplicantEducation.belongsTo(Application);
 ApplicantPreviousEmployment.belongsTo(Application);
+ApplicantMilitaryServices.belongsTo(Application);
 
 Conn.authenticate()
 	.then(() => {
