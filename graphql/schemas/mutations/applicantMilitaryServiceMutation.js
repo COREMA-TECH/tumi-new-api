@@ -1,42 +1,46 @@
-import { inputInsertApplicantLanguage } from '../types/operations/insertTypes';
-import { inputUpdateApplicantLanguage } from '../types/operations/updateTypes';
-import { ApplicantLanguageType } from '../types/operations/outputTypes';
+import { inputInsertApplicantMilitaryService } from '../types/operations/insertTypes';
+import { inputUpdateApplicantMilitaryService } from '../types/operations/updateTypes';
+import { ApplicantMilitaryServiceType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
-const ApplicantLanguageMutation = {
-	addApplicantLanguage: {
-		type: ApplicantLanguageType,
-		description: 'Add applicant language record to database',
+const ApplicantMilitaryServiceMutation = {
+	addMilitaryService: {
+		type: ApplicantMilitaryServiceType,
+		description: 'Add applicant military service record to database',
 		args: {
-			applicantLanguage: { type: inputInsertApplicantLanguage }
+			militaryService: { type: inputInsertApplicantMilitaryService }
 		},
 		resolve(source, args) {
-			return Db.models.ApplicantLanguages.create({
-				ApplicationId: args.applicantLanguage.ApplicationId,
-				idLanguage: args.applicantLanguage.idLanguage,
-				writing: args.applicantLanguage.writing,
-				conversation: args.applicantLanguage.conversation
+			return Db.models.ApplicantMilitaryServices.create({
+				branch: args.ApplicantMilitaryServices.branch,
+				startDate: args.ApplicantMilitaryServices.startDate,
+				endDate: args.ApplicantMilitaryServices.endDate,
+				rankAtDischarge: args.ApplicantMilitaryServices.rankAtDischarge,
+				typeOfDischarge: args.ApplicantMilitaryServices.typeOfDischarge,
+				ApplicationId: args.ApplicantMilitaryServices.ApplicationId
 			});
 		}
 	},
 	updateApplicantLanguage: {
-		type: ApplicantLanguageType,
-		description: 'Update Applicant Language Record Info',
+		type: ApplicantMilitaryServiceType,
+		description: 'Update Applicant Military Service Record Info',
 		args: {
-			applicantLanguage: { type: inputUpdateApplicantLanguage }
+			militaryService: { type: inputUpdateApplicantMilitaryService }
 		},
 		resolve(source, args) {
-			return Db.models.ApplicantLanguages
+			return Db.models.ApplicantMilitaryServices
 				.update(
 					{
-						ApplicationId: args.applicantLanguage.ApplicationId,
-						idLanguage: args.applicantLanguage.idLanguage,
-						writing: args.applicantLanguage.writing,
-						conversation: args.applicantLanguage.conversation
+						branch: args.ApplicantMilitaryServices.branch,
+						startDate: args.ApplicantMilitaryServices.startDate,
+						endDate: args.ApplicantMilitaryServices.endDate,
+						rankAtDischarge: args.ApplicantMilitaryServices.rankAtDischarge,
+						typeOfDischarge: args.ApplicantMilitaryServices.typeOfDischarge,
+						ApplicationId: args.ApplicantMilitaryServices.ApplicationId
 					},
 					{
 						where: {
-							id: args.applicantLanguage.id
+							id: args.ApplicantMilitaryServices.id
 						},
 						returning: true
 					}
@@ -49,4 +53,4 @@ const ApplicantLanguageMutation = {
 	}
 };
 
-export default ApplicantLanguageMutation;
+export default ApplicantMilitaryServiceMutation;

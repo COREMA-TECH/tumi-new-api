@@ -5,14 +5,16 @@ import {
 	ApplicantLanguageMutation,
 	ElectronicAddressMutation,
 	ApplicantEducationMutation,
-	ApplicantPreviousEmploymentMutation
+	ApplicantPreviousEmploymentMutation,
+	ApplicantMilitaryServiceMutation
 } from './mutations/';
 import {
 	ApplicationQuery,
 	ApplicantLanguageQuery,
 	ElectronicAddressQuery,
 	ApplicantEducationQuery,
-	ApplicantPreviousEmploymentQuery
+	ApplicantPreviousEmploymentQuery,
+	ApplicantMilitaryServiceQuery
 } from './queries/';
 
 const RootQuery = new GraphQLObjectType({
@@ -23,7 +25,8 @@ const RootQuery = new GraphQLObjectType({
 		...ApplicantLanguageQuery,
 		...ElectronicAddressQuery,
 		...ApplicantEducationQuery,
-		...ApplicantPreviousEmploymentQuery
+		...ApplicantPreviousEmploymentQuery,
+		...ApplicantMilitaryServiceQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({
@@ -34,7 +37,8 @@ const RootMutation = new GraphQLObjectType({
 		...ApplicantLanguageMutation,
 		...ElectronicAddressMutation,
 		...ApplicantEducationMutation,
-		...ApplicantPreviousEmploymentMutation
+		...ApplicantPreviousEmploymentMutation,
+		...ApplicantMilitaryServiceMutation
 	}
 });
 
