@@ -1,10 +1,12 @@
 import { inputInsertApplicantSkill } from '../types/operations/insertTypes';
 import { inputUpdateApplicantSkill } from '../types/operations/updateTypes';
 import { ApplicantSkillType } from '../types/operations/outputTypes';
+import { GraphQLList } from 'graphql';
+
 import Db from '../../models/models';
 
 const ApplicantSkillMutation = {
-	addApplicantSkill: {
+	/*addApplicantSkill: {
 		type: ApplicantSkillType,
 		description: 'Add applicant skill record to database',
 		args: {
@@ -16,6 +18,22 @@ const ApplicantSkillMutation = {
 				description: args.applicantSkill.description,
 				level: args.applicantSkill.level
 			});
+		}
+	},*/
+	addApplicantSkill: {
+		type: new GraphQLList(ApplicantSkillType),
+		description: 'Add applicant skill record to database',
+		args: {
+			applicantSkill: { type: new GraphQLList(inputInsertApplicantSkill) }
+		},
+		resolve(source, args) {
+			return Db.models.ApplicantSkills
+				.bulkCreate(args.applicantSkill, { returning: true })
+				.then((applicantSkills) => {
+					return applicantSkills.map((appSkills) => {
+						return appSkills.dataValues;
+					});
+				});
 		}
 	},
 	updateApplicantSkill: {

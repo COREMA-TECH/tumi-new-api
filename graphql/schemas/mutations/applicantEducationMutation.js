@@ -1,10 +1,12 @@
 import { inputInsertApplicantEducation } from '../types/operations/insertTypes';
 import { inputUpdateApplicantEducation } from '../types/operations/updateTypes';
 import { ApplicantEducationType } from '../types/operations/outputTypes';
+import { GraphQLList } from 'graphql';
+
 import Db from '../../models/models';
 
 const ApplicantEducationMutation = {
-	addApplicantEducation: {
+	/*	addApplicantEducation: {
 		type: ApplicantEducationType,
 		description: 'Add applicant educataion record to database',
 		args: {
@@ -21,6 +23,23 @@ const ApplicantEducationMutation = {
 				graduated: args.applicantEducation.graduated,
 				degree: args.applicantEducation.degree
 			});
+		}
+	},*/
+
+	addApplicantEducation: {
+		type: new GraphQLList(ApplicantEducationType),
+		description: 'Add applicant educataion record to database',
+		args: {
+			applicantEducation: { type: new GraphQLList(inputInsertApplicantEducation) }
+		},
+		resolve(source, args) {
+			return Db.models.ApplicantEducations
+				.bulkCreate(args.applicantEducation, { returning: true })
+				.then((applicantEducation) => {
+					return applicantEducation.map((appEducataion) => {
+						return appEducataion.dataValues;
+					});
+				});
 		}
 	},
 	updateApplicantEducation: {
