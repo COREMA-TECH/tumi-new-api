@@ -7,9 +7,17 @@ import ApplicantPreviousEmploymentModel from './applicantPreviousEmploymentTable
 import ApplicantMilitaryServicesModel from './applicantMilitaryServiceTable';
 import ApplicantSkillTableModel from './applicantSkillTable';
 
-const Conn = new Sequelize('Tumi_Dev', 'postgres', 'S0l040.246.', {
+/*const Conn = new Sequelize('Tumi_Dev', 'postgres', 'S0l040.246.', {
 	dialect: 'postgres',
 	host: 'localhost',
+	port: '5432',
+	schema: 'public',
+	freezeTableName: true
+});*/
+
+const Conn = new Sequelize('Tumi_Dev', 'corema', 'S0l040.246.', {
+	dialect: 'postgres',
+	host: 'coremagroup.cb4kqp6rssxe.us-east-2.rds.amazonaws.com',
 	port: '5432',
 	schema: 'public',
 	freezeTableName: true

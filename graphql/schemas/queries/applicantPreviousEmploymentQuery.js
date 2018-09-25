@@ -2,8 +2,6 @@ import { GraphQLInt, GraphQLList } from 'graphql';
 import { ApplicantPreviousEmploymentType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
-console.log('ApplicantPreviousEmploymentType', ApplicantPreviousEmploymentType);
-
 const ApplicantPreviousEmploymentQuery = {
 	applicantPreviousEmployments: {
 		type: new GraphQLList(ApplicantPreviousEmploymentType),
