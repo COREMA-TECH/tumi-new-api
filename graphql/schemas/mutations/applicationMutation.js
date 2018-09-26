@@ -1,4 +1,4 @@
-import { inputInsertApplication, inputInsertApplicantLanguage } from '../types/operations/insertTypes';
+import { inputInsertApplication } from '../types/operations/insertTypes';
 import { inputUpdateApplication } from '../types/operations/updateTypes';
 import { ApplicationType } from '../types/operations/outputTypes';
 
@@ -9,8 +9,7 @@ const ApplicationMutation = {
 		type: ApplicationType,
 		description: 'Add application record to database',
 		args: {
-			application: { type: inputInsertApplication },
-			languages: { type: inputInsertApplicantLanguage }
+			application: { type: inputInsertApplication }
 		},
 		resolve(source, args) {
 			return Db.models.Applications.create({
