@@ -23,6 +23,10 @@ export default {
 				type: Sequelize.STRING(150),
 				allowNull: false
 			},
+			emailAddress: {
+				type: Sequelize.STRING(150),
+				allowNull: false
+			},
 			aptNumber: {
 				type: Sequelize.STRING(20),
 				allowNull: false

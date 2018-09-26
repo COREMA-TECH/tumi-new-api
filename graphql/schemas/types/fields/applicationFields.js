@@ -22,6 +22,10 @@ const ApplicationFields = {
 		type: new GraphQLNonNull(GraphQLString),
 		description: 'Applicant Street Address'
 	},
+	emailAddress: {
+		type: new GraphQLNonNull(GraphQLString),
+		description: 'Applicant Email Address'
+	},
 	aptNumber: {
 		type: new GraphQLNonNull(GraphQLString),
 		description: 'Applicant Apt Number'
