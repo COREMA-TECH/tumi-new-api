@@ -9,7 +9,7 @@ import {
 	ApplicantMilitaryServiceFields,
 	ApplicantSkillFields
 } from '../fields';
-
+import { NativeSchema } from './NativeSchema';
 const ApplicationType = new GraphQLObjectType({
 	name: 'Applications',
 	description: 'This is for application form',
@@ -163,6 +163,9 @@ const ElectronicAddressType = new GraphQLObjectType({
 	}
 });
 
+console.log('NativeSchema', NativeSchema);
+
+console.log('ApplicationType', ApplicationType);
 export {
 	ApplicationType,
 	ApplicantLanguageType,

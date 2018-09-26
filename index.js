@@ -1,6 +1,7 @@
 const express = require('express');
 const GraphHTTP = require('express-graphql');
 const Schema = require('./graphql/schemas/schemas').default;
+const root = require('./Configuration/Roots.js');
 const path = require('path');
 
 var APP_PORT = 4000;
@@ -14,6 +15,7 @@ app.use(
 	GraphHTTP({
 		schema: Schema,
 		pretty: true,
+		rootValue: root,
 		graphiql: true
 	})
 );

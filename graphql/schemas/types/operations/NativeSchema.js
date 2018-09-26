@@ -1,6 +1,6 @@
 const { buildSchema } = require('graphql');
 
-const schema = buildSchema(`
+const NativeSchema = buildSchema(`
 input iParamEA {
 Id : Int
 Related_Table: String
@@ -689,4 +689,4 @@ type Users{
 
 `);
 
-module.exports = schema;
+export { NativeSchema };

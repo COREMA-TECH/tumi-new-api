@@ -1,4 +1,7 @@
 import { GraphQLSchema, GraphQLObjectType } from 'graphql';
+import { NativeSchema } from './types/operations/NativeSchema';
+
+import { makeExecutableSchema, addMockFunctionsToSchema, mergeSchemas } from 'graphql-tools';
 
 import {
 	ApplicationMutation,
@@ -51,4 +54,8 @@ const IndexSchema = new GraphQLSchema({
 	mutation: RootMutation
 });
 
-export default IndexSchema;
+const MergedSchema = mergeSchemas({
+	schemas: [ IndexSchema, NativeSchema ]
+});
+
+export default MergedSchema;
