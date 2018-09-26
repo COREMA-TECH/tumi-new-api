@@ -14,10 +14,10 @@ const ApplicantPreviousEmploymentMutation = {
 		resolve(source, args) {
 			return Db.models.ApplicantPreviousEmployments.create({
 				ApplicationId: args.applicantPreviousEmployment.ApplicationId,
-				companyName: args.applicantPreviousEmployment.idLanguage,
+				companyName: args.applicantPreviousEmployment.language,
 				phone: args.applicantPreviousEmployment.writing,
 				address: args.applicantPreviousEmployment.conversation,
-				supervisor: args.applicantPreviousEmployment.idLanguage,
+				supervisor: args.applicantPreviousEmployment.language,
 				jobTitle: args.applicantPreviousEmployment.writing,
 				payRate: args.applicantPreviousEmployment.conversation,
 				startDate: args.applicantPreviousEmployment.writing,
@@ -37,15 +37,15 @@ const ApplicantPreviousEmploymentMutation = {
 				.update(
 					{
 						ApplicationId: args.applicantPreviousEmployment.ApplicationId,
-						companyName: args.applicantPreviousEmployment.idLanguage,
-						phone: args.applicantPreviousEmployment.writing,
-						address: args.applicantPreviousEmployment.conversation,
-						supervisor: args.applicantPreviousEmployment.idLanguage,
-						jobTitle: args.applicantPreviousEmployment.writing,
-						payRate: args.applicantPreviousEmployment.conversation,
-						startDate: args.applicantPreviousEmployment.writing,
-						endDate: args.applicantPreviousEmployment.conversation,
-						reasonForLeaving: args.applicantPreviousEmployment.writing
+						companyName: args.applicantPreviousEmployment.companyName,
+						phone: args.applicantPreviousEmployment.phone,
+						address: args.applicantPreviousEmployment.address,
+						supervisor: args.applicantPreviousEmployment.supervisor,
+						jobTitle: args.applicantPreviousEmployment.jobTitle,
+						payRate: args.applicantPreviousEmployment.payRate,
+						startDate: args.applicantPreviousEmployment.startDate,
+						endDate: args.applicantPreviousEmployment.endDate,
+						reasonForLeaving: args.applicantPreviousEmployment.reasonForLeaving
 					},
 					{
 						where: {

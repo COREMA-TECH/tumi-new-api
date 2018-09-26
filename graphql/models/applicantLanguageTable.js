@@ -3,8 +3,8 @@ import Sequelize from 'sequelize';
 export default {
 	createModel(Conn) {
 		return Conn.define('ApplicantLanguages', {
-			idLanguage: {
-				type: Sequelize.INTEGER,
+			language: {
+				type: Sequelize.STRING,
 				allowNull: false
 			},
 			writing: {

@@ -15,7 +15,7 @@ const ApplicantLanguageMutation = {
 		resolve(source, args) {
 			return Db.models.ApplicantLanguages.create({
 				ApplicationId: args.applicantLanguage.ApplicationId,
-				idLanguage: args.applicantLanguage.idLanguage,
+				language: args.applicantLanguage.language,
 				writing: args.applicantLanguage.writing,
 				conversation: args.applicantLanguage.conversation
 			});
@@ -48,7 +48,7 @@ const ApplicantLanguageMutation = {
 				.update(
 					{
 						ApplicationId: args.applicantLanguage.ApplicationId,
-						idLanguage: args.applicantLanguage.idLanguage,
+						language: args.applicantLanguage.language,
 						writing: args.applicantLanguage.writing,
 						conversation: args.applicantLanguage.conversation
 					},

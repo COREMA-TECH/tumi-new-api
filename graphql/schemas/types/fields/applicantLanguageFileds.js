@@ -1,12 +1,12 @@
-import { GraphQLInt, GraphQLNonNull } from 'graphql';
+import { GraphQLInt, GraphQLNonNull, GraphQLString } from 'graphql';
 
 const ApplicantLanguageFields = {
 	ApplicationId: {
 		type: new GraphQLNonNull(GraphQLInt),
 		description: 'Application Form Id'
 	},
-	idLanguage: {
-		type: new GraphQLNonNull(GraphQLInt),
+	language: {
+		type: new GraphQLNonNull(GraphQLString),
 		description: 'Language Id'
 	},
 	writing: {
