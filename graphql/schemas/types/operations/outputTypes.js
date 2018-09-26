@@ -163,9 +163,6 @@ const ElectronicAddressType = new GraphQLObjectType({
 	}
 });
 
-console.log('NativeSchema', NativeSchema);
-
-console.log('ApplicationType', ApplicationType);
 export {
 	ApplicationType,
 	ApplicantLanguageType,

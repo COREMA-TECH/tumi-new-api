@@ -7,6 +7,10 @@ const nodemailer = require('nodemailer');
 const config = require('./Configuration.js');
 const pdf = require('html-pdf');
 
+//Variables para PDF
+const pdfshift = require('pdfshift')('2974f9467a93407fae7e39d931d1d732');
+const fs = require('fs');
+
 var Strquery, Strfilename;
 
 var transporter = nodemailer.createTransport({
@@ -16,7 +20,6 @@ var transporter = nodemailer.createTransport({
 		pass: 'Corema123'
 	}
 });
-
 //Conection to BD
 const pool = new pg.Pool(Config);
 async function query(q) {
@@ -37,6 +40,7 @@ async function query(q) {
 	return res;
 }
 
+//Method Connect to table Company
 //Method Connect to table Company
 async function getCompanies(args) {
 	try {
@@ -74,7 +78,7 @@ async function getCompanies(args) {
 async function getBusinessCompanies(args) {
 	try {
 		//console.log(args.IsActive);
-		var strparam1, strparam2, strparam3, strparam4;
+		var strparam1, strparam2, strparam3;
 
 		if (args.IsActive >= 0) {
 			strparam1 = args.IsActive;
@@ -82,13 +86,13 @@ async function getBusinessCompanies(args) {
 			strparam1 = null;
 		}
 
-		if (args.Id >= 0) {
+		if (args.Id > 0) {
 			strparam2 = args.Id;
 		} else {
 			strparam2 = null;
 		}
 
-		if (args.Id_Parent >= 0) {
+		if (args.Id_Parent >= -1) {
 			strparam4 = args.Id_Parent;
 		} else {
 			strparam4 = null;
@@ -847,6 +851,8 @@ async function InsContacts(args) {
 			console.log('Error Insert Data');
 		}
 
+		console.log(Strquery);
+
 		const { rows } = await query(Strquery);
 		return rows[0];
 	} catch (err) {
@@ -1039,7 +1045,7 @@ async function DelCatalog(args) {
 //Method Connect to table CatalogItem
 async function getCatalogItem(args) {
 	try {
-		var strparam1, strparam2, strparam3, strparam4;
+		var strparam1, strparam2, strparam3;
 
 		if (args.IsActive >= 0) {
 			strparam1 = args.IsActive;
@@ -1992,6 +1998,59 @@ async function getContracts(args) {
 }
 
 //Method Connect to Send Contracts by emails
+async function CreateContracts(args) {
+	try {
+		console.log(args.IsActive);
+		var strparam1, strparam2, strparam3;
+
+		if (args.IsActive >= 0) {
+			strparam1 = args.IsActive;
+		} else {
+			strparam1 = null;
+		}
+
+		if (args.Id >= 0) {
+			strparam2 = args.Id;
+		} else {
+			strparam2 = null;
+		}
+
+		Strquery =
+			'select "Contracts"."Id","Token"."Token","Token"."Signatory", "Id_Company", "Id_Entity", "Contract_Name", "Contrat_Owner", "Id_User_Signed",(SELECT "Electronic_Address" FROM public."Contacts" where "Id"= "Contracts"."Id_User_Signed") as "Electronic_Address", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed", "Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F", "Client_Signature", "Company_Signature","Contract_Expiration_Date",(SELECT "Primary_Email" FROM public."Company" where "Id"= "Contracts"."Id_Company") as "Primary_Email"  from public."Contracts" inner join public."Token" on "Token"."Id_Contract" = "Contracts"."Id"  where "Contracts"."IsActive" = coalesce(' +
+			strparam1 +
+			',"Contracts"."IsActive") and "Contracts"."Id" = coalesce(' +
+			strparam2 +
+			',"Contracts"."Id") order by "Contracts"."Id"';
+
+		console.log(Strquery);
+
+		const { rows } = await query(Strquery);
+
+		var content = rows[0].Contract_Terms;
+		Strfilename = './public/Contract_' + rows[0].Contract_Name.trim() + '.pdf';
+
+		console.log(fs.existsSync(Strfilename));
+		if (fs.existsSync(Strfilename) == false) {
+			pdfshift
+				.convert(content, {
+					landscape: false,
+					use_print: true,
+					margin: { left: '72px', right: '72px', top: '72px', bottom: '72px' }
+				})
+				.then(function(binary_file) {
+					fs.writeFile(Strfilename, binary_file, 'binary', function() {});
+				})
+				.catch(function({ message, code, response, errors = null }) {});
+		}
+
+		return rows;
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
+	}
+}
+
+//Method Connect to Send Contracts by emails
 async function SendContracts(args) {
 	try {
 		console.log(args.IsActive);
@@ -2021,15 +2080,7 @@ async function SendContracts(args) {
 		const { rows } = await query(Strquery);
 
 		var content = rows[0].Contract_Terms;
-		Strfilename = 'Contract_' + rows[0].Contract_Name + '.pdf';
-
-		pdf.create(content).toFile('./' + Strfilename, function(err, res) {
-			if (err) {
-				console.log(err);
-			} else {
-				console.log(res);
-			}
-		});
+		Strfilename = './public/Contract_' + rows[0].Contract_Name.trim() + '.pdf';
 
 		var mailOptions = {
 			from: 'coremagroup@hotmail.com',
@@ -2038,13 +2089,13 @@ async function SendContracts(args) {
 			html:
 				'<p>Tumi welcomes and we thank you for trusting us.</p>' +
 				'<p>We have attached your contract, to sign the contract click <a href="https://corema-dev-env.herokuapp.com/home/signature/?token=' +
-				rows[0].Token +
-				'&signatory=C"> here </a></p>',
+				rows[0].Token.trim() +
+				'&signatory=C"> here </a></p> ',
 			attachments: [
 				{
 					filename: Strfilename,
 					content: 'Some notes about this e-mail',
-					path: './' + Strfilename,
+					path: Strfilename,
 					contentType: 'text/plain'
 				}
 			]
@@ -2065,13 +2116,13 @@ async function SendContracts(args) {
 			html:
 				'<p>Tumi welcomes and we thank you for trusting us.</p>' +
 				'<p>We have attached your contract, to sign the contract click <a href="https://corema-dev-env.herokuapp.com/home/signature/?token=' +
-				rows[1].Token +
+				rows[1].Token.trim() +
 				'&signatory=E"> here </a> </p> ',
 			attachments: [
 				{
 					filename: Strfilename,
 					content: 'Some notes about this e-mail',
-					path: './' + Strfilename,
+					path: Strfilename,
 					contentType: 'text/plain'
 				}
 			]
@@ -2243,8 +2294,6 @@ async function UpdContracts(args) {
 				args.input.Billing_Zip_Code +
 				', "Billing_Country"=' +
 				args.input.Billing_Country +
-				', "Contract_Terms"=' +
-				args.input.Contract_Terms +
 				', "Exhibit_B"=' +
 				args.input.Exhibit_B +
 				', "Exhibit_C"=' +
@@ -2533,6 +2582,7 @@ const root = {
 	getcontracttemplate: getContractTemplate,
 
 	sendcontracts: SendContracts,
+	createcontracts: CreateContracts,
 
 	validtokens: ValidTokens
 };

@@ -14,7 +14,6 @@ User_Updated: Int
 Date_Created: String
 Date_Updated: String
 }
-
 input iParamPR {
 Id : Int
 Id_Entity : Int
@@ -30,7 +29,6 @@ Date_Created: String
 Date_Updated: String
 Id_Contract: Int
 }
-
 input iParamA {
 Id: Int
 Related_Table: String
@@ -48,7 +46,6 @@ User_Updated: Int
 Date_Created: String
 Date_Updated: String
 }
-
 input iParamPN {
 Id : Int
 Related_Table: String
@@ -62,7 +59,6 @@ User_Updated: Int
 Date_Created: String
 Date_Updated: String
 }
-
 input iParamC {
 Id : Int
 Id_Entity: Int
@@ -81,7 +77,6 @@ Date_Updated: String
 Id_Supervisor: Int
 Id_Deparment: Int
 }
-
 input iParamCI{
 	Id: Int
 	Id_Catalog: Int
@@ -100,7 +95,6 @@ input iParamCI{
     Date_Created: String
     Date_Updated : String
 }
-
 input iForms{
 	Id: Int
 	Code: String
@@ -116,7 +110,6 @@ input iForms{
     Date_Created: String
     Date_Updated : String
 }
-
 input iParamCatalog{
 	Id: Int
 	Id_Company: Int
@@ -128,7 +121,6 @@ input iParamCatalog{
     Date_Created: String
     Date_Updated : String
 }
-
 input iParamBC {
   	Id: Int
   	Code: String
@@ -170,7 +162,6 @@ input iParamBC {
 	Rooms: Int
 	Contract_Status : String
 }
-
 input iRoles{
 	Id : Int
 	Id_Company : Int
@@ -181,7 +172,6 @@ input iRoles{
 	Date_Created: String
 	Date_Updated: String
 }
-
 input iCompany{
 		Id : Int
 	    Name : String
@@ -198,7 +188,6 @@ input iCompany{
 		Date_Created: String
 		Date_Updated: String
 }
-
 input iRolesForms{
 		Id : Int
 	    IdRoles : Int
@@ -209,7 +198,6 @@ input iRolesForms{
 		Date_Created: String
 		Date_Updated: String
 }
-
 input iUsers{
 	Id: Int
     Id_Entity: Int
@@ -232,7 +220,6 @@ input iUsers{
     Date_Created: String
     Date_Updated: String
 }
-
 input iContracts{
 		Id: Int
 	    Id_Company: Int
@@ -272,7 +259,6 @@ input iContracts{
 		Primary_Email: String
 		Id_Contract_Template: Int
 }
-
 input iContractsTemplates{
 	Id: Int
 	Name:String
@@ -285,7 +271,6 @@ input iContractsTemplates{
 	Exhibit_G: String
 	IsActive: Int
 }
-
 type Query
 {
 	getcontracts(Id:Int,IsActive:Int): [Contracts]
@@ -307,34 +292,25 @@ type Query
 	getvalid_users(Code_User:String,Password:String): [Users]
 	getcontracttemplate(Id:Int,IsActive:Int): [ContractsTemplates]
 	sendcontracts(Id:Int,IsActive:Int): [Contracts]
+	createcontracts(Id:Int,IsActive:Int): [Contracts]
 	validtokens(Token:String,Signatory:String):[Token]
 }
-
 type Mutation{
 	insbusinesscompanies(input: iParamBC): BusinessCompany 
 	updbusinesscompanies(input: iParamBC): BusinessCompany
 	delbusinesscompanies(Id:Int,IsActive:Int): BusinessCompany
-
-
 	inselectronicaddress(input: iParamEA): ElectronicAddress
 	updelectronicaddress(input: iParamEA): ElectronicAddress
-
 	insphonenumbers(input: iParamPN): PhoneNumbers
 	updphonenumbers(input: iParamPN): PhoneNumbers
-
 	insaddress(input: iParamA): Address
 	updaddress(input: iParamA): Address
-
-
 	inscontacts(input: iParamC): Contacts
 	updcontacts(input: iParamC): Contacts
 	delcontacts(Id:Int,IsActive:Int): Contacts
-
-
 	insposition(input: iParamPR): PositionRate
 	updposition(input: iParamPR): PositionRate
 	delposition(Id:Int,IsActive:Int): PositionRate
-
 	inscatalog(input: iParamCatalog): Catalog
 	updcatalog(input: iParamCatalog): Catalog
 	delcatalog(Id:Int,IsActive:Int): Catalog
@@ -342,30 +318,23 @@ type Mutation{
     inscatalogitem(input: iParamCI): CatalogItem
 	updcatalogitem(input: iParamCI): CatalogItem
 	delcatalogitem(Id:Int,IsActive:Int): CatalogItem
-
 	insroles(input: iRoles): Roles
 	updroles(input: iRoles): Roles
 	delroles(Id:Int,IsActive:Int): Roles
-
 	insforms(input: iForms): Forms
 	updforms(input: iForms): Forms
 	delforms(Id:Int,IsActive:Int): Forms
-
 	insrolesforms(input: iRolesForms): RolesForms
 	updrolesforms(input: iRolesForms): RolesForms
 	delrolesforms(Id:Int,IsActive:Int): RolesForms
-
 	insusers(input: iUsers): Users
 	updusers(input: iUsers): Users
 	delusers(Id:Int,IsActive:Int): Users
-
     inscontracts(input: iContracts): Contracts
 	updcontracts(input: iContracts): Contracts
 	delcontracts(Id:Int,IsActive:Int): Contracts
-
 	updcontracstexhibit(Id:Int,Exhibit_B:String,Exhibit_C:String,Exhibit_D:String,Exhibit_E:String,Exhibit_F:String) : Contracts
 	updcontracstsignature(Id:Int,Signature:String,Signatory:String) : Contracts
-
 }
 type Token{
 	Id: Int
@@ -425,7 +394,6 @@ type Contracts{
 		Primary_Email: String
 		Id_Contract_Template: Int
 }
-
 type Company{
 		Id : Int
 	    Name : String
@@ -443,7 +411,6 @@ type Company{
 		Date_Updated: String
 		Primary_Email: String
 }
-
 type BusinessCompany{
 		Id: Int
 		Code: String
@@ -461,6 +428,7 @@ type BusinessCompany{
 		State: Int
 		City: Int
 		Id_Parent: Int
+		Parent: String
 		IsActive: Int
 		User_Created: Int
 		User_Updated: Int
@@ -486,7 +454,6 @@ type BusinessCompany{
 		Rooms: Int
 	    Contract_Status : String
 }
-
 type Catalog{
 	Id: Int
 	Id_Company: Int
@@ -516,8 +483,6 @@ type CatalogItem{
     Date_Created: String
     Date_Updated : String
 }
-
-
 type ElectronicAddress{
 		Id : Int
 		Related_Table: String
@@ -531,7 +496,6 @@ type ElectronicAddress{
 		Date_Created: String
 		Date_Updated: String
 }
-
 type Contacts{
 		Id : Int
 		Id_Entity: Int
@@ -553,12 +517,10 @@ type Contacts{
 		Id_Supervisor: Int
     	Id_Deparment: Int
 }
-
 type Supervisor{
 		Id : Int
 		Full_Name: String
 }
-
 type CatalogParent{
 	Id: Int
 	Id_Catalog: Int
@@ -577,7 +539,6 @@ type CatalogParent{
     Date_Created: String
     Date_Updated : String
 }
-
 type PhoneNumbers{
 		Id : Int
 		Related_Table: String
@@ -591,7 +552,6 @@ type PhoneNumbers{
 		Date_Created: String
 		Date_Updated: String
 }
-
 type Address{
 		Id : Int
 		Related_Table: String
@@ -609,7 +569,6 @@ type Address{
 		Date_Created: String
 		Date_Updated: String
 }
-
 type PositionRate{
 	Id : Int
 	Id_Contract: Int
@@ -625,7 +584,6 @@ type PositionRate{
 	Date_Created: String
 	Date_Updated: String
 }
-
 type Roles{
 	Id : Int
 	Id_Company : Int
@@ -636,7 +594,6 @@ type Roles{
 	Date_Created: String
 	Date_Updated: String
 }
-
 type Forms{
 	Id: Int
 	Code: String
@@ -652,7 +609,6 @@ type Forms{
     Date_Created: String
     Date_Updated : String
 }
-
 type RolesForms{
 		Id : Int
 	    IdRoles : Int
@@ -663,7 +619,6 @@ type RolesForms{
 		Date_Created: String
 		Date_Updated: String
 }
-
 type Users{
 	Id: Int
     Id_Entity: Int
@@ -686,7 +641,6 @@ type Users{
     Date_Created: String
     Date_Updated: String
 }
-
 `);
 
 module.exports = schema;
