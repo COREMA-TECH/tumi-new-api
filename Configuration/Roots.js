@@ -1045,7 +1045,7 @@ async function DelCatalog(args) {
 //Method Connect to table CatalogItem
 async function getCatalogItem(args) {
 	try {
-		var strparam1, strparam2, strparam3;
+		var strparam1, strparam2, strparam3, strparam4;
 
 		if (args.IsActive >= 0) {
 			strparam1 = args.IsActive;
