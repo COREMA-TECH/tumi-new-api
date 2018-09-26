@@ -54,6 +54,24 @@ const ApplicationFields = {
 		type: new GraphQLNonNull(GraphQLInt),
 		description: 'Applicant Possition Applying for'
 	},
+
+	birthDay: {
+		type: new GraphQLNonNull(GraphQLDate),
+		description: 'Applicant Birthday'
+	},
+	car: {
+		type: new GraphQLNonNull(GraphQLBoolean),
+		description: 'Applicant Has car?'
+	},
+	typeOfId: {
+		type: new GraphQLNonNull(GraphQLInt),
+		description: 'Applicant type of Id'
+	},
+	expireDate: {
+		type: new GraphQLNonNull(GraphQLDate),
+		description: 'Applicant Id Expiration Date'
+	},
+
 	dateAvailable: {
 		type: new GraphQLNonNull(GraphQLString),
 		description: 'Applicant Date Avalilable'

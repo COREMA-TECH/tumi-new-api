@@ -55,6 +55,22 @@ export default {
 				type: Sequelize.INTEGER,
 				allowNull: false
 			},
+			birthDay: {
+				type: Sequelize.DATE,
+				allowNull: false
+			},
+			car: {
+				type: Sequelize.BOOLEAN,
+				allowNull: false
+			},
+			typeOfId: {
+				type: Sequelize.INTEGER,
+				allowNull: false
+			},
+			expireDate: {
+				type: Sequelize.DATE,
+				allowNull: false
+			},
 			dateAvailable: {
 				type: Sequelize.DATE,
 				allowNull: false
