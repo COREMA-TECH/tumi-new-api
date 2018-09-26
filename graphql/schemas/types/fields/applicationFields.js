@@ -67,7 +67,7 @@ const ApplicationFields = {
 		type: new GraphQLNonNull(GraphQLInt),
 		description: 'Applicant type of Id'
 	},
-	expireDate: {
+	expireDateId: {
 		type: new GraphQLNonNull(GraphQLDate),
 		description: 'Applicant Id Expiration Date'
 	},

@@ -67,7 +67,7 @@ export default {
 				type: Sequelize.INTEGER,
 				allowNull: false
 			},
-			expireDate: {
+			expireDateId: {
 				type: Sequelize.DATE,
 				allowNull: false
 			},
