@@ -2030,18 +2030,18 @@ async function CreateContracts(args) {
 		Strfilename = './public/Contract_' + rows[0].Contract_Name.trim() + '.pdf';
 
 		console.log(fs.existsSync(Strfilename));
-		if (fs.existsSync(Strfilename) == false) {
-			pdfshift
-				.convert(content, {
-					landscape: false,
-					use_print: true,
-					margin: { left: '72px', right: '72px', top: '72px', bottom: '72px' }
-				})
-				.then(function(binary_file) {
-					fs.writeFile(Strfilename, binary_file, 'binary', function() {});
-				})
-				.catch(function({ message, code, response, errors = null }) {});
-		}
+		//	if (fs.existsSync(Strfilename) == false) {
+		pdfshift
+			.convert(content, {
+				landscape: false,
+				use_print: true,
+				margin: { left: '72px', right: '72px', top: '72px', bottom: '72px' }
+			})
+			.then(function(binary_file) {
+				fs.writeFile(Strfilename, binary_file, 'binary', function() {});
+			})
+			.catch(function({ message, code, response, errors = null }) {});
+		//	}
 
 		return rows;
 	} catch (err) {
