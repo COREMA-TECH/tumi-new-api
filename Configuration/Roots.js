@@ -2135,7 +2135,6 @@ async function SendContracts(args) {
 '<table>'+
 '<tr>'+
 '<td>'+
-'<a href="#" class="btn-tumy">UPDATE ACCOUNT</a>'+
 '</td>'+
 '</tr>'+
 '</table>'+
@@ -2261,7 +2260,6 @@ async function SendContracts(args) {
 '<table>'+
 '<tr>'+
 '<td>'+
-'<a href="#" class="btn-tumy">UPDATE ACCOUNT</a>'+
 '</td>'+
 '</tr>'+
 '</table>'+
