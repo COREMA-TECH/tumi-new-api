@@ -3,7 +3,7 @@ import GraphQLDate from 'graphql-date';
 
 const ApplicantEducationFields = {
 	schoolType: {
-		type: new GraphQLNonNull(GraphQLInt),
+		type: new GraphQLNonNull(GraphQLString),
 		description: 'Applicant School Type'
 	},
 	educationName: {
@@ -27,7 +27,7 @@ const ApplicantEducationFields = {
 		description: 'Applicant Is Graduated?'
 	},
 	degree: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: new GraphQLNonNull(GraphQLInt),
 		description: 'Applicant Degree'
 	},
 	ApplicationId: {

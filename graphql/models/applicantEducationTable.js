@@ -4,7 +4,7 @@ export default {
 	createModel(Conn) {
 		return Conn.define('ApplicantEducations', {
 			schoolType: {
-				type: Sequelize.INTEGER,
+				type: Sequelize.STRING(100),
 				allowNull: false
 			},
 			educationName: {
@@ -28,7 +28,7 @@ export default {
 				allowNull: false
 			},
 			degree: {
-				type: Sequelize.STRING(150),
+				type: Sequelize.INTEGER,
 				allowNull: false
 			}
 		});
