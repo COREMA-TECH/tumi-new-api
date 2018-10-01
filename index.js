@@ -20,6 +20,7 @@ app.use(
 	})
 );
 
-app.listen(process.env.PORT || APP_PORT, function() {
+
+app.listen(process.env.PORT || APP_PORT, function () {
 	console.log(`Server is running.. on Port ${APP_PORT}`);
 });

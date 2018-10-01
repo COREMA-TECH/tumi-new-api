@@ -11,6 +11,8 @@ const pdf = require('html-pdf');
 const pdfshift = require('pdfshift')('2974f9467a93407fae7e39d931d1d732');
 const fs = require('fs');
 
+//const htmlToPdf = require('html-to-pdf');
+
 var Strquery, Strfilename;
 
 var transporter = nodemailer.createTransport({
@@ -2000,6 +2002,62 @@ async function getContracts(args) {
 //Method Connect to Send Contracts by emails
 async function CreateContracts(args) {
 	try {
+
+		var strparam1, strparam2;
+
+		if (args.IsActive >= 0) {
+			strparam1 = args.IsActive;
+		} else {
+			strparam1 = null;
+		}
+
+		if (args.Id >= 0) {
+			strparam2 = args.Id;
+		} else {
+			strparam2 = null;
+		}
+
+		Strquery =
+			'select "Contracts"."Id", "Id_Company", "Id_Entity", "Contract_Name", "Contrat_Owner", "Id_User_Signed",(SELECT "Electronic_Address" FROM public."Contacts" where "Id"= "Contracts"."Id_User_Signed") as "Electronic_Address", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed", "Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F", "Client_Signature", "Company_Signature","Contract_Expiration_Date",(SELECT "Primary_Email" FROM public."Company" where "Id"= "Contracts"."Id_Company") as "Primary_Email"  from public."Contracts"  where "Contracts"."IsActive" = coalesce(' +
+			strparam1 +
+			',"Contracts"."IsActive") and "Contracts"."Id" = coalesce(' +
+			strparam2 +
+			',"Contracts"."Id") order by "Contracts"."Id"';
+
+		const { rows } = await query(Strquery);
+		var content = rows[0].Contract_Terms;
+
+
+		Strfilename = './public/Contract_' + rows[0].Contract_Name.trim() + '.pdf';
+
+		//var html = fs.readFileSync(content, 'utf8');
+
+		var options = {
+			format: 'Letter',
+			orientation: "portrait",
+			border: {
+				top: '0.98in', // default is 0, units: mm, cm, in, px
+				right: '0.98in',
+				bottom: '0.98in',
+				left: '0.98in'
+			}
+		};
+		/*if (fs.existsSync(Strfilename)) {
+			fs.unlinkSync(Strfilename);
+		}*/
+		//fs.destroy(Strfilename);
+
+		pdf.create(content, options).toFile(Strfilename, function (err, res) {
+			if (err) return console.log(err);
+			console.log(res); // { filename: '/app/businesscard.pdf' }
+		});
+
+		return rows;
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
+	}
+	/*try {
 		console.log(args.IsActive);
 		var strparam1, strparam2, strparam3;
 
@@ -2037,24 +2095,24 @@ async function CreateContracts(args) {
 				use_print: true,
 				margin: { left: '72px', right: '72px', top: '72px', bottom: '72px' }
 			})
-			.then(function(binary_file) {
-				fs.writeFile(Strfilename, binary_file, 'binary', function() {});
+			.then(function (binary_file) {
+				fs.writeFile(Strfilename, binary_file, 'binary', function () { });
 			})
-			.catch(function({ message, code, response, errors = null }) {});
+			.catch(function ({ message, code, response, errors = null }) { });
 		//	}
 
 		return rows;
 	} catch (err) {
 		console.log('Database ' + err);
 		return err;
-	}
+	}*/
 }
 
 //Method Connect to Send Contracts by emails
 async function SendContracts(args) {
 	try {
 		console.log(args.IsActive);
-		var strparam1, strparam2, strparam3;
+		var strparam1, strparam2;
 
 		if (args.IsActive >= 0) {
 			strparam1 = args.IsActive;
@@ -2086,109 +2144,109 @@ async function SendContracts(args) {
 			from: 'coremagroup@hotmail.com',
 			to: rows[0].Electronic_Address,
 			subject: Strfilename,
-			html:'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'+
-'<html xmlns="http://www.w3.org/1999/xhtml">'+
-''+
-'<head>'+
-'<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />'+
-'<meta name="viewport" content="width=device-width" />'+
-'<title>Title</title>'+
-'<link rel="stylesheet" href="css/default.css">'+
-'</head>'+
-''+
-'<body>'+
-'<!-- <style> -->'+
-''+
-'<table class="body" data-made-with-foundation>'+
-'<tr>'+
-'<td class="float-center" align="center" valign="top">'+
-'<table class="container">'+
-'<tr>'+
-'<td class="logo-wrapper">'+
-'<center class="logo-wrapper">'+
-'<img src="https://firebasestorage.googleapis.com/v0/b/tumiapp-66cd6.appspot.com/o/files%2Flogo-tumy.png?alt=media&token=b6a26a9d-9081-40f6-a4b5-fed2c3b84895"'+
-'alt="" class="logo" width="300px">'+
-'</center>'+
-'</td>'+
-'</tr>'+
-'<tr>'+
-'<td>'+
-'<center class="slogan">'+
-'What you want to do and what you can do... <br>'+
-'Is limited only by what you can dream'+
-'<h3 style="color: #ecc500;font-size: 32px;text-align: center;margin: $margin 0;">Welcome</h3>'+
-'<p>'+
-'We are in the process of setting you up as part of the Tummy family. <br>'+
-'We need youn to complete the following steps to get the process rolling'+
-'</p>'+
-'<a href="https://corema-dev-env.herokuapp.com/home/signature/?token=' +
+			html: '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' +
+				'<html xmlns="http://www.w3.org/1999/xhtml">' +
+				'' +
+				'<head>' +
+				'<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' +
+				'<meta name="viewport" content="width=device-width" />' +
+				'<title>Title</title>' +
+				'<link rel="stylesheet" href="css/default.css">' +
+				'</head>' +
+				'' +
+				'<body>' +
+				'<!-- <style> -->' +
+				'' +
+				'<table class="body" data-made-with-foundation>' +
+				'<tr>' +
+				'<td class="float-center" align="center" valign="top">' +
+				'<table class="container">' +
+				'<tr>' +
+				'<td class="logo-wrapper">' +
+				'<center class="logo-wrapper">' +
+				'<img src="https://firebasestorage.googleapis.com/v0/b/tumiapp-66cd6.appspot.com/o/files%2Flogo-tumy.png?alt=media&token=b6a26a9d-9081-40f6-a4b5-fed2c3b84895"' +
+				'alt="" class="logo" width="300px">' +
+				'</center>' +
+				'</td>' +
+				'</tr>' +
+				'<tr>' +
+				'<td>' +
+				'<center class="slogan">' +
+				'What you want to do and what you can do... <br>' +
+				'Is limited only by what you can dream' +
+				'<h3 style="color: #ecc500;font-size: 32px;text-align: center;margin: $margin 0;">Welcome</h3>' +
+				'<p>' +
+				'We are in the process of setting you up as part of the Tummy family. <br>' +
+				'We need youn to complete the following steps to get the process rolling' +
+				'</p>' +
+				'<a href="https://corema-dev-env.herokuapp.com/home/signature/?token=' +
 				rows[0].Token.trim() +
-				'&signatory=C">'+
-'<img src="https://firebasestorage.googleapis.com/v0/b/tumiapp-66cd6.appspot.com/o/files%2Fstepper.jpg?alt=media&token=bc28b46f-d7c9-41c4-bd3e-76d45c8c7f9a"'+
-'width="400px;" alt="">'+
-'</a>'+
-'</center>'+
-'<center>'+
-'<table class="button">'+
-'<tr>'+
-'<td>'+
-'<table>'+
-'<tr>'+
-'<td>'+
-'</td>'+
-'</tr>'+
-'</table>'+
-'</td>'+
-'</tr>'+
-'</table>'+
-'</center>'+
-'</td>'+
-'</tr>'+
-'<tr>'+
-'<td>'+
-'<center class="content">'+
-'Formed by hospitality professionals, we are dedicated to <br>'+
-'helping your hotel achieve greater customer satisfaction,<br>'+
-'increased QA scores, boost efficiencies and reduce cost.'+
-'</center>'+
-'</td>'+
-'</tr>'+
-'<tr>'+
-'<td class="">'+
-'<table>'+
-'<tr>'+
-'<td class="float-center" align="center" valign="top">'+
-'<center style="color:#777;background-color: #000;padding: 50px 0;">'+
-'<table>'+
-'<tr>'+
-'<td class="text-center" style="text-align: center;">'+
-'PRIVACY STATEMENT'+
-'</td>'+
-'<td class="pipe text-center" style="text-align: center;">'+
-'|'+
-'</td>'+
-'<td class="text-center" style="text-align: center;">'+
-'TERM OF SERVICES'+
-'</td>'+
-'</tr>'+
-'<tr>'+
-'<td colspan="3" height="50px" style="vertical-align:middle" valign="middle">'+
-'&copy; 2018 Tumi Staffing, Inc PO Box 592715 San Antonio, TX 78259'+
-'</td>'+
-'</tr>'+
-'</table>'+
-'</center>'+
-'</td>'+
-'</tr>'+
-'</table>'+
-'</td>'+
-'</tr>'+
-'</table>'+
-'</td>'+
-'</tr>'+
-'</table>'+
-'</body>'+
-'</html>',		
+				'&signatory=C">' +
+				'<img src="https://firebasestorage.googleapis.com/v0/b/tumiapp-66cd6.appspot.com/o/files%2Fstepper.jpg?alt=media&token=bc28b46f-d7c9-41c4-bd3e-76d45c8c7f9a"' +
+				'width="400px;" alt="">' +
+				'</a>' +
+				'</center>' +
+				'<center>' +
+				'<table class="button">' +
+				'<tr>' +
+				'<td>' +
+				'<table>' +
+				'<tr>' +
+				'<td>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</center>' +
+				'</td>' +
+				'</tr>' +
+				'<tr>' +
+				'<td>' +
+				'<center class="content">' +
+				'Formed by hospitality professionals, we are dedicated to <br>' +
+				'helping your hotel achieve greater customer satisfaction,<br>' +
+				'increased QA scores, boost efficiencies and reduce cost.' +
+				'</center>' +
+				'</td>' +
+				'</tr>' +
+				'<tr>' +
+				'<td class="">' +
+				'<table>' +
+				'<tr>' +
+				'<td class="float-center" align="center" valign="top">' +
+				'<center style="color:#777;background-color: #000;padding: 50px 0;">' +
+				'<table>' +
+				'<tr>' +
+				'<td class="text-center" style="text-align: center;">' +
+				'PRIVACY STATEMENT' +
+				'</td>' +
+				'<td class="pipe text-center" style="text-align: center;">' +
+				'|' +
+				'</td>' +
+				'<td class="text-center" style="text-align: center;">' +
+				'TERM OF SERVICES' +
+				'</td>' +
+				'</tr>' +
+				'<tr>' +
+				'<td colspan="3" height="50px" style="vertical-align:middle" valign="middle">' +
+				'&copy; 2018 Tumi Staffing, Inc PO Box 592715 San Antonio, TX 78259' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</center>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</body>' +
+				'</html>',
 			attachments: [
 				{
 					filename: Strfilename,
@@ -2199,7 +2257,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function(error, info) {
+		transporter.sendMail(mailOptions, function (error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2211,109 +2269,109 @@ async function SendContracts(args) {
 			from: 'coremagroup@hotmail.com',
 			to: rows[0].Primary_Email,
 			subject: Strfilename,
-			html:'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'+
-'<html xmlns="http://www.w3.org/1999/xhtml">'+
-''+
-'<head>'+
-'<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />'+
-'<meta name="viewport" content="width=device-width" />'+
-'<title>Title</title>'+
-'<link rel="stylesheet" href="css/default.css">'+
-'</head>'+
-''+
-'<body>'+
-'<!-- <style> -->'+
-''+
-'<table class="body" data-made-with-foundation>'+
-'<tr>'+
-'<td class="float-center" align="center" valign="top">'+
-'<table class="container">'+
-'<tr>'+
-'<td class="logo-wrapper">'+
-'<center class="logo-wrapper">'+
-'<img src="https://firebasestorage.googleapis.com/v0/b/tumiapp-66cd6.appspot.com/o/files%2Flogo-tumy.png?alt=media&token=b6a26a9d-9081-40f6-a4b5-fed2c3b84895"'+
-'alt="" class="logo" width="300px">'+
-'</center>'+
-'</td>'+
-'</tr>'+
-'<tr>'+
-'<td>'+
-'<center class="slogan">'+
-'What you want to do and what you can do... <br>'+
-'Is limited only by what you can dream'+
-'<h3 style="color: #ecc500;font-size: 32px;text-align: center;margin: $margin 0;">Welcome</h3>'+
-'<p>'+
-'We are in the process of setting you up as part of the Tummy family. <br>'+
-'We need youn to complete the following steps to get the process rolling'+
-'</p>'+
-'<a href="https://corema-dev-env.herokuapp.com/home/signature/?token=' +
+			html: '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' +
+				'<html xmlns="http://www.w3.org/1999/xhtml">' +
+				'' +
+				'<head>' +
+				'<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' +
+				'<meta name="viewport" content="width=device-width" />' +
+				'<title>Title</title>' +
+				'<link rel="stylesheet" href="css/default.css">' +
+				'</head>' +
+				'' +
+				'<body>' +
+				'<!-- <style> -->' +
+				'' +
+				'<table class="body" data-made-with-foundation>' +
+				'<tr>' +
+				'<td class="float-center" align="center" valign="top">' +
+				'<table class="container">' +
+				'<tr>' +
+				'<td class="logo-wrapper">' +
+				'<center class="logo-wrapper">' +
+				'<img src="https://firebasestorage.googleapis.com/v0/b/tumiapp-66cd6.appspot.com/o/files%2Flogo-tumy.png?alt=media&token=b6a26a9d-9081-40f6-a4b5-fed2c3b84895"' +
+				'alt="" class="logo" width="300px">' +
+				'</center>' +
+				'</td>' +
+				'</tr>' +
+				'<tr>' +
+				'<td>' +
+				'<center class="slogan">' +
+				'What you want to do and what you can do... <br>' +
+				'Is limited only by what you can dream' +
+				'<h3 style="color: #ecc500;font-size: 32px;text-align: center;margin: $margin 0;">Welcome</h3>' +
+				'<p>' +
+				'We are in the process of setting you up as part of the Tummy family. <br>' +
+				'We need youn to complete the following steps to get the process rolling' +
+				'</p>' +
+				'<a href="https://corema-dev-env.herokuapp.com/home/signature/?token=' +
 				rows[1].Token.trim() +
-				'&signatory=E">'+
-'<img src="https://firebasestorage.googleapis.com/v0/b/tumiapp-66cd6.appspot.com/o/files%2Fstepper.jpg?alt=media&token=bc28b46f-d7c9-41c4-bd3e-76d45c8c7f9a"'+
-'width="400px;" alt="">'+
-'</a>'+
-'</center>'+
-'<center>'+
-'<table class="button">'+
-'<tr>'+
-'<td>'+
-'<table>'+
-'<tr>'+
-'<td>'+
-'</td>'+
-'</tr>'+
-'</table>'+
-'</td>'+
-'</tr>'+
-'</table>'+
-'</center>'+
-'</td>'+
-'</tr>'+
-'<tr>'+
-'<td>'+
-'<center class="content">'+
-'Formed by hospitality professionals, we are dedicated to <br>'+
-'helping your hotel achieve greater customer satisfaction,<br>'+
-'increased QA scores, boost efficiencies and reduce cost.'+
-'</center>'+
-'</td>'+
-'</tr>'+
-'<tr>'+
-'<td class="">'+
-'<table>'+
-'<tr>'+
-'<td class="float-center" align="center" valign="top">'+
-'<center style="color:#777;background-color: #000;padding: 50px 0;">'+
-'<table>'+
-'<tr>'+
-'<td class="text-center" style="text-align: center;">'+
-'PRIVACY STATEMENT'+
-'</td>'+
-'<td class="pipe text-center" style="text-align: center;">'+
-'|'+
-'</td>'+
-'<td class="text-center" style="text-align: center;">'+
-'TERM OF SERVICES'+
-'</td>'+
-'</tr>'+
-'<tr>'+
-'<td colspan="3" height="50px" style="vertical-align:middle" valign="middle">'+
-'&copy; 2018 Tumi Staffing, Inc PO Box 592715 San Antonio, TX 78259'+
-'</td>'+
-'</tr>'+
-'</table>'+
-'</center>'+
-'</td>'+
-'</tr>'+
-'</table>'+
-'</td>'+
-'</tr>'+
-'</table>'+
-'</td>'+
-'</tr>'+
-'</table>'+
-'</body>'+
-'</html>',		
+				'&signatory=E">' +
+				'<img src="https://firebasestorage.googleapis.com/v0/b/tumiapp-66cd6.appspot.com/o/files%2Fstepper.jpg?alt=media&token=bc28b46f-d7c9-41c4-bd3e-76d45c8c7f9a"' +
+				'width="400px;" alt="">' +
+				'</a>' +
+				'</center>' +
+				'<center>' +
+				'<table class="button">' +
+				'<tr>' +
+				'<td>' +
+				'<table>' +
+				'<tr>' +
+				'<td>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</center>' +
+				'</td>' +
+				'</tr>' +
+				'<tr>' +
+				'<td>' +
+				'<center class="content">' +
+				'Formed by hospitality professionals, we are dedicated to <br>' +
+				'helping your hotel achieve greater customer satisfaction,<br>' +
+				'increased QA scores, boost efficiencies and reduce cost.' +
+				'</center>' +
+				'</td>' +
+				'</tr>' +
+				'<tr>' +
+				'<td class="">' +
+				'<table>' +
+				'<tr>' +
+				'<td class="float-center" align="center" valign="top">' +
+				'<center style="color:#777;background-color: #000;padding: 50px 0;">' +
+				'<table>' +
+				'<tr>' +
+				'<td class="text-center" style="text-align: center;">' +
+				'PRIVACY STATEMENT' +
+				'</td>' +
+				'<td class="pipe text-center" style="text-align: center;">' +
+				'|' +
+				'</td>' +
+				'<td class="text-center" style="text-align: center;">' +
+				'TERM OF SERVICES' +
+				'</td>' +
+				'</tr>' +
+				'<tr>' +
+				'<td colspan="3" height="50px" style="vertical-align:middle" valign="middle">' +
+				'&copy; 2018 Tumi Staffing, Inc PO Box 592715 San Antonio, TX 78259' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</center>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</body>' +
+				'</html>',
 			attachments: [
 				{
 					filename: Strfilename,
@@ -2324,7 +2382,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function(error, info) {
+		transporter.sendMail(mailOptions, function (error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2344,7 +2402,7 @@ async function SendContracts(args) {
 }
 
 //Method Connect to Send Contracts by emails
-async function CreatePdfContracts(args) {
+/*async function CreatePdfContracts(args) {
 	try {
 		console.log(Strquery);
 		const { rows } = await query(Strquery);
@@ -2358,6 +2416,65 @@ async function CreatePdfContracts(args) {
 			} else {
 				console.log(res);
 			}
+		});
+
+		return Strfilename;
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
+	}
+}*/
+
+async function CreatePdfContracts(args) {
+	try {
+
+		var strparam1, strparam2;
+
+		if (args.IsActive >= 0) {
+			strparam1 = args.IsActive;
+		} else {
+			strparam1 = null;
+		}
+
+		if (args.Id >= 0) {
+			strparam2 = args.Id;
+		} else {
+			strparam2 = null;
+		}
+
+		Strquery =
+			'select "Contracts"."Id","Token"."Token","Token"."Signatory", "Id_Company", "Id_Entity", "Contract_Name", "Contrat_Owner", "Id_User_Signed",(SELECT "Electronic_Address" FROM public."Contacts" where "Id"= "Contracts"."Id_User_Signed") as "Electronic_Address", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed", "Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F", "Client_Signature", "Company_Signature","Contract_Expiration_Date",(SELECT "Primary_Email" FROM public."Company" where "Id"= "Contracts"."Id_Company") as "Primary_Email"  from public."Contracts" inner join public."Token" on "Token"."Id_Contract" = "Contracts"."Id"  where "Contracts"."IsActive" = coalesce(' +
+			strparam1 +
+			',"Contracts"."IsActive") and "Contracts"."Id" = coalesce(' +
+			strparam2 +
+			',"Contracts"."Id") order by "Contracts"."Id"';
+
+		console.log(Strquery);
+
+		const { rows } = await query(Strquery);
+
+		var content = rows[0].Contract_Terms;
+		Strfilename = './public/Contract_' + rows[0].Contract_Name.trim() + '.pdf';
+
+		var html = fs.readFileSync(content, 'utf8');
+		var options = {
+			format: 'Letter',
+			border: {
+				top: '0.98in', // default is 0, units: mm, cm, in, px
+				right: '0.98in',
+				bottom: '0.98in',
+				left: '0.98in'
+			}
+		};
+		if (fs.existsSync(Strfilename)) {
+			fs.unlinkSync(Strfilename);
+		}
+
+		console.log("html listo ", html);
+
+		pdf.create(html, options).toFile(Strfilename, function (err, res) {
+			if (err) return console.log(err);
+			console.log(res); // { filename: '/app/businesscard.pdf' }
 		});
 
 		return Strfilename;
