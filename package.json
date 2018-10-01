@@ -33,6 +33,7 @@
 		"merge-graphql-schemas": "^1.5.5",
 		"mongose": "0.0.2-security",
 		"mssql": "^3.3.0",
+		"node-cron": "^2.0.1",
 		"nodemailer": "^4.6.8",
 		"pdfshift": "^1.0.4",
 		"pg": "^7.4.3",
