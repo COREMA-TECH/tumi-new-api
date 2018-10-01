@@ -11,17 +11,84 @@ const pdf = require('html-pdf');
 const pdfshift = require('pdfshift')('2974f9467a93407fae7e39d931d1d732');
 const fs = require('fs');
 
-//const htmlToPdf = require('html-to-pdf');
+var cron = require('node-cron');
 
 var Strquery, Strfilename;
 
-var transporter = nodemailer.createTransport({
+cron.schedule('59 23 * * *', () => {
+	console.log('running a task At 23:59.');
+	SendExpiredContracts();
+});
+
+var mailParams = {
 	service: 'Hotmail',
 	auth: {
 		user: 'coremagroup@hotmail.com',
 		pass: 'Corema123'
+	},
+	pool: true,
+	rateDelta: 20000
+};
+
+var transporter = nodemailer.createTransport(mailParams);
+
+async function SendExpiredContracts() {
+	try {
+		const strday = `'day'`;
+		Strquery =
+			'select CT."Id", TRIM(CT."Contract_Name") AS Contract_Name,CT."Contract_Expiration_Date", ' +
+			'(SELECT "Electronic_Address" FROM public."Contacts" where "Id"= CT."Id_User_Signed") as "Electronic_Address", ' +
+			'(SELECT "Primary_Email" FROM public."Company" where "Id"= CT."Id_Company") as "Primary_Email" ' +
+			'from public."Contracts"  CT where CT."IsActive" = 1' +
+			'and DATE_PART(' +
+			strday +
+			',  CT."Contract_Expiration_Date"::timestamp - NOW()::timestamp)<=30';
+
+		console.log(Strquery);
+
+		const { rows } = await query(Strquery);
+		var mailOptions = {
+			from: 'coremagroup@hotmail.com',
+			to: '',
+			subject: 'Contract Expiration Reminder',
+			html: 'Your contract is about to expire'
+		};
+
+		rows.forEach(function (element) {
+			mailOptions.to = element.Electronic_Address;
+
+			transporter.sendMail(mailOptions, function (error, info) {
+				if (error) {
+					console.log('Id: ' + element.Id + ' error');
+				} else {
+					console.log(
+						'Id: ' + element.Id + ' ' + 'Email enviado: ' + info.response + ' ' + element.Electronic_Address
+					);
+				}
+				console.log('\n');
+			});
+
+			mailOptions.to = element.Primary_Email;
+
+			transporter.sendMail(mailOptions, function (error, info) {
+				if (error) {
+					console.log('Id: ' + element.Id + ' error');
+				} else {
+					console.log(
+						'Id: ' + element.Id + ' ' + 'Email enviado: ' + info.response + ' ' + element.Primary_Email
+					);
+				}
+				console.log('\n');
+			});
+		});
+
+		return rows;
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
 	}
-});
+}
+
 //Conection to BD
 const pool = new pg.Pool(Config);
 async function query(q) {

@@ -68,7 +68,7 @@ const ApplicantPreviousEmploymentMutation = {
 		},
 		resolve(source, args) {
 			return Db.models.ApplicantPreviousEmployments
-				.bulkCreate(args.applicantPreviousEmploymentArray, { returning: true })
+				.bulkCreate(args.applicantPreviousEmployment, { returning: true })
 				.then((previousEmployments) => {
 					return previousEmployments.map((prevEmp) => {
 						return prevEmp.dataValues;
