@@ -5,6 +5,8 @@ import ApplicantEducationModel from './applicantEducationTable';
 import ApplicantPreviousEmploymentModel from './applicantPreviousEmploymentTable';
 import ApplicantMilitaryServicesModel from './applicantMilitaryServiceTable';
 import ApplicantSkillTableModel from './applicantSkillTable';
+import CompanyPreferencesModel from './companyPreferenceTable';
+
 import { Conn } from '../../Configuration/Configuration';
 
 const ElectronicAddress = ElectronicAddressModel.createModel(Conn);
@@ -14,6 +16,7 @@ const ApplicantEducation = ApplicantEducationModel.createModel(Conn);
 const ApplicantPreviousEmployment = ApplicantPreviousEmploymentModel.createModel(Conn);
 const ApplicantMilitaryServices = ApplicantMilitaryServicesModel.createModel(Conn);
 const ApplicantSkill = ApplicantSkillTableModel.createModel(Conn);
+const CompanyPreference = CompanyPreferencesModel.createModel(Conn);
 
 Application.hasMany(ApplicantLanguage);
 Application.hasMany(ApplicantEducation);

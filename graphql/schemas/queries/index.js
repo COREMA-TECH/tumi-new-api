@@ -5,6 +5,7 @@ import ApplicantEducationQuery from './applicantEducationQuery';
 import ApplicantPreviousEmploymentQuery from './applicantPreviousEmploymentQuery';
 import ApplicantMilitaryServiceQuery from './applicantMilitaryServiceQuery';
 import ApplicantSkillQuery from './applicantSkillQuery';
+import CompanyPreferenceQuery from './companyPreferenceQuery';
 
 export {
 	ApplicantLanguageQuery,
@@ -13,5 +14,6 @@ export {
 	ApplicantEducationQuery,
 	ApplicantPreviousEmploymentQuery,
 	ApplicantMilitaryServiceQuery,
-	ApplicantSkillQuery
+	ApplicantSkillQuery,
+	CompanyPreferenceQuery
 };
