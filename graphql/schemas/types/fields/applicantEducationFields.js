@@ -27,7 +27,7 @@ const ApplicantEducationFields = {
 		description: 'Applicant Is Graduated?'
 	},
 	degree: {
-		type: new GraphQLNonNull(GraphQLInt),
+		type: GraphQLInt,
 		description: 'Applicant Degree'
 	},
 	ApplicationId: {

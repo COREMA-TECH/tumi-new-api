@@ -99,6 +99,10 @@ const ApplicationFields = {
 	comment: {
 		type: new GraphQLNonNull(GraphQLString),
 		description: 'Applicant Comment'
+	},
+	idealJob: {
+		type: new GraphQLNonNull(GraphQLString),
+		description: 'Ideal Job'
 	}
 };
 

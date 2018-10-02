@@ -36,7 +36,8 @@ const ApplicationMutation = {
 				scheduleExplain: args.application.scheduleExplain,
 				convicted: args.application.convicted,
 				convictedExplain: args.application.convictedExplain,
-				comment: args.application.comment
+				comment: args.application.comment,
+				idealJob: args.application.idealJob
 			});
 		}
 	},
@@ -73,7 +74,8 @@ const ApplicationMutation = {
 						scheduleExplain: args.application.scheduleExplain,
 						convicted: args.application.convicted,
 						convictedExplain: args.application.convictedExplain,
-						comment: args.application.comment
+						comment: args.application.comment,
+						idealJob: args.application.idealJob
 					},
 					{
 						where: {

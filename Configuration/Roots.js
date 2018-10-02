@@ -1,14 +1,11 @@
 const pg = require('pg');
-const express = require('express');
-const Config = require('../Configuration/Configuration.js');
+import {ConfigPg} from '../Configuration/Configuration'
 
 //Requerimos el paquete
 const nodemailer = require('nodemailer');
-const config = require('./Configuration.js');
 const pdf = require('html-pdf');
 
 //Variables para PDF
-const pdfshift = require('pdfshift')('2974f9467a93407fae7e39d931d1d732');
 const fs = require('fs');
 
 var cron = require('node-cron');
@@ -90,7 +87,7 @@ async function SendExpiredContracts() {
 }
 
 //Conection to BD
-const pool = new pg.Pool(Config);
+const pool = new pg.Pool(ConfigPg);
 async function query(q) {
 	const client = await pool.connect();
 	let res;

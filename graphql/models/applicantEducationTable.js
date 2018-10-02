@@ -29,7 +29,7 @@ export default {
 			},
 			degree: {
 				type: Sequelize.INTEGER,
-				allowNull: false
+				allowNull: true
 			}
 		});
 	}

@@ -98,6 +98,10 @@ export default {
 			comment: {
 				type: Sequelize.STRING(255),
 				allowNull: false
+			},
+			idealJob: {
+				type: Sequelize.STRING(150),
+				allowNull: false
 			}
 		});
 	}
