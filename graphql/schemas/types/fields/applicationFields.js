@@ -77,7 +77,7 @@ const ApplicationFields = {
 	},
 
 	dateAvailable: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: new GraphQLNonNull(GraphQLDate),
 		description: 'Applicant Date Avalilable'
 	},
 	scheduleRestrictions: {
@@ -99,6 +99,10 @@ const ApplicationFields = {
 	comment: {
 		type: new GraphQLNonNull(GraphQLString),
 		description: 'Applicant Comment'
+	},
+	idealJob: {
+		type: new GraphQLNonNull(GraphQLString),
+		description: 'Ideal Job'
 	}
 };
 

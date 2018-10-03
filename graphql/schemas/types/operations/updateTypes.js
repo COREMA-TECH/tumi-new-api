@@ -5,7 +5,8 @@ import {
 	ApplicantEducationFields,
 	ApplicantPreviousEmploymentFields,
 	ApplicantMilitaryServiceFields,
-	ApplicantSkillFields
+	ApplicantSkillFields,
+	CompanyPreferenceFields
 } from '../fields';
 
 const inputUpdateApplication = new GraphQLInputObjectType({
@@ -85,11 +86,25 @@ const inputUpdateApplicantSkill = new GraphQLInputObjectType({
 	}
 });
 
+const inputUpdateCompanyPreference = new GraphQLInputObjectType({
+	name: 'inputUpdateCompanyPreference',
+	description: 'Inputs for Company Preference Mutation',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Company Preference Id'
+		},
+		...CompanyPreferenceFields
+	}
+});
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
 	inputUpdateApplicantEducation,
 	inputUpdateApplicantPreviousEmployment,
 	inputUpdateApplicantMilitaryService,
-	inputUpdateApplicantSkill
+	inputUpdateApplicantSkill,
+	inputUpdateCompanyPreference
 };

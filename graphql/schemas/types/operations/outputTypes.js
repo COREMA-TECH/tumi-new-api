@@ -7,9 +7,10 @@ import {
 	ApplicantEducationFields,
 	ApplicantPreviousEmploymentFields,
 	ApplicantMilitaryServiceFields,
-	ApplicantSkillFields
+	ApplicantSkillFields,
+	CompanyPreferenceFields
 } from '../fields';
-import { NativeSchema } from './NativeSchema';
+
 const ApplicationType = new GraphQLObjectType({
 	name: 'Applications',
 	description: 'This is for application form',
@@ -152,6 +153,21 @@ const ApplicantSkillType = new GraphQLObjectType({
 		};
 	}
 });
+
+const CompanyPreferenceType = new GraphQLObjectType({
+	name: 'CompanyPreferenceType',
+	description: 'This is for Company Preference Table',
+	fields: () => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Company Preference Id'
+			},
+			...CompanyPreferenceFields
+		};
+	}
+});
+
 const ElectronicAddressType = new GraphQLObjectType({
 	name: 'ElectronicAddress',
 	description: 'This is for electronic address',
@@ -170,5 +186,6 @@ export {
 	ApplicantEducationType,
 	ApplicantPreviousEmploymentType,
 	ApplicantMilitaryServiceType,
-	ApplicantSkillType
+	ApplicantSkillType,
+	CompanyPreferenceType
 };

@@ -7,7 +7,8 @@ import {
 	ApplicantEducationFields,
 	ApplicantPreviousEmploymentFields,
 	ApplicantMilitaryServiceFields,
-	ApplicantSkillFields
+	ApplicantSkillFields,
+	CompanyPreferenceFields
 } from '../fields';
 
 const inputInsertApplication = new GraphQLInputObjectType({
@@ -60,6 +61,14 @@ const inputInsertApplicantSkill = new GraphQLInputObjectType({
 		...ApplicantSkillFields
 	}
 });
+const inputInsertCompanyPreference = new GraphQLInputObjectType({
+	name: 'inputInsertCompanyPreference',
+	description: 'Inputs for Company Preference Mutation',
+
+	fields: {
+		...CompanyPreferenceFields
+	}
+});
 const iParamEA = new GraphQLInputObjectType({
 	name: 'iParamEA',
 	description: 'Input Parameter for Electronic Address Mutation',
@@ -76,5 +85,6 @@ export {
 	inputInsertApplicantPreviousEmployment,
 	inputInsertApplicantMilitaryService,
 	inputInsertApplicantSkill,
+	inputInsertCompanyPreference,
 	iParamEA
 };

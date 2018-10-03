@@ -1,7 +1,7 @@
 import { GraphQLSchema, GraphQLObjectType } from 'graphql';
 import { NativeSchema } from './types/operations/NativeSchema';
 
-import { makeExecutableSchema, addMockFunctionsToSchema, mergeSchemas } from 'graphql-tools';
+import { mergeSchemas } from 'graphql-tools';
 
 import {
 	ApplicationMutation,
@@ -10,7 +10,8 @@ import {
 	ApplicantEducationMutation,
 	ApplicantPreviousEmploymentMutation,
 	ApplicantMilitaryServiceMutation,
-	ApplicantSkillMutation
+	ApplicantSkillMutation,
+	CompanyPreferenceMutation
 } from './mutations/';
 import {
 	ApplicationQuery,
@@ -19,7 +20,8 @@ import {
 	ApplicantEducationQuery,
 	ApplicantPreviousEmploymentQuery,
 	ApplicantMilitaryServiceQuery,
-	ApplicantSkillQuery
+	ApplicantSkillQuery,
+	CompanyPreferenceQuery
 } from './queries/';
 
 const RootQuery = new GraphQLObjectType({
@@ -32,7 +34,8 @@ const RootQuery = new GraphQLObjectType({
 		...ApplicantEducationQuery,
 		...ApplicantPreviousEmploymentQuery,
 		...ApplicantMilitaryServiceQuery,
-		...ApplicantSkillQuery
+		...ApplicantSkillQuery,
+		...CompanyPreferenceQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({
@@ -45,7 +48,8 @@ const RootMutation = new GraphQLObjectType({
 		...ApplicantEducationMutation,
 		...ApplicantPreviousEmploymentMutation,
 		...ApplicantMilitaryServiceMutation,
-		...ApplicantSkillMutation
+		...ApplicantSkillMutation,
+		...CompanyPreferenceMutation
 	}
 });
 

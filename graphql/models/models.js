@@ -1,4 +1,3 @@
-import Sequelize from 'sequelize';
 import ApplicationModel from './applicationTable';
 import ElectronicAddressModel from './electronicaddressTable';
 import ApplicantLanaguageModel from './applicantLanguageTable';
@@ -6,23 +5,9 @@ import ApplicantEducationModel from './applicantEducationTable';
 import ApplicantPreviousEmploymentModel from './applicantPreviousEmploymentTable';
 import ApplicantMilitaryServicesModel from './applicantMilitaryServiceTable';
 import ApplicantSkillTableModel from './applicantSkillTable';
+import CompanyPreferencesModel from './companyPreferenceTable';
 
-/*const Conn = new Sequelize('Tumi_Dev', 'postgres', 'S0l040.246.', {
-	dialect: 'postgres',
-	host: 'localhost',
-	port: '5432',
-	schema: 'public',
-	freezeTableName: true
-});*/
-
-const Conn = new Sequelize('Tumi', 'corema', 'S0l040.246.', {
-	dialect: 'postgres',
-	host: 'coremagroup.cb4kqp6rssxe.us-east-2.rds.amazonaws.com',
-	//host: 'localhost',
-	port: '5432',
-	schema: 'public',
-	freezeTableName: true
-});
+import { Conn } from '../../Configuration/Configuration';
 
 const ElectronicAddress = ElectronicAddressModel.createModel(Conn);
 const Application = ApplicationModel.createModel(Conn);
@@ -31,6 +16,7 @@ const ApplicantEducation = ApplicantEducationModel.createModel(Conn);
 const ApplicantPreviousEmployment = ApplicantPreviousEmploymentModel.createModel(Conn);
 const ApplicantMilitaryServices = ApplicantMilitaryServicesModel.createModel(Conn);
 const ApplicantSkill = ApplicantSkillTableModel.createModel(Conn);
+const CompanyPreference = CompanyPreferencesModel.createModel(Conn);
 
 Application.hasMany(ApplicantLanguage);
 Application.hasMany(ApplicantEducation);
