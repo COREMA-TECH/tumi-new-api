@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 
 const user = 'corema';
-const database = 'Tumi_Dev';
+const database = 'Tumi';
 const password = 'S0l040.246.';
 const host = 'coremagroup.cb4kqp6rssxe.us-east-2.rds.amazonaws.com';
 //const host = 'http://localhost:4000/graphql';
