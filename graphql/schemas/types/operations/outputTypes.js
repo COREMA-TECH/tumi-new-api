@@ -8,7 +8,8 @@ import {
 	ApplicantPreviousEmploymentFields,
 	ApplicantMilitaryServiceFields,
 	ApplicantSkillFields,
-	CompanyPreferenceFields
+	CompanyPreferenceFields,
+	ApplicantIdealJobFields
 } from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
@@ -49,6 +50,12 @@ const ApplicationType = new GraphQLObjectType({
 				type: new GraphQLList(ApplicantSkillType),
 				resolve(application) {
 					return application.getApplicantSkills();
+				}
+			},
+			idealJobs: {
+				type: new GraphQLList(ApplicantIdealJobType),
+				resolve(application) {
+					return application.getApplicantIdealJobs();
 				}
 			}
 		};
@@ -154,6 +161,26 @@ const ApplicantSkillType = new GraphQLObjectType({
 	}
 });
 
+const ApplicantIdealJobType = new GraphQLObjectType({
+	name: 'ApplicantIdealJobType',
+	description: 'This is for Applicant Ideal Job Table',
+	fields: () => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Applicant Ideal Job Id'
+			},
+			...ApplicantIdealJobFields,
+			application: {
+				type: ApplicationType,
+				resolve(appIdealJob) {
+					return appIdealJob.getApplication();
+				}
+			}
+		};
+	}
+});
+
 const CompanyPreferenceType = new GraphQLObjectType({
 	name: 'CompanyPreferenceType',
 	description: 'This is for Company Preference Table',
@@ -187,5 +214,6 @@ export {
 	ApplicantPreviousEmploymentType,
 	ApplicantMilitaryServiceType,
 	ApplicantSkillType,
-	CompanyPreferenceType
+	CompanyPreferenceType,
+	ApplicantIdealJobType
 };

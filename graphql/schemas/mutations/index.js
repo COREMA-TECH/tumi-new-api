@@ -6,6 +6,7 @@ import ApplicantPreviousEmploymentMutation from './applicantPreviousEmploymentMu
 import ApplicantMilitaryServiceMutation from './applicantMilitaryServiceMutation';
 import ApplicantSkillMutation from './applicantSkillMutation';
 import CompanyPreferenceMutation from './companyPreferenceMutation';
+import ApplicantIdealJobMutation from './applicantIdealJobMutation';
 
 export {
 	ApplicantLanguageMutation,
@@ -15,5 +16,6 @@ export {
 	ApplicantPreviousEmploymentMutation,
 	ApplicantMilitaryServiceMutation,
 	ApplicantSkillMutation,
-	CompanyPreferenceMutation
+	CompanyPreferenceMutation,
+	ApplicantIdealJobMutation
 };
