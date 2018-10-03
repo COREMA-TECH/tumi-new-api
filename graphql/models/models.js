@@ -6,6 +6,7 @@ import ApplicantPreviousEmploymentModel from './applicantPreviousEmploymentTable
 import ApplicantMilitaryServicesModel from './applicantMilitaryServiceTable';
 import ApplicantSkillTableModel from './applicantSkillTable';
 import CompanyPreferencesModel from './companyPreferenceTable';
+import ApplicantIdealJobsModel from './applicantIdealJobTable';
 
 import { Conn } from '../../Configuration/Configuration';
 
@@ -17,18 +18,21 @@ const ApplicantPreviousEmployment = ApplicantPreviousEmploymentModel.createModel
 const ApplicantMilitaryServices = ApplicantMilitaryServicesModel.createModel(Conn);
 const ApplicantSkill = ApplicantSkillTableModel.createModel(Conn);
 const CompanyPreference = CompanyPreferencesModel.createModel(Conn);
+const ApplicantIdealJob = ApplicantIdealJobsModel.createModel(Conn);
 
 Application.hasMany(ApplicantLanguage);
 Application.hasMany(ApplicantEducation);
 Application.hasMany(ApplicantPreviousEmployment);
 Application.hasMany(ApplicantMilitaryServices);
 Application.hasMany(ApplicantSkill);
+Application.hasMany(ApplicantIdealJob);
 
 ApplicantLanguage.belongsTo(Application);
 ApplicantEducation.belongsTo(Application);
 ApplicantPreviousEmployment.belongsTo(Application);
 ApplicantMilitaryServices.belongsTo(Application);
 ApplicantSkill.belongsTo(Application);
+ApplicantIdealJob.belongsTo(Application);
 
 Conn.authenticate()
 	.then(() => {

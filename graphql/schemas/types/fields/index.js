@@ -3,9 +3,10 @@ import ApplicationFields from './applicationFields';
 import ElectronicAddressFields from './electronicAddressFields';
 import ApplicantEducationFields from './applicantEducationFields';
 import ApplicantPreviousEmploymentFields from './applicantPreviousEmployementFields';
-import ApplicantMilitaryServiceFields from './appicantMilitaryServiceFields';
+import ApplicantMilitaryServiceFields from './applicantMilitaryServiceFields';
 import ApplicantSkillFields from './applicantSkillFields';
 import CompanyPreferenceFields from './companyPrefenceFields';
+import ApplicantIdealJobFields from './applicantIdealJobFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -15,5 +16,6 @@ export {
 	ApplicantPreviousEmploymentFields,
 	ApplicantMilitaryServiceFields,
 	ApplicantSkillFields,
-	CompanyPreferenceFields
+	CompanyPreferenceFields,
+	ApplicantIdealJobFields
 };

@@ -3,6 +3,7 @@ const GraphHTTP = require('express-graphql');
 const Schema = require('./graphql/schemas/schemas').default;
 const root = require('./Configuration/Roots.js');
 const path = require('path');
+import depthLimit from 'graphql-depth-limit';
 
 var APP_PORT = 4000;
 var cors = require('cors');
@@ -16,11 +17,11 @@ app.use(
 		schema: Schema,
 		pretty: true,
 		rootValue: root,
-		graphiql: true
+		graphiql: true,
+		validationRules: [ depthLimit(10) ]
 	})
 );
 
-
-app.listen(process.env.PORT || APP_PORT, function () {
+app.listen(process.env.PORT || APP_PORT, function() {
 	console.log(`Server is running.. on Port ${APP_PORT}`);
 });
