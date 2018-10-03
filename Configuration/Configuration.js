@@ -2,7 +2,7 @@
 
 const ConfigPg = {
   user: 'corema', // env var: PGUSER
-  database: 'Tumi_Dev', // env var: PGDATABASE
+  database: 'Tumi', // env var: PGDATABASE
   password: 'S0l040.246.', // env var: PGPASSWORD
   host: 'coremagroup.cb4kqp6rssxe.us-east-2.rds.amazonaws.com', // Server hosting the postgres database
   //host: 'localhost', // Server hosting the postgres database
