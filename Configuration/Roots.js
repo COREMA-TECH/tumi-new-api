@@ -1,5 +1,5 @@
 const pg = require('pg');
-import {ConfigPg} from '../Configuration/Configuration'
+import { ConfigPg } from '../Configuration/Configuration'
 
 //Requerimos el paquete
 const nodemailer = require('nodemailer');
@@ -2065,6 +2065,7 @@ async function getContracts(args) {
 
 //Method Connect to Send Contracts by emails
 async function CreateContracts(args) {
+
 	try {
 
 		var strparam1, strparam2;
