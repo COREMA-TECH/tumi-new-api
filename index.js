@@ -8,6 +8,7 @@ import depthLimit from 'graphql-depth-limit';
 var APP_PORT = 4000;
 var cors = require('cors');
 var app = express();
+const SECRET = 'asda47#$*5444adtyydssdZad!#%**';
 
 app.use(cors());
 app.use('/public', express.static(path.join(__dirname, 'public')));
@@ -18,6 +19,9 @@ app.use(
 		pretty: true,
 		rootValue: root,
 		graphiql: true,
+		context: {
+			SECRET
+		},
 		validationRules: [ depthLimit(10) ]
 	})
 );

@@ -77,7 +77,7 @@ const ApplicationFields = {
 	},
 
 	dateAvailable: {
-		type: new GraphQLNonNull(GraphQLDate),
+		type: GraphQLDate,
 		description: 'Applicant Date Avalilable'
 	},
 	scheduleRestrictions: {

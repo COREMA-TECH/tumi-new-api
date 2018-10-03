@@ -77,7 +77,7 @@ export default {
 			},
 			dateAvailable: {
 				type: Sequelize.DATE,
-				allowNull: false
+				allowNull: true
 			},
 			scheduleRestrictions: {
 				type: Sequelize.BOOLEAN,

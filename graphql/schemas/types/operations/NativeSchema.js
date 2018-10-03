@@ -289,7 +289,7 @@ input iParamEA {
 		getforms(Id:Int,IsActive:Int): [Forms]
 		getrolesforms(Id:Int,IsActive:Int): [RolesForms]
 		getusers(Id:Int,IsActive:Int): [Users]
-		getvalid_users(Code_User:String,Password:String): [Users]
+		getvalid_users(Code_User:String,Password:String):User
 		getcontracttemplate(Id:Int,IsActive:Int): [ContractsTemplates]
 		sendcontracts(Id:Int,IsActive:Int): [Contracts]
 		createcontracts(Id:Int,IsActive:Int): [Contracts]
@@ -641,6 +641,30 @@ input iParamEA {
 		Date_Created: String
 		Date_Updated: String
 	}
+
+	type User{
+		Token: String
+		Id: Int
+		Id_Entity: Int
+		Id_Contact: Int
+		Id_Roles: Int
+		Code_User: String
+		Full_Name: String
+		Electronic_Address: String
+		Phone_Number: String
+		Password: String
+		Id_Language: Int
+		IsAdmin: Int
+		AllowDelete: Int
+		AllowInsert: Int
+		AllowEdit: Int
+		AllowExport: Int
+		IsActive: Int
+		User_Created: Int
+		User_Updated: Int
+		Date_Created: String
+		Date_Updated: String
+		}
 
 `);
 

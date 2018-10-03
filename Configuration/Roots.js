@@ -1,6 +1,6 @@
 const pg = require('pg');
-import { ConfigPg } from '../Configuration/Configuration'
-
+import { ConfigPg } from '../Configuration/Configuration';
+import jwt from 'jsonwebtoken';
 //Requerimos el paquete
 const nodemailer = require('nodemailer');
 const pdf = require('html-pdf');
@@ -51,10 +51,10 @@ async function SendExpiredContracts() {
 			html: 'Your contract is about to expire'
 		};
 
-		rows.forEach(function (element) {
+		rows.forEach(function(element) {
 			mailOptions.to = element.Electronic_Address;
 
-			transporter.sendMail(mailOptions, function (error, info) {
+			transporter.sendMail(mailOptions, function(error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error');
 				} else {
@@ -67,7 +67,7 @@ async function SendExpiredContracts() {
 
 			mailOptions.to = element.Primary_Email;
 
-			transporter.sendMail(mailOptions, function (error, info) {
+			transporter.sendMail(mailOptions, function(error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error');
 				} else {
@@ -1879,7 +1879,10 @@ async function getUsers(args) {
 	}
 }
 
-async function getValid_Users(args) {
+async function getValid_Users(args, { SECRET }) {
+	console.log(args);
+
+	console.log(SECRET);
 	try {
 		Strquery =
 			'select "Id","Password","Code_User","Full_Name"  ,"Electronic_Address"  ,"Phone_Number"  ,"Id_Language"  ,"IsAdmin"  ,"AllowEdit"  ,"AllowDelete"  ,"AllowInsert","AllowExport" ,"IsActive" from public.vwValid_User Where  "Code_User" = ' +
@@ -1890,7 +1893,23 @@ async function getValid_Users(args) {
 		console.log(Strquery);
 
 		const { rows } = await query(Strquery);
-		return rows;
+		console.log(SECRET);
+
+		if (rows.length <= 0) return null;
+		else {
+			const user = rows[0];
+			const token = jwt.sign(
+				{
+					user: { Id: user.Id, Code_User: user.Code_User }
+				},
+				SECRET,
+				{
+					expiresIn: '1y'
+				}
+			);
+			console.log({ Token: token, ...user });
+			return { Token: token, ...user };
+		}
 	} catch (err) {
 		console.log('Database ' + err);
 		return err;
@@ -2065,9 +2084,7 @@ async function getContracts(args) {
 
 //Method Connect to Send Contracts by emails
 async function CreateContracts(args) {
-
 	try {
-
 		var strparam1, strparam2;
 
 		if (args.IsActive >= 0) {
@@ -2092,14 +2109,13 @@ async function CreateContracts(args) {
 		const { rows } = await query(Strquery);
 		var content = rows[0].Contract_Terms;
 
-
 		Strfilename = './public/Contract_' + rows[0].Contract_Name.trim() + '.pdf';
 
 		//var html = fs.readFileSync(content, 'utf8');
 
 		var options = {
 			format: 'Letter',
-			orientation: "portrait",
+			orientation: 'portrait',
 			border: {
 				top: '0.98in', // default is 0, units: mm, cm, in, px
 				right: '0.98in',
@@ -2112,7 +2128,7 @@ async function CreateContracts(args) {
 		}*/
 		//fs.destroy(Strfilename);
 
-		pdf.create(content, options).toFile(Strfilename, function (err, res) {
+		pdf.create(content, options).toFile(Strfilename, function(err, res) {
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 		});
@@ -2209,7 +2225,8 @@ async function SendContracts(args) {
 			from: 'coremagroup@hotmail.com',
 			to: rows[0].Electronic_Address,
 			subject: Strfilename,
-			html: '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' +
+			html:
+				'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' +
 				'<html xmlns="http://www.w3.org/1999/xhtml">' +
 				'' +
 				'<head>' +
@@ -2322,7 +2339,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function (error, info) {
+		transporter.sendMail(mailOptions, function(error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2334,7 +2351,8 @@ async function SendContracts(args) {
 			from: 'coremagroup@hotmail.com',
 			to: rows[0].Primary_Email,
 			subject: Strfilename,
-			html: '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' +
+			html:
+				'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' +
 				'<html xmlns="http://www.w3.org/1999/xhtml">' +
 				'' +
 				'<head>' +
@@ -2447,7 +2465,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function (error, info) {
+		transporter.sendMail(mailOptions, function(error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2492,7 +2510,6 @@ async function SendContracts(args) {
 
 async function CreatePdfContracts(args) {
 	try {
-
 		var strparam1, strparam2;
 
 		if (args.IsActive >= 0) {
@@ -2535,9 +2552,9 @@ async function CreatePdfContracts(args) {
 			fs.unlinkSync(Strfilename);
 		}
 
-		console.log("html listo ", html);
+		console.log('html listo ', html);
 
-		pdf.create(html, options).toFile(Strfilename, function (err, res) {
+		pdf.create(html, options).toFile(Strfilename, function(err, res) {
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 		});
