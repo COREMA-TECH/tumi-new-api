@@ -51,10 +51,10 @@ async function SendExpiredContracts() {
 			html: 'Your contract is about to expire'
 		};
 
-		rows.forEach(function(element) {
+		rows.forEach(function (element) {
 			mailOptions.to = element.Electronic_Address;
 
-			transporter.sendMail(mailOptions, function(error, info) {
+			transporter.sendMail(mailOptions, function (error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error');
 				} else {
@@ -67,7 +67,7 @@ async function SendExpiredContracts() {
 
 			mailOptions.to = element.Primary_Email;
 
-			transporter.sendMail(mailOptions, function(error, info) {
+			transporter.sendMail(mailOptions, function (error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error');
 				} else {
@@ -2079,6 +2079,8 @@ async function CreateContracts(args) {
 
 		var options = {
 			format: 'Letter',
+			font: 'Times New Roman',
+			size: 12,
 			orientation: 'portrait',
 			border: {
 				top: '0.98in', // default is 0, units: mm, cm, in, px
@@ -2092,7 +2094,7 @@ async function CreateContracts(args) {
 		}*/
 		//fs.destroy(Strfilename);
 
-		pdf.create(content, options).toFile(Strfilename, function(err, res) {
+		pdf.create(content, options).toFile(Strfilename, function (err, res) {
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 		});
@@ -2303,7 +2305,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function(error, info) {
+		transporter.sendMail(mailOptions, function (error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2429,7 +2431,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function(error, info) {
+		transporter.sendMail(mailOptions, function (error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2518,7 +2520,7 @@ async function CreatePdfContracts(args) {
 
 		console.log('html listo ', html);
 
-		pdf.create(html, options).toFile(Strfilename, function(err, res) {
+		pdf.create(html, options).toFile(Strfilename, function (err, res) {
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 		});
