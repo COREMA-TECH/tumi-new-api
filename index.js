@@ -2,27 +2,64 @@ const express = require('express');
 const GraphHTTP = require('express-graphql');
 const Schema = require('./graphql/schemas/schemas').default;
 const root = require('./Configuration/Roots.js');
+import { PublicSchema } from './Configuration/PublicSchema';
+const PublicRoot = require('./Configuration/PublicRoot');
+
 const path = require('path');
 import depthLimit from 'graphql-depth-limit';
+import jwt from 'jsonwebtoken';
 
 var APP_PORT = 4000;
 var cors = require('cors');
 var app = express();
 const SECRET = 'asda47#$*5444adtyydssdZad!#%**';
 
+const addUser = async (req, res) => {
+	const token = req.headers.authentication;
+
+	try {
+		const { user } = await jwt.verify(token, SECRET);
+		req.user = user;
+	} catch (err) {
+		res.status(401).send('Sorry, you are not allowed here!');
+	}
+	req.next();
+};
+
+//app.use(addUser);
 app.use(cors());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(
 	'/graphql',
-	GraphHTTP({
-		schema: Schema,
-		pretty: true,
-		rootValue: root,
-		graphiql: true,
-		context: {
-			SECRET
-		},
-		validationRules: [ depthLimit(10) ]
+	addUser,
+	GraphHTTP((req) => {
+		return {
+			schema: Schema,
+			pretty: true,
+			rootValue: root,
+			graphiql: true,
+			context: {
+				user: req.user,
+				SECRET
+			},
+			validationRules: [ depthLimit(10) ]
+		};
+	})
+);
+
+app.use(
+	'/login',
+	GraphHTTP((req) => {
+		return {
+			schema: PublicSchema,
+			pretty: true,
+			rootValue: PublicRoot,
+			graphiql: true,
+			context: {
+				SECRET
+			},
+			validationRules: [ depthLimit(10) ]
+		};
 	})
 );
 

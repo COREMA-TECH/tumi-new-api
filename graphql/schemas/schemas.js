@@ -13,7 +13,7 @@ import {
 	ApplicantSkillMutation,
 	CompanyPreferenceMutation,
 	ApplicantIdealJobMutation
-} from './mutations/';
+} from './mutations';
 import {
 	ApplicationQuery,
 	ApplicantLanguageQuery,
@@ -24,7 +24,7 @@ import {
 	ApplicantSkillQuery,
 	CompanyPreferenceQuery,
 	ApplicantIdealJobQuery
-} from './queries/';
+} from './queries';
 
 const RootQuery = new GraphQLObjectType({
 	name: 'Query',

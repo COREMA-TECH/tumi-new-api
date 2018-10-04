@@ -1,5 +1,5 @@
 const pg = require('pg');
-import { ConfigPg } from '../Configuration/Configuration';
+import { ConfigPg } from './Configuration';
 import jwt from 'jsonwebtoken';
 //Requerimos el paquete
 const nodemailer = require('nodemailer');
@@ -993,8 +993,9 @@ async function DelContacts(args) {
 }
 
 //Method Connect to table Catalog
-async function getCatalog(args) {
+async function getCatalog(args, user) {
 	try {
+		console.log('GetCatalog: ', user);
 		var strparam1, strparam2, strparam3;
 
 		if (args.IsActive >= 0) {
@@ -1873,43 +1874,6 @@ async function getUsers(args) {
 
 		const { rows } = await query(Strquery);
 		return rows;
-	} catch (err) {
-		console.log('Database ' + err);
-		return err;
-	}
-}
-
-async function getValid_Users(args, { SECRET }) {
-	console.log(args);
-
-	console.log(SECRET);
-	try {
-		Strquery =
-			'select "Id","Password","Code_User","Full_Name"  ,"Electronic_Address"  ,"Phone_Number"  ,"Id_Language"  ,"IsAdmin"  ,"AllowEdit"  ,"AllowDelete"  ,"AllowInsert","AllowExport" ,"IsActive" from public.vwValid_User Where  "Code_User" = ' +
-			args.Code_User +
-			' and "Password" = ' +
-			args.Password;
-
-		console.log(Strquery);
-
-		const { rows } = await query(Strquery);
-		console.log(SECRET);
-
-		if (rows.length <= 0) return null;
-		else {
-			const user = rows[0];
-			const token = jwt.sign(
-				{
-					user: { Id: user.Id, Code_User: user.Code_User }
-				},
-				SECRET,
-				{
-					expiresIn: '1y'
-				}
-			);
-			console.log({ Token: token, ...user });
-			return { Token: token, ...user };
-		}
 	} catch (err) {
 		console.log('Database ' + err);
 		return err;
@@ -2970,7 +2934,6 @@ const root = {
 	updcontracts: UpdContracts,
 	delcontracts: DelContracts,
 
-	getvalid_users: getValid_Users,
 	updcontracstexhibit: UpdContractsExhibit,
 	updcontracstsignature: UpdContracstSignature,
 
