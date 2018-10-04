@@ -1,25 +1,11 @@
 import { inputInsertApplicantSkill } from '../types/operations/insertTypes';
 import { inputUpdateApplicantSkill } from '../types/operations/updateTypes';
 import { ApplicantSkillType } from '../types/operations/outputTypes';
-import { GraphQLList } from 'graphql';
+import { GraphQLList, GraphQLInt } from 'graphql';
 
 import Db from '../../models/models';
 
 const ApplicantSkillMutation = {
-	/*addApplicantSkill: {
-		type: ApplicantSkillType,
-		description: 'Add applicant skill record to database',
-		args: {
-			applicantSkill: { type: inputInsertApplicantSkill }
-		},
-		resolve(source, args) {
-			return Db.models.ApplicantSkills.create({
-				ApplicationId: args.applicantSkill.ApplicationId,
-				description: args.applicantSkill.description,
-				level: args.applicantSkill.level
-			});
-		}
-	},*/
 	addApplicantSkill: {
 		type: new GraphQLList(ApplicantSkillType),
 		description: 'Add applicant skill record to database',
@@ -61,6 +47,18 @@ const ApplicantSkillMutation = {
 					if (record) return record.dataValues;
 					else return null;
 				});
+		}
+	},
+	deleteApplicantSkill: {
+		type: GraphQLInt,
+		description: 'Delete applicant skill record from database',
+		args: {
+			id: { type: GraphQLList(GraphQLInt) }
+		},
+		resolve(source, args) {
+			return Db.models.ApplicantSkills.destroy({ where: { id: args.id } }).then((deleted) => {
+				return deleted;
+			});
 		}
 	}
 };
