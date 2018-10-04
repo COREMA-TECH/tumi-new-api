@@ -1,7 +1,7 @@
 import { inputInsertApplicantEducation } from '../types/operations/insertTypes';
 import { inputUpdateApplicantEducation } from '../types/operations/updateTypes';
 import { ApplicantEducationType } from '../types/operations/outputTypes';
-import { GraphQLList } from 'graphql';
+import { GraphQLList, GraphQLInt } from 'graphql';
 
 import Db from '../../models/models';
 
@@ -52,6 +52,18 @@ const ApplicantEducationMutation = {
 					if (record) return record.dataValues;
 					else return null;
 				});
+		}
+	},
+	deleteApplicantEducation: {
+		type: GraphQLInt,
+		description: 'Delete applicant educataion record from database',
+		args: {
+			id: { type: GraphQLList(GraphQLInt) }
+		},
+		resolve(source, args) {
+			return Db.models.ApplicantEducations.destroy({ where: { id: args.id } }).then((deleted) => {
+				return deleted;
+			});
 		}
 	}
 };

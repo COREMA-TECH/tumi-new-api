@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLString, GraphQLList } from 'graphql';
+import { GraphQLInt, GraphQLString, GraphQLList, GraphQLBoolean } from 'graphql';
 import { ApplicationType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
@@ -12,6 +12,9 @@ const ApplicationQuery = {
 			},
 			firstName: {
 				type: GraphQLString
+			},
+			isActive: {
+				type: GraphQLBoolean
 			}
 		},
 		resolve(root, args) {

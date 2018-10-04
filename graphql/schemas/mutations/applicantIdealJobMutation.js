@@ -1,7 +1,7 @@
 import { inputInsertApplicantIdealJob } from '../types/operations/insertTypes';
 import { inputUpdateApplicantIdealJob } from '../types/operations/updateTypes';
 import { ApplicantIdealJobType } from '../types/operations/outputTypes';
-import { GraphQLList } from 'graphql';
+import { GraphQLList, GraphQLInt } from 'graphql';
 
 import Db from '../../models/models';
 
@@ -46,6 +46,18 @@ const ApplicantIdealJobMutation = {
 					if (record) return record.dataValues;
 					else return null;
 				});
+		}
+	},
+	deleteApplicantIdealJob: {
+		type: GraphQLInt,
+		description: 'Delete ideal job record from database',
+		args: {
+			id: { type: GraphQLList(GraphQLInt) }
+		},
+		resolve(source, args) {
+			return Db.models.ApplicantIdealJobs.destroy({ where: { id: args.id } }).then((deleted) => {
+				return deleted;
+			});
 		}
 	}
 };

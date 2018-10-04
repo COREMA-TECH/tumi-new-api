@@ -1,26 +1,11 @@
 import { inputInsertApplicantLanguage } from '../types/operations/insertTypes';
 import { inputUpdateApplicantLanguage } from '../types/operations/updateTypes';
 import { ApplicantLanguageType } from '../types/operations/outputTypes';
-import { GraphQLList } from 'graphql';
+import { GraphQLList, GraphQLInt } from 'graphql';
 
 import Db from '../../models/models';
 
 const ApplicantLanguageMutation = {
-	/*	addApplicantLanguage: {
-		type: ApplicantLanguageType,
-		description: 'Add applicant language record to database',
-		args: {
-			applicantLanguage: { type: inputInsertApplicantLanguage }
-		},
-		resolve(source, args) {
-			return Db.models.ApplicantLanguages.create({
-				ApplicationId: args.applicantLanguage.ApplicationId,
-				language: args.applicantLanguage.language,
-				writing: args.applicantLanguage.writing,
-				conversation: args.applicantLanguage.conversation
-			});
-		}
-	},*/
 	addApplicantLanguage: {
 		type: new GraphQLList(ApplicantLanguageType),
 		description: 'Add applicant language record to database',
@@ -63,6 +48,18 @@ const ApplicantLanguageMutation = {
 					if (record) return record.dataValues;
 					else return null;
 				});
+		}
+	},
+	deleteApplicantLanguange: {
+		type: GraphQLInt,
+		description: 'Delete applicant language record from database',
+		args: {
+			id: { type: GraphQLList(GraphQLInt) }
+		},
+		resolve(source, args) {
+			return Db.models.ApplicantLanguages.destroy({ where: { id: args.id } }).then((deleted) => {
+				return deleted;
+			});
 		}
 	}
 };

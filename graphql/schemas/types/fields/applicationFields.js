@@ -99,6 +99,10 @@ const ApplicationFields = {
 	comment: {
 		type: new GraphQLNonNull(GraphQLString),
 		description: 'Applicant Comment'
+	},
+	isActive: {
+		type: new GraphQLNonNull(GraphQLBoolean),
+		description: 'Applicant Status'
 	}
 };
 

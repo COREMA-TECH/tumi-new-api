@@ -17,7 +17,7 @@ cron.schedule('59 23 * * *', () => {
 	SendExpiredContracts();
 });
 
-var mailParams = {
+/*var mailParams = {
 	service: 'Hotmail',
 	auth: {
 		user: 'coremagroup@hotmail.com',
@@ -25,6 +25,16 @@ var mailParams = {
 	},
 	pool: true,
 	rateDelta: 20000
+};*/
+
+let mailParams = {
+	host: 'a2plcpnl0839.prod.iad2.secureserver.net',
+	port: 465,
+	secure: true, // upgrade later with STARTTLS
+	auth: {
+		user: 'olonyl.rocha@coremagroup.com',
+		pass: 'J0$e87**'
+	}
 };
 
 var transporter = nodemailer.createTransport(mailParams);
@@ -56,7 +66,7 @@ async function SendExpiredContracts() {
 
 			transporter.sendMail(mailOptions, function (error, info) {
 				if (error) {
-					console.log('Id: ' + element.Id + ' error');
+					console.log('Id: ' + element.Id + ' error: ' + error);
 				} else {
 					console.log(
 						'Id: ' + element.Id + ' ' + 'Email enviado: ' + info.response + ' ' + element.Electronic_Address
@@ -69,7 +79,7 @@ async function SendExpiredContracts() {
 
 			transporter.sendMail(mailOptions, function (error, info) {
 				if (error) {
-					console.log('Id: ' + element.Id + ' error');
+					console.log('Id: ' + element.Id + ' error: ' + error);
 				} else {
 					console.log(
 						'Id: ' + element.Id + ' ' + 'Email enviado: ' + info.response + ' ' + element.Primary_Email
