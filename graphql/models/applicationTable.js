@@ -98,6 +98,10 @@ export default {
 			comment: {
 				type: Sequelize.STRING(255),
 				allowNull: false
+			},
+			isActive: {
+				type: Sequelize.BOOLEAN,
+				allowNull: false
 			}
 		});
 	}
