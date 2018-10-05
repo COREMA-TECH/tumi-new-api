@@ -61,10 +61,10 @@ async function SendExpiredContracts() {
 			html: 'Your contract is about to expire'
 		};
 
-		rows.forEach(function(element) {
+		rows.forEach(function (element) {
 			mailOptions.to = element.Electronic_Address;
 
-			transporter.sendMail(mailOptions, function(error, info) {
+			transporter.sendMail(mailOptions, function (error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error: ' + error);
 				} else {
@@ -77,7 +77,7 @@ async function SendExpiredContracts() {
 
 			mailOptions.to = element.Primary_Email;
 
-			transporter.sendMail(mailOptions, function(error, info) {
+			transporter.sendMail(mailOptions, function (error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error: ' + error);
 				} else {
@@ -2105,12 +2105,12 @@ async function CreateContracts(args) {
 		}*/
 		//fs.destroy(Strfilename);
 
-		fs.writeFile(StrfilnameHTML, content, function(err) {
+		fs.writeFile(StrfilnameHTML, content, function (err) {
 			if (err) throw err;
 			console.log('HTML Created');
 			var html = fs.readFileSync(StrfilnameHTML, 'utf8');
 
-			pdf.create(html, options).toFile(Strfilename, function(err, res) {
+			pdf.create(html, options).toFile(Strfilename, function (err, res) {
 				if (err) return console.log(err);
 				console.log(res); // { filename: '/app/businesscard.pdf' }
 				console.log('PDF Created');
@@ -2322,7 +2322,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function(error, info) {
+		transporter.sendMail(mailOptions, function (error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2448,7 +2448,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function(error, info) {
+		transporter.sendMail(mailOptions, function (error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2537,7 +2537,7 @@ async function CreatePdfContracts(args) {
 
 		console.log('html listo ', html);
 
-		pdf.create(html, options).toFile(Strfilename, function(err, res) {
+		pdf.create(html, options).toFile(Strfilename, function (err, res) {
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 		});
