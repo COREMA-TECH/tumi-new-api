@@ -61,10 +61,10 @@ async function SendExpiredContracts() {
 			html: 'Your contract is about to expire'
 		};
 
-		rows.forEach(function (element) {
+		rows.forEach(function(element) {
 			mailOptions.to = element.Electronic_Address;
 
-			transporter.sendMail(mailOptions, function (error, info) {
+			transporter.sendMail(mailOptions, function(error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error: ' + error);
 				} else {
@@ -77,7 +77,7 @@ async function SendExpiredContracts() {
 
 			mailOptions.to = element.Primary_Email;
 
-			transporter.sendMail(mailOptions, function (error, info) {
+			transporter.sendMail(mailOptions, function(error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error: ' + error);
 				} else {
@@ -2084,7 +2084,7 @@ async function CreateContracts(args) {
 		var content = rows[0].Contract_Terms;
 
 		Strfilename = './public/Contract_' + rows[0].Contract_Name.trim() + '.pdf';
-
+		var StrfilnameHTML = './public/Contract_' + rows[0].Contract_Name.trim() + '.html';
 		//var html = fs.readFileSync(content, 'utf8');
 
 		var options = {
@@ -2092,6 +2092,7 @@ async function CreateContracts(args) {
 			font: 'Times New Roman',
 			size: 12,
 			orientation: 'portrait',
+			zoomFactor: 1,
 			border: {
 				top: '0.98in', // default is 0, units: mm, cm, in, px
 				right: '0.98in',
@@ -2104,12 +2105,18 @@ async function CreateContracts(args) {
 		}*/
 		//fs.destroy(Strfilename);
 
-		await pdf.create(content, options).toFile(Strfilename, function (err, res) {
-			if (err) return console.log(err);
-			console.log(res); // { filename: '/app/businesscard.pdf' }
-		});
+		fs.writeFile(StrfilnameHTML, content, function(err) {
+			if (err) throw err;
+			console.log('HTML Created');
+			var html = fs.readFileSync(StrfilnameHTML, 'utf8');
 
-		return rows;
+			pdf.create(html, options).toFile(Strfilename, function(err, res) {
+				if (err) return console.log(err);
+				console.log(res); // { filename: '/app/businesscard.pdf' }
+				console.log('PDF Created');
+			});
+		});
+		return rows
 	} catch (err) {
 		console.log('Database ' + err);
 		return err;
@@ -2315,7 +2322,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function (error, info) {
+		transporter.sendMail(mailOptions, function(error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2441,7 +2448,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function (error, info) {
+		transporter.sendMail(mailOptions, function(error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2530,7 +2537,7 @@ async function CreatePdfContracts(args) {
 
 		console.log('html listo ', html);
 
-		pdf.create(html, options).toFile(Strfilename, function (err, res) {
+		pdf.create(html, options).toFile(Strfilename, function(err, res) {
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 		});
