@@ -2115,6 +2115,7 @@ async function CreateContracts(args) {
 				console.log('PDF Created');
 			});
 		});
+		return rows
 	} catch (err) {
 		console.log('Database ' + err);
 		return err;
