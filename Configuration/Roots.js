@@ -6,6 +6,7 @@ const nodemailer = require('nodemailer');
 const pdf = require('html-pdf');
 
 //Variables para PDF
+const pdfshift = require('pdfshift')('2974f9467a93407fae7e39d931d1d732');
 const fs = require('fs');
 
 var cron = require('node-cron');
