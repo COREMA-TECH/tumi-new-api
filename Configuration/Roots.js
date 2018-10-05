@@ -2105,7 +2105,7 @@ async function CreateContracts(args) {
 		}*/
 		//fs.destroy(Strfilename);
 
-		pdf.create(content, options).toFile(Strfilename, function(err, res) {
+		pdf.create(content, options).toFile(Strfilename, function (err, res) {
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 			console.log('PDF Created');
@@ -2316,6 +2316,7 @@ async function SendContracts(args) {
 				}
 			]
 		};
+
 
 		transporter.sendMail(mailOptions, function (error, info) {
 			if (error) {
