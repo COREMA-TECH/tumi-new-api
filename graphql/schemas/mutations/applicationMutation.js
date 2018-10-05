@@ -3,6 +3,7 @@ import { inputUpdateApplication } from '../types/operations/updateTypes';
 import { ApplicationType } from '../types/operations/outputTypes';
 
 import Db from '../../models/models';
+import { graphql, GraphQLInt } from 'graphql';
 
 const ApplicationMutation = {
 	addApplication: {
@@ -90,6 +91,31 @@ const ApplicationMutation = {
 					if (record) return record.dataValues;
 					else return null;
 				});
+		},
+		disableApplication: {
+			type: ApplicationType,
+			description: 'Disable Application Form Info',
+			args: {
+				id: { type: GraphQLInt }
+			},
+			resolve(source, args) {
+				return Db.models.Applications
+					.update(
+						{
+							isActive: false
+						},
+						{
+							where: {
+								id: args.application.id
+							},
+							returning: true
+						}
+					)
+					.then(function([ rowsUpdate, [ record ] ]) {
+						if (record) return record.dataValues;
+						else return null;
+					});
+			}
 		}
 	}
 };
