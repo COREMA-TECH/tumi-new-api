@@ -101,7 +101,8 @@ export default {
 			},
 			isActive: {
 				type: Sequelize.BOOLEAN,
-				allowNull: false
+				allowNull: true,
+				defaultValue: true
 			}
 		});
 	}

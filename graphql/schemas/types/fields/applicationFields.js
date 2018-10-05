@@ -101,7 +101,7 @@ const ApplicationFields = {
 		description: 'Applicant Comment'
 	},
 	isActive: {
-		type: new GraphQLNonNull(GraphQLBoolean),
+		type: GraphQLBoolean,
 		description: 'Applicant Status'
 	}
 };
