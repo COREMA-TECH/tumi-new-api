@@ -91,31 +91,31 @@ const ApplicationMutation = {
 					if (record) return record.dataValues;
 					else return null;
 				});
+		}
+	},
+	disableApplication: {
+		type: ApplicationType,
+		description: 'Disable Application Form Info',
+		args: {
+			id: { type: GraphQLInt }
 		},
-		disableApplication: {
-			type: ApplicationType,
-			description: 'Disable Application Form Info',
-			args: {
-				id: { type: GraphQLInt }
-			},
-			resolve(source, args) {
-				return Db.models.Applications
-					.update(
-						{
-							isActive: false
+		resolve(source, args) {
+			return Db.models.Applications
+				.update(
+					{
+						isActive: false
+					},
+					{
+						where: {
+							id: args.application.id
 						},
-						{
-							where: {
-								id: args.application.id
-							},
-							returning: true
-						}
-					)
-					.then(function([ rowsUpdate, [ record ] ]) {
-						if (record) return record.dataValues;
-						else return null;
-					});
-			}
+						returning: true
+					}
+				)
+				.then(function([ rowsUpdate, [ record ] ]) {
+					if (record) return record.dataValues;
+					else return null;
+				});
 		}
 	}
 };
