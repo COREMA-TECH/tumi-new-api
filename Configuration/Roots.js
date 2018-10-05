@@ -2100,9 +2100,9 @@ async function CreateContracts(args) {
 				left: '0.98in'
 			}
 		};
-		/*if (fs.existsSync(Strfilename)) {
+		if (fs.existsSync(Strfilename)) {
 			fs.unlinkSync(Strfilename);
-		}*/
+		}
 		//fs.destroy(Strfilename);
 		console.log('Outside create pdf');
 		pdf.create(content, options).toFile(Strfilename, function(err, res) {
@@ -2113,12 +2113,12 @@ async function CreateContracts(args) {
 		});
 
 		while (true) {
-			try{
-				fs.accessSync(Strfilename,  fs.W_OK)
+			try {
+				fs.accessSync(Strfilename, fs.W_OK);
 				return rows;
-			 }catch(e){
-					console.log("Sigue escribiendo", e)
-			 }	
+			} catch (e) {
+				console.log('Sigue escribiendo', e);
+			}
 		}
 	} catch (err) {
 		console.log('Database ' + err);
