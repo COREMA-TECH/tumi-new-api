@@ -61,10 +61,10 @@ async function SendExpiredContracts() {
 			html: 'Your contract is about to expire'
 		};
 
-		rows.forEach(function(element) {
+		rows.forEach(function (element) {
 			mailOptions.to = element.Electronic_Address;
 
-			transporter.sendMail(mailOptions, function(error, info) {
+			transporter.sendMail(mailOptions, function (error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error: ' + error);
 				} else {
@@ -77,7 +77,7 @@ async function SendExpiredContracts() {
 
 			mailOptions.to = element.Primary_Email;
 
-			transporter.sendMail(mailOptions, function(error, info) {
+			transporter.sendMail(mailOptions, function (error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error: ' + error);
 				} else {
@@ -2239,7 +2239,7 @@ async function SendContracts(args) {
 				'We are in the process of setting you up as part of the Tummy family. <br>' +
 				'We need youn to complete the following steps to get the process rolling' +
 				'</p>' +
-				'<a href="https://corema-dev-env.herokuapp.com/home/signature/?token=' +
+				'<a href="http://13.58.18.163:3000/home/signature/?token=' +
 				rows[0].Token.trim() +
 				'&signatory=C">' +
 				'<img src="https://firebasestorage.googleapis.com/v0/b/tumiapp-66cd6.appspot.com/o/files%2Fstepper.jpg?alt=media&token=bc28b46f-d7c9-41c4-bd3e-76d45c8c7f9a"' +
@@ -2317,7 +2317,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function(error, info) {
+		transporter.sendMail(mailOptions, function (error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2365,7 +2365,7 @@ async function SendContracts(args) {
 				'We are in the process of setting you up as part of the Tummy family. <br>' +
 				'We need youn to complete the following steps to get the process rolling' +
 				'</p>' +
-				'<a href="https://corema-dev-env.herokuapp.com/home/signature/?token=' +
+				'<a href="http://13.58.18.163:3000/home/signature/?token=' +
 				rows[1].Token.trim() +
 				'&signatory=E">' +
 				'<img src="https://firebasestorage.googleapis.com/v0/b/tumiapp-66cd6.appspot.com/o/files%2Fstepper.jpg?alt=media&token=bc28b46f-d7c9-41c4-bd3e-76d45c8c7f9a"' +
@@ -2443,7 +2443,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function(error, info) {
+		transporter.sendMail(mailOptions, function (error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2532,7 +2532,7 @@ async function CreatePdfContracts(args) {
 
 		console.log('html listo ', html);
 
-		pdf.create(html, options).toFile(Strfilename, function(err, res) {
+		pdf.create(html, options).toFile(Strfilename, function (err, res) {
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 		});
