@@ -2092,6 +2092,7 @@ async function CreateContracts(args) {
 			font: 'Times New Roman',
 			size: 12,
 			orientation: 'portrait',
+			zoomFactor: 1,
 			border: {
 				top: '0.98in', // default is 0, units: mm, cm, in, px
 				right: '0.98in',
