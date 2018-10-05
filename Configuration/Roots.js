@@ -2104,7 +2104,7 @@ async function CreateContracts(args) {
 		}*/
 		//fs.destroy(Strfilename);
 
-		pdf.create(content, options).toFile(Strfilename, function (err, res) {
+		await pdf.create(content, options).toFile(Strfilename, function (err, res) {
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 		});
