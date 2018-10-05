@@ -32,16 +32,16 @@ const ApplicantMilitaryServiceMutation = {
 			return Db.models.ApplicantMilitaryServices
 				.update(
 					{
-						branch: args.ApplicantMilitaryServices.branch,
-						startDate: args.ApplicantMilitaryServices.startDate,
-						endDate: args.ApplicantMilitaryServices.endDate,
-						rankAtDischarge: args.ApplicantMilitaryServices.rankAtDischarge,
-						typeOfDischarge: args.ApplicantMilitaryServices.typeOfDischarge,
-						ApplicationId: args.ApplicantMilitaryServices.ApplicationId
+						branch: args.militaryService.branch,
+						startDate: args.militaryService.startDate,
+						endDate: args.militaryService.endDate,
+						rankAtDischarge: args.militaryService.rankAtDischarge,
+						typeOfDischarge: args.militaryService.typeOfDischarge,
+						ApplicationId: args.militaryService.ApplicationId
 					},
 					{
 						where: {
-							id: args.ApplicantMilitaryServices.id
+							id: args.militaryService.id
 						},
 						returning: true
 					}
