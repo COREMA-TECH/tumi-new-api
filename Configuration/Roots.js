@@ -2105,18 +2105,13 @@ async function CreateContracts(args) {
 		}*/
 		//fs.destroy(Strfilename);
 
-		fs.writeFile(StrfilnameHTML, content, function(err) {
-			if (err) throw err;
-			console.log('HTML Created');
-			var html = fs.readFileSync(StrfilnameHTML, 'utf8');
-
-			pdf.create(html, options).toFile(Strfilename, function(err, res) {
-				if (err) return console.log(err);
-				console.log(res); // { filename: '/app/businesscard.pdf' }
-				console.log('PDF Created');
-			});
+		pdf.create(content, options).toFile(Strfilename, function(err, res) {
+			if (err) return console.log(err);
+			console.log(res); // { filename: '/app/businesscard.pdf' }
+			console.log('PDF Created');
 		});
-		return rows
+
+		return rows;
 	} catch (err) {
 		console.log('Database ' + err);
 		return err;
