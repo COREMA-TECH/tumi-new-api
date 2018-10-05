@@ -107,7 +107,7 @@ const ApplicationMutation = {
 					},
 					{
 						where: {
-							id: args.application.id
+							id: args.id
 						},
 						returning: true
 					}
