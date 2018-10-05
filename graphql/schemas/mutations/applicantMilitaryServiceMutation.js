@@ -22,7 +22,7 @@ const ApplicantMilitaryServiceMutation = {
 				});
 		}
 	},
-	updateApplicantLanguage: {
+	updateMilitaryService: {
 		type: ApplicantMilitaryServiceType,
 		description: 'Update Applicant Military Service Record Info',
 		args: {
