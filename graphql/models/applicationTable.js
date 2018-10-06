@@ -61,7 +61,7 @@ export default {
 			},
 			birthDay: {
 				type: Sequelize.DATE,
-				allowNull: false
+				allowNull: true
 			},
 			car: {
 				type: Sequelize.BOOLEAN,

@@ -60,7 +60,7 @@ const ApplicationFields = {
 	},
 
 	birthDay: {
-		type: new GraphQLNonNull(GraphQLDate),
+		type: GraphQLDate,
 		description: 'Applicant Birthday'
 	},
 	car: {

@@ -7,6 +7,7 @@ import ApplicantMilitaryServicesModel from './applicantMilitaryServiceTable';
 import ApplicantSkillTableModel from './applicantSkillTable';
 import CompanyPreferencesModel from './companyPreferenceTable';
 import ApplicantIdealJobsModel from './applicantIdealJobTable';
+import PositionRateModel from './positionRateTable';
 
 import { Conn } from '../../Configuration/Configuration';
 
@@ -19,6 +20,7 @@ const ApplicantMilitaryServices = ApplicantMilitaryServicesModel.createModel(Con
 const ApplicantSkill = ApplicantSkillTableModel.createModel(Conn);
 const CompanyPreference = CompanyPreferencesModel.createModel(Conn);
 const ApplicantIdealJob = ApplicantIdealJobsModel.createModel(Conn);
+const PositionRate = PositionRateModel.createModel(Conn);
 
 Application.hasMany(ApplicantLanguage);
 Application.hasMany(ApplicantEducation);
@@ -33,6 +35,13 @@ ApplicantPreviousEmployment.belongsTo(Application);
 ApplicantMilitaryServices.belongsTo(Application);
 ApplicantSkill.belongsTo(Application);
 ApplicantIdealJob.belongsTo(Application);
+
+Application.belongsTo(PositionRate, {
+	foreignKey: {
+		name: 'positionApplyingFor',
+		fieldName: 'positionRateId'
+	}
+});
 
 Conn.authenticate()
 	.then(() => {

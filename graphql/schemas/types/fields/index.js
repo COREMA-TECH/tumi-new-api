@@ -7,7 +7,7 @@ import ApplicantMilitaryServiceFields from './applicantMilitaryServiceFields';
 import ApplicantSkillFields from './applicantSkillFields';
 import CompanyPreferenceFields from './companyPrefenceFields';
 import ApplicantIdealJobFields from './applicantIdealJobFields';
-
+import PositionRateFields from './positionRateFields';
 export {
 	ApplicantLanguagesFields,
 	ApplicationFields,
@@ -17,5 +17,6 @@ export {
 	ApplicantMilitaryServiceFields,
 	ApplicantSkillFields,
 	CompanyPreferenceFields,
-	ApplicantIdealJobFields
+	ApplicantIdealJobFields,
+	PositionRateFields
 };

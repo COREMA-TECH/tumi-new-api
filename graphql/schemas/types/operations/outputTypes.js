@@ -9,7 +9,8 @@ import {
 	ApplicantMilitaryServiceFields,
 	ApplicantSkillFields,
 	CompanyPreferenceFields,
-	ApplicantIdealJobFields
+	ApplicantIdealJobFields,
+	PositionRateFields
 } from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
@@ -56,6 +57,12 @@ const ApplicationType = new GraphQLObjectType({
 				type: new GraphQLList(ApplicantIdealJobType),
 				resolve(application) {
 					return application.getApplicantIdealJobs();
+				}
+			},
+			position: {
+				type: PositionRateType,
+				resolve(application) {
+					return application.getPositionRate();
 				}
 			}
 		};
@@ -206,6 +213,17 @@ const ElectronicAddressType = new GraphQLObjectType({
 	}
 });
 
+const PositionRateType = new GraphQLObjectType({
+	name: 'PositionRateType',
+	description: 'This is for position rate item',
+	fields: {
+		Id: {
+			type: GraphQLInt
+		},
+		...PositionRateFields
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -215,5 +233,6 @@ export {
 	ApplicantMilitaryServiceType,
 	ApplicantSkillType,
 	CompanyPreferenceType,
-	ApplicantIdealJobType
+	ApplicantIdealJobType,
+	PositionRateType
 };
