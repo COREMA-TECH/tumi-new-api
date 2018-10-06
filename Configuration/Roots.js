@@ -6,6 +6,7 @@ const nodemailer = require('nodemailer');
 const pdf = require('html-pdf');
 
 //Variables para PDF
+const pdfshift = require('pdfshift')('2974f9467a93407fae7e39d931d1d732');
 const fs = require('fs');
 
 var cron = require('node-cron');
@@ -61,10 +62,10 @@ async function SendExpiredContracts() {
 			html: 'Your contract is about to expire'
 		};
 
-		rows.forEach(function(element) {
+		rows.forEach(function (element) {
 			mailOptions.to = element.Electronic_Address;
 
-			transporter.sendMail(mailOptions, function(error, info) {
+			transporter.sendMail(mailOptions, function (error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error: ' + error);
 				} else {
@@ -77,7 +78,7 @@ async function SendExpiredContracts() {
 
 			mailOptions.to = element.Primary_Email;
 
-			transporter.sendMail(mailOptions, function(error, info) {
+			transporter.sendMail(mailOptions, function (error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error: ' + error);
 				} else {
@@ -2105,12 +2106,22 @@ async function CreateContracts(args) {
 		}
 		//fs.destroy(Strfilename);
 		console.log('Outside create pdf');
-		pdf.create(content, options).toFile(Strfilename, function(err, res) {
+		/*pdf.create(content, options).toFile(Strfilename, function(err, res) {
 			console.log('toFile');
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 			console.log('PDF Created');
-		});
+		});*/
+		pdfshift
+			.convert(content, {
+				landscape: false,
+				use_print: true,
+				margin: { left: '72px', right: '72px', top: '72px', bottom: '72px' }
+			})
+			.then(function (binary_file) {
+				fs.writeFile(Strfilename, binary_file, 'binary', function () { });
+			})
+			.catch(function ({ message, code, response, errors = null }) { });
 
 		while (true) {
 			try {
@@ -2325,7 +2336,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function(error, info) {
+		transporter.sendMail(mailOptions, function (error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2451,7 +2462,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function(error, info) {
+		transporter.sendMail(mailOptions, function (error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2540,7 +2551,7 @@ async function CreatePdfContracts(args) {
 
 		console.log('html listo ', html);
 
-		pdf.create(html, options).toFile(Strfilename, function(err, res) {
+		pdf.create(html, options).toFile(Strfilename, function (err, res) {
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 		});
