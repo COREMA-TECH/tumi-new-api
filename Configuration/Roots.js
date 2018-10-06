@@ -2059,7 +2059,7 @@ async function getContracts(args) {
 
 //Method Connect to Send Contracts by emails
 async function CreateContracts(args) {
-	try {
+	/*try {
 		var strparam1, strparam2;
 
 		if (args.IsActive >= 0) {
@@ -2111,7 +2111,8 @@ async function CreateContracts(args) {
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 			console.log('PDF Created');
-		});*/
+		});
+
 		pdfshift
 			.convert(content, {
 				landscape: false,
@@ -2134,8 +2135,8 @@ async function CreateContracts(args) {
 	} catch (err) {
 		console.log('Database ' + err);
 		return err;
-	}
-	/*try {
+	}*/
+	try {
 		console.log(args.IsActive);
 		var strparam1, strparam2, strparam3;
 
@@ -2183,7 +2184,7 @@ async function CreateContracts(args) {
 	} catch (err) {
 		console.log('Database ' + err);
 		return err;
-	}*/
+	}
 }
 
 //Method Connect to Send Contracts by emails
