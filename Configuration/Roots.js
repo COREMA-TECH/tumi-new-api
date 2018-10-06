@@ -2258,7 +2258,7 @@ async function SendContracts(args) {
 				'We are in the process of setting you up as part of the Tummy family. <br>' +
 				'We need youn to complete the following steps to get the process rolling' +
 				'</p>' +
-				'<a href="http://13.58.18.163:3000/home/signature/?token=' +
+				'<a href="http://ec2-18-223-100-127.us-east-2.compute.amazonaws.com:3000/home/signature/?token=' +
 				rows[0].Token.trim() +
 				'&signatory=C">' +
 				'<img src="https://firebasestorage.googleapis.com/v0/b/tumiapp-66cd6.appspot.com/o/files%2Fstepper.jpg?alt=media&token=bc28b46f-d7c9-41c4-bd3e-76d45c8c7f9a"' +
@@ -2384,7 +2384,7 @@ async function SendContracts(args) {
 				'We are in the process of setting you up as part of the Tummy family. <br>' +
 				'We need youn to complete the following steps to get the process rolling' +
 				'</p>' +
-				'<a href="http://13.58.18.163:3000/home/signature/?token=' +
+				'<a href="http://ec2-18-223-100-127.us-east-2.compute.amazonaws.com:3000/home/signature/?token=' +
 				rows[1].Token.trim() +
 				'&signatory=E">' +
 				'<img src="https://firebasestorage.googleapis.com/v0/b/tumiapp-66cd6.appspot.com/o/files%2Fstepper.jpg?alt=media&token=bc28b46f-d7c9-41c4-bd3e-76d45c8c7f9a"' +
