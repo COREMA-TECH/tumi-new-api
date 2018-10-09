@@ -105,7 +105,7 @@ const ApplicationFields = {
 		description: 'Applicant Comment'
 	},
 	signature: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Applicant Signature'
 	},
 	isActive: {
