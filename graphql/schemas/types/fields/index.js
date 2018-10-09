@@ -8,6 +8,8 @@ import ApplicantSkillFields from './applicantSkillFields';
 import CompanyPreferenceFields from './companyPrefenceFields';
 import ApplicantIdealJobFields from './applicantIdealJobFields';
 import PositionRateFields from './positionRateFields';
+import CatalogItemFields from './catalogItemFields';
+
 export {
 	ApplicantLanguagesFields,
 	ApplicationFields,
@@ -18,5 +20,6 @@ export {
 	ApplicantSkillFields,
 	CompanyPreferenceFields,
 	ApplicantIdealJobFields,
-	PositionRateFields
+	PositionRateFields,
+	CatalogItemFields
 };

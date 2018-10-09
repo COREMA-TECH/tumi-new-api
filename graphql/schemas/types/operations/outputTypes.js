@@ -10,7 +10,8 @@ import {
 	ApplicantSkillFields,
 	CompanyPreferenceFields,
 	ApplicantIdealJobFields,
-	PositionRateFields
+	PositionRateFields,
+	CatalogItemFields
 } from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
@@ -60,9 +61,9 @@ const ApplicationType = new GraphQLObjectType({
 				}
 			},
 			position: {
-				type: PositionRateType,
+				type: CatalogItemType,
 				resolve(application) {
-					return application.getPositionRate();
+					return application.getCatalogItem();
 				}
 			}
 		};
@@ -224,6 +225,17 @@ const PositionRateType = new GraphQLObjectType({
 	}
 });
 
+const CatalogItemType = new GraphQLObjectType({
+	name: 'CatalogItemType',
+	description: 'This is for catalog item',
+	fields: {
+		Id: {
+			type: GraphQLInt
+		},
+		...CatalogItemFields
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -234,5 +246,6 @@ export {
 	ApplicantSkillType,
 	CompanyPreferenceType,
 	ApplicantIdealJobType,
-	PositionRateType
+	PositionRateType,
+	CatalogItemType
 };
