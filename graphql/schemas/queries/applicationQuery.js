@@ -15,6 +15,9 @@ const ApplicationQuery = {
 			},
 			isActive: {
 				type: GraphQLBoolean
+			},
+			idLanguage: {
+				type: GraphQLInt
 			}
 		},
 		resolve(root, args) {

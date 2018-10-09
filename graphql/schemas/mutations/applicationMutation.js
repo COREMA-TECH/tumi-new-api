@@ -39,6 +39,7 @@ const ApplicationMutation = {
 				convictedExplain: args.application.convictedExplain,
 				comment: args.application.comment,
 				idealJob: args.application.idealJob,
+				idLanguage: args.application.idLanguage,
 				isActive: args.application.isActive
 			});
 		}
@@ -78,6 +79,7 @@ const ApplicationMutation = {
 						convictedExplain: args.application.convictedExplain,
 						comment: args.application.comment,
 						idealJob: args.application.idealJob,
+						idLanguage: args.application.idLanguage,
 						isActive: args.application.isActive
 					},
 					{
