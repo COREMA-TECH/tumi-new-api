@@ -5,7 +5,7 @@ export default {
 		return Conn.define('Applications', {
 			idLanguage: {
 				type: Sequelize.INTEGER,
-				allowNull: false
+				allowNull: true
 			},
 			firstName: {
 				type: Sequelize.STRING(50),
