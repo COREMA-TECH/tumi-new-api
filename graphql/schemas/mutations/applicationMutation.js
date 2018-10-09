@@ -40,6 +40,7 @@ const ApplicationMutation = {
 				comment: args.application.comment,
 				idealJob: args.application.idealJob,
 				idLanguage: args.application.idLanguage,
+				signature: args.application.signature,
 				isActive: args.application.isActive
 			});
 		}
@@ -80,6 +81,7 @@ const ApplicationMutation = {
 						comment: args.application.comment,
 						idealJob: args.application.idealJob,
 						idLanguage: args.application.idLanguage,
+						signature: args.application.signature,
 						isActive: args.application.isActive
 					},
 					{
