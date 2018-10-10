@@ -68,7 +68,7 @@ const ApplicationType = new GraphQLObjectType({
 				}
 			},
 			disclosure: {
-				type: ApplicantDisclosureType,
+				type: new GraphQLList(ApplicantDisclosureType),
 				resolve(application) {
 					return application.getApplicantDisclosures();
 				}
