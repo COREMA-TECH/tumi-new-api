@@ -11,7 +11,8 @@ import {
 	CompanyPreferenceFields,
 	ApplicantIdealJobFields,
 	ApplicantDisclosureFields,
-	ApplicantConductCodeFields
+	ApplicantConductCodeFields,
+	ApplicantBackgroundCheckFields
 } from '../fields';
 
 const inputInsertApplication = new GraphQLInputObjectType({
@@ -104,6 +105,14 @@ const inputInsertApplicantConductCode = new GraphQLInputObjectType({
 		...ApplicantConductCodeFields
 	}
 });
+const inputInsertApplicantBackgroundCheck = new GraphQLInputObjectType({
+	name: 'inputInsertApplicantBackgroundCheck',
+	description: 'Inputs for Application Background Check',
+
+	fields: {
+		...ApplicantBackgroundCheckFields
+	}
+});
 export {
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
@@ -115,5 +124,6 @@ export {
 	inputInsertApplicantIdealJob,
 	inputInsertApplicantDisclosure,
 	inputInsertApplicantConductCode,
+	inputInsertApplicantBackgroundCheck,
 	iParamEA
 };

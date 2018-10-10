@@ -9,7 +9,7 @@ import CompanyPreferenceMutation from './companyPreferenceMutation';
 import ApplicantIdealJobMutation from './applicantIdealJobMutation';
 import ApplicantDisclosureMutation from './applicantDisclosureMutation';
 import ApplicantConductCodeMutation from './applicantConductCodeMutation';
-
+import ApplicantBackgroundCheckMutation from './applicantBackgroundCheckMutation';
 export {
 	ApplicantLanguageMutation,
 	ApplicationMutation,
@@ -21,5 +21,6 @@ export {
 	CompanyPreferenceMutation,
 	ApplicantIdealJobMutation,
 	ApplicantDisclosureMutation,
-	ApplicantConductCodeMutation
+	ApplicantConductCodeMutation,
+	ApplicantBackgroundCheckMutation
 };

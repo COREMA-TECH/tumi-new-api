@@ -11,6 +11,7 @@ import PositionRateFields from './positionRateFields';
 import CatalogItemFields from './catalogItemFields';
 import ApplicantDisclosureFields from './applicantDisclosureFields';
 import ApplicantConductCodeFields from './applicantConductCodeFields';
+import ApplicantBackgroundCheckFields from './applicantBackgroundCheckFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -25,5 +26,6 @@ export {
 	ApplicantDisclosureFields,
 	PositionRateFields,
 	CatalogItemFields,
-	ApplicantConductCodeFields
+	ApplicantConductCodeFields,
+	ApplicantBackgroundCheckFields
 };

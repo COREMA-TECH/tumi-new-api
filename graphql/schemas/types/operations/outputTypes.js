@@ -13,8 +13,10 @@ import {
 	PositionRateFields,
 	CatalogItemFields,
 	ApplicantDisclosureFields,
-	ApplicantConductCodeFields
+	ApplicantConductCodeFields,
+	ApplicantBackgroundCheckFields
 } from '../fields';
+import applicantBackgroundCheckTable from '../../../models/applicantBackgroundCheckTable';
 
 const ApplicationType = new GraphQLObjectType({
 	name: 'Applications',
@@ -78,6 +80,12 @@ const ApplicationType = new GraphQLObjectType({
 				type: ApplicantConductCodeType,
 				resolve(application) {
 					return application.getApplicantConductCode();
+				}
+			},
+			backgroundCheck: {
+				type: ApplicantBackgroundCheckType,
+				resolve(application) {
+					return application.getApplicantBackgroundCheck();
 				}
 			}
 		};
@@ -289,6 +297,26 @@ const ApplicantConductCodeType = new GraphQLObjectType({
 		};
 	}
 });
+
+const ApplicantBackgroundCheckType = new GraphQLObjectType({
+	name: 'ApplicantBackgroundCheckType',
+	description: 'This is for Applicant Background Check',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...ApplicantBackgroundCheckFields,
+			application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			}
+		};
+	}
+});
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -302,5 +330,6 @@ export {
 	PositionRateType,
 	CatalogItemType,
 	ApplicantDisclosureType,
-	ApplicantConductCodeType
+	ApplicantConductCodeType,
+	ApplicantBackgroundCheckType
 };

@@ -9,8 +9,10 @@ import {
 	CompanyPreferenceFields,
 	ApplicantIdealJobFields,
 	ApplicantDisclosureFields,
-	ApplicantConductCodeFields
+	ApplicantConductCodeFields,
+	ApplicantBackgroundCheckFields
 } from '../fields';
+import applicantBackgroundCheckTable from '../../../models/applicantBackgroundCheckTable';
 
 const inputUpdateApplication = new GraphQLInputObjectType({
 	name: 'inputUpdateApplication',
@@ -137,6 +139,18 @@ const inputUpdateApplicantConductCode = new GraphQLInputObjectType({
 		...ApplicantConductCodeFields
 	}
 });
+const inputUpdateApplicantBackgroundCheck = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantBackgroundCheck',
+	description: 'Inputs for Applicant Background check Mutation',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...ApplicantBackgroundCheckFields
+	}
+});
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -147,5 +161,6 @@ export {
 	inputUpdateCompanyPreference,
 	inputUpdateApplicantIdealJob,
 	inputUpdateApplicantDisclosure,
-	inputUpdateApplicantConductCode
+	inputUpdateApplicantConductCode,
+	inputUpdateApplicantBackgroundCheck
 };

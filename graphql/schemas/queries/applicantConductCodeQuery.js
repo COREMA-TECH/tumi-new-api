@@ -12,7 +12,7 @@ const ApplicantConductCodeQuery = {
 			}
 		},
 		resolve(root, args) {
-			return Db.models.ApplicantConductCode.findAll({ where: args });
+			return Db.models.ApplicantConductCodes.findAll({ where: args });
 		}
 	}
 };
