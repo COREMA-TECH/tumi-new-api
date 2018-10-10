@@ -8,6 +8,7 @@ import ApplicantSkillQuery from './applicantSkillQuery';
 import CompanyPreferenceQuery from './companyPreferenceQuery';
 import ApplicantIdealJobQuery from './applicantIdealJobQuery';
 import ApplicantDisclosureQuery from './applicantDisclosureQuery';
+import ApplicantConductCodeQuery from './applicantConductCodeQuery';
 
 export {
 	ApplicantLanguageQuery,
@@ -19,5 +20,6 @@ export {
 	ApplicantSkillQuery,
 	CompanyPreferenceQuery,
 	ApplicantIdealJobQuery,
-	ApplicantDisclosureQuery
+	ApplicantDisclosureQuery,
+	ApplicantConductCodeQuery
 };

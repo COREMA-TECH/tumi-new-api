@@ -8,7 +8,8 @@ import {
 	ApplicantSkillFields,
 	CompanyPreferenceFields,
 	ApplicantIdealJobFields,
-	ApplicantDisclosureFields
+	ApplicantDisclosureFields,
+	ApplicantConductCodeFields
 } from '../fields';
 
 const inputUpdateApplication = new GraphQLInputObjectType({
@@ -124,6 +125,18 @@ const inputUpdateApplicantDisclosure = new GraphQLInputObjectType({
 		...ApplicantDisclosureFields
 	}
 });
+const inputUpdateApplicantConductCode = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantConductCode',
+	description: 'Inputs for Applicant Code of Conduct Mutation',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Applicant Id'
+		},
+		...ApplicantConductCodeFields
+	}
+});
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -133,5 +146,6 @@ export {
 	inputUpdateApplicantSkill,
 	inputUpdateCompanyPreference,
 	inputUpdateApplicantIdealJob,
-	inputUpdateApplicantDisclosure
+	inputUpdateApplicantDisclosure,
+	inputUpdateApplicantConductCode
 };

@@ -1,7 +1,7 @@
 import { GraphQLInt, GraphQLNonNull, GraphQLString } from 'graphql';
 import GraphQLDate from 'graphql-date';
 
-const ApplicantDisclosureFields = {
+const ApplicantConductCodeFields = {
 	signature: {
 		type: GraphQLString,
 		description: 'Applicant Signature'
@@ -24,4 +24,4 @@ const ApplicantDisclosureFields = {
 	}
 };
 
-export default ApplicantDisclosureFields;
+export default ApplicantConductCodeFields;

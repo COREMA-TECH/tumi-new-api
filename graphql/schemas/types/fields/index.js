@@ -10,6 +10,7 @@ import ApplicantIdealJobFields from './applicantIdealJobFields';
 import PositionRateFields from './positionRateFields';
 import CatalogItemFields from './catalogItemFields';
 import ApplicantDisclosureFields from './applicantDisclosureFields';
+import ApplicantConductCodeFields from './applicantConductCodeFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -23,5 +24,6 @@ export {
 	ApplicantIdealJobFields,
 	ApplicantDisclosureFields,
 	PositionRateFields,
-	CatalogItemFields
+	CatalogItemFields,
+	ApplicantConductCodeFields
 };

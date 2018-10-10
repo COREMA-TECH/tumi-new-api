@@ -12,7 +12,8 @@ import {
 	ApplicantIdealJobFields,
 	PositionRateFields,
 	CatalogItemFields,
-	ApplicantDisclosureFields
+	ApplicantDisclosureFields,
+	ApplicantConductCodeFields
 } from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
@@ -68,9 +69,15 @@ const ApplicationType = new GraphQLObjectType({
 				}
 			},
 			disclosure: {
-				type: new GraphQLList(ApplicantDisclosureType),
+				type: ApplicantDisclosureType,
 				resolve(application) {
-					return application.getApplicantDisclosures();
+					return application.getApplicantDisclosure();
+				}
+			},
+			conductCode: {
+				type: ApplicantConductCodeType,
+				resolve(application) {
+					return application.getApplicantConductCode();
 				}
 			}
 		};
@@ -249,10 +256,30 @@ const ApplicantDisclosureType = new GraphQLObjectType({
 	fields: () => {
 		return {
 			id: {
-				type: new GraphQLNonNull(GraphQLInt),
+				type: GraphQLInt,
 				description: 'Disclosure Id'
 			},
 			...ApplicantDisclosureFields,
+			application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			}
+		};
+	}
+});
+
+const ApplicantConductCodeType = new GraphQLObjectType({
+	name: 'ApplicantConductCodeType',
+	description: 'This is for Application Code of Conduct',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'Code of Conduct Id'
+			},
+			...ApplicantConductCodeFields,
 			application: {
 				type: ApplicationType,
 				resolve(me) {
@@ -274,5 +301,6 @@ export {
 	ApplicantIdealJobType,
 	PositionRateType,
 	CatalogItemType,
-	ApplicantDisclosureType
+	ApplicantDisclosureType,
+	ApplicantConductCodeType
 };

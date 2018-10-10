@@ -8,6 +8,7 @@ import ApplicantSkillMutation from './applicantSkillMutation';
 import CompanyPreferenceMutation from './companyPreferenceMutation';
 import ApplicantIdealJobMutation from './applicantIdealJobMutation';
 import ApplicantDisclosureMutation from './applicantDisclosureMutation';
+import ApplicantConductCodeMutation from './applicantConductCodeMutation';
 
 export {
 	ApplicantLanguageMutation,
@@ -19,5 +20,6 @@ export {
 	ApplicantSkillMutation,
 	CompanyPreferenceMutation,
 	ApplicantIdealJobMutation,
-	ApplicantDisclosureMutation
+	ApplicantDisclosureMutation,
+	ApplicantConductCodeMutation
 };
