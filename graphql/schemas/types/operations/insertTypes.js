@@ -9,7 +9,8 @@ import {
 	ApplicantMilitaryServiceFields,
 	ApplicantSkillFields,
 	CompanyPreferenceFields,
-	ApplicantIdealJobFields
+	ApplicantIdealJobFields,
+	ApplicantDisclosureFields
 } from '../fields';
 
 const inputInsertApplication = new GraphQLInputObjectType({
@@ -86,7 +87,14 @@ const iParamEA = new GraphQLInputObjectType({
 		...ElectronicAddressFields
 	}
 });
+const inputInsertApplicantDisclosure = new GraphQLInputObjectType({
+	name: 'inputInsertApplicantDisclosure',
+	description: 'Inputs for Application Disclosure',
 
+	fields: {
+		...ApplicantDisclosureFields
+	}
+});
 export {
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
@@ -96,5 +104,6 @@ export {
 	inputInsertApplicantSkill,
 	inputInsertCompanyPreference,
 	inputInsertApplicantIdealJob,
+	inputInsertApplicantDisclosure,
 	iParamEA
 };

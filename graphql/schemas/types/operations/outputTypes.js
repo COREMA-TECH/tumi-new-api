@@ -11,7 +11,8 @@ import {
 	CompanyPreferenceFields,
 	ApplicantIdealJobFields,
 	PositionRateFields,
-	CatalogItemFields
+	CatalogItemFields,
+	ApplicantDisclosureFields
 } from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
@@ -64,6 +65,12 @@ const ApplicationType = new GraphQLObjectType({
 				type: CatalogItemType,
 				resolve(application) {
 					return application.getCatalogItem();
+				}
+			},
+			disclosure: {
+				type: ApplicantDisclosureType,
+				resolve(application) {
+					return application.getApplicantDisclosures();
 				}
 			}
 		};
@@ -236,6 +243,25 @@ const CatalogItemType = new GraphQLObjectType({
 	}
 });
 
+const ApplicantDisclosureType = new GraphQLObjectType({
+	name: 'ApplicantDisclosureType',
+	description: 'This is for Application Disclosures',
+	fields: () => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Disclosure Id'
+			},
+			...ApplicantDisclosureFields,
+			application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			}
+		};
+	}
+});
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -247,5 +273,6 @@ export {
 	CompanyPreferenceType,
 	ApplicantIdealJobType,
 	PositionRateType,
-	CatalogItemType
+	CatalogItemType,
+	ApplicantDisclosureType
 };

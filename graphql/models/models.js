@@ -7,21 +7,22 @@ import ApplicantMilitaryServicesModel from './applicantMilitaryServiceTable';
 import ApplicantSkillTableModel from './applicantSkillTable';
 import CompanyPreferencesModel from './companyPreferenceTable';
 import ApplicantIdealJobsModel from './applicantIdealJobTable';
-
+import ApplicantDisclosureModel from './applicantDisclosureTable';
 import CatalogItemModel from './catalogItemTable';
 
 import { Conn } from '../../Configuration/Configuration';
 
-const ElectronicAddress = ElectronicAddressModel.createModel(Conn);
 const Application = ApplicationModel.createModel(Conn);
 const ApplicantLanguage = ApplicantLanaguageModel.createModel(Conn);
 const ApplicantEducation = ApplicantEducationModel.createModel(Conn);
 const ApplicantPreviousEmployment = ApplicantPreviousEmploymentModel.createModel(Conn);
 const ApplicantMilitaryServices = ApplicantMilitaryServicesModel.createModel(Conn);
 const ApplicantSkill = ApplicantSkillTableModel.createModel(Conn);
-const CompanyPreference = CompanyPreferencesModel.createModel(Conn);
 const ApplicantIdealJob = ApplicantIdealJobsModel.createModel(Conn);
+const ApplicantDisclosure = ApplicantDisclosureModel.createModel(Conn);
 
+const ElectronicAddress = ElectronicAddressModel.createModel(Conn);
+const CompanyPreference = CompanyPreferencesModel.createModel(Conn);
 const CatalogItem = CatalogItemModel.createModel(Conn);
 
 Application.hasMany(ApplicantLanguage);
@@ -30,6 +31,7 @@ Application.hasMany(ApplicantPreviousEmployment);
 Application.hasMany(ApplicantMilitaryServices);
 Application.hasMany(ApplicantSkill);
 Application.hasMany(ApplicantIdealJob);
+Application.hasMany(ApplicantDisclosure);
 
 ApplicantLanguage.belongsTo(Application);
 ApplicantEducation.belongsTo(Application);
@@ -37,6 +39,7 @@ ApplicantPreviousEmployment.belongsTo(Application);
 ApplicantMilitaryServices.belongsTo(Application);
 ApplicantSkill.belongsTo(Application);
 ApplicantIdealJob.belongsTo(Application);
+ApplicantDisclosure.belongsTo(Application);
 
 Application.belongsTo(CatalogItem, {
 	foreignKey: {
