@@ -3,7 +3,7 @@ import { inputUpdateApplication } from '../types/operations/updateTypes';
 import { ApplicationType } from '../types/operations/outputTypes';
 
 import Db from '../../models/models';
-import { graphql, GraphQLInt } from 'graphql';
+import { graphql, GraphQLInt, GraphQLString } from 'graphql';
 
 const ApplicationMutation = {
 	addApplication: {
@@ -108,6 +108,32 @@ const ApplicationMutation = {
 				.update(
 					{
 						isActive: false
+					},
+					{
+						where: {
+							id: args.id
+						},
+						returning: true
+					}
+				)
+				.then(function([ rowsUpdate, [ record ] ]) {
+					if (record) return record.dataValues;
+					else return null;
+				});
+		}
+	},
+	addSignature: {
+		type: ApplicationType,
+		description: 'Udd signature to Application Form Info',
+		args: {
+			id: { type: GraphQLInt },
+			signature: { type: GraphQLString }
+		},
+		resolve(source, args) {
+			return Db.models.Applications
+				.update(
+					{
+						signature: args.signature
 					},
 					{
 						where: {
