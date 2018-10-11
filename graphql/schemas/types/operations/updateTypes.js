@@ -10,9 +10,9 @@ import {
 	ApplicantIdealJobFields,
 	ApplicantDisclosureFields,
 	ApplicantConductCodeFields,
-	ApplicantBackgroundCheckFields
+	ApplicantBackgroundCheckFields,
+	ApplicantHarassmentPoliciyFields
 } from '../fields';
-import applicantBackgroundCheckTable from '../../../models/applicantBackgroundCheckTable';
 
 const inputUpdateApplication = new GraphQLInputObjectType({
 	name: 'inputUpdateApplication',
@@ -151,6 +151,18 @@ const inputUpdateApplicantBackgroundCheck = new GraphQLInputObjectType({
 		...ApplicantBackgroundCheckFields
 	}
 });
+const inputUpdateApplicantHarassmentPolicy = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantHarassmentPolicy',
+	description: 'Inputs for Applicant Harassment Policy Mutation',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...ApplicantHarassmentPoliciyFields
+	}
+});
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -162,5 +174,6 @@ export {
 	inputUpdateApplicantIdealJob,
 	inputUpdateApplicantDisclosure,
 	inputUpdateApplicantConductCode,
-	inputUpdateApplicantBackgroundCheck
+	inputUpdateApplicantBackgroundCheck,
+	inputUpdateApplicantHarassmentPolicy
 };

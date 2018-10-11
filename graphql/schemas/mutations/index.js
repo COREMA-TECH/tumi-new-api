@@ -10,6 +10,7 @@ import ApplicantIdealJobMutation from './applicantIdealJobMutation';
 import ApplicantDisclosureMutation from './applicantDisclosureMutation';
 import ApplicantConductCodeMutation from './applicantConductCodeMutation';
 import ApplicantBackgroundCheckMutation from './applicantBackgroundCheckMutation';
+import ApplicantHarassmentPolicyMutation from './applicantHarassmentPolicyMutation';
 export {
 	ApplicantLanguageMutation,
 	ApplicationMutation,
@@ -22,5 +23,6 @@ export {
 	ApplicantIdealJobMutation,
 	ApplicantDisclosureMutation,
 	ApplicantConductCodeMutation,
-	ApplicantBackgroundCheckMutation
+	ApplicantBackgroundCheckMutation,
+	ApplicantHarassmentPolicyMutation
 };

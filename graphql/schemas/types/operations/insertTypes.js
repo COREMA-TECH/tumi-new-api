@@ -12,7 +12,8 @@ import {
 	ApplicantIdealJobFields,
 	ApplicantDisclosureFields,
 	ApplicantConductCodeFields,
-	ApplicantBackgroundCheckFields
+	ApplicantBackgroundCheckFields,
+	ApplicantHarassmentPoliciyFields
 } from '../fields';
 
 const inputInsertApplication = new GraphQLInputObjectType({
@@ -113,6 +114,16 @@ const inputInsertApplicantBackgroundCheck = new GraphQLInputObjectType({
 		...ApplicantBackgroundCheckFields
 	}
 });
+
+const inputInsertApplicantHarassmentPolicy = new GraphQLInputObjectType({
+	name: 'inputInsertApplicantHarassmentPolicy',
+	description: 'Inputs for Application Harassment Policy',
+
+	fields: {
+		...ApplicantHarassmentPoliciyFields
+	}
+});
+
 export {
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
@@ -125,5 +136,6 @@ export {
 	inputInsertApplicantDisclosure,
 	inputInsertApplicantConductCode,
 	inputInsertApplicantBackgroundCheck,
+	inputInsertApplicantHarassmentPolicy,
 	iParamEA
 };

@@ -10,6 +10,7 @@ import ApplicantIdealJobsModel from './applicantIdealJobTable';
 import ApplicantDisclosureModel from './applicantDisclosureTable';
 import ApplicantConductCodeModel from './applicantConductCodeTable';
 import ApplicantBackgroundCheckModel from './applicantBackgroundCheckTable';
+import ApplicantHarassmentPolicyModel from './applicantHarassmentPolicyTable';
 
 import CatalogItemModel from './catalogItemTable';
 
@@ -25,6 +26,7 @@ const ApplicantIdealJob = ApplicantIdealJobsModel.createModel(Conn);
 const ApplicantDisclosure = ApplicantDisclosureModel.createModel(Conn);
 const ApplicantConductCode = ApplicantConductCodeModel.createModel(Conn);
 const ApplicantBackgroundCheck = ApplicantBackgroundCheckModel.createModel(Conn);
+const ApplicantHarassmentPolicy = ApplicantHarassmentPolicyModel.createModel(Conn);
 
 const ElectronicAddress = ElectronicAddressModel.createModel(Conn);
 const CompanyPreference = CompanyPreferencesModel.createModel(Conn);
@@ -40,6 +42,7 @@ Application.hasMany(ApplicantIdealJob);
 Application.hasOne(ApplicantDisclosure);
 Application.hasOne(ApplicantConductCode);
 Application.hasOne(ApplicantBackgroundCheck);
+Application.hasOne(ApplicantHarassmentPolicy);
 
 ApplicantLanguage.belongsTo(Application);
 ApplicantEducation.belongsTo(Application);

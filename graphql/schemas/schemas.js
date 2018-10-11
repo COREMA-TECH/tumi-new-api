@@ -15,7 +15,8 @@ import {
 	ApplicantIdealJobMutation,
 	ApplicantDisclosureMutation,
 	ApplicantConductCodeMutation,
-	ApplicantBackgroundCheckMutation
+	ApplicantBackgroundCheckMutation,
+	ApplicantHarassmentPolicyMutation
 } from './mutations';
 import {
 	ApplicationQuery,
@@ -29,7 +30,8 @@ import {
 	ApplicantIdealJobQuery,
 	ApplicantDisclosureQuery,
 	ApplicantConductCodeQuery,
-	ApplicantBackgroundCheckQuery
+	ApplicantBackgroundCheckQuery,
+	ApplicantHarassmentPolicyQuery
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -47,7 +49,8 @@ const RootQuery = new GraphQLObjectType({
 		...ApplicantIdealJobQuery,
 		...ApplicantDisclosureQuery,
 		...ApplicantConductCodeQuery,
-		...ApplicantBackgroundCheckQuery
+		...ApplicantBackgroundCheckQuery,
+		...ApplicantHarassmentPolicyQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({
@@ -65,7 +68,8 @@ const RootMutation = new GraphQLObjectType({
 		...ApplicantIdealJobMutation,
 		...ApplicantDisclosureMutation,
 		...ApplicantConductCodeMutation,
-		...ApplicantBackgroundCheckMutation
+		...ApplicantBackgroundCheckMutation,
+		...ApplicantHarassmentPolicyMutation
 	}
 });
 

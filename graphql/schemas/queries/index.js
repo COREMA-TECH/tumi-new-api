@@ -10,6 +10,7 @@ import ApplicantIdealJobQuery from './applicantIdealJobQuery';
 import ApplicantDisclosureQuery from './applicantDisclosureQuery';
 import ApplicantConductCodeQuery from './applicantConductCodeQuery';
 import ApplicantBackgroundCheckQuery from './applicantBackgroundCheckQuery';
+import ApplicantHarassmentPolicyQuery from './applicantHarassmentPolicyQuery';
 
 export {
 	ApplicantLanguageQuery,
@@ -23,5 +24,6 @@ export {
 	ApplicantIdealJobQuery,
 	ApplicantDisclosureQuery,
 	ApplicantConductCodeQuery,
-	ApplicantBackgroundCheckQuery
+	ApplicantBackgroundCheckQuery,
+	ApplicantHarassmentPolicyQuery
 };

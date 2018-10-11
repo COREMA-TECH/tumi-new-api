@@ -12,6 +12,7 @@ import CatalogItemFields from './catalogItemFields';
 import ApplicantDisclosureFields from './applicantDisclosureFields';
 import ApplicantConductCodeFields from './applicantConductCodeFields';
 import ApplicantBackgroundCheckFields from './applicantBackgroundCheckFields';
+import ApplicantHarassmentPoliciyFields from './applicantHarassmentPolicyFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -27,5 +28,6 @@ export {
 	PositionRateFields,
 	CatalogItemFields,
 	ApplicantConductCodeFields,
-	ApplicantBackgroundCheckFields
+	ApplicantBackgroundCheckFields,
+	ApplicantHarassmentPoliciyFields
 };
