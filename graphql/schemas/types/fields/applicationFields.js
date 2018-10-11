@@ -104,6 +104,10 @@ const ApplicationFields = {
 		type: GraphQLString,
 		description: 'Applicant Comment'
 	},
+	generalComment: {
+		type: GraphQLString,
+		description: 'Applicant General Comment'
+	},
 	signature: {
 		type: GraphQLString,
 		description: 'Applicant Signature'

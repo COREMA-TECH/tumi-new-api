@@ -103,6 +103,10 @@ export default {
 				type: Sequelize.STRING(255),
 				allowNull: true
 			},
+			generalComment: {
+				type: Sequelize.STRING(255),
+				allowNull: true
+			},
 			signature: {
 				type: Sequelize.TEXT,
 				allowNull: true
