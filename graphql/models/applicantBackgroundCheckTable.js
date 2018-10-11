@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 
 export default {
 	createModel(Conn) {
-		return Conn.define('ApplicantBackgroundCheck', {
+		return Conn.define('ApplicantBackgroundChecks', {
 			vehicleReportRequired: {
 				type: Sequelize.BOOLEAN,
 				allowNull: true

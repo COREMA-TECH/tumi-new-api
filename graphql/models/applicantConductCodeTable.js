@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 
 export default {
 	createModel(Conn) {
-		return Conn.define('ApplicantConductCode', {
+		return Conn.define('ApplicantConductCodes', {
 			signature: {
 				type: Sequelize.STRING,
 				allowNull: true
