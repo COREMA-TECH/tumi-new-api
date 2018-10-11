@@ -11,6 +11,7 @@ import ApplicantDisclosureMutation from './applicantDisclosureMutation';
 import ApplicantConductCodeMutation from './applicantConductCodeMutation';
 import ApplicantBackgroundCheckMutation from './applicantBackgroundCheckMutation';
 import ApplicantHarassmentPolicyMutation from './applicantHarassmentPolicyMutation';
+import ApplicantWorkerCompensationMutation from './applicantWorkerCompensationMutation';
 export {
 	ApplicantLanguageMutation,
 	ApplicationMutation,
@@ -24,5 +25,6 @@ export {
 	ApplicantDisclosureMutation,
 	ApplicantConductCodeMutation,
 	ApplicantBackgroundCheckMutation,
-	ApplicantHarassmentPolicyMutation
+	ApplicantHarassmentPolicyMutation,
+	ApplicantWorkerCompensationMutation
 };

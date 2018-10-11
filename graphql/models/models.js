@@ -11,6 +11,7 @@ import ApplicantDisclosureModel from './applicantDisclosureTable';
 import ApplicantConductCodeModel from './applicantConductCodeTable';
 import ApplicantBackgroundCheckModel from './applicantBackgroundCheckTable';
 import ApplicantHarassmentPolicyModel from './applicantHarassmentPolicyTable';
+import ApplicantWorkerCompensationModel from './applicantWorkerCompensationTable';
 
 import CatalogItemModel from './catalogItemTable';
 
@@ -27,6 +28,7 @@ const ApplicantDisclosure = ApplicantDisclosureModel.createModel(Conn);
 const ApplicantConductCode = ApplicantConductCodeModel.createModel(Conn);
 const ApplicantBackgroundCheck = ApplicantBackgroundCheckModel.createModel(Conn);
 const ApplicantHarassmentPolicy = ApplicantHarassmentPolicyModel.createModel(Conn);
+const ApplicantWorkerCompensation = ApplicantWorkerCompensationModel.createModel(Conn);
 
 const ElectronicAddress = ElectronicAddressModel.createModel(Conn);
 const CompanyPreference = CompanyPreferencesModel.createModel(Conn);
@@ -43,6 +45,7 @@ Application.hasOne(ApplicantDisclosure);
 Application.hasOne(ApplicantConductCode);
 Application.hasOne(ApplicantBackgroundCheck);
 Application.hasOne(ApplicantHarassmentPolicy);
+Application.hasOne(ApplicantWorkerCompensation);
 
 ApplicantLanguage.belongsTo(Application);
 ApplicantEducation.belongsTo(Application);
@@ -66,16 +69,16 @@ Conn.authenticate()
 		console.error('Unable to connect to the database:', err);
 	});
 
-//Conn.sync({ force: false }).then(() => {
-/*make sure you use false here. otherwise the total data 
+Conn.sync({ force: false }).then(() => {
+	/*make sure you use false here. otherwise the total data 
     from the impported models will get deleted and new tables will be created*/
-// now we cann do all db operations on customers table.
-//Ex:- lets read all data
-//	console.log('Applications Inside Connection', Applications.findAll);
-//	Applications.findAll().then((applications) => {
-//console.log('Applications are:-', applications);
-//	});
-//	console.log('sync is completed');
-//});
+	// now we cann do all db operations on customers table.
+	//Ex:- lets read all data
+	//	console.log('Applications Inside Connection', Applications.findAll);
+	//	Applications.findAll().then((applications) => {
+	//console.log('Applications are:-', applications);
+	//	});
+	//	console.log('sync is completed');
+});
 
 export default Conn;

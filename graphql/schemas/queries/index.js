@@ -11,7 +11,7 @@ import ApplicantDisclosureQuery from './applicantDisclosureQuery';
 import ApplicantConductCodeQuery from './applicantConductCodeQuery';
 import ApplicantBackgroundCheckQuery from './applicantBackgroundCheckQuery';
 import ApplicantHarassmentPolicyQuery from './applicantHarassmentPolicyQuery';
-
+import ApplicantWorkerCompensationQuery from './applicantWorkerCompensationQuery';
 export {
 	ApplicantLanguageQuery,
 	ApplicationQuery,
@@ -25,5 +25,6 @@ export {
 	ApplicantDisclosureQuery,
 	ApplicantConductCodeQuery,
 	ApplicantBackgroundCheckQuery,
-	ApplicantHarassmentPolicyQuery
+	ApplicantHarassmentPolicyQuery,
+	ApplicantWorkerCompensationQuery
 };

@@ -15,9 +15,9 @@ import {
 	ApplicantDisclosureFields,
 	ApplicantConductCodeFields,
 	ApplicantBackgroundCheckFields,
-	ApplicantHarassmentPoliciyFields
+	ApplicantHarassmentPoliciyFields,
+	ApplicantWorkerCompensationFields
 } from '../fields';
-import applicantBackgroundCheckTable from '../../../models/applicantBackgroundCheckTable';
 
 const ApplicationType = new GraphQLObjectType({
 	name: 'Applications',
@@ -93,6 +93,12 @@ const ApplicationType = new GraphQLObjectType({
 				type: ApplicantHarassmentPolicyType,
 				resolve(application) {
 					return application.getApplicantHarassmentPolicy();
+				}
+			},
+			workerCompensation: {
+				type: ApplicantWorkerCompensationType,
+				resolve(application) {
+					application.getApplicantWorkerCompensation();
 				}
 			}
 		};
@@ -343,6 +349,25 @@ const ApplicantHarassmentPolicyType = new GraphQLObjectType({
 		};
 	}
 });
+const ApplicantWorkerCompensationType = new GraphQLObjectType({
+	name: 'ApplicantWorkerCompensationType',
+	description: 'This is for Applicant Worker Compensation',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...ApplicantWorkerCompensationFields,
+			application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			}
+		};
+	}
+});
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -358,5 +383,6 @@ export {
 	ApplicantDisclosureType,
 	ApplicantConductCodeType,
 	ApplicantBackgroundCheckType,
-	ApplicantHarassmentPolicyType
+	ApplicantHarassmentPolicyType,
+	ApplicantWorkerCompensationType
 };
