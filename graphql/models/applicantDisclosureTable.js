@@ -4,7 +4,7 @@ export default {
 	createModel(Conn) {
 		return Conn.define('ApplicantDisclosures', {
 			signature: {
-				type: Sequelize.STRING,
+				type: Sequelize.TEXT('long'),
 				allowNull: true
 			},
 			content: {

@@ -8,7 +8,7 @@ export default {
 				allowNull: true
 			},
 			signature: {
-				type: Sequelize.STRING,
+				type: Sequelize.TEXT('long'),
 				allowNull: true
 			},
 			content: {
