@@ -12,8 +12,10 @@ import {
 	ApplicantConductCodeFields,
 	ApplicantBackgroundCheckFields,
 	ApplicantHarassmentPoliciyFields,
-	ApplicantWorkerCompensationFields
+	ApplicantWorkerCompensationFields,
+	ApplicantDocumentFields
 } from '../fields';
+import applicantDocumentTable from '../../../models/applicantDocumentTable';
 
 const inputUpdateApplication = new GraphQLInputObjectType({
 	name: 'inputUpdateApplication',
@@ -176,6 +178,18 @@ const inputUpdateApplicantWorkerCompensation = new GraphQLInputObjectType({
 		...ApplicantWorkerCompensationFields
 	}
 });
+const inputUpdateApplicantDocument = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantDocument',
+	description: 'Inputs for Applications Document',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...ApplicantDocumentFields
+	}
+});
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -189,5 +203,6 @@ export {
 	inputUpdateApplicantConductCode,
 	inputUpdateApplicantBackgroundCheck,
 	inputUpdateApplicantHarassmentPolicy,
-	inputUpdateApplicantWorkerCompensation
+	inputUpdateApplicantWorkerCompensation,
+	inputUpdateApplicantDocument
 };

@@ -12,6 +12,7 @@ import ApplicantConductCodeModel from './applicantConductCodeTable';
 import ApplicantBackgroundCheckModel from './applicantBackgroundCheckTable';
 import ApplicantHarassmentPolicyModel from './applicantHarassmentPolicyTable';
 import ApplicantWorkerCompensationModel from './applicantWorkerCompensationTable';
+import ApplicantDocumentModel from './applicantDocumentTable';
 
 import CatalogItemModel from './catalogItemTable';
 
@@ -29,6 +30,7 @@ const ApplicantConductCode = ApplicantConductCodeModel.createModel(Conn);
 const ApplicantBackgroundCheck = ApplicantBackgroundCheckModel.createModel(Conn);
 const ApplicantHarassmentPolicy = ApplicantHarassmentPolicyModel.createModel(Conn);
 const ApplicantWorkerCompensation = ApplicantWorkerCompensationModel.createModel(Conn);
+const ApplicantDocument = ApplicantDocumentModel.createModel(Conn);
 
 const ElectronicAddress = ElectronicAddressModel.createModel(Conn);
 const CompanyPreference = CompanyPreferencesModel.createModel(Conn);
@@ -40,6 +42,7 @@ Application.hasMany(ApplicantPreviousEmployment);
 Application.hasMany(ApplicantMilitaryServices);
 Application.hasMany(ApplicantSkill);
 Application.hasMany(ApplicantIdealJob);
+Application.hasMany(ApplicantDocument);
 
 Application.hasOne(ApplicantDisclosure);
 Application.hasOne(ApplicantConductCode);
@@ -53,12 +56,11 @@ ApplicantPreviousEmployment.belongsTo(Application);
 ApplicantMilitaryServices.belongsTo(Application);
 ApplicantSkill.belongsTo(Application);
 ApplicantIdealJob.belongsTo(Application);
+ApplicantDocument.belongsTo(Application);
+ApplicantDocument.belongsTo(CatalogItem);
 
 Application.belongsTo(CatalogItem, {
-	foreignKey: {
-		name: 'positionApplyingFor',
-		fieldName: 'catalogItemId'
-	}
+	foreignKey: 'positionApplyingFor'
 });
 
 Conn.authenticate()

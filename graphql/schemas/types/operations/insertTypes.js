@@ -14,7 +14,8 @@ import {
 	ApplicantConductCodeFields,
 	ApplicantBackgroundCheckFields,
 	ApplicantHarassmentPoliciyFields,
-	ApplicantWorkerCompensationFields
+	ApplicantWorkerCompensationFields,
+	ApplicantDocumentFields
 } from '../fields';
 
 const inputInsertApplication = new GraphQLInputObjectType({
@@ -133,7 +134,14 @@ const inputInsertApplicantWorkerCompensation = new GraphQLInputObjectType({
 		...ApplicantWorkerCompensationFields
 	}
 });
+const inputInsertApplicantDocument = new GraphQLInputObjectType({
+	name: 'inputInsertApplicantDocument',
+	description: 'Inputs for Applications Document',
 
+	fields: {
+		...ApplicantDocumentFields
+	}
+});
 export {
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
@@ -148,5 +156,6 @@ export {
 	inputInsertApplicantBackgroundCheck,
 	inputInsertApplicantHarassmentPolicy,
 	inputInsertApplicantWorkerCompensation,
+	inputInsertApplicantDocument,
 	iParamEA
 };
