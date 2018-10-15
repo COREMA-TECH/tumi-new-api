@@ -62,10 +62,10 @@ async function SendExpiredContracts() {
 			html: 'Your contract is about to expire'
 		};
 
-		rows.forEach(function (element) {
+		rows.forEach(function(element) {
 			mailOptions.to = element.Electronic_Address;
 
-			transporter.sendMail(mailOptions, function (error, info) {
+			transporter.sendMail(mailOptions, function(error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error: ' + error);
 				} else {
@@ -78,7 +78,7 @@ async function SendExpiredContracts() {
 
 			mailOptions.to = element.Primary_Email;
 
-			transporter.sendMail(mailOptions, function (error, info) {
+			transporter.sendMail(mailOptions, function(error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error: ' + error);
 				} else {
@@ -202,7 +202,7 @@ async function InsBusinessCompanies(args) {
 	try {
 		if (args) {
 			Strquery =
-				'INSERT INTO public."BusinessCompany" ("Code", "Code01","Id_Contract","Id_Company","BusinessType","Name","Description","Start_Week","End_Week","Start_Date","Legal_Name","Country","State","City","Id_Parent","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","ImageURL","Location","Location01","Rate","Zipcode", "Fax", "Phone_Prefix", "Phone_Number", "Primary_Email","Contract_URL", "Insurace_URL", "Other_URL", "Other01_URL","Other_Name","Other01_Name","Suite","Rooms","Contract_Status") VALUES(' +
+				'INSERT INTO public."BusinessCompany" ("Code", "Code01","Id_Contract","Id_Company","BusinessType","Name","Description","Start_Week","End_Week","Start_Date","Legal_Name","Country","State","City","Id_Parent","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","ImageURL","Location","Location01","Rate","Zipcode", "Fax", "Phone_Prefix", "Phone_Number", "Primary_Email","Contract_URL","Contract_File", "Insurance_URL", "Insurance_File", "Other_URL", "Other_File", "Other_Name", "Other01_URL","Other01_Name","Other01_File","Suite","Rooms","Contract_Status") VALUES(' +
 				args.input.Code +
 				',' +
 				args.input.Code01 +
@@ -263,22 +263,30 @@ async function InsBusinessCompanies(args) {
 				',' +
 				args.input.Contract_URL +
 				',' +
-				args.input.Insurace_URL +
+				args.input.Contract_File +
+				',' +
+				args.input.Insurance_URL +
+				',' +
+				args.input.Insurance_File +
 				',' +
 				args.input.Other_URL +
 				',' +
-				args.input.Other01_URL +
-				',' +
 				args.input.Other_Name +
 				',' +
+				args.input.Other_File +
+				',' +
+				args.input.Other01_URL +
+				',' +
 				args.input.Other01_Name +
+				',' +
+				args.input.Other01_File +
 				',' +
 				args.input.Suite +
 				',' +
 				args.input.Rooms +
 				',' +
 				args.input.Contract_Status +
-				') RETURNING "Id", "Code", "Code01","Id_Contract","Id_Company","BusinessType","Name","Description","Start_Week","End_Week","Start_Date","Legal_Name","Country","State","City","Id_Parent","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","ImageURL","Location","Location01","Rate","Zipcode", "Fax", "Phone_Prefix", "Phone_Number", "Primary_Email","Contract_URL", "Insurace_URL", "Other_URL", "Other01_URL","Suite","Contract_Status"';
+				') RETURNING "Id", "Code", "Code01","Id_Contract","Id_Company","BusinessType","Name","Description","Start_Week","End_Week","Start_Date","Legal_Name","Country","State","City","Id_Parent","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","ImageURL","Location","Location01","Rate","Zipcode", "Fax", "Phone_Prefix", "Phone_Number", "Primary_Email","Contract_URL","Contract_File", "Insurance_URL", "Insurance_File", "Other_URL", "Other_Name, "Other_File, "Other01_URL", "Other01_Name", "Other01_File","Suite","Contract_Status"';
 			console.log(Strquery);
 		} else {
 			console.log('Error Insert Data');
@@ -360,16 +368,24 @@ async function UpdBusinessCompanies(args) {
 				args.input.Primary_Email +
 				', "Contract_URL"=' +
 				args.input.Contract_URL +
-				', "Insurace_URL"=' +
-				args.input.Insurace_URL +
+				', "Contract_File"=' +
+				args.input.Contract_File +
+				', "Insurance_URL"=' +
+				args.input.Insurance_URL +
+				', "Insurance_File"=' +
+				args.input.Insurance_File +
 				', "Other_URL"=' +
 				args.input.Other_URL +
-				', "Other01_URL"=' +
-				args.input.Other01_URL +
 				', "Other_Name"=' +
 				args.input.Other_Name +
+				', "Other_File"=' +
+				args.input.Other_File +
+				', "Other01_URL"=' +
+				args.input.Other01_URL +
 				', "Other01_Name"=' +
 				args.input.Other01_Name +
+				', "Other01_File"=' +
+				args.input.Other01_File +
 				',"Suite"=' +
 				args.input.Suite +
 				',"Rooms"=' +
@@ -2174,10 +2190,10 @@ async function CreateContracts(args) {
 				use_print: true,
 				margin: { left: '72px', right: '72px', top: '72px', bottom: '72px' }
 			})
-			.then(function (binary_file) {
-				fs.writeFile(Strfilename, binary_file, 'binary', function () { });
+			.then(function(binary_file) {
+				fs.writeFile(Strfilename, binary_file, 'binary', function() {});
 			})
-			.catch(function ({ message, code, response, errors = null }) { });
+			.catch(function({ message, code, response, errors = null }) {});
 		//	}
 
 		return rows;
@@ -2337,7 +2353,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function (error, info) {
+		transporter.sendMail(mailOptions, function(error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2463,7 +2479,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function (error, info) {
+		transporter.sendMail(mailOptions, function(error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2552,7 +2568,7 @@ async function CreatePdfContracts(args) {
 
 		console.log('html listo ', html);
 
-		pdf.create(html, options).toFile(Strfilename, function (err, res) {
+		pdf.create(html, options).toFile(Strfilename, function(err, res) {
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 		});
