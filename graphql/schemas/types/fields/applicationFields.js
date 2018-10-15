@@ -3,7 +3,7 @@ import GraphQLDate from 'graphql-date';
 
 const ApplicationFields = {
 	idLanguage: {
-		type: GraphQLInt,
+		type: GraphQLString,
 		description: 'Application Language'
 	},
 	firstName: {
