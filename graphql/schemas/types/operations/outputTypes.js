@@ -10,7 +10,14 @@ import {
 	ApplicantSkillFields,
 	CompanyPreferenceFields,
 	ApplicantIdealJobFields,
-	PositionRateFields
+	PositionRateFields,
+	CatalogItemFields,
+	ApplicantDisclosureFields,
+	ApplicantConductCodeFields,
+	ApplicantBackgroundCheckFields,
+	ApplicantHarassmentPoliciyFields,
+	ApplicantWorkerCompensationFields,
+	ApplicantDocumentFields
 } from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
@@ -60,9 +67,45 @@ const ApplicationType = new GraphQLObjectType({
 				}
 			},
 			position: {
-				type: PositionRateType,
+				type: CatalogItemType,
 				resolve(application) {
-					return application.getPositionRate();
+					return application.getCatalogItem();
+				}
+			},
+			disclosure: {
+				type: ApplicantDisclosureType,
+				resolve(application) {
+					return application.getApplicantDisclosure();
+				}
+			},
+			conductCode: {
+				type: ApplicantConductCodeType,
+				resolve(application) {
+					return application.getApplicantConductCode();
+				}
+			},
+			backgroundCheck: {
+				type: ApplicantBackgroundCheckType,
+				resolve(application) {
+					return application.getApplicantBackgroundCheck();
+				}
+			},
+			harassmentPolicy: {
+				type: ApplicantHarassmentPolicyType,
+				resolve(application) {
+					return application.getApplicantHarassmentPolicy();
+				}
+			},
+			workerCompensation: {
+				type: ApplicantWorkerCompensationType,
+				resolve(application) {
+					application.getApplicantWorkerCompensation();
+				}
+			},
+			documents: {
+				type: new GraphQLList(ApplicantDocumentType),
+				resolve(application) {
+					application.getApplicantDocuments();
 				}
 			}
 		};
@@ -224,6 +267,133 @@ const PositionRateType = new GraphQLObjectType({
 	}
 });
 
+const CatalogItemType = new GraphQLObjectType({
+	name: 'CatalogItemType',
+	description: 'This is for catalog item',
+	fields: {
+		Id: {
+			type: GraphQLInt
+		},
+		...CatalogItemFields
+	}
+});
+
+const ApplicantDisclosureType = new GraphQLObjectType({
+	name: 'ApplicantDisclosureType',
+	description: 'This is for Application Disclosures',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'Disclosure Id'
+			},
+			...ApplicantDisclosureFields,
+			application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			}
+		};
+	}
+});
+
+const ApplicantConductCodeType = new GraphQLObjectType({
+	name: 'ApplicantConductCodeType',
+	description: 'This is for Application Code of Conduct',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'Code of Conduct Id'
+			},
+			...ApplicantConductCodeFields,
+			application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			}
+		};
+	}
+});
+
+const ApplicantBackgroundCheckType = new GraphQLObjectType({
+	name: 'ApplicantBackgroundCheckType',
+	description: 'This is for Applicant Background Check',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...ApplicantBackgroundCheckFields,
+			application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			}
+		};
+	}
+});
+const ApplicantHarassmentPolicyType = new GraphQLObjectType({
+	name: 'ApplicantHarassmentPolicyType',
+	description: 'This is for Applicant Harassment Policy',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...ApplicantHarassmentPoliciyFields,
+			application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			}
+		};
+	}
+});
+const ApplicantWorkerCompensationType = new GraphQLObjectType({
+	name: 'ApplicantWorkerCompensationType',
+	description: 'This is for Applicant Worker Compensation',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...ApplicantWorkerCompensationFields,
+			application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			}
+		};
+	}
+});
+const ApplicantDocumentType = new GraphQLObjectType({
+	name: 'ApplicantDocumentType',
+	description: 'This is for Applications Document',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...ApplicantDocumentFields,
+			application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			}
+		};
+	}
+});
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -234,5 +404,12 @@ export {
 	ApplicantSkillType,
 	CompanyPreferenceType,
 	ApplicantIdealJobType,
-	PositionRateType
+	PositionRateType,
+	CatalogItemType,
+	ApplicantDisclosureType,
+	ApplicantConductCodeType,
+	ApplicantBackgroundCheckType,
+	ApplicantHarassmentPolicyType,
+	ApplicantWorkerCompensationType,
+	ApplicantDocumentType
 };

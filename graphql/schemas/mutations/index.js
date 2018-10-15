@@ -7,6 +7,12 @@ import ApplicantMilitaryServiceMutation from './applicantMilitaryServiceMutation
 import ApplicantSkillMutation from './applicantSkillMutation';
 import CompanyPreferenceMutation from './companyPreferenceMutation';
 import ApplicantIdealJobMutation from './applicantIdealJobMutation';
+import ApplicantDisclosureMutation from './applicantDisclosureMutation';
+import ApplicantConductCodeMutation from './applicantConductCodeMutation';
+import ApplicantBackgroundCheckMutation from './applicantBackgroundCheckMutation';
+import ApplicantHarassmentPolicyMutation from './applicantHarassmentPolicyMutation';
+import ApplicantWorkerCompensationMutation from './applicantWorkerCompensationMutation';
+import ApplicantDocumentMutation from './applicantDocumentMutation';
 
 export {
 	ApplicantLanguageMutation,
@@ -17,5 +23,11 @@ export {
 	ApplicantMilitaryServiceMutation,
 	ApplicantSkillMutation,
 	CompanyPreferenceMutation,
-	ApplicantIdealJobMutation
+	ApplicantIdealJobMutation,
+	ApplicantDisclosureMutation,
+	ApplicantConductCodeMutation,
+	ApplicantBackgroundCheckMutation,
+	ApplicantHarassmentPolicyMutation,
+	ApplicantWorkerCompensationMutation,
+	ApplicantDocumentMutation
 };

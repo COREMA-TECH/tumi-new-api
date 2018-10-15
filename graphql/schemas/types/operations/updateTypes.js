@@ -7,8 +7,15 @@ import {
 	ApplicantMilitaryServiceFields,
 	ApplicantSkillFields,
 	CompanyPreferenceFields,
-	ApplicantIdealJobFields
+	ApplicantIdealJobFields,
+	ApplicantDisclosureFields,
+	ApplicantConductCodeFields,
+	ApplicantBackgroundCheckFields,
+	ApplicantHarassmentPoliciyFields,
+	ApplicantWorkerCompensationFields,
+	ApplicantDocumentFields
 } from '../fields';
+import applicantDocumentTable from '../../../models/applicantDocumentTable';
 
 const inputUpdateApplication = new GraphQLInputObjectType({
 	name: 'inputUpdateApplication',
@@ -111,7 +118,78 @@ const inputUpdateCompanyPreference = new GraphQLInputObjectType({
 		...CompanyPreferenceFields
 	}
 });
+const inputUpdateApplicantDisclosure = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantDisclosure',
+	description: 'Inputs for Applicant Disclosure Mutation',
 
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Applicant Id'
+		},
+		...ApplicantDisclosureFields
+	}
+});
+const inputUpdateApplicantConductCode = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantConductCode',
+	description: 'Inputs for Applicant Code of Conduct Mutation',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Applicant Id'
+		},
+		...ApplicantConductCodeFields
+	}
+});
+const inputUpdateApplicantBackgroundCheck = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantBackgroundCheck',
+	description: 'Inputs for Applicant Background check Mutation',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...ApplicantBackgroundCheckFields
+	}
+});
+const inputUpdateApplicantHarassmentPolicy = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantHarassmentPolicy',
+	description: 'Inputs for Applicant Harassment Policy Mutation',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...ApplicantHarassmentPoliciyFields
+	}
+});
+const inputUpdateApplicantWorkerCompensation = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantWorkerCompensation',
+	description: 'Inputs for Applicant Worker Compensation Mutation',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...ApplicantWorkerCompensationFields
+	}
+});
+const inputUpdateApplicantDocument = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantDocument',
+	description: 'Inputs for Applications Document',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...ApplicantDocumentFields
+	}
+});
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -120,5 +198,11 @@ export {
 	inputUpdateApplicantMilitaryService,
 	inputUpdateApplicantSkill,
 	inputUpdateCompanyPreference,
-	inputUpdateApplicantIdealJob
+	inputUpdateApplicantIdealJob,
+	inputUpdateApplicantDisclosure,
+	inputUpdateApplicantConductCode,
+	inputUpdateApplicantBackgroundCheck,
+	inputUpdateApplicantHarassmentPolicy,
+	inputUpdateApplicantWorkerCompensation,
+	inputUpdateApplicantDocument
 };

@@ -8,6 +8,14 @@ import ApplicantSkillFields from './applicantSkillFields';
 import CompanyPreferenceFields from './companyPrefenceFields';
 import ApplicantIdealJobFields from './applicantIdealJobFields';
 import PositionRateFields from './positionRateFields';
+import CatalogItemFields from './catalogItemFields';
+import ApplicantDisclosureFields from './applicantDisclosureFields';
+import ApplicantConductCodeFields from './applicantConductCodeFields';
+import ApplicantBackgroundCheckFields from './applicantBackgroundCheckFields';
+import ApplicantHarassmentPoliciyFields from './applicantHarassmentPolicyFields';
+import ApplicantWorkerCompensationFields from './applicantWorkerCompensationFields';
+import ApplicantDocumentFields from './applicantDocumentFields';
+
 export {
 	ApplicantLanguagesFields,
 	ApplicationFields,
@@ -18,5 +26,12 @@ export {
 	ApplicantSkillFields,
 	CompanyPreferenceFields,
 	ApplicantIdealJobFields,
-	PositionRateFields
+	ApplicantDisclosureFields,
+	PositionRateFields,
+	CatalogItemFields,
+	ApplicantConductCodeFields,
+	ApplicantBackgroundCheckFields,
+	ApplicantHarassmentPoliciyFields,
+	ApplicantWorkerCompensationFields,
+	ApplicantDocumentFields
 };

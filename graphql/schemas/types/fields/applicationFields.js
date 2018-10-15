@@ -2,6 +2,10 @@ import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLBoolean } from 'graph
 import GraphQLDate from 'graphql-date';
 
 const ApplicationFields = {
+	idLanguage: {
+		type: GraphQLInt,
+		description: 'Application Language'
+	},
 	firstName: {
 		type: new GraphQLNonNull(GraphQLString),
 		description: 'Applicant First Name'
@@ -15,47 +19,47 @@ const ApplicationFields = {
 		description: 'Applicant Last Name'
 	},
 	date: {
-		type: new GraphQLNonNull(GraphQLDate),
+		type: GraphQLDate,
 		description: 'Applicant Date'
 	},
 	streetAddress: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Applicant Street Address'
 	},
 	emailAddress: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Applicant Email Address'
 	},
 	aptNumber: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Applicant Apt Number'
 	},
 	city: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Applicant City'
 	},
 	state: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Applicant State'
 	},
 	zipCode: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Applicant Zip Code'
 	},
 	homePhone: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Applicant Phone Home'
 	},
 	cellPhone: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Applicant Cell Phone'
 	},
 	socialSecurityNumber: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Applicant Social Security Number'
 	},
 	positionApplyingFor: {
-		type: new GraphQLNonNull(GraphQLInt),
+		type: GraphQLInt,
 		description: 'Applicant Possition Applying for'
 	},
 
@@ -64,15 +68,15 @@ const ApplicationFields = {
 		description: 'Applicant Birthday'
 	},
 	car: {
-		type: new GraphQLNonNull(GraphQLBoolean),
+		type: GraphQLBoolean,
 		description: 'Applicant Has car?'
 	},
 	typeOfId: {
-		type: new GraphQLNonNull(GraphQLInt),
+		type: GraphQLInt,
 		description: 'Applicant type of Id'
 	},
 	expireDateId: {
-		type: new GraphQLNonNull(GraphQLDate),
+		type: GraphQLDate,
 		description: 'Applicant Id Expiration Date'
 	},
 
@@ -81,24 +85,32 @@ const ApplicationFields = {
 		description: 'Applicant Date Avalilable'
 	},
 	scheduleRestrictions: {
-		type: new GraphQLNonNull(GraphQLBoolean),
+		type: GraphQLBoolean,
 		description: 'Applicant Schedule Restrictions'
 	},
 	scheduleExplain: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Applicant scheduleExplain'
 	},
 	convicted: {
-		type: new GraphQLNonNull(GraphQLBoolean),
+		type: GraphQLBoolean,
 		description: 'Applicant Convicted'
 	},
 	convictedExplain: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Applicant Convicted Explanation'
 	},
 	comment: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Applicant Comment'
+	},
+	generalComment: {
+		type: GraphQLString,
+		description: 'Applicant General Comment'
+	},
+	signature: {
+		type: GraphQLString,
+		description: 'Applicant Signature'
 	},
 	isActive: {
 		type: GraphQLBoolean,

@@ -9,7 +9,13 @@ import {
 	ApplicantMilitaryServiceFields,
 	ApplicantSkillFields,
 	CompanyPreferenceFields,
-	ApplicantIdealJobFields
+	ApplicantIdealJobFields,
+	ApplicantDisclosureFields,
+	ApplicantConductCodeFields,
+	ApplicantBackgroundCheckFields,
+	ApplicantHarassmentPoliciyFields,
+	ApplicantWorkerCompensationFields,
+	ApplicantDocumentFields
 } from '../fields';
 
 const inputInsertApplication = new GraphQLInputObjectType({
@@ -86,7 +92,56 @@ const iParamEA = new GraphQLInputObjectType({
 		...ElectronicAddressFields
 	}
 });
+const inputInsertApplicantDisclosure = new GraphQLInputObjectType({
+	name: 'inputInsertApplicantDisclosure',
+	description: 'Inputs for Application Disclosure',
 
+	fields: {
+		...ApplicantDisclosureFields
+	}
+});
+const inputInsertApplicantConductCode = new GraphQLInputObjectType({
+	name: 'inputInsertApplicantConductCode',
+	description: 'Inputs for Application Code of Conduct',
+
+	fields: {
+		...ApplicantConductCodeFields
+	}
+});
+const inputInsertApplicantBackgroundCheck = new GraphQLInputObjectType({
+	name: 'inputInsertApplicantBackgroundCheck',
+	description: 'Inputs for Application Background Check',
+
+	fields: {
+		...ApplicantBackgroundCheckFields
+	}
+});
+
+const inputInsertApplicantHarassmentPolicy = new GraphQLInputObjectType({
+	name: 'inputInsertApplicantHarassmentPolicy',
+	description: 'Inputs for Application Harassment Policy',
+
+	fields: {
+		...ApplicantHarassmentPoliciyFields
+	}
+});
+
+const inputInsertApplicantWorkerCompensation = new GraphQLInputObjectType({
+	name: 'inputInsertApplicantWorkerCompensation',
+	description: 'Inputs for Application Worker Compensation',
+
+	fields: {
+		...ApplicantWorkerCompensationFields
+	}
+});
+const inputInsertApplicantDocument = new GraphQLInputObjectType({
+	name: 'inputInsertApplicantDocument',
+	description: 'Inputs for Applications Document',
+
+	fields: {
+		...ApplicantDocumentFields
+	}
+});
 export {
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
@@ -96,5 +151,11 @@ export {
 	inputInsertApplicantSkill,
 	inputInsertCompanyPreference,
 	inputInsertApplicantIdealJob,
+	inputInsertApplicantDisclosure,
+	inputInsertApplicantConductCode,
+	inputInsertApplicantBackgroundCheck,
+	inputInsertApplicantHarassmentPolicy,
+	inputInsertApplicantWorkerCompensation,
+	inputInsertApplicantDocument,
 	iParamEA
 };
