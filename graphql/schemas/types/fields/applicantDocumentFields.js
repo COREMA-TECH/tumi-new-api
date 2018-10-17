@@ -5,6 +5,10 @@ const ApplicantDocumentFields = {
 		type: GraphQLString,
 		description: 'URL of the document'
 	},
+	fileName: {
+		type: GraphQLString,
+		description: 'Name of the document'
+	},
 	CatalogItemId: {
 		type: GraphQLInt,
 		description: 'Document Type Id'
