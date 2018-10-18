@@ -99,13 +99,13 @@ const ApplicationType = new GraphQLObjectType({
 			workerCompensation: {
 				type: ApplicantWorkerCompensationType,
 				resolve(application) {
-					application.getApplicantWorkerCompensation();
+					return application.getApplicantWorkerCompensation();
 				}
 			},
 			documents: {
 				type: new GraphQLList(ApplicantDocumentType),
 				resolve(application) {
-					application.getApplicantDocuments();
+					return application.getApplicantDocuments();
 				}
 			}
 		};
