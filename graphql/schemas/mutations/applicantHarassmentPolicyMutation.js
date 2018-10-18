@@ -14,7 +14,7 @@ const ApplicantHarassmentPolicyMutation = {
 		},
 		resolve(source, args) {
 			return Db.models.ApplicantHarassmentPolicy
-				.bulkCreate(args.backgroundCheck, { returning: true })
+				.bulkCreate(args.harassmentPolicy, { returning: true })
 				.then((output) => {
 					return output.map((element) => {
 						return element.dataValues;
@@ -46,7 +46,7 @@ const ApplicantHarassmentPolicyMutation = {
 						returning: true
 					}
 				)
-				.then(function([ rowsUpdate, [ record ] ]) {
+				.then(function ([rowsUpdate, [record]]) {
 					if (record) return record.dataValues;
 					else return null;
 				});
