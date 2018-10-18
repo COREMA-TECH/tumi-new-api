@@ -4,7 +4,7 @@ export default {
 	createModel(Conn) {
 		return Conn.define('Applications', {
 			idLanguage: {
-				type: Sequelize.INTEGER,
+				type: Sequelize.STRING(3),
 				allowNull: true
 			},
 			firstName: {

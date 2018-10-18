@@ -152,12 +152,21 @@ input iParamEA {
 		Phone_Prefix: String
 		Phone_Number:String
 		Primary_Email: String
+		
 		Contract_URL: String
-		Insurace_URL: String
+		Contract_File: String
+		
+		Insurance_URL: String
+		Insurance_File: String
+
 		Other_URL:String
-		Other01_URL: String
 		Other_Name: String
+		Other_File: String
+
+		Other01_URL: String
 		Other01_Name: String
+		Other01_File: String
+
 		Suite:String
 		Rooms: Int
 		Contract_Status : String
@@ -444,11 +453,19 @@ input iParamEA {
 			Phone_Number:String
 			Primary_Email: String
 			Contract_URL: String
-			Insurace_URL: String
+			Contract_File: String
+
+			Insurance_URL: String
+			Insurance_File: String
+
 			Other_URL:String
-			Other01_URL: String
 			Other_Name: String
+			Other_File: String
+
+			Other01_URL: String
 			Other01_Name: String
+			Other01_File: String
+
 			Suite:String
 			Rooms: Int
 			Contract_Status : String

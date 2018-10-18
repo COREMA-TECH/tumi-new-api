@@ -6,7 +6,7 @@ import { GraphQLList, GraphQLInt } from 'graphql';
 import Db from '../../models/models';
 
 const ApplicantDocumentMutation = {
-	addDocument: {
+	addApplicantDocument: {
 		type: new GraphQLList(ApplicantDocumentType),
 		description: 'Add applicant documents to database',
 		args: {
@@ -20,7 +20,7 @@ const ApplicantDocumentMutation = {
 			});
 		}
 	},
-	updateDocument: {
+	updateApplicantDocument: {
 		type: ApplicantDocumentType,
 		description: 'Update Application Document Record Info',
 		args: {
@@ -45,6 +45,18 @@ const ApplicantDocumentMutation = {
 					if (record) return record.dataValues;
 					else return null;
 				});
+		}
+	},
+	deleteApplicantDocument: {
+		type: GraphQLInt,
+		description: 'Delete applicant document record from database',
+		args: {
+			id: { type: GraphQLList(GraphQLInt) }
+		},
+		resolve(source, args) {
+			return Db.models.ApplicantDocument.destroy({ where: { id: args.id } }).then((deleted) => {
+				return deleted;
+			});
 		}
 	}
 };
