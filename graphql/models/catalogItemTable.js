@@ -32,7 +32,7 @@ export default {
 					allowNull: false
 				},
 				Value: {
-					type: Sequelize.STRING(10),
+					type: Sequelize.STRING(500),
 					allowNull: false
 				},
 				Value01: {
