@@ -62,10 +62,10 @@ async function SendExpiredContracts() {
 			html: 'Your contract is about to expire'
 		};
 
-		rows.forEach(function(element) {
+		rows.forEach(function (element) {
 			mailOptions.to = element.Electronic_Address;
 
-			transporter.sendMail(mailOptions, function(error, info) {
+			transporter.sendMail(mailOptions, function (error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error: ' + error);
 				} else {
@@ -78,7 +78,7 @@ async function SendExpiredContracts() {
 
 			mailOptions.to = element.Primary_Email;
 
-			transporter.sendMail(mailOptions, function(error, info) {
+			transporter.sendMail(mailOptions, function (error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error: ' + error);
 				} else {
@@ -2075,83 +2075,6 @@ async function getContracts(args) {
 
 //Method Connect to Send Contracts by emails
 async function CreateContracts(args) {
-	/*try {
-		var strparam1, strparam2;
-
-		if (args.IsActive >= 0) {
-			strparam1 = args.IsActive;
-		} else {
-			strparam1 = null;
-		}
-
-		if (args.Id >= 0) {
-			strparam2 = args.Id;
-		} else {
-			strparam2 = null;
-		}
-
-		Strquery =
-			'select "Contracts"."Id", "Id_Company", "Id_Entity", "Contract_Name", "Contrat_Owner", "Id_User_Signed",(SELECT "Electronic_Address" FROM public."Contacts" where "Id"= "Contracts"."Id_User_Signed") as "Electronic_Address", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed", "Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F", "Client_Signature", "Company_Signature","Contract_Expiration_Date",(SELECT "Primary_Email" FROM public."Company" where "Id"= "Contracts"."Id_Company") as "Primary_Email"  from public."Contracts"  where "Contracts"."IsActive" = coalesce(' +
-			strparam1 +
-			',"Contracts"."IsActive") and "Contracts"."Id" = coalesce(' +
-			strparam2 +
-			',"Contracts"."Id") order by "Contracts"."Id"';
-
-		const { rows } = await query(Strquery);
-		var content = rows[0].Contract_Terms;
-
-		Strfilename = './public/Contract_' + rows[0].Contract_Name.trim() + '.pdf';
-		var StrfilnameHTML = './public/Contract_' + rows[0].Contract_Name.trim() + '.html';
-		//var html = fs.readFileSync(content, 'utf8');
-
-		var options = {
-			format: 'Letter',
-			font: 'Times New Roman',
-			size: 12,
-			orientation: 'portrait',
-			zoomFactor: 1,
-			border: {
-				top: '0.98in', // default is 0, units: mm, cm, in, px
-				right: '0.98in',
-				bottom: '0.98in',
-				left: '0.98in'
-			}
-		};
-		if (fs.existsSync(Strfilename)) {
-			fs.unlinkSync(Strfilename);
-		}
-		//fs.destroy(Strfilename);
-		console.log('Outside create pdf');
-		/*pdf.create(content, options).toFile(Strfilename, function(err, res) {
-			console.log('toFile');
-			if (err) return console.log(err);
-			console.log(res); // { filename: '/app/businesscard.pdf' }
-			console.log('PDF Created');
-		});
-
-		pdfshift
-			.convert(content, {
-				landscape: false,
-				use_print: true,
-				margin: { left: '72px', right: '72px', top: '72px', bottom: '72px' }
-			})
-			.then(function (binary_file) {
-				fs.writeFile(Strfilename, binary_file, 'binary', function () { });
-			})
-			.catch(function ({ message, code, response, errors = null }) { });
-
-		while (true) {
-			try {
-				fs.accessSync(Strfilename, fs.W_OK);
-				return rows;
-			} catch (e) {
-				console.log('Sigue escribiendo', e);
-			}
-		}
-	} catch (err) {
-		console.log('Database ' + err);
-		return err;
-	}*/
 	try {
 		console.log(args.IsActive);
 		var strparam1, strparam2, strparam3;
@@ -2190,10 +2113,10 @@ async function CreateContracts(args) {
 				use_print: true,
 				margin: { left: '72px', right: '72px', top: '72px', bottom: '72px' }
 			})
-			.then(function(binary_file) {
-				fs.writeFile(Strfilename, binary_file, 'binary', function() {});
+			.then(function (binary_file) {
+				fs.writeFile(Strfilename, binary_file, 'binary', function () { });
 			})
-			.catch(function({ message, code, response, errors = null }) {});
+			.catch(function ({ message, code, response, errors = null }) { });
 		//	}
 
 		return rows;
@@ -2353,7 +2276,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function(error, info) {
+		transporter.sendMail(mailOptions, function (error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2479,7 +2402,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function(error, info) {
+		transporter.sendMail(mailOptions, function (error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2492,88 +2415,6 @@ async function SendContracts(args) {
 		console.log('Solo row1', rows[1]);
 
 		return rows;
-	} catch (err) {
-		console.log('Database ' + err);
-		return err;
-	}
-}
-
-//Method Connect to Send Contracts by emails
-/*async function CreatePdfContracts(args) {
-	try {
-		console.log(Strquery);
-		const { rows } = await query(Strquery);
-
-		var content = args.Contract_Terms;
-		Strfilename = 'Contract_' + args.Contract_Name + '.pdf';
-
-		pdf.create(content).toFile('./' + Strfilename, function(err, res) {
-			if (err) {
-				console.log(err);
-			} else {
-				console.log(res);
-			}
-		});
-
-		return Strfilename;
-	} catch (err) {
-		console.log('Database ' + err);
-		return err;
-	}
-}*/
-
-async function CreatePdfContracts(args) {
-	try {
-		var strparam1, strparam2;
-
-		if (args.IsActive >= 0) {
-			strparam1 = args.IsActive;
-		} else {
-			strparam1 = null;
-		}
-
-		if (args.Id >= 0) {
-			strparam2 = args.Id;
-		} else {
-			strparam2 = null;
-		}
-
-		Strquery =
-			'select "Contracts"."Id","Token"."Token","Token"."Signatory", "Id_Company", "Id_Entity", "Contract_Name", "Contrat_Owner", "Id_User_Signed",(SELECT "Electronic_Address" FROM public."Contacts" where "Id"= "Contracts"."Id_User_Signed") as "Electronic_Address", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed", "Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F", "Client_Signature", "Company_Signature","Contract_Expiration_Date",(SELECT "Primary_Email" FROM public."Company" where "Id"= "Contracts"."Id_Company") as "Primary_Email"  from public."Contracts" inner join public."Token" on "Token"."Id_Contract" = "Contracts"."Id"  where "Contracts"."IsActive" = coalesce(' +
-			strparam1 +
-			',"Contracts"."IsActive") and "Contracts"."Id" = coalesce(' +
-			strparam2 +
-			',"Contracts"."Id") order by "Contracts"."Id"';
-
-		console.log(Strquery);
-
-		const { rows } = await query(Strquery);
-
-		var content = rows[0].Contract_Terms;
-		Strfilename = './public/Contract_' + rows[0].Contract_Name.trim() + '.pdf';
-
-		var html = fs.readFileSync(content, 'utf8');
-		var options = {
-			format: 'Letter',
-			border: {
-				top: '0.98in', // default is 0, units: mm, cm, in, px
-				right: '0.98in',
-				bottom: '0.98in',
-				left: '0.98in'
-			}
-		};
-		if (fs.existsSync(Strfilename)) {
-			fs.unlinkSync(Strfilename);
-		}
-
-		console.log('html listo ', html);
-
-		pdf.create(html, options).toFile(Strfilename, function(err, res) {
-			if (err) return console.log(err);
-			console.log(res); // { filename: '/app/businesscard.pdf' }
-		});
-
-		return Strfilename;
 	} catch (err) {
 		console.log('Database ' + err);
 		return err;
@@ -2917,6 +2758,93 @@ async function ValidTokens(args) {
 	}
 }
 
+async function CreatePdfContracts(args) {
+	try {
+		var strparam1, strparam2;
+
+		if (args.IsActive >= 0) {
+			strparam1 = args.IsActive;
+		} else {
+			strparam1 = null;
+		}
+
+		if (args.Id >= 0) {
+			strparam2 = args.Id;
+		} else {
+			strparam2 = null;
+		}
+
+		Strquery =
+			'select "Contracts"."Id","Token"."Token","Token"."Signatory", "Id_Company", "Id_Entity", "Contract_Name", "Contrat_Owner", "Id_User_Signed",(SELECT "Electronic_Address" FROM public."Contacts" where "Id"= "Contracts"."Id_User_Signed") as "Electronic_Address", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed", "Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F", "Client_Signature", "Company_Signature","Contract_Expiration_Date",(SELECT "Primary_Email" FROM public."Company" where "Id"= "Contracts"."Id_Company") as "Primary_Email"  from public."Contracts" inner join public."Token" on "Token"."Id_Contract" = "Contracts"."Id"  where "Contracts"."IsActive" = coalesce(' +
+			strparam1 +
+			',"Contracts"."IsActive") and "Contracts"."Id" = coalesce(' +
+			strparam2 +
+			',"Contracts"."Id") order by "Contracts"."Id"';
+
+		console.log(Strquery);
+
+		const { rows } = await query(Strquery);
+
+		var content = rows[0].Contract_Terms;
+		Strfilename = './public/Contract_' + rows[0].Contract_Name.trim() + '.pdf';
+
+		var html = fs.readFileSync(content, 'utf8');
+		var options = {
+			format: 'Letter',
+			border: {
+				top: '0.98in', // default is 0, units: mm, cm, in, px
+				right: '0.98in',
+				bottom: '0.98in',
+				left: '0.98in'
+			}
+		};
+		if (fs.existsSync(Strfilename)) {
+			fs.unlinkSync(Strfilename);
+		}
+
+		console.log('html listo ', html);
+
+		pdf.create(html, options).toFile(Strfilename, function (err, res) {
+			if (err) return console.log(err);
+			console.log(res); // { filename: '/app/businesscard.pdf' }
+		});
+
+		return Strfilename;
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
+	}
+}
+
+//Method Connect to Send Contracts by emails
+async function CreateDocumentsPDF(args) {
+	try {
+		var content = args.contentHTML;
+		Strfilename = './public/Documents/' + args.Name.trim() + '.pdf';
+
+		console.log(fs.existsSync(Strfilename));
+		if (fs.existsSync(Strfilename) == false) {
+
+			console.log("Entro a crear");
+			pdfshift
+				.convert(content, {
+					landscape: false,
+					use_print: true,
+					margin: { left: '72px', right: '72px', top: '72px', bottom: '72px' }
+				})
+				.then(function (binary_file) {
+					fs.writeFile(Strfilename, binary_file, 'binary', function () { });
+				})
+				.catch(function ({ message, code, response, errors = null }) { });
+		}
+
+		return Strfilename;
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
+	}
+}
+
 const root = {
 	getcompanies: getCompanies,
 
@@ -2992,7 +2920,9 @@ const root = {
 	sendcontracts: SendContracts,
 	createcontracts: CreateContracts,
 
-	validtokens: ValidTokens
+	validtokens: ValidTokens,
+
+	createdocumentspdf: CreateDocumentsPDF
 };
 
 module.exports = root;

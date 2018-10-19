@@ -302,6 +302,7 @@ input iParamEA {
 		sendcontracts(Id:Int,IsActive:Int): [Contracts]
 		createcontracts(Id:Int,IsActive:Int): [Contracts]
 		validtokens(Token:String,Signatory:String):[Token]
+		createdocumentspdf(contentHTML:String,Name:String): String
 	}
 	type Mutation{
 		insbusinesscompanies(input: iParamBC): BusinessCompany 
