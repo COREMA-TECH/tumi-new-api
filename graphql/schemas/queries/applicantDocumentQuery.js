@@ -12,6 +12,9 @@ const ApplicantDocumentQuery = {
 			},
 			CatalogItemId: {
 				type: GraphQLInt
+			},
+			ApplicationId: {
+				type: GraphQLInt
 			}
 		},
 		resolve(root, args) {

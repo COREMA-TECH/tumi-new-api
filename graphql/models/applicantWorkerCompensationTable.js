@@ -16,7 +16,7 @@ export default {
 				allowNull: true
 			},
 			applicantZipCode: {
-				type: Sequelize.STRING(10),
+				type: Sequelize.STRING(20),
 				allowNull: true
 			},
 			employerName: {
@@ -40,7 +40,7 @@ export default {
 				allowNull: true
 			},
 			content: {
-				type: Sequelize.STRING,
+				type: Sequelize.TEXT('long'),
 				allowNull: false
 			},
 			date: {
