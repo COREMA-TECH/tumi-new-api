@@ -10,6 +10,10 @@ export default {
 			fileName: {
 				type: Sequelize.STRING(50),
 				allowNull: false
+			},
+			fileExtension: {
+				type: Sequelize.STRING(50),
+				allowNull: false
 			}
 		});
 	}
