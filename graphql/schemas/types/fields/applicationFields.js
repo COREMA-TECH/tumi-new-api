@@ -112,7 +112,7 @@ const ApplicationFields = {
 		type: GraphQLString,
 		description: 'Applicant Signature'
 	},
-	idealJobs: {
+	idealJob: {
 		type: GraphQLString,
 		description: 'Applicant Ideal Jobs'
 	},

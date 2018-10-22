@@ -107,7 +107,7 @@ export default {
 				type: Sequelize.STRING(255),
 				allowNull: true
 			},
-			idealJobs: {
+			idealJob: {
 				type: Sequelize.STRING(255),
 				allowNull: true
 			},
