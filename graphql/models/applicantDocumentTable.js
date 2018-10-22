@@ -13,7 +13,7 @@ export default {
 			},
 			fileExtension: {
 				type: Sequelize.STRING(50),
-				allowNull: false
+				allowNull: true
 			}
 		});
 	}
