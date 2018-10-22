@@ -107,6 +107,10 @@ export default {
 				type: Sequelize.STRING(255),
 				allowNull: true
 			},
+			idealJobs: {
+				type: Sequelize.STRING(255),
+				allowNull: true
+			},
 			signature: {
 				type: Sequelize.TEXT,
 				allowNull: true
