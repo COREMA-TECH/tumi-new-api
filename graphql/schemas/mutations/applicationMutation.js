@@ -42,6 +42,7 @@ const ApplicationMutation = {
 				idealJob: args.application.idealJob,
 				idLanguage: args.application.idLanguage,
 				signature: args.application.signature,
+				isLead: args.application.isLead,
 				isActive: args.application.isActive
 			});
 		}
@@ -84,7 +85,7 @@ const ApplicationMutation = {
 						idealJob: args.application.idealJob,
 						idLanguage: args.application.idLanguage,
 						signature: args.application.signature,
-						idealJob: args.application.idealJob,
+						isLead: args.application.isLead,
 						isActive: args.application.isActive
 					},
 					{

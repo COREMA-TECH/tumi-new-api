@@ -116,6 +116,10 @@ const ApplicationFields = {
 		type: GraphQLString,
 		description: 'Applicant Ideal Jobs'
 	},
+	isLead: {
+		type: GraphQLBoolean,
+		description: 'Is this application for lead'
+	},
 	isActive: {
 		type: GraphQLBoolean,
 		description: 'Applicant Status'

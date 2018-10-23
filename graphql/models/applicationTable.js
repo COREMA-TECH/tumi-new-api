@@ -115,6 +115,10 @@ export default {
 				type: Sequelize.TEXT,
 				allowNull: true
 			},
+			isLead: {
+				type: Sequelize.BOOLEAN,
+				allowNull: true
+			},
 			isActive: {
 				type: Sequelize.BOOLEAN,
 				allowNull: true,
