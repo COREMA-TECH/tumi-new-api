@@ -18,6 +18,9 @@ const ApplicationQuery = {
 			},
 			idLanguage: {
 				type: GraphQLInt
+			},
+			isLead: {
+				type: GraphQLBoolean
 			}
 		},
 		resolve(root, args) {

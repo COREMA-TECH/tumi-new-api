@@ -117,7 +117,8 @@ export default {
 			},
 			isLead: {
 				type: Sequelize.BOOLEAN,
-				allowNull: true
+				allowNull: false,
+				defaultValue: true
 			},
 			isActive: {
 				type: Sequelize.BOOLEAN,
