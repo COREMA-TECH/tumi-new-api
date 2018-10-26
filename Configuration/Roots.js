@@ -2950,8 +2950,8 @@ async function SendEmail(args) {
 
 		var mailOptions = {
 			from: 'coremagroup@hotmail.com',
-			to: rows[0].Electronic_Address,
-			subject: rows[0].Contract_Name.trim() + '.pdf',
+			to: args.email,
+			subject: 'Reset Password',
 			html: 'This email is generate by Corema Technologies'
 		};
 
