@@ -107,9 +107,18 @@ export default {
 				type: Sequelize.STRING(255),
 				allowNull: true
 			},
+			idealJob: {
+				type: Sequelize.STRING(255),
+				allowNull: true
+			},
 			signature: {
 				type: Sequelize.TEXT,
 				allowNull: true
+			},
+			isLead: {
+				type: Sequelize.BOOLEAN,
+				allowNull: false,
+				defaultValue: true
 			},
 			isActive: {
 				type: Sequelize.BOOLEAN,

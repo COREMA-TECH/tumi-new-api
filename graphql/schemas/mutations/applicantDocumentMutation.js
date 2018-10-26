@@ -32,6 +32,7 @@ const ApplicantDocumentMutation = {
 					{
 						url: args.document.url,
 						fileName: args.document.fileName,
+						fileExtension: args.document.fileExtension,
 						CatalogItemId: args.document.CatalogItemId,
 						ApplicationId: args.document.ApplicationId
 					},
