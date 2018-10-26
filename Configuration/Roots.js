@@ -201,8 +201,9 @@ async function getBusinessCompanies(args) {
 async function InsBusinessCompanies(args) {
 	try {
 		if (args) {
+			console.log("estos son los args ", args);
 			Strquery =
-				'INSERT INTO public."BusinessCompany" ("Code", "Code01","Id_Contract","Id_Company","BusinessType","Name","Description","Start_Week","End_Week","Start_Date","Legal_Name","Country","State","City","Id_Parent","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","ImageURL","Location","Location01","Rate","Zipcode", "Fax", "Phone_Prefix", "Phone_Number", "Primary_Email","Contract_URL","Contract_File", "Insurance_URL", "Insurance_File", "Other_URL", "Other_File", "Other_Name", "Other01_URL","Other01_Name","Other01_File","Suite","Rooms","Contract_Status") VALUES(' +
+				'INSERT INTO public."BusinessCompany" ("Code", "Code01","Id_Contract","Id_Company","BusinessType","Name","Description","Start_Week","End_Week","Start_Date","Legal_Name","Country","State","City","Id_Parent","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","ImageURL","Location","Location01","Rate","Zipcode", "Fax", "Phone_Prefix", "Phone_Number", "Primary_Email","Contract_URL","Contract_File", "Insurance_URL", "Insurance_File", "Other_URL", "Other_File", "Other_Name", "Other01_URL","Other01_Name","Other01_File","Suite","Rooms","Contract_Status","Region") VALUES(' +
 				args.input.Code +
 				',' +
 				args.input.Code01 +
@@ -285,9 +286,11 @@ async function InsBusinessCompanies(args) {
 				',' +
 				args.input.Rooms +
 				',' +
+				args.input.Region +
+				',' +
 				args.input.Contract_Status +
-				') RETURNING "Id", "Code", "Code01","Id_Contract","Id_Company","BusinessType","Name","Description","Start_Week","End_Week","Start_Date","Legal_Name","Country","State","City","Id_Parent","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","ImageURL","Location","Location01","Rate","Zipcode", "Fax", "Phone_Prefix", "Phone_Number", "Primary_Email","Contract_URL","Contract_File", "Insurance_URL", "Insurance_File", "Other_URL", "Other_Name", "Other_File", "Other01_URL", "Other01_Name", "Other01_File","Suite","Contract_Status"';
-			console.log(Strquery);
+				') RETURNING "Id", "Code", "Code01","Id_Contract","Id_Company","BusinessType","Name","Description","Start_Week","End_Week","Start_Date","Legal_Name","Country","State","City","Id_Parent","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","ImageURL","Location","Location01","Rate","Zipcode", "Fax", "Phone_Prefix", "Phone_Number", "Primary_Email","Contract_URL","Contract_File", "Insurance_URL", "Insurance_File", "Other_URL", "Other_Name", "Other_File", "Other01_URL", "Other01_Name", "Other01_File","Suite","Contract_Status","Region"';
+			//console.log(Strquery);
 		} else {
 			console.log('Error Insert Data');
 		}
@@ -306,7 +309,7 @@ async function InsBusinessCompanies(args) {
 async function UpdBusinessCompanies(args) {
 	try {
 		if (args) {
-			console.log(args);
+			console.log("estos son los args upd ", args);
 			Strquery =
 				'UPDATE public."BusinessCompany" SET "Code"=' +
 				args.input.Code +
@@ -390,9 +393,11 @@ async function UpdBusinessCompanies(args) {
 				args.input.Suite +
 				',"Rooms"=' +
 				args.input.Rooms +
+				',"Region"=' +
+				args.input.Region +
 				' where "Id"=' +
 				args.input.Id;
-			console.log(Strquery);
+			//console.log(Strquery);
 		} else {
 			console.log('Error Update Data');
 		}
@@ -2024,6 +2029,23 @@ async function UpdUsers(args) {
 	}
 }
 
+async function UpdUsersPassword(args) {
+
+	try {
+		if (args) {
+			Strquery = 'UPDATE public."Users" SET "Password"= PGP_SYM_ENCRYPT(' + args.Password + ') where "Id"=' + args.Id;
+		} else {
+			console.log('Error Update Data');
+		}
+		console.log('Strquery ' + Strquery);
+		const { rows } = await query(Strquery);
+		return rows;
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
+	}
+}
+
 async function DelUsers(args) {
 	try {
 		if (args) {
@@ -3032,6 +3054,7 @@ const root = {
 	insusers: InsUsers,
 	updusers: UpdUsers,
 	delusers: DelUsers,
+	upduserspassword: UpdUsersPassword,
 
 	getcontracts: getContracts,
 	inscontracts: InsContracts,
