@@ -2074,7 +2074,7 @@ async function getContracts(args) {
 }
 
 //Method Connect to Send Contracts by emails
-async function CreateContracts(args) {
+/*async function CreateContracts(args) {
 	try {
 		console.log(args.IsActive);
 		var strparam1, strparam2, strparam3;
@@ -2124,8 +2124,77 @@ async function CreateContracts(args) {
 		console.log('Database ' + err);
 		return err;
 	}
-}
+}*/
 
+async function CreateContracts(args) {
+	try {
+		var strparam1, strparam2;
+
+		if (args.IsActive >= 0) {
+			strparam1 = args.IsActive;
+		} else {
+			strparam1 = null;
+		}
+
+		if (args.Id >= 0) {
+			strparam2 = args.Id;
+		} else {
+			strparam2 = null;
+		}
+
+		Strquery =
+			'select "Contracts"."Id", "Id_Company", "Id_Entity", "Contract_Name", "Contrat_Owner", "Id_User_Signed",(SELECT "Electronic_Address" FROM public."Contacts" where "Id"= "Contracts"."Id_User_Signed") as "Electronic_Address", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed", "Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F", "Client_Signature", "Company_Signature","Contract_Expiration_Date",(SELECT "Primary_Email" FROM public."Company" where "Id"= "Contracts"."Id_Company") as "Primary_Email"  from public."Contracts"  where "Contracts"."IsActive" = coalesce(' +
+			strparam1 +
+			',"Contracts"."IsActive") and "Contracts"."Id" = coalesce(' +
+			strparam2 +
+			',"Contracts"."Id") order by "Contracts"."Id"';
+
+		const { rows } = await query(Strquery);
+		var content = rows[0].Contract_Terms;
+
+		Strfilename = './public/Contract_' + rows[0].Contract_Name.trim() + '.pdf';
+		var StrfilnameHTML = './public/Contract_' + rows[0].Contract_Name.trim() + '.html';
+		//var html = fs.readFileSync(content, 'utf8');
+
+		var options = {
+			format: 'Letter',
+			font: 'Times New Roman',
+			size: 12,
+			orientation: 'portrait',
+			zoomFactor: 1,
+			border: {
+				top: '0.98in', // default is 0, units: mm, cm, in, px
+				right: '0.98in',
+				bottom: '0.98in',
+				left: '0.98in'
+			}
+		};
+		if (fs.existsSync(Strfilename)) {
+			fs.unlinkSync(Strfilename);
+		}
+		//fs.destroy(Strfilename);
+		console.log('Outside create pdf');
+		pdf.create(content, options).toFile(Strfilename, function (err, res) {
+			console.log('toFile');
+			if (err) return console.log(err);
+			console.log(res); // { filename: '/app/businesscard.pdf' }
+			console.log('PDF Created');
+		});
+
+		while (true) {
+			try {
+				fs.accessSync(Strfilename, fs.W_OK);
+				return rows;
+			} catch (e) {
+				console.log('Sigue escribiendo', e);
+			}
+		}
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
+	}
+
+}
 //Method Connect to Send Contracts by emails
 async function SendContracts(args) {
 	try {
@@ -2161,7 +2230,7 @@ async function SendContracts(args) {
 		var mailOptions = {
 			from: 'coremagroup@hotmail.com',
 			to: rows[0].Electronic_Address,
-			subject: Strfilename,
+			subject: rows[0].Contract_Name.trim() + '.pdf',
 			html:
 				'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' +
 				'<html xmlns="http://www.w3.org/1999/xhtml">' +
@@ -2287,7 +2356,7 @@ async function SendContracts(args) {
 		var mailOptions = {
 			from: 'coremagroup@hotmail.com',
 			to: rows[0].Primary_Email,
-			subject: Strfilename,
+			subject: rows[0].Contract_Name.trim() + '.pdf',
 			html:
 				'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' +
 				'<html xmlns="http://www.w3.org/1999/xhtml">' +
@@ -2817,7 +2886,7 @@ async function CreatePdfContracts(args) {
 }
 
 //Method Connect to Send Contracts by emails
-async function CreateDocumentsPDF(args) {
+/*async function CreateDocumentsPDF(args) {
 	try {
 		var content = args.contentHTML;
 		Strfilename = './public/Documents/' + args.Name.trim() + '.pdf';
@@ -2825,7 +2894,7 @@ async function CreateDocumentsPDF(args) {
 		console.log(fs.existsSync(Strfilename));
 		if (fs.existsSync(Strfilename) == false) {
 
-			console.log("Entro a crear");
+		
 			pdfshift
 				.convert(content, {
 					landscape: false,
@@ -2839,6 +2908,63 @@ async function CreateDocumentsPDF(args) {
 		}
 
 		return Strfilename;
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
+	}
+}*/
+
+async function CreateDocumentsPDF(args) {
+	try {
+		var content = args.contentHTML;
+		Strfilename = './public/Documents/' + args.Name.trim() + '.pdf';
+
+		if (fs.existsSync(Strfilename) == false) {
+
+			pdf.create(content, options).toFile(Strfilename, function (err, res) {
+				console.log('toFile');
+				if (err) return console.log(err);
+				console.log(res); // { filename: '/app/businesscard.pdf' }
+				console.log('PDF Created');
+			});
+
+			while (true) {
+				try {
+					fs.accessSync(Strfilename, fs.W_OK);
+					return rows;
+				} catch (e) {
+					console.log('Sigue escribiendo', e);
+				}
+			}
+		}
+
+		return Strfilename;
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
+	}
+}
+
+async function SendEmail(args) {
+	try {
+
+		var mailOptions = {
+			from: 'coremagroup@hotmail.com',
+			to: rows[0].Electronic_Address,
+			subject: rows[0].Contract_Name.trim() + '.pdf',
+			html: 'This email is generate by Corema Technologies'
+		};
+
+		transporter.sendMail(mailOptions, function (error, info) {
+			if (error) {
+				console.log(error);
+			} else {
+				console.log('Email enviado: ' + info.response);
+			}
+		});
+
+		return 'Email Send';
+
 	} catch (err) {
 		console.log('Database ' + err);
 		return err;
@@ -2922,7 +3048,8 @@ const root = {
 
 	validtokens: ValidTokens,
 
-	createdocumentspdf: CreateDocumentsPDF
+	createdocumentspdf: CreateDocumentsPDF,
+	sendemail: SendEmail
 };
 
 module.exports = root;
