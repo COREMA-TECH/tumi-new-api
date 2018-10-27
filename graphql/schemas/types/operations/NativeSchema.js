@@ -229,6 +229,8 @@ input iParamEA {
 		User_Updated: Int
 		Date_Created: String
 		Date_Updated: String
+		IsRecruiter: Int
+		IdRegion: Int
 	}
 	input iContracts{
 			Id: Int
@@ -661,6 +663,8 @@ input iParamEA {
 		User_Updated: Int
 		Date_Created: String
 		Date_Updated: String
+		IsRecruiter: Int
+		IdRegion: Int
 	}
 
 
