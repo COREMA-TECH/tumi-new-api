@@ -2973,8 +2973,106 @@ async function SendEmail(args) {
 		var mailOptions = {
 			from: 'coremagroup@hotmail.com',
 			to: args.email,
-			subject: 'Reset Password',
-			html: 'This email is generate by Corema Technologies'
+			subject: args.title,
+			html: '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' +
+				'<html xmlns="http://www.w3.org/1999/xhtml">' +
+				'<head>' +
+				'<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' +
+				'<meta name="viewport" content="width=device-width" />' +
+				'<title>Title</title>' +
+				'<link rel="stylesheet" href="css/default.css">' +
+				'</head>' +
+				'<body>' +
+				'<!-- <style> -->' +
+				'<table class="body" data-made-with-foundation>' +
+				'<tr>' +
+				'<td class="float-center" align="center" valign="top">' +
+				'<table class="container">' +
+				'<tr>' +
+				'<td class="logo-wrapper">' +
+				'<center class="logo-wrapper">' +
+				'<img src="https://firebasestorage.googleapis.com/v0/b/tumiapp-66cd6.appspot.com/o/files%2Flogo-tumy.png?alt=media&token=b6a26a9d-9081-40f6-a4b5-fed2c3b84895"' +
+				'alt="" class="logo" width="300px">' +
+				'</center>' +
+				'</td>' +
+				'</tr>' +
+				'<tr>' +
+				'<td>' +
+				'<center class="slogan">' +
+				'What you want to do and what you can do... <br>' +
+				'Is limited only by what you can dream' +
+				'<h3 style="color: #ecc500;font-size: 32px;text-align: center;margin: $margin 0;">Welcome</h3>' +
+				'<p>' +
+				'We are in the process of setting you up as part of the Tummy family. <br>' +
+				'We need youn to complete the following steps to get the process rolling' +
+				'</p>' +
+				'<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">User:   ' + args.username + '</h3>' +
+				'<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">Password:   ' + args.password + '</h3>' +
+				'<a href="' + URLWeb + '/login ">' +
+				'<h3 style="color: #297560;font-size: 22px;text-align: center;margin: $margin 0;">Tumi Site</h3>' +
+				'</a>' +
+				'</center>' +
+				'<center>' +
+				'<table class="button">' +
+				'<tr>' +
+				'<td>' +
+				'<table>' +
+				'<tr>' +
+				'<td>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</center>' +
+				'</td>' +
+				'</tr>' +
+				'<tr>' +
+				'<td>' +
+				'<center class="content">' +
+				'Formed by hospitality professionals, we are dedicated to <br>' +
+				'helping your hotel achieve greater customer satisfaction,<br>' +
+				'increased QA scores, boost efficiencies and reduce cost.' +
+				'</center>' +
+				'</td>' +
+				'</tr>' +
+				'<tr>' +
+				'<td class="">' +
+				'<table>' +
+				'<tr>' +
+				'<td class="float-center" align="center" valign="top">' +
+				'<center style="color:#777;background-color: #000;padding: 50px 0;">' +
+				'<table>' +
+				'<tr>' +
+				'<td class="text-center" style="text-align: center;">' +
+				'PRIVACY STATEMENT' +
+				'</td>' +
+				'<td class="pipe text-center" style="text-align: center;">' +
+				'|' +
+				'</td>' +
+				'<td class="text-center" style="text-align: center;">' +
+				'TERM OF SERVICES' +
+				'</td>' +
+				'</tr>' +
+				'<tr>' +
+				'<td colspan="3" height="50px" style="vertical-align:middle" valign="middle">' +
+				'&copy; 2018 Tumi Staffing, Inc PO Box 592715 San Antonio, TX 78259' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</center>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</body>' +
+				'</html>'
 		};
 
 		transporter.sendMail(mailOptions, function (error, info) {
