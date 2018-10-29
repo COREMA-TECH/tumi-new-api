@@ -134,6 +134,7 @@ input iParamEA {
 		End_Week: Int
 		Start_Date: String
 		Legal_Name: String
+		Region:Int
 		Country: Int
 		State: Int
 		City: Int
@@ -342,6 +343,7 @@ input iParamEA {
 		insusers(input: iUsers): Users
 		updusers(input: iUsers): Users
 		delusers(Id:Int,IsActive:Int): Users
+		upduserspassword(Id:Int, Password:String): Users
 		inscontracts(input: iContracts): Contracts
 		updcontracts(input: iContracts): Contracts
 		delcontracts(Id:Int,IsActive:Int): Contracts
@@ -436,6 +438,7 @@ input iParamEA {
 			End_Week: Int
 			Start_Date: String
 			Legal_Name: String
+			Region:Int
 			Country: Int
 			State: Int
 			City: Int
