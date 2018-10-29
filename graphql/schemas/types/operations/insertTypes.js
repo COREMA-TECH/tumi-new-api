@@ -15,9 +15,9 @@ import {
 	ApplicantBackgroundCheckFields,
 	ApplicantHarassmentPoliciyFields,
 	ApplicantWorkerCompensationFields,
-	ApplicantDocumentFields
+	ApplicantDocumentFields,
+	WorkOrderFields
 } from '../fields';
-
 const inputInsertApplication = new GraphQLInputObjectType({
 	name: 'inputInsertApplication',
 	description: 'Inputs for Application Mutation',
@@ -142,6 +142,14 @@ const inputInsertApplicantDocument = new GraphQLInputObjectType({
 		...ApplicantDocumentFields
 	}
 });
+const inputInsertWorkOrder = new GraphQLInputObjectType({
+	name: 'inputInsertWorkOrder',
+	description: 'Inputs for Work Order Insert',
+
+	fields: {
+		...WorkOrderFields
+	}
+});
 export {
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
@@ -157,5 +165,6 @@ export {
 	inputInsertApplicantHarassmentPolicy,
 	inputInsertApplicantWorkerCompensation,
 	inputInsertApplicantDocument,
+	inputInsertWorkOrder,
 	iParamEA
 };

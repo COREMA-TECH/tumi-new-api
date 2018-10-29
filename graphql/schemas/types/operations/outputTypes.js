@@ -17,7 +17,8 @@ import {
 	ApplicantBackgroundCheckFields,
 	ApplicantHarassmentPoliciyFields,
 	ApplicantWorkerCompensationFields,
-	ApplicantDocumentFields
+	ApplicantDocumentFields,
+	WorkOrderFields
 } from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
@@ -394,6 +395,32 @@ const ApplicantDocumentType = new GraphQLObjectType({
 		};
 	}
 });
+
+const WorkOrderType = new GraphQLObjectType({
+	name: 'WorkOrderType',
+	description: 'Output Type of Work Orders',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...WorkOrderFields,
+			position: {
+				type: PositionRateType,
+				resolve(me) {
+					return me.getPositionRate();
+				}
+			},
+			status: {
+				type: CatalogItemType,
+				resolve(me) {
+					return me.getCatalogItem();
+				}
+			}
+		};
+	}
+});
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -411,5 +438,6 @@ export {
 	ApplicantBackgroundCheckType,
 	ApplicantHarassmentPolicyType,
 	ApplicantWorkerCompensationType,
-	ApplicantDocumentType
+	ApplicantDocumentType,
+	WorkOrderType
 };

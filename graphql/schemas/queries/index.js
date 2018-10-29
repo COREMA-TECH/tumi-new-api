@@ -13,6 +13,7 @@ import ApplicantBackgroundCheckQuery from './applicantBackgroundCheckQuery';
 import ApplicantHarassmentPolicyQuery from './applicantHarassmentPolicyQuery';
 import ApplicantWorkerCompensationQuery from './applicantWorkerCompensationQuery';
 import ApplicantDocumentQuery from './applicantDocumentQuery';
+import WorkOrderQuery from './workOrderQuery';
 export {
 	ApplicantLanguageQuery,
 	ApplicationQuery,
@@ -28,5 +29,6 @@ export {
 	ApplicantBackgroundCheckQuery,
 	ApplicantHarassmentPolicyQuery,
 	ApplicantWorkerCompensationQuery,
-	ApplicantDocumentQuery
+	ApplicantDocumentQuery,
+	WorkOrderQuery
 };
