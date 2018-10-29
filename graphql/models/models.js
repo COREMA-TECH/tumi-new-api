@@ -13,6 +13,8 @@ import ApplicantBackgroundCheckModel from './applicantBackgroundCheckTable';
 import ApplicantHarassmentPolicyModel from './applicantHarassmentPolicyTable';
 import ApplicantWorkerCompensationModel from './applicantWorkerCompensationTable';
 import ApplicantDocumentModel from './applicantDocumentTable';
+import WorkOrderModel from './workOrderTable';
+import PositionRateModel from './positionRateTable';
 
 import CatalogItemModel from './catalogItemTable';
 
@@ -31,10 +33,12 @@ const ApplicantBackgroundCheck = ApplicantBackgroundCheckModel.createModel(Conn)
 const ApplicantHarassmentPolicy = ApplicantHarassmentPolicyModel.createModel(Conn);
 const ApplicantWorkerCompensation = ApplicantWorkerCompensationModel.createModel(Conn);
 const ApplicantDocument = ApplicantDocumentModel.createModel(Conn);
+const WorkOrder = WorkOrderModel.createModel(Conn);
 
 const ElectronicAddress = ElectronicAddressModel.createModel(Conn);
 const CompanyPreference = CompanyPreferencesModel.createModel(Conn);
 const CatalogItem = CatalogItemModel.createModel(Conn);
+const PositionRate = PositionRateModel.createModel(Conn);
 
 Application.hasMany(ApplicantLanguage);
 Application.hasMany(ApplicantEducation);
@@ -64,6 +68,11 @@ ApplicantConductCode.belongsTo(Application);
 ApplicantBackgroundCheck.belongsTo(Application);
 ApplicantHarassmentPolicy.belongsTo(Application);
 ApplicantWorkerCompensation.belongsTo(Application);
+
+WorkOrder.belongsTo(PositionRate);
+WorkOrder.belongsTo(CatalogItem, {
+	foreignKey: 'status'
+});
 
 Application.belongsTo(CatalogItem, {
 	foreignKey: 'positionApplyingFor'

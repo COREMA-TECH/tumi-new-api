@@ -13,6 +13,7 @@ import ApplicantBackgroundCheckMutation from './applicantBackgroundCheckMutation
 import ApplicantHarassmentPolicyMutation from './applicantHarassmentPolicyMutation';
 import ApplicantWorkerCompensationMutation from './applicantWorkerCompensationMutation';
 import ApplicantDocumentMutation from './applicantDocumentMutation';
+import WorkOrderMutation from './workOrderMutation';
 
 export {
 	ApplicantLanguageMutation,
@@ -29,5 +30,6 @@ export {
 	ApplicantBackgroundCheckMutation,
 	ApplicantHarassmentPolicyMutation,
 	ApplicantWorkerCompensationMutation,
-	ApplicantDocumentMutation
+	ApplicantDocumentMutation,
+	WorkOrderMutation
 };
