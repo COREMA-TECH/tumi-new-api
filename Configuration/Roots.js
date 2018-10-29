@@ -62,10 +62,10 @@ async function SendExpiredContracts() {
 			html: 'Your contract is about to expire'
 		};
 
-		rows.forEach(function (element) {
+		rows.forEach(function(element) {
 			mailOptions.to = element.Electronic_Address;
 
-			transporter.sendMail(mailOptions, function (error, info) {
+			transporter.sendMail(mailOptions, function(error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error: ' + error);
 				} else {
@@ -78,7 +78,7 @@ async function SendExpiredContracts() {
 
 			mailOptions.to = element.Primary_Email;
 
-			transporter.sendMail(mailOptions, function (error, info) {
+			transporter.sendMail(mailOptions, function(error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error: ' + error);
 				} else {
@@ -1919,7 +1919,7 @@ async function InsUsers(args) {
 			//console.log(args);
 			// strparam1 = 'AES_KEY';
 			Strquery =
-				'INSERT INTO public."Users" ("Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated") VALUES(' +
+				'INSERT INTO public."Users" ("Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion") VALUES(' +
 				args.input.Id_Entity +
 				',' +
 				args.input.Id_Contact +
@@ -1957,7 +1957,11 @@ async function InsUsers(args) {
 				args.input.Date_Created +
 				',' +
 				args.input.Date_Updated +
-				') RETURNING "Id","Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated"';
+				',' +
+				args.input.IsRecruiter +
+				',' +
+				args.input.IdRegion +
+				') RETURNING "Id","Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion"';
 		} else {
 			console.log('Error Insert Data');
 		}
@@ -2014,6 +2018,10 @@ async function UpdUsers(args) {
 				args.input.Date_Created +
 				', "Date_Updated"=' +
 				args.input.Date_Updated +
+				', "IdRegion"=' +
+				args.input.IdRegion +
+				', "IsRecruiter"=' +
+				args.input.IsRecruiter +
 				' where "Id"=' +
 				args.input.Id;
 		} else {
@@ -2196,7 +2204,7 @@ async function CreateContracts(args) {
 		}
 		//fs.destroy(Strfilename);
 		console.log('Outside create pdf');
-		pdf.create(content, options).toFile(Strfilename, function (err, res) {
+		pdf.create(content, options).toFile(Strfilename, function(err, res) {
 			console.log('toFile');
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
@@ -2215,7 +2223,6 @@ async function CreateContracts(args) {
 		console.log('Database ' + err);
 		return err;
 	}
-
 }
 //Method Connect to Send Contracts by emails
 async function SendContracts(args) {
@@ -2289,7 +2296,9 @@ async function SendContracts(args) {
 				'We are in the process of setting you up as part of the Tummy family. <br>' +
 				'We need youn to complete the following steps to get the process rolling' +
 				'</p>' +
-				'<a href="' + URLWeb + '/home/signature/?token=' +
+				'<a href="' +
+				URLWeb +
+				'/home/signature/?token=' +
 				rows[0].Token.trim() +
 				'&signatory=C">' +
 				'<img src="https://firebasestorage.googleapis.com/v0/b/tumiapp-66cd6.appspot.com/o/files%2Fstepper.jpg?alt=media&token=bc28b46f-d7c9-41c4-bd3e-76d45c8c7f9a"' +
@@ -2367,7 +2376,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function (error, info) {
+		transporter.sendMail(mailOptions, function(error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2415,7 +2424,9 @@ async function SendContracts(args) {
 				'We are in the process of setting you up as part of the Tummy family. <br>' +
 				'We need youn to complete the following steps to get the process rolling' +
 				'</p>' +
-				'<a href="' + URLWeb + '/home/signature/?token=' +
+				'<a href="' +
+				URLWeb +
+				'/home/signature/?token=' +
 				rows[1].Token.trim() +
 				'&signatory=E">' +
 				'<img src="https://firebasestorage.googleapis.com/v0/b/tumiapp-66cd6.appspot.com/o/files%2Fstepper.jpg?alt=media&token=bc28b46f-d7c9-41c4-bd3e-76d45c8c7f9a"' +
@@ -2493,7 +2504,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function (error, info) {
+		transporter.sendMail(mailOptions, function(error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2895,7 +2906,7 @@ async function CreatePdfContracts(args) {
 
 		console.log('html listo ', html);
 
-		pdf.create(html, options).toFile(Strfilename, function (err, res) {
+		pdf.create(html, options).toFile(Strfilename, function(err, res) {
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 		});
@@ -2942,8 +2953,7 @@ async function CreateDocumentsPDF(args) {
 		Strfilename = './public/Documents/' + args.Name.trim() + '.pdf';
 
 		if (fs.existsSync(Strfilename) == false) {
-
-			pdf.create(content, options).toFile(Strfilename, function (err, res) {
+			pdf.create(content, options).toFile(Strfilename, function(err, res) {
 				console.log('toFile');
 				if (err) return console.log(err);
 				console.log(res); // { filename: '/app/businesscard.pdf' }
@@ -2969,7 +2979,6 @@ async function CreateDocumentsPDF(args) {
 
 async function SendEmail(args) {
 	try {
-
 		var mailOptions = {
 			from: 'coremagroup@hotmail.com',
 			to: args.email,
@@ -3075,7 +3084,7 @@ async function SendEmail(args) {
 				'</html>'
 		};
 
-		transporter.sendMail(mailOptions, function (error, info) {
+		transporter.sendMail(mailOptions, function(error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -3084,7 +3093,6 @@ async function SendEmail(args) {
 		});
 
 		return 'Email Send';
-
 	} catch (err) {
 		console.log('Database ' + err);
 		return err;
