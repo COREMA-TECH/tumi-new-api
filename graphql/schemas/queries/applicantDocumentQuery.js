@@ -18,7 +18,10 @@ const ApplicantDocumentQuery = {
 			}
 		},
 		resolve(root, args) {
-			return Db.models.ApplicantDocument.findAll({ where: args });
+			return Db.models.ApplicantDocument.findAll({
+				where: args,
+				order: [ [ 'id', 'DESC' ] ]
+			});
 		}
 	}
 };
