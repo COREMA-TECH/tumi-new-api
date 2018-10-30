@@ -300,7 +300,7 @@ input iParamEA {
 		getroles(Id:Int,IsActive:Int,Id_Company:Int): [Roles]
 		getforms(Id:Int,IsActive:Int): [Forms]
 		getrolesforms(Id:Int,IsActive:Int): [RolesForms]
-		getusers(Id:Int,IsActive:Int): [Users]
+		getusers(Id:Int,IsActive:Int, IsRecruiter:Int): [Users]
 		getcontracttemplate(Id:Int,IsActive:Int): [ContractsTemplates]
 		sendcontracts(Id:Int,IsActive:Int): [Contracts]
 		createcontracts(Id:Int,IsActive:Int): [Contracts]
