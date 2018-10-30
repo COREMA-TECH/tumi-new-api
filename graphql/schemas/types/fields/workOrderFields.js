@@ -5,6 +5,9 @@ const WorkOrderFields = {
 	IdEntity: {
 		type: new GraphQLNonNull(GraphQLInt)
 	},
+	userId: {
+		type: new GraphQLNonNull(GraphQLInt)
+	},
 	date: {
 		type: new GraphQLNonNull(GraphQLDate)
 	},

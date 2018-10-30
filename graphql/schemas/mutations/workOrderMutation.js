@@ -31,6 +31,7 @@ const WorkOrderMutation = {
 				.update(
 					{
 						IdEntity: args.workOrder.IdEntity,
+						userId: args.workOrder.userId,
 						date: args.workOrder.date,
 						status: args.workOrder.status,
 						quantity: args.workOrder.quantity,

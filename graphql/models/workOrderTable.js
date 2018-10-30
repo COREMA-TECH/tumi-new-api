@@ -6,6 +6,10 @@ export default {
 				type: Sequelize.INTEGER,
 				allowNull: false
 			},
+			userId: {
+				type: Sequelize.INTEGER,
+				allowNull: false
+			},
 			date: {
 				type: Sequelize.DATE,
 				allowNull: false
