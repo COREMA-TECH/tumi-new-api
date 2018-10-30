@@ -201,7 +201,7 @@ async function getBusinessCompanies(args) {
 async function InsBusinessCompanies(args) {
 	try {
 		if (args) {
-			console.log("estos son los args ", args);
+			console.log('estos son los args ', args);
 			Strquery =
 				'INSERT INTO public."BusinessCompany" ("Code", "Code01","Id_Contract","Id_Company","BusinessType","Name","Description","Start_Week","End_Week","Start_Date","Legal_Name","Country","State","City","Id_Parent","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","ImageURL","Location","Location01","Rate","Zipcode", "Fax", "Phone_Prefix", "Phone_Number", "Primary_Email","Contract_URL","Contract_File", "Insurance_URL", "Insurance_File", "Other_URL", "Other_File", "Other_Name", "Other01_URL","Other01_Name","Other01_File","Suite","Rooms","Contract_Status","Region") VALUES(' +
 				args.input.Code +
@@ -309,7 +309,7 @@ async function InsBusinessCompanies(args) {
 async function UpdBusinessCompanies(args) {
 	try {
 		if (args) {
-			console.log("estos son los args upd ", args);
+			console.log('estos son los args upd ', args);
 			Strquery =
 				'UPDATE public."BusinessCompany" SET "Code"=' +
 				args.input.Code +
@@ -1918,6 +1918,7 @@ async function InsUsers(args) {
 		if (args) {
 			//console.log(args);
 			// strparam1 = 'AES_KEY';
+			const password = `PGP_SYM_ENCRYPT('TEMP','AES_KEY')`;
 			Strquery =
 				'INSERT INTO public."Users" ("Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion") VALUES(' +
 				args.input.Id_Entity +
@@ -1933,9 +1934,9 @@ async function InsUsers(args) {
 				args.input.Electronic_Address +
 				',' +
 				args.input.Phone_Number +
-				',  PGP_SYM_ENCRYPT(' +
-				args.input.Password +
-				') ,' +
+				',' +
+				password +
+				',' +
 				args.input.Id_Language +
 				',' +
 				args.input.IsAdmin +
@@ -1994,9 +1995,8 @@ async function UpdUsers(args) {
 				args.input.Electronic_Address +
 				', "Phone_Number"=' +
 				args.input.Phone_Number +
-				', "Password"= PGP_SYM_ENCRYPT(' +
-				args.input.Password +
-				'), "Id_Language"=' +
+		
+				', "Id_Language"=' +
 				args.input.Id_Language +
 				', "IsAdmin"=' +
 				args.input.IsAdmin +
@@ -2038,7 +2038,6 @@ async function UpdUsers(args) {
 }
 
 async function UpdUsersPassword(args) {
-
 	try {
 		if (args) {
 			Strquery = 'UPDATE public."Users" SET "IsActive" = 1, "Password"= PGP_SYM_ENCRYPT(' + args.Password + ') where "Id"=' + args.Id;
@@ -2983,7 +2982,8 @@ async function SendEmail(args) {
 			from: 'coremagroup@hotmail.com',
 			to: args.email,
 			subject: args.title,
-			html: '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' +
+			html:
+				'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' +
 				'<html xmlns="http://www.w3.org/1999/xhtml">' +
 				'<head>' +
 				'<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' +
@@ -3015,9 +3015,15 @@ async function SendEmail(args) {
 				'We are in the process of setting you up as part of the Tummy family. <br>' +
 				'We need youn to complete the following steps to get the process rolling' +
 				'</p>' +
-				'<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">User:   ' + args.username + '</h3>' +
-				'<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">Password:   ' + args.password + '</h3>' +
-				'<a href="' + URLWeb + '/login ">' +
+				'<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">User:   ' +
+				args.username +
+				'</h3>' +
+				'<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">Password:   ' +
+				args.password +
+				'</h3>' +
+				'<a href="' +
+				URLWeb +
+				'/login ">' +
 				'<h3 style="color: #297560;font-size: 22px;text-align: center;margin: $margin 0;">Tumi Site</h3>' +
 				'</a>' +
 				'</center>' +
