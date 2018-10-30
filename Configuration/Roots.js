@@ -62,10 +62,10 @@ async function SendExpiredContracts() {
 			html: 'Your contract is about to expire'
 		};
 
-		rows.forEach(function (element) {
+		rows.forEach(function(element) {
 			mailOptions.to = element.Electronic_Address;
 
-			transporter.sendMail(mailOptions, function (error, info) {
+			transporter.sendMail(mailOptions, function(error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error: ' + error);
 				} else {
@@ -78,7 +78,7 @@ async function SendExpiredContracts() {
 
 			mailOptions.to = element.Primary_Email;
 
-			transporter.sendMail(mailOptions, function (error, info) {
+			transporter.sendMail(mailOptions, function(error, info) {
 				if (error) {
 					console.log('Id: ' + element.Id + ' error: ' + error);
 				} else {
@@ -1895,12 +1895,20 @@ async function getUsers(args) {
 			strparam2 = null;
 		}
 
+		if (args.IsRecruiter>= 0) {
+			strparam3 = args.IsRecruiter;
+		} else {
+			strparam3 = null;
+		}
+
 		Strquery =
 			'select * from public."Users" Where  "IsActive" = coalesce(' +
 			strparam1 +
 			',"IsActive") and "Id" = coalesce(' +
 			strparam2 +
-			',"Id") order by "Code_User"';
+			',"Id") and "IsRecruiter" = coalesce('+
+			strparam3
+			+',"IsRecruiter") order by "Code_User"';
 
 		console.log(Strquery);
 
@@ -1995,7 +2003,6 @@ async function UpdUsers(args) {
 				args.input.Electronic_Address +
 				', "Phone_Number"=' +
 				args.input.Phone_Number +
-		
 				', "Id_Language"=' +
 				args.input.Id_Language +
 				', "IsAdmin"=' +
@@ -2040,7 +2047,11 @@ async function UpdUsers(args) {
 async function UpdUsersPassword(args) {
 	try {
 		if (args) {
-			Strquery = 'UPDATE public."Users" SET "IsActive" = 1, "Password"= PGP_SYM_ENCRYPT(' + args.Password + ') where "Id"=' + args.Id;
+			Strquery =
+				'UPDATE public."Users" SET "IsActive" = 1, "Password"= PGP_SYM_ENCRYPT(' +
+				args.Password +
+				') where "Id"=' +
+				args.Id;
 		} else {
 			console.log('Error Update Data');
 		}
@@ -2203,7 +2214,7 @@ async function CreateContracts(args) {
 		}
 		//fs.destroy(Strfilename);
 		console.log('Outside create pdf');
-		pdf.create(content, options).toFile(Strfilename, function (err, res) {
+		pdf.create(content, options).toFile(Strfilename, function(err, res) {
 			console.log('toFile');
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
@@ -2375,7 +2386,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function (error, info) {
+		transporter.sendMail(mailOptions, function(error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2503,7 +2514,7 @@ async function SendContracts(args) {
 			]
 		};
 
-		transporter.sendMail(mailOptions, function (error, info) {
+		transporter.sendMail(mailOptions, function(error, info) {
 			if (error) {
 				console.log(error);
 			} else {
@@ -2905,7 +2916,7 @@ async function CreatePdfContracts(args) {
 
 		console.log('html listo ', html);
 
-		pdf.create(html, options).toFile(Strfilename, function (err, res) {
+		pdf.create(html, options).toFile(Strfilename, function(err, res) {
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 		});
@@ -2952,7 +2963,7 @@ async function CreateDocumentsPDF(args) {
 		Strfilename = './public/Documents/' + args.Name.trim() + '.pdf';
 
 		if (fs.existsSync(Strfilename) == false) {
-			pdf.create(content, options).toFile(Strfilename, function (err, res) {
+			pdf.create(content, options).toFile(Strfilename, function(err, res) {
 				console.log('toFile');
 				if (err) return console.log(err);
 				console.log(res); // { filename: '/app/businesscard.pdf' }
@@ -3090,7 +3101,7 @@ async function SendEmail(args) {
 				'</html>'
 		};
 
-		transporter.sendMail(mailOptions, function (error, info) {
+		transporter.sendMail(mailOptions, function(error, info) {
 			if (error) {
 				console.log(error);
 			} else {
