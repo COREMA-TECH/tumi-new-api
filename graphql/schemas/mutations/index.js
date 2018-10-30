@@ -14,7 +14,7 @@ import ApplicantHarassmentPolicyMutation from './applicantHarassmentPolicyMutati
 import ApplicantWorkerCompensationMutation from './applicantWorkerCompensationMutation';
 import ApplicantDocumentMutation from './applicantDocumentMutation';
 import WorkOrderMutation from './workOrderMutation';
-
+import WorkOrderPositionMutation from './workOrderPositionMutation';
 export {
 	ApplicantLanguageMutation,
 	ApplicationMutation,
@@ -31,5 +31,6 @@ export {
 	ApplicantHarassmentPolicyMutation,
 	ApplicantWorkerCompensationMutation,
 	ApplicantDocumentMutation,
-	WorkOrderMutation
+	WorkOrderMutation,
+	WorkOrderPositionMutation
 };

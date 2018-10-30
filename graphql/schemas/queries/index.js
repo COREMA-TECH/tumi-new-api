@@ -14,6 +14,8 @@ import ApplicantHarassmentPolicyQuery from './applicantHarassmentPolicyQuery';
 import ApplicantWorkerCompensationQuery from './applicantWorkerCompensationQuery';
 import ApplicantDocumentQuery from './applicantDocumentQuery';
 import WorkOrderQuery from './workOrderQuery';
+import WorkOrderPositionQuery from './workOrderPositionQuery';
+
 export {
 	ApplicantLanguageQuery,
 	ApplicationQuery,
@@ -30,5 +32,6 @@ export {
 	ApplicantHarassmentPolicyQuery,
 	ApplicantWorkerCompensationQuery,
 	ApplicantDocumentQuery,
-	WorkOrderQuery
+	WorkOrderQuery,
+	WorkOrderPositionQuery
 };

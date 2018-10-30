@@ -18,7 +18,8 @@ import {
 	ApplicantHarassmentPoliciyFields,
 	ApplicantWorkerCompensationFields,
 	ApplicantDocumentFields,
-	WorkOrderFields
+	WorkOrderFields,
+	WorkOrderPositionFields
 } from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
@@ -417,10 +418,49 @@ const WorkOrderType = new GraphQLObjectType({
 				resolve(me) {
 					return me.getCatalogItem();
 				}
+			},
+			workOrderPositions: {
+				type: new GraphQLList(WorkOrderPositionType),
+				resolve(me) {
+					return me.getWorkOrderPositions();
+				}
 			}
 		};
 	}
 });
+
+const WorkOrderPositionType = new GraphQLObjectType({
+	name: 'WorkOrderPositionType',
+	description: 'Output Type of Work Orders Positions',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...WorkOrderPositionFields,
+			position: {
+				type: PositionRateType,
+				resolve(me) {
+					return me.getPositionRate();
+				}
+			},
+			status: {
+				type: CatalogItemType,
+				resolve(me) {
+					return me.getCatalogItem();
+				}
+			},
+			workOrder: {
+				type: WorkOrderType,
+				resolve(me) {
+					return me.getWorkOrder();
+				}
+			}
+		};
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -439,5 +479,6 @@ export {
 	ApplicantHarassmentPolicyType,
 	ApplicantWorkerCompensationType,
 	ApplicantDocumentType,
-	WorkOrderType
+	WorkOrderType,
+	WorkOrderPositionType
 };

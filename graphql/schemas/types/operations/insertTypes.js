@@ -16,7 +16,8 @@ import {
 	ApplicantHarassmentPoliciyFields,
 	ApplicantWorkerCompensationFields,
 	ApplicantDocumentFields,
-	WorkOrderFields
+	WorkOrderFields,
+	WorkOrderPositionFields
 } from '../fields';
 const inputInsertApplication = new GraphQLInputObjectType({
 	name: 'inputInsertApplication',
@@ -150,6 +151,14 @@ const inputInsertWorkOrder = new GraphQLInputObjectType({
 		...WorkOrderFields
 	}
 });
+const inputInsertWorkOrderPosition = new GraphQLInputObjectType({
+	name: 'inputInsertWorkOrderPosition',
+	description: 'Inputs for Work Order Position Insert',
+
+	fields: {
+		...WorkOrderPositionFields
+	}
+});
 export {
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
@@ -166,5 +175,6 @@ export {
 	inputInsertApplicantWorkerCompensation,
 	inputInsertApplicantDocument,
 	inputInsertWorkOrder,
+	inputInsertWorkOrderPosition,
 	iParamEA
 };

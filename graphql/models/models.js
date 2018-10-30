@@ -15,6 +15,7 @@ import ApplicantWorkerCompensationModel from './applicantWorkerCompensationTable
 import ApplicantDocumentModel from './applicantDocumentTable';
 import WorkOrderModel from './workOrderTable';
 import PositionRateModel from './positionRateTable';
+import WorkOrderPositionModel from './workOrderPositionTable';
 
 import CatalogItemModel from './catalogItemTable';
 
@@ -34,6 +35,7 @@ const ApplicantHarassmentPolicy = ApplicantHarassmentPolicyModel.createModel(Con
 const ApplicantWorkerCompensation = ApplicantWorkerCompensationModel.createModel(Conn);
 const ApplicantDocument = ApplicantDocumentModel.createModel(Conn);
 const WorkOrder = WorkOrderModel.createModel(Conn);
+const WorkOrderPosition = WorkOrderPositionModel.createModel(Conn);
 
 const ElectronicAddress = ElectronicAddressModel.createModel(Conn);
 const CompanyPreference = CompanyPreferencesModel.createModel(Conn);
@@ -71,6 +73,11 @@ ApplicantWorkerCompensation.belongsTo(Application);
 
 WorkOrder.belongsTo(PositionRate);
 WorkOrder.belongsTo(CatalogItem, {
+	foreignKey: 'status'
+});
+WorkOrder.hasMany(WorkOrderPosition);
+WorkOrderPosition.belongsTo(PositionRate);
+WorkOrderPosition.belongsTo(CatalogItem, {
 	foreignKey: 'status'
 });
 

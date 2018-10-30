@@ -19,7 +19,8 @@ import {
 	ApplicantHarassmentPolicyMutation,
 	ApplicantWorkerCompensationMutation,
 	ApplicantDocumentMutation,
-	WorkOrderMutation
+	WorkOrderMutation,
+	WorkOrderPositionMutation
 } from './mutations';
 import {
 	ApplicationQuery,
@@ -37,7 +38,8 @@ import {
 	ApplicantHarassmentPolicyQuery,
 	ApplicantWorkerCompensationQuery,
 	ApplicantDocumentQuery,
-	WorkOrderQuery
+	WorkOrderQuery,
+	WorkOrderPositionQuery
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -59,7 +61,8 @@ const RootQuery = new GraphQLObjectType({
 		...ApplicantHarassmentPolicyQuery,
 		...ApplicantWorkerCompensationQuery,
 		...ApplicantDocumentQuery,
-		...WorkOrderQuery
+		...WorkOrderQuery,
+		...WorkOrderPositionQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({
@@ -81,7 +84,8 @@ const RootMutation = new GraphQLObjectType({
 		...ApplicantHarassmentPolicyMutation,
 		...ApplicantWorkerCompensationMutation,
 		...ApplicantDocumentMutation,
-		...WorkOrderMutation
+		...WorkOrderMutation,
+		...WorkOrderPositionMutation
 	}
 });
 

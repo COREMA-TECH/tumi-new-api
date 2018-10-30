@@ -16,6 +16,7 @@ import ApplicantHarassmentPoliciyFields from './applicantHarassmentPolicyFields'
 import ApplicantWorkerCompensationFields from './applicantWorkerCompensationFields';
 import ApplicantDocumentFields from './applicantDocumentFields';
 import WorkOrderFields from './workOrderFields';
+import WorkOrderPositionFields from './workOrderPositionFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -35,5 +36,6 @@ export {
 	ApplicantHarassmentPoliciyFields,
 	ApplicantWorkerCompensationFields,
 	ApplicantDocumentFields,
-	WorkOrderFields
+	WorkOrderFields,
+	WorkOrderPositionFields
 };

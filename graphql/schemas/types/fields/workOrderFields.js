@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLString, GraphQLBoolean, GraphQLFloat, GraphQLNonNull } from 'graphql';
+import { GraphQLInt, GraphQLString, GraphQLBoolean, GraphQLNonNull } from 'graphql';
 import GraphQLDate from 'graphql-date';
 
 const WorkOrderFields = {
@@ -12,7 +12,7 @@ const WorkOrderFields = {
 		type: new GraphQLNonNull(GraphQLInt)
 	},
 	quantity: {
-		type: new GraphQLNonNull(GraphQLFloat)
+		type: new GraphQLNonNull(GraphQLInt)
 	},
 	shift: {
 		type: new GraphQLNonNull(GraphQLInt)

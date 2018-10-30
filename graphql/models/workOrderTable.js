@@ -15,7 +15,7 @@ export default {
 				allowNull: false
 			},
 			quantity: {
-				type: Sequelize.FLOAT,
+				type: Sequelize.INTEGER,
 				allowNull: false
 			},
 			shift: {
