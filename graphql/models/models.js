@@ -75,7 +75,7 @@ WorkOrder.belongsTo(PositionRate);
 WorkOrder.belongsTo(CatalogItem, {
 	foreignKey: 'status'
 });
-WorkOrder.hasMany(WorkOrderPosition);
+WorkOrder.hasMany(WorkOrderPosition, { onDelete: 'cascade' });
 WorkOrderPosition.belongsTo(PositionRate);
 WorkOrderPosition.belongsTo(CatalogItem, {
 	foreignKey: 'status'
@@ -93,16 +93,16 @@ Conn.authenticate()
 		console.error('Unable to connect to the database:', err);
 	});
 
-Conn.sync({ force: false }).then(() => {
-	/*make sure you use false here. otherwise the total data 
+//Conn.sync({ force: false }).then(() => {
+/*make sure you use false here. otherwise the total data 
     from the impported models will get deleted and new tables will be created*/
-	// now we cann do all db operations on customers table.
-	//Ex:- lets read all data
-	//	console.log('Applications Inside Connection', Applications.findAll);
-	//	Applications.findAll().then((applications) => {
-	//console.log('Applications are:-', applications);
-	//	});
-	//	console.log('sync is completed');
-});
+// now we cann do all db operations on customers table.
+//Ex:- lets read all data
+//	console.log('Applications Inside Connection', Applications.findAll);
+//	Applications.findAll().then((applications) => {
+//console.log('Applications are:-', applications);
+//	});
+//	console.log('sync is completed');
+//});
 
 export default Conn;
