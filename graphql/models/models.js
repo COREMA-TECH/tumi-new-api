@@ -72,14 +72,14 @@ ApplicantHarassmentPolicy.belongsTo(Application);
 ApplicantWorkerCompensation.belongsTo(Application);
 
 WorkOrder.belongsTo(PositionRate);
-WorkOrder.belongsTo(CatalogItem, {
-	foreignKey: 'status'
-});
+// WorkOrder.belongsTo(CatalogItem, {
+// 	foreignKey: 'status'
+// });
 WorkOrder.hasMany(WorkOrderPosition, { onDelete: 'cascade' });
 WorkOrderPosition.belongsTo(PositionRate);
-WorkOrderPosition.belongsTo(CatalogItem, {
-	foreignKey: 'status'
-});
+// WorkOrderPosition.belongsTo(CatalogItem, {
+// 	foreignKey: 'status'
+// });
 
 Application.belongsTo(CatalogItem, {
 	foreignKey: 'positionApplyingFor'

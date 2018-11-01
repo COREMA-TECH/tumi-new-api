@@ -413,12 +413,6 @@ const WorkOrderType = new GraphQLObjectType({
 					return me.getPositionRate();
 				}
 			},
-			status: {
-				type: CatalogItemType,
-				resolve(me) {
-					return me.getCatalogItem();
-				}
-			},
 			workOrderPositions: {
 				type: new GraphQLList(WorkOrderPositionType),
 				resolve(me) {
@@ -443,12 +437,6 @@ const WorkOrderPositionType = new GraphQLObjectType({
 				type: PositionRateType,
 				resolve(me) {
 					return me.getPositionRate();
-				}
-			},
-			status: {
-				type: CatalogItemType,
-				resolve(me) {
-					return me.getCatalogItem();
 				}
 			},
 			workOrder: {
