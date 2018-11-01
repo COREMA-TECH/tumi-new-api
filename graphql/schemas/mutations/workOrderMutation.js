@@ -1,7 +1,7 @@
 import { inputInsertWorkOrder } from '../types/operations/insertTypes';
 import { inputUpdateWorkOrder } from '../types/operations/updateTypes';
 import { WorkOrderType } from '../types/operations/outputTypes';
-import { GraphQLList } from 'graphql';
+import { GraphQLList, GraphQLInt } from 'graphql';
 
 import Db from '../../models/models';
 
@@ -54,6 +54,18 @@ const WorkOrderMutation = {
 					if (record) return record.dataValues;
 					else return null;
 				});
+		}
+	},
+	deleteWorkOrder: {
+		type: GraphQLInt,
+		description: 'Delete workorder record from database',
+		args: {
+			id: { type: GraphQLList(GraphQLInt) }
+		},
+		resolve(source, args) {
+			return Db.models.WorkOrder.destroy({ where: { id: args.id } }).then((deleted) => {
+				return deleted;
+			});
 		}
 	}
 };

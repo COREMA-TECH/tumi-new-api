@@ -18,7 +18,7 @@ const WorkOrderFields = {
 		type: new GraphQLNonNull(GraphQLInt)
 	},
 	shift: {
-		type: new GraphQLNonNull(GraphQLInt)
+		type: new GraphQLNonNull(GraphQLString)
 	},
 	startDate: {
 		type: new GraphQLNonNull(GraphQLDate)

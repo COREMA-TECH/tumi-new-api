@@ -23,7 +23,7 @@ export default {
 				allowNull: false
 			},
 			shift: {
-				type: Sequelize.INTEGER,
+				type: Sequelize.STRING(1),
 				allowNull: false
 			},
 			startDate: {
