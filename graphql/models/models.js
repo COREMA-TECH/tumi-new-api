@@ -85,6 +85,14 @@ Application.belongsTo(CatalogItem, {
 	foreignKey: 'positionApplyingFor'
 });
 
+/*Application.belongsTo(CatalogItem, {
+	foreignKey: 'city'
+});
+
+Application.belongsTo(CatalogItem, {
+	foreignKey: 'state'
+});*/
+
 Conn.authenticate()
 	.then(() => {
 		console.log('Connection has been established successfully.');

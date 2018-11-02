@@ -3,7 +3,7 @@ import { inputUpdateApplication } from '../types/operations/updateTypes';
 import { ApplicationType } from '../types/operations/outputTypes';
 
 import Db from '../../models/models';
-import { graphql, GraphQLInt, GraphQLString } from 'graphql';
+import { graphql, GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
 
 const ApplicationMutation = {
 	addApplication: {
@@ -95,7 +95,33 @@ const ApplicationMutation = {
 						returning: true
 					}
 				)
-				.then(function([ rowsUpdate, [ record ] ]) {
+				.then(function ([rowsUpdate, [record]]) {
+					if (record) return record.dataValues;
+					else return null;
+				});
+		}
+	},
+	updateApplicationConvertLead: {
+		type: ApplicationType,
+		description: 'Update Lead Aplicant Form Info',
+		args: {
+			id: { type: GraphQLInt },
+			isLead: { type: GraphQLBoolean }
+		},
+		resolve(source, args) {
+			return Db.models.Applications
+				.update(
+					{
+						isLead: args.isLead,
+					},
+					{
+						where: {
+							id: args.id
+						},
+						returning: true
+					}
+				)
+				.then(function ([rowsUpdate, [record]]) {
 					if (record) return record.dataValues;
 					else return null;
 				});
@@ -120,7 +146,7 @@ const ApplicationMutation = {
 						returning: true
 					}
 				)
-				.then(function([ rowsUpdate, [ record ] ]) {
+				.then(function ([rowsUpdate, [record]]) {
 					if (record) return record.dataValues;
 					else return null;
 				});
@@ -146,7 +172,7 @@ const ApplicationMutation = {
 						returning: true
 					}
 				)
-				.then(function([ rowsUpdate, [ record ] ]) {
+				.then(function ([rowsUpdate, [record]]) {
 					if (record) return record.dataValues;
 					else return null;
 				});
