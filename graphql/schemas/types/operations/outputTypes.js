@@ -86,18 +86,6 @@ const ApplicationType = new GraphQLObjectType({
 					return application.getCatalogCity();
 				}
 			},
-			/*cityInfo: {
-				type: CatalogItemType,
-				resolve(application) {
-					return application.getCatalogItem();
-				}
-			},
-			stateInfo: {
-				type: CatalogItemType,
-				resolve(application) {
-					return application.getCatalogItem();
-				}
-			},*/
 			disclosure: {
 				type: ApplicantDisclosureType,
 				resolve(application) {
