@@ -71,7 +71,19 @@ const ApplicationType = new GraphQLObjectType({
 			position: {
 				type: CatalogItemType,
 				resolve(application) {
-					return application.getCatalogItem();
+					return application.getCatalogPosition();
+				}
+			},
+			stateInfo: {
+				type: CatalogItemType,
+				resolve(application) {
+					return application.getCatalogState();
+				}
+			},
+			cityInfo: {
+				type: CatalogItemType,
+				resolve(application) {
+					return application.getCatalogCity();
 				}
 			},
 			/*cityInfo: {

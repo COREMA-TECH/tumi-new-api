@@ -82,7 +82,17 @@ WorkOrderPosition.belongsTo(PositionRate);
 // });
 
 Application.belongsTo(CatalogItem, {
-	foreignKey: 'positionApplyingFor'
+	foreignKey: 'positionApplyingFor',
+	as: 'CatalogPosition'
+});
+Application.belongsTo(CatalogItem, {
+	foreignKey: 'state',
+	as: 'CatalogState'
+});
+
+Application.belongsTo(CatalogItem, {
+	foreignKey: 'city',
+	as: 'CatalogCity'
 });
 
 /*Application.belongsTo(CatalogItem, {
