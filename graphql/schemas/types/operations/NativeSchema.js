@@ -543,6 +543,24 @@ input iParamEA {
 	type Supervisor{
 			Id : Int
 			Full_Name: String
+			Id_Entity: Int
+			First_Name: String
+			Middle_Name: String
+			Last_Name: String
+			Electronic_Address: String
+			Phone_Number: String
+			Type:String
+			Contact_Type: Int
+			Title: String
+			Contact_Title: Int
+			Department: String
+			IsActive: Int
+			User_Created: Int
+			User_Updated: Int
+			Date_Created: String
+			Date_Updated: String
+			Id_Supervisor: Int
+			Id_Deparment: Int
 	}
 	type CatalogParent{
 		Id: Int
