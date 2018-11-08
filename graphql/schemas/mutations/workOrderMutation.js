@@ -68,6 +68,31 @@ const WorkOrderMutation = {
 			});
 		}
 	},
+	convertToOpening: {
+		type: WorkOrderType,
+		description: 'Convert WorkOrder to Opening',
+		args: {
+			id: { type: GraphQLInt }
+		},
+		resolve(source, args) {
+			return Db.models.WorkOrder
+				.update(
+					{
+						status: 2
+					},
+					{
+						where: {
+							id: args.id
+						},
+						returning: true
+					}
+				)
+				.then(function([ rowsUpdate, [ record ] ]) {
+					if (record) return record.dataValues;
+					else return null;
+				});
+		}
+	},
 	rejectWorkOrder: {
 		type: WorkOrderType,
 		description: 'Reject Work Order',
