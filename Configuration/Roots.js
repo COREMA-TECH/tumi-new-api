@@ -177,16 +177,28 @@ async function getBusinessCompanies(args) {
 
 		strparam3 = args.Contract_Status;
 
-		Strquery =
-			'SELECT * from public.vwBusinessCompany_Format  where "Contract_Status" =coalesce(' +
-			strparam3 +
-			',"Contract_Status") and "IsActive" = coalesce(' +
-			strparam1 +
-			',"IsActive") and "Id" = coalesce(' +
-			strparam2 +
-			',"Id") and "Id_Parent" = coalesce(' +
-			strparam4 +
-			',"Id_Parent") order by "Name"';
+		if (strparam4 == -1) {
+			Strquery =
+				'SELECT * from public.vwBusinessCompany_Format  where "Contract_Status" =coalesce(' +
+				strparam3 +
+				',"Contract_Status") and "IsActive" = coalesce(' +
+				strparam1 +
+				',"IsActive") and "Id" = coalesce(' +
+				strparam2 +
+				',"Id") and "Id_Parent" <> 0 order by "Name"';
+		}
+		else {
+			Strquery =
+				'SELECT * from public.vwBusinessCompany_Format  where "Contract_Status" =coalesce(' +
+				strparam3 +
+				',"Contract_Status") and "IsActive" = coalesce(' +
+				strparam1 +
+				',"IsActive") and "Id" = coalesce(' +
+				strparam2 +
+				',"Id") and "Id_Parent" = coalesce(' +
+				strparam4 +
+				',"Id_Parent") order by "Name"';
+		}
 
 		console.log('query de companies ', Strquery);
 
