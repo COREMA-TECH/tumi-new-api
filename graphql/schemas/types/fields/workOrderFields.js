@@ -8,6 +8,9 @@ const WorkOrderFields = {
 	userId: {
 		type: new GraphQLNonNull(GraphQLInt)
 	},
+	contactId: {
+		type: GraphQLInt
+	},
 	date: {
 		type: new GraphQLNonNull(GraphQLDate)
 	},

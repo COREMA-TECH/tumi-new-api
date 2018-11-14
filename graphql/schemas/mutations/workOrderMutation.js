@@ -32,6 +32,7 @@ const WorkOrderMutation = {
 					{
 						IdEntity: args.workOrder.IdEntity,
 						userId: args.workOrder.userId,
+						contactId: args.workOrder.contactId,
 						date: args.workOrder.date,
 						status: args.workOrder.status,
 						quantity: args.workOrder.quantity,
@@ -50,7 +51,7 @@ const WorkOrderMutation = {
 						returning: true
 					}
 				)
-				.then(function([ rowsUpdate, [ record ] ]) {
+				.then(function ([rowsUpdate, [record]]) {
 					if (record) return record.dataValues;
 					else return null;
 				});
@@ -87,7 +88,7 @@ const WorkOrderMutation = {
 						returning: true
 					}
 				)
-				.then(function([ rowsUpdate, [ record ] ]) {
+				.then(function ([rowsUpdate, [record]]) {
 					if (record) return record.dataValues;
 					else return null;
 				});
@@ -112,7 +113,7 @@ const WorkOrderMutation = {
 						returning: true
 					}
 				)
-				.then(function([ rowsUpdate, [ record ] ]) {
+				.then(function ([rowsUpdate, [record]]) {
 					if (record) return record.dataValues;
 					else return null;
 				});
