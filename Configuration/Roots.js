@@ -1156,7 +1156,7 @@ async function DelCatalog(args) {
 //Method Connect to table CatalogItem
 async function getCatalogItem(args) {
 	try {
-		var strparam1, strparam2, strparam3, strparam4;
+		var strparam1, strparam2, strparam3, strparam4, strparam5;
 
 		if (args.IsActive >= 0) {
 			strparam1 = args.IsActive;
@@ -1182,6 +1182,12 @@ async function getCatalogItem(args) {
 			strparam4 = null;
 		}
 
+		if (args.Value != '' || args.Value != null) {
+			strparam5 = args.Value;
+		} else {
+			strparam5 = null;
+		}
+
 		Strquery =
 			'select * from public."CatalogItem" Where  "IsActive" = coalesce(' +
 			strparam1 +
@@ -1191,7 +1197,9 @@ async function getCatalogItem(args) {
 			strparam2 +
 			',"Id") and "Id_Parent" = coalesce(' +
 			strparam4 +
-			',"Id_Parent") order by "Id_Catalog","DisplayLabel"';
+			',"Id_Parent") and "Value" = coalesce(' +
+			strparam5 +
+			',"Value") order by "Id_Catalog","DisplayLabel"';
 		//console.log(Strquery);
 
 		const { rows } = await query(Strquery);

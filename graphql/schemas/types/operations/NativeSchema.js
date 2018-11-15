@@ -296,7 +296,7 @@ input iParamEA {
 		getsupervisor(Id:Int,IsActive:Int,Id_Entity :Int): [Supervisor]
 		getparentcatalogitem(Id:Int,Id_Catalog: Int,IsActive:Int): [CatalogParent]
 		getcatalog(Id:Int,IsActive:Int): [Catalog]
-		getcatalogitem(Id:Int,IsActive:Int,Id_Catalog:Int,Id_Parent:Int): [CatalogItem]
+		getcatalogitem(Id:Int,IsActive:Int,Id_Catalog:Int,Id_Parent:Int,Value:String): [CatalogItem]
 		getroles(Id:Int,IsActive:Int,Id_Company:Int): [Roles]
 		getforms(Id:Int,IsActive:Int): [Forms]
 		getrolesforms(Id:Int,IsActive:Int): [RolesForms]
