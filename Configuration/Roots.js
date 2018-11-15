@@ -1158,6 +1158,7 @@ async function getCatalogItem(args) {
 	try {
 		var strparam1, strparam2, strparam3, strparam4, strparam5;
 
+		console.log(args);
 		if (args.IsActive >= 0) {
 			strparam1 = args.IsActive;
 		} else {
@@ -1182,13 +1183,17 @@ async function getCatalogItem(args) {
 			strparam4 = null;
 		}
 
-		if (args.Value !== 'undefined') {
-			if (args.Value != '' || args.Value != null) {
+		//if (args.Value > 0) {
+		if (typeof args.Value !== 'undefined') {
+			strparam5 = args.Value;
+		} else {
+			strparam5 = null;
+			/*if (args.Value != '' || args.Value != null) {
 				strparam5 = args.Value;
 			} else {
 				strparam5 = null;
-			}
-		} else { strparam5 = null; }
+			}*/
+		}
 
 		Strquery =
 			'select * from public."CatalogItem" Where  "IsActive" = coalesce(' +
@@ -1202,7 +1207,7 @@ async function getCatalogItem(args) {
 			',"Id_Parent") and "Value" = coalesce(' +
 			strparam5 +
 			',"Value") order by "Id_Catalog","DisplayLabel"';
-		//console.log(Strquery);
+		console.log(Strquery);
 
 		const { rows } = await query(Strquery);
 		return rows;
