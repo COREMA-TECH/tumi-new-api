@@ -1182,11 +1182,13 @@ async function getCatalogItem(args) {
 			strparam4 = null;
 		}
 
-		if (args.Value != '' || args.Value != null) {
-			strparam5 = args.Value;
-		} else {
-			strparam5 = null;
-		}
+		if (args.Value !== 'undefined') {
+			if (args.Value != '' || args.Value != null) {
+				strparam5 = args.Value;
+			} else {
+				strparam5 = null;
+			}
+		} else { strparam5 = null; }
 
 		Strquery =
 			'select * from public."CatalogItem" Where  "IsActive" = coalesce(' +
