@@ -298,9 +298,9 @@ async function InsBusinessCompanies(args) {
 				',' +
 				args.input.Rooms +
 				',' +
-				args.input.Region +
-				',' +
 				args.input.Contract_Status +
+				',' +
+				args.input.Region +
 				') RETURNING "Id", "Code", "Code01","Id_Contract","Id_Company","BusinessType","Name","Description","Start_Week","End_Week","Start_Date","Legal_Name","Country","State","City","Id_Parent","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","ImageURL","Location","Location01","Rate","Zipcode", "Fax", "Phone_Prefix", "Phone_Number", "Primary_Email","Contract_URL","Contract_File", "Insurance_URL", "Insurance_File", "Other_URL", "Other_Name", "Other_File", "Other01_URL", "Other01_Name", "Other01_File","Suite","Contract_Status","Region"';
 			//console.log(Strquery);
 		} else {
