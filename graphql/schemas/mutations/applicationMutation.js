@@ -106,7 +106,9 @@ const ApplicationMutation = {
 		description: 'Update Lead Aplicant Form Info',
 		args: {
 			id: { type: GraphQLInt },
-			isLead: { type: GraphQLBoolean }
+			isLead: { type: GraphQLBoolean },
+			idRecruiter: { type: GraphQLInt },
+			idWorkOrder: { type: GraphQLInt }
 		},
 		resolve(source, args) {
 			return Db.models.Applications
