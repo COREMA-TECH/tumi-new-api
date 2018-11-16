@@ -120,6 +120,16 @@ export default {
 				allowNull: false,
 				defaultValue: true
 			},
+			idRecruiter: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				defaultValue: true
+			},
+			idWorkOrder: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				defaultValue: true
+			},
 			isActive: {
 				type: Sequelize.BOOLEAN,
 				allowNull: true,

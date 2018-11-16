@@ -113,6 +113,8 @@ const ApplicationMutation = {
 				.update(
 					{
 						isLead: args.isLead,
+						idRecruiter: args.idRecruiter,
+						idWorkOrder: args.idWorkOrder
 					},
 					{
 						where: {

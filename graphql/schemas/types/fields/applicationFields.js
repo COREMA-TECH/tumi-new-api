@@ -120,6 +120,14 @@ const ApplicationFields = {
 		type: GraphQLBoolean,
 		description: 'Is this application for lead'
 	},
+	idRecruiter: {
+		type: GraphQLInt,
+		description: 'Is this application for Id Recruiter'
+	},
+	idWorkOrder: {
+		type: GraphQLInt,
+		description: 'Is this application for Id Work Order'
+	},
 	isActive: {
 		type: GraphQLBoolean,
 		description: 'Applicant Status'
