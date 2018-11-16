@@ -131,6 +131,32 @@ const ApplicationMutation = {
 				});
 		}
 	},
+	updateApplicationMoveStage: {
+		type: ApplicationType,
+		description: 'Update Lead Aplicant Form Info',
+		args: {
+			id: { type: GraphQLInt },
+			idStages: { type: GraphQLInt }
+		},
+		resolve(source, args) {
+			return Db.models.Applications
+				.update(
+					{
+						idStages: args.idStages
+					},
+					{
+						where: {
+							id: args.id
+						},
+						returning: true
+					}
+				)
+				.then(function ([rowsUpdate, [record]]) {
+					if (record) return record.dataValues;
+					else return null;
+				});
+		}
+	},
 	disableApplication: {
 		type: ApplicationType,
 		description: 'Disable Application Form Info',

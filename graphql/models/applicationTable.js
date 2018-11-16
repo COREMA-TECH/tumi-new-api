@@ -130,6 +130,11 @@ export default {
 				allowNull: false,
 				defaultValue: true
 			},
+			idStages: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				defaultValue: true
+			},
 			isActive: {
 				type: Sequelize.BOOLEAN,
 				allowNull: true,

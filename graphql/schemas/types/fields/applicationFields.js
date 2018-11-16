@@ -128,6 +128,10 @@ const ApplicationFields = {
 		type: GraphQLInt,
 		description: 'Is this application for Id Work Order'
 	},
+	idStages: {
+		type: GraphQLInt,
+		description: 'Is this application for Id Stages'
+	},
 	isActive: {
 		type: GraphQLBoolean,
 		description: 'Applicant Status'
