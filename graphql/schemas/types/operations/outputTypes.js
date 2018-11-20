@@ -19,7 +19,8 @@ import {
 	ApplicantWorkerCompensationFields,
 	ApplicantDocumentFields,
 	WorkOrderFields,
-	WorkOrderPositionFields
+	WorkOrderPositionFields,
+	ZipcodeFields
 } from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
@@ -461,6 +462,15 @@ const WorkOrderPositionType = new GraphQLObjectType({
 	}
 });
 
+const ZipcodeType = new GraphQLObjectType({
+	name: 'Zipcode',
+	description: 'This is for Zipcode Table',
+	fields: () => {
+		return {
+			...ZipcodeFields
+		};
+	}
+});
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -480,5 +490,6 @@ export {
 	ApplicantWorkerCompensationType,
 	ApplicantDocumentType,
 	WorkOrderType,
-	WorkOrderPositionType
+	WorkOrderPositionType,
+	ZipcodeType
 };

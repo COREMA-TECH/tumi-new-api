@@ -39,7 +39,8 @@ import {
 	ApplicantWorkerCompensationQuery,
 	ApplicantDocumentQuery,
 	WorkOrderQuery,
-	WorkOrderPositionQuery
+	WorkOrderPositionQuery,
+	ZipcodeQuery
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -62,7 +63,8 @@ const RootQuery = new GraphQLObjectType({
 		...ApplicantWorkerCompensationQuery,
 		...ApplicantDocumentQuery,
 		...WorkOrderQuery,
-		...WorkOrderPositionQuery
+		...WorkOrderPositionQuery,
+		...ZipcodeQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({
@@ -95,7 +97,7 @@ const IndexSchema = new GraphQLSchema({
 });
 
 const MergedSchema = mergeSchemas({
-	schemas: [ IndexSchema, NativeSchema ]
+	schemas: [IndexSchema, NativeSchema]
 });
 
 export default MergedSchema;

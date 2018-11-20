@@ -17,7 +17,7 @@ import ApplicantWorkerCompensationFields from './applicantWorkerCompensationFiel
 import ApplicantDocumentFields from './applicantDocumentFields';
 import WorkOrderFields from './workOrderFields';
 import WorkOrderPositionFields from './workOrderPositionFields';
-
+import ZipcodeFields from './zipcodeFields';
 export {
 	ApplicantLanguagesFields,
 	ApplicationFields,
@@ -37,5 +37,6 @@ export {
 	ApplicantWorkerCompensationFields,
 	ApplicantDocumentFields,
 	WorkOrderFields,
-	WorkOrderPositionFields
+	WorkOrderPositionFields,
+	ZipcodeFields
 };

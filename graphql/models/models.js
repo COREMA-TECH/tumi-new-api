@@ -16,6 +16,7 @@ import ApplicantDocumentModel from './applicantDocumentTable';
 import WorkOrderModel from './workOrderTable';
 import PositionRateModel from './positionRateTable';
 import WorkOrderPositionModel from './workOrderPositionTable';
+import ZipcodeModel from './zipcodeTable';
 
 import CatalogItemModel from './catalogItemTable';
 
@@ -41,6 +42,9 @@ const ElectronicAddress = ElectronicAddressModel.createModel(Conn);
 const CompanyPreference = CompanyPreferencesModel.createModel(Conn);
 const CatalogItem = CatalogItemModel.createModel(Conn);
 const PositionRate = PositionRateModel.createModel(Conn);
+
+const Zipcode = ZipcodeModel.createModel(Conn);
+Zipcode.removeAttribute('id');
 
 Application.hasMany(ApplicantLanguage);
 Application.hasMany(ApplicantEducation);
