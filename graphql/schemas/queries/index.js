@@ -15,6 +15,7 @@ import ApplicantWorkerCompensationQuery from './applicantWorkerCompensationQuery
 import ApplicantDocumentQuery from './applicantDocumentQuery';
 import WorkOrderQuery from './workOrderQuery';
 import WorkOrderPositionQuery from './workOrderPositionQuery';
+import ZipcodeQuery from './zipcodeQuery'
 
 export {
 	ApplicantLanguageQuery,
@@ -33,5 +34,6 @@ export {
 	ApplicantWorkerCompensationQuery,
 	ApplicantDocumentQuery,
 	WorkOrderQuery,
-	WorkOrderPositionQuery
+	WorkOrderPositionQuery,
+	ZipcodeQuery
 };
