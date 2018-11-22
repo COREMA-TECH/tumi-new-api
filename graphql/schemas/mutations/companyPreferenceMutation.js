@@ -35,7 +35,10 @@ const CompanyPreferenceMutation = {
 						charge: args.companyPreference.charge,
 						PeriodId: args.companyPreference.PeriodId,
 						amount: args.companyPreference.amount,
-						EntityId: args.companyPreference.EntityId
+						EntityId: args.companyPreference.EntityId,
+						FiscalMonth1: args.companyPreference.FiscalMonth1,
+						FiscalMonth2: args.companyPreference.FiscalMonth2,
+						Timezone: args.companyPreference.Timezone
 					},
 					{
 						where: {
@@ -44,7 +47,7 @@ const CompanyPreferenceMutation = {
 						returning: true
 					}
 				)
-				.then(function([ rowsUpdate, [ record ] ]) {
+				.then(function ([rowsUpdate, [record]]) {
 					if (record) return record.dataValues;
 					else return null;
 				});
