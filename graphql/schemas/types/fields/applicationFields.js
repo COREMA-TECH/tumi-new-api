@@ -18,7 +18,7 @@ const ApplicationFields = {
 		type: new GraphQLNonNull(GraphQLString),
 		description: 'Applicant Last Name'
 	},
-	lastname2: {
+	lastName2: {
 		type: GraphQLString,
 		description: 'Applicant Second Last Name'
 	},

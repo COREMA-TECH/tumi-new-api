@@ -19,7 +19,7 @@ export default {
 				type: Sequelize.STRING(50),
 				allowNull: false
 			},
-			lastname2: {
+			lastName2: {
 				type: Sequelize.STRING(50),
 				allowNull: true
 			},
