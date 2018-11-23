@@ -18,6 +18,8 @@ import ApplicantDocumentFields from './applicantDocumentFields';
 import WorkOrderFields from './workOrderFields';
 import WorkOrderPositionFields from './workOrderPositionFields';
 import ZipcodeFields from './zipcodeFields';
+import PhaseWorkOrderfields from './phaseworkOrderFields';
+
 export {
 	ApplicantLanguagesFields,
 	ApplicationFields,
@@ -38,5 +40,6 @@ export {
 	ApplicantDocumentFields,
 	WorkOrderFields,
 	WorkOrderPositionFields,
-	ZipcodeFields
+	ZipcodeFields,
+	PhaseWorkOrderfields
 };
