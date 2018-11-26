@@ -35,5 +35,6 @@ export {
 	ApplicantDocumentQuery,
 	WorkOrderQuery,
 	WorkOrderPositionQuery,
-	ZipcodeQuery
+	ZipcodeQuery,
+	PhaseWorkOrderQuery,
 };
