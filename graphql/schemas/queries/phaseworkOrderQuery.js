@@ -1,9 +1,9 @@
-import { GraphQLList, GraphQLString } from 'graphql';
+import { GraphQLList, GraphQLString, GraphQLInt } from 'graphql';
 import { PhaseWorkOrderType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 const PhaseWorkOrderQuery = {
-    phaseworkorder: {
+    PhaseWorkOrder: {
         type: new GraphQLList(PhaseWorkOrderType),
         description: 'List PhaseWorkOrder records',
         args: {
