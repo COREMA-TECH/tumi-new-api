@@ -41,7 +41,8 @@ import {
 	WorkOrderQuery,
 	WorkOrderPositionQuery,
 	ZipcodeQuery,
-	PhaseWorkOrderQuery
+	phaseworkOrderQuery
+
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -66,7 +67,7 @@ const RootQuery = new GraphQLObjectType({
 		...WorkOrderQuery,
 		...WorkOrderPositionQuery,
 		...ZipcodeQuery,
-		...PhaseWorkOrderQuery,
+		...phaseworkOrderQuery,
 	}
 });
 const RootMutation = new GraphQLObjectType({
