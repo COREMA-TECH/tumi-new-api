@@ -15,6 +15,7 @@ import ApplicantWorkerCompensationMutation from './applicantWorkerCompensationMu
 import ApplicantDocumentMutation from './applicantDocumentMutation';
 import WorkOrderMutation from './workOrderMutation';
 import WorkOrderPositionMutation from './workOrderPositionMutation';
+import ApplicationPhaseMutation from './applicantionPhaseMutation';
 export {
 	ApplicantLanguageMutation,
 	ApplicationMutation,
@@ -32,5 +33,6 @@ export {
 	ApplicantWorkerCompensationMutation,
 	ApplicantDocumentMutation,
 	WorkOrderMutation,
-	WorkOrderPositionMutation
+	WorkOrderPositionMutation,
+	ApplicationPhaseMutation
 };

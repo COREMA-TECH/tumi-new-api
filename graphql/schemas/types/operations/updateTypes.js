@@ -15,7 +15,8 @@ import {
 	ApplicantWorkerCompensationFields,
 	ApplicantDocumentFields,
 	WorkOrderFields,
-	WorkOrderPositionFields
+	WorkOrderPositionFields,
+	ApplicationPhaseFields
 } from '../fields';
 
 const inputUpdateApplication = new GraphQLInputObjectType({
@@ -216,6 +217,18 @@ const inputUpdateWorkOrderPosition = new GraphQLInputObjectType({
 		...WorkOrderPositionFields
 	}
 });
+const inputUpdateApplicantPhase = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantPhase',
+	description: 'Inputs for Work Order Position Update',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...ApplicationPhaseFields
+	}
+});
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -232,5 +245,6 @@ export {
 	inputUpdateApplicantWorkerCompensation,
 	inputUpdateApplicantDocument,
 	inputUpdateWorkOrder,
-	inputUpdateWorkOrderPosition
+	inputUpdateWorkOrderPosition,
+	inputUpdateApplicantPhase
 };

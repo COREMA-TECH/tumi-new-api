@@ -17,6 +17,7 @@ import WorkOrderModel from './workOrderTable';
 import PositionRateModel from './positionRateTable';
 import WorkOrderPositionModel from './workOrderPositionTable';
 import ZipcodeModel from './zipcodeTable';
+import ApplicationPhasesModel from './applicationPhases';
 
 import CatalogItemModel from './catalogItemTable';
 
@@ -45,6 +46,13 @@ const PositionRate = PositionRateModel.createModel(Conn);
 
 const Zipcode = ZipcodeModel.createModel(Conn);
 Zipcode.removeAttribute('id');
+
+const ApplicationPhases = ApplicationPhasesModel.createModel(Conn);
+ApplicationPhases.belongsTo(CatalogItem, {
+	foreignKey: 'ReasonId',
+	as: 'Reason'
+});
+ApplicationPhases.belongsTo(Application);
 
 Application.hasMany(ApplicantLanguage);
 Application.hasMany(ApplicantEducation);

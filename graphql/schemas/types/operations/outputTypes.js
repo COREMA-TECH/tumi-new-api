@@ -20,7 +20,8 @@ import {
 	ApplicantDocumentFields,
 	WorkOrderFields,
 	WorkOrderPositionFields,
-	ZipcodeFields
+	ZipcodeFields,
+	ApplicationPhaseFields
 } from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
@@ -471,6 +472,21 @@ const ZipcodeType = new GraphQLObjectType({
 		};
 	}
 });
+
+const ApplicationPhaseType = new GraphQLObjectType({
+	name: 'ApplicationPhase',
+	description: 'This is for ApplicationPhase Table',
+	fields: () => {
+		
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...ApplicationPhaseFields
+		};
+	}
+});
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -491,5 +507,6 @@ export {
 	ApplicantDocumentType,
 	WorkOrderType,
 	WorkOrderPositionType,
-	ZipcodeType
+	ZipcodeType,
+	ApplicationPhaseType
 };
