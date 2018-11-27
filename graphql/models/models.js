@@ -39,6 +39,7 @@ const ApplicantDocument = ApplicantDocumentModel.createModel(Conn);
 const WorkOrder = WorkOrderModel.createModel(Conn);
 const WorkOrderPosition = WorkOrderPositionModel.createModel(Conn);
 
+
 const ElectronicAddress = ElectronicAddressModel.createModel(Conn);
 const CompanyPreference = CompanyPreferencesModel.createModel(Conn);
 const CatalogItem = CatalogItemModel.createModel(Conn);
