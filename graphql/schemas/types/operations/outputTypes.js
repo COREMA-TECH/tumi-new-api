@@ -21,7 +21,7 @@ import {
 	WorkOrderFields,
 	WorkOrderPositionFields,
 	ZipcodeFields,
-	PhaseWorkOrderfields,
+	phaseworkOrderFields,
 } from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
@@ -434,9 +434,9 @@ const WorkOrderType = new GraphQLObjectType({
 				}
 			},
 			PhaseWorkOrder: {
-				type: new GraphQLList(PhaseWorkOrderType),
+				type: new GraphQLList(phaseworkOrderType),
 				resolve(me) {
-					return me.getPhaseWorkOrders();
+					return me.getphaseworkOrder();
 				}
 			}
 		};
@@ -478,18 +478,12 @@ const ZipcodeType = new GraphQLObjectType({
 		};
 	}
 });
-const PhaseWorkOrderType = new GraphQLObjectType({
-	name: 'PhaseWorkOrder',
-	description: 'This is for PhaseWorkOrder Table',
+const phaseworkOrderType = new GraphQLObjectType({
+	name: 'phaseworkOrder',
+	description: 'This is for phaseworkOrder Table',
 	fields: () => {
 		return {
-			...PhaseWorkOrderfields,
-			workOrder: {
-				type: WorkOrderType,
-				resolve(me) {
-					return me.getWorkOrder();
-				}
-			}
+			...phaseworkOrderFields,
 		};
 	}
 });
@@ -514,5 +508,5 @@ export {
 	WorkOrderType,
 	WorkOrderPositionType,
 	ZipcodeType,
-	PhaseWorkOrderType,
+	phaseworkOrderType,
 };

@@ -1,13 +1,21 @@
-import { GraphQLInt } from 'graphql';
+import { GraphQLInt, GraphQLString } from 'graphql';
 
-const PhaseWorkOrderfields = {
+const phaseworkOrderFields = {
     userId: {
         type: (GraphQLInt)
     },
 
     phaseworkOrderId: {
         type: (GraphQLInt)
-    }
+    },
+
+    createdAt: {
+        type: (GraphQLString)
+    },
+
+    WorkOrderId: {
+        type: (GraphQLInt)
+    },
 };
 
-export default PhaseWorkOrderfields;
+export default phaseworkOrderFields;
