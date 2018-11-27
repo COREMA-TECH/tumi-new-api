@@ -484,6 +484,12 @@ const phaseworkOrderType = new GraphQLObjectType({
 	fields: () => {
 		return {
 			...phaseworkOrderFields,
+			actions: {
+				type: CatalogItemType,
+				resolve(me) {
+					return me.getCatalogPhaseWO();
+				}
+			},
 		};
 	}
 });
