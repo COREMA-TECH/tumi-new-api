@@ -18,8 +18,10 @@ import PositionRateModel from './positionRateTable';
 import WorkOrderPositionModel from './workOrderPositionTable';
 import ZipcodeModel from './zipcodeTable';
 import ApplicationPhasesModel from './applicationPhases';
+import phaseworkOrderModel from './phaseworkOrderTable';
 
 import CatalogItemModel from './catalogItemTable';
+import UsersModel from './UsersTable';
 
 import { Conn } from '../../Configuration/Configuration';
 
@@ -39,10 +41,14 @@ const ApplicantDocument = ApplicantDocumentModel.createModel(Conn);
 const WorkOrder = WorkOrderModel.createModel(Conn);
 const WorkOrderPosition = WorkOrderPositionModel.createModel(Conn);
 
+
 const ElectronicAddress = ElectronicAddressModel.createModel(Conn);
 const CompanyPreference = CompanyPreferencesModel.createModel(Conn);
 const CatalogItem = CatalogItemModel.createModel(Conn);
+const Users = UsersModel.createModel(Conn);
 const PositionRate = PositionRateModel.createModel(Conn);
+
+const phaseworkOrder = phaseworkOrderModel.createModel(Conn);
 
 const Zipcode = ZipcodeModel.createModel(Conn);
 Zipcode.removeAttribute('id');
@@ -92,6 +98,18 @@ WorkOrderPosition.belongsTo(PositionRate);
 // WorkOrderPosition.belongsTo(CatalogItem, {
 // 	foreignKey: 'status'
 // });
+WorkOrder.hasMany(phaseworkOrder);
+phaseworkOrder.belongsTo(WorkOrder);
+
+phaseworkOrder.belongsTo(CatalogItem, {
+	foreignKey: 'phaseworkOrderId',
+	as: 'CatalogPhaseWO'
+});
+
+phaseworkOrder.belongsTo(Users, {
+	foreignKey: 'userId',
+	as: 'UsersWO'
+});
 
 Application.belongsTo(CatalogItem, {
 	foreignKey: 'positionApplyingFor',
@@ -117,7 +135,7 @@ Conn.authenticate()
 
 //Conn.sync({ force: false }).then(() => {
 /*make sure you use false here. otherwise the total data 
-    from the impported models will get deleted and new tables will be created*/
+	from the impported models will get deleted and new tables will be created*/
 // now we cann do all db operations on customers table.
 //Ex:- lets read all data
 //	console.log('Applications Inside Connection', Applications.findAll);

@@ -19,6 +19,10 @@ export default {
 				type: Sequelize.STRING(50),
 				allowNull: false
 			},
+			lastName2: {
+				type: Sequelize.STRING(50),
+				allowNull: true
+			},
 			date: {
 				type: Sequelize.DATE,
 				allowNull: true

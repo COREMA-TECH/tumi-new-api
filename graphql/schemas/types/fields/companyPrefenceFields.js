@@ -16,6 +16,18 @@ const CompanyPreferenceFields = {
 	EntityId: {
 		type: new GraphQLNonNull(GraphQLInt),
 		description: 'Skill Description'
+	},
+	FiscalMonth1: {
+		type: GraphQLInt,
+		description: 'Fiscal Month Inicio'
+	},
+	FiscalMonth2: {
+		type: GraphQLInt,
+		description: 'Fiscal Month Fin'
+	},
+	Timezone: {
+		type: GraphQLInt,
+		description: 'Time Zone'
 	}
 };
 

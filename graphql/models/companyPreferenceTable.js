@@ -18,6 +18,18 @@ export default {
 			EntityId: {
 				type: Sequelize.INTEGER,
 				allowNull: false
+			},
+			FiscalMonth1: {
+				type: Sequelize.INTEGER,
+				allowNull: true
+			},
+			FiscalMonth2: {
+				type: Sequelize.INTEGER,
+				allowNull: true
+			},
+			Timezone: {
+				type: Sequelize.INTEGER,
+				allowNull: true
 			}
 		});
 	}

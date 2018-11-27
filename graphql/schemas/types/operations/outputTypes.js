@@ -21,7 +21,9 @@ import {
 	WorkOrderFields,
 	WorkOrderPositionFields,
 	ZipcodeFields,
-	ApplicationPhaseFields
+	ApplicationPhaseFields,
+	phaseworkOrderFields,
+	usersFields,
 } from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
@@ -294,6 +296,17 @@ const CatalogItemType = new GraphQLObjectType({
 	}
 });
 
+const UsersType = new GraphQLObjectType({
+	name: 'UsersType',
+	description: 'This is for Users',
+	fields: {
+		Id: {
+			type: GraphQLInt
+		},
+		...usersFields
+	}
+});
+
 const ApplicantDisclosureType = new GraphQLObjectType({
 	name: 'ApplicantDisclosureType',
 	description: 'This is for Application Disclosures',
@@ -432,6 +445,12 @@ const WorkOrderType = new GraphQLObjectType({
 				resolve(me) {
 					return me.getWorkOrderPositions();
 				}
+			},
+			PhaseWorkOrder: {
+				type: new GraphQLList(phaseworkOrderType),
+				resolve(me) {
+					return me.getphaseworkOrder();
+				}
 			}
 		};
 	}
@@ -487,6 +506,29 @@ const ApplicationPhaseType = new GraphQLObjectType({
 		};
 	}
 });
+
+const phaseworkOrderType = new GraphQLObjectType({
+	name: 'PhaseWorkOrder',
+	description: 'This is for phaseworkOrder Table',
+	fields: () => {
+		return {
+			...phaseworkOrderFields,
+			actions: {
+				type: CatalogItemType,
+				resolve(me) {
+					return me.getCatalogPhaseWO();
+				}
+			},
+			users: {
+				type: UsersType,
+				resolve(me) {
+					return me.getUsersWO();
+				}
+			},
+		};
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -499,6 +541,7 @@ export {
 	ApplicantIdealJobType,
 	PositionRateType,
 	CatalogItemType,
+	UsersType,
 	ApplicantDisclosureType,
 	ApplicantConductCodeType,
 	ApplicantBackgroundCheckType,
@@ -508,5 +551,6 @@ export {
 	WorkOrderType,
 	WorkOrderPositionType,
 	ZipcodeType,
-	ApplicationPhaseType
+	ApplicationPhaseType,
+	phaseworkOrderType,
 };

@@ -171,7 +171,11 @@ async function getBusinessCompanies(args) {
 
 		if (args.Id_Parent >= -1) {
 			strparam4 = args.Id_Parent;
-		} else {
+		}
+		else if (args.Id_Parent == -2) {
+			strparam4 = -2
+		}
+		else {
 			strparam4 = null;
 		}
 
@@ -186,6 +190,17 @@ async function getBusinessCompanies(args) {
 				',"IsActive") and "Id" = coalesce(' +
 				strparam2 +
 				',"Id") and "Id_Parent" <> 0 order by "Name"';
+		}
+		else if (strparam4 == -2) {
+			Strquery =
+				'SELECT * from public.vwBusinessCompany_Format  where "Contract_Status" =coalesce(' +
+				strparam3 +
+				',"Contract_Status") and "IsActive" = coalesce(' +
+				strparam1 +
+				',"IsActive") and "Id" = coalesce(' +
+				strparam2 +
+				',"Id") and "Id_Parent" <> 99999 order by "Name"';
+
 		}
 		else {
 			Strquery =

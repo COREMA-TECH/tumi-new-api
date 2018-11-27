@@ -18,6 +18,7 @@ import WorkOrderPositionQuery from './workOrderPositionQuery';
 import ZipcodeQuery from './zipcodeQuery';
 import ApplicationPhaseQuery from './applicationPhases';
 
+import phaseworkOrderQuery from './phaseworkOrderQuery';
 export {
 	ApplicantLanguageQuery,
 	ApplicationQuery,
@@ -37,5 +38,6 @@ export {
 	WorkOrderQuery,
 	WorkOrderPositionQuery,
 	ZipcodeQuery,
-	ApplicationPhaseQuery
+	ApplicationPhaseQuery,
+	phaseworkOrderQuery,
 };
