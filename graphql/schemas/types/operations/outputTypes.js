@@ -491,7 +491,7 @@ const ZipcodeType = new GraphQLObjectType({
 	}
 });
 const phaseworkOrderType = new GraphQLObjectType({
-	name: 'phaseworkOrder',
+	name: 'PhaseWorkOrder',
 	description: 'This is for phaseworkOrder Table',
 	fields: () => {
 		return {
@@ -505,7 +505,7 @@ const phaseworkOrderType = new GraphQLObjectType({
 			users: {
 				type: UsersType,
 				resolve(me) {
-					return me.UsersWO();
+					return me.getUsersWO();
 				}
 			},
 		};
