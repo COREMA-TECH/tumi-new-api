@@ -16,7 +16,7 @@ const phaseworkOrderQuery = {
 
         },
         resolve(root, args) {
-            return Db.models.phaseworkOrder.findAll({ where: args });
+            return Db.models.PhaseWorkOrder.findAll({ where: args });
         }
     }
 };

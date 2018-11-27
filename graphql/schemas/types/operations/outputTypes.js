@@ -22,6 +22,7 @@ import {
 	WorkOrderPositionFields,
 	ZipcodeFields,
 	phaseworkOrderFields,
+	usersFields,
 } from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
@@ -294,6 +295,17 @@ const CatalogItemType = new GraphQLObjectType({
 	}
 });
 
+const UsersType = new GraphQLObjectType({
+	name: 'UsersType',
+	description: 'This is for Users',
+	fields: {
+		Id: {
+			type: GraphQLInt
+		},
+		...usersFields
+	}
+});
+
 const ApplicantDisclosureType = new GraphQLObjectType({
 	name: 'ApplicantDisclosureType',
 	description: 'This is for Application Disclosures',
@@ -490,6 +502,12 @@ const phaseworkOrderType = new GraphQLObjectType({
 					return me.getCatalogPhaseWO();
 				}
 			},
+			users: {
+				type: UsersType,
+				resolve(me) {
+					return me.UsersWO();
+				}
+			},
 		};
 	}
 });
@@ -505,6 +523,7 @@ export {
 	ApplicantIdealJobType,
 	PositionRateType,
 	CatalogItemType,
+	UsersType,
 	ApplicantDisclosureType,
 	ApplicantConductCodeType,
 	ApplicantBackgroundCheckType,

@@ -20,6 +20,7 @@ import ZipcodeModel from './zipcodeTable';
 import phaseworkOrderModel from './phaseworkOrderTable';
 
 import CatalogItemModel from './catalogItemTable';
+import UsersModel from './UsersTable';
 
 import { Conn } from '../../Configuration/Configuration';
 
@@ -43,6 +44,7 @@ const WorkOrderPosition = WorkOrderPositionModel.createModel(Conn);
 const ElectronicAddress = ElectronicAddressModel.createModel(Conn);
 const CompanyPreference = CompanyPreferencesModel.createModel(Conn);
 const CatalogItem = CatalogItemModel.createModel(Conn);
+const Users = UsersModel.createModel(Conn);
 const PositionRate = PositionRateModel.createModel(Conn);
 
 const phaseworkOrder = phaseworkOrderModel.createModel(Conn);
@@ -96,6 +98,11 @@ phaseworkOrder.belongsTo(CatalogItem, {
 	as: 'CatalogPhaseWO'
 });
 
+phaseworkOrder.belongsTo(Users, {
+	foreignKey: 'userId',
+	as: 'UsersWO'
+});
+
 Application.belongsTo(CatalogItem, {
 	foreignKey: 'positionApplyingFor',
 	as: 'CatalogPosition'
@@ -118,16 +125,16 @@ Conn.authenticate()
 		console.error('Unable to connect to the database:', err);
 	});
 
-//Conn.sync({ force: false }).then(() => {
-/*make sure you use false here. otherwise the total data 
-	from the impported models will get deleted and new tables will be created*/
-// now we cann do all db operations on customers table.
-//Ex:- lets read all data
-//	console.log('Applications Inside Connection', Applications.findAll);
-//	Applications.findAll().then((applications) => {
-//console.log('Applications are:-', applications);
-//	});
-//	console.log('sync is completed');
-//});
+Conn.sync({ force: false }).then(() => {
+	/*make sure you use false here. otherwise the total data 
+		from the impported models will get deleted and new tables will be created*/
+	// now we cann do all db operations on customers table.
+	//Ex:- lets read all data
+	//	console.log('Applications Inside Connection', Applications.findAll);
+	//	Applications.findAll().then((applications) => {
+	//console.log('Applications are:-', applications);
+	//	});
+	//	console.log('sync is completed');
+});
 
 export default Conn;

@@ -19,6 +19,7 @@ import WorkOrderFields from './workOrderFields';
 import WorkOrderPositionFields from './workOrderPositionFields';
 import ZipcodeFields from './zipcodeFields';
 import phaseworkOrderFields from './phaseworkOrderFields';
+import usersFields from './usersFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -41,5 +42,6 @@ export {
 	WorkOrderFields,
 	WorkOrderPositionFields,
 	ZipcodeFields,
-	phaseworkOrderFields
+	phaseworkOrderFields,
+	usersFields,
 };
