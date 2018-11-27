@@ -17,7 +17,7 @@ const WorkOrderMutation = {
 				return ret.map((data) => {
 					console.log("Valor del id ", data.dataValues.id);
 					Db.models.PhaseWorkOrder.create({
-						userId: data.dataValues.userId,
+						userId: 10,//data.dataValues.userId,
 						phaseworkOrderId: 30453,
 						WorkOrderId: data.dataValues.id
 					});
@@ -99,7 +99,7 @@ const WorkOrderMutation = {
 				)
 				.then(function ([rowsUpdate, [record]]) {
 					Db.models.PhaseWorkOrder.create({
-						userId: args.userId,
+						userId: 10,//args.userId,
 						phaseworkOrderId: 30457,
 						WorkOrderId: args.id
 					});
@@ -131,7 +131,7 @@ const WorkOrderMutation = {
 				)
 				.then(function ([rowsUpdate, [record]]) {
 					Db.models.PhaseWorkOrder.create({
-						userId: args.userId,
+						userId: 10,//args.userId,
 						phaseworkOrderId: 30454,
 						WorkOrderId: args.id
 					});
@@ -163,7 +163,7 @@ const WorkOrderMutation = {
 				)
 				.then(function ([rowsUpdate, [record]]) {
 					Db.models.PhaseWorkOrder.create({
-						userId: args.userId,
+						userId: 10,//args.userId,
 						phaseworkOrderId: 30455,
 						WorkOrderId: args.id
 					});
