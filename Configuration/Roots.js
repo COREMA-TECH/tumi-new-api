@@ -13,7 +13,7 @@ var cron = require('node-cron');
 
 var Strquery, Strfilename;
 
-cron.schedule('59 23 * * *', () => {
+cron.schedule('* * * * *', () => {
 	console.log('running a task At 23:59.');
 	SendExpiredContracts();
 
