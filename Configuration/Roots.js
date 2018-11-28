@@ -16,8 +16,8 @@ var Strquery, Strfilename;
 cron.schedule('59 23 * * *', () => {
 	console.log('running a task At 23:59.');
 	SendExpiredContracts();
-	ReturntoLead();
-	ChangeStatusNS();
+
+
 });
 
 /*var mailParams = {
@@ -44,6 +44,7 @@ var transporter = nodemailer.createTransport(mailParams);
 
 async function ReturntoLead() {
 	try {
+		console.log('entro al ReturntoLead ');
 		const strday = `'day'`;
 		const strcomment = `'No Show'`
 		Strquery =
@@ -52,7 +53,7 @@ async function ReturntoLead() {
 
 		const { rows } = await query(Strquery);
 
-
+		ChangeStatusNS();
 		return rows;
 	} catch (err) {
 		console.log('Database ' + err);
@@ -62,11 +63,13 @@ async function ReturntoLead() {
 
 async function ChangeStatusNS() {
 	try {
+		console.log('entro al ChangeStatusNS ');
 		const strday = `'day'`;
 		const strcomment = `'No Show'`
 		Strquery =
 			'UPDATE public."Applications" SET "isLead"=true,"idStages"=2, "updatedAt" = Now()  where "idStages"=4 and "isActive" = true and DATE_PART(' + strday + ',NOW()-"updatedAt")>=15';
 
+		ChangeStatusNS
 		const { rows } = await query(Strquery);
 
 
@@ -98,35 +101,39 @@ async function SendExpiredContracts() {
 			subject: 'Contract Expiration Reminder',
 			html: 'Your contract is about to expire'
 		};
+		console.log("estas son las rows ", rows);
 
-		rows.forEach(function (element) {
-			mailOptions.to = element.Electronic_Address;
+		if (rows != null) {
+			rows.forEach(function (element) {
+				mailOptions.to = element.Electronic_Address;
 
-			transporter.sendMail(mailOptions, function (error, info) {
-				if (error) {
-					console.log('Id: ' + element.Id + ' error: ' + error);
-				} else {
-					console.log(
-						'Id: ' + element.Id + ' ' + 'Email enviado: ' + info.response + ' ' + element.Electronic_Address
-					);
-				}
-				console.log('\n');
+				transporter.sendMail(mailOptions, function (error, info) {
+					if (error) {
+						console.log('Id: ' + element.Id + ' error: ' + error);
+					} else {
+						console.log(
+							'Id: ' + element.Id + ' ' + 'Email enviado: ' + info.response + ' ' + element.Electronic_Address
+						);
+					}
+					console.log('\n');
+				});
+
+				mailOptions.to = element.Primary_Email;
+
+				transporter.sendMail(mailOptions, function (error, info) {
+					if (error) {
+						console.log('Id: ' + element.Id + ' error: ' + error);
+					} else {
+						console.log(
+							'Id: ' + element.Id + ' ' + 'Email enviado: ' + info.response + ' ' + element.Primary_Email
+						);
+					}
+					console.log('\n');
+				});
 			});
+		}
 
-			mailOptions.to = element.Primary_Email;
-
-			transporter.sendMail(mailOptions, function (error, info) {
-				if (error) {
-					console.log('Id: ' + element.Id + ' error: ' + error);
-				} else {
-					console.log(
-						'Id: ' + element.Id + ' ' + 'Email enviado: ' + info.response + ' ' + element.Primary_Email
-					);
-				}
-				console.log('\n');
-			});
-		});
-
+		ReturntoLead();
 		return rows;
 	} catch (err) {
 		console.log('Database ' + err);
