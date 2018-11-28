@@ -16,6 +16,8 @@ var Strquery, Strfilename;
 cron.schedule('59 23 * * *', () => {
 	console.log('running a task At 23:59.');
 	SendExpiredContracts();
+	ReturntoLead();
+	ChangeStatusNS();
 });
 
 /*var mailParams = {
@@ -39,6 +41,41 @@ let mailParams = {
 };
 
 var transporter = nodemailer.createTransport(mailParams);
+
+async function ReturntoLead() {
+	try {
+		const strday = `'day'`;
+		const strcomment = `'No Show'`
+		Strquery =
+			'INSERT INTO public."ApplicationPhases"("UserId", "ReasonId", "Comment", "createdAt", "updatedAt", "ApplicationId", "StageId")' +
+			'SELECT 10,30458,' + strcomment + ',now(),now(),id,2 FROM public."Applications" where "idStages"=4 and "isActive" = true and DATE_PART(' + strday + ',NOW()-"updatedAt")>=15';
+
+		const { rows } = await query(Strquery);
+
+
+		return rows;
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
+	}
+}
+
+async function ChangeStatusNS() {
+	try {
+		const strday = `'day'`;
+		const strcomment = `'No Show'`
+		Strquery =
+			'UPDATE public."Applications" SET "isLead"=true,"idStages"=2, "updatedAt" = Now()  where "idStages"=4 and "isActive" = true and DATE_PART(' + strday + ',NOW()-"updatedAt")>=15';
+
+		const { rows } = await query(Strquery);
+
+
+		return rows;
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
+	}
+}
 
 async function SendExpiredContracts() {
 	try {
