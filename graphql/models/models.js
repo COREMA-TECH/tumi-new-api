@@ -60,6 +60,8 @@ ApplicationPhases.belongsTo(CatalogItem, {
 });
 ApplicationPhases.belongsTo(Application);
 
+Application.hasMany(ApplicationPhases);
+
 Application.hasMany(ApplicantLanguage);
 Application.hasMany(ApplicantEducation);
 Application.hasMany(ApplicantPreviousEmployment);

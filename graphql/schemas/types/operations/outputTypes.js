@@ -125,6 +125,12 @@ const ApplicationType = new GraphQLObjectType({
 				resolve(application) {
 					return application.getApplicantDocuments();
 				}
+			},
+			applicationPhases: {
+				type: new GraphQLList(ApplicationPhaseType),
+				resolve(application) {
+					return application.getApplicantDocuments();
+				}
 			}
 		};
 	}
@@ -496,13 +502,19 @@ const ApplicationPhaseType = new GraphQLObjectType({
 	name: 'ApplicationPhase',
 	description: 'This is for ApplicationPhase Table',
 	fields: () => {
-		
+
 		return {
 			id: {
 				type: GraphQLInt,
 				description: 'table id'
 			},
-			...ApplicationPhaseFields
+			...ApplicationPhaseFields,
+			application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			}
 		};
 	}
 });
