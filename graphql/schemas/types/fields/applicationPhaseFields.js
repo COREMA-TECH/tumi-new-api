@@ -18,6 +18,9 @@ const ApplicationPhaseFields = {
     },
     Comment: {
         type: (GraphQLString),
+    },
+    createdAt: {
+        type: (GraphQLString)
     }
 };
 

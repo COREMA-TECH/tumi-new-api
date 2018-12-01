@@ -15,7 +15,7 @@ const WorkOrderMutation = {
 		resolve(source, args) {
 			return Db.models.WorkOrder.bulkCreate(args.workOrder, { returning: true }).then((ret) => {
 				return ret.map((data) => {
-					console.log("Valor del id ", data.dataValues.id);
+					//	console.log("Valor del id ", data.dataValues.id);
 					Db.models.PhaseWorkOrder.create({
 						userId: 10,//data.dataValues.userId,
 						phaseworkOrderId: 30453,

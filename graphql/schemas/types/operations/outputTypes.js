@@ -129,7 +129,7 @@ const ApplicationType = new GraphQLObjectType({
 			applicationPhases: {
 				type: new GraphQLList(ApplicationPhaseType),
 				resolve(application) {
-					return application.getApplicantDocuments();
+					return application.getApplicationPhases();
 				}
 			}
 		};

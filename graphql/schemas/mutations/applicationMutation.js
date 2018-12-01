@@ -44,7 +44,8 @@ const ApplicationMutation = {
 				idLanguage: args.application.idLanguage,
 				signature: args.application.signature,
 				isLead: args.application.isLead,
-				isActive: args.application.isActive
+				isActive: args.application.isActive,
+				Urlphoto: args.application.Urlphoto
 			});
 		}
 	},
@@ -88,11 +89,38 @@ const ApplicationMutation = {
 						idLanguage: args.application.idLanguage,
 						signature: args.application.signature,
 						isLead: args.application.isLead,
-						isActive: args.application.isActive
+						isActive: args.application.isActive,
+						Urlphoto: args.application.Urlphoto
 					},
 					{
 						where: {
 							id: args.application.id
+						},
+						returning: true
+					}
+				)
+				.then(function ([rowsUpdate, [record]]) {
+					if (record) return record.dataValues;
+					else return null;
+				});
+		}
+	},
+	updateUrlphoto: {
+		type: ApplicationType,
+		description: 'Update Application Form Info',
+		args: {
+			id: { type: GraphQLInt },
+			Urlphoto: { type: GraphQLString }
+		},
+		resolve(source, args) {
+			return Db.models.Applications
+				.update(
+					{
+						Urlphoto: args.Urlphoto
+					},
+					{
+						where: {
+							id: args.id
 						},
 						returning: true
 					}

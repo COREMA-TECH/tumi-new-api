@@ -141,6 +141,10 @@ export default {
 				type: Sequelize.BOOLEAN,
 				allowNull: true,
 				defaultValue: true
+			},
+			Urlphoto: {
+				type: Sequelize.STRING(500),
+				allowNull: true
 			}
 		});
 	}

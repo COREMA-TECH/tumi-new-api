@@ -14,6 +14,14 @@ export default {
                 type: Sequelize.INTEGER,
                 allowNull: true
             },
+            ApplicationId: {
+                type: Sequelize.INTEGER,
+                allowNull: true
+            },
+            WorkOrderId: {
+                type: Sequelize.INTEGER,
+                allowNull: true
+            },
             Comment: {
                 type: Sequelize.STRING,
                 allowNull: true

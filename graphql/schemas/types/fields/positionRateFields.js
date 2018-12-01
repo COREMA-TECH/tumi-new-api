@@ -9,6 +9,9 @@ const PositionRateFields = {
 	Id_Department: {
 		type: GraphQLInt
 	},
+	Id_positionApplying: {
+		type: GraphQLInt
+	},
 	Position: {
 		type: GraphQLString
 	},

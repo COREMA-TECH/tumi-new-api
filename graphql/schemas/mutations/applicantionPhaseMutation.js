@@ -6,6 +6,7 @@ import { GraphQLList, GraphQLInt } from 'graphql';
 import Db from '../../models/models';
 
 const ApplicantPhaseMutation = {
+
 	addApplicantPhase: {
 		type: new GraphQLList(ApplicationPhaseType),
 		description: 'Add Application Phase to database',
@@ -13,6 +14,8 @@ const ApplicantPhaseMutation = {
 			applicationPhases: { type: new GraphQLList(inputApplicantPhase) }
 		},
 		resolve(source, args) {
+			//console.log("Entro aqui");
+			//console.log("argumentos ", args.applicationPhases);
 			return Db.models.ApplicationPhases.bulkCreate(args.applicationPhases, { returning: true }).then((ret) => {
 				return ret.map((data) => {
 					return data.dataValues;
@@ -31,12 +34,12 @@ const ApplicantPhaseMutation = {
 				.update(
 					{
 						UserId: args.applicationPhases.UserId,
-                        ReasonId: args.applicationPhases.ReasonId,
-                        ApplicationId: args.applicationPhases.ApplicationId,
+						ReasonId: args.applicationPhases.ReasonId,
+						ApplicationId: args.applicationPhases.ApplicationId,
 						Comment: args.applicationPhases.Comment,
 						StageId: args.applicationPhases.StagedId,
 						WorkOrderId: args.applicationPhases.WorkOrderId,
-					},{
+					}, {
 						where: {
 							id: args.workOrder.id
 						},

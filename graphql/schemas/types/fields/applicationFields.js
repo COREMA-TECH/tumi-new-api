@@ -139,6 +139,10 @@ const ApplicationFields = {
 	isActive: {
 		type: GraphQLBoolean,
 		description: 'Applicant Status'
+	},
+	Urlphoto: {
+		type: GraphQLString,
+		description: 'Applicant Url photo'
 	}
 };
 

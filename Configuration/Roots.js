@@ -13,7 +13,7 @@ var cron = require('node-cron');
 
 var Strquery, Strfilename;
 
-cron.schedule('* * * * *', () => {
+cron.schedule('59 23 * * *', () => {
 	console.log('running a task At 23:59.');
 	SendExpiredContracts();
 
@@ -44,7 +44,7 @@ var transporter = nodemailer.createTransport(mailParams);
 
 async function ReturntoLead() {
 	try {
-		console.log('entro al ReturntoLead ');
+
 		const strday = `'day'`;
 		const strcomment = `'No Show'`
 		Strquery =
@@ -185,7 +185,7 @@ async function getCompanies(args) {
 			',"IsActive") and "Id" = coalesce(' +
 			strparam2 +
 			',"Id") order by "Name"';
-		console.log('query de companies ', Strquery);
+		//	console.log('query de companies ', Strquery);
 
 		const { rows } = await query(Strquery);
 		return rows;
@@ -1494,10 +1494,12 @@ async function InsPosition(args) {
 	try {
 		if (args) {
 			Strquery =
-				'INSERT INTO public."PositionRate" ("Id_Entity", "Id_Department", "Position", "Bill_Rate", "Pay_Rate", "Shift","IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated","Id_Contract") VALUES(' +
+				'INSERT INTO public."PositionRate" ("Id_Entity", "Id_Department","Id_positionApplying" ,"Position", "Bill_Rate", "Pay_Rate", "Shift","IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated","Id_Contract") VALUES(' +
 				args.input.Id_Entity +
 				',' +
 				args.input.Id_Department +
+				',' +
+				args.input.Id_positionApplying +
 				',' +
 				args.input.Position +
 				',' +
@@ -1518,7 +1520,7 @@ async function InsPosition(args) {
 				args.input.Date_Updated +
 				',' +
 				args.input.Id_Contract +
-				') RETURNING "Id", "Id_Entity", "Id_Department", "Position", "Bill_Rate", "Pay_Rate", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated"';
+				') RETURNING "Id", "Id_Entity", "Id_Department","Id_positionApplying" ,"Position", "Bill_Rate", "Pay_Rate", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated"';
 		} else {
 			console.log('Error Insert Data');
 		}
@@ -1539,6 +1541,8 @@ async function UpdPosition(args) {
 				args.input.Id_Entity +
 				',"Id_Department"=' +
 				args.input.Id_Department +
+				',"Id_positionApplying"=' +
+				args.input.Id_positionApplying +
 				',"Position"=' +
 				args.input.Position +
 				', "Bill_Rate"=' +

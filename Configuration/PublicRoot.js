@@ -32,7 +32,7 @@ async function getValid_Users(args, { SECRET }) {
 			' and "Password" = ' +
 			args.Password;
 
-		console.log(Strquery);
+		//console.log(Strquery);
 
 		const { rows } = await query(Strquery);
 
@@ -52,7 +52,7 @@ async function getValid_Users(args, { SECRET }) {
 			return { Token: token, ...user };
 		}
 	} catch (err) {
-		console.log('Database ' + err);
+		//console.log('Database ' + err);
 		return err;
 	}
 }

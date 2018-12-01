@@ -18,6 +18,7 @@ input iParamEA {
 	Id : Int
 	Id_Entity : Int
 	Id_Department : Int
+	Id_positionApplying : Int
 	Position: String
 	Bill_Rate: Float
 	Pay_Rate: Float
@@ -615,6 +616,7 @@ input iParamEA {
 		Id_Contract: Int
 		Id_Entity : Int
 		Id_Department : Int
+		Id_positionApplying : Int
 		Position: String
 		Bill_Rate: Float
 		Pay_Rate: Float

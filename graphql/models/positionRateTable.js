@@ -23,6 +23,10 @@ export default {
 					type: Sequelize.INTEGER,
 					allowNull: true
 				},
+				Id_positionApplying: {
+					type: Sequelize.INTEGER,
+					allowNull: true
+				},
 				Position: {
 					type: Sequelize.STRING(60),
 					allowNull: false

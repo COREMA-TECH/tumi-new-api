@@ -31,7 +31,10 @@ const ApplicationPhaseQuery = {
             },
         },
         resolve(root, args) {
-            return Db.models.ApplicationPhases.findAll({ where: args });
+            return Db.models.ApplicationPhases.findAll({
+                where: args,
+                order: [['createdAt', 'DESC']]
+            });
         }
     }
 };
