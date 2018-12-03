@@ -21,6 +21,10 @@ const ApplicationQuery = {
 			},
 			isLead: {
 				type: GraphQLBoolean
+			},
+			positionApplyingFor:
+			{
+				type: GraphQLInt
 			}
 		},
 		resolve(root, args) {
