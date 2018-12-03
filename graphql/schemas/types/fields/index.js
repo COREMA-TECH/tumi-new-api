@@ -21,6 +21,7 @@ import ZipcodeFields from './zipcodeFields';
 import ApplicationPhaseFields from './applicationPhaseFields';
 import phaseworkOrderFields from './phaseworkOrderFields';
 import usersFields from './usersFields';
+import HolidayFields from './holidayFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -46,4 +47,5 @@ export {
 	ApplicationPhaseFields,
 	phaseworkOrderFields,
 	usersFields,
+	HolidayFields
 };

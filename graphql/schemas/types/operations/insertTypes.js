@@ -20,6 +20,7 @@ import {
 	WorkOrderPositionFields,
 	ApplicationPhaseFields,
 	PhaseWorkOrderfields,
+	HolidayFields
 } from '../fields';
 const inputInsertApplication = new GraphQLInputObjectType({
 	name: 'inputInsertApplication',
@@ -177,6 +178,15 @@ const inputInsertPhaseWorkOrder = new GraphQLInputObjectType({
 		...PhaseWorkOrderfields
 	}
 });
+const inputInsertHoliday = new GraphQLInputObjectType({
+	name: 'inputInsertHoliday',
+	description: 'Inputs for Holiday Insert',
+
+	fields: {
+		...HolidayFields
+	}
+});
+
 export {
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
@@ -197,4 +207,5 @@ export {
 	iParamEA,
 	inputApplicantPhase,
 	inputInsertPhaseWorkOrder,
+	inputInsertHoliday
 };

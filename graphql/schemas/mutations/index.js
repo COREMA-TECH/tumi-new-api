@@ -16,6 +16,8 @@ import ApplicantDocumentMutation from './applicantDocumentMutation';
 import WorkOrderMutation from './workOrderMutation';
 import WorkOrderPositionMutation from './workOrderPositionMutation';
 import ApplicationPhaseMutation from './applicantionPhaseMutation';
+import HolidayMutation from './holidayMutation';
+
 export {
 	ApplicantLanguageMutation,
 	ApplicationMutation,
@@ -34,5 +36,6 @@ export {
 	ApplicantDocumentMutation,
 	WorkOrderMutation,
 	WorkOrderPositionMutation,
-	ApplicationPhaseMutation
+	ApplicationPhaseMutation,
+	HolidayMutation
 };

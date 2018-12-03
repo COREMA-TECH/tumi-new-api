@@ -18,6 +18,7 @@ import {
 	WorkOrderPositionFields,
 	ApplicationPhaseFields,
 	PhaseWorkOrderfields,
+	HolidayFields
 } from '../fields';
 
 const inputUpdateApplication = new GraphQLInputObjectType({
@@ -243,6 +244,19 @@ const inputUpdatePhaseWorkOrder = new GraphQLInputObjectType({
 	}
 });
 
+const inputUpdateHoliday = new GraphQLInputObjectType({
+	name: 'inputUpdateHoliday',
+	description: 'Inputs for Holiday Update',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...HolidayFields
+	}
+});
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -262,4 +276,5 @@ export {
 	inputUpdateWorkOrderPosition,
 	inputUpdateApplicantPhase,
 	inputUpdatePhaseWorkOrder,
+	inputUpdateHoliday
 };

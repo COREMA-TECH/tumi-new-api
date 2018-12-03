@@ -24,6 +24,7 @@ import {
 	ApplicationPhaseFields,
 	phaseworkOrderFields,
 	usersFields,
+	HolidayFields
 } from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
@@ -541,6 +542,19 @@ const phaseworkOrderType = new GraphQLObjectType({
 	}
 });
 
+const HolidayType = new GraphQLObjectType({
+	name: 'Holiday',
+	description: 'This is for Holiday Table',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...HolidayFields
+		}
+	}
+});
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -565,4 +579,5 @@ export {
 	ZipcodeType,
 	ApplicationPhaseType,
 	phaseworkOrderType,
+	HolidayType
 };

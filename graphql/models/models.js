@@ -19,6 +19,7 @@ import WorkOrderPositionModel from './workOrderPositionTable';
 import ZipcodeModel from './zipcodeTable';
 import ApplicationPhasesModel from './applicationPhases';
 import phaseworkOrderModel from './phaseworkOrderTable';
+import HolidayModel from './holidayTable';
 
 import CatalogItemModel from './catalogItemTable';
 import UsersModel from './UsersTable';
@@ -47,6 +48,7 @@ const CompanyPreference = CompanyPreferencesModel.createModel(Conn);
 const CatalogItem = CatalogItemModel.createModel(Conn);
 const Users = UsersModel.createModel(Conn);
 const PositionRate = PositionRateModel.createModel(Conn);
+const Holiday = HolidayModel.createModel(Conn);
 
 const phaseworkOrder = phaseworkOrderModel.createModel(Conn);
 
@@ -135,16 +137,16 @@ Conn.authenticate()
 		console.error('Unable to connect to the database:', err);
 	});
 
-//Conn.sync({ force: false }).then(() => {
-/*make sure you use false here. otherwise the total data 
-	from the impported models will get deleted and new tables will be created*/
-// now we cann do all db operations on customers table.
-//Ex:- lets read all data
-//	console.log('Applications Inside Connection', Applications.findAll);
-//	Applications.findAll().then((applications) => {
-//console.log('Applications are:-', applications);
-//	});
-//	console.log('sync is completed');
-//});
+Conn.sync({ force: false }).then(() => {
+	/*make sure you use false here. otherwise the total data 
+		from the impported models will get deleted and new tables will be created*/
+	// now we cann do all db operations on customers table.
+	//Ex:- lets read all data
+	//	console.log('Applications Inside Connection', Applications.findAll);
+	//	Applications.findAll().then((applications) => {
+	//console.log('Applications are:-', applications);
+	//	});
+	//	console.log('sync is completed');
+});
 
 export default Conn;
