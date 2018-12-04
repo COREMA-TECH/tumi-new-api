@@ -23,6 +23,7 @@ input iParamEA {
 	Bill_Rate: Float
 	Pay_Rate: Float
 	Shift: String
+	Comment: String
 	IsActive : Int
 	User_Created : Int
 	User_Updated : Int
@@ -621,6 +622,7 @@ input iParamEA {
 		Bill_Rate: Float
 		Pay_Rate: Float
 		Shift: String
+		Comment: String
 		IsActive : Int
 		User_Created : Int
 		User_Updated : Int
