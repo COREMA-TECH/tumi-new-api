@@ -1494,7 +1494,7 @@ async function InsPosition(args) {
 	try {
 		if (args) {
 			Strquery =
-				'INSERT INTO public."PositionRate" ("Id_Entity", "Id_Department","Id_positionApplying" ,"Position", "Bill_Rate", "Pay_Rate", "Shift","IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated","Id_Contract") VALUES(' +
+				'INSERT INTO public."PositionRate" ("Id_Entity", "Id_Department","Id_positionApplying" ,"Position", "Bill_Rate", "Pay_Rate", "Shift","IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated","Id_Contract","Comment") VALUES(' +
 				args.input.Id_Entity +
 				',' +
 				args.input.Id_Department +
@@ -1520,6 +1520,8 @@ async function InsPosition(args) {
 				args.input.Date_Updated +
 				',' +
 				args.input.Id_Contract +
+				',' +
+				args.input.Comment +
 				') RETURNING "Id", "Id_Entity", "Id_Department","Id_positionApplying" ,"Position", "Bill_Rate", "Pay_Rate", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated"';
 		} else {
 			console.log('Error Insert Data');
@@ -1563,6 +1565,8 @@ async function UpdPosition(args) {
 				args.input.Date_Updated +
 				', "Id_Contract"=' +
 				args.input.Id_Contract +
+				', "Comment"=' +
+				args.input.Comment +
 				' where "Id"=' +
 				args.input.Id;
 		} else {
