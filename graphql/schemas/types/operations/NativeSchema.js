@@ -330,6 +330,7 @@ input iParamEA {
 		updcatalog(input: iParamCatalog): Catalog
 		delcatalog(Id:Int,IsActive:Int): Catalog
 		
+		
 		inscatalogitem(input: iParamCI): CatalogItem
 		updcatalogitem(input: iParamCI): CatalogItem
 		delcatalogitem(Id:Int,IsActive:Int): CatalogItem
