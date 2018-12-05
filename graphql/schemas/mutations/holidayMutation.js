@@ -13,7 +13,7 @@ const HolidayMutation = {
             holidays: { type: new GraphQLList(inputInsertHoliday) }
         },
         resolve(source, args) {
-            return Db.models.Holiday.bulkCreate(args.documents, { returning: true }).then((output) => {
+            return Db.models.Holiday.bulkCreate(args.holidays, { returning: true }).then((output) => {
                 return output.map((element) => {
                     return element.dataValues;
                 });
