@@ -49,7 +49,9 @@ const WorkOrderMutation = {
 						needExperience: args.workOrder.needExperience,
 						needEnglish: args.workOrder.needEnglish,
 						PositionRateId: args.workOrder.PositionRateId,
-						comment: args.workOrder.comment
+						comment: args.workOrder.comment,
+						EspecialComment: args.workOrder.EspecialComment
+
 					},
 					{
 						where: {

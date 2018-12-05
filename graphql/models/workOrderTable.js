@@ -49,6 +49,10 @@ export default {
 			comment: {
 				type: Sequelize.STRING,
 				allowNull: false
+			},
+			EspecialComment: {
+				type: Sequelize.STRING,
+				allowNull: true
 			}
 		});
 	}

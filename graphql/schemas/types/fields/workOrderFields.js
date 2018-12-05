@@ -40,7 +40,11 @@ const WorkOrderFields = {
 	},
 	comment: {
 		type: new GraphQLNonNull(GraphQLString)
+	},
+	EspecialComment: {
+		type: new GraphQLNonNull(GraphQLString)
 	}
+
 };
 
 export default WorkOrderFields;

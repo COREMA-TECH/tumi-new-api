@@ -23,6 +23,7 @@ input iParamEA {
 	Bill_Rate: Float
 	Pay_Rate: Float
 	Shift: String
+	Comment: String
 	IsActive : Int
 	User_Created : Int
 	User_Updated : Int
@@ -329,6 +330,7 @@ input iParamEA {
 		updcatalog(input: iParamCatalog): Catalog
 		delcatalog(Id:Int,IsActive:Int): Catalog
 		
+		
 		inscatalogitem(input: iParamCI): CatalogItem
 		updcatalogitem(input: iParamCI): CatalogItem
 		delcatalogitem(Id:Int,IsActive:Int): CatalogItem
@@ -621,6 +623,7 @@ input iParamEA {
 		Bill_Rate: Float
 		Pay_Rate: Float
 		Shift: String
+		Comment: String
 		IsActive : Int
 		User_Created : Int
 		User_Updated : Int
