@@ -28,19 +28,19 @@ export default {
                 allowNull: false
             },
             weekDays: {
-                type: Sequelize.STRING(500),
+                type: Sequelize.TEXT('long'),
                 allowNull: false
             },
             weekNumbers: {
-                type: Sequelize.STRING(500),
+                type: Sequelize.TEXT('long'),
                 allowNull: false
             },
             months: {
-                type: Sequelize.STRING(500),
+                type: Sequelize.TEXT('long'),
                 allowNull: false
             },
             calendarDays: {
-                type: Sequelize.STRING(500),
+                type: Sequelize.TEXT('long'),
                 allowNull: false
             }
         });
