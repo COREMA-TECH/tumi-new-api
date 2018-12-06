@@ -88,7 +88,7 @@ ApplicantDocument.belongsTo(Application);
 ApplicantDocument.belongsTo(CatalogItem);
 
 ApplicantIdealJob.belongsTo(CatalogItem, {
-	foreignKey: 'positionApplyingFor',
+	foreignKey: 'idPosition',
 	as: 'CatalogPosition'
 });
 
