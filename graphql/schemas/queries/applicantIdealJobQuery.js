@@ -9,6 +9,12 @@ const ApplicantIdealJobQuery = {
 		args: {
 			id: {
 				type: GraphQLInt
+			},
+			ApplicationId: {
+				type: GraphQLInt
+			},
+			idPosition: {
+				type: GraphQLInt
 			}
 		},
 		resolve(root, args) {
