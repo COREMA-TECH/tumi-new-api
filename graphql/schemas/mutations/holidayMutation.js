@@ -37,7 +37,7 @@ const HolidayMutation = {
                         CompanyId: args.holiday.CompanyId,
                         anually: args.holiday.anually,
                         weekDays: args.holiday.weekDays,
-                        weekNumbers: args.holiday.weekNumber,
+                        weekNumbers: args.holiday.weekNumbers,
                         months: args.holiday.months,
                         calendarDays: args.holiday.calendarDays
                     },
