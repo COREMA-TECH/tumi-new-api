@@ -6,6 +6,10 @@ export default {
 			description: {
 				type: Sequelize.STRING(100),
 				allowNull: false
+			},
+			idPosition: {
+				type: Sequelize.INTEGER,
+				allowNull: true
 			}
 		});
 	}

@@ -87,6 +87,11 @@ ApplicantIdealJob.belongsTo(Application);
 ApplicantDocument.belongsTo(Application);
 ApplicantDocument.belongsTo(CatalogItem);
 
+ApplicantIdealJob.belongsTo(CatalogItem, {
+	foreignKey: 'positionApplyingFor',
+	as: 'CatalogPosition'
+});
+
 ApplicantDisclosure.belongsTo(Application);
 ApplicantConductCode.belongsTo(Application);
 ApplicantBackgroundCheck.belongsTo(Application);

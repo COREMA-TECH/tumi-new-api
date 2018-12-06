@@ -251,6 +251,12 @@ const ApplicantIdealJobType = new GraphQLObjectType({
 				resolve(appIdealJob) {
 					return appIdealJob.getApplication();
 				}
+			},
+			position: {
+				type: CatalogItemType,
+				resolve(application) {
+					return application.getCatalogPosition();
+				}
 			}
 		};
 	}

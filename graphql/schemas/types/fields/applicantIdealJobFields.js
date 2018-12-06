@@ -8,6 +8,10 @@ const ApplicantIdealJobFields = {
 	description: {
 		type: new GraphQLNonNull(GraphQLString),
 		description: 'Ideal Job Description'
+	},
+	idPosition: {
+		type: GraphQLInt,
+		description: 'Position Id'
 	}
 };
 

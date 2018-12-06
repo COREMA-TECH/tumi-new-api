@@ -33,7 +33,8 @@ const ApplicantIdealJobMutation = {
 				.update(
 					{
 						ApplicationId: args.applicantIdealJob.ApplicationId,
-						description: args.applicantIdealJob.description
+						description: args.applicantIdealJob.description,
+						idPosition: args.applicantIdealJob.idPosition
 					},
 					{
 						where: {
@@ -42,7 +43,7 @@ const ApplicantIdealJobMutation = {
 						returning: true
 					}
 				)
-				.then(function([ rowsUpdate, [ record ] ]) {
+				.then(function ([rowsUpdate, [record]]) {
 					if (record) return record.dataValues;
 					else return null;
 				});
