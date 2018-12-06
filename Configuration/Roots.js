@@ -16,8 +16,6 @@ var Strquery, Strfilename;
 cron.schedule('59 23 * * *', () => {
 	console.log('running a task At 23:59.');
 	SendExpiredContracts();
-
-
 });
 
 /*var mailParams = {
