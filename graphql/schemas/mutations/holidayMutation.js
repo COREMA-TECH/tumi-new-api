@@ -43,7 +43,7 @@ const HolidayMutation = {
                     },
                     {
                         where: {
-                            id: args.document.id
+                            id: args.holiday.id
                         },
                         returning: true
                     }
