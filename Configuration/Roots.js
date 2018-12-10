@@ -1214,7 +1214,7 @@ async function DelCatalog(args) {
 async function getCatalogItem(args) {
 	try {
 		var strparam1, strparam2, strparam3, strparam4, strparam5;
-
+		var strParam5Query;
 		console.log(args);
 		if (args.IsActive >= 0) {
 			strparam1 = args.IsActive;
@@ -1243,8 +1243,10 @@ async function getCatalogItem(args) {
 		//if (args.Value > 0) {
 		if (typeof args.Value !== 'undefined') {
 			strparam5 = args.Value;
+			strParam5Query = ' and "Value" =  ' + strparam5 + ' OR "Value" IS NULL ';
 		} else {
 			strparam5 = null;
+			strParam5Query = '';
 			/*if (args.Value != '' || args.Value != null) {
 				strparam5 = args.Value;
 			} else {
@@ -1261,9 +1263,7 @@ async function getCatalogItem(args) {
 			strparam2 +
 			',"Id") and "Id_Parent" = coalesce(' +
 			strparam4 +
-			',"Id_Parent") and "Value" = coalesce(' +
-			strparam5 +
-			',"Value") order by "Id_Catalog","DisplayLabel"';
+			',"Id_Parent") ' + strParam5Query + 'order by "Id_Catalog", "DisplayLabel"';
 		console.log(Strquery);
 
 		const { rows } = await query(Strquery);

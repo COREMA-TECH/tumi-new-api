@@ -27,6 +27,7 @@ const HolidayMutation = {
             holiday: { type: inputUpdateHoliday }
         },
         resolve(source, args) {
+
             return Db.models.Holiday
                 .update(
                     {
