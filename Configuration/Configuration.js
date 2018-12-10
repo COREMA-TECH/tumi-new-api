@@ -9,6 +9,7 @@ const host = 'coremagroup.cb4kqp6rssxe.us-east-2.rds.amazonaws.com';
 const URLWeb = 'https://corema-dev-env.herokuapp.com';
 const port = 5432;
 
+
 const ConfigPg = {
 	user: user, // env var: PGUSER
 	database: database, // env var: PGDATABASE
