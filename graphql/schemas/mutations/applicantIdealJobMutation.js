@@ -62,10 +62,10 @@ const ApplicantIdealJobMutation = {
 		}
 	},
 	recreateIdealJobs: {
-		type: GraphQLInt,
+		type: new GraphQLList(ApplicantIdealJobType),
 		description: 'Delete ideal job record from database',
 		args: {
-			ApplicationId: { type: GraphQLList(GraphQLInt) },
+			ApplicationId: { type: GraphQLInt },
 			applicantIdealJob: { type: new GraphQLList(inputInsertApplicantIdealJob) }
 		},
 		resolve(source, args) {
