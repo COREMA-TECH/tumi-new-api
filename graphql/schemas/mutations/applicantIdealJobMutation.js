@@ -60,6 +60,27 @@ const ApplicantIdealJobMutation = {
 				return deleted;
 			});
 		}
+	},
+	recreateIdealJobs: {
+		type: GraphQLInt,
+		description: 'Delete ideal job record from database',
+		args: {
+			ApplicationId: { type: GraphQLList(GraphQLInt) },
+			applicantIdealJob: { type: new GraphQLList(inputInsertApplicantIdealJob) }
+		},
+		resolve(source, args) {
+			return Db.models.ApplicantIdealJobs.destroy({ where: { ApplicationId: args.ApplicationId } })
+				.then((deleted) => {
+					return Db.models.ApplicantIdealJobs
+						.bulkCreate(args.applicantIdealJob, { returning: true })
+						.then((applicantIdealJob) => {
+							return applicantIdealJob.map((appIdJob) => {
+								return appIdJob.dataValues;
+							});
+						});
+
+				});
+		}
 	}
 };
 
