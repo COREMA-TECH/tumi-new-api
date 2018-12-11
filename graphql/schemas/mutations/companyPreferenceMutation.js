@@ -38,7 +38,8 @@ const CompanyPreferenceMutation = {
 						EntityId: args.companyPreference.EntityId,
 						FiscalMonth1: args.companyPreference.FiscalMonth1,
 						FiscalMonth2: args.companyPreference.FiscalMonth2,
-						Timezone: args.companyPreference.Timezone
+						Timezone: args.companyPreference.Timezone,
+						time: args.companyPreference.time
 					},
 					{
 						where: {

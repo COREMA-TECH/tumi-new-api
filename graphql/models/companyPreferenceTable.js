@@ -30,6 +30,10 @@ export default {
 			Timezone: {
 				type: Sequelize.INTEGER,
 				allowNull: true
+			},
+			time: {
+				type: Sequelize.STRING,
+				allowNull: true
 			}
 		});
 	}

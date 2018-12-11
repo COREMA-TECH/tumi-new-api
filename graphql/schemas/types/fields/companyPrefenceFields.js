@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLNonNull, GraphQLBoolean, GraphQLFloat } from 'graphql';
+import { GraphQLInt, GraphQLNonNull, GraphQLBoolean, GraphQLFloat, GraphQLString } from 'graphql';
 
 const CompanyPreferenceFields = {
 	charge: {
@@ -28,6 +28,10 @@ const CompanyPreferenceFields = {
 	Timezone: {
 		type: GraphQLInt,
 		description: 'Time Zone'
+	},
+	time: {
+		type: GraphQLString,
+		description: 'Time'
 	}
 };
 
