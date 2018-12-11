@@ -150,7 +150,7 @@ input iParamEA {
 		Location: String
 		Location01: String
 		Rate: Float
-		Zipcode: Int
+		Zipcode: String
 		Fax: String
 		Phone_Prefix: String
 		Phone_Number:String
@@ -457,7 +457,7 @@ input iParamEA {
 			Location: String
 			Location01: String
 			Rate: Float
-			Zipcode: Int
+			Zipcode: String
 			Fax: String
 			Phone_Prefix: String
 			Phone_Number:String
