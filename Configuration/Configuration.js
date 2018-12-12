@@ -21,6 +21,7 @@ const ConfigPg = {
 	idleTimeoutMillis: 900000 // how long a client is allowed to remain idle before being closed
 };
 
+
 const Conn = new Sequelize(database, user, password, {
 	dialect: 'postgres',
 	host: host,
