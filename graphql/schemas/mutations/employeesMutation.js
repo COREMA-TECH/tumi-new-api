@@ -1,7 +1,7 @@
 import { inputInsertEmployees } from '../types/operations/insertTypes';
 import { inputUpdateEmployees } from '../types/operations/updateTypes';
 import { EmployeesType } from '../types/operations/outputTypes';
-import { GraphQLList, GraphQLInt } from 'graphql';
+import { GraphQLList, GraphQLInt, GraphQLBoolean } from 'graphql';
 
 import Db from '../../models/models';
 
@@ -30,14 +30,14 @@ const EmployeesMutation = {
 			return Db.models.Employees
 				.update(
 					{
-						firstName: args.employees.IdEntity,
-						lastName: args.employees.IdEntity,
-						electronicAddress: args.employees.IdEntity,
-						mobileNumber: args.employees.IdEntity,
-						idRole: args.employees.IdEntity,
-						isActive: args.employees.IdEntity,
-						userCreated: args.employees.IdEntity,
-						userUpdated: args.employees.IdEntity
+						firstName: args.employees.firstName,
+						lastName: args.employees.lastName,
+						electronicAddress: args.employees.electronicAddress,
+						mobileNumber: args.employees.mobileNumber,
+						idRole: args.employees.idRole,
+						isActive: args.employees.isActive,
+						userCreated: args.employees.userCreated,
+						userUpdated: args.employees.userUpdated
 					},
 					{
 						where: {
@@ -53,17 +53,18 @@ const EmployeesMutation = {
 		}
 	},
 	deleteEmployees: {
-		type: GraphQLInt,
+		type: EmployeesType,
 		description: 'Delete employees record from database',
 		args: {
 			//id: { type: GraphQLList(GraphQLInt) }
 			id: { type: GraphQLInt }
 		},
 		resolve(source, args) {
+			console.log("argumentos ", args)
 			return Db.models.Employees
 				.update(
 					{
-						isActive: 0
+						isActive: false
 					},
 					{
 						where: {

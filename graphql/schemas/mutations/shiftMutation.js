@@ -53,7 +53,7 @@ const ShiftMutation = {
 		}
 	},
 	deleteShift: {
-		type: GraphQLInt,
+		type: ShiftType,
 		description: 'Delete Shift record from database',
 		args: {
 			//id: { type: GraphQLList(GraphQLInt) }
@@ -63,7 +63,7 @@ const ShiftMutation = {
 			return Db.models.Shift
 				.update(
 					{
-						isActive: 0
+						isActive: false
 					},
 					{
 						where: {
