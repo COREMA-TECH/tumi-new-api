@@ -6,11 +6,11 @@ export default {
 			'ShiftDetails',
 			{
 				startDate: {
-					type: Sequelize.STRING,
+					type: Sequelize.DATE,
 					allowNull: true
 				},
 				endDate: {
-					type: Sequelize.STRING,
+					type: Sequelize.DATE,
 					allowNull: true
 				},
 				startTime: {

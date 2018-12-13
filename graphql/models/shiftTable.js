@@ -5,10 +5,6 @@ export default {
 		return Conn.define(
 			'Shift',
 			{
-				positionId: {
-					type: Sequelize.INTEGER,
-					allowNull: false
-				},
 				entityId: {
 					type: Sequelize.INTEGER,
 					allowNull: true
