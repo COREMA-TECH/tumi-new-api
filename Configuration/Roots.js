@@ -2300,12 +2300,26 @@ async function CreateContracts(args) {
 		}
 		//fs.destroy(Strfilename);
 		console.log('Outside create pdf');
-		pdf.create(content, options).toFile(Strfilename, function (err, res) {
+		/*pdf.create(content, options).toFile(Strfilename, function (err, res) {
 			console.log('toFile');
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 			console.log('PDF Created');
-		});
+		});*/
+
+		pdfshift
+			.convert(content, {
+				landscape: false,
+				use_print: true,
+				margin: { left: '72px', right: '72px', top: '72px', bottom: '72px' }
+			})
+			.then(function (binary_file) {
+				fs.writeFile(Strfilename, binary_file, 'binary', function () { });
+			})
+			.catch(function ({ message, code, response, errors = null }) { });
+
+
+
 
 		while (true) {
 			try {
