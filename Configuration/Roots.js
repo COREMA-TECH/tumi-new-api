@@ -2200,7 +2200,7 @@ async function getContracts(args) {
 }
 
 //Method Connect to Send Contracts by emails
-/*async function CreateContracts(args) {
+async function CreateContracts(args) {
 	try {
 		console.log(args.IsActive);
 		var strparam1, strparam2, strparam3;
@@ -2231,8 +2231,10 @@ async function getContracts(args) {
 		var content = rows[0].Contract_Terms;
 		Strfilename = './public/Contract_' + rows[0].Contract_Name.trim() + '.pdf';
 
-		console.log(fs.existsSync(Strfilename));
-		//	if (fs.existsSync(Strfilename) == false) {
+		if (fs.existsSync(Strfilename)) {
+			fs.unlinkSync(Strfilename);
+		}
+
 		pdfshift
 			.convert(content, {
 				landscape: false,
@@ -2245,14 +2247,23 @@ async function getContracts(args) {
 			.catch(function ({ message, code, response, errors = null }) { });
 		//	}
 
+		/*	while (true) {
+				try {
+					fs.accessSync(Strfilename, fs.W_OK);
+					return rows;
+				} catch (e) {
+					console.log('Sigue escribiendo', e);
+				}
+			}*/
+
 		return rows;
 	} catch (err) {
 		console.log('Database ' + err);
 		return err;
 	}
-}*/
+}
 
-async function CreateContracts(args) {
+/*async function CreateContracts(args) {
 	try {
 		var strparam1, strparam2;
 
@@ -2295,17 +2306,17 @@ async function CreateContracts(args) {
 				left: '0.98in'
 			}
 		};
-		if (fs.existsSync(Strfilename)) {
+		/*if (fs.existsSync(Strfilename)) {
 			fs.unlinkSync(Strfilename);
 		}
 		//fs.destroy(Strfilename);
 		console.log('Outside create pdf');
-		/*pdf.create(content, options).toFile(Strfilename, function (err, res) {
+		pdf.create(content, options).toFile(Strfilename, function (err, res) {
 			console.log('toFile');
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 			console.log('PDF Created');
-		});*/
+		});
 
 		pdfshift
 			.convert(content, {
@@ -2317,8 +2328,6 @@ async function CreateContracts(args) {
 				fs.writeFile(Strfilename, binary_file, 'binary', function () { });
 			})
 			.catch(function ({ message, code, response, errors = null }) { });
-
-
 
 
 		while (true) {
@@ -2333,7 +2342,9 @@ async function CreateContracts(args) {
 		console.log('Database ' + err);
 		return err;
 	}
-}
+}*/
+
+
 //Method Connect to Send Contracts by emails
 async function SendContracts(args) {
 	try {
