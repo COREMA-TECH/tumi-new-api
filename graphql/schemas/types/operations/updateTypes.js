@@ -18,7 +18,9 @@ import {
 	WorkOrderPositionFields,
 	ApplicationPhaseFields,
 	PhaseWorkOrderfields,
-	HolidayFields
+	HolidayFields,
+	EmployeesFields,
+	ShiftFields
 } from '../fields';
 
 const inputUpdateApplication = new GraphQLInputObjectType({
@@ -257,6 +259,32 @@ const inputUpdateHoliday = new GraphQLInputObjectType({
 	}
 });
 
+const inputUpdateEmployees = new GraphQLInputObjectType({
+	name: 'inputUpdateEmployees',
+	description: 'Inputs for Employees Update',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...EmployeesFields
+	}
+});
+
+const inputUpdateShift = new GraphQLInputObjectType({
+	name: 'inputUpdateShift',
+	description: 'Inputs for Shift Update',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...ShiftFields
+	}
+});
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -276,5 +304,7 @@ export {
 	inputUpdateWorkOrderPosition,
 	inputUpdateApplicantPhase,
 	inputUpdatePhaseWorkOrder,
-	inputUpdateHoliday
+	inputUpdateHoliday,
+	inputUpdateEmployees,
+	inputUpdateShift
 };

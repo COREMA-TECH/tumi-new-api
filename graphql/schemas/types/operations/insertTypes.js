@@ -20,8 +20,20 @@ import {
 	WorkOrderPositionFields,
 	ApplicationPhaseFields,
 	PhaseWorkOrderfields,
-	HolidayFields
+	HolidayFields,
+	EmployeesFields,
+	ShiftFields
 } from '../fields';
+
+const inputInsertEmployees = new GraphQLInputObjectType({
+	name: 'inputInsertEmployees',
+	description: 'Inputs for employees Mutation',
+
+	fields: {
+		...EmployeesFields
+	}
+});
+
 const inputInsertApplication = new GraphQLInputObjectType({
 	name: 'inputInsertApplication',
 	description: 'Inputs for Application Mutation',
@@ -187,6 +199,15 @@ const inputInsertHoliday = new GraphQLInputObjectType({
 	}
 });
 
+const inputInsertShift = new GraphQLInputObjectType({
+	name: 'inputInsertShift',
+	description: 'Inputs for Shift Insert',
+
+	fields: {
+		...ShiftFields
+	}
+});
+
 export {
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
@@ -207,5 +228,7 @@ export {
 	iParamEA,
 	inputApplicantPhase,
 	inputInsertPhaseWorkOrder,
-	inputInsertHoliday
+	inputInsertHoliday,
+	inputInsertEmployees,
+	inputInsertShift
 };

@@ -18,6 +18,8 @@ import WorkOrderPositionQuery from './workOrderPositionQuery';
 import ZipcodeQuery from './zipcodeQuery';
 import ApplicationPhaseQuery from './applicationPhases';
 import HolidayQuery from './holidayQuery';
+import EmployeesQuery from './employeesQuery';
+import ShiftQuery from './shiftQuery';
 
 import phaseworkOrderQuery from './phaseworkOrderQuery';
 export {
@@ -41,5 +43,7 @@ export {
 	ZipcodeQuery,
 	ApplicationPhaseQuery,
 	phaseworkOrderQuery,
-	HolidayQuery
+	HolidayQuery,
+	EmployeesQuery,
+	ShiftQuery
 };

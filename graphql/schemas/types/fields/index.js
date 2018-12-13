@@ -22,6 +22,8 @@ import ApplicationPhaseFields from './applicationPhaseFields';
 import phaseworkOrderFields from './phaseworkOrderFields';
 import usersFields from './usersFields';
 import HolidayFields from './holidayFields';
+import EmployeesFields from './employeesFields';
+import ShiftFields from './shiftFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -47,5 +49,7 @@ export {
 	ApplicationPhaseFields,
 	phaseworkOrderFields,
 	usersFields,
-	HolidayFields
+	HolidayFields,
+	EmployeesFields,
+	ShiftFields
 };

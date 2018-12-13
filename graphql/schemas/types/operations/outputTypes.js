@@ -24,7 +24,9 @@ import {
 	ApplicationPhaseFields,
 	phaseworkOrderFields,
 	usersFields,
-	HolidayFields
+	HolidayFields,
+	EmployeesFields,
+	ShiftFields
 } from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
@@ -561,6 +563,35 @@ const HolidayType = new GraphQLObjectType({
 		}
 	}
 });
+
+const EmployeesType = new GraphQLObjectType({
+	name: 'Employees',
+	description: 'This is for Employees Table',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...EmployeesFields
+		}
+	}
+});
+
+const ShiftType = new GraphQLObjectType({
+	name: 'Shift',
+	description: 'This is for Shift Table',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...ShiftFields
+		}
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -585,5 +616,7 @@ export {
 	ZipcodeType,
 	ApplicationPhaseType,
 	phaseworkOrderType,
-	HolidayType
+	HolidayType,
+	EmployeesType,
+	ShiftType
 };
