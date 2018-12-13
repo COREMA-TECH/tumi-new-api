@@ -3,26 +3,22 @@ import Sequelize from 'sequelize';
 export default {
 	createModel(Conn) {
 		return Conn.define(
-			'Shift',
+			'ShiftDetails',
 			{
-				positionId: {
-					type: Sequelize.INTEGER,
-					allowNull: false
-				},
-				entityId: {
-					type: Sequelize.INTEGER,
-					allowNull: true
-				},
-				title: {
+				startDate: {
 					type: Sequelize.STRING,
 					allowNull: true
 				},
-				color: {
+				endDate: {
 					type: Sequelize.STRING,
 					allowNull: true
 				},
-				status: {
-					type: Sequelize.INTEGER,
+				startTime: {
+					type: Sequelize.STRING,
+					allowNull: true
+				},
+				endTime: {
+					type: Sequelize.STRING,
 					allowNull: true
 				}
 			}
