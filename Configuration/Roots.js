@@ -3015,7 +3015,7 @@ async function CreatePdfContracts(args) {
 }
 
 //Method Connect to Send Contracts by emails
-/*async function CreateDocumentsPDF(args) {
+async function CreateDocumentsPDF(args) {
 	try {
 		var content = args.contentHTML;
 		Strfilename = './public/Documents/' + args.Name.trim() + '.pdf';
@@ -3023,7 +3023,7 @@ async function CreatePdfContracts(args) {
 		console.log(fs.existsSync(Strfilename));
 		if (fs.existsSync(Strfilename) == false) {
 
-		
+
 			pdfshift
 				.convert(content, {
 					landscape: false,
@@ -3041,8 +3041,8 @@ async function CreatePdfContracts(args) {
 		console.log('Database ' + err);
 		return err;
 	}
-}*/
-
+}
+/*
 async function CreateDocumentsPDF(args) {
 	try {
 		var content = args.contentHTML;
@@ -3071,7 +3071,7 @@ async function CreateDocumentsPDF(args) {
 		console.log('Database ' + err);
 		return err;
 	}
-}
+}*/
 
 async function SendEmail(args) {
 	try {
