@@ -38,7 +38,7 @@ export default {
 					allowNull: true
 				},
 				isActive: {
-					type: GraphQLBoolean,
+					type: Sequelize.BOOLEAN,
 					allowNull: true
 				}
 			}
