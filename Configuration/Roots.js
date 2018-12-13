@@ -2300,12 +2300,26 @@ async function CreateContracts(args) {
 		}
 		//fs.destroy(Strfilename);
 		console.log('Outside create pdf');
-		pdf.create(content, options).toFile(Strfilename, function (err, res) {
+		/*pdf.create(content, options).toFile(Strfilename, function (err, res) {
 			console.log('toFile');
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 			console.log('PDF Created');
-		});
+		});*/
+
+		pdfshift
+			.convert(content, {
+				landscape: false,
+				use_print: true,
+				margin: { left: '72px', right: '72px', top: '72px', bottom: '72px' }
+			})
+			.then(function (binary_file) {
+				fs.writeFile(Strfilename, binary_file, 'binary', function () { });
+			})
+			.catch(function ({ message, code, response, errors = null }) { });
+
+
+
 
 		while (true) {
 			try {
@@ -3015,7 +3029,7 @@ async function CreatePdfContracts(args) {
 }
 
 //Method Connect to Send Contracts by emails
-/*async function CreateDocumentsPDF(args) {
+async function CreateDocumentsPDF(args) {
 	try {
 		var content = args.contentHTML;
 		Strfilename = './public/Documents/' + args.Name.trim() + '.pdf';
@@ -3023,7 +3037,7 @@ async function CreatePdfContracts(args) {
 		console.log(fs.existsSync(Strfilename));
 		if (fs.existsSync(Strfilename) == false) {
 
-		
+
 			pdfshift
 				.convert(content, {
 					landscape: false,
@@ -3041,8 +3055,8 @@ async function CreatePdfContracts(args) {
 		console.log('Database ' + err);
 		return err;
 	}
-}*/
-
+}
+/*
 async function CreateDocumentsPDF(args) {
 	try {
 		var content = args.contentHTML;
@@ -3071,7 +3085,7 @@ async function CreateDocumentsPDF(args) {
 		console.log('Database ' + err);
 		return err;
 	}
-}
+}*/
 
 async function SendEmail(args) {
 	try {
