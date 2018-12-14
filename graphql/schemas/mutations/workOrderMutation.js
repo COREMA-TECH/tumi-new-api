@@ -70,7 +70,7 @@ const WorkOrderMutation = {
 		type: GraphQLInt,
 		description: 'Delete workorder record from database',
 		args: {
-			id: { type: GraphQLList(GraphQLInt) }
+			id: { type: GraphQLInt }
 		},
 		resolve(source, args) {
 			return Db.models.WorkOrder.destroy({ where: { id: args.id } }).then((deleted) => {
