@@ -14,6 +14,10 @@ export default {
 				type: Sequelize.INTEGER,
 				allowNull: true
 			},
+			PositionRateId: {
+				type: Sequelize.INTEGER,
+				allowNull: true
+			},
 			date: {
 				type: Sequelize.DATE,
 				allowNull: false
