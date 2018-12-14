@@ -1,13 +1,13 @@
 import Sequelize from 'sequelize';
 
 const user = 'corema';
-const database = 'Tumi_Cert';
-//const database = 'Tumi_Dev';
+//const database = 'Tumi_Cert';
+const database = 'Tumi_Dev';
 const password = 'S0l040.246.';
 const host = 'coremagroup.cb4kqp6rssxe.us-east-2.rds.amazonaws.com';
 //const host = 'localhost';
-const URLWeb = 'http://ec2-52-14-244-20.us-east-2.compute.amazonaws.com:3000';
-//const URLWeb = 'https://corema-dev-env.herokuapp.com';
+//const URLWeb = 'http://ec2-52-14-244-20.us-east-2.compute.amazonaws.com:3000';
+const URLWeb = 'https://corema-dev-env.herokuapp.com';
 const port = 5432;
 
 
