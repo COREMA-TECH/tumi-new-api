@@ -1,4 +1,4 @@
-import { GraphQLList, GraphQLString } from 'graphql';
+import { GraphQLList, GraphQLString, GraphQLBoolean, GraphQLInt } from 'graphql';
 import { EmployeesType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
@@ -11,7 +11,7 @@ const EmployeesQuery = {
                 type: GraphQLInt
             },
             isActive: {
-                type: GraphQLInt
+                type: GraphQLBoolean
             }
         },
         resolve(root, args) {
