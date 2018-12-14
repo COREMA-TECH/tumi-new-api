@@ -7,8 +7,11 @@ const EmployeesQuery = {
         type: new GraphQLList(EmployeesType),
         description: 'List employees records',
         args: {
-            Employees: {
-                type: GraphQLString
+            id: {
+                type: GraphQLInt
+            },
+            isActive: {
+                type: GraphQLInt
             }
         },
         resolve(root, args) {

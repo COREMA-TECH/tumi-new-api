@@ -36,13 +36,13 @@ const WorkOrderFields = {
 		type: new GraphQLNonNull(GraphQLBoolean)
 	},
 	PositionRateId: {
-		type: new GraphQLNonNull(GraphQLInt)
+		type: GraphQLInt
 	},
 	comment: {
 		type: new GraphQLNonNull(GraphQLString)
 	},
 	EspecialComment: {
-		type: new GraphQLNonNull(GraphQLString)
+		type: GraphQLString
 	}
 
 };
