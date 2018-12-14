@@ -66,7 +66,7 @@ const WorkOrderMutation = {
 				});
 		}
 	},
-	/*deleteWorkOrder: {
+	deleteWorkOrder: {
 		type: GraphQLInt,
 		description: 'Delete workorder record from database',
 		args: {
@@ -77,8 +77,8 @@ const WorkOrderMutation = {
 				return deleted;
 			});
 		}
-	},*/
-	deleteWorkOrder: {
+	},
+	/*deleteWorkOrder: {
 		type: GraphQLInt,
 		description: 'Delete workorder record from database',
 		args: {
@@ -110,7 +110,7 @@ const WorkOrderMutation = {
 					else return null;
 				});
 		}
-	},
+	},*/
 	convertToOpening: {
 		type: WorkOrderType,
 		description: 'Convert WorkOrder to Opening',
