@@ -241,7 +241,7 @@ async function getBusinessCompanies(args) {
 				strparam1 +
 				',"IsActive") and "Id" = coalesce(' +
 				strparam2 +
-				',"Id") and "Id_Parent" <> 99999 order by "Name"';
+				',"Id") and "Id_Parent" not in (99999,0) order by "Name"';
 
 		}
 		else {
