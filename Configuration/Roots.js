@@ -491,6 +491,25 @@ async function DelBusinessCompanies(args) {
 		}
 
 		const { rows } = await query(Strquery);
+
+		DelBusinessCompaniesWithParent(args);
+		return rows;
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
+	}
+}
+
+async function DelBusinessCompaniesWithParent(args) {
+	try {
+		if (args) {
+			Strquery = 'UPDATE public."BusinessCompany" SET "Id_Parent"= 99999 where "Id_Parent"=' + args.Id;
+			console.log(Strquery);
+		} else {
+			console.log('Error Update Data');
+		}
+
+		const { rows } = await query(Strquery);
 		return rows;
 	} catch (err) {
 		console.log('Database ' + err);
