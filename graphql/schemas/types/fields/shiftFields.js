@@ -1,32 +1,16 @@
 import { GraphQLInt, GraphQLString, GraphQLBoolean, GraphQLNonNull } from 'graphql';
 const shiftFields = {
-	idWorkOrder: {
+	entityId: {
 		type: GraphQLInt
 	},
-	idPosition: {
+	title: {
+		type: GraphQLString
+	},
+	color: {
+		type: GraphQLString
+	},
+	status: {
 		type: GraphQLInt
-	},
-	idEntity: {
-		type: GraphQLInt
-	},
-	titleShift: {
-		type: GraphQLString
-	},
-	startDate: {
-		type: GraphQLString
-	},
-	endDate: {
-		type: GraphQLString
-	},
-	startTime: {
-		type: GraphQLString
-	},
-	endTime: {
-		type: GraphQLString
-	},
-	isActive: {
-		type: GraphQLBoolean
 	}
-
 };
 export default shiftFields;

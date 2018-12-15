@@ -27,11 +27,14 @@ import ShiftDetailModel from './shiftDetailsTable';
 import ShiftDetailEmployeesModel from './ShiftDetailEmployeesTable';
 import ShiftWorkOrderModel from './shiftWorkOrderTable';
 
+import BusinessCompanyModel from './businessCompanyTable';
 
 import CatalogItemModel from './catalogItemTable';
 import UsersModel from './UsersTable';
 
 import { Conn } from '../../Configuration/Configuration';
+import { worker } from 'cluster';
+import shiftWorkOrder from './shiftWorkOrderTable';
 
 const Application = ApplicationModel.createModel(Conn);
 const ApplicantLanguage = ApplicantLanaguageModel.createModel(Conn);
@@ -57,6 +60,8 @@ const PositionRate = PositionRateModel.createModel(Conn);
 const Holiday = HolidayModel.createModel(Conn);
 
 const phaseworkOrder = phaseworkOrderModel.createModel(Conn);
+
+const BusinessCompany = BusinessCompanyModel.createModel(Conn)
 
 const Zipcode = ZipcodeModel.createModel(Conn);
 Zipcode.removeAttribute('id');
@@ -124,6 +129,20 @@ WorkOrderPosition.belongsTo(PositionRate);
 WorkOrder.hasMany(phaseworkOrder);
 phaseworkOrder.belongsTo(WorkOrder);
 
+//BusinessCompany.hasMany(WorkOrder);
+/*WorkOrder.belongsTo(BusinessCompany, {
+	foreignKey: 'IdEntity',
+	as: 'BusinessCompanyWO'
+});*/
+
+//BusinessCompany.hasMany(WorkOrder);
+//BusinessCompany.belongsTo(WorkOrder);
+WorkOrder.belongsTo(BusinessCompany, {
+	foreignKey: 'IdEntity',
+	as: 'BusinessCompanyWO'
+});
+
+
 phaseworkOrder.belongsTo(CatalogItem, {
 	foreignKey: 'phaseworkOrderId',
 	as: 'CatalogPhaseWO'
@@ -152,9 +171,16 @@ Shift.belongsTo(CatalogItem, {
 	foreignKey: 'idPosition',
 	as: 'CatalogPosition'
 });
+
 Shift.hasMany(ShiftDetail);
 ShiftDetailEmployees.belongsTo(ShiftDetail);
 Shift.hasMany(ShiftWorkOrder);
+
+Employees.hasMany(ShiftDetailEmployees);
+//shiftWorkOrder.hasMany(Shift);
+
+//BusinessCompany.hasMany(WorkOrder);
+
 
 
 Conn.authenticate()

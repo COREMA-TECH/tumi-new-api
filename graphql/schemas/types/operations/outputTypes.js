@@ -26,7 +26,8 @@ import {
 	usersFields,
 	HolidayFields,
 	EmployeesFields,
-	ShiftFields
+	ShiftFields,
+	BusinessCompanyFields
 } from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
@@ -466,7 +467,14 @@ const WorkOrderType = new GraphQLObjectType({
 				resolve(me) {
 					return me.getphaseworkOrder();
 				}
+			},
+			BusinessCompany: {
+				type: BusinessCompanyType,
+				resolve(me) {
+					return me.getBusinessCompanyWO();
+				}
 			}
+
 		};
 	}
 });
@@ -550,6 +558,20 @@ const phaseworkOrderType = new GraphQLObjectType({
 	}
 });
 
+
+const BusinessCompanyType = new GraphQLObjectType({
+	name: 'BusinessCompany',
+	description: 'This is for BusinessCompany Table',
+	fields: () => {
+		return {
+			Id: {
+				type: GraphQLInt
+			},
+			...BusinessCompanyFields
+		}
+	}
+});
+
 const HolidayType = new GraphQLObjectType({
 	name: 'Holiday',
 	description: 'This is for Holiday Table',
@@ -618,5 +640,6 @@ export {
 	phaseworkOrderType,
 	HolidayType,
 	EmployeesType,
-	ShiftType
+	ShiftType,
+	BusinessCompanyType
 };

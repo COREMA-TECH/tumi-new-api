@@ -188,7 +188,7 @@ export default {
 				freezeTableName: true,
 				timestamps: false,
 				// define the table's name
-				tableName: 'PositionRate'
+				tableName: 'BusinessCompany'
 			}
 		);
 	}
