@@ -27,7 +27,8 @@ import {
 	HolidayFields,
 	EmployeesFields,
 	ShiftFields,
-	BusinessCompanyFields
+	BusinessCompanyFields,
+	ShiftDetailFields
 } from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
@@ -614,6 +615,20 @@ const ShiftType = new GraphQLObjectType({
 	}
 });
 
+const ShiftDetailType = new GraphQLObjectType({
+	name: 'ShiftDetail',
+	description: 'This is for Shift Table',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...ShiftDetailFields
+		}
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -641,5 +656,6 @@ export {
 	HolidayType,
 	EmployeesType,
 	ShiftType,
-	BusinessCompanyType
+	BusinessCompanyType,
+	ShiftDetailType
 };

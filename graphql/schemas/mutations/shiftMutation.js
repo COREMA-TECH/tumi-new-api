@@ -30,14 +30,11 @@ const ShiftMutation = {
 			return Db.models.Shift
 				.update(
 					{
-						idWorkOrder: args.Shift.idWorkOrder,
-						idPosition: args.Shift.idPosition,
-						idEntity: args.Shift.idEntity,
-						titleShift: args.Shift.titleShift,
-						startDate: args.Shift.endDate,
-						endDate: args.Shift.endDate,
-						startTime: args.Shift.startTime,
-						endTime: args.Shift.endTime
+						entityId: args.Shift.entityId,
+						title: args.Shift.title,
+						color: args.Shift.color,
+						status: args.Shift.status,
+						idPosition: args.Shift.idPosition
 					},
 					{
 						where: {
@@ -63,7 +60,7 @@ const ShiftMutation = {
 			return Db.models.Shift
 				.update(
 					{
-						isActive: false
+						status: 0
 					},
 					{
 						where: {

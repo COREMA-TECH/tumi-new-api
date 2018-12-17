@@ -20,6 +20,7 @@ import ApplicationPhaseQuery from './applicationPhases';
 import HolidayQuery from './holidayQuery';
 import EmployeesQuery from './employeesQuery';
 import ShiftQuery from './shiftQuery';
+import ShiftDetailsQuery from './shiftDetailQuery';
 
 
 import phaseworkOrderQuery from './phaseworkOrderQuery';
@@ -46,5 +47,6 @@ export {
 	phaseworkOrderQuery,
 	HolidayQuery,
 	EmployeesQuery,
-	ShiftQuery
+	ShiftQuery,
+	ShiftDetailsQuery
 };

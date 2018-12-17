@@ -44,6 +44,7 @@ const WorkOrderMutation = {
 						status: args.workOrder.status,
 						quantity: args.workOrder.quantity,
 						shift: args.workOrder.shift,
+						endShift: args.workOrder.endShift,
 						startDate: args.workOrder.startDate,
 						endDate: args.workOrder.endDate,
 						needExperience: args.workOrder.needExperience,

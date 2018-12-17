@@ -22,7 +22,8 @@ import {
 	PhaseWorkOrderfields,
 	HolidayFields,
 	EmployeesFields,
-	ShiftFields
+	ShiftFields,
+	ShiftDetailFields
 } from '../fields';
 
 const inputInsertEmployees = new GraphQLInputObjectType({
@@ -208,6 +209,15 @@ const inputInsertShift = new GraphQLInputObjectType({
 	}
 });
 
+const inputInsertShiftDetail = new GraphQLInputObjectType({
+	name: 'inputInsertShiftDetail',
+	description: 'Inputs for Shift Details Insert',
+
+	fields: {
+		...ShiftDetailFields
+	}
+});
+
 export {
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
@@ -230,5 +240,7 @@ export {
 	inputInsertPhaseWorkOrder,
 	inputInsertHoliday,
 	inputInsertEmployees,
-	inputInsertShift
+	inputInsertShift,
+	inputInsertShiftDetail
+
 };
