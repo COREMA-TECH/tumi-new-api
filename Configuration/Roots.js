@@ -2251,7 +2251,7 @@ async function CreateContracts(args) {
 
 		var options = {
 			format: 'Letter',
-			font: 'Times New Roman',
+			font: 'Arial',
 			size: 12,
 			orientation: 'portrait',
 			zoomFactor: 1,
@@ -2271,6 +2271,18 @@ async function CreateContracts(args) {
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 			console.log('PDF Created');
 		});
+
+		/*	pdfshift
+				.convert(content, {
+					landscape: false,
+					use_print: true,
+					margin: { left: '72px', right: '72px', top: '72px', bottom: '72px' }
+				})
+				.then(function (binary_file) {
+					fs.writeFile(Strfilename, binary_file, 'binary', function () { });
+				})
+				.catch(function ({ message, code, response, errors = null }) { });
+	*/
 
 		while (true) {
 			try {
