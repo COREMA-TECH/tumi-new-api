@@ -34,6 +34,10 @@ export default {
 				type: Sequelize.STRING(1),
 				allowNull: false
 			},
+			endShift: {
+				type: Sequelize.STRING(1),
+				allowNull: false
+			},
 			startDate: {
 				type: Sequelize.DATE,
 				allowNull: false

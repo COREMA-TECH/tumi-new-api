@@ -40,6 +40,7 @@
 		"pdfshift": "^1.0.4",
 		"pg": "^7.4.3",
 		"pg-promise": "^8.4.5",
+		"phantomjs-prebuilt": "^2.1.13",
 		"sequelize": "^4.38.1",
 		"sudo": "^1.0.3"
 	},

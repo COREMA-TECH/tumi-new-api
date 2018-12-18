@@ -24,6 +24,8 @@ import usersFields from './usersFields';
 import HolidayFields from './holidayFields';
 import EmployeesFields from './employeesFields';
 import ShiftFields from './shiftFields';
+import ShiftDetailFields from './shiftDetailFields';
+
 import BusinessCompanyFields from './businessCompanyFields';
 
 
@@ -54,5 +56,6 @@ export {
 	HolidayFields,
 	EmployeesFields,
 	ShiftFields,
+	ShiftDetailFields,
 	BusinessCompanyFields
 };

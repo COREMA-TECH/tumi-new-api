@@ -23,7 +23,7 @@ import HolidayModel from './holidayTable';
 import EmployeesModel from './employeesTable';
 
 import ShiftModel from './shiftTable';
-import ShiftDetailModel from './shiftDetailsTable';
+import ShiftDetailModel from './shiftDetailTable';
 import ShiftDetailEmployeesModel from './ShiftDetailEmployeesTable';
 import ShiftWorkOrderModel from './shiftWorkOrderTable';
 

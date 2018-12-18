@@ -24,7 +24,8 @@ import {
 	ApplicationPhaseMutation,
 	HolidayMutation,
 	EmployeesMutation,
-	ShiftMutation
+	ShiftMutation,
+	ShiftDetailMutation
 } from './mutations';
 import {
 	ApplicationQuery,
@@ -49,7 +50,8 @@ import {
 	phaseworkOrderQuery,
 	HolidayQuery,
 	EmployeesQuery,
-	ShiftQuery
+	ShiftQuery,
+	ShiftDetailsQuery
 
 } from './queries';
 
@@ -79,7 +81,8 @@ const RootQuery = new GraphQLObjectType({
 		...phaseworkOrderQuery,
 		...HolidayQuery,
 		...EmployeesQuery,
-		...ShiftQuery
+		...ShiftQuery,
+		...ShiftDetailsQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({
@@ -107,6 +110,7 @@ const RootMutation = new GraphQLObjectType({
 		...HolidayMutation,
 		...EmployeesMutation,
 		...ShiftMutation,
+		...ShiftDetailMutation
 	}
 });
 

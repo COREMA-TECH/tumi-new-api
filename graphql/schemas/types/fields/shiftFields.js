@@ -11,6 +11,9 @@ const shiftFields = {
 	},
 	status: {
 		type: GraphQLInt
-	}
+	},
+	idPosition: {
+		type: GraphQLInt
+	},
 };
 export default shiftFields;
