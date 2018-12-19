@@ -2253,6 +2253,8 @@ async function CreateContracts(args) {
 			format: 'Letter',
 			font: 'Arial',
 			size: 12,
+			type: "pdf",             // allowed file types: png, jpeg, pdf
+			quality: "75",           // only used for types png & jpeg
 			orientation: 'portrait',
 			zoomFactor: 1,
 			border: {
@@ -2263,15 +2265,15 @@ async function CreateContracts(args) {
 			}
 		};
 
-		/*pdf.create(content, options).toFile(Strfilename, function (err, res) {
+		pdf.create(content, options).toFile(Strfilename, function (err, res) {
 			console.log('toFile');
 			if (err) return console.log(err);
 			console.log(res); // { filename: '/app/businesscard.pdf' }
 			console.log('PDF Created');
-		});*/
+		});
 
 
-		pdfshift
+		/*pdfshift
 			.convert(content, {
 				landscape: false,
 				use_print: true,
@@ -2282,22 +2284,16 @@ async function CreateContracts(args) {
 					console.log("this is my fucking file", event)
 				});
 			})
-			.catch(function ({ message, code, response, errors = null }) { });
+			.catch(function ({ message, code, response, errors = null }) { });*/
 
-		/*while (true) {
+		while (true) {
 			try {
-				fs.exists(Strfilename, function (exists) {
-					if (exists) {
-						return rows;
-					} else {
-						console.log("Sigue escribiendo");
-					}
-				});
-
+				fs.accessSync(Strfilename, fs.W_OK)
+				return rows;
 			} catch (e) {
 				console.log("Sigue escribiendo", e)
 			}
-		}*/
+		}
 		/*	while (true) {
 				try {
 					fs.accessSync(Strfilename, fs.W_OK)
