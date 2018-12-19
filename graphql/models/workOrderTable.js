@@ -31,11 +31,11 @@ export default {
 				allowNull: false
 			},
 			shift: {
-				type: Sequelize.STRING(1),
+				type: Sequelize.STRING,
 				allowNull: false
 			},
 			endShift: {
-				type: Sequelize.STRING(1),
+				type: Sequelize.STRING,
 				allowNull: true
 			},
 			startDate: {
