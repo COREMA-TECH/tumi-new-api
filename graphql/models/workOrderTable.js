@@ -36,7 +36,7 @@ export default {
 			},
 			endShift: {
 				type: Sequelize.STRING(1),
-				allowNull: false
+				allowNull: true
 			},
 			startDate: {
 				type: Sequelize.DATE,

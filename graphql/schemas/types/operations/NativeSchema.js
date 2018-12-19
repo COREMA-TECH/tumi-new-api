@@ -239,6 +239,7 @@ input iParamEA {
 			Id_Company: Int
 			Contract_Name: String
 			Contrat_Owner: String
+			IdManagement: Int
 			Id_Entity: Int
 			Id_User_Signed: Int
 			User_Signed_Title: String
@@ -353,6 +354,7 @@ input iParamEA {
 		updcontracstexhibit(Id:Int,Exhibit_B:String,Exhibit_C:String,Exhibit_D:String,Exhibit_E:String,Exhibit_F:String) : Contracts
 		updcontracstsignature(Id:Int,Signature:String,Signatory:String) : Contracts
 	}
+	
 	type Token{
 		Id: Int
 		Token:String
@@ -377,6 +379,7 @@ input iParamEA {
 			Token: String
 			Contract_Name: String
 			Contrat_Owner: String
+			IdManagement: Int
 			Id_Entity: Int
 			Id_User_Signed: Int
 			User_Signed_Title: String
