@@ -1,7 +1,8 @@
-import { inputInsertShiftDetail } from '../types/operations/insertTypes';
+import { inputInsertShiftDetail, inputInsertShift, inputInsertShiftDetailTransaction } from '../types/operations/insertTypes';
 import { inputUpdateShiftDetail } from '../types/operations/updateTypes';
 import { ShiftDetailType } from '../types/operations/outputTypes';
-import { GraphQLList, GraphQLInt } from 'graphql';
+import { GraphQLList, GraphQLInt, GraphQLString, GraphQLNonNull } from 'graphql';
+import GraphQLDate from 'graphql-date';
 
 import Db from '../../models/models';
 
@@ -61,6 +62,52 @@ const shiftDetailMutation = {
 			});
 		}
 	},
+	createShiftDetail: {
+		type: new GraphQLList(ShiftDetailType),
+		description: 'Insert Header and Detail for Shifts',
+		args: {
+			startDate: { type: new GraphQLNonNull(GraphQLDate) },
+			endDate: { type: new GraphQLNonNull(GraphQLDate) },
+			startHour: { type: new GraphQLNonNull(GraphQLString) },
+			endHour: { type: new GraphQLNonNull(GraphQLString) },
+			shift: { type: inputInsertShift },
+			employees: { type: new GraphQLList(GraphQLInt) }
+		},
+		resolve(source, args) {
+			return Db.transaction((t) => {
+				return Db.models.Shift.create(args.shift, { transaction: t }).then((ret) => {
+					var dates = []
+					var currentDate = new Date(args.startDate);
+					while (currentDate <= args.endDate) {
+						let newDate = new Date(currentDate)
+						dates.push({
+							startDate: newDate,
+							endDate: newDate,
+							startTime: args.startHour,
+							endTime: args.endHour,
+							ShiftId: ret.dataValues.id
+						});
+						currentDate.setDate(currentDate.getDate() + 1)
+					}
+
+					//Insert ShiftDetail records into database
+					return Db.models.ShiftDetail.bulkCreate(dates, { returning: true, transaction: t }).then((ret) => {
+						let newEmployees = [];
+						ret.map((data) => {
+							console.log()
+							newEmployees = args.employees.map(item => {
+								return { ShiftDetailId: data.id, EmployeeId: item }
+							})
+						});
+						return Db.models.ShiftDetailEmployees.bulkCreate(newEmployees, { returning: true, transaction: t }).then(ret => {
+							return ret.dataValues;
+						})
+					});
+				});
+			})
+
+		}
+	}
 };
 
 export default shiftDetailMutation;

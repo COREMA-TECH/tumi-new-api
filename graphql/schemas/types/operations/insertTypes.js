@@ -212,9 +212,17 @@ const inputInsertShift = new GraphQLInputObjectType({
 const inputInsertShiftDetail = new GraphQLInputObjectType({
 	name: 'inputInsertShiftDetail',
 	description: 'Inputs for Shift Details Insert',
+	fields: { ...ShiftDetailFields }
 
-	fields: {
-		...ShiftDetailFields
+});
+const inputInsertShiftDetailTransaction = new GraphQLInputObjectType({
+	name: 'inputInsertShiftDetailTransaction',
+	description: 'Inputs used to create Header/Detail for Shifts',
+
+	fields: () => {
+		let object = { ...ShiftDetailFields }
+		delete object.ShiftId;
+		return object;
 	}
 });
 
@@ -241,6 +249,7 @@ export {
 	inputInsertHoliday,
 	inputInsertEmployees,
 	inputInsertShift,
-	inputInsertShiftDetail
+	inputInsertShiftDetail,
+	inputInsertShiftDetailTransaction
 
 };
