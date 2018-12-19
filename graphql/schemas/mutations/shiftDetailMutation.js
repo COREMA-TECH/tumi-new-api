@@ -76,8 +76,9 @@ const shiftDetailMutation = {
 		resolve(source, args) {
 			return Db.transaction((t) => {
 				return Db.models.Shift.create(args.shift, { transaction: t }).then((ret) => {
-					var dates = []
-					var currentDate = new Date(args.startDate);
+					var dates = []//List of dates
+					var currentDate = new Date(args.startDate); //Variables used to save the current date inside the while
+					//Get every day between startDate and endDate to generate ShiftDetail records
 					while (currentDate <= args.endDate) {
 						let newDate = new Date(currentDate)
 						dates.push({
@@ -94,11 +95,11 @@ const shiftDetailMutation = {
 					return Db.models.ShiftDetail.bulkCreate(dates, { returning: true, transaction: t }).then((ret) => {
 						let newEmployees = [];
 						ret.map((data) => {
-							console.log()
-							newEmployees = args.employees.map(item => {
+							newEmployees = newEmployees.concat(args.employees.map(item => {
 								return { ShiftDetailId: data.id, EmployeeId: item }
-							})
+							}))
 						});
+						console.log("This is NewEmployees object", newEmployees)
 						return Db.models.ShiftDetailEmployees.bulkCreate(newEmployees, { returning: true, transaction: t }).then(ret => {
 							return ret.dataValues;
 						})
