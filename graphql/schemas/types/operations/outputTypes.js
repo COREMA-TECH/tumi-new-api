@@ -78,9 +78,9 @@ const ApplicationType = new GraphQLObjectType({
 				}
 			},
 			position: {
-				type: CatalogItemType,
+				type: WorkOrderType, //CatalogItemType,
 				resolve(application) {
-					return application.getCatalogPosition();
+					return application.getPositionApplyingFor();
 				}
 			},
 			stateInfo: {

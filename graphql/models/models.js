@@ -143,6 +143,7 @@ WorkOrder.belongsTo(BusinessCompany, {
 });
 
 
+
 phaseworkOrder.belongsTo(CatalogItem, {
 	foreignKey: 'phaseworkOrderId',
 	as: 'CatalogPhaseWO'
@@ -153,10 +154,11 @@ phaseworkOrder.belongsTo(Users, {
 	as: 'UsersWO'
 });
 
-Application.belongsTo(CatalogItem, {
+Application.belongsTo(WorkOrder, {
 	foreignKey: 'positionApplyingFor',
-	as: 'CatalogPosition'
+	as: 'PositionApplyingFor'
 });
+
 Application.belongsTo(CatalogItem, {
 	foreignKey: 'state',
 	as: 'CatalogState'

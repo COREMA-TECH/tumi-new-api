@@ -2268,23 +2268,9 @@ async function CreateContracts(args) {
 		pdf.create(content, options).toFile(Strfilename, function (err, res) {
 			console.log('toFile');
 			if (err) return console.log(err);
-			console.log(res); // { filename: '/app/businesscard.pdf' }
+			console.log(res);
 			console.log('PDF Created');
 		});
-
-
-		/*pdfshift
-			.convert(content, {
-				landscape: false,
-				use_print: true,
-				margin: { left: '72px', right: '72px', top: '72px', bottom: '72px' }
-			})
-			.then(function (binary_file) {
-				fs.writeFile(Strfilename, binary_file, 'binary', function (event) {
-					console.log("this is my fucking file", event)
-				});
-			})
-			.catch(function ({ message, code, response, errors = null }) { });*/
 
 		while (true) {
 			try {
@@ -2294,14 +2280,6 @@ async function CreateContracts(args) {
 				console.log("Sigue escribiendo", e)
 			}
 		}
-		/*	while (true) {
-				try {
-					fs.accessSync(Strfilename, fs.W_OK)
-					return rows;
-				} catch (e) {
-					console.log("Sigue escribiendo", e)
-				}
-			}*/
 
 	} catch (err) {
 		console.log('Database ' + err);
@@ -3178,7 +3156,7 @@ async function CreatePdfContracts(args) {
 }
 
 //Method Connect to Send Contracts by emails
-async function CreateDocumentsPDF(args) {
+/*async function CreateDocumentsPDF(args) {
 	try {
 		var content = args.contentHTML;
 		Strfilename = './public/Documents/' + args.Name.trim() + '.pdf';
@@ -3213,15 +3191,15 @@ async function CreateDocumentsPDF(args) {
 		console.log('Database ' + err);
 		return err;
 	}
-}
-/*
+}*/
+
 async function CreateDocumentsPDF(args) {
 	try {
 		var content = args.contentHTML;
 		Strfilename = './public/Documents/' + args.Name.trim() + '.pdf';
 
 		if (fs.existsSync(Strfilename) == false) {
-			pdf.create(content, options).toFile(Strfilename, function (err, res) {
+			/*pdf.create(content, options).toFile(Strfilename, function (err, res) {
 				console.log('toFile');
 				if (err) return console.log(err);
 				console.log(res); // { filename: '/app/businesscard.pdf' }
@@ -3235,6 +3213,38 @@ async function CreateDocumentsPDF(args) {
 				} catch (e) {
 					console.log('Sigue escribiendo', e);
 				}
+			}*/
+
+			var options = {
+				format: 'Letter',
+				font: 'Arial',
+				size: 12,
+				type: "pdf",             // allowed file types: png, jpeg, pdf
+				quality: "75",           // only used for types png & jpeg
+				orientation: 'portrait',
+				zoomFactor: 1,
+				border: {
+					top: '0.98in', // default is 0, units: mm, cm, in, px
+					right: '0.98in',
+					bottom: '0.98in',
+					left: '0.98in'
+				}
+			};
+
+			pdf.create(content, options).toFile(Strfilename, function (err, res) {
+				console.log('toFile');
+				if (err) return console.log(err);
+				console.log(res);
+				console.log('PDF Created');
+			});
+
+			while (true) {
+				try {
+					fs.accessSync(Strfilename, fs.W_OK)
+					return Strfilename;
+				} catch (e) {
+					console.log("Sigue escribiendo", e)
+				}
 			}
 		}
 
@@ -3243,7 +3253,7 @@ async function CreateDocumentsPDF(args) {
 		console.log('Database ' + err);
 		return err;
 	}
-}*/
+}
 
 async function SendEmail(args) {
 	try {
