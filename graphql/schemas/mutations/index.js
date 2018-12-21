@@ -20,6 +20,7 @@ import HolidayMutation from './holidayMutation';
 import EmployeesMutation from './employeesMutation';
 import ShiftMutation from './shiftMutation';
 import ShiftDetailMutation from './shiftDetailMutation';
+import ShiftWorkOrderMutation from './shiftWorkOrderMutation';
 
 export {
 	ApplicantLanguageMutation,
@@ -43,5 +44,6 @@ export {
 	HolidayMutation,
 	EmployeesMutation,
 	ShiftMutation,
-	ShiftDetailMutation
+	ShiftDetailMutation,
+	ShiftWorkOrderMutation
 };

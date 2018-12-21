@@ -25,6 +25,7 @@ import HolidayFields from './holidayFields';
 import EmployeesFields from './employeesFields';
 import ShiftFields from './shiftFields';
 import ShiftDetailFields from './shiftDetailFields';
+import ShiftWorkOrderFields from './shiftWorkOrderFields';
 
 import BusinessCompanyFields from './businessCompanyFields';
 
@@ -57,5 +58,6 @@ export {
 	EmployeesFields,
 	ShiftFields,
 	ShiftDetailFields,
-	BusinessCompanyFields
+	BusinessCompanyFields,
+	ShiftWorkOrderFields
 };

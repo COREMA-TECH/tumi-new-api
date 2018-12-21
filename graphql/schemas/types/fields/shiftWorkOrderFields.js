@@ -1,10 +1,10 @@
 import { GraphQLInt, GraphQLString, GraphQLBoolean, GraphQLNonNull } from 'graphql';
-const shiftWorkOrderFields = {
-	shiftId: {
+const ShiftWorkOrderFields = {
+	ShiftId: {
 		type: GraphQLInt
 	},
-	workOrderId: {
+	WorkOrderId: {
 		type: GraphQLInt
 	}
 };
-export default shiftWorkOrderFields;
+export default ShiftWorkOrderFields;
