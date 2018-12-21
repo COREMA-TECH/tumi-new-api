@@ -1,4 +1,4 @@
-import { inputInsertShiftDetail, inputInsertShift, inputInsertShiftDetailTransaction } from '../types/operations/insertTypes';
+import { inputInsertShiftDetail, inputInsertShift } from '../types/operations/insertTypes';
 import { inputUpdateShiftDetail } from '../types/operations/updateTypes';
 import { ShiftDetailType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLString, GraphQLNonNull } from 'graphql';
