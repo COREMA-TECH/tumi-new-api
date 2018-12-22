@@ -49,6 +49,19 @@ const ShiftMutation = {
 				});
 		}
 	},
+	destroyShift: {
+		type: ShiftType,
+		description: 'Delete Shift record from database',
+		args: {
+			//id: { type: GraphQLList(GraphQLInt) }
+			id: { type: GraphQLInt }
+		},
+		resolve(source, args) {
+			return Db.models.Shift.destroy({ where: { id: args.id } }).then((deleted) => {
+				return deleted;
+			});
+		}
+	},
 	deleteShift: {
 		type: ShiftType,
 		description: 'Delete Shift record from database',

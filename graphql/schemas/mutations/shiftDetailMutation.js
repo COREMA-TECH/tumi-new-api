@@ -62,6 +62,32 @@ const shiftDetailMutation = {
 			});
 		}
 	},
+
+	deleteShiftDetailbyShift: {
+		type: GraphQLInt,
+		description: 'Delete Shift Details record from database',
+		args: {
+			id: { type: GraphQLInt }
+		},
+		resolve(source, args) {
+			return Db.models.ShiftDetail.destroy({ where: { ShiftId: args.id } }).then((deleted) => {
+				return deleted;
+			});
+		}
+	},
+	deleteShiftDetailbyShift: {
+		type: GraphQLInt,
+		description: 'Delete Shift Details record from database',
+		args: {
+			id: { type: GraphQLInt }
+		},
+		resolve(source, args) {
+			return Db.models.ShiftDetail.destroy({ where: { ShiftId: args.id } }).then((deleted) => {
+				return deleted;
+			});
+		}
+	},
+
 	createShiftDetail: {
 		type: new GraphQLList(ShiftDetailType),
 		description: 'Insert Header and Detail for Shifts',
