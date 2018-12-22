@@ -74,11 +74,11 @@ const WorkOrderMutation = {
 		args: {
 			workOrder: { type: inputUpdateWorkOrder },
 			shift: { type: new GraphQLList(inputInsertShift) },
-			startDate: { type: new GraphQLNonNull(GraphQLDate) },
-			endDate: { type: new GraphQLNonNull(GraphQLDate) },
-			startshift: { type: new GraphQLNonNull(GraphQLString) },
-			endshift: { type: new GraphQLNonNull(GraphQLString) },
-			quantity: { type: new GraphQLNonNull(GraphQLInt) }
+			startDate: { type: GraphQLDate },
+			endDate: { type: GraphQLDate },
+			startshift: { type: GraphQLString },
+			endshift: { type: GraphQLString },
+			quantity: { type: GraphQLInt }
 		},
 		resolve(source, args) {
 			return Db.models.WorkOrder
