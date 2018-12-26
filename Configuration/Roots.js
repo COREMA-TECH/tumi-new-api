@@ -1282,7 +1282,7 @@ async function getCatalogItem(args) {
 			strparam2 +
 			',"Id") and "Id_Parent" = coalesce(' +
 			strparam4 +
-			',"Id_Parent") ' + strParam5Query + 'order by "Id_Catalog", "DisplayLabel"';
+			',"Id_Parent") ' + strParam5Query + 'order by "Id","Id_Catalog", "DisplayLabel"';
 		console.log(Strquery);
 
 		const { rows } = await query(Strquery);

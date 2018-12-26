@@ -31,7 +31,7 @@ const WorkOrderMutation = {
 
 					var currentQ = 1;
 
-					/*while (currentQ <= args.quantity) {
+					while (currentQ <= args.quantity) {
 
 						currentQ = currentQ + 1;
 
@@ -61,7 +61,7 @@ const WorkOrderMutation = {
 								Db.models.ShiftWorkOrder.create({ ShiftId: datashift.dataValues.id, WorkOrderId: data.dataValues.id });
 							});
 						});
-					}*/
+					}
 
 					return data.dataValues;
 				});
@@ -112,8 +112,17 @@ const WorkOrderMutation = {
 					if (record) {
 						var currentQ = 1;
 
-						/*while (currentQ <= args.quantity) {
+						Db.models.ShiftWorkOrder.findAll({ where: { WorkOrderId: args.workOrder.id } }).then((select) => {
+							select.map((datashiftworkOrder) => {
+								Db.models.Shift.destroy({ where: { id: datashiftworkOrder.dataValues.ShiftId } }).then((deleted) => {
+								});
+							});
+						});
+
+						while (currentQ <= args.quantity) {
+
 							currentQ = currentQ + 1;
+
 							Db.models.Shift.bulkCreate(args.shift, { returning: true }).then((ret) => {
 								return ret.map((datashift) => {
 
@@ -137,11 +146,11 @@ const WorkOrderMutation = {
 									//Insert ShiftDetail records into database
 									Db.models.ShiftDetail.bulkCreate(dates, { returning: true }).then((ret) => { });
 									//Insert Shift - WorkOrder records into database
-									Db.models.ShiftWorkOrder.create({ ShiftId: datashift.dataValues.id, WorkOrderId: data.dataValues.id });
+									Db.models.ShiftWorkOrder.create({ ShiftId: datashift.dataValues.id, WorkOrderId: args.workOrder.id });
 								});
 							});
+						}
 
-						}*/
 						return record.dataValues;
 					}
 					else { return null; }
