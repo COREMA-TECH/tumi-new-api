@@ -105,7 +105,10 @@ const shiftDetailMutation = {
 				shiftList = args.employees.map(employee => { return args.shift })
 				return Db.models.Shift.bulkCreate(shiftList, { returning: true, transaction: t }).then((ret) => {
 
-					sendgenericemail({ StartDate: args.startDate.Date().toISOString().substring(0, 10), ToDate: args.endDate.Date().toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: item.id, email: "mppomar@gmail.com", title: args.shift[0].title })
+					var currentDate = new Date(args.startDate); //Variables used to save the current date inside the while
+					var endDate = new Date(args.endDate); //Variables used to save the current date inside the while
+
+					sendgenericemail({ StartDate: currentDate.toISOString().substring(0, 10), ToDate: endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: item.id, email: "mppomar@gmail.com", title: args.shift[0].title })
 
 					var dates = []//List of dates
 					//Create object to insert into ShiftDetail table			
