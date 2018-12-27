@@ -612,7 +612,13 @@ const ShiftType = new GraphQLObjectType({
 				type: GraphQLInt,
 				description: 'table id'
 			},
-			...ShiftFields
+			...ShiftFields,
+			company: {
+				type: BusinessCompanyType,
+				resolve(me) {
+					return me.getShiftEntity();
+				}
+			}
 		}
 	}
 });
@@ -658,7 +664,7 @@ const ShiftDetailType = new GraphQLObjectType({
 				resolve(me) {
 					return me.getShiftDetailEmployee();
 				}
-			},
+			}
 		}
 	}
 });
