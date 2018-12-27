@@ -635,7 +635,14 @@ const ShiftDetailType = new GraphQLObjectType({
 				type: GraphQLInt,
 				description: 'table id'
 			},
-			...ShiftDetailFields
+			...ShiftDetailFields,
+			shift: {
+				type: ShiftType,
+				resolve(me) {
+					console.log("Get Shift::::", me)
+					return me.getShift();
+				}
+			},
 		}
 	}
 });

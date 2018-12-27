@@ -174,6 +174,7 @@ Shift.belongsTo(CatalogItem, {
 
 Shift.hasMany(ShiftDetail, { onDelete: 'cascade' });
 ShiftDetail.hasMany(ShiftDetailEmployees, { onDelete: 'cascade' });
+ShiftDetail.belongsTo(Shift);
 
 ShiftDetailEmployees.belongsTo(ShiftDetail);
 Shift.hasMany(ShiftWorkOrder, { onDelete: 'cascade' });
