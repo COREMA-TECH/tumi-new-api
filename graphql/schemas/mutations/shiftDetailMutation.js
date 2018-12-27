@@ -104,6 +104,9 @@ const shiftDetailMutation = {
 				let shiftList = [], employeeIndex = -1;
 				shiftList = args.employees.map(employee => { return args.shift })
 				return Db.models.Shift.bulkCreate(shiftList, { returning: true, transaction: t }).then((ret) => {
+
+					sendgenericemail({ StartDate: args.startDate.Date().toISOString().substring(0, 10), ToDate: args.endDate.Date().toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: item.id, email: "mppomar@gmail.com", title: args.shift[0].title })
+
 					var dates = []//List of dates
 					//Create object to insert into ShiftDetail table			
 					employeeIndex += 1;
