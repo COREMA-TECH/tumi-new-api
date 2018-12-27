@@ -233,6 +233,8 @@ input iParamEA {
 		Date_Updated: String
 		IsRecruiter: Int
 		IdRegion: Int
+		IdSchedulesEmployees: Int
+		IdSchedulesManager: Int
 	}
 	input iContracts{
 			Id: Int
@@ -310,6 +312,7 @@ input iParamEA {
 		validtokens(Token:String,Signatory:String):[Token]
 		createdocumentspdf(contentHTML:String,Name:String): String
 		sendemail(username:String,password:String,email:String,title:String): String
+		sendgenericemail(shift:String,email:String,title:String): String
 	}
 	type Mutation{
 		insbusinesscompanies(input: iParamBC): BusinessCompany 
@@ -691,6 +694,8 @@ input iParamEA {
 		Date_Updated: String
 		IsRecruiter: Int
 		IdRegion: Int
+		IdSchedulesEmployees: Int
+		IdSchedulesManager: Int
 	}
 
 

@@ -1282,7 +1282,7 @@ async function getCatalogItem(args) {
 			strparam2 +
 			',"Id") and "Id_Parent" = coalesce(' +
 			strparam4 +
-			',"Id_Parent") ' + strParam5Query + 'order by "Id_Catalog", "DisplayLabel"';
+			',"Id_Parent") ' + strParam5Query + 'order by "Id","Id_Catalog", "DisplayLabel"';
 		console.log(Strquery);
 
 		const { rows } = await query(Strquery);
@@ -2033,7 +2033,7 @@ async function InsUsers(args) {
 			// strparam1 = 'AES_KEY';
 			const password = `PGP_SYM_ENCRYPT('TEMP','AES_KEY')`;
 			Strquery =
-				'INSERT INTO public."Users" ("Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion") VALUES(' +
+				'INSERT INTO public."Users" ("Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager") VALUES(' +
 				args.input.Id_Entity +
 				',' +
 				args.input.Id_Contact +
@@ -2075,7 +2075,11 @@ async function InsUsers(args) {
 				args.input.IsRecruiter +
 				',' +
 				args.input.IdRegion +
-				') RETURNING "Id","Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion"';
+				',' +
+				args.input.IdSchedulesEmployees +
+				',' +
+				args.input.IdSchedulesManager
+			') RETURNING "Id","Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager"';
 		} else {
 			console.log('Error Insert Data');
 		}
@@ -2134,6 +2138,10 @@ async function UpdUsers(args) {
 				args.input.IdRegion +
 				', "IsRecruiter"=' +
 				args.input.IsRecruiter +
+				', "IdSchedulesEmployees"=' +
+				args.input.IdSchedulesEmployees +
+				', "IdSchedulesManager"=' +
+				args.input.IdSchedulesManager +
 				' where "Id"=' +
 				args.input.Id;
 		} else {
@@ -2288,173 +2296,6 @@ async function CreateContracts(args) {
 
 }
 
-//Method Connect to Send Contracts by emails
-/*async function CreateContracts(args) {
-	try {
-		console.log(args.IsActive);
-		var strparam1, strparam2, strparam3;
-
-		if (args.IsActive >= 0) {
-			strparam1 = args.IsActive;
-		} else {
-			strparam1 = null;
-		}
-
-		if (args.Id >= 0) {
-			strparam2 = args.Id;
-		} else {
-			strparam2 = null;
-		}
-
-		Strquery =
-			'select "Contracts"."Id","Token"."Token","Token"."Signatory", "Id_Company", "Id_Entity", "Contract_Name", "Contrat_Owner", "Id_User_Signed",(SELECT "Electronic_Address" FROM public."Contacts" where "Id"= "Contracts"."Id_User_Signed") as "Electronic_Address", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed", "Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F", "Client_Signature", "Company_Signature","Contract_Expiration_Date",(SELECT "Primary_Email" FROM public."Company" where "Id"= "Contracts"."Id_Company") as "Primary_Email"  from public."Contracts" inner join public."Token" on "Token"."Id_Contract" = "Contracts"."Id"  where "Contracts"."IsActive" = coalesce(' +
-			strparam1 +
-			',"Contracts"."IsActive") and "Contracts"."Id" = coalesce(' +
-			strparam2 +
-			',"Contracts"."Id") order by "Contracts"."Id"';
-
-		console.log(Strquery);
-
-		const { rows } = await query(Strquery);
-
-		var content = rows[0].Contract_Terms;
-		Strfilename = './public/Contract_' + rows[0].Contract_Name.trim() + '.pdf';
-
-		console.log(fs.existsSync(Strfilename));
-
-		pdfshift
-			.convert(content, {
-				landscape: false,
-				use_print: true,
-				margin: { left: '72px', right: '72px', top: '72px', bottom: '72px' }
-			})
-			.then(function (binary_file) {
-				fs.writeFile(Strfilename, binary_file, 'binary', function () { });
-			})
-			.catch(function ({ message, code, response, errors = null }) { });
-
-		while (true) {
-			try {
-				fs.accessSync(Strfilename, fs.W_OK);
-				return rows;
-			} catch (e) {
-				console.log('Sigue escribiendo', e);
-			}
-		}
-
-
-		if (fs.existsSync(Strfilename)) {
-			fs.unlinkSync(Strfilename);
-		}
-
-		pdfshift
-			.convert(content, {
-				landscape: false,
-				use_print: true,
-				margin: { left: '72px', right: '72px', top: '72px', bottom: '72px' }
-			})
-			.then(function (binary_file) {
-				fs.writeFile(Strfilename, binary_file, 'binary', function () { });
-			})
-			.catch(function ({ message, code, response, errors = null }) { });
-		//	}
-
-			while (true) {
-				try {
-					fs.accessSync(Strfilename, fs.W_OK);
-					return rows;
-				} catch (e) {
-					console.log('Sigue escribiendo', e);
-				}
-			}
-
-		return rows;
-	} catch (err) {
-		console.log('Database ' + err);
-		return err;
-	}
-}*/
-
-/*async function CreateContracts(args) {
-	try {
-		var strparam1, strparam2;
-
-		if (args.IsActive >= 0) {
-			strparam1 = args.IsActive;
-		} else {
-			strparam1 = null;
-		}
-
-		if (args.Id >= 0) {
-			strparam2 = args.Id;
-		} else {
-			strparam2 = null;
-		}
-
-		Strquery =
-			'select "Contracts"."Id", "Id_Company", "Id_Entity", "Contract_Name", "Contrat_Owner", "Id_User_Signed",(SELECT "Electronic_Address" FROM public."Contacts" where "Id"= "Contracts"."Id_User_Signed") as "Electronic_Address", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed", "Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F", "Client_Signature", "Company_Signature","Contract_Expiration_Date",(SELECT "Primary_Email" FROM public."Company" where "Id"= "Contracts"."Id_Company") as "Primary_Email"  from public."Contracts"  where "Contracts"."IsActive" = coalesce(' +
-			strparam1 +
-			',"Contracts"."IsActive") and "Contracts"."Id" = coalesce(' +
-			strparam2 +
-			',"Contracts"."Id") order by "Contracts"."Id"';
-
-		const { rows } = await query(Strquery);
-		var content = rows[0].Contract_Terms;
-
-		Strfilename = './public/Contract_' + rows[0].Contract_Name.trim() + '.pdf';
-		var StrfilnameHTML = './public/Contract_' + rows[0].Contract_Name.trim() + '.html';
-		//var html = fs.readFileSync(content, 'utf8');
-
-		var options = {
-			format: 'Letter',
-			font: 'Times New Roman',
-			size: 12,
-			orientation: 'portrait',
-			zoomFactor: 1,
-			border: {
-				top: '0.98in', // default is 0, units: mm, cm, in, px
-				right: '0.98in',
-				bottom: '0.98in',
-				left: '0.98in'
-			}
-		};
-		/*if (fs.existsSync(Strfilename)) {
-			fs.unlinkSync(Strfilename);
-		}
-		//fs.destroy(Strfilename);
-		console.log('Outside create pdf');
-		pdf.create(content, options).toFile(Strfilename, function (err, res) {
-			console.log('toFile');
-			if (err) return console.log(err);
-			console.log(res); // { filename: '/app/businesscard.pdf' }
-			console.log('PDF Created');
-		});
-
-		pdfshift
-			.convert(content, {
-				landscape: false,
-				use_print: true,
-				margin: { left: '72px', right: '72px', top: '72px', bottom: '72px' }
-			})
-			.then(function (binary_file) {
-				fs.writeFile(Strfilename, binary_file, 'binary', function () { });
-			})
-			.catch(function ({ message, code, response, errors = null }) { });
-
-
-		while (true) {
-			try {
-				fs.accessSync(Strfilename, fs.W_OK);
-				return rows;
-			} catch (e) {
-				console.log('Sigue escribiendo', e);
-			}
-		}
-	} catch (err) {
-		console.log('Database ' + err);
-		return err;
-	}
-}*/
 
 
 //Method Connect to Send Contracts by emails
@@ -2745,9 +2586,7 @@ async function SendContracts(args) {
 			}
 		});
 
-		console.log('Solo row', rows);
-		console.log('Solo row0', rows[0]);
-		console.log('Solo row1', rows[1]);
+
 
 		return rows;
 	} catch (err) {
@@ -3199,21 +3038,6 @@ async function CreateDocumentsPDF(args) {
 		Strfilename = './public/Documents/' + args.Name.trim() + '.pdf';
 
 		if (fs.existsSync(Strfilename) == false) {
-			/*pdf.create(content, options).toFile(Strfilename, function (err, res) {
-				console.log('toFile');
-				if (err) return console.log(err);
-				console.log(res); // { filename: '/app/businesscard.pdf' }
-				console.log('PDF Created');
-			});
-
-			while (true) {
-				try {
-					fs.accessSync(Strfilename, fs.W_OK);
-					return rows;
-				} catch (e) {
-					console.log('Sigue escribiendo', e);
-				}
-			}*/
 
 			var options = {
 				format: 'Letter',
@@ -3384,6 +3208,135 @@ async function SendEmail(args) {
 	}
 }
 
+async function SendGenericEmail(args) {
+	try {
+
+		var mailOptions = {
+			from: 'coremagroup@hotmail.com',
+			to: args.email,
+			subject: args.title,
+			html:
+				'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' +
+				'<html xmlns="http://www.w3.org/1999/xhtml">' +
+				'<head>' +
+				'<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' +
+				'<meta name="viewport" content="width=device-width" />' +
+				'<title>Title</title>' +
+				'<link rel="stylesheet" href="css/default.css">' +
+				'</head>' +
+				'<body>' +
+				'<!-- <style> -->' +
+				'<table class="body" data-made-with-foundation>' +
+				'<tr>' +
+				'<td class="float-center" align="center" valign="top">' +
+				'<table class="container">' +
+				'<tr>' +
+				'<td class="logo-wrapper">' +
+				'<center class="logo-wrapper">' +
+				'<img src="https://firebasestorage.googleapis.com/v0/b/tumiapp-66cd6.appspot.com/o/files%2Flogo-tumy.png?alt=media&token=b6a26a9d-9081-40f6-a4b5-fed2c3b84895"' +
+				'alt="" class="logo" width="300px">' +
+				'</center>' +
+				'</td>' +
+				'</tr>' +
+				'<tr>' +
+				'<td>' +
+				'<center class="slogan">' +
+				'What you want to do and what you can do... <br>' +
+				'Is limited only by what you can dream' +
+				'<h3 style="color: #ecc500;font-size: 32px;text-align: center;margin: $margin 0;">A new shift has been created</h3>' +
+				'<p>' +
+				'We are in the process of setting you up as part of the Tummy family. <br>' +
+				'We need youn to complete the following steps to get the process rolling' +
+				'</p>' +
+				'<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">Number of Shift:   ' +
+				args.shift +
+				'<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">Title:   ' +
+				args.title +
+				'</h3>' +
+				'<a href="' +
+				URLWeb +
+				'/login ">' +
+				'<h3 style="color: #297560;font-size: 22px;text-align: center;margin: $margin 0;">Go to TUMI SITE</h3>' +
+				'</a>' +
+				'</center>' +
+				'<center>' +
+				'<table class="button">' +
+				'<tr>' +
+				'<td>' +
+				'<table>' +
+				'<tr>' +
+				'<td>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</center>' +
+				'</td>' +
+				'</tr>' +
+				'<tr>' +
+				'<td>' +
+				'<center class="content">' +
+				'Formed by hospitality professionals, we are dedicated to <br>' +
+				'helping your hotel achieve greater customer satisfaction,<br>' +
+				'increased QA scores, boost efficiencies and reduce cost.' +
+				'</center>' +
+				'</td>' +
+				'</tr>' +
+				'<tr>' +
+				'<td class="">' +
+				'<table>' +
+				'<tr>' +
+				'<td class="float-center" align="center" valign="top">' +
+				'<center style="color:#777;background-color: #000;padding: 50px 0;">' +
+				'<table>' +
+				'<tr>' +
+				'<td class="text-center" style="text-align: center;">' +
+				'PRIVACY STATEMENT' +
+				'</td>' +
+				'<td class="pipe text-center" style="text-align: center;">' +
+				'|' +
+				'</td>' +
+				'<td class="text-center" style="text-align: center;">' +
+				'TERM OF SERVICES' +
+				'</td>' +
+				'</tr>' +
+				'<tr>' +
+				'<td colspan="3" height="50px" style="vertical-align:middle" valign="middle">' +
+				'&copy; 2018 Tumi Staffing, Inc PO Box 592715 San Antonio, TX 78259' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</center>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</td>' +
+				'</tr>' +
+				'</table>' +
+				'</body>' +
+				'</html>'
+		};
+
+		transporter.sendMail(mailOptions, function (error, info) {
+			if (error) {
+				console.log(error);
+			} else {
+				console.log('Email enviado: ' + info.response);
+			}
+		});
+
+		return 'Email Send';
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
+	}
+}
+
 const root = {
 	getcompanies: getCompanies,
 
@@ -3463,7 +3416,11 @@ const root = {
 	validtokens: ValidTokens,
 
 	createdocumentspdf: CreateDocumentsPDF,
-	sendemail: SendEmail
+	sendemail: SendEmail,
+	sendgenericemail: SendGenericEmail
 };
 
 module.exports = root;
+
+
+export { SendGenericEmail };

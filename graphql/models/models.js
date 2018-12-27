@@ -172,9 +172,11 @@ Shift.belongsTo(CatalogItem, {
 	as: 'CatalogPosition'
 });
 
-Shift.hasMany(ShiftDetail);
+Shift.hasMany(ShiftDetail, { onDelete: 'cascade' });
+ShiftDetail.hasMany(ShiftDetailEmployees, { onDelete: 'cascade' });
+
 ShiftDetailEmployees.belongsTo(ShiftDetail);
-Shift.hasMany(ShiftWorkOrder);
+Shift.hasMany(ShiftWorkOrder, { onDelete: 'cascade' });
 
 WorkOrder.hasMany(ShiftWorkOrder);
 
@@ -194,7 +196,7 @@ Conn.authenticate()
 		console.error('Unable to connect to the database:', err);
 	});
 
-// Conn.sync({ force: false }).then(() => {
+//Conn.sync({ force: false }).then(() => {
 /*make sure you use false here. otherwise the total data 
 	from the impported models will get deleted and new tables will be created*/
 // now we cann do all db operations on customers table.
@@ -204,6 +206,6 @@ Conn.authenticate()
 //console.log('Applications are:-', applications);
 //	});
 //	console.log('sync is completed');
-// });
+//});
 
 export default Conn;

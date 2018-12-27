@@ -62,6 +62,32 @@ const shiftDetailMutation = {
 			});
 		}
 	},
+
+	deleteShiftDetailbyShift: {
+		type: GraphQLInt,
+		description: 'Delete Shift Details record from database',
+		args: {
+			id: { type: GraphQLInt }
+		},
+		resolve(source, args) {
+			return Db.models.ShiftDetail.destroy({ where: { ShiftId: args.id } }).then((deleted) => {
+				return deleted;
+			});
+		}
+	},
+	deleteShiftDetailbyShift: {
+		type: GraphQLInt,
+		description: 'Delete Shift Details record from database',
+		args: {
+			id: { type: GraphQLInt }
+		},
+		resolve(source, args) {
+			return Db.models.ShiftDetail.destroy({ where: { ShiftId: args.id } }).then((deleted) => {
+				return deleted;
+			});
+		}
+	},
+
 	createShiftDetail: {
 		type: new GraphQLList(ShiftDetailType),
 		description: 'Insert Header and Detail for Shifts',
@@ -79,17 +105,17 @@ const shiftDetailMutation = {
 					var dates = []//List of dates
 					var currentDate = new Date(args.startDate); //Variables used to save the current date inside the while
 					//Get every day between startDate and endDate to generate ShiftDetail records
-					while (currentDate <= args.endDate) {
-						let newDate = new Date(currentDate)
-						dates.push({
-							startDate: newDate,
-							endDate: newDate,
-							startTime: args.startHour,
-							endTime: args.endHour,
-							ShiftId: ret.dataValues.id
-						});
-						currentDate.setDate(currentDate.getDate() + 1)
-					}
+					// while (currentDate <= args.endDate) {
+					//let newDate = new Date(currentDate)
+					dates.push({
+						startDate: args.startDate,
+						endDate: args.endDate,
+						startTime: args.startHour,
+						endTime: args.endHour,
+						ShiftId: ret.dataValues.id
+					});
+					// currentDate.setDate(currentDate.getDate() + 1)
+					// }
 
 					//Insert ShiftDetail records into database
 					return Db.models.ShiftDetail.bulkCreate(dates, { returning: true, transaction: t }).then((ret) => {
@@ -99,7 +125,6 @@ const shiftDetailMutation = {
 								return { ShiftDetailId: data.id, EmployeeId: item }
 							}))
 						});
-						console.log("This is NewEmployees object", newEmployees)
 						return Db.models.ShiftDetailEmployees.bulkCreate(newEmployees, { returning: true, transaction: t }).then(ret => {
 							return ret.dataValues;
 						})

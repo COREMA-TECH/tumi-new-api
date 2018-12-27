@@ -3,7 +3,7 @@ import { inputUpdateWorkOrder } from '../types/operations/updateTypes';
 import { WorkOrderType, PhaseWorkOrderType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLString, GraphQLNonNull } from 'graphql';
 import GraphQLDate from 'graphql-date';
-
+import { sendgenericemail } from '../../../Configuration/Roots';
 import Db from '../../models/models';
 
 const WorkOrderMutation = {
@@ -23,6 +23,7 @@ const WorkOrderMutation = {
 			console.log("argumentos ", args);
 			return Db.models.WorkOrder.bulkCreate(args.workOrder, { returning: true }).then((ret) => {
 				return ret.map((data) => {
+
 					Db.models.PhaseWorkOrder.create({
 						userId: 10,//data.dataValues.userId,
 						phaseworkOrderId: 30453,
@@ -32,9 +33,13 @@ const WorkOrderMutation = {
 					var currentQ = 1;
 
 					while (currentQ <= args.quantity) {
+
 						currentQ = currentQ + 1;
+
 						Db.models.Shift.bulkCreate(args.shift, { returning: true }).then((ret) => {
 							return ret.map((datashift) => {
+
+								sendgenericemail({ shift: datashift.dataValues.id, email: "mppomar@gmail.com", title: "New Shift publish" })
 
 								var dates = []//List of dates
 								var currentDate = new Date(args.startDate); //Variables used to save the current date inside the while
@@ -59,7 +64,6 @@ const WorkOrderMutation = {
 								Db.models.ShiftWorkOrder.create({ ShiftId: datashift.dataValues.id, WorkOrderId: data.dataValues.id });
 							});
 						});
-
 					}
 
 					return data.dataValues;
@@ -73,11 +77,11 @@ const WorkOrderMutation = {
 		args: {
 			workOrder: { type: inputUpdateWorkOrder },
 			shift: { type: new GraphQLList(inputInsertShift) },
-			startDate: { type: new GraphQLNonNull(GraphQLDate) },
-			endDate: { type: new GraphQLNonNull(GraphQLDate) },
-			startshift: { type: new GraphQLNonNull(GraphQLString) },
-			endshift: { type: new GraphQLNonNull(GraphQLString) },
-			quantity: { type: new GraphQLNonNull(GraphQLInt) }
+			startDate: { type: GraphQLDate },
+			endDate: { type: GraphQLDate },
+			startshift: { type: GraphQLString },
+			endshift: { type: GraphQLString },
+			quantity: { type: GraphQLInt }
 		},
 		resolve(source, args) {
 			return Db.models.WorkOrder
@@ -109,27 +113,19 @@ const WorkOrderMutation = {
 				)
 				.then(function ([rowsUpdate, [record]]) {
 					if (record) {
-
-						/*	Db.models.shift.destroy({ where: { id: args.id } }).then((deleted) => {
-								return deleted;
-							});
-	
-							Db.models.ShiftDetail.destroy({ where: { id: args.id } }).then((deleted) => {
-								return deleted;
-							});
-	
-							Db.models.ShiftWorkOrder.destroy({ where: { id: args.id } }).then((deleted) => {
-								return deleted;
-							});
-	
-							Db.models.WorkOrder.destroy({ where: { id: args.id } }).then((deleted) => {
-								return deleted;
-							});
-	*/
 						var currentQ = 1;
 
+						Db.models.ShiftWorkOrder.findAll({ where: { WorkOrderId: args.workOrder.id } }).then((select) => {
+							select.map((datashiftworkOrder) => {
+								Db.models.Shift.destroy({ where: { id: datashiftworkOrder.dataValues.ShiftId } }).then((deleted) => {
+								});
+							});
+						});
+
 						while (currentQ <= args.quantity) {
+
 							currentQ = currentQ + 1;
+
 							Db.models.Shift.bulkCreate(args.shift, { returning: true }).then((ret) => {
 								return ret.map((datashift) => {
 
@@ -153,11 +149,11 @@ const WorkOrderMutation = {
 									//Insert ShiftDetail records into database
 									Db.models.ShiftDetail.bulkCreate(dates, { returning: true }).then((ret) => { });
 									//Insert Shift - WorkOrder records into database
-									Db.models.ShiftWorkOrder.create({ ShiftId: datashift.dataValues.id, WorkOrderId: data.dataValues.id });
+									Db.models.ShiftWorkOrder.create({ ShiftId: datashift.dataValues.id, WorkOrderId: args.workOrder.id });
 								});
 							});
-
 						}
+
 						return record.dataValues;
 					}
 					else { return null; }
