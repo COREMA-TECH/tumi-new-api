@@ -1,7 +1,8 @@
 import { inputInsertShift } from '../types/operations/insertTypes';
 import { inputUpdateShift } from '../types/operations/updateTypes';
 import { ShiftType } from '../types/operations/outputTypes';
-import { GraphQLList, GraphQLInt } from 'graphql';
+import { GraphQLList, GraphQLInt, GraphQLString } from 'graphql';
+import { SendGenericEmail } from '../../../Configuration/Roots';
 
 import Db from '../../models/models';
 
@@ -15,6 +16,7 @@ const ShiftMutation = {
 		resolve(source, args) {
 			return Db.models.Shift.bulkCreate(args.Shift, { returning: true }).then((ret) => {
 				return ret.map((data) => {
+					SendGenericEmail.sendemail(shift = "No." + data.dataValues.id + " Position " + data.dataValues.title, email = "miltonpomares_13@hotmail.com", title = "New Shift publish")
 					return data.dataValues;
 				});
 			});
@@ -74,6 +76,36 @@ const ShiftMutation = {
 				.update(
 					{
 						status: 0
+					},
+					{
+						where: {
+							id: args.id
+						},
+						returning: true
+					}
+				)
+				.then(function ([rowsUpdate, [record]]) {
+					if (record) return record.dataValues;
+					else return null;
+				});
+		}
+	},
+	changeStatusShift: {
+		type: ShiftType,
+		description: 'Delete Shift record from database',
+		args: {
+			id: { type: GraphQLInt },
+			status: { type: GraphQLInt },
+			color: { type: GraphQLString }
+
+
+		},
+		resolve(source, args) {
+			return Db.models.Shift
+				.update(
+					{
+						status: args.status,
+						color: args.color
 					},
 					{
 						where: {

@@ -3,7 +3,7 @@ import { inputUpdateWorkOrder } from '../types/operations/updateTypes';
 import { WorkOrderType, PhaseWorkOrderType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLString, GraphQLNonNull } from 'graphql';
 import GraphQLDate from 'graphql-date';
-
+import { sendgenericemail } from '../../../Configuration/Roots';
 import Db from '../../models/models';
 
 const WorkOrderMutation = {
@@ -23,6 +23,7 @@ const WorkOrderMutation = {
 			console.log("argumentos ", args);
 			return Db.models.WorkOrder.bulkCreate(args.workOrder, { returning: true }).then((ret) => {
 				return ret.map((data) => {
+
 					Db.models.PhaseWorkOrder.create({
 						userId: 10,//data.dataValues.userId,
 						phaseworkOrderId: 30453,
@@ -37,6 +38,8 @@ const WorkOrderMutation = {
 
 						Db.models.Shift.bulkCreate(args.shift, { returning: true }).then((ret) => {
 							return ret.map((datashift) => {
+
+								sendgenericemail({ shift: datashift.dataValues.id, email: "mppomar@gmail.com", title: "New Shift publish" })
 
 								var dates = []//List of dates
 								var currentDate = new Date(args.startDate); //Variables used to save the current date inside the while
