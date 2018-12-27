@@ -1,10 +1,10 @@
 import { GraphQLInt, GraphQLString, GraphQLBoolean, GraphQLNonNull } from 'graphql';
-const shiftEmployeesFields = {
+const ShiftDetailEmployeesFields = {
 	ShiftDetailId: {
 		type: GraphQLInt
 	},
-	employeesId: {
+	EmployeeId: {
 		type: GraphQLInt
 	}
 };
-export default shiftEmployeesFields;
+export default ShiftDetailEmployeesFields;

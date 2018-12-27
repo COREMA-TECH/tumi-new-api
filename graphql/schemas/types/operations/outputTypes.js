@@ -29,7 +29,8 @@ import {
 	ShiftFields,
 	BusinessCompanyFields,
 	ShiftDetailFields,
-	ShiftWorkOrderFields
+	ShiftWorkOrderFields,
+	ShiftDetailEmployeesFields
 } from '../fields';
 
 const ApplicationType = new GraphQLObjectType({
@@ -626,6 +627,16 @@ const ShiftWorkOrderType = new GraphQLObjectType({
 	}
 });
 
+const ShiftDetailEmployeesType = new GraphQLObjectType({
+	name: 'ShiftDetailEmployee',
+	description: 'This is for Shift Detail Employee Table',
+	fields: () => {
+		return {
+			...ShiftDetailEmployeesFields
+		}
+	}
+});
+
 const ShiftDetailType = new GraphQLObjectType({
 	name: 'ShiftDetail',
 	description: 'This is for Shift Table',
@@ -639,8 +650,13 @@ const ShiftDetailType = new GraphQLObjectType({
 			shift: {
 				type: ShiftType,
 				resolve(me) {
-					console.log("Get Shift::::", me)
 					return me.getShift();
+				}
+			},
+			detailEmployee: {
+				type: ShiftDetailEmployeesType,
+				resolve(me) {
+					return me.getShiftDetailEmployee();
 				}
 			},
 		}
