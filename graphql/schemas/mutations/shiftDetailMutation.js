@@ -101,36 +101,31 @@ const shiftDetailMutation = {
 		},
 		resolve(source, args) {
 			return Db.transaction((t) => {
-				return Db.models.Shift.create(args.shift, { transaction: t }).then((ret) => {
+				let shiftList = [], employeeIndex = -1;
+				shiftList = args.employees.map(employee => { return args.shift })
+				return Db.models.Shift.bulkCreate(shiftList, { returning: true, transaction: t }).then((ret) => {
 					var dates = []//List of dates
-					var currentDate = new Date(args.startDate); //Variables used to save the current date inside the while
-					//Get every day between startDate and endDate to generate ShiftDetail records
-					// while (currentDate <= args.endDate) {
-					//let newDate = new Date(currentDate)
-					dates.push({
-						startDate: args.startDate,
-						endDate: args.endDate,
-						startTime: args.startHour,
-						endTime: args.endHour,
-						ShiftId: ret.dataValues.id
-					});
-					// currentDate.setDate(currentDate.getDate() + 1)
-					// }
-
+					//Create object to insert into ShiftDetail table			
+					employeeIndex += 1;
+					ret.map(item => {
+						dates.push({ startDate: args.startDate, endDate: args.endDate, startTime: args.startHour, endTime: args.endHour, ShiftId: item.id });
+					})
 					//Insert ShiftDetail records into database
-					return Db.models.ShiftDetail.bulkCreate(dates, { returning: true, transaction: t }).then((ret) => {
+					return Db.models.ShiftDetail.bulkCreate(dates, { returning: true, transaction: t }).then((data) => {
 						let newEmployees = [];
-						ret.map((data) => {
-							newEmployees = newEmployees.concat(args.employees.map(item => {
-								return { ShiftDetailId: data.id, EmployeeId: item }
-							}))
-						});
+						data.map(item => {
+							newEmployees.push({ ShiftDetailId: item.id, EmployeeId: args.employees[employeeIndex] })
+						})
 						return Db.models.ShiftDetailEmployees.bulkCreate(newEmployees, { returning: true, transaction: t }).then(ret => {
 							return ret.dataValues;
 						})
 					});
+
+
 				});
 			})
+
+
 
 		}
 	}
