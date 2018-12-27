@@ -3,7 +3,7 @@ import { inputUpdateShiftDetail } from '../types/operations/updateTypes';
 import { ShiftDetailType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLString, GraphQLNonNull } from 'graphql';
 import GraphQLDate from 'graphql-date';
-
+import { sendgenericemail } from '../../../Configuration/Roots';
 import Db from '../../models/models';
 
 const shiftDetailMutation = {
