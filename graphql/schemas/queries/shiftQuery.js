@@ -1,4 +1,4 @@
-import { GraphQLList, GraphQLString } from 'graphql';
+import { GraphQLList, GraphQLString, GraphQLIncludeDirective, GraphQLInt } from 'graphql';
 import { ShiftType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
@@ -7,8 +7,8 @@ const ShiftQuery = {
         type: new GraphQLList(ShiftType),
         description: 'List Shift records',
         args: {
-            Shift: {
-                type: GraphQLString
+            id: {
+                type: GraphQLInt
             }
         },
         resolve(root, args) {
