@@ -256,7 +256,7 @@ input iParamEA {
 			Billing_Street: String
 			Billing_City: Int
 			Billing_State: Int
-			Billing_Zip_Code: Int
+			Billing_Zip_Code: String
 			Billing_Country: Int
 			Contract_Terms: String
 			Exhibit_B: String
@@ -397,7 +397,7 @@ input iParamEA {
 			Billing_Street: String
 			Billing_City: Int
 			Billing_State: Int
-			Billing_Zip_Code: Int
+			Billing_Zip_Code: String
 			Billing_Country: Int
 			Contract_Terms: String
 			Exhibit_B: String
