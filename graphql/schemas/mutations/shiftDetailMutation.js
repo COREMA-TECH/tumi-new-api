@@ -121,11 +121,12 @@ const shiftDetailMutation = {
 						})
 						return Db.models.ShiftDetailEmployees.bulkCreate(newEmployees, { returning: true, transaction: t }).then(ret => {
 
-							Db.models.Employees.findAll({ where: { id: ret.dataValues.EmployeeId } }).then((select) => {
-								select.map((datashiftEmployee) => {
-									sendgenericemail({ StartDate: args.startDate.toISOString().substring(0, 10), ToDate: args.endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: Shiftid, email: datashiftEmployee.dataValues.electronicAddress, title: args.shift.title })
-								});
-							});
+							/*	Db.models.Employees.findAll({ where: { id: ret.dataValues.EmployeeId } }).then((select) => {
+									select.map((datashiftEmployee) => {
+										console.log(datashiftEmployee);
+										//sendgenericemail({ StartDate: args.startDate.toISOString().substring(0, 10), ToDate: args.endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: Shiftid, email: datashiftEmployee.dataValues.electronicAddress, title: args.shift.title })
+									});
+								});*/
 
 							return ret.dataValues;
 						})

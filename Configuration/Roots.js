@@ -3210,6 +3210,7 @@ async function SendEmail(args) {
 
 async function SendGenericEmail(args) {
 	try {
+		console.log("argumentos de SendGenericEmail ", args)
 
 		var mailOptions = {
 			from: 'coremagroup@hotmail.com',
