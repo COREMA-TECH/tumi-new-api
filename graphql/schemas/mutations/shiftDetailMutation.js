@@ -116,7 +116,6 @@ const shiftDetailMutation = {
 							employeeIndex += 1;
 							newEmployees.push({ ShiftDetailId: item.id, EmployeeId: args.employees[employeeIndex] })
 						})
-						console.log("This is my employee list", newEmployees)
 						return Db.models.ShiftDetailEmployees.bulkCreate(newEmployees, { returning: true, transaction: t }).then(ret => {
 							return ret.dataValues;
 						})
