@@ -256,7 +256,7 @@ input iParamEA {
 			Billing_Street: String
 			Billing_City: Int
 			Billing_State: Int
-			Billing_Zip_Code: Int
+			Billing_Zip_Code: String
 			Billing_Country: Int
 			Contract_Terms: String
 			Exhibit_B: String
@@ -312,7 +312,7 @@ input iParamEA {
 		validtokens(Token:String,Signatory:String):[Token]
 		createdocumentspdf(contentHTML:String,Name:String): String
 		sendemail(username:String,password:String,email:String,title:String): String
-		sendgenericemail(shift:String,email:String,title:String): String
+		sendgenericemail(StartDate:String,ToDate:String,ShiftStart:String,ShiftEnd:String,shift:String,email:String,title:String): String
 	}
 	type Mutation{
 		insbusinesscompanies(input: iParamBC): BusinessCompany 
@@ -397,7 +397,7 @@ input iParamEA {
 			Billing_Street: String
 			Billing_City: Int
 			Billing_State: Int
-			Billing_Zip_Code: Int
+			Billing_Zip_Code: String
 			Billing_Country: Int
 			Contract_Terms: String
 			Exhibit_B: String

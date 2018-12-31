@@ -3,7 +3,7 @@ import { inputUpdateShiftDetail } from '../types/operations/updateTypes';
 import { ShiftDetailType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLString, GraphQLNonNull } from 'graphql';
 import GraphQLDate from 'graphql-date';
-
+import { sendgenericemail } from '../../../Configuration/Roots';
 import Db from '../../models/models';
 
 const shiftDetailMutation = {
@@ -104,11 +104,19 @@ const shiftDetailMutation = {
 				let shiftList = [], employeeIndex = -1;
 				shiftList = args.employees.map(employee => { return args.shift })
 				return Db.models.Shift.bulkCreate(shiftList, { returning: true, transaction: t }).then((ret) => {
+
+					var currentDate = new Date(args.startDate); //Variables used to save the current date inside the while
+					var endDate = new Date(args.endDate); //Variables used to save the current date inside the while
+
+					console.log("estos son los shift ", args);
+
 					var dates = []//List of dates
 					//Create object to insert into ShiftDetail table			
 					employeeIndex += 1;
 					ret.map(item => {
 						dates.push({ startDate: args.startDate, endDate: args.endDate, startTime: args.startHour, endTime: args.endHour, ShiftId: item.id });
+						sendgenericemail({ StartDate: currentDate.toISOString().substring(0, 10), ToDate: endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: item.id, email: "mppomar@gmail.com", title: args.shift.title })
+
 					})
 					//Insert ShiftDetail records into database
 					return Db.models.ShiftDetail.bulkCreate(dates, { returning: true, transaction: t }).then((data) => {

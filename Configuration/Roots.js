@@ -2078,8 +2078,8 @@ async function InsUsers(args) {
 				',' +
 				args.input.IdSchedulesEmployees +
 				',' +
-				args.input.IdSchedulesManager
-			') RETURNING "Id","Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager"';
+				args.input.IdSchedulesManager +
+				') RETURNING "Id","Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager"';
 		} else {
 			console.log('Error Insert Data');
 		}
@@ -3214,7 +3214,7 @@ async function SendGenericEmail(args) {
 		var mailOptions = {
 			from: 'coremagroup@hotmail.com',
 			to: args.email,
-			subject: args.title,
+			subject: "new shift for " + args.title,
 			html:
 				'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' +
 				'<html xmlns="http://www.w3.org/1999/xhtml">' +
@@ -3252,6 +3252,9 @@ async function SendGenericEmail(args) {
 				args.shift +
 				'<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">Title:   ' +
 				args.title +
+				'<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">From Date:   ' + args.StartDate + '<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">To Date:   ' + args.ToDate +
+				'</h3>' +
+				'<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">Shift Start:   ' + args.ShiftStart + '<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">Shift End:   ' + args.ShiftEnd +
 				'</h3>' +
 				'<a href="' +
 				URLWeb +

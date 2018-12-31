@@ -17,10 +17,12 @@ const WorkOrderMutation = {
 			endDate: { type: new GraphQLNonNull(GraphQLDate) },
 			startshift: { type: new GraphQLNonNull(GraphQLString) },
 			endshift: { type: new GraphQLNonNull(GraphQLString) },
-			quantity: { type: new GraphQLNonNull(GraphQLInt) }
+			quantity: { type: new GraphQLNonNull(GraphQLInt) },
+			Electronic_Address: { type: new GraphQLNonNull(GraphQLString) }
 		},
 		resolve(source, args) {
-			console.log("argumentos ", args);
+
+
 			return Db.models.WorkOrder.bulkCreate(args.workOrder, { returning: true }).then((ret) => {
 				return ret.map((data) => {
 
@@ -39,14 +41,17 @@ const WorkOrderMutation = {
 						Db.models.Shift.bulkCreate(args.shift, { returning: true }).then((ret) => {
 							return ret.map((datashift) => {
 
-								sendgenericemail({ shift: datashift.dataValues.id, email: "mppomar@gmail.com", title: "New Shift publish" })
 
 								var dates = []//List of dates
 								var currentDate = new Date(args.startDate); //Variables used to save the current date inside the while
 								var endDate = new Date(args.endDate); //Variables used to save the current date inside the while
 
+
+								sendgenericemail({ StartDate: currentDate.toISOString().substring(0, 10), ToDate: endDate.toISOString().substring(0, 10), ShiftStart: args.startshift, ShiftEnd: args.endshift, shift: datashift.dataValues.id, email: args.Electronic_Address, title: args.shift[0].title })
+
+
 								//Get every day between startDate and endDate to generate ShiftDetail records
-								while (currentDate <= endDate) {
+								/*while (currentDate <= endDate) {
 									let newDate = new Date(currentDate)
 									dates.push({
 										startDate: newDate,
@@ -56,7 +61,12 @@ const WorkOrderMutation = {
 										ShiftId: datashift.dataValues.id
 									});
 									currentDate.setDate(currentDate.getDate() + 1)
-								}
+								}*/
+								ret.map(item => {
+									dates.push({ startDate: args.startDate, endDate: args.endDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id });
+									sendgenericemail({ StartDate: currentDate.toISOString().substring(0, 10), ToDate: endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: item.id, email: "mppomar@gmail.com", title: args.shift.title })
+
+								})
 
 								//Insert ShiftDetail records into database
 								Db.models.ShiftDetail.bulkCreate(dates, { returning: true }).then((ret) => { });
@@ -199,7 +209,7 @@ const WorkOrderMutation = {
 						phaseworkOrderId: 30457,
 						WorkOrderId: args.id
 					});
-
+	
 					if (record) return record.dataValues;
 					else return null;
 				});

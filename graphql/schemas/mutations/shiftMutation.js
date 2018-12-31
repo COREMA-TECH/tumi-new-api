@@ -16,7 +16,9 @@ const ShiftMutation = {
 		resolve(source, args) {
 			return Db.models.Shift.bulkCreate(args.Shift, { returning: true }).then((ret) => {
 				return ret.map((data) => {
-					sendgenericemail({ shift: datashift.dataValues.id, email: "mppomar@gmail.com", title: "New Shift publish" })
+					//	sendgenericemail({ shift: datashift.dataValues.id, email: "mppomar@gmail.com", title: "New Shift publish" })
+
+
 					return data.dataValues;
 				});
 			});
