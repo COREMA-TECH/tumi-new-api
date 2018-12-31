@@ -47,7 +47,7 @@ const WorkOrderMutation = {
 								var endDate = new Date(args.endDate); //Variables used to save the current date inside the while
 
 
-								sendgenericemail({ StartDate: currentDate.toISOString().substring(0, 10), ToDate: endDate.toISOString().substring(0, 10), ShiftStart: args.startshift, ShiftEnd: args.endshift, shift: datashift.dataValues.id, email: args.Electronic_Address, title: args.shift[0].title })
+								//	sendgenericemail({ StartDate: currentDate.toISOString().substring(0, 10), ToDate: endDate.toISOString().substring(0, 10), ShiftStart: args.startshift, ShiftEnd: args.endshift, shift: datashift.dataValues.id, email: args.Electronic_Address, title: args.shift[0].title })
 
 
 								//Get every day between startDate and endDate to generate ShiftDetail records
@@ -64,7 +64,7 @@ const WorkOrderMutation = {
 								}*/
 								ret.map(item => {
 									dates.push({ startDate: args.startDate, endDate: args.endDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id });
-									sendgenericemail({ StartDate: currentDate.toISOString().substring(0, 10), ToDate: endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: item.id, email: "mppomar@gmail.com", title: args.shift.title })
+									//	sendgenericemail({ StartDate: currentDate.toISOString().substring(0, 10), ToDate: endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: item.id, email: "mppomar@gmail.com", title: args.shift.title })
 
 								})
 
@@ -144,7 +144,7 @@ const WorkOrderMutation = {
 									var endDate = new Date(args.endDate); //Variables used to save the current date inside the while
 
 									//Get every day between startDate and endDate to generate ShiftDetail records
-									while (currentDate <= endDate) {
+									/*while (currentDate <= endDate) {
 										let newDate = new Date(currentDate)
 										dates.push({
 											startDate: newDate,
@@ -154,7 +154,13 @@ const WorkOrderMutation = {
 											ShiftId: datashift.dataValues.id
 										});
 										currentDate.setDate(currentDate.getDate() + 1)
-									}
+									}*/
+
+									ret.map(item => {
+										dates.push({ startDate: args.startDate, endDate: args.endDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id });
+										//	sendgenericemail({ StartDate: currentDate.toISOString().substring(0, 10), ToDate: endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: item.id, email: "mppomar@gmail.com", title: args.shift.title })
+
+									})
 
 									//Insert ShiftDetail records into database
 									Db.models.ShiftDetail.bulkCreate(dates, { returning: true }).then((ret) => { });
@@ -178,6 +184,14 @@ const WorkOrderMutation = {
 		},
 		resolve(source, args) {
 			return Db.models.WorkOrder.destroy({ where: { id: args.id } }).then((deleted) => {
+
+				Db.models.ShiftWorkOrder.findAll({ where: { WorkOrderId: args.id } }).then((select) => {
+					select.map((datashiftworkOrder) => {
+						Db.models.Shift.destroy({ where: { id: datashiftworkOrder.dataValues.ShiftId } }).then((deleted) => {
+						});
+					});
+				});
+
 				return deleted;
 			});
 		}

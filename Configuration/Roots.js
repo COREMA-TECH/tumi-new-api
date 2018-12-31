@@ -1,5 +1,5 @@
 const pg = require('pg');
-import { URLWeb, ConfigPg } from './Configuration';
+import { URLWeb, URLReject, URLAccept, ConfigPg } from './Configuration';
 import jwt from 'jsonwebtoken';
 //Requerimos el paquete
 const nodemailer = require('nodemailer');
@@ -3257,9 +3257,14 @@ async function SendGenericEmail(args) {
 				'<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">Shift Start:   ' + args.ShiftStart + '<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">Shift End:   ' + args.ShiftEnd +
 				'</h3>' +
 				'<a href="' +
-				URLWeb +
+				URLAccept +
 				'/login ">' +
-				'<h3 style="color: #297560;font-size: 22px;text-align: center;margin: $margin 0;">Go to TUMI SITE</h3>' +
+				'<h3 style="color: #297560;font-size: 22px;text-align: center;margin: $margin 0;">Accept Work Order</h3>' +
+				'</a>' +
+				'<a href="' +
+				URLReject +
+				'/login ">' +
+				'<h3 style="color: #297560;font-size: 22px;text-align: center;margin: $margin 0;">Reject Work Order</h3>' +
 				'</a>' +
 				'</center>' +
 				'<center>' +
