@@ -102,10 +102,13 @@ const shiftDetailMutation = {
 		resolve(source, args) {
 			return Db.transaction((t) => {
 				let shiftList = [], employeeIndex = -1;
+				let Shiftid = 0;
+
 				shiftList = args.employees.map(employee => { return args.shift })
 				return Db.models.Shift.bulkCreate(shiftList, { returning: true, transaction: t }).then((ret) => {
 					var dates = []//List of dates
-					//Create object to insert into ShiftDetail table			
+					//Create object to insert into ShiftDetail table	
+					Shiftid = item.id
 					ret.map(item => {
 						dates.push({ startDate: args.startDate, endDate: args.endDate, startTime: args.startHour, endTime: args.endHour, ShiftId: item.id });
 					})
@@ -117,6 +120,13 @@ const shiftDetailMutation = {
 							newEmployees.push({ ShiftDetailId: item.id, EmployeeId: args.employees[employeeIndex] })
 						})
 						return Db.models.ShiftDetailEmployees.bulkCreate(newEmployees, { returning: true, transaction: t }).then(ret => {
+
+							Db.models.Employees.findAll({ where: { id: ret.dataValues.EmployeeId } }).then((select) => {
+								select.map((datashiftEmployee) => {
+									sendgenericemail({ StartDate: args.startDate.toISOString().substring(0, 10), ToDate: args.endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: Shiftid, email: datashiftEmployee.dataValues.electronicAddress, title: args.shift.title })
+								});
+							});
+
 							return ret.dataValues;
 						})
 					});

@@ -3258,12 +3258,12 @@ async function SendGenericEmail(args) {
 				'</h3>' +
 				'<a href="' +
 				URLAccept +
-				'/login ">' +
+				'/true/' + args.shift + ' ">' +
 				'<h3 style="color: #297560;font-size: 22px;text-align: center;margin: $margin 0;">Accept Work Order</h3>' +
 				'</a>' +
 				'<a href="' +
-				URLReject +
-				'/login ">' +
+				URLAccept +
+				'/false/' + args.shift + ' ">' +
 				'<h3 style="color: #297560;font-size: 22px;text-align: center;margin: $margin 0;">Reject Work Order</h3>' +
 				'</a>' +
 				'</center>' +
