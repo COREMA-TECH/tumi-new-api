@@ -3,6 +3,7 @@ import { inputUpdateShiftDetail } from '../types/operations/updateTypes';
 import { ShiftDetailType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLString, GraphQLNonNull } from 'graphql';
 import GraphQLDate from 'graphql-date';
+import { sendgenericemail } from '../../../Configuration/Roots';
 
 import Db from '../../models/models';
 
@@ -108,8 +109,8 @@ const shiftDetailMutation = {
 				return Db.models.Shift.bulkCreate(shiftList, { returning: true, transaction: t }).then((ret) => {
 					var dates = []//List of dates
 					//Create object to insert into ShiftDetail table	
-					Shiftid = item.id
 					ret.map(item => {
+						Shiftid = item.id
 						dates.push({ startDate: args.startDate, endDate: args.endDate, startTime: args.startHour, endTime: args.endHour, ShiftId: item.id });
 					})
 					//Insert ShiftDetail records into database
@@ -120,13 +121,12 @@ const shiftDetailMutation = {
 							newEmployees.push({ ShiftDetailId: item.id, EmployeeId: args.employees[employeeIndex] })
 						})
 						return Db.models.ShiftDetailEmployees.bulkCreate(newEmployees, { returning: true, transaction: t }).then(ret => {
-
-							/*	Db.models.Employees.findAll({ where: { id: ret.dataValues.EmployeeId } }).then((select) => {
-									select.map((datashiftEmployee) => {
-										console.log(datashiftEmployee);
-										//sendgenericemail({ StartDate: args.startDate.toISOString().substring(0, 10), ToDate: args.endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: Shiftid, email: datashiftEmployee.dataValues.electronicAddress, title: args.shift.title })
-									});
-								});*/
+							//console.log("ret[0].dataValues ", ret[0].dataValues.EmployeeId);
+							Db.models.Employees.findAll({ where: { id: ret[0].dataValues.EmployeeId } }).then((select) => {
+								select.map((datashiftEmployee) => {
+									sendgenericemail({ StartDate: args.startDate.toISOString().substring(0, 10), ToDate: args.endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: Shiftid, email: datashiftEmployee.dataValues.electronicAddress, title: args.shift.title })
+								});
+							});
 
 							return ret.dataValues;
 						})
