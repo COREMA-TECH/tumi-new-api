@@ -51,7 +51,7 @@ const WorkOrderMutation = {
 
 
 								//Get every day between startDate and endDate to generate ShiftDetail records
-								while (currentDate <= endDate) {
+								/*while (currentDate <= endDate) {
 									let newDate = new Date(currentDate)
 									dates.push({
 										startDate: newDate,
@@ -61,7 +61,12 @@ const WorkOrderMutation = {
 										ShiftId: datashift.dataValues.id
 									});
 									currentDate.setDate(currentDate.getDate() + 1)
-								}
+								}*/
+								ret.map(item => {
+									dates.push({ startDate: args.startDate, endDate: args.endDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id });
+									sendgenericemail({ StartDate: currentDate.toISOString().substring(0, 10), ToDate: endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: item.id, email: "mppomar@gmail.com", title: args.shift.title })
+
+								})
 
 								//Insert ShiftDetail records into database
 								Db.models.ShiftDetail.bulkCreate(dates, { returning: true }).then((ret) => { });

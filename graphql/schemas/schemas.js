@@ -52,9 +52,11 @@ import {
 	HolidayQuery,
 	EmployeesQuery,
 	ShiftQuery,
-	ShiftDetailsQuery
+	ShiftDetailsQuery,
+	ShiftWorkOrderQuery
 
 } from './queries';
+import { ShiftWorkOrderType } from './types/operations/outputTypes';
 
 const RootQuery = new GraphQLObjectType({
 	name: 'Query',
@@ -83,7 +85,8 @@ const RootQuery = new GraphQLObjectType({
 		...HolidayQuery,
 		...EmployeesQuery,
 		...ShiftQuery,
-		...ShiftDetailsQuery
+		...ShiftDetailsQuery,
+		...ShiftWorkOrderQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({
