@@ -6,7 +6,7 @@ import Db from '../../models/models';
 
 const ShiftDetailEmployeeMutation = {
     addShiftDetailEmployee: {
-        type: new GraphQLList(ShiftDetailEmployeesType),
+        type: ShiftDetailEmployeesType,
         description: 'Add Shift Detail Employee to database',
         args: {
             ShiftDetailEmployee: { type: inputInsertShiftDetailEmployee }
