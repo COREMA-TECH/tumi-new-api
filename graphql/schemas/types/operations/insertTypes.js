@@ -24,7 +24,8 @@ import {
 	EmployeesFields,
 	ShiftFields,
 	ShiftDetailFields,
-	ShiftWorkOrderFields
+	ShiftWorkOrderFields,
+	ShiftDetailEmployeesFields
 } from '../fields';
 
 const inputInsertEmployees = new GraphQLInputObjectType({
@@ -235,6 +236,13 @@ const inputInsertShiftDetailTransaction = new GraphQLInputObjectType({
 	}
 });
 
+const inputInsertShiftDetailEmployee = new GraphQLInputObjectType({
+	name: 'inputInsertShiftDetailEmployee',
+	description: 'Inputs for Shift Detail Employee Insert',
+	fields: { ...ShiftDetailEmployeesFields }
+
+});
+
 export {
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
@@ -260,5 +268,6 @@ export {
 	inputInsertShift,
 	inputInsertShiftDetail,
 	inputInsertShiftDetailTransaction,
-	inputInsertShiftWorkOrder
+	inputInsertShiftWorkOrder,
+	inputInsertShiftDetailEmployee
 };

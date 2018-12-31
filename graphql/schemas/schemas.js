@@ -26,7 +26,8 @@ import {
 	EmployeesMutation,
 	ShiftMutation,
 	ShiftDetailMutation,
-	ShiftWorkOrderMutation
+	ShiftWorkOrderMutation,
+	ShiftDetailEmployeeMutation
 } from './mutations';
 import {
 	ApplicationQuery,
@@ -115,7 +116,8 @@ const RootMutation = new GraphQLObjectType({
 		...EmployeesMutation,
 		...ShiftMutation,
 		...ShiftDetailMutation,
-		...ShiftWorkOrderMutation
+		...ShiftWorkOrderMutation,
+		...ShiftDetailEmployeeMutation
 	}
 });
 
