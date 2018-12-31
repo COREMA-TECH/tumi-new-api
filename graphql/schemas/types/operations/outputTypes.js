@@ -698,5 +698,6 @@ export {
 	ShiftType,
 	BusinessCompanyType,
 	ShiftDetailType,
-	ShiftWorkOrderType
+	ShiftWorkOrderType,
+	ShiftDetailEmployeesType
 };

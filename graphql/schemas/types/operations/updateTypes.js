@@ -21,7 +21,8 @@ import {
 	HolidayFields,
 	EmployeesFields,
 	ShiftFields,
-	ShiftDetailFields
+	ShiftDetailFields,
+	ShiftDetailEmployeesFields
 } from '../fields';
 
 const inputUpdateApplication = new GraphQLInputObjectType({
@@ -299,6 +300,18 @@ const inputUpdateShiftDetail = new GraphQLInputObjectType({
 	}
 });
 
+const inputUpdateShiftDetailemployee = new GraphQLInputObjectType({
+	name: 'inputUpdateShiftDetailemployee',
+	description: 'Inputs for Shift Detail Employee',
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...ShiftDetailEmployeesFields
+	}
+});
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -321,6 +334,7 @@ export {
 	inputUpdateHoliday,
 	inputUpdateEmployees,
 	inputUpdateShift,
-	inputUpdateShiftDetail
+	inputUpdateShiftDetail,
+	inputUpdateShiftDetailemployee
 
 };
