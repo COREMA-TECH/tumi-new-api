@@ -9,6 +9,8 @@ const host = 'coremagroup.cb4kqp6rssxe.us-east-2.rds.amazonaws.com';
 //const URLWeb = 'http://ec2-52-14-244-20.us-east-2.compute.amazonaws.com:3000';
 const URLWeb = 'https://corema-dev-env.herokuapp.com';
 const port = 5432;
+const URLAccept = 'http://ec2-3-16-143-115.us-east-2.compute.amazonaws.com:3001/home/schedules-accept/';
+//const URLReject = 'https://corema-dev-env.herokuapp.com';
 
 
 const ConfigPg = {
@@ -30,4 +32,4 @@ const Conn = new Sequelize(database, user, password, {
 	freezeTableName: true
 });
 
-export { URLWeb, ConfigPg, Conn };
+export { URLWeb, URLAccept, ConfigPg, Conn };
