@@ -638,7 +638,13 @@ const ShiftDetailEmployeesType = new GraphQLObjectType({
 	description: 'This is for Shift Detail Employee Table',
 	fields: () => {
 		return {
-			...ShiftDetailEmployeesFields
+			...ShiftDetailEmployeesFields,
+			Employees: {
+				type: EmployeesType,
+				resolve(me) {
+					return me.getEmployees();
+				}
+			}
 		}
 	}
 });

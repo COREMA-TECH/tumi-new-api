@@ -5,6 +5,7 @@ import { GraphQLList, GraphQLInt, GraphQLString, GraphQLNonNull } from 'graphql'
 import GraphQLDate from 'graphql-date';
 import { sendgenericemail } from '../../../Configuration/Roots';
 import Db from '../../models/models';
+import { EmployeesType } from '../types/operations/outputTypes';
 
 const WorkOrderMutation = {
 	addWorkOrder: {
@@ -196,39 +197,18 @@ const WorkOrderMutation = {
 			});
 		}
 	},
-	/*deleteWorkOrder: {
-		type: GraphQLInt,
-		description: 'Delete workorder record from database',
+	deleteShiftDetailEmployees: {
+		type: EmployeesType,
+		description: 'Delete employees record from database',
 		args: {
-			//id: { type: GraphQLList(GraphQLInt) }
-			id: { type: GraphQLInt },
-			userId: { type: GraphQLInt }
+			id: { type: GraphQLInt }
 		},
 		resolve(source, args) {
-			return Db.models.WorkOrder
-				.update(
-					{
-						status: 3
-					},
-					{
-						where: {
-							id: args.id
-						},
-						returning: true
-					}
-				)
-				.then(function ([rowsUpdate, [record]]) {
-					Db.models.PhaseWorkOrder.create({
-						userId: 10,//args.userId,
-						phaseworkOrderId: 30457,
-						WorkOrderId: args.id
-					});
-	
-					if (record) return record.dataValues;
-					else return null;
-				});
+			return Db.models.ShiftDetailEmployees.destroy({ where: { id: args.id } }).then((deleted) => {
+				return deleted;
+			});
 		}
-	},*/
+	},
 	convertToOpening: {
 		type: WorkOrderType,
 		description: 'Convert WorkOrder to Opening',
