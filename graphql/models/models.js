@@ -157,6 +157,8 @@ Application.belongsTo(WorkOrder, {
 	as: 'PositionApplyingFor'
 });
 
+
+
 Application.belongsTo(CatalogItem, {
 	foreignKey: 'state',
 	as: 'CatalogState'
@@ -187,8 +189,15 @@ Shift.belongsTo(BusinessCompany, {
 WorkOrder.hasMany(ShiftWorkOrder);
 
 
+
 Employees.hasMany(ShiftDetailEmployees);
 //shiftWorkOrder.hasMany(Shift);
+
+ShiftDetailEmployees.belongsTo(Employees, {
+	foreignKey: 'EmployeeId',
+	as: 'Employees'
+});
+
 
 //BusinessCompany.hasMany(WorkOrder);
 
