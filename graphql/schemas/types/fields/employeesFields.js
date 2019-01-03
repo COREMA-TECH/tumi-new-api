@@ -23,6 +23,12 @@ const employeesFields = {
 	},
 	userUpdated: {
 		type: GraphQLInt
+	},
+	Id_Deparment: {
+		type: GraphQLInt
+	},
+	Contact_Title: {
+		type: GraphQLInt
 	}
 };
 export default employeesFields;

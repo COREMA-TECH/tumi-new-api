@@ -37,7 +37,9 @@ const EmployeesMutation = {
 						idRole: args.employees.idRole,
 						isActive: args.employees.isActive,
 						userCreated: args.employees.userCreated,
-						userUpdated: args.employees.userUpdated
+						userUpdated: args.employees.userUpdated,
+						Id_Deparment: args.employees.userUpdated,
+						Contact_Title: args.employees.userUpdated
 					},
 					{
 						where: {

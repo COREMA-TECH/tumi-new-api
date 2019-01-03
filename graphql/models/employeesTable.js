@@ -36,6 +36,14 @@ export default {
 				userUpdated: {
 					type: Sequelize.INTEGER,
 					allowNull: false
+				},
+				Id_Deparment: {
+					type: Sequelize.INTEGER,
+					allowNull: true
+				},
+				Contact_Title: {
+					type: Sequelize.INTEGER,
+					allowNull: true
 				}
 			}
 		);
