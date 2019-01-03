@@ -618,6 +618,12 @@ const ShiftType = new GraphQLObjectType({
 				resolve(me) {
 					return me.getShiftEntity();
 				}
+			},
+			workOrder: {
+				type: ShiftWorkOrderType,
+				resolve(me) {
+					return me.getShiftWorkOrder();
+				}
 			}
 		}
 	}
@@ -628,6 +634,10 @@ const ShiftWorkOrderType = new GraphQLObjectType({
 	description: 'This is for Shift Table',
 	fields: () => {
 		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
 			...ShiftWorkOrderFields
 		}
 	}
