@@ -144,19 +144,6 @@ const WorkOrderMutation = {
 									var currentDate = new Date(args.startDate); //Variables used to save the current date inside the while
 									var endDate = new Date(args.endDate); //Variables used to save the current date inside the while
 
-									//Get every day between startDate and endDate to generate ShiftDetail records
-									/*while (currentDate <= endDate) {
-										let newDate = new Date(currentDate)
-										dates.push({
-											startDate: newDate,
-											endDate: newDate,
-											startTime: args.startshift,
-											endTime: args.endshift,
-											ShiftId: datashift.dataValues.id
-										});
-										currentDate.setDate(currentDate.getDate() + 1)
-									}*/
-
 									ret.map(item => {
 										dates.push({ startDate: args.startDate, endDate: args.endDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id });
 										//	sendgenericemail({ StartDate: currentDate.toISOString().substring(0, 10), ToDate: endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: item.id, email: "mppomar@gmail.com", title: args.shift.title })
@@ -204,7 +191,7 @@ const WorkOrderMutation = {
 			id: { type: GraphQLInt }
 		},
 		resolve(source, args) {
-			return Db.models.ShiftDetailEmployees.destroy({ where: { id: args.id } }).then((deleted) => {
+			return Db.models.ShiftDetailEmployees.destroy({ where: { ShiftDetailId: args.id } }).then((deleted) => {
 				return deleted;
 			});
 		}
