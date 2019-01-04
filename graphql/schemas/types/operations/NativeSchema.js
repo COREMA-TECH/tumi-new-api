@@ -235,6 +235,7 @@ input iParamEA {
 		IdRegion: Int
 		IdSchedulesEmployees: Int
 		IdSchedulesManager: Int
+		idEmployee: Int
 	}
 	input iContracts{
 			Id: Int

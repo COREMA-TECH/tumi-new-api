@@ -9,7 +9,7 @@ const path = require('path');
 import depthLimit from 'graphql-depth-limit';
 import jwt from 'jsonwebtoken';
 
-var APP_PORT = 4001;
+var APP_PORT = 4000;
 var cors = require('cors');
 var app = express();
 const SECRET = 'asda47#$*5444adtyydssdZad!#%**';
@@ -42,7 +42,7 @@ app.use(
 				user: req.user,
 				SECRET
 			},
-			validationRules: [ depthLimit(10) ]
+			validationRules: [depthLimit(10)]
 		};
 	})
 );
@@ -58,11 +58,11 @@ app.use(
 			context: {
 				SECRET
 			},
-			validationRules: [ depthLimit(10) ]
+			validationRules: [depthLimit(10)]
 		};
 	})
 );
 
-app.listen(process.env.PORT || APP_PORT, function() {
+app.listen(process.env.PORT || APP_PORT, function () {
 	console.log(`Server is running.. on Port ${APP_PORT}`);
 });

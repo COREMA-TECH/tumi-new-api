@@ -44,7 +44,12 @@ export default {
 				Contact_Title: {
 					type: Sequelize.INTEGER,
 					allowNull: true
-				}
+				},
+				idUsers: {
+					type: Sequelize.INTEGER,
+					allowNull: true
+				},
+
 			}
 		);
 	}

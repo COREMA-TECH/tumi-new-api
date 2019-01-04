@@ -2027,65 +2027,71 @@ async function getUsers(args) {
 
 async function InsUsers(args) {
 	try {
-		var strparam1;
-		if (args) {
-			//console.log(args);
-			// strparam1 = 'AES_KEY';
-			const password = `PGP_SYM_ENCRYPT('TEMP','AES_KEY')`;
-			Strquery =
-				'INSERT INTO public."Users" ("Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager") VALUES(' +
-				args.input.Id_Entity +
-				',' +
-				args.input.Id_Contact +
-				',' +
-				args.input.Id_Roles +
-				',' +
-				args.input.Code_User +
-				',' +
-				args.input.Full_Name +
-				',' +
-				args.input.Electronic_Address +
-				',' +
-				args.input.Phone_Number +
-				',' +
-				password +
-				',' +
-				args.input.Id_Language +
-				',' +
-				args.input.IsAdmin +
-				',' +
-				args.input.AllowDelete +
-				',' +
-				args.input.AllowInsert +
-				',' +
-				args.input.AllowEdit +
-				',' +
-				args.input.AllowExport +
-				',' +
-				args.input.IsActive +
-				',' +
-				args.input.User_Created +
-				',' +
-				args.input.User_Updated +
-				',' +
-				args.input.Date_Created +
-				',' +
-				args.input.Date_Updated +
-				',' +
-				args.input.IsRecruiter +
-				',' +
-				args.input.IdRegion +
-				',' +
-				args.input.IdSchedulesEmployees +
-				',' +
-				args.input.IdSchedulesManager +
-				') RETURNING "Id","Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager"';
-		} else {
-			console.log('Error Insert Data');
-		}
+		console.log(args);
+
+		//console.log(args);
+		// strparam1 = 'AES_KEY';
+		const password = `PGP_SYM_ENCRYPT('TEMP','AES_KEY')`;
+		Strquery =
+			'INSERT INTO public."Users" ("Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager") VALUES(' +
+			args.input.Id_Entity +
+			',' +
+			args.input.Id_Contact +
+			',' +
+			args.input.Id_Roles +
+			',' +
+			args.input.Code_User +
+			',' +
+			args.input.Full_Name +
+			',' +
+			args.input.Electronic_Address +
+			',' +
+			args.input.Phone_Number +
+			',' +
+			password +
+			',' +
+			args.input.Id_Language +
+			',' +
+			args.input.IsAdmin +
+			',' +
+			args.input.AllowDelete +
+			',' +
+			args.input.AllowInsert +
+			',' +
+			args.input.AllowEdit +
+			',' +
+			args.input.AllowExport +
+			',' +
+			args.input.IsActive +
+			',' +
+			args.input.User_Created +
+			',' +
+			args.input.User_Updated +
+			',' +
+			args.input.Date_Created +
+			',' +
+			args.input.Date_Updated +
+			',' +
+			args.input.IsRecruiter +
+			',' +
+			args.input.IdRegion +
+			',' +
+			args.input.IdSchedulesEmployees +
+			',' +
+			args.input.IdSchedulesManager +
+			') RETURNING "Id","Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager"';
+
 		console.log(Strquery);
 		const { rows } = await query(Strquery);
+
+		if (args.input.idEmployee) {
+			Strquery = 'UPDATE public."Employees" SET "idUsers"=' + rows[0].Id + ' where "id"=' + args.input.idEmployee;
+			console.log(Strquery);
+			const { rows2 } = await query(Strquery);
+		}
+
 		return rows[0];
+
 	} catch (err) {
 		console.log('Database ' + err);
 		return err;

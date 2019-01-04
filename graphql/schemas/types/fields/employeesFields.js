@@ -29,6 +29,9 @@ const employeesFields = {
 	},
 	Contact_Title: {
 		type: GraphQLInt
+	},
+	idUsers: {
+		type: GraphQLInt
 	}
 };
 export default employeesFields;
