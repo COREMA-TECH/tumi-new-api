@@ -39,7 +39,7 @@ const EmployeesMutation = {
 						userCreated: args.employees.userCreated,
 						userUpdated: args.employees.userUpdated,
 						Id_Deparment: args.employees.Id_Deparment,
-						Contact_Title: args.employees.Contact_Title
+						Contact_Title: args.employees.Contact_Title,
 						idEntity: args.employees.idEntity
 					},
 					{
