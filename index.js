@@ -9,7 +9,7 @@ const path = require('path');
 import depthLimit from 'graphql-depth-limit';
 import jwt from 'jsonwebtoken';
 
-var APP_PORT = 4000;
+var APP_PORT = 4001;
 var cors = require('cors');
 var app = express();
 const SECRET = 'asda47#$*5444adtyydssdZad!#%**';

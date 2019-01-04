@@ -38,8 +38,8 @@ const EmployeesMutation = {
 						isActive: args.employees.isActive,
 						userCreated: args.employees.userCreated,
 						userUpdated: args.employees.userUpdated,
-						Id_Deparment: args.employees.userUpdated,
-						Contact_Title: args.employees.userUpdated
+						Id_Deparment: args.employees.Id_Deparment,
+						Contact_Title: args.employees.Contact_Title
 					},
 					{
 						where: {
