@@ -40,6 +40,7 @@ const EmployeesMutation = {
 						userUpdated: args.employees.userUpdated,
 						Id_Deparment: args.employees.Id_Deparment,
 						Contact_Title: args.employees.Contact_Title
+						idEntity: args.employees.idEntity
 					},
 					{
 						where: {

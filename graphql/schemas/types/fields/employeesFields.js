@@ -32,6 +32,9 @@ const employeesFields = {
 	},
 	idUsers: {
 		type: GraphQLInt
+	},
+	idEntity: {
+		type: GraphQLInt
 	}
 };
 export default employeesFields;

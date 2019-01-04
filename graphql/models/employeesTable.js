@@ -49,7 +49,10 @@ export default {
 					type: Sequelize.INTEGER,
 					allowNull: true
 				},
-
+				idEntity: {
+					type: Sequelize.INTEGER,
+					allowNull: true
+				},
 			}
 		);
 	}
