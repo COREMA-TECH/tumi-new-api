@@ -1,4 +1,4 @@
-import { GraphQLInputObjectType } from 'graphql';
+import { GraphQLInputObjectType, GraphQLNonNull, GraphQLBoolean, GraphQLString, GraphQLInt } from 'graphql';
 
 import {
 	ApplicantLanguagesFields,
@@ -243,6 +243,20 @@ const inputInsertShiftDetailEmployee = new GraphQLInputObjectType({
 
 });
 
+const inputParamWorkOrderForShift = new GraphQLInputObjectType({
+	name: 'inputParamWorkOrderForShift',
+	description: "Input for Shift Creation",
+	fields: {
+		needExperience: { type: new GraphQLNonNull(GraphQLBoolean) },
+		needEnglish: { type: new GraphQLNonNull(GraphQLBoolean) },
+		comment: { type: new GraphQLNonNull(GraphQLString) },
+		specialComment: { type: new GraphQLNonNull(GraphQLString) },
+		userId: { type: new GraphQLNonNull(GraphQLInt) },
+		status: { type: new GraphQLNonNull(GraphQLInt) },
+		requestedBy: { type: new GraphQLNonNull(GraphQLInt) }
+	}
+})
+
 export {
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
@@ -269,5 +283,6 @@ export {
 	inputInsertShiftDetail,
 	inputInsertShiftDetailTransaction,
 	inputInsertShiftWorkOrder,
-	inputInsertShiftDetailEmployee
+	inputInsertShiftDetailEmployee,
+	inputParamWorkOrderForShift
 };
