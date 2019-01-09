@@ -112,8 +112,8 @@ const WorkOrderMutation = {
 						needEnglish: args.workOrder.needEnglish,
 						PositionRateId: args.workOrder.PositionRateId,
 						comment: args.workOrder.comment,
-						EspecialComment: args.workOrder.EspecialComment
-
+						EspecialComment: args.workOrder.EspecialComment,
+						dayWeek: args.workOrder.dayWeek
 					},
 					{
 						where: {

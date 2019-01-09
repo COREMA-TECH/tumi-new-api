@@ -38,7 +38,10 @@ const ShiftMutation = {
 						title: args.Shift.title,
 						color: args.Shift.color,
 						status: args.Shift.status,
-						idPosition: args.Shift.idPosition
+						idPosition: args.Shift.idPosition,
+						startDate: args.Shift.startDate,
+						endDate: args.Shift.endDate,
+						dayWeek: args.Shift.dayWeek
 					},
 					{
 						where: {

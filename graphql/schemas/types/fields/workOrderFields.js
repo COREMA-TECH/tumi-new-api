@@ -46,8 +46,10 @@ const WorkOrderFields = {
 	},
 	EspecialComment: {
 		type: GraphQLString
+	},
+	dayWeek: {
+		type: GraphQLString
 	}
-
 };
 
 export default WorkOrderFields;

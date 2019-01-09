@@ -61,6 +61,10 @@ export default {
 			EspecialComment: {
 				type: Sequelize.STRING,
 				allowNull: true
+			},
+			dayWeek: {
+				type: Sequelize.STRING,
+				allowNull: true
 			}
 		});
 	}

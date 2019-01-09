@@ -20,6 +20,18 @@ export default {
 				status: {
 					type: Sequelize.INTEGER,
 					allowNull: true
+				},
+				startDate: {
+					type: Sequelize.DATE,
+					allowNull: true
+				},
+				endDate: {
+					type: Sequelize.DATE,
+					allowNull: true
+				},
+				dayWeek: {
+					type: Sequelize.STRING,
+					allowNull: true
 				}
 			}
 		);
