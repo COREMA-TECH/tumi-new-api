@@ -21,7 +21,8 @@ import HolidayQuery from './holidayQuery';
 import EmployeesQuery from './employeesQuery';
 import ShiftQuery from './shiftQuery';
 import ShiftDetailsQuery from './shiftDetailQuery';
-import ShiftWorkOrderQuery from './shiftWorkOrderQuery'
+import ShiftWorkOrderQuery from './shiftWorkOrderQuery';
+import MarkedEmployeesQuery from './markedEmployeesQuery';
 
 
 import phaseworkOrderQuery from './phaseworkOrderQuery';
@@ -50,5 +51,6 @@ export {
 	EmployeesQuery,
 	ShiftQuery,
 	ShiftDetailsQuery,
-	ShiftWorkOrderQuery
+	ShiftWorkOrderQuery,
+	MarkedEmployeesQuery
 };

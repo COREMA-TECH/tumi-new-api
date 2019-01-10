@@ -22,7 +22,8 @@ import {
 	EmployeesFields,
 	ShiftFields,
 	ShiftDetailFields,
-	ShiftDetailEmployeesFields
+	ShiftDetailEmployeesFields,
+	MarkedEmployeesFields
 } from '../fields';
 
 const inputUpdateApplication = new GraphQLInputObjectType({
@@ -300,6 +301,20 @@ const inputUpdateShiftDetail = new GraphQLInputObjectType({
 	}
 });
 
+
+const inputUpdateMarkedEmployees = new GraphQLInputObjectType({
+	name: 'inputUpdateMarkedEmployees',
+	description: 'Inputs for Marked Employees Update',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...MarkedEmployeesFields
+	}
+});
+
 const inputUpdateShiftDetailemployee = new GraphQLInputObjectType({
 	name: 'inputUpdateShiftDetailemployee',
 	description: 'Inputs for Shift Detail Employee',
@@ -335,6 +350,7 @@ export {
 	inputUpdateEmployees,
 	inputUpdateShift,
 	inputUpdateShiftDetail,
-	inputUpdateShiftDetailemployee
+	inputUpdateShiftDetailemployee,
+	inputUpdateMarkedEmployees
 
 };

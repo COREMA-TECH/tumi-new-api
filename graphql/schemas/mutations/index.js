@@ -22,6 +22,7 @@ import ShiftMutation from './shiftMutation';
 import ShiftDetailMutation from './shiftDetailMutation';
 import ShiftWorkOrderMutation from './shiftWorkOrderMutation';
 import ShiftDetailEmployeeMutation from './shiftDetailEmployeeMutation';
+import MarkedEmployeesMutation from './markedEmployeesMutation';
 
 export {
 	ApplicantLanguageMutation,
@@ -47,5 +48,6 @@ export {
 	ShiftMutation,
 	ShiftDetailMutation,
 	ShiftWorkOrderMutation,
-	ShiftDetailEmployeeMutation
+	ShiftDetailEmployeeMutation,
+	MarkedEmployeesMutation
 };
