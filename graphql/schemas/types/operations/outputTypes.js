@@ -31,7 +31,8 @@ import {
 	ShiftDetailFields,
 	ShiftWorkOrderFields,
 	ShiftDetailEmployeesFields,
-	MarkedEmployeesFields
+	MarkedEmployeesFields,
+	ApplicationEmployeesFields
 } from '../fields';
 
 
@@ -600,7 +601,13 @@ const EmployeesType = new GraphQLObjectType({
 				type: GraphQLInt,
 				description: 'table id'
 			},
-			...EmployeesFields
+			...EmployeesFields,
+			ApplicationEmployees: {
+				type: ApplicationEmployeesType,
+				resolve(me) {
+					return me.getApplicationEmployee();
+				}
+			},
 		}
 	}
 });
@@ -713,6 +720,32 @@ const MarkedEmployeesType = new GraphQLObjectType({
 	}
 });
 
+const ApplicationEmployeesType = new GraphQLObjectType({
+	name: 'ApplicationEmployees',
+	description: 'This is for Marked Employees Table',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...ApplicationEmployeesFields,
+			Employees: {
+				type: EmployeesType,
+				resolve(me) {
+					return me.getEmployees();
+				}
+			},
+			Application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			},
+		}
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -744,5 +777,6 @@ export {
 	ShiftDetailType,
 	ShiftWorkOrderType,
 	ShiftDetailEmployeesType,
-	MarkedEmployeesType
+	MarkedEmployeesType,
+	ApplicationEmployeesType
 };

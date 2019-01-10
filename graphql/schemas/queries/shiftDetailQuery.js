@@ -18,6 +18,16 @@ const ShiftDetailQuery = {
             return Db.models.ShiftDetail.findAll({ where: args });
         }
     },
+    ShiftDetailByMarked: {
+        type: new GraphQLList(ShiftDetailType),
+        description: 'List Shift Details  records',
+        args: {
+            startDate: { type: GraphQLDate }
+        },
+        resolve(root, args) {
+            return Db.models.ShiftDetail.findAll({ where: args });
+        }
+    },
     ShiftDetailByDate: {
         type: new GraphQLList(ShiftDetailType),
         description: 'List Shift Details  records',

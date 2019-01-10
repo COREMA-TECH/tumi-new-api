@@ -23,6 +23,7 @@ import ShiftQuery from './shiftQuery';
 import ShiftDetailsQuery from './shiftDetailQuery';
 import ShiftWorkOrderQuery from './shiftWorkOrderQuery';
 import MarkedEmployeesQuery from './markedEmployeesQuery';
+import ApplicationEmployeesQuery from './applicationEmployeesQuery'
 
 
 import phaseworkOrderQuery from './phaseworkOrderQuery';
@@ -52,5 +53,6 @@ export {
 	ShiftQuery,
 	ShiftDetailsQuery,
 	ShiftWorkOrderQuery,
-	MarkedEmployeesQuery
+	MarkedEmployeesQuery,
+	ApplicationEmployeesQuery
 };
