@@ -25,7 +25,8 @@ import {
 	ShiftFields,
 	ShiftDetailFields,
 	ShiftWorkOrderFields,
-	ShiftDetailEmployeesFields
+	ShiftDetailEmployeesFields,
+	MarkedEmployeesFields
 } from '../fields';
 
 const inputInsertEmployees = new GraphQLInputObjectType({
@@ -243,6 +244,13 @@ const inputInsertShiftDetailEmployee = new GraphQLInputObjectType({
 
 });
 
+const inputInsertMarkedEmployees = new GraphQLInputObjectType({
+	name: 'inputInsertMarkedEmployees',
+	description: 'Inputs for MarkedEmployees Employee Insert',
+	fields: { ...MarkedEmployeesFields }
+
+});
+
 const inputParamWorkOrderForShift = new GraphQLInputObjectType({
 	name: 'inputParamWorkOrderForShift',
 	description: "Input for Shift Creation",
@@ -284,5 +292,6 @@ export {
 	inputInsertShiftDetailTransaction,
 	inputInsertShiftWorkOrder,
 	inputInsertShiftDetailEmployee,
-	inputParamWorkOrderForShift
+	inputParamWorkOrderForShift,
+	inputInsertMarkedEmployees
 };

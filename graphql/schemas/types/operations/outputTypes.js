@@ -30,8 +30,10 @@ import {
 	BusinessCompanyFields,
 	ShiftDetailFields,
 	ShiftWorkOrderFields,
-	ShiftDetailEmployeesFields
+	ShiftDetailEmployeesFields,
+	MarkedEmployeesFields
 } from '../fields';
+
 
 const ApplicationType = new GraphQLObjectType({
 	name: 'Applications',
@@ -685,6 +687,32 @@ const ShiftDetailType = new GraphQLObjectType({
 	}
 });
 
+const MarkedEmployeesType = new GraphQLObjectType({
+	name: 'MarkedEmployees',
+	description: 'This is for Marked Employees Table',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...MarkedEmployeesFields,
+			Employees: {
+				type: EmployeesType,
+				resolve(me) {
+					return me.getEmployees();
+				}
+			},
+			TypeMarked: {
+				type: CatalogItemType,
+				resolve(me) {
+					return me.getCatalogMarked();
+				}
+			},
+		}
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -715,5 +743,6 @@ export {
 	BusinessCompanyType,
 	ShiftDetailType,
 	ShiftWorkOrderType,
-	ShiftDetailEmployeesType
+	ShiftDetailEmployeesType,
+	MarkedEmployeesType
 };
