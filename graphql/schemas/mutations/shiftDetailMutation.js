@@ -108,12 +108,11 @@ const shiftDetailMutation = {
 				//Create dates to be inserted in ShiftDetail
 				var currentDate = new Date(args.shift.startDate); //Variables used to save the current date inside the while
 				//Replace daysWeek string with days numbers, starting Monday with 1 and finishing Sunday with 0
-				var weekDays = args.shift.dayWeek.replace("MO", 0).replace("TU", 1).replace("WE", 2).replace("TH", 3).replace("FR", 4).replace("SA", 5).replace("SU", 6)
+				var weekDays = args.shift.dayWeek.replace("MO", 1).replace("TU", 2).replace("WE", 3).replace("TH", 4).replace("FR", 5).replace("SA", 6).replace("SU", 0)
 				//Get every day between startDate and endDate to generate ShiftDetail records
 				while (currentDate <= args.shift.endDate) {
 					let newDate = new Date(currentDate)
-					console.log("newDate:::", newDate)
-					console.log("newDate.getDay():::", newDate.getDay())
+
 					if (weekDays.includes(newDate.getDay())) {
 						datesList.push({
 							startDate: newDate,
@@ -122,6 +121,7 @@ const shiftDetailMutation = {
 							endTime: args.endHour
 						});
 					}
+
 					currentDate.setDate(currentDate.getDate() + 1)
 				}
 				//Crate WorkOrder object based on parameters
