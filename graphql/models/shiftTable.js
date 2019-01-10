@@ -32,6 +32,10 @@ export default {
 				dayWeek: {
 					type: Sequelize.STRING,
 					allowNull: true
+				},
+				comment: {
+					type: Sequelize.STRING,
+					allowNull: true
 				}
 			}
 		);

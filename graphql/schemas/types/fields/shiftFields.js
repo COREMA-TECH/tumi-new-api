@@ -24,6 +24,9 @@ const shiftFields = {
 	},
 	dayWeek: {
 		type: GraphQLString
+	},
+	comment: {
+		type: GraphQLString
 	}
 };
 export default shiftFields;

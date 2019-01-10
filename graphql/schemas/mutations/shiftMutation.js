@@ -101,8 +101,8 @@ const ShiftMutation = {
 		args: {
 			id: { type: GraphQLInt },
 			status: { type: GraphQLInt },
-			color: { type: GraphQLString }
-
+			color: { type: GraphQLString },
+			comment: { type: GraphQLString }
 
 		},
 		resolve(source, args) {
@@ -110,7 +110,8 @@ const ShiftMutation = {
 				.update(
 					{
 						status: args.status,
-						color: args.color
+						color: args.color,
+						comment: args.comment
 					},
 					{
 						where: {
