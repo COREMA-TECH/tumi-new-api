@@ -177,7 +177,6 @@ const shiftDetailMutation = {
 									newEmployees.push({ ShiftDetailId: item.id, EmployeeId: args.employees[employeeIndex] })
 								})
 
-
 								return Db.models.ShiftDetailEmployees.bulkCreate(newEmployees, { returning: true, transaction: t }).then(ret => {
 									ret.map(item => {
 										shiftDetailIdTemp = item.dataValues.ShiftDetailId
@@ -198,13 +197,8 @@ const shiftDetailMutation = {
 										}
 
 									})
-
-
 									return ret.dataValues;
 								})
-
-
-
 							});
 						})
 					});
