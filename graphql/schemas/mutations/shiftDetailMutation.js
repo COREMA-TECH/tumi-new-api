@@ -133,7 +133,7 @@ const shiftDetailMutation = {
 					IdEntity: args.shift.entityId,
 					userId: args.special.userId,
 					date: args.shift.startDate,
-					status: args.special.status,
+					status: 1,
 					quantity: args.employees.length,
 					shift: args.startHour,
 					startDate: args.shift.startDate,
@@ -177,12 +177,11 @@ const shiftDetailMutation = {
 									newEmployees.push({ ShiftDetailId: item.id, EmployeeId: args.employees[employeeIndex] })
 								})
 
-
 								return Db.models.ShiftDetailEmployees.bulkCreate(newEmployees, { returning: true, transaction: t }).then(ret => {
 									ret.map(item => {
 										shiftDetailIdTemp = item.dataValues.ShiftDetailId
 
-										if (employeeIdTemp != item.dataValues.EmployeeId) {
+										if (employeeIdTemp != item.dataValues.EmployeeId && args.special.notify) {
 											Db.models.Employees.findAll({ where: { id: item.dataValues.EmployeeId } }).then((select) => {
 												select.map((datashiftEmployee) => {
 
@@ -198,13 +197,8 @@ const shiftDetailMutation = {
 										}
 
 									})
-
-
 									return ret.dataValues;
 								})
-
-
-
 							});
 						})
 					});
