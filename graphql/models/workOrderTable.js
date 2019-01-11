@@ -65,6 +65,10 @@ export default {
 			dayWeek: {
 				type: Sequelize.STRING,
 				allowNull: true
+			},
+			quantityFilled: {
+				type: Sequelize.INTEGER,
+				allowNull: true
 			}
 		});
 	}

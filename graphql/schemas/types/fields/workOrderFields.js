@@ -49,6 +49,9 @@ const WorkOrderFields = {
 	},
 	dayWeek: {
 		type: GraphQLString
+	},
+	quantityFilled: {
+		type: GraphQLInt
 	}
 };
 

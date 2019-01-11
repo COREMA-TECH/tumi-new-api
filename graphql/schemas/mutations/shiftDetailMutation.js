@@ -102,8 +102,12 @@ const shiftDetailMutation = {
 		resolve(source, args) {
 			return Db.transaction((t) => {
 				let shiftList = [], employeeIndex = -1, datesList = [];
+				let employeeIdTemp = 0;
+				let shiftDetailIdTemp = 0;
 
 				shiftList = args.employees.map(employee => { return args.shift })
+
+				//console.log("Estos son los arrt de empleado ", employees)
 
 				//Create dates to be inserted in ShiftDetail
 				var currentDate = new Date(args.shift.startDate); //Variables used to save the current date inside the while
@@ -172,15 +176,35 @@ const shiftDetailMutation = {
 									}
 									newEmployees.push({ ShiftDetailId: item.id, EmployeeId: args.employees[employeeIndex] })
 								})
+
+
 								return Db.models.ShiftDetailEmployees.bulkCreate(newEmployees, { returning: true, transaction: t }).then(ret => {
-									//Db.models.Employees.findAll({ where: { id: ret[0].dataValues.EmployeeId } }).then((select) => {
-									//	select.map((datashiftEmployee) => {
-									//	sendgenericemail({ StartDate: args.startDate.toISOString().substring(0, 10), ToDate: args.endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: Shiftid, email: datashiftEmployee.dataValues.electronicAddress, title: args.shift.title })
-									//	});
-									//});
+									ret.map(item => {
+										shiftDetailIdTemp = item.dataValues.ShiftDetailId
+
+										if (employeeIdTemp != item.dataValues.EmployeeId) {
+											Db.models.Employees.findAll({ where: { id: item.dataValues.EmployeeId } }).then((select) => {
+												select.map((datashiftEmployee) => {
+
+													Db.models.ShiftDetail.findAll({ where: { id: shiftDetailIdTemp } }).then((select) => {
+														select.map((dataShiftDetails) => {
+															sendgenericemail({ StartDate: args.shift.startDate.toISOString().substring(0, 10), ToDate: args.shift.endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: dataShiftDetails.dataValues.ShiftId, email: datashiftEmployee.dataValues.electronicAddress, title: args.shift.title })
+														});
+													})
+
+												});
+											})
+											employeeIdTemp = item.dataValues.EmployeeId
+										}
+
+									})
+
 
 									return ret.dataValues;
 								})
+
+
+
 							});
 						})
 					});

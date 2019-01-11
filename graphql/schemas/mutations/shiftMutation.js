@@ -121,6 +121,28 @@ const ShiftMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
+
+					Db.models.ShiftWorkOrder.findAll({ where: { ShiftId: args.id } }).then((select) => {
+						select.map((datashiftworkOrder) => {
+
+							Db.models.WorkOrder.findAll({ where: { id: datashiftworkOrder.dataValues.WorkOrderId } }).then((select) => {
+								select.map((dataworkOrder) => {
+
+									Db.models.WorkOrder.update({ quantityFilled: dataworkOrder.dataValues.quantityFilled + 1 },
+										{ where: { id: datashiftworkOrder.dataValues.WorkOrderId }, returning: true })
+								});
+							});
+						});
+					});
+
+					Db.models.WorkOrder.findAll({ where: { id: datashiftworkOrder.dataValues.WorkOrderId } }).then((select) => {
+						select.map((dataworkOrder) => {
+							if (dataworkOrder.dataValues.quantityFilled == dataworkOrder.dataValues.quantity) {
+								//sendgenericemail({ StartDate: args.shift.startDate.toISOString().substring(0, 10), ToDate: args.shift.endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: 0, email: datashiftEmployee.dataValues.electronicAddress, title: args.shift.title })
+							}
+						});
+					});
+
 					if (record) return record.dataValues;
 					else return null;
 				});
