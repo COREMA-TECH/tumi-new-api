@@ -37,27 +37,33 @@ const ShiftDetailQuery = {
             employeeId: { type: new GraphQLList(GraphQLInt) },
             startTime: { type: GraphQLString },
             endTime: { type: GraphQLString },
-            shiftDetailId: { type: GraphQLInt }
+            shiftDetailId: { type: GraphQLInt },
+            daysWeek: { type: GraphQLString }
         },
         resolve(root, args) {
+
+            //Create dates to be included in Query Where
+            var datesList = [];
+            var currentDate = new Date(args.startDate); //Variables used to save the current date inside the while
+            //Replace daysWeek string with days numbers, starting Monday with 1 and finishing Sunday with 0
+            var daysWeek = args.daysWeek.replace("MO", 1).replace("TU", 2).replace("WE", 3).replace("TH", 4).replace("FR", 5).replace("SA", 6).replace("SU", 0)
+            //Get every day between startDate and endDate to generate ShiftDetail records
+            while (currentDate <= args.endDate) {
+                let newDate = new Date(currentDate)
+                if (daysWeek.includes(newDate.getDay())) {
+                    datesList.push(newDate);
+                }
+                currentDate.setDate(currentDate.getDate() + 1)
+            }
+
             return Db.models.ShiftDetail.findAll({
                 where: {
                     [Op.and]: [
                         {
-                            [Op.or]: [
-                                {
-                                    startDate: {
-                                        [Op.lte]: args.endDate,
-                                        [Op.gte]: args.startDate
-                                    }
-                                },
-                                {
-                                    endDate: {
-                                        [Op.lte]: args.endDate,
-                                        [Op.gte]: args.startDate
-                                    }
-                                },
-                            ]
+                            startDate: {
+                                [Op.in]: datesList
+                            }
+
                         },
                         {
                             [Op.or]: [
