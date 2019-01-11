@@ -269,7 +269,7 @@ const inputParamWorkOrderForShift = new GraphQLInputObjectType({
 		comment: { type: new GraphQLNonNull(GraphQLString) },
 		specialComment: { type: new GraphQLNonNull(GraphQLString) },
 		userId: { type: new GraphQLNonNull(GraphQLInt) },
-		status: { type: new GraphQLNonNull(GraphQLInt) },
+		notify: { type: new GraphQLNonNull(GraphQLInt) },
 		requestedBy: { type: new GraphQLNonNull(GraphQLInt) }
 	}
 })
