@@ -50,15 +50,11 @@ const ShiftDetailQuery = {
             //Get every day between startDate and endDate to generate ShiftDetail records
             while (currentDate <= args.endDate) {
                 let newDate = new Date(currentDate)
-                console.log("New Date:::", newDate)
-                console.log("Current Date:::", currentDate)
                 if (daysWeek.includes(newDate.getDay())) {
                     datesList.push(newDate);
                 }
                 currentDate.setDate(currentDate.getDate() + 1)
             }
-
-            console.log("Date List:::", datesList)
 
             return Db.models.ShiftDetail.findAll({
                 where: {
