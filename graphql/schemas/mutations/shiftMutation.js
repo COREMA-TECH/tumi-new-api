@@ -138,7 +138,7 @@ const ShiftMutation = {
 											Db.models.Contacts.findAll({ where: { Id: dataworkOrder.dataValues.contactId } }).then((select) => {
 												select.map((dataContacts) => {
 
-													console.log("Envio el email")
+
 													Db.models.PositionRate.findAll({ where: { Id: dataworkOrder.dataValues.PositionRateId } }).then((select) => {
 														select.map((dataPositionRate) => {
 															sendworkorderfilledemail({ email: dataContacts.dataValues.Electronic_Address, title: "Your order No. " + dataworkOrder.dataValues.id + " has been fulfilled with position " + dataPositionRate.dataValues.Position })
