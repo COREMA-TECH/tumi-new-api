@@ -2,7 +2,7 @@ import { inputInsertShift } from '../types/operations/insertTypes';
 import { inputUpdateShift } from '../types/operations/updateTypes';
 import { ShiftType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLString } from 'graphql';
-import { sendgenericemail } from '../../../Configuration/Roots';
+import { sendworkorderfilledemail } from '../../../Configuration/Roots';
 
 import Db from '../../models/models';
 
@@ -122,26 +122,50 @@ const ShiftMutation = {
 				)
 				.then(function ([rowsUpdate, [record]]) {
 
-					Db.models.ShiftWorkOrder.findAll({ where: { ShiftId: args.id } }).then((select) => {
-						select.map((datashiftworkOrder) => {
+					if (args.status == 2) {
+						//	console.log(dataContacts)
+						Db.models.ShiftWorkOrder.findAll({ where: { ShiftId: args.id } }).then((select) => {
+							select.map((datashiftworkOrder) => {
 
-							Db.models.WorkOrder.findAll({ where: { id: datashiftworkOrder.dataValues.WorkOrderId } }).then((select) => {
-								select.map((dataworkOrder) => {
+								Db.models.WorkOrder.findAll({ where: { id: datashiftworkOrder.dataValues.WorkOrderId } }).then((select) => {
+									select.map((dataworkOrder) => {
 
-									Db.models.WorkOrder.update({ quantityFilled: dataworkOrder.dataValues.quantityFilled + 1 },
-										{ where: { id: datashiftworkOrder.dataValues.WorkOrderId }, returning: true })
+										Db.models.WorkOrder.update({ quantityFilled: dataworkOrder.dataValues.quantityFilled + 1 },
+											{ where: { id: dataworkOrder.dataValues.id }, returning: true })
+
+
+										if ((dataworkOrder.dataValues.quantityFilled + 1) == dataworkOrder.dataValues.quantity) {
+											Db.models.Contacts.findAll({ where: { Id: dataworkOrder.dataValues.contactId } }).then((select) => {
+												select.map((dataContacts) => {
+
+													console.log("Envio el email")
+													Db.models.PositionRate.findAll({ where: { Id: dataworkOrder.dataValues.PositionRateId } }).then((select) => {
+														select.map((dataPositionRate) => {
+															sendworkorderfilledemail({ email: dataContacts.dataValues.Electronic_Address, title: "Your order No. " + dataworkOrder.dataValues.id + " has been fulfilled with position " + dataPositionRate.dataValues.Position })
+														});
+													});
+
+												});
+											});
+										}
+
+									});
 								});
+
 							});
 						});
-					});
 
-					Db.models.WorkOrder.findAll({ where: { id: datashiftworkOrder.dataValues.WorkOrderId } }).then((select) => {
-						select.map((dataworkOrder) => {
-							if (dataworkOrder.dataValues.quantityFilled == dataworkOrder.dataValues.quantity) {
-								//sendgenericemail({ StartDate: args.shift.startDate.toISOString().substring(0, 10), ToDate: args.shift.endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: 0, email: datashiftEmployee.dataValues.electronicAddress, title: args.shift.title })
-							}
-						});
-					});
+						/*Db.models.WorkOrder.findAll({ where: { id: datashiftworkOrder.dataValues.WorkOrderId } }).then((select) => {
+							select.map((dataworkOrder) => {
+								if (dataworkOrder.dataValues.quantityFilled == dataworkOrder.dataValues.quantity) {
+
+									return Db.models.Contacts.findAll({ where: args });
+									SendWorkOrderFilledEmail({ email: datashiftEmployee.dataValues.electronicAddress, title: args.shift.title })
+
+								}
+							});
+						});*/
+					}
 
 					if (record) return record.dataValues;
 					else return null;

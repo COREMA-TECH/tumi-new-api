@@ -30,6 +30,7 @@ import ShiftDetailEmployeesFields from './shiftDetailEmployeesFields';
 import BusinessCompanyFields from './businessCompanyFields';
 import MarkedEmployeesFields from './markedEmployeesFields';
 import ApplicationEmployeesFields from './applicationEmployeesFields';
+import ContactsFields from './contactsFields';
 
 
 export {
@@ -64,5 +65,6 @@ export {
 	ShiftWorkOrderFields,
 	ShiftDetailEmployeesFields,
 	MarkedEmployeesFields,
-	ApplicationEmployeesFields
+	ApplicationEmployeesFields,
+	ContactsFields
 };
