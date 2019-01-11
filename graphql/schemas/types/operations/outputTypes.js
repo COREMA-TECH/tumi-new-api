@@ -32,7 +32,8 @@ import {
 	ShiftWorkOrderFields,
 	ShiftDetailEmployeesFields,
 	MarkedEmployeesFields,
-	ApplicationEmployeesFields
+	ApplicationEmployeesFields,
+	ContactsFields
 } from '../fields';
 
 
@@ -592,6 +593,16 @@ const HolidayType = new GraphQLObjectType({
 	}
 });
 
+const ContactsType = new GraphQLObjectType({
+	name: 'Contacts',
+	description: 'This is for Contacts Table',
+	fields: () => {
+		return {
+			...ContactsFields
+		}
+	}
+});
+
 const EmployeesType = new GraphQLObjectType({
 	name: 'Employees',
 	description: 'This is for Employees Table',
@@ -778,5 +789,6 @@ export {
 	ShiftWorkOrderType,
 	ShiftDetailEmployeesType,
 	MarkedEmployeesType,
-	ApplicationEmployeesType
+	ApplicationEmployeesType,
+	ContactsType
 };

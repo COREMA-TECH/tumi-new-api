@@ -28,6 +28,8 @@ import ShiftDetailEmployeesModel from './ShiftDetailEmployeesTable';
 import ShiftWorkOrderModel from './shiftWorkOrderTable';
 
 import BusinessCompanyModel from './businessCompanyTable';
+import ContactsModel from './contactsTable';
+
 
 import CatalogItemModel from './catalogItemTable';
 import UsersModel from './UsersTable';
@@ -64,6 +66,7 @@ const Holiday = HolidayModel.createModel(Conn);
 const phaseworkOrder = phaseworkOrderModel.createModel(Conn);
 
 const BusinessCompany = BusinessCompanyModel.createModel(Conn)
+const Contacts = ContactsModel.createModel(Conn);
 
 const Zipcode = ZipcodeModel.createModel(Conn);
 Zipcode.removeAttribute('id');
