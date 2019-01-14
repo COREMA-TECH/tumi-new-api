@@ -9,7 +9,7 @@ const ShiftQuery = {
         args: {
             id: {
                 type: GraphQLInt
-            }
+            },
         },
         resolve(root, args) {
             return Db.models.Shift.findAll({ where: args });

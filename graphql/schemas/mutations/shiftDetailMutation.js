@@ -12,7 +12,7 @@ const shiftDetailMutation = {
 		type: new GraphQLList(ShiftDetailType),
 		description: 'Add Shift to database',
 		args: {
-			ShiftDetail: { type: new GraphQLList(inputInsertShiftDetail) }
+			shiftDetail: { type: new GraphQLList(inputInsertShiftDetail) }
 		},
 		resolve(source, args) {
 			return Db.models.ShiftDetail.bulkCreate(args.ShiftDetail, { returning: true }).then((ret) => {
@@ -26,11 +26,11 @@ const shiftDetailMutation = {
 		type: ShiftDetailType,
 		description: 'Update Shift Info',
 		args: {
-			ShiftDetail: { type: inputUpdateShiftDetail }
+			shiftDetail: { type: inputUpdateShiftDetail }
 		},
 		resolve(source, args) {
 			return Db.models.ShiftDetail
-				.update(args.ShiftDetail, { where: { id: args.ShiftDetail.id }, returning: true })
+				.update(args.shiftDetail, { where: { id: args.shiftDetail.id }, returning: true })
 				.then(function ([rowsUpdate, [record]]) {
 					if (record) return record.dataValues;
 					else return null;
