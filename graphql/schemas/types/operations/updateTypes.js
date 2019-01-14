@@ -294,7 +294,7 @@ const inputUpdateShiftDetail = new GraphQLInputObjectType({
 
 	fields: {
 		id: {
-			type: new GraphQLNonNull(GraphQLInt),
+			type: GraphQLInt,
 			description: 'table Id'
 		},
 		...ShiftDetailFields

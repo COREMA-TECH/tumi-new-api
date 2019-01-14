@@ -37,7 +37,7 @@ const ShiftDetailQuery = {
             employeeId: { type: new GraphQLList(GraphQLInt) },
             startTime: { type: GraphQLString },
             endTime: { type: GraphQLString },
-            shiftDetailId: { type: GraphQLInt },
+            shiftDetailId: { type: new GraphQLList(GraphQLInt) },
             daysWeek: { type: GraphQLString }
         },
         resolve(root, args) {
@@ -77,7 +77,7 @@ const ShiftDetailQuery = {
                                 }
                             ]
                         }, {
-                            id: { [Op.ne]: args.shiftDetailId }
+                            id: { [Op.notIn]: args.shiftDetailId }
                         }]
 
                 },
@@ -90,8 +90,42 @@ const ShiftDetailQuery = {
 
             });
         }
+    },
+    shiftDetailByWeek: {
+        type: new GraphQLList(ShiftDetailType),
+        description: 'List Shift records for Specific Dates/Location/Position',
+        args: {
+            startDate: {
+                type: GraphQLDate
+            },
+            endDate: {
+                type: GraphQLDate
+            },
+            idPosition: {
+                type: GraphQLInt
+            },
+            entityId: {
+                type: GraphQLInt
+            }
+        },
+        resolve(root, args) {
+            return Db.models.ShiftDetail.findAll({
+                where: {
+                    startDate: { [Op.lte]: args.startDate },
+                    startDate: { [Op.gte]: args.endDate },
+                },
+                include: [
+                    {
+                        model: Db.models.Shift,
+                        where: {
+                            idPosition: args.idPosition,
+                            entityId: args.entityId
+                        }
+                    }
+                ]
+            });
+        }
     }
-
 };
 
 export default ShiftDetailQuery;
