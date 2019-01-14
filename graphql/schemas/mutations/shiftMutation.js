@@ -33,16 +33,7 @@ const ShiftMutation = {
 		resolve(source, args) {
 			return Db.models.Shift
 				.update(
-					{
-						entityId: args.Shift.entityId,
-						title: args.Shift.title,
-						color: args.Shift.color,
-						status: args.Shift.status,
-						idPosition: args.Shift.idPosition,
-						startDate: args.Shift.startDate,
-						endDate: args.Shift.endDate,
-						dayWeek: args.Shift.dayWeek
-					},
+					args.Shift,
 					{
 						where: {
 							id: args.Shift.id

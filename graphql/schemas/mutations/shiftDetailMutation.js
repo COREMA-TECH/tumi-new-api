@@ -30,21 +30,7 @@ const shiftDetailMutation = {
 		},
 		resolve(source, args) {
 			return Db.models.ShiftDetail
-				.update(
-					{
-						startDate: args.ShiftDetail.startDate,
-						endDate: args.ShiftDetail.endDate,
-						startTime: args.ShiftDetail.startTime,
-						endTime: args.ShiftDetail.endTime,
-						ShiftId: args.ShiftDetail.ShiftId
-					},
-					{
-						where: {
-							id: args.ShiftDetail.id
-						},
-						returning: true
-					}
-				)
+				.update(args.ShiftDetail, { where: { id: args.ShiftDetail.id }, returning: true })
 				.then(function ([rowsUpdate, [record]]) {
 					if (record) return record.dataValues;
 					else return null;
