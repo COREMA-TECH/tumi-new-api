@@ -3216,6 +3216,7 @@ async function SendEmail(args) {
 
 async function SendGenericEmail(args) {
 	try {
+		console.log("Estos son los args ", args)
 		var mailOptions = {
 			from: 'coremagroup@hotmail.com',
 			to: args.email,
@@ -3230,7 +3231,6 @@ async function SendGenericEmail(args) {
 				'<link rel="stylesheet" href="css/default.css">' +
 				'</head>' +
 				'<body>' +
-				'<!-- <style> -->' +
 				'<table class="body" data-made-with-foundation>' +
 				'<tr>' +
 				'<td class="float-center" align="center" valign="top">' +
@@ -3238,93 +3238,89 @@ async function SendGenericEmail(args) {
 				'<tr>' +
 				'<td class="logo-wrapper">' +
 				'<center class="logo-wrapper">' +
-				'<img src="https://firebasestorage.googleapis.com/v0/b/tumiapp-66cd6.appspot.com/o/files%2Flogo-tumy.png?alt=media&token=b6a26a9d-9081-40f6-a4b5-fed2c3b84895"' +
-				'alt="" class="logo" width="300px">' +
+				'<img src="https://firebasestorage.googleapis.com/v0/b/tumiapp-66cd6.appspot.com/o/files%2Flogo-tumy.png?alt=media&token=b6a26a9d-9081-40f6-a4b5-fed2c3b84895" alt="" class="logo" width="300px">' +
 				'</center>' +
 				'</td>' +
 				'</tr>' +
 				'<tr>' +
 				'<td>' +
 				'<center class="slogan">' +
-				'What you want to do and what you can do... <br>' +
-				'Is limited only by what you can dream' +
-				'<h3 style="color: #ecc500;font-size: 32px;text-align: center;margin: $margin 0;">A new shift has been created</h3>' +
-				'<p>' +
-				'We are in the process of setting you up as part of the Tummy family. <br>' +
-				'We need youn to complete the following steps to get the process rolling' +
-				'</p>' +
-				'<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">Number of Shift:   ' +
-				args.shift +
-				'<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">Title:   ' +
-				args.title +
-				'<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">From Date:   ' + args.StartDate + '<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">To Date:   ' + args.ToDate +
-				'</h3>' +
-				'<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">Shift Start:   ' + args.ShiftStart + '<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">Shift End:   ' + args.ShiftEnd +
-				'</h3>' +
+				'What you want to do and what you can do... <br> Is limited only by what you can dream ' +
+				'<h3 style="color: #ecc500;font-size: 32px;text-align: center;">A New Shift Has Been Assigned To You</h3>' +
+				'<h3 style="color:black;font-size:18px;text-align: center;">' + args.Hotel + '</h3>' +
+				'<table style="border-collapse: collapse; width: 70%; height: 100px;" border="1">' +
+				'<tbody>' +
+				'<tr style="height: 18px;">' +
+				'<td style="width: 234.483px; text-align: right; height: 18px;">Shift #:</td>' +
+				'<td style="width: 234.467px; text-align: left; height: 18px;">' + args.shift + '</td>' +
+				'</tr>' +
+				'<tr style="height: 18px;">' +
+				'<td style="width: 234.483px; text-align: right; height: 18px;">Department:</td>' +
+				'<td style="width: 234.467px; text-align: left; height: 18px;">' + args.Department + '</td>' +
+				'</tr>' +
+				'<tr style="height: 18px;">' +
+				'<td style="width: 234.483px; text-align: right; height: 18px;">Title</td>' +
+				'<td style="width: 234.467px; text-align: left; height: 18px;">' + args.title + '</td>' +
+				'</tr>' +
+				'<tr style="height: 18px;">' +
+				'<td style="width: 234.483px; text-align: right; height: 18px;">Start Date:</td>' +
+				'<td style="width: 234.467px; text-align: left; height: 18px;">' + args.StartDate + '</td>' +
+				'</tr>' +
+				'<tr style="height: 18px;">' +
+				'<td style="width: 234.483px; text-align: right; height: 18px;">End Date</td> ' +
+				'<td style="width: 234.467px; text-align: left; height: 18px;">' + args.ToDate + '</td > ' +
+				'</tr>' +
+				'<tr style="height: 18px;">' +
+				'<td style="width: 234.483px; text-align: right; height: 18px;"> Shift Start</td > ' +
+				'<td style="width: 234.467px; text-align: left; height: 18px;">' + args.ShiftStart + '</td > ' +
+				'</tr>' +
+				'<tr style="height: 18px;">' +
+				'<td style="width: 234.483px; text-align: right; height: 18px;">Shift End</td > ' +
+				'<td style="width: 234.467px; text-align: left; height: 18px;">' + args.ShiftEnd + '</td > ' +
+				'</tr>' +
+				'<tr style="height: 18px;">' +
+				'<td style="width: 234.483px; text-align: right; height: 18px;"> Supervisor:</td > ' +
+				'<td style="width: 234.467px; text-align: left; height: 18px;">' + args.supervisor + '</td > ' +
+				'</tr>' +
+				'</tbody>' +
+				'</table>' +
+				'<table style="border-collapse: collapse; width: 100%; height: 60px;" border="0">' +
+				'<tbody>' +
+				'<tr style="height: 18px;">' +
+				'<td style="width: 234.483px; text-align: right; height: 18px;">' +
+				'<a style="text-decoration: underline;text-decoration-color: green; "' +
 				'<a href="' +
 				URLAccept +
 				'/true/' + args.shift + ' ">' +
-				'<h3 style="color: #297560;font-size: 22px;text-align: center;margin: $margin 0;">Accept Work Order</h3>' +
+				'<h3 style="font-weight: bold;color: green;font-size: 22px;text-align: center;">Accept Shift</h3>' +
 				'</a>' +
+				'</td>' +
+				'<td style="width: 234.467px; text-align: left; height: 18px;">' +
+				'<a style="text-decoration: underline;text-decoration-color: red; "' +
 				'<a href="' +
 				URLAccept +
-				'/false/' + args.shift + ' ">' +
-				'<h3 style="color: #297560;font-size: 22px;text-align: center;margin: $margin 0;">Reject Work Order</h3>' +
+				'/true/' + args.shift + ' ">' +
+				'<h3 style="font-weight: bold; color: red;font-size: 22px;text-align: center;">Reject Shift</h3>' +
 				'</a>' +
+				'</td>' +
+				'</tr>' +
+				'</tbody>' +
+				'</table>' +
 				'</center>' +
-				'<center>' +
-				'<table class="button">' +
 				'<tr>' +
-				'<td>' +
+				'<td class="logo-wrapper">' +
+				'<center class="logo-wrapper" style="color:#777;background-color: #000;padding: 30px 0;">' +
 				'<table>' +
 				'<tr>' +
-				'<td>' +
-				'</td>' +
-				'</tr>' +
-				'</table>' +
-				'</td>' +
-				'</tr>' +
-				'</table>' +
-				'</center>' +
-				'</td>' +
+				'<td class="text-center" style="text-align: center;">PRIVACY STATEMENT</td>' +
+				'<td class="pipe text-center" style="text-align: center;">|</td>' +
+				'<td class="text-center" style="text-align: center;">TERM OF SERVICES</td>' +
 				'</tr>' +
 				'<tr>' +
-				'<td>' +
-				'<center class="content">' +
-				'Formed by hospitality professionals, we are dedicated to <br>' +
-				'helping your hotel achieve greater customer satisfaction,<br>' +
-				'increased QA scores, boost efficiencies and reduce cost.' +
-				'</center>' +
-				'</td>' +
-				'</tr>' +
-				'<tr>' +
-				'<td class="">' +
-				'<table>' +
-				'<tr>' +
-				'<td class="float-center" align="center" valign="top">' +
-				'<center style="color:#777;background-color: #000;padding: 50px 0;">' +
-				'<table>' +
-				'<tr>' +
-				'<td class="text-center" style="text-align: center;">' +
-				'PRIVACY STATEMENT' +
-				'</td>' +
-				'<td class="pipe text-center" style="text-align: center;">' +
-				'|' +
-				'</td>' +
-				'<td class="text-center" style="text-align: center;">' +
-				'TERM OF SERVICES' +
-				'</td>' +
-				'</tr>' +
-				'<tr>' +
-				'<td colspan="3" height="50px" style="vertical-align:middle" valign="middle">' +
-				'&copy; 2018 Tumi Staffing, Inc PO Box 592715 San Antonio, TX 78259' +
-				'</td>' +
+				'<td colspan="3" height="30px" style="vertical-align:middle" valign="middle">&copy; 2018 Tumi Staffing, Inc PO Box 592715 San Antonio, TX 78259 </td>' +
 				'</tr>' +
 				'</table>' +
 				'</center>' +
-				'</td>' +
-				'</tr>' +
-				'</table>' +
 				'</td>' +
 				'</tr>' +
 				'</table>' +
@@ -3334,7 +3330,6 @@ async function SendGenericEmail(args) {
 				'</body>' +
 				'</html>'
 		};
-
 		transporter.sendMail(mailOptions, function (error, info) {
 			if (error) {
 				console.log(error);

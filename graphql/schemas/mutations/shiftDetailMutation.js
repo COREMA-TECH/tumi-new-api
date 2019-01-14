@@ -93,7 +93,7 @@ const shiftDetailMutation = {
 
 				shiftList = args.employees.map(employee => { return args.shift })
 
-				//console.log("Estos son los arrt de empleado ", employees)
+				console.log("Estos son los arrt de args ", args)
 
 				//Create dates to be inserted in ShiftDetail
 				var currentDate = new Date(args.shift.startDate); //Variables used to save the current date inside the while
@@ -166,19 +166,37 @@ const shiftDetailMutation = {
 								return Db.models.ShiftDetailEmployees.bulkCreate(newEmployees, { returning: true, transaction: t }).then(ret => {
 									ret.map(item => {
 										shiftDetailIdTemp = item.dataValues.ShiftDetailId
-
+										console.log("Estoy en el ShiftDetailEmployees")
 										if (employeeIdTemp != item.dataValues.EmployeeId && args.special.notify) {
+											console.log("Estoy en el iffff")
 											Db.models.Employees.findAll({ where: { id: item.dataValues.EmployeeId } }).then((select) => {
 												select.map((datashiftEmployee) => {
-
+													console.log("Estoy en el datashiftEmployee22222222")
 													Db.models.ShiftDetail.findAll({ where: { id: shiftDetailIdTemp } }).then((select) => {
 														select.map((dataShiftDetails) => {
-															sendgenericemail({ StartDate: args.shift.startDate.toISOString().substring(0, 10), ToDate: args.shift.endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: dataShiftDetails.dataValues.ShiftId, email: datashiftEmployee.dataValues.electronicAddress, title: args.shift.title })
-														});
-													})
+															Db.models.PositionRate.findAll({ where: { Id: args.shift.idPosition } }).then((select) => {
+																select.map((dataPositionRate) => {
+																	Db.models.BusinessCompany.findAll({ where: { Id: dataPositionRate.dataValues.Id_Entity } }).then((select) => {
+																		select.map((dataBusinessCompany) => {
+																			Db.models.Contacts.findAll({ where: { Id: 249 } }).then((select) => {
+																				select.map((dataContacts) => {
+																					Db.models.CatalogItem.findAll({ where: { Id: dataContacts.dataValues.Id_Deparment } }).then((select) => {
+																						select.map((dataCatalogItem) => {
+																							console.log("Estoy en el dataShiftDetails")
+																							sendgenericemail({ StartDate: args.shift.startDate.toISOString().substring(0, 10), ToDate: args.shift.endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: dataShiftDetails.dataValues.ShiftId, email: datashiftEmployee.dataValues.electronicAddress, title: dataPositionRate.dataValues.Position, supervisor: dataContacts.dataValues.First_Name + ' ' + dataContacts.dataValues.Last_Name, Department: dataCatalogItem.dataValues.DisplayLabel, Hotel: dataBusinessCompany.dataValues.Name })
 
+																						});
+																					});
+																				});
+																			});
+																		});
+																	});
+																});
+															});
+														});
+													});
 												});
-											})
+											});
 											employeeIdTemp = item.dataValues.EmployeeId
 										}
 

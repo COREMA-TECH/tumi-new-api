@@ -313,7 +313,7 @@ input iParamEA {
 		validtokens(Token:String,Signatory:String):[Token]
 		createdocumentspdf(contentHTML:String,Name:String): String
 		sendemail(username:String,password:String,email:String,title:String): String
-		sendgenericemail(StartDate:String,ToDate:String,ShiftStart:String,ShiftEnd:String,shift:String,email:String,title:String): String
+		sendgenericemail(StartDate:String,ToDate:String,ShiftStart:String,ShiftEnd:String,shift:String,email:String,title:String,supervisor:String,Department:String,Hotel:String): String
 		sendworkorderfilledemail(email:String,title:String): String
 	}
 	type Mutation{
