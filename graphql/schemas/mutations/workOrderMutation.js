@@ -280,6 +280,32 @@ const WorkOrderMutation = {
 					else return null;
 				});
 		}
+	},
+	updateCommentWorkOrder: {
+		type: WorkOrderType,
+		description: 'Reject Work Order',
+		args: {
+			id: { type: GraphQLInt },
+			comment: { type: GraphQLString }
+		},
+		resolve(source, args) {
+			return Db.models.WorkOrder
+				.update(
+					{
+						comment: args.comment
+					},
+					{
+						where: {
+							id: args.id
+						},
+						returning: true
+					}
+				)
+				.then(function ([rowsUpdate, [record]]) {
+					if (record) return record.dataValues;
+					else return null;
+				});
+		}
 	}
 };
 
