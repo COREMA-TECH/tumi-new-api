@@ -1,8 +1,13 @@
 import { inputInsertShift } from '../types/operations/insertTypes';
 import { inputUpdateShift } from '../types/operations/updateTypes';
 import { ShiftType } from '../types/operations/outputTypes';
-import { GraphQLList, GraphQLInt, GraphQLString } from 'graphql';
+import { GraphQLList, GraphQLInt, GraphQLString, graphql } from 'graphql';
 import { sendworkorderfilledemail } from '../../../Configuration/Roots';
+import GraphQLDate from 'graphql-date';
+
+import Sequelize from 'sequelize';
+const Op = Sequelize.Op;
+
 
 import Db from '../../models/models';
 
@@ -192,6 +197,85 @@ const ShiftMutation = {
 					if (record) return record.dataValues;
 					else return null;
 				});
+		}
+	},
+	createTemplate: {
+		type: new GraphQLList(ShiftType),
+		description: 'Crate template to database',
+		args: {
+			shiftIds: { type: new GraphQLList(GraphQLInt) },
+			startDate: { type: GraphQLDate },
+			endDate: { type: GraphQLDate }
+		},
+		resolve(source, args) {
+			args.shiftIds.map(shiftId => {
+				Db.models.Shift.findAll({ where: { id: shiftId } }).then(data => {
+					if (data.length > 0) {
+						let shift = data[0].dataValues;
+
+						shift.isTemplate = true;
+
+						delete shift.createdAt;
+						delete shift.updatedAt;
+						delete shift.id;
+
+						//Reaplce dayWeek string with numbers
+						var weekDays = shift.dayWeek.replace("MO", 1).replace("TU", 2).replace("WE", 3).replace("TH", 4).replace("FR", 5).replace("SA", 6).replace("SU", 0)
+
+						//Insert into Shift table
+						Db.models.Shift.create(shift, { returning: true }).then(newShift => {
+							Db.models.ShiftDetail.findAll({
+								where: {
+									ShiftId: shiftId,
+									[Op.and]: [
+										{ startDate: { [Op.gte]: args.startDate } },
+										{ startDate: { [Op.lte]: args.endDate } }
+									]
+								}
+							}).then(shiftDetails => {
+								let _shiftDetail;
+								shiftDetails.map(shiftDetail => {
+									_shiftDetail = shiftDetail.dataValues;
+									_shiftDetail.ShiftId = newShift.dataValues.id;
+									var shiftDetailId = _shiftDetail.id;
+
+									delete _shiftDetail.id;
+									delete _shiftDetail.createdAt;
+									delete _shiftDetail.updatedAt;
+
+									Db.models.ShiftDetail.create(_shiftDetail, { returning: true }).then(newShiftDetail => {
+
+										console.log(_shiftDetail);
+
+										Db.models.ShiftDetailEmployees.findAll({ where: { ShiftDetailId: shiftDetailId } })
+											.then(shiftDetailsEmployee => {
+												shiftDetailsEmployee.map(shiftDetailEmployee => {
+
+													let _shiftDetailEmployee = shiftDetailEmployee.dataValues;
+
+													_shiftDetailEmployee.ShiftDetailId = _shiftDetail.id;
+													delete _shiftDetailEmployee.id;
+													delete _shiftDetailEmployee.createdAt;
+													delete _shiftDetailEmployee.updatedAt;
+												})
+
+											})
+									})
+
+								})
+								// datesList.push({
+								// 	startDate: currentDate,
+								// 	endDate: currentDate,
+								// 	startTime: args.startHour,
+								// 	endTime: args.endHour
+								// });
+
+							})
+						})
+
+					}
+				})
+			})
 		}
 	}
 };

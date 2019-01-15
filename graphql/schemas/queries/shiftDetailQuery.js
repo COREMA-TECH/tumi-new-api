@@ -111,8 +111,8 @@ const ShiftDetailQuery = {
         resolve(root, args) {
             return Db.models.ShiftDetail.findAll({
                 where: {
-                    startDate: { [Op.lte]: args.startDate },
-                    startDate: { [Op.gte]: args.endDate },
+                    startDate: { [Op.gte]: args.startDate },
+                    startDate: { [Op.lte]: args.endDate },
                 },
                 include: [
                     {

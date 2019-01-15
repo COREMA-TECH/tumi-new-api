@@ -37,6 +37,8 @@ import UsersModel from './UsersTable';
 import MarkedEmployeesModel from './markedEmployeesTable';
 import ApplicationEmployeesModel from './applicationEmployeesTable';
 
+import TemplateModel from './templateTable';
+import TemplateShiftModel from './templateShiftTable';
 
 import { Conn } from '../../Configuration/Configuration';
 
@@ -79,9 +81,11 @@ const ShiftWorkOrder = ShiftWorkOrderModel.createModel(Conn);
 
 const MarkedEmployees = MarkedEmployeesModel.createModel(Conn);
 const ApplicationEmployees = ApplicationEmployeesModel.createModel(Conn);
-
-
 const ApplicationPhases = ApplicationPhasesModel.createModel(Conn);
+
+const Template = TemplateModel.createModel(Conn);
+const TemplateShift = TemplateShiftModel.createModel(Conn);
+
 ApplicationPhases.belongsTo(CatalogItem, {
 	foreignKey: 'ReasonId',
 	as: 'Reason'
@@ -125,31 +129,17 @@ ApplicantHarassmentPolicy.belongsTo(Application);
 ApplicantWorkerCompensation.belongsTo(Application);
 
 WorkOrder.belongsTo(PositionRate);
-// WorkOrder.belongsTo(CatalogItem, {
-// 	foreignKey: 'status'
-// });
+
 WorkOrder.hasMany(WorkOrderPosition, { onDelete: 'cascade' });
 WorkOrderPosition.belongsTo(PositionRate);
-// WorkOrderPosition.belongsTo(CatalogItem, {
-// 	foreignKey: 'status'
-// });
+
 WorkOrder.hasMany(phaseworkOrder);
 phaseworkOrder.belongsTo(WorkOrder);
 
-//BusinessCompany.hasMany(WorkOrder);
-/*WorkOrder.belongsTo(BusinessCompany, {
-	foreignKey: 'IdEntity',
-	as: 'BusinessCompanyWO'
-});*/
-
-//BusinessCompany.hasMany(WorkOrder);
-//BusinessCompany.belongsTo(WorkOrder);
 WorkOrder.belongsTo(BusinessCompany, {
 	foreignKey: 'IdEntity',
 	as: 'BusinessCompanyWO'
 });
-
-
 
 phaseworkOrder.belongsTo(CatalogItem, {
 	foreignKey: 'phaseworkOrderId',
@@ -165,8 +155,6 @@ Application.belongsTo(WorkOrder, {
 	foreignKey: 'positionApplyingFor',
 	as: 'PositionApplyingFor'
 });
-
-
 
 Application.belongsTo(CatalogItem, {
 	foreignKey: 'state',
@@ -197,10 +185,7 @@ Shift.belongsTo(BusinessCompany, {
 
 WorkOrder.hasMany(ShiftWorkOrder);
 
-
-
 Employees.hasMany(ShiftDetailEmployees);
-//shiftWorkOrder.hasMany(Shift);
 
 ShiftDetailEmployees.belongsTo(Employees, {
 	foreignKey: 'EmployeeId',
@@ -209,7 +194,6 @@ ShiftDetailEmployees.belongsTo(Employees, {
 
 
 Employees.hasMany(MarkedEmployees)
-
 
 MarkedEmployees.belongsTo(Employees, {
 	foreignKey: 'EmployeeId',
@@ -224,11 +208,6 @@ MarkedEmployees.belongsTo(CatalogItem, {
 Application.hasOne(ApplicationEmployees);
 Employees.hasOne(ApplicationEmployees);
 
-/*Employees.belongsTo(ApplicationEmployees, {
-	foreignKey: 'EmployeeId',
-	as: 'ApplicationEmployees'
-});*/
-
 ApplicationEmployees.belongsTo(Employees, {
 	foreignKey: 'EmployeeId',
 	as: 'Employees'
@@ -238,6 +217,9 @@ ApplicationEmployees.belongsTo(Application, {
 	foreignKey: 'ApplicationId',
 	as: 'Application'
 });
+
+TemplateShift.belongsTo(Template);
+TemplateShift.belongsTo(Shift);
 
 Conn.authenticate()
 	.then(() => {

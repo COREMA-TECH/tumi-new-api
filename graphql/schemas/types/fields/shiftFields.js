@@ -27,6 +27,9 @@ const shiftFields = {
 	},
 	comment: {
 		type: GraphQLString
+	},
+	isTemplate: {
+		type: GraphQLBoolean
 	}
 };
 export default shiftFields;
