@@ -36,6 +36,10 @@ export default {
 				comment: {
 					type: Sequelize.STRING,
 					allowNull: true
+				},
+				isTemplate: {
+					type: Sequelize.BOOLEAN,
+					defaultValue: false
 				}
 			}
 		);
