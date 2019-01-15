@@ -204,71 +204,81 @@ const ShiftMutation = {
 		description: 'Crate template to database',
 		args: {
 			shiftIds: { type: new GraphQLList(GraphQLInt) },
+			title: { type: GraphQLString },
 			startDate: { type: GraphQLDate },
 			endDate: { type: GraphQLDate }
 		},
 		resolve(source, args) {
-			args.shiftIds.map(shiftId => {
-				Db.models.Shift.findAll({ where: { id: shiftId } }).then(data => {
-					if (data.length > 0) {
-						let shift = data[0].dataValues;
+			//Create header template
+			Db.models.Template.create({ title: args.title }, { returning: true })
+				.then(template => {
 
-						shift.isTemplate = true;
+					args.shiftIds.map(shiftId => {
+						Db.models.Shift.findAll({ where: { id: shiftId } }).then(data => {
+							if (data.length > 0) {
+								let shift = data[0].dataValues;
 
-						delete shift.createdAt;
-						delete shift.updatedAt;
-						delete shift.id;
+								shift.isTemplate = true;
 
-						//Insert into Shift table
-						Db.models.Shift.create(shift, { returning: true }).then(newShift => {
-							Db.models.ShiftDetail.findAll({
-								where: {
-									ShiftId: shiftId,
-									[Op.and]: [
-										{ startDate: { [Op.gte]: args.startDate } },
-										{ startDate: { [Op.lte]: args.endDate } }
-									]
-								}
-							}).then(shiftDetails => {
-								let _shiftDetail;
-								shiftDetails.map(shiftDetail => {
-									_shiftDetail = shiftDetail.dataValues;
-									_shiftDetail.ShiftId = newShift.dataValues.id;
-									var shiftDetailId = _shiftDetail.id;
+								delete shift.createdAt;
+								delete shift.updatedAt;
+								delete shift.id;
 
-									delete _shiftDetail.id;
-									delete _shiftDetail.createdAt;
-									delete _shiftDetail.updatedAt;
+								//Insert into Shift table
+								Db.models.Shift.create(shift, { returning: true }).then(newShift => {
+									Db.models.TemplateShift.create({ TemplateId: template.dataValues.id, ShiftId: newShift.dataValues.id })
+										.then(_newTemplateShift => {
+											console.log(_newTemplateShift)
+										})
+									Db.models.ShiftDetail.findAll({
+										where: {
+											ShiftId: shiftId,
+											[Op.and]: [
+												{ startDate: { [Op.gte]: args.startDate } },
+												{ startDate: { [Op.lte]: args.endDate } }
+											]
+										}
+									}).then(shiftDetails => {
+										let _shiftDetail;
+										shiftDetails.map(shiftDetail => {
+											_shiftDetail = shiftDetail.dataValues;
+											_shiftDetail.ShiftId = newShift.dataValues.id;
+											var shiftDetailId = _shiftDetail.id;
 
-									Db.models.ShiftDetail.create(_shiftDetail, { returning: true }).then(newShiftDetail => {
-										Db.models.ShiftDetailEmployees.findAll({ where: { ShiftDetailId: shiftDetailId } })
-											.then(shiftDetailsEmployee => {
-												shiftDetailsEmployee.map(shiftDetailEmployee => {
+											delete _shiftDetail.id;
+											delete _shiftDetail.createdAt;
+											delete _shiftDetail.updatedAt;
 
-													let _shiftDetailEmployee = shiftDetailEmployee.dataValues;
+											Db.models.ShiftDetail.create(_shiftDetail, { returning: true }).then(newShiftDetail => {
+												Db.models.ShiftDetailEmployees.findAll({ where: { ShiftDetailId: shiftDetailId } })
+													.then(shiftDetailsEmployee => {
+														shiftDetailsEmployee.map(shiftDetailEmployee => {
 
-													_shiftDetailEmployee.ShiftDetailId = newShiftDetail.dataValues.id;
+															let _shiftDetailEmployee = shiftDetailEmployee.dataValues;
 
-													delete _shiftDetailEmployee.id;
-													delete _shiftDetailEmployee.createdAt;
-													delete _shiftDetailEmployee.updatedAt;
+															_shiftDetailEmployee.ShiftDetailId = newShiftDetail.dataValues.id;
 
-													Db.models.ShiftDetailEmployees.create(_shiftDetailEmployee, { returning: true })
-														.then(newShiftDetailEmployee => {
-															console.log(newShiftDetailEmployee.dataValues)
+															delete _shiftDetailEmployee.id;
+															delete _shiftDetailEmployee.createdAt;
+															delete _shiftDetailEmployee.updatedAt;
+
+															Db.models.ShiftDetailEmployees.create(_shiftDetailEmployee, { returning: true })
+																.then(newShiftDetailEmployee => {
+																})
 														})
-												})
 
+													})
 											})
+
+										})
 									})
-
 								})
-							})
-						})
 
-					}
+							}
+						})
+					})
 				})
-			})
+
 		}
 	}
 };

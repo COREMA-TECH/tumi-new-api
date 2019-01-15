@@ -1,4 +1,4 @@
-import { GraphQLList, GraphQLString, GraphQLIncludeDirective, GraphQLInt } from 'graphql';
+import { GraphQLList, GraphQLString, GraphQLIncludeDirective, GraphQLInt, GraphQLBoolean } from 'graphql';
 import { ShiftType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
@@ -10,6 +10,10 @@ const ShiftQuery = {
             id: {
                 type: GraphQLInt
             },
+            isTemplate: {
+                type: GraphQLBoolean,
+                defaultValue: false
+            }
         },
         resolve(root, args) {
             return Db.models.Shift.findAll({ where: args });

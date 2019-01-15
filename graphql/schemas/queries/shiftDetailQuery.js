@@ -15,7 +15,15 @@ const ShiftDetailQuery = {
             ShiftId: { type: GraphQLInt }
         },
         resolve(root, args) {
-            return Db.models.ShiftDetail.findAll({ where: args });
+            return Db.models.ShiftDetail.findAll({
+                where: args,
+                include: [
+                    {
+                        model: Db.models.Shift,
+                        where: { isTemplate: { [Op.eq]: false } }
+                    }
+                ]
+            });
         }
     },
     ShiftDetailByMarked: {
