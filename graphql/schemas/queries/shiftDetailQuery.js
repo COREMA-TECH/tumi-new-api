@@ -1,4 +1,4 @@
-import { GraphQLList, GraphQLString, GraphQLInt } from 'graphql';
+import { GraphQLList, GraphQLString, GraphQLInt, GraphQLBoolean } from 'graphql';
 import { ShiftDetailType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 import Sequelize from 'sequelize';
@@ -106,20 +106,24 @@ const ShiftDetailQuery = {
             },
             entityId: {
                 type: GraphQLInt
-            }
+            },
+            isTemplate: { type: GraphQLBoolean, defaultValue: false }
         },
         resolve(root, args) {
             return Db.models.ShiftDetail.findAll({
                 where: {
-                    startDate: { [Op.gte]: args.startDate },
-                    startDate: { [Op.lte]: args.endDate },
+                    [Op.and]: [
+                        { startDate: { [Op.gte]: args.startDate } },
+                        { startDate: { [Op.lte]: args.endDate } }
+                    ]
                 },
                 include: [
                     {
                         model: Db.models.Shift,
                         where: {
                             idPosition: args.idPosition,
-                            entityId: args.entityId
+                            entityId: args.entityId,
+                            isTemplate: args.isTemplate
                         }
                     }
                 ]

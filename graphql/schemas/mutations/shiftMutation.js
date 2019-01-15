@@ -188,9 +188,6 @@ const ShiftMutation = {
 						delete shift.updatedAt;
 						delete shift.id;
 
-						//Reaplce dayWeek string with numbers
-						var weekDays = shift.dayWeek.replace("MO", 1).replace("TU", 2).replace("WE", 3).replace("TH", 4).replace("FR", 5).replace("SA", 6).replace("SU", 0)
-
 						//Insert into Shift table
 						Db.models.Shift.create(shift, { returning: true }).then(newShift => {
 							Db.models.ShiftDetail.findAll({
@@ -213,32 +210,28 @@ const ShiftMutation = {
 									delete _shiftDetail.updatedAt;
 
 									Db.models.ShiftDetail.create(_shiftDetail, { returning: true }).then(newShiftDetail => {
-
-										console.log(_shiftDetail);
-
 										Db.models.ShiftDetailEmployees.findAll({ where: { ShiftDetailId: shiftDetailId } })
 											.then(shiftDetailsEmployee => {
 												shiftDetailsEmployee.map(shiftDetailEmployee => {
 
 													let _shiftDetailEmployee = shiftDetailEmployee.dataValues;
 
-													_shiftDetailEmployee.ShiftDetailId = _shiftDetail.id;
+													_shiftDetailEmployee.ShiftDetailId = newShiftDetail.dataValues.id;
+
 													delete _shiftDetailEmployee.id;
 													delete _shiftDetailEmployee.createdAt;
 													delete _shiftDetailEmployee.updatedAt;
+
+													Db.models.ShiftDetailEmployees.create(_shiftDetailEmployee, { returning: true })
+														.then(newShiftDetailEmployee => {
+															console.log(newShiftDetailEmployee.dataValues)
+														})
 												})
 
 											})
 									})
 
 								})
-								// datesList.push({
-								// 	startDate: currentDate,
-								// 	endDate: currentDate,
-								// 	startTime: args.startHour,
-								// 	endTime: args.endHour
-								// });
-
 							})
 						})
 
