@@ -38,6 +38,12 @@ const PositionRateFields = {
 	},
 	Date_Updated: {
 		type: GraphQLString
+	},
+	Id_positionApplying: {
+		type: GraphQLInt
+	},
+	Comment: {
+		type: GraphQLString
 	}
 };
 export default PositionRateFields;

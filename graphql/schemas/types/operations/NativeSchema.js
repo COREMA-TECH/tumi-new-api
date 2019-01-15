@@ -314,7 +314,7 @@ input iParamEA {
 		createdocumentspdf(contentHTML:String,Name:String): String
 		sendemail(username:String,password:String,email:String,title:String): String
 		sendgenericemail(StartDate:String,ToDate:String,ShiftStart:String,ShiftEnd:String,shift:String,email:String,title:String,supervisor:String,Department:String,Hotel:String): String
-		sendworkorderfilledemail(email:String,title:String): String
+		sendworkorderfilledemail(email:String,title:String,employees:String): String
 	}
 	type Mutation{
 		insbusinesscompanies(input: iParamBC): BusinessCompany 

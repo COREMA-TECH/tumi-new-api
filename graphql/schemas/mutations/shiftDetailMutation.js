@@ -166,12 +166,9 @@ const shiftDetailMutation = {
 								return Db.models.ShiftDetailEmployees.bulkCreate(newEmployees, { returning: true, transaction: t }).then(ret => {
 									ret.map(item => {
 										shiftDetailIdTemp = item.dataValues.ShiftDetailId
-										console.log("Estoy en el ShiftDetailEmployees")
 										if (employeeIdTemp != item.dataValues.EmployeeId && args.special.notify) {
-											console.log("Estoy en el iffff")
 											Db.models.Employees.findAll({ where: { id: item.dataValues.EmployeeId } }).then((select) => {
 												select.map((datashiftEmployee) => {
-													console.log("Estoy en el datashiftEmployee22222222")
 													Db.models.ShiftDetail.findAll({ where: { id: shiftDetailIdTemp } }).then((select) => {
 														select.map((dataShiftDetails) => {
 															Db.models.PositionRate.findAll({ where: { Id: args.shift.idPosition } }).then((select) => {
@@ -182,9 +179,8 @@ const shiftDetailMutation = {
 																				select.map((dataContacts) => {
 																					Db.models.CatalogItem.findAll({ where: { Id: dataContacts.dataValues.Id_Deparment } }).then((select) => {
 																						select.map((dataCatalogItem) => {
-																							console.log("Estoy en el dataShiftDetails")
-																							sendgenericemail({ StartDate: args.shift.startDate.toISOString().substring(0, 10), ToDate: args.shift.endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: dataShiftDetails.dataValues.ShiftId, email: datashiftEmployee.dataValues.electronicAddress, title: dataPositionRate.dataValues.Position, supervisor: dataContacts.dataValues.First_Name + ' ' + dataContacts.dataValues.Last_Name, Department: dataCatalogItem.dataValues.DisplayLabel, Hotel: dataBusinessCompany.dataValues.Name })
-
+																							var weekDays = args.shift.dayWeek.replace("MO", "Monday, ").replace("TU", "Tuesday, ").replace("WE", "Wednesday, ").replace("TH", "Thursday, ").replace("FR", "Friday,").replace("SA", "Saturday, ").replace("SU", "Sunday, ")
+																							sendgenericemail({ StartDate: args.shift.startDate.toISOString().substring(0, 10), ToDate: args.shift.endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: dataShiftDetails.dataValues.ShiftId, email: datashiftEmployee.dataValues.electronicAddress, title: dataPositionRate.dataValues.Position, supervisor: dataContacts.dataValues.First_Name.trim + ' ' + dataContacts.dataValues.Last_Name, Department: dataCatalogItem.dataValues.DisplayLabel, Hotel: dataBusinessCompany.dataValues.Name, Workdays: weekDays, specialComment: dataPositionRate.dataValues.Comment })
 																						});
 																					});
 																				});

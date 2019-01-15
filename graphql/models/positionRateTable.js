@@ -62,6 +62,14 @@ export default {
 				Date_Updated: {
 					type: Sequelize.STRING,
 					allowNull: false
+				},
+				Id_positionApplying: {
+					type: Sequelize.INTEGER,
+					allowNull: true
+				},
+				Comment: {
+					type: Sequelize.STRING,
+					allowNull: true
 				}
 			},
 			{
