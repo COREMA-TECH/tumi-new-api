@@ -205,10 +205,13 @@ const ShiftMutation = {
 		args: {
 			shiftIds: { type: new GraphQLList(GraphQLInt) },
 			title: { type: GraphQLString },
-			startDate: { type: GraphQLDate },
 			endDate: { type: GraphQLDate }
 		},
 		resolve(source, args) {
+			//Create a new date based on endDate  and substract 6 days
+			var startDate = new Date(args.endDate)
+			startDate.setDate(startDate.getDate() - 6);
+
 			//Create header template
 			Db.models.Template.create({ title: args.title }, { returning: true })
 				.then(template => {
@@ -241,7 +244,7 @@ const ShiftMutation = {
 										where: {
 											ShiftId: shiftId,
 											[Op.and]: [
-												{ startDate: { [Op.gte]: args.startDate } },
+												{ startDate: { [Op.gte]: startDate } },
 												{ startDate: { [Op.lte]: args.endDate } }
 											]
 										}
