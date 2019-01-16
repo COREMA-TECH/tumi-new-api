@@ -328,7 +328,7 @@ const ShiftMutation = {
 		type: new GraphQLList(ShiftType),
 		description: 'Create  shifts based on templates',
 		args: {
-			templateId: { type: new GraphQLList(GraphQLInt) },
+			templateId: { type: GraphQLInt },
 			endDate: { type: GraphQLDate },
 			userId: { type: GraphQLInt },
 			positionId: { type: GraphQLInt },
@@ -473,7 +473,7 @@ const ShiftMutation = {
 			endDate: { type: GraphQLDate },
 			entityId: { type: GraphQLInt },
 			positionId: { type: GraphQLInt },
-			userId:{type: GraphQLInt}
+			userId: { type: GraphQLInt }
 		},
 		resolve(source, args) {
 			//Create a new date based on endDate  and substract 6 days
