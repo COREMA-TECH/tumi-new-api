@@ -115,6 +115,9 @@ const ShiftDetailQuery = {
             entityId: {
                 type: GraphQLInt
             },
+            shiftId: {
+                type: GraphQLInt
+            },
             isTemplate: { type: GraphQLBoolean, defaultValue: false }
         },
         resolve(root, args) {
