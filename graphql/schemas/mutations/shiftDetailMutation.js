@@ -93,8 +93,6 @@ const shiftDetailMutation = {
 
 				shiftList = args.employees.map(employee => { return args.shift })
 
-				console.log("Estos son los arrt de args ", args)
-
 				//Create dates to be inserted in ShiftDetail
 				var currentDate = new Date(args.shift.startDate); //Variables used to save the current date inside the while
 				//Replace daysWeek string with days numbers, starting Monday with 1 and finishing Sunday with 0
