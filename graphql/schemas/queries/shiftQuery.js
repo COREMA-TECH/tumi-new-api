@@ -1,5 +1,5 @@
 import { GraphQLList, GraphQLString, GraphQLIncludeDirective, GraphQLInt, GraphQLBoolean } from 'graphql';
-import { ShiftType } from '../types/operations/outputTypes';
+import { ShiftType, TemplateType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 const ShiftQuery = {
