@@ -40,6 +40,10 @@ export default {
 				isTemplate: {
 					type: Sequelize.BOOLEAN,
 					defaultValue: false
+				},
+				isActive: {
+					type: Sequelize.BOOLEAN,
+					defaultValue: true
 				}
 			}
 		);

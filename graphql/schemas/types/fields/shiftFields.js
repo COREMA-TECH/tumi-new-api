@@ -30,6 +30,9 @@ const shiftFields = {
 	},
 	isTemplate: {
 		type: GraphQLBoolean
+	},
+	isActive: {
+		type: GraphQLBoolean
 	}
 };
 export default shiftFields;

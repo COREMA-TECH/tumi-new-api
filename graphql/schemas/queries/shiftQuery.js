@@ -13,6 +13,10 @@ const ShiftQuery = {
             isTemplate: {
                 type: GraphQLBoolean,
                 defaultValue: false
+            },
+            isActive: {
+                type: GraphQLBoolean,
+                defaultValue: true
             }
         },
         resolve(root, args) {
