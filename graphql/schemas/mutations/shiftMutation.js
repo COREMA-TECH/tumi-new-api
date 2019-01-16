@@ -350,7 +350,7 @@ const ShiftMutation = {
 						if (shift.length > 0) {
 							let _shift = shift[0].dataValues;
 							//Override actual data with new data
-							_shift.isTemplate = true;
+							_shift.isTemplate = false;
 
 							_shift.startDate = startDate;
 							_shift.endDate = args.endDate;
