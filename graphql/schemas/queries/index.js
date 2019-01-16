@@ -25,6 +25,7 @@ import ShiftWorkOrderQuery from './shiftWorkOrderQuery';
 import MarkedEmployeesQuery from './markedEmployeesQuery';
 import ApplicationEmployeesQuery from './applicationEmployeesQuery';
 import ContactsQuery from './contactsQuery';
+import TemplateQuery from './templateQuery';
 
 
 import phaseworkOrderQuery from './phaseworkOrderQuery';
@@ -56,5 +57,6 @@ export {
 	ShiftWorkOrderQuery,
 	MarkedEmployeesQuery,
 	ApplicationEmployeesQuery,
-	ContactsQuery
+	ContactsQuery,
+	TemplateQuery
 };

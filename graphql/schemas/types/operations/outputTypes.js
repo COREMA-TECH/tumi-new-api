@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLNonNull, GraphQLObjectType, GraphQLList } from 'graphql';
+import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLObjectType, GraphQLList } from 'graphql';
 
 import {
 	ApplicantLanguagesFields,
@@ -705,6 +705,22 @@ const ShiftDetailType = new GraphQLObjectType({
 	}
 });
 
+const TemplateType = new GraphQLObjectType({
+	name: 'TemplateType',
+	description: 'This is for Tenplate Table',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			title: { 
+				type: GraphQLString 
+			}
+		}
+	}
+});
+
 const MarkedEmployeesType = new GraphQLObjectType({
 	name: 'MarkedEmployees',
 	description: 'This is for Marked Employees Table',
@@ -790,5 +806,6 @@ export {
 	ShiftDetailEmployeesType,
 	MarkedEmployeesType,
 	ApplicationEmployeesType,
-	ContactsType
+	ContactsType,
+	TemplateType
 };
