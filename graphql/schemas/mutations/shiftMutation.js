@@ -379,25 +379,17 @@ const ShiftMutation = {
 										delete _shiftDetail.createdAt;
 										delete _shiftDetail.updatedAt;
 
-										var currentDate = new Date(startDate), datesList = [];
+										var currentDate = new Date(startDate);
 										//Get every day between startDate and endDate to generate ShiftDetail records
-										console.log("New Dates:::")
-
 										while (currentDate <= args.endDate) {
-
+											var newDate = new Date(currentDate)
 											if (currentDate.getDay() == _shiftDetail.startDate.getDay()) {
-												console.log(currentDate);
-												console.log(_shiftDetail.startDate);
-												// datesList.push({
-												// 	startDate: newDate,
-												// 	endDate: newDate,
-												// 	startTime: args.startHour,
-												// 	endTime: args.endHour
-												// });
+												_shiftDetail.startDate = newDate;
+												_shiftDetail.endDate = newDate;
 											}
-
 											currentDate.setDate(currentDate.getDate() + 1)
 										}
+										//Insert new shiftDetail records into database
 
 									})
 								})
