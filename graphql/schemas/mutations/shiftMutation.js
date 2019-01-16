@@ -352,6 +352,9 @@ const ShiftMutation = {
 							//Override actual data with new data
 							_shift.isTemplate = true;
 
+							_shift.startDate = startDate;
+							_shift.endDate = args.endDate;
+
 							//Delete some properties from the original object to use it to create the new object
 							delete _shift.createdAt;
 							delete _shift.updatedAt;
