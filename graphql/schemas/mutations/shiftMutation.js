@@ -280,7 +280,32 @@ const ShiftMutation = {
 				})
 
 		}
-	}
+	},
+	disableShift: {
+		type: ShiftType,
+		description: 'Disable Shift Record',
+		args: {
+			id: { type: GraphQLInt }
+		},
+		resolve(source, args) {
+			return Db.models.Shift
+				.update(
+					{
+						isActive: false
+					},
+					{
+						where: {
+							id: args.id
+						},
+						returning: true
+					}
+				)
+				.then(function ([rowsUpdate, [record]]) {
+					if (record) return record.dataValues;
+					else return null;
+				});
+		}
+	},
 };
 
 export default ShiftMutation;
