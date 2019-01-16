@@ -201,7 +201,7 @@ const ShiftMutation = {
 	},
 	createTemplate: {
 		type: new GraphQLList(ShiftType),
-		description: 'Crate template to database',
+		description: 'Create template to database',
 		args: {
 			shiftIds: { type: new GraphQLList(GraphQLInt) },
 			title: { type: GraphQLString },
@@ -212,24 +212,31 @@ const ShiftMutation = {
 			//Create header template
 			Db.models.Template.create({ title: args.title }, { returning: true })
 				.then(template => {
-
+					//Loop for eacth Shift sent as parameter
 					args.shiftIds.map(shiftId => {
+						//For each Id in the array we are getting the info from database
 						Db.models.Shift.findAll({ where: { id: shiftId } }).then(data => {
+							//Validate if the id is giving a result
 							if (data.length > 0) {
 								let shift = data[0].dataValues;
-
+								//Override actual data with new data
 								shift.isTemplate = true;
 
+								//Delete some properties from the original object to use it to create the new object
 								delete shift.createdAt;
 								delete shift.updatedAt;
 								delete shift.id;
 
-								//Insert into Shift table
+								//Insert into Shift table using the info of the new object
 								Db.models.Shift.create(shift, { returning: true }).then(newShift => {
+									//Crate TemplateShift record , using TemplateId from the new template just created
+									//and ShiftId from the new Shift just createad 
 									Db.models.TemplateShift.create({ TemplateId: template.dataValues.id, ShiftId: newShift.dataValues.id })
 										.then(_newTemplateShift => {
-											console.log(_newTemplateShift)
+
 										})
+									//Get all ShiftDetail records linked to every current shift in the map function
+									//note: these ShiftDetail must me filtered by date range to get the needed week
 									Db.models.ShiftDetail.findAll({
 										where: {
 											ShiftId: shiftId,
@@ -240,24 +247,32 @@ const ShiftMutation = {
 										}
 									}).then(shiftDetails => {
 										let _shiftDetail;
+										//Loop through every shiftDetail found to create a new one based on it
 										shiftDetails.map(shiftDetail => {
+											//Get current shiftDetail
 											_shiftDetail = shiftDetail.dataValues;
+											//Replace shiftId with the new shiftId
 											_shiftDetail.ShiftId = newShift.dataValues.id;
+											//Save shiftDetailId into variable to filter ShiftDetailEmployee recors 
 											var shiftDetailId = _shiftDetail.id;
 
+											//Delete unnecessary properties to create new shiftDetail record
 											delete _shiftDetail.id;
 											delete _shiftDetail.createdAt;
 											delete _shiftDetail.updatedAt;
 
+											//Create new ShiftDetail record
 											Db.models.ShiftDetail.create(_shiftDetail, { returning: true }).then(newShiftDetail => {
+												//Get ShiftDetailEmployees record associated with current ShiftDetail to create a copy
 												Db.models.ShiftDetailEmployees.findAll({ where: { ShiftDetailId: shiftDetailId } })
 													.then(shiftDetailsEmployee => {
+														//Loop throug every shiftDetailEmployee
 														shiftDetailsEmployee.map(shiftDetailEmployee => {
-
+															//Save current record into variable
 															let _shiftDetailEmployee = shiftDetailEmployee.dataValues;
-
+															//Replace ShiftDetailId with the id of the ShiftDetail record just created
 															_shiftDetailEmployee.ShiftDetailId = newShiftDetail.dataValues.id;
-
+															//Delete unnecessary properties to create new ShiftDetailEmployee record
 															delete _shiftDetailEmployee.id;
 															delete _shiftDetailEmployee.createdAt;
 															delete _shiftDetailEmployee.updatedAt;
@@ -280,7 +295,162 @@ const ShiftMutation = {
 				})
 
 		}
+	},
+	disableShift: {
+		type: ShiftType,
+		description: 'Disable Shift Record',
+		args: {
+			id: { type: GraphQLInt }
+		},
+		resolve(source, args) {
+			return Db.models.Shift
+				.update(
+					{
+						isActive: false
+					},
+					{
+						where: {
+							id: args.id
+						},
+						returning: true
+					}
+				)
+				.then(function ([rowsUpdate, [record]]) {
+					if (record) return record.dataValues;
+					else return null;
+				});
+		}
+	},
+	createShiftBasedOnTemplate: {
+		type: new GraphQLList(ShiftType),
+		description: 'Create  shifts based on templates',
+		args: {
+			templateId: { type: new GraphQLList(GraphQLInt) },
+			endDate: { type: GraphQLDate }
+		},
+		resolve(source, args) {
+			//Create a new date based on endDate  and substract 6 days
+			var startDate = new Date(args.endDate)
+			startDate.setDate(startDate.getDate() - 6);
+
+			//Get all the relations between Shift and Template
+			Db.models.TemplateShift.findAll({ where: { TemplateId: args.templateId } }, { returning: true }).then(templateShift => {
+				//Loop trough every record to get associated shift
+				templateShift.map(_templateShift => {
+					let shiftId = _templateShift.dataValues.ShiftId;
+					Db.models.Shift.findAll({ where: { id: shiftId } }).then(shift => {
+						//Validate if the id is giving a result
+						if (shift.length > 0) {
+							let _shift = shift[0].dataValues;
+							//Override actual data with new data
+							_shift.isTemplate = true;
+
+							//Delete some properties from the original object to use it to create the new object
+							delete _shift.createdAt;
+							delete _shift.updatedAt;
+							delete _shift.id;
+
+							//Insert into Shift table using the info of the new object
+							Db.models.Shift.create(_shift, { returning: true }).then(newShift => {
+								//Get all ShiftDetail records linked to every current shift in the map function
+								//note: these ShiftDetail must me filtered by date range to get the needed week
+								Db.models.ShiftDetail.findAll({
+									where: {
+										ShiftId: shiftId,
+										[Op.and]: [
+											{ startDate: { [Op.gte]: startDate } },
+											{ startDate: { [Op.lte]: args.endDate } }
+										]
+									}
+								}).then(shiftDetails => {
+									shiftDetails.map(_shiftDetail => {
+										console.log(_shiftDetail.dataValues)
+									})
+								})
+							})
+						}
+					})
+				})
+			})
+			return null;
+			//Loop for eacth Shift sent as parameter
+			args.shiftIds.map(shiftId => {
+				//For each Id in the array we are getting the info from database
+				Db.models.Shift.findAll({ where: { id: shiftId } }).then(data => {
+					//Validate if the id is giving a result
+					if (data.length > 0) {
+						let shift = data[0].dataValues;
+						//Override actual data with new data
+						shift.isTemplate = true;
+
+						//Delete some properties from the original object to use it to create the new object
+						delete shift.createdAt;
+						delete shift.updatedAt;
+						delete shift.id;
+
+						//Insert into Shift table using the info of the new object
+						Db.models.Shift.create(shift, { returning: true }).then(newShift => {
+
+							//Get all ShiftDetail records linked to every current shift in the map function
+							//note: these ShiftDetail must me filtered by date range to get the needed week
+							Db.models.ShiftDetail.findAll({
+								where: {
+									ShiftId: shiftId,
+									[Op.and]: [
+										{ startDate: { [Op.gte]: args.startDate } },
+										{ startDate: { [Op.lte]: args.endDate } }
+									]
+								}
+							}).then(shiftDetails => {
+								let _shiftDetail;
+								//Loop through every shiftDetail found to create a new one based on it
+								shiftDetails.map(shiftDetail => {
+									//Get current shiftDetail
+									_shiftDetail = shiftDetail.dataValues;
+									//Replace shiftId with the new shiftId
+									_shiftDetail.ShiftId = newShift.dataValues.id;
+									//Save shiftDetailId into variable to filter ShiftDetailEmployee recors 
+									var shiftDetailId = _shiftDetail.id;
+
+									//Delete unnecessary properties to create new shiftDetail record
+									delete _shiftDetail.id;
+									delete _shiftDetail.createdAt;
+									delete _shiftDetail.updatedAt;
+
+									//Create new ShiftDetail record
+									Db.models.ShiftDetail.create(_shiftDetail, { returning: true }).then(newShiftDetail => {
+										//Get ShiftDetailEmployees record associated with current ShiftDetail to create a copy
+										Db.models.ShiftDetailEmployees.findAll({ where: { ShiftDetailId: shiftDetailId } })
+											.then(shiftDetailsEmployee => {
+												//Loop throug every shiftDetailEmployee
+												shiftDetailsEmployee.map(shiftDetailEmployee => {
+													//Save current record into variable
+													let _shiftDetailEmployee = shiftDetailEmployee.dataValues;
+													//Replace ShiftDetailId with the id of the ShiftDetail record just created
+													_shiftDetailEmployee.ShiftDetailId = newShiftDetail.dataValues.id;
+													//Delete unnecessary properties to create new ShiftDetailEmployee record
+													delete _shiftDetailEmployee.id;
+													delete _shiftDetailEmployee.createdAt;
+													delete _shiftDetailEmployee.updatedAt;
+
+													Db.models.ShiftDetailEmployees.create(_shiftDetailEmployee, { returning: true })
+														.then(newShiftDetailEmployee => {
+														})
+												})
+
+											})
+									})
+
+								})
+							})
+						})
+
+					}
+				})
+
+			})
+		}
 	}
-};
+}
 
 export default ShiftMutation;

@@ -1,4 +1,4 @@
-import { GraphQLList, GraphQLString, GraphQLInt, GraphQLBoolean } from 'graphql';
+import { GraphQLList, GraphQLString, GraphQLInt, GraphQLBoolean, GraphQLInputObjectType } from 'graphql';
 import { ShiftDetailType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 import Sequelize from 'sequelize';
@@ -6,21 +6,32 @@ import GraphQLDate from 'graphql-date';
 
 const Op = Sequelize.Op;
 
+const inputShiftDetailQuery = new GraphQLInputObjectType({
+    name: 'inputShiftDetailQuery',
+    description: 'Inputs ShiftDetail query',
+    fields: {
+        id: { type: GraphQLInt },
+        ShiftId: { type: GraphQLInt }
+    }
+
+});
+
 const ShiftDetailQuery = {
     ShiftDetail: {
         type: new GraphQLList(ShiftDetailType),
         description: 'List Shift Details  records',
         args: {
-            id: { type: GraphQLInt },
-            ShiftId: { type: GraphQLInt }
+            shiftDetail: { type: inputShiftDetailQuery },
+            isTemplate: { type: GraphQLBoolean, defaultValue: false },
+            isActive: { type: GraphQLBoolean, defaultValue: true }
         },
         resolve(root, args) {
             return Db.models.ShiftDetail.findAll({
-                where: args,
+                where: args.shiftDetail,
                 include: [
                     {
                         model: Db.models.Shift,
-                        where: { isTemplate: { [Op.eq]: false } }
+                        where: { isTemplate: args.isTemplate, isActive: args.isActive }
                     }
                 ]
             });
