@@ -352,19 +352,50 @@ const ShiftMutation = {
 
 							//Insert into Shift table using the info of the new object
 							Db.models.Shift.create(_shift, { returning: true }).then(newShift => {
+
 								//Get all ShiftDetail records linked to every current shift in the map function
 								//note: these ShiftDetail must me filtered by date range to get the needed week
 								Db.models.ShiftDetail.findAll({
 									where: {
-										ShiftId: shiftId,
-										[Op.and]: [
-											{ startDate: { [Op.gte]: startDate } },
-											{ startDate: { [Op.lte]: args.endDate } }
-										]
+										ShiftId: shiftId
 									}
 								}).then(shiftDetails => {
-									shiftDetails.map(_shiftDetail => {
-										console.log(_shiftDetail.dataValues)
+									let _shiftDetail;
+
+									//Loop through every shiftDetail found to create a new one based on it
+									shiftDetails.map(shiftDetail => {
+										//Get current shiftDetail
+										_shiftDetail = shiftDetail.dataValues;
+										//Replace shiftId with the new shiftId
+										_shiftDetail.ShiftId = newShift.dataValues.id;
+										//Save shiftDetailId into variable to filter ShiftDetailEmployee recors 
+										var shiftDetailId = _shiftDetail.id;
+
+										//Delete unnecessary properties to create new shiftDetail record
+										delete _shiftDetail.id;
+										delete _shiftDetail.createdAt;
+										delete _shiftDetail.updatedAt;
+
+										var currentDate = new Date(startDate), datesList = [];
+										//Get every day between startDate and endDate to generate ShiftDetail records
+										console.log("New Dates:::")
+
+										while (currentDate <= args.endDate) {
+
+											if (currentDate.getDay() == _shiftDetail.startDate.getDay()) {
+												console.log(currentDate);
+												console.log(_shiftDetail.startDate);
+												// datesList.push({
+												// 	startDate: newDate,
+												// 	endDate: newDate,
+												// 	startTime: args.startHour,
+												// 	endTime: args.endHour
+												// });
+											}
+
+											currentDate.setDate(currentDate.getDate() + 1)
+										}
+
 									})
 								})
 							})
