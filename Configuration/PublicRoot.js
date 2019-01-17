@@ -27,7 +27,7 @@ async function query(q) {
 async function getValid_Users(args, { SECRET }) {
 	try {
 		Strquery =
-			'select "Id","Password","Code_User","Full_Name"  ,"Electronic_Address"  ,"Phone_Number"  ,"Id_Language"  ,"IsAdmin"  ,"AllowEdit"  ,"AllowDelete"  ,"AllowInsert","AllowExport" ,"IsActive" from public.vwValid_User Where  "Code_User" = ' +
+			'select "Id","Password","Code_User","Full_Name" ,"Id_Roles" ,"Electronic_Address"  ,"Phone_Number"  ,"Id_Language"  ,"IsAdmin"  ,"AllowEdit"  ,"AllowDelete"  ,"AllowInsert","AllowExport" ,"IsActive","IdSchedulesEmployees","IdSchedulesManager" from public.vwValid_User Where  "Code_User" = ' +
 			args.Code_User +
 			' and "Password" = ' +
 			args.Password;

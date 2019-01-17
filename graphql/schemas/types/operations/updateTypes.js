@@ -23,7 +23,8 @@ import {
 	ShiftFields,
 	ShiftDetailFields,
 	ShiftDetailEmployeesFields,
-	MarkedEmployeesFields
+	MarkedEmployeesFields,
+	RolesFormsFields,
 } from '../fields';
 
 const inputUpdateApplication = new GraphQLInputObjectType({
@@ -327,6 +328,18 @@ const inputUpdateShiftDetailemployee = new GraphQLInputObjectType({
 	}
 });
 
+const inputUpdateRolesForms = new GraphQLInputObjectType({
+	name: 'inputUpdateRolesForms',
+	description: 'Inputs for Roles Forms',
+	fields: {
+		Id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...RolesFormsFields
+	}
+});
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -351,6 +364,7 @@ export {
 	inputUpdateShift,
 	inputUpdateShiftDetail,
 	inputUpdateShiftDetailemployee,
-	inputUpdateMarkedEmployees
+	inputUpdateMarkedEmployees,
+	inputUpdateRolesForms,
 
 };

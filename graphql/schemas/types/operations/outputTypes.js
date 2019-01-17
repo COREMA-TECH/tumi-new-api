@@ -33,7 +33,10 @@ import {
 	ShiftDetailEmployeesFields,
 	MarkedEmployeesFields,
 	ApplicationEmployeesFields,
-	ContactsFields
+	ContactsFields,
+	RolesFields,
+	FormsFields,
+	RolesFormsFields,
 } from '../fields';
 
 
@@ -603,6 +606,56 @@ const ContactsType = new GraphQLObjectType({
 	}
 });
 
+const RolesType = new GraphQLObjectType({
+	name: 'Roles',
+	description: 'This is for Roles Table',
+	fields: () => {
+		return {
+			Id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...RolesFields
+		}
+	}
+});
+
+const FormsType = new GraphQLObjectType({
+	name: 'Forms',
+	description: 'This is for Forms Table',
+	fields: () => {
+		return {
+			Id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...FormsFields
+		}
+	}
+});
+
+const RolesFormsType = new GraphQLObjectType({
+	name: 'RolesForms',
+	description: 'This is for RolesForms Table',
+	fields: () => {
+		return {
+			...RolesFormsFields,
+			Roles: {
+				type: RolesType,
+				resolve(me) {
+					return me.getRoles();
+				}
+			},
+			Forms: {
+				type: FormsType,
+				resolve(me) {
+					return me.getForms();
+				}
+			},
+		}
+	}
+});
+
 const EmployeesType = new GraphQLObjectType({
 	name: 'Employees',
 	description: 'This is for Employees Table',
@@ -714,8 +767,8 @@ const TemplateType = new GraphQLObjectType({
 				type: GraphQLInt,
 				description: 'table id'
 			},
-			title: { 
-				type: GraphQLString 
+			title: {
+				type: GraphQLString
 			}
 		}
 	}
@@ -807,5 +860,8 @@ export {
 	MarkedEmployeesType,
 	ApplicationEmployeesType,
 	ContactsType,
+	RolesType,
+	FormsType,
+	RolesFormsType,
 	TemplateType
 };
