@@ -1873,7 +1873,7 @@ async function DelForms(args) {
 }
 
 //Method Connect to table RolesForms
-async function getRolesForms(args) {
+/*async function getRolesForms(args) {
 	try {
 		var strparam1, strparam2, strparam3;
 
@@ -1907,6 +1907,7 @@ async function getRolesForms(args) {
 
 async function InsRolesForms(args) {
 	try {
+		console.log('InsRolesForms ', args);
 		if (args) {
 			Strquery =
 				'INSERT INTO public."RolesForms" ("IdRoles", "IdForms", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated") VALUES(' +
@@ -1982,7 +1983,7 @@ async function DelRolesForms(args) {
 		console.log('Database ' + err);
 		return err;
 	}
-}
+}*/
 
 async function getUsers(args) {
 	try {
@@ -3488,10 +3489,10 @@ const root = {
 	updforms: UpdForms,
 	delforms: DelForms,
 
-	getrolesforms: getRolesForms,
+	/*getrolesforms: getRolesForms,
 	insrolesforms: InsRolesForms,
 	updrolesforms: UpdRolesForms,
-	delrolesforms: DelRolesForms,
+	delrolesforms: DelRolesForms,*/
 
 	getusers: getUsers,
 	insusers: InsUsers,

@@ -33,6 +33,8 @@ const PublicSchema = buildSchema(`
 		User_Updated: Int
 		Date_Created: String
 		Date_Updated: String
+		IdSchedulesEmployees:Int
+		IdSchedulesManager:Int
 		}
 
 `);
