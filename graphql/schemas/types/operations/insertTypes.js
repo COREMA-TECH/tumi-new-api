@@ -27,7 +27,8 @@ import {
 	ShiftWorkOrderFields,
 	ShiftDetailEmployeesFields,
 	MarkedEmployeesFields,
-	ApplicationEmployeesFields
+	ApplicationEmployeesFields,
+	RolesFormsFields,
 } from '../fields';
 
 const inputInsertEmployees = new GraphQLInputObjectType({
@@ -204,6 +205,15 @@ const inputInsertHoliday = new GraphQLInputObjectType({
 	}
 });
 
+const inputInsertRolesForms = new GraphQLInputObjectType({
+	name: 'inputInsertRolesForms',
+	description: 'Inputs for Roles Forms Insert',
+
+	fields: {
+		...RolesFormsFields
+	}
+});
+
 const inputInsertShift = new GraphQLInputObjectType({
 	name: 'inputInsertShift',
 	description: 'Inputs for Shift Insert',
@@ -303,5 +313,6 @@ export {
 	inputInsertShiftDetailEmployee,
 	inputParamWorkOrderForShift,
 	inputInsertMarkedEmployees,
-	inputInsertApplicationEmployees
+	inputInsertApplicationEmployees,
+	inputInsertRolesForms,
 };

@@ -200,16 +200,7 @@ input iParamEA {
 			Date_Created: String
 			Date_Updated: String
 	}
-	input iRolesForms{
-			Id : Int
-			IdRoles : Int
-			IdForms : Int
-			IsActive: Int
-			User_Created: Int
-			User_Updated: Int
-			Date_Created: String
-			Date_Updated: String
-	}
+
 	input iUsers{
 		Id: Int
 		Id_Entity: Int
@@ -305,7 +296,6 @@ input iParamEA {
 		getcatalogitem(Id:Int,IsActive:Int,Id_Catalog:Int,Id_Parent:Int,Value:String): [CatalogItem]
 		getroles(Id:Int,IsActive:Int,Id_Company:Int): [Roles]
 		getforms(Id:Int,IsActive:Int): [Forms]
-		getrolesforms(Id:Int,IsActive:Int): [RolesForms]
 		getusers(Id:Int,IsActive:Int, IsRecruiter:Int): [Users]
 		getcontracttemplate(Id:Int,IsActive:Int): [ContractsTemplates]
 		sendcontracts(Id:Int,IsActive:Int): [Contracts]
@@ -346,9 +336,6 @@ input iParamEA {
 		insforms(input: iForms): Forms
 		updforms(input: iForms): Forms
 		delforms(Id:Int,IsActive:Int): Forms
-		insrolesforms(input: iRolesForms): RolesForms
-		updrolesforms(input: iRolesForms): RolesForms
-		delrolesforms(Id:Int,IsActive:Int): RolesForms
 		insusers(input: iUsers): Users
 		updusers(input: iUsers): Users
 		delusers(Id:Int,IsActive:Int): Users
@@ -663,16 +650,7 @@ input iParamEA {
 		Date_Created: String
 		Date_Updated : String
 	}
-	type RolesForms{
-			Id : Int
-			IdRoles : Int
-			IdForms : Int
-			IsActive: Int
-			User_Created: Int
-			User_Updated: Int
-			Date_Created: String
-			Date_Updated: String
-	}
+	
 	type Users{
 		Id: Int
 		Id_Entity: Int

@@ -31,6 +31,9 @@ import BusinessCompanyFields from './businessCompanyFields';
 import MarkedEmployeesFields from './markedEmployeesFields';
 import ApplicationEmployeesFields from './applicationEmployeesFields';
 import ContactsFields from './contactsFields';
+import RolesFields from './roleFields';
+import FormsFields from './formFields';
+import RolesFormsFields from './roleformFields';
 
 
 export {
@@ -66,5 +69,8 @@ export {
 	ShiftDetailEmployeesFields,
 	MarkedEmployeesFields,
 	ApplicationEmployeesFields,
-	ContactsFields
+	ContactsFields,
+	RolesFields,
+	FormsFields,
+	RolesFormsFields,
 };

@@ -29,7 +29,9 @@ import ShiftWorkOrderModel from './shiftWorkOrderTable';
 
 import BusinessCompanyModel from './businessCompanyTable';
 import ContactsModel from './contactsTable';
-
+import RolesModel from './roleTable';
+import FormsModel from './formTable';
+import RolesFormsModel from './rolesformsTable';
 
 import CatalogItemModel from './catalogItemTable';
 import UsersModel from './UsersTable';
@@ -69,6 +71,9 @@ const phaseworkOrder = phaseworkOrderModel.createModel(Conn);
 
 const BusinessCompany = BusinessCompanyModel.createModel(Conn)
 const Contacts = ContactsModel.createModel(Conn);
+const Roles = RolesModel.createModel(Conn);
+const Forms = FormsModel.createModel(Conn);
+const RolesForms = RolesFormsModel.createModel(Conn);
 
 const Zipcode = ZipcodeModel.createModel(Conn);
 Zipcode.removeAttribute('id');
@@ -170,6 +175,27 @@ Shift.belongsTo(CatalogItem, {
 	foreignKey: 'idPosition',
 	as: 'CatalogPosition'
 });
+
+//Forms.hasMany(RolesForms);
+//Roles.hasMany(RolesForms);
+
+RolesForms.belongsTo(Forms, {
+	foreignKey: 'IdForms',
+	as: 'Forms'
+})
+
+RolesForms.belongsTo(Roles, {
+	foreignKey: 'IdRoles',
+	as: 'Roles'
+})
+
+/*Employees.hasOne(ApplicationEmployees);
+
+ApplicationEmployees.belongsTo(Employees, {
+	foreignKey: 'EmployeeId',
+	as: 'Employees'
+});
+*/
 
 Shift.hasMany(ShiftDetail, { onDelete: 'cascade' });
 ShiftDetail.hasOne(ShiftDetailEmployees, { onDelete: 'cascade' });
