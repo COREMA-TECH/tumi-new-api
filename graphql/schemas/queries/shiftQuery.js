@@ -1,5 +1,5 @@
 import { GraphQLList, GraphQLString, GraphQLIncludeDirective, GraphQLInt, GraphQLBoolean } from 'graphql';
-import { ShiftType } from '../types/operations/outputTypes';
+import { ShiftType, TemplateType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 const ShiftQuery = {
@@ -13,6 +13,10 @@ const ShiftQuery = {
             isTemplate: {
                 type: GraphQLBoolean,
                 defaultValue: false
+            },
+            isActive: {
+                type: GraphQLBoolean,
+                defaultValue: true
             }
         },
         resolve(root, args) {

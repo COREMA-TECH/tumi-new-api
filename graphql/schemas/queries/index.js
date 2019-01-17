@@ -28,6 +28,7 @@ import ContactsQuery from './contactsQuery';
 import RolesQuery from './roleQuery';
 import FormsQuery from './formQuery';
 import RolesFormsQuery from './rolesformsQuery';
+import TemplateQuery from './templateQuery';
 
 
 import phaseworkOrderQuery from './phaseworkOrderQuery';
@@ -63,4 +64,5 @@ export {
 	RolesQuery,
 	FormsQuery,
 	RolesFormsQuery,
+	TemplateQuery
 };
