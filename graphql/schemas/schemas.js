@@ -60,14 +60,11 @@ import {
 	MarkedEmployeesQuery,
 	ApplicationEmployeesQuery,
 	ContactsQuery,
-<<<<<<< HEAD
 	RolesQuery,
 	FormsQuery,
 	RolesFormsQuery,
-=======
 	TemplateQuery
 
->>>>>>> c4b2a77b106f9ecca9479fc569869cc501136a74
 } from './queries';
 import { ShiftWorkOrderType, FormsType } from './types/operations/outputTypes';
 import { FormsFields } from './types/fields';
@@ -104,13 +101,10 @@ const RootQuery = new GraphQLObjectType({
 		...MarkedEmployeesQuery,
 		...ApplicationEmployeesQuery,
 		...ContactsQuery,
-<<<<<<< HEAD
 		...RolesQuery,
 		...FormsQuery,
 		...RolesFormsQuery,
-=======
 		...TemplateQuery
->>>>>>> c4b2a77b106f9ecca9479fc569869cc501136a74
 	}
 });
 const RootMutation = new GraphQLObjectType({
