@@ -145,7 +145,8 @@ const ShiftDetailQuery = {
                         where: {
                             idPosition: args.idPosition,
                             entityId: args.entityId,
-                            isTemplate: args.isTemplate
+                            isTemplate: args.isTemplate,
+                            isActive: true
                         }
                     }
                 ]
