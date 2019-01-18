@@ -20,6 +20,16 @@ export default {
 				endTime: {
 					type: Sequelize.STRING,
 					allowNull: true
+				},
+				color: {
+					type: Sequelize.STRING,
+					allowNull: false,
+					defaultValue: "#96989A"
+				},
+				status: {
+					type: Sequelize.INTEGER,
+					allowNull: false,
+					defaultValue: 0
 				}
 			}
 		);

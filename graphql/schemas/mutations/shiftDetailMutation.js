@@ -5,6 +5,9 @@ import { GraphQLList, GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLBoolean 
 import GraphQLDate from 'graphql-date';
 import { sendgenericemail } from '../../../Configuration/Roots';
 
+import Sequelize from 'sequelize';
+const Op = Sequelize.Op;
+
 import Db from '../../models/models';
 
 const shiftDetailMutation = {
@@ -30,7 +33,21 @@ const shiftDetailMutation = {
 		},
 		resolve(source, args) {
 			return Db.models.ShiftDetail
-				.update(args.shiftDetail, { where: { id: args.shiftDetail.id }, returning: true })
+				.update({
+					startDate: args.shiftDetail.startDate,
+					endDate: args.shiftDetail.endDate,
+					startTime: args.shiftDetail.startTime,
+					endTime: args.shiftDetail.endTime,
+					color: args.shiftDetail.color,
+					status: args.shiftDetail.status,
+				}, {
+						where: {
+							[Op.or]: [
+								{ id: args.shiftDetail.id },
+								{ ShiftId: args.ShiftId }
+							]
+						}, returning: true
+					})
 				.then(function ([rowsUpdate, [record]]) {
 					if (record) return record.dataValues;
 					else return null;
@@ -141,7 +158,7 @@ const shiftDetailMutation = {
 						ret.map(item => {
 							//Create list of ShiftDetail based on array of dates
 							datesList.map(date => {
-								shiftDetail.push({ startDate: date.startDate, endDate: date.endDate, startTime: date.startTime, endTime: date.endTime, ShiftId: item.id });
+								shiftDetail.push({ color: args.shift.color, status: args.shift.status, startDate: date.startDate, endDate: date.endDate, startTime: date.startTime, endTime: date.endTime, ShiftId: item.id });
 							})
 							//Create array to insert inside ShiftWorkOrder table
 							shiftWorkOrder.push({ ShiftId: item.id, WorkOrderId: wo.dataValues.id })
