@@ -690,26 +690,29 @@ const ShiftMutation = {
 						}
 					}).then((data) => {
 						const mailData = {
-							startDate: detail.ShiftDetail.startDate
-						}
-						console.log(mailData);
-						// data.forEach((Employee) => {
-						// 	console.log(Employee.dataValues.ShiftDetailEmployees);
-						// 	// sendgenericemail({ 
-						// 	// 	StartDate: args.shift.startDate.toISOString().substring(0, 10), 
-						// 	// 	ToDate: args.shift.endDate.toISOString().substring(0, 10), 
-						// 	// 	ShiftStart: args.startHour, 
-						// 	// 	ShiftEnd: args.endHour, 
-						// 	// 	shift: dataShiftDetails.dataValues.ShiftId, 
-						// 	// 	email: datashiftEmployee.dataValues.electronicAddress, 
-						// 	// 	title: dataPositionRate.dataValues.Position, 
-						// 	// 	supervisor: dataContacts.dataValues.First_Name.trim + ' ' + dataContacts.dataValues.Last_Name, 
-						// 	// 	Department: dataCatalogItem.dataValues.DisplayLabel, 
-						// 	// 	Hotel: dataBusinessCompany.dataValues.Name, 
-						// 	// 	Workdays: weekDays, 
-						// 	// 	specialComment: dataPositionRate.dataValues.Comment 
-						// 	// })
-						// });
+							startDate: detail.ShiftDetail.startDate,
+							toDate: detail.ShiftDetail.endDate,
+							ShiftStart: detail.ShiftDetail.startTime,
+							ShiftEnd: detail.ShiftDetail.endTime,
+							shift: detail.ShiftDetail.ShiftId,
+							email: da
+						};
+						data.forEach((Employee) => {
+							sendgenericemail({ 
+								StartDate: mailData.startDate.toISOString().substring(0, 10), 
+								ToDate: mailData.endDate.toISOString().substring(0, 10), 
+								ShiftStart: mailData.startHour, 
+								ShiftEnd: mailData.endHour, 
+								shift:  mailData.ShiftId, 
+								email: datashiftEmployee.dataValues.electronicAddress, 
+								title: dataPositionRate.dataValues.Position, 
+								supervisor: dataContacts.dataValues.First_Name.trim + ' ' + dataContacts.dataValues.Last_Name, 
+								Department: dataCatalogItem.dataValues.DisplayLabel, 
+								Hotel: dataBusinessCompany.dataValues.Name, 
+								Workdays: weekDays, 
+								specialComment: dataPositionRate.dataValues.Comment 
+							})
+						});
 					});
 				});
 				
