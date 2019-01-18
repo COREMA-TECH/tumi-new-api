@@ -16,6 +16,12 @@ const shiftDetailFields = {
 	ShiftId: {
 		type: GraphQLInt
 	},
+	color: {
+		type: GraphQLString,
+	},
+	status: {
+		type: GraphQLString,
+	}
 
 };
 export default shiftDetailFields;
