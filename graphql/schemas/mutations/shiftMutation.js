@@ -652,7 +652,7 @@ const ShiftMutation = {
 			return null;
 		}
 	},
-	NotifyAllEmployees:  {
+	NotifyAllEmployees: {
 		type: new GraphQLList(ShiftType),
 		description: 'Notify all employees by shifts',
 		args: {
@@ -662,31 +662,32 @@ const ShiftMutation = {
 			return Db.models.ShiftDetailEmployees.findAll({
 				attributes: [
 					"EmployeeId"
-					
+
 				],
 				include: [
 					{
 						model: Db.models.ShiftDetail,
 						attributes: {
 							exclude: [
-							"id",
-							"createdAt",
-							"updatedAt"
-						]},
+								"id",
+								"createdAt",
+								"updatedAt"
+							]
+						},
 						where: {
-							ShiftId: { [Op.in]: args.ids } 
+							ShiftId: { [Op.in]: args.ids }
 						},
 						raw: true,
 					}
 				]
 			}).then((Employees) => {
-				let __employees =  [];
+				let __employees = [];
 				const details = Employees.map((node) => node.get({ plain: true }));
-				
+
 				details.map((detail) => {
 					return Db.models.Employees.findAll({
 						where: {
-							id: detail.EmployeeId 
+							id: detail.EmployeeId
 						}
 					}).then((data) => {
 						const mailData = {
@@ -698,24 +699,24 @@ const ShiftMutation = {
 							email: da
 						};
 						data.forEach((Employee) => {
-							sendgenericemail({ 
-								StartDate: mailData.startDate.toISOString().substring(0, 10), 
-								ToDate: mailData.endDate.toISOString().substring(0, 10), 
-								ShiftStart: mailData.startHour, 
-								ShiftEnd: mailData.endHour, 
-								shift:  mailData.ShiftId, 
-								email: datashiftEmployee.dataValues.electronicAddress, 
-								title: dataPositionRate.dataValues.Position, 
-								supervisor: dataContacts.dataValues.First_Name.trim + ' ' + dataContacts.dataValues.Last_Name, 
-								Department: dataCatalogItem.dataValues.DisplayLabel, 
-								Hotel: dataBusinessCompany.dataValues.Name, 
-								Workdays: weekDays, 
-								specialComment: dataPositionRate.dataValues.Comment 
+							sendgenericemail({
+								StartDate: mailData.startDate.toISOString().substring(0, 10),
+								ToDate: mailData.endDate.toISOString().substring(0, 10),
+								ShiftStart: mailData.startHour,
+								ShiftEnd: mailData.endHour,
+								shift: mailData.ShiftId,
+								email: datashiftEmployee.dataValues.electronicAddress,
+								title: dataPositionRate.dataValues.Position,
+								supervisor: dataContacts.dataValues.First_Name.trim + ' ' + dataContacts.dataValues.Last_Name,
+								Department: dataCatalogItem.dataValues.DisplayLabel,
+								Hotel: dataBusinessCompany.dataValues.Name,
+								Workdays: weekDays,
+								specialComment: dataPositionRate.dataValues.Comment
 							})
 						});
 					});
 				});
-				
+
 			});
 		}
 	},
@@ -726,15 +727,15 @@ const ShiftMutation = {
 			ids: { type: new GraphQLList(GraphQLInt) }
 		},
 		resolve(source, args) {
-			return Db.models.Shift.update({
+			return Db.models.ShiftDetail.update({
 				color: "#009ce0",
 				status: 3
-			},{
-				where: {
-					id: { [Op.in]: args.ids },
-					status: 2
-				}
-			});
+			}, {
+					where: {
+						ShiftId: { [Op.in]: args.ids },
+						status: 2
+					}
+				});
 		}
 	}
 }
