@@ -702,6 +702,7 @@ const ShiftType = new GraphQLObjectType({
 	}
 });
 
+
 const ShiftWorkOrderType = new GraphQLObjectType({
 	name: 'ShiftWorkOrder',
 	description: 'This is for Shift Table',
@@ -711,7 +712,19 @@ const ShiftWorkOrderType = new GraphQLObjectType({
 				type: GraphQLInt,
 				description: 'table id'
 			},
-			...ShiftWorkOrderFields
+			...ShiftWorkOrderFields,
+			workOrder: {
+				type: WorkOrderType,
+				resolve(me) {
+					return me.getWorkOrder();
+				}
+			},
+			shift: {
+				type: ShiftType,
+				resolve(me) {
+					return me.getShift();
+				}
+			}
 		}
 	}
 });
@@ -726,6 +739,12 @@ const ShiftDetailEmployeesType = new GraphQLObjectType({
 				type: EmployeesType,
 				resolve(me) {
 					return me.getEmployees();
+				}
+			},
+			ShiftDetail: {
+				type: ShiftDetailType,
+				resolve(me) {
+					return me.getShiftDetail();
 				}
 			}
 		}
@@ -863,5 +882,6 @@ export {
 	RolesType,
 	FormsType,
 	RolesFormsType,
-	TemplateType
+	TemplateType,
+
 };

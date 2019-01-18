@@ -4,10 +4,11 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"dev": "babel-node src/index.js",
+		"dev": "babel-node index.js",
 		"babel-node": "babel-node --presets=latest",
 		"start": "babel-node index.js",
-		"build": "babel src -d dist"
+		"build": "babel -d dist",
+		"transpile": "babel -d dist --copy-files"
 	},
 	"keywords": [],
 	"author": "",
@@ -15,7 +16,6 @@
 	"dependencies": {
 		"@babel/preset-stage-3": "^7.0.0",
 		"apollo-server-express": "^2.0.0",
-		"babel-cli": "^6.26.0",
 		"babel-core": "^6.26.3",
 		"babel-plugin-transform-es2015-destructuring": "^6.23.0",
 		"babel-plugin-transform-object-rest-spread": "^6.26.0",

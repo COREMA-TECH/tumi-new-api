@@ -63,7 +63,8 @@ import {
 	RolesQuery,
 	FormsQuery,
 	RolesFormsQuery,
-	TemplateQuery
+	TemplateQuery,
+	ShiftDetailEmployeesQuery
 
 } from './queries';
 import { ShiftWorkOrderType, FormsType } from './types/operations/outputTypes';
@@ -104,7 +105,8 @@ const RootQuery = new GraphQLObjectType({
 		...RolesQuery,
 		...FormsQuery,
 		...RolesFormsQuery,
-		...TemplateQuery
+		...TemplateQuery,
+		...ShiftDetailEmployeesQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({
