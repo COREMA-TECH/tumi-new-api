@@ -651,6 +651,91 @@ const ShiftMutation = {
 
 			return null;
 		}
+	},
+	NotifyAllEmployees:  {
+		type: new GraphQLList(ShiftType),
+		description: 'Notify all employees by shifts',
+		args: {
+			ids: { type: new GraphQLList(GraphQLInt) }
+		},
+		resolve(source, args) {
+			return Db.models.ShiftDetailEmployees.findAll({
+				attributes: [
+					"EmployeeId"
+					
+				],
+				include: [
+					{
+						model: Db.models.ShiftDetail,
+						attributes: {
+							exclude: [
+							"id",
+							"createdAt",
+							"updatedAt"
+						]},
+						where: {
+							ShiftId: { [Op.in]: args.ids } 
+						},
+						raw: true,
+					}
+				]
+			}).then((Employees) => {
+				let __employees =  [];
+				const details = Employees.map((node) => node.get({ plain: true }));
+				
+				details.map((detail) => {
+					return Db.models.Employees.findAll({
+						where: {
+							id: detail.EmployeeId 
+						}
+					}).then((data) => {
+						const mailData = {
+							startDate: detail.ShiftDetail.startDate,
+							toDate: detail.ShiftDetail.endDate,
+							ShiftStart: detail.ShiftDetail.startTime,
+							ShiftEnd: detail.ShiftDetail.endTime,
+							shift: detail.ShiftDetail.ShiftId,
+							email: da
+						};
+						data.forEach((Employee) => {
+							sendgenericemail({ 
+								StartDate: mailData.startDate.toISOString().substring(0, 10), 
+								ToDate: mailData.endDate.toISOString().substring(0, 10), 
+								ShiftStart: mailData.startHour, 
+								ShiftEnd: mailData.endHour, 
+								shift:  mailData.ShiftId, 
+								email: datashiftEmployee.dataValues.electronicAddress, 
+								title: dataPositionRate.dataValues.Position, 
+								supervisor: dataContacts.dataValues.First_Name.trim + ' ' + dataContacts.dataValues.Last_Name, 
+								Department: dataCatalogItem.dataValues.DisplayLabel, 
+								Hotel: dataBusinessCompany.dataValues.Name, 
+								Workdays: weekDays, 
+								specialComment: dataPositionRate.dataValues.Comment 
+							})
+						});
+					});
+				});
+				
+			});
+		}
+	},
+	PublishAll: {
+		type: new GraphQLList(ShiftType),
+		description: 'Notify all employees by shifts',
+		args: {
+			ids: { type: new GraphQLList(GraphQLInt) }
+		},
+		resolve(source, args) {
+			return Db.models.Shift.update({
+				color: "#009ce0",
+				status: 3
+			},{
+				where: {
+					id: { [Op.in]: args.ids },
+					status: 2
+				}
+			});
+		}
 	}
 }
 
