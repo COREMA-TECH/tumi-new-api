@@ -206,7 +206,7 @@ const WorkOrderMutation = {
 			id: { type: GraphQLInt }
 		},
 		resolve(source, args) {
-			return Db.models.ShiftDetailEmployees.destroy({ where: { ShiftDetailId: args.id } }).then((deleted) => {
+			return Db.models.ShiftDetailEmployees.destroy({ where: { EmployeeId: args.id } }).then((deleted) => {
 				return deleted;
 			});
 		}
