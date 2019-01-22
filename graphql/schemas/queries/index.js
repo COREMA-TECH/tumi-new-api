@@ -29,7 +29,8 @@ import RolesQuery from './roleQuery';
 import FormsQuery from './formQuery';
 import RolesFormsQuery from './rolesformsQuery';
 import TemplateQuery from './templateQuery';
-import ShiftDetailEmployeesQuery from './shiftDetailEmployeesQuery'
+import ShiftDetailEmployeesQuery from './shiftDetailEmployeesQuery';
+import CatalogItemQuery from './catalogItemQuery';
 
 
 import phaseworkOrderQuery from './phaseworkOrderQuery';
@@ -66,5 +67,6 @@ export {
 	FormsQuery,
 	RolesFormsQuery,
 	TemplateQuery,
-	ShiftDetailEmployeesQuery
+	ShiftDetailEmployeesQuery,
+	CatalogItemQuery
 };

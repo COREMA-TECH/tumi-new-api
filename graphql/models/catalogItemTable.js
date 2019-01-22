@@ -19,6 +19,10 @@ export default {
 					type: Sequelize.INTEGER,
 					allowNull: true
 				},
+				Id_Entity: {
+					type: Sequelize.INTEGER,
+					allowNull: true
+				},
 				Name: {
 					type: Sequelize.STRING(150),
 					allowNull: true

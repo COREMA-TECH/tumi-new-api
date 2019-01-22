@@ -2166,11 +2166,11 @@ async function UpdUsers(args) {
 
 async function UpdUsersPassword(args) {
 	try {
+		console.log(args.Password)
+		const password = `PGP_SYM_ENCRYPT(` + args.Password + `)`;
 		if (args) {
 			Strquery =
-				'UPDATE public."Users" SET "IsActive" = 1, "Password"= PGP_SYM_ENCRYPT(' +
-				args.Password +
-				') where "Id"=' +
+				'UPDATE public."Users" SET "IsActive" = 1, "Password"=' + password + 'where "Id"=' +
 				args.Id;
 		} else {
 			console.log('Error Update Data');
