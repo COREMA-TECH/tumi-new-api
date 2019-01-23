@@ -189,6 +189,7 @@ RolesForms.belongsTo(Roles, {
 	as: 'Roles'
 })
 
+
 /*Employees.hasOne(ApplicationEmployees);
 
 ApplicationEmployees.belongsTo(Employees, {
@@ -202,6 +203,8 @@ ShiftDetail.hasOne(ShiftDetailEmployees, { onDelete: 'cascade' });
 ShiftDetail.belongsTo(Shift);
 
 ShiftDetailEmployees.belongsTo(ShiftDetail);
+ShiftDetailEmployees.belongsTo(Employees);
+
 Shift.hasOne(ShiftWorkOrder, { onDelete: 'cascade' });
 
 Shift.belongsTo(BusinessCompany, {
@@ -209,7 +212,22 @@ Shift.belongsTo(BusinessCompany, {
 	as: 'ShiftEntity'
 })
 
+ShiftDetail.belongsTo(ShiftWorkOrder, {
+	foreignKey: 'ShiftId',
+	as: 'ShiftWorkOrder'
+})
+
 WorkOrder.hasMany(ShiftWorkOrder);
+
+ShiftWorkOrder.belongsTo(WorkOrder, {
+	foreignKey: 'WorkOrderId',
+	as: 'WorkOrder'
+});
+
+ShiftWorkOrder.belongsTo(Shift, {
+	foreignKey: 'ShiftId',
+	as: 'Shift'
+});
 
 Employees.hasMany(ShiftDetailEmployees);
 

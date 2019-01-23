@@ -2,12 +2,12 @@ const express = require('express');
 const GraphHTTP = require('express-graphql');
 const Schema = require('./graphql/schemas/schemas').default;
 const root = require('./Configuration/Roots.js');
-import { PublicSchema } from './Configuration/PublicSchema';
 const PublicRoot = require('./Configuration/PublicRoot');
 
 const path = require('path');
 import depthLimit from 'graphql-depth-limit';
 import jwt from 'jsonwebtoken';
+import { PublicSchema } from './Configuration/PublicSchema';
 
 var APP_PORT = 4000;
 var cors = require('cors');

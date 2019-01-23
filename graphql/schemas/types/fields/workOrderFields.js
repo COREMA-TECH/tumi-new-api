@@ -42,7 +42,7 @@ const WorkOrderFields = {
 		type: GraphQLInt
 	},
 	comment: {
-		type: new GraphQLNonNull(GraphQLString)
+		type: GraphQLString
 	},
 	EspecialComment: {
 		type: GraphQLString

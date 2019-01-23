@@ -30,6 +30,7 @@ import {
 	ShiftDetailEmployeeMutation,
 	MarkedEmployeesMutation,
 	RolesFormsMutation,
+	CatalogItemMutation,
 } from './mutations';
 import {
 	ApplicationQuery,
@@ -63,7 +64,9 @@ import {
 	RolesQuery,
 	FormsQuery,
 	RolesFormsQuery,
-	TemplateQuery
+	TemplateQuery,
+	ShiftDetailEmployeesQuery,
+	CatalogItemQuery,
 
 } from './queries';
 import { ShiftWorkOrderType, FormsType } from './types/operations/outputTypes';
@@ -104,7 +107,9 @@ const RootQuery = new GraphQLObjectType({
 		...RolesQuery,
 		...FormsQuery,
 		...RolesFormsQuery,
-		...TemplateQuery
+		...TemplateQuery,
+		...ShiftDetailEmployeesQuery,
+		...CatalogItemQuery,
 	}
 });
 const RootMutation = new GraphQLObjectType({
@@ -137,6 +142,7 @@ const RootMutation = new GraphQLObjectType({
 		...ShiftDetailEmployeeMutation,
 		...MarkedEmployeesMutation,
 		...RolesFormsMutation,
+		...CatalogItemMutation,
 	}
 });
 

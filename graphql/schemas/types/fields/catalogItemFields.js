@@ -6,6 +6,9 @@ const CatalogItemFields = {
 	Id_Parent: {
 		type: GraphQLInt
 	},
+	Id_Entity: {
+		type: GraphQLInt
+	},
 	Name: {
 		type: GraphQLString
 	},

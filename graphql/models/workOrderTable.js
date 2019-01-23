@@ -56,7 +56,7 @@ export default {
 			},
 			comment: {
 				type: Sequelize.STRING,
-				allowNull: false
+				allowNull: true
 			},
 			EspecialComment: {
 				type: Sequelize.STRING,

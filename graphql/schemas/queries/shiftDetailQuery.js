@@ -48,6 +48,17 @@ const ShiftDetailQuery = {
             });
         }
     },
+    ShiftDetailbyShift: {
+        type: new GraphQLList(ShiftDetailType),
+        description: 'List Shift Details  records',
+        args: {
+            id: { type: GraphQLInt },
+            ShiftId: { type: GraphQLInt }
+        },
+        resolve(root, args) {
+            return Db.models.ShiftDetail.findAll({ where: args });
+        }
+    },
     ShiftDetailByMarked: {
         type: new GraphQLList(ShiftDetailType),
         description: 'List Shift Details  records',
