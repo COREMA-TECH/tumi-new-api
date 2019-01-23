@@ -12,6 +12,9 @@ const EmployeesQuery = {
             },
             isActive: {
                 type: GraphQLBoolean
+            },
+            idEntity: {
+                type: GraphQLInt
             }
         },
         resolve(root, args) {

@@ -44,6 +44,9 @@ export default {
 				isActive: {
 					type: Sequelize.BOOLEAN,
 					defaultValue: true
+				},
+				departmentId: {
+					type: Sequelize.INTEGER
 				}
 			}
 		);

@@ -16,14 +16,25 @@ const inputShiftDetailQuery = new GraphQLInputObjectType({
 
 });
 
+const inputShiftQuery = new GraphQLInputObjectType({
+    name: 'inputShiftQuery',
+    description: 'Inputs Shift query',
+    fields: {
+        isTemplate: { type: GraphQLBoolean, defaultValue: false },
+        isActive: { type: GraphQLBoolean, defaultValue: true },
+        entityId: { type: GraphQLInt },
+        departmentId: { type: GraphQLInt }
+    }
+
+});
+
 const ShiftDetailQuery = {
     ShiftDetail: {
         type: new GraphQLList(ShiftDetailType),
         description: 'List Shift Details  records',
         args: {
             shiftDetail: { type: inputShiftDetailQuery },
-            isTemplate: { type: GraphQLBoolean, defaultValue: false },
-            isActive: { type: GraphQLBoolean, defaultValue: true }
+            shift: { type: inputShiftQuery }
         },
         resolve(root, args) {
             return Db.models.ShiftDetail.findAll({
@@ -31,7 +42,7 @@ const ShiftDetailQuery = {
                 include: [
                     {
                         model: Db.models.Shift,
-                        where: { isTemplate: args.isTemplate, isActive: args.isActive }
+                        where: args.shift
                     }
                 ]
             });

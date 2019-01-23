@@ -33,6 +33,9 @@ const shiftFields = {
 	},
 	isActive: {
 		type: GraphQLBoolean
+	},
+	departmentId: {
+		type: GraphQLInt
 	}
 };
 export default shiftFields;

@@ -1,5 +1,5 @@
-import { GraphQLList, GraphQLString, GraphQLIncludeDirective, GraphQLInt, GraphQLBoolean } from 'graphql';
-import { ShiftType, TemplateType } from '../types/operations/outputTypes';
+import { GraphQLList, GraphQLInt, GraphQLBoolean } from 'graphql';
+import { ShiftType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 const ShiftQuery = {
@@ -17,6 +17,12 @@ const ShiftQuery = {
             isActive: {
                 type: GraphQLBoolean,
                 defaultValue: true
+            },
+            entityId: {
+                type: GraphQLInt
+            },
+            departmentId: {
+                type: GraphQLInt
             }
         },
         resolve(root, args) {
