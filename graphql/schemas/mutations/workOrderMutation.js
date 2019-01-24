@@ -1,4 +1,4 @@
-import { inputInsertWorkOrder, inputInsertShift, inputInsertPhaseWorkOrder } from '../types/operations/insertTypes';
+import { inputInsertWorkOrder, inputInsertShift } from '../types/operations/insertTypes';
 import { inputUpdateWorkOrder } from '../types/operations/updateTypes';
 import { WorkOrderType, PhaseWorkOrderType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLString, GraphQLNonNull } from 'graphql';
@@ -27,7 +27,7 @@ const WorkOrderMutation = {
 				return ret.map((data) => {
 
 					Db.models.PhaseWorkOrder.create({
-						userId: 10,//data.dataValues.userId,
+						userId: args.workOrder[0].userId,
 						phaseworkOrderId: 30453,
 						WorkOrderId: data.dataValues.id
 					});
@@ -37,6 +37,8 @@ const WorkOrderMutation = {
 					while (currentQ <= args.quantity) {
 
 						currentQ = currentQ + 1;
+
+						Db.models.WorkOrderPosition.create({ userId: args.workOrder[0].userId, status: args.workOrder[0].status, quantity: 1, PositionRateId: args.workOrder[0].PositionRateId, WorkOrderId: data.dataValues.id });
 
 						Db.models.Shift.bulkCreate(args.shift, { returning: true }).then((ret) => {
 							return ret.map((datashift) => {
