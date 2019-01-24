@@ -39,13 +39,6 @@ const CatalogItemQuery = {
             }
         },
         resolve(root, args) {
-
-            if (args.Id_Parent >= 0) {
-                args.Id_Parent = args.Id_Parent;
-            } else {
-                args.Id_Parent = null;
-            }
-
             return Db.models.CatalogItem.findAll({ where: args });
         }
     }
