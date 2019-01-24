@@ -1,5 +1,7 @@
 import { GraphQLList, GraphQLInt, GraphQLBoolean } from 'graphql';
 import { ShiftType } from '../types/operations/outputTypes';
+import { inputShiftQuery } from '../types/operations/insertTypes';
+
 import Db from '../../models/models';
 
 const ShiftQuery = {
@@ -7,26 +9,10 @@ const ShiftQuery = {
         type: new GraphQLList(ShiftType),
         description: 'List Shift records',
         args: {
-            id: {
-                type: GraphQLInt
-            },
-            isTemplate: {
-                type: GraphQLBoolean,
-                defaultValue: false
-            },
-            isActive: {
-                type: GraphQLBoolean,
-                defaultValue: true
-            },
-            entityId: {
-                type: GraphQLInt
-            },
-            departmentId: {
-                type: GraphQLInt
-            }
+            shift: { type: inputShiftQuery }
         },
         resolve(root, args) {
-            return Db.models.Shift.findAll({ where: args });
+            return Db.models.Shift.findAll({ where: args.shift });
         }
     }
 };

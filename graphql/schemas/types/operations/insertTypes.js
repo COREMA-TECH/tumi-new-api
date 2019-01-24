@@ -292,6 +292,38 @@ const inputParamWorkOrderForShift = new GraphQLInputObjectType({
 	}
 })
 
+const inputShiftDetailQuery = new GraphQLInputObjectType({
+	name: 'inputShiftDetailQuery',
+	description: 'Inputs ShiftDetail query',
+	fields: {
+		id: { type: GraphQLInt },
+		ShiftId: { type: GraphQLInt }
+	}
+
+});
+
+const inputShiftDetailEmployeeQuery = new GraphQLInputObjectType({
+	name: 'inputShiftDetailEmployeeQuery',
+	description: 'Inputs ShiftDetailEmployee query',
+	fields: {
+		EmployeeId: { type: GraphQLInt }
+	}
+
+});
+
+const inputShiftQuery = new GraphQLInputObjectType({
+	name: 'inputShiftQuery',
+	description: 'Inputs Shift query',
+	fields: {
+		id: { type: GraphQLInt },
+		isTemplate: { type: GraphQLBoolean, defaultValue: false },
+		isActive: { type: GraphQLBoolean, defaultValue: true },
+		entityId: { type: GraphQLInt },
+		departmentId: { type: GraphQLInt }
+	}
+
+});
+
 export {
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
@@ -324,4 +356,7 @@ export {
 	inputInsertApplicationEmployees,
 	inputInsertRolesForms,
 	inputInsertCatalogItem,
+	inputShiftDetailQuery,
+	inputShiftDetailEmployeeQuery,
+	inputShiftQuery,
 };
