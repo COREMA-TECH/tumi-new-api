@@ -96,6 +96,7 @@ input iParamEA {
 		User_Updated: Int
 		Date_Created: String
 		Date_Updated : String
+		Id_Entity: Int
 	}
 	input iForms{
 		Id: Int
@@ -498,10 +499,11 @@ input iParamEA {
 		Value03: String
 		Value04: String
 		IsActive: Int,
-		User_Created: Int,
-		User_Updated: Int,
+		User_Created: Int
+		User_Updated: Int
 		Date_Created: String
 		Date_Updated : String
+		Id_Entity: Int
 	}
 	type ElectronicAddress{
 			Id : Int
@@ -571,11 +573,12 @@ input iParamEA {
 		Value02: String
 		Value03: String
 		Value04: String
-		IsActive: Int,
-		User_Created: Int,
-		User_Updated: Int,
+		IsActive: Int
+		User_Created: Int
+		User_Updated: Int
 		Date_Created: String
 		Date_Updated : String
+		Id_Entity: Int
 	}
 	type PhoneNumbers{
 			Id : Int
