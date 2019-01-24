@@ -1232,7 +1232,7 @@ async function DelCatalog(args) {
 //Method Connect to table CatalogItem
 async function getCatalogItem(args) {
 	try {
-		var strparam1, strparam2, strparam3, strparam4, strparam5;
+		var strparam1, strparam2, strparam3, strparam4, strparam5, strparam6;
 		var strParam5Query;
 		console.log(args);
 		if (args.IsActive >= 0) {
@@ -1259,6 +1259,11 @@ async function getCatalogItem(args) {
 			strparam4 = null;
 		}
 
+		if (args.Id_Entity == undefined) {
+			strparam6 = 'is null'
+		} else { strparam6 = ' = ' + args.Id_Entity }
+
+
 		//if (args.Value > 0) {
 		if (typeof args.Value !== 'undefined') {
 			strparam5 = args.Value;
@@ -1282,7 +1287,7 @@ async function getCatalogItem(args) {
 			strparam2 +
 			',"Id") and "Id_Parent" = coalesce(' +
 			strparam4 +
-			',"Id_Parent") ' + strParam5Query + 'order by "Id","Id_Catalog", "DisplayLabel"';
+			',"Id_Parent") and "Id_Entity" ' + strparam6 + ' ' + strParam5Query + 'order by "Id","Id_Catalog", "DisplayLabel"';
 		console.log(Strquery);
 
 		const { rows } = await query(Strquery);
@@ -1355,8 +1360,14 @@ async function getParentCatalogItem(args) {
 async function InsCatalogItem(args) {
 	try {
 		if (args) {
+
+			if (args.input.Id_Entity == undefined) {
+				args.input.Id_Entity = null
+			}
+
+
 			Strquery =
-				'INSERT INTO public."CatalogItem" ( "Id_Catalog", "Id_Parent", "Name", "DisplayLabel", "Description", "Value", "Value01", "Value02", "Value03", "Value04", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated") VALUES(' +
+				'INSERT INTO public."CatalogItem" ( "Id_Catalog", "Id_Parent", "Name", "DisplayLabel", "Description", "Value", "Value01", "Value02", "Value03", "Value04", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Id_Entity") VALUES(' +
 				args.input.Id_Catalog +
 				',' +
 				args.input.Id_Parent +
@@ -1386,7 +1397,9 @@ async function InsCatalogItem(args) {
 				args.input.Date_Created +
 				',' +
 				args.input.Date_Updated +
-				') RETURNING "Id","Id_Catalog", "Id_Parent", "Name", "DisplayLabel", "Description", "Value", "Value01", "Value02", "Value03", "Value04", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated"';
+				',' +
+				args.input.Id_Entity +
+				') RETURNING "Id","Id_Catalog", "Id_Parent", "Name", "DisplayLabel", "Description", "Value", "Value01", "Value02", "Value03", "Value04", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated","Id_Entity"';
 			console.log(Strquery);
 		} else {
 			console.log('Error Insert Data');
@@ -1403,6 +1416,12 @@ async function InsCatalogItem(args) {
 async function UpdCatalogItem(args) {
 	try {
 		if (args) {
+
+			if (args.input.Id_Entity == undefined) {
+				args.input.Id_Entity = null
+			}
+
+
 			Strquery =
 				'UPDATE public."CatalogItem" SET "Id_Catalog"=' +
 				args.input.Id_Catalog +
@@ -1434,6 +1453,8 @@ async function UpdCatalogItem(args) {
 				args.input.Date_Created +
 				', "Date_Updated"=' +
 				args.input.Date_Updated +
+				', "Id_Entity"=' +
+				args.input.Id_Entity +
 				' where "Id"=' +
 				args.input.Id;
 		} else {

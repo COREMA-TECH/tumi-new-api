@@ -96,6 +96,7 @@ input iParamEA {
 		User_Updated: Int
 		Date_Created: String
 		Date_Updated : String
+		Id_Entity: Int
 	}
 	input iForms{
 		Id: Int
@@ -293,7 +294,7 @@ input iParamEA {
 		getsupervisor(Id:Int,IsActive:Int,Id_Entity :Int): [Supervisor]
 		getparentcatalogitem(Id:Int,Id_Catalog: Int,IsActive:Int): [CatalogParent]
 		getcatalog(Id:Int,IsActive:Int): [Catalog]
-		getcatalogitem(Id:Int,IsActive:Int,Id_Catalog:Int,Id_Parent:Int,Value:String): [CatalogItem]
+		getcatalogitem(Id:Int,IsActive:Int,Id_Catalog:Int,Id_Parent:Int,Value:String, Id_Entity:Int): [CatalogItem]
 		getroles(Id:Int,IsActive:Int,Id_Company:Int): [Roles]
 		getforms(Id:Int,IsActive:Int): [Forms]
 		getusers(Id:Int,IsActive:Int, IsRecruiter:Int): [Users]
@@ -498,10 +499,11 @@ input iParamEA {
 		Value03: String
 		Value04: String
 		IsActive: Int,
-		User_Created: Int,
-		User_Updated: Int,
+		User_Created: Int
+		User_Updated: Int
 		Date_Created: String
 		Date_Updated : String
+		Id_Entity: Int
 	}
 	type ElectronicAddress{
 			Id : Int
@@ -571,11 +573,12 @@ input iParamEA {
 		Value02: String
 		Value03: String
 		Value04: String
-		IsActive: Int,
-		User_Created: Int,
-		User_Updated: Int,
+		IsActive: Int
+		User_Created: Int
+		User_Updated: Int
 		Date_Created: String
 		Date_Updated : String
+		Id_Entity: Int
 	}
 	type PhoneNumbers{
 			Id : Int
