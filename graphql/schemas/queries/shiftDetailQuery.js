@@ -1,32 +1,12 @@
-import { GraphQLList, GraphQLString, GraphQLInt, GraphQLBoolean, GraphQLInputObjectType } from 'graphql';
+import { GraphQLList, GraphQLString, GraphQLInt, GraphQLBoolean } from 'graphql';
 import { ShiftDetailType } from '../types/operations/outputTypes';
+import { inputShiftDetailQuery, inputShiftDetailEmployeeQuery, inputShiftQuery } from '../types/operations/insertTypes';
+
 import Db from '../../models/models';
 import Sequelize from 'sequelize';
 import GraphQLDate from 'graphql-date';
 
 const Op = Sequelize.Op;
-
-const inputShiftDetailQuery = new GraphQLInputObjectType({
-    name: 'inputShiftDetailQuery',
-    description: 'Inputs ShiftDetail query',
-    fields: {
-        id: { type: GraphQLInt },
-        ShiftId: { type: GraphQLInt }
-    }
-
-});
-
-const inputShiftQuery = new GraphQLInputObjectType({
-    name: 'inputShiftQuery',
-    description: 'Inputs Shift query',
-    fields: {
-        isTemplate: { type: GraphQLBoolean, defaultValue: false },
-        isActive: { type: GraphQLBoolean, defaultValue: true },
-        entityId: { type: GraphQLInt },
-        departmentId: { type: GraphQLInt }
-    }
-
-});
 
 const ShiftDetailQuery = {
     ShiftDetail: {
@@ -34,15 +14,22 @@ const ShiftDetailQuery = {
         description: 'List Shift Details  records',
         args: {
             shiftDetail: { type: inputShiftDetailQuery },
-            shift: { type: inputShiftQuery }
+            shift: { type: inputShiftQuery },
+            shiftDetailEmployee: { type: inputShiftDetailEmployeeQuery }
         },
         resolve(root, args) {
+            console.log("ShiftDetail Query")
             return Db.models.ShiftDetail.findAll({
                 where: args.shiftDetail,
                 include: [
                     {
                         model: Db.models.Shift,
-                        where: args.shift
+                        where: args.shift,
+
+                    },
+                    {
+                        model: Db.models.ShiftDetailEmployees,
+                        where: args.shiftDetailEmployee
                     }
                 ]
             });
