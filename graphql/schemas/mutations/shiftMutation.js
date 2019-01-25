@@ -327,7 +327,6 @@ const ShiftMutation = {
 			templateId: { type: GraphQLInt },
 			endDate: { type: GraphQLDate },
 			userId: { type: GraphQLInt },
-			positionId: { type: GraphQLInt },
 			requestedBy: { type: GraphQLInt },
 			specialComment: { type: GraphQLString }
 		},
@@ -381,7 +380,7 @@ const ShiftMutation = {
 										needExperience: false,
 										needEnglish: false,
 										comment: _shift.comment,
-										PositionRateId: args.positionId,
+										PositionRateId: newShift.dataValues.idPosition,
 										contactId: args.requestedBy,
 										EspecialComment: args.specialComment,
 										endShift: "00:23",
@@ -467,7 +466,7 @@ const ShiftMutation = {
 		args: {
 			endDate: { type: GraphQLDate },
 			entityId: { type: GraphQLInt },
-			positionId: { type: GraphQLInt },
+			departmentId: { type: GraphQLInt },
 			userId: { type: GraphQLInt }
 		},
 		resolve(source, args) {
@@ -485,7 +484,7 @@ const ShiftMutation = {
 
 			return Db.models.Shift.findAll({
 				where: {
-					idPosition: args.positionId,
+					departmentId: args.departmentId,
 					entityId: args.entityId,
 					isTemplate: false,
 					isActive: true,
@@ -533,7 +532,7 @@ const ShiftMutation = {
 										{
 											model: Db.models.Shift,
 											where: {
-												idPosition: args.positionId,
+												departmentId: args.departmentId,
 												entityId: args.entityId,
 												isTemplate: false,
 												isActive: true
@@ -558,7 +557,7 @@ const ShiftMutation = {
 								needExperience: false,
 								needEnglish: false,
 								comment: _shift.comment,
-								PositionRateId: args.positionId,
+								PositionRateId: newShift.dataValues.idPosition,
 								contactId: args.requestedBy,
 								EspecialComment: args.specialComment,
 								endShift: "00:23",
@@ -581,7 +580,7 @@ const ShiftMutation = {
 												{
 													model: Db.models.Shift,
 													where: {
-														idPosition: args.positionId,
+														departmentId: args.departmentId,
 														entityId: args.entityId,
 														isTemplate: false,
 														isActive: true
