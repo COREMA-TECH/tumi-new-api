@@ -174,6 +174,7 @@ input iParamEA {
 		Suite:String
 		Rooms: Int
 		Contract_Status : String
+		Contract_Expiration_Date : String
 	}
 	input iRoles{
 		Id : Int
@@ -474,6 +475,7 @@ input iParamEA {
 			Suite:String
 			Rooms: Int
 			Contract_Status : String
+			Contract_Expiration_Date : String
 	}
 	type Catalog{
 		Id: Int

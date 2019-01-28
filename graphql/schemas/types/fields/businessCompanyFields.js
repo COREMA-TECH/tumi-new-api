@@ -128,6 +128,9 @@ const BusinessCompanyFields = {
 	},
 	Region: {
 		type: GraphQLInt
+	},
+	Contract_Expiration_Date: {
+		type: GraphQLInt
 	}
 };
 export default BusinessCompanyFields;

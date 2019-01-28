@@ -182,7 +182,11 @@ export default {
 				Region: {
 					type: Sequelize.INTEGER,
 					allowNull: false
-				}
+				},
+				Contract_Expiration_Date: {
+					type: Sequelize.STRING,
+					allowNull: false
+				},
 			},
 			{
 				freezeTableName: true,
