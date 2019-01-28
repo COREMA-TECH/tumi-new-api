@@ -174,6 +174,7 @@ input iParamEA {
 		Suite:String
 		Rooms: Int
 		Contract_Status : String
+		Contract_Expiration_Date : String
 	}
 	input iRoles{
 		Id : Int
@@ -290,7 +291,7 @@ input iParamEA {
 		getphonenumbers(Id:Int,IsActive:Int,Related_Table:String,Id_Entity :Int): [PhoneNumbers]
 		getaddress(Id:Int,IsActive:Int,Related_Table: String, Id_Entity :Int): [Address]
 		getcontacts(Id:Int,IsActive:Int, Id_Entity :Int): [Contacts]
-		getposition(Id:Int,IsActive:Int, Id_Entity :Int): [PositionRate]
+		getposition(Id:Int,IsActive:Int, Id_Entity :Int,Id_Department:Int): [PositionRate]
 		getsupervisor(Id:Int,IsActive:Int,Id_Entity :Int): [Supervisor]
 		getparentcatalogitem(Id:Int,Id_Catalog: Int,IsActive:Int): [CatalogParent]
 		getcatalog(Id:Int,IsActive:Int): [Catalog]
@@ -474,6 +475,7 @@ input iParamEA {
 			Suite:String
 			Rooms: Int
 			Contract_Status : String
+			Contract_Expiration_Date : String
 	}
 	type Catalog{
 		Id: Int

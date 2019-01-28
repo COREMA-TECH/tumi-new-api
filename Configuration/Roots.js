@@ -1490,7 +1490,7 @@ async function DelCatalogItem(args) {
 //Method Connect to table Position and rate of Company
 async function getPosition(args) {
 	try {
-		var strparam1, strparam2, strparam3;
+		var strparam1, strparam2, strparam3, strparam4;
 
 		if (args.IsActive >= 0) {
 			strparam1 = args.IsActive;
@@ -1510,6 +1510,13 @@ async function getPosition(args) {
 			strparam3 = null;
 		}
 
+
+		if (args.Id_Department >= 0) {
+			strparam4 = args.Id_Department;
+		} else {
+			strparam4 = null;
+		}
+
 		Strquery =
 			'select * from public."PositionRate" Where  "IsActive" = coalesce(' +
 			strparam1 +
@@ -1517,7 +1524,9 @@ async function getPosition(args) {
 			strparam3 +
 			',"Id_Entity")  and "Id" = coalesce(' +
 			strparam2 +
-			',"Id")';
+			',"Id") and "Id_Department" = coalesce(' +
+			strparam4 +
+			',"Id_Department")';
 		console.log(Strquery);
 
 		const { rows } = await query(Strquery);

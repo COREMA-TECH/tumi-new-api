@@ -38,7 +38,7 @@ const WorkOrderMutation = {
 
 						currentQ = currentQ + 1;
 
-						Db.models.WorkOrderPosition.create({ userId: args.workOrder[0].userId, status: args.workOrder[0].status, quantity: 1, PositionRateId: args.workOrder[0].PositionRateId, WorkOrderId: data.dataValues.id });
+						//Db.models.WorkOrderPosition.create({ userId: args.workOrder[0].userId, status: args.workOrder[0].status, quantity: 1, PositionRateId: args.workOrder[0].PositionRateId, WorkOrderId: data.dataValues.id });
 
 						Db.models.Shift.bulkCreate(args.shift, { returning: true }).then((ret) => {
 							return ret.map((datashift) => {
@@ -170,7 +170,10 @@ const WorkOrderMutation = {
 									//Insert ShiftDetail records into database
 									Db.models.ShiftDetail.bulkCreate(dates, { returning: true }).then((ret) => { });
 									//Insert Shift - WorkOrder records into database
-									Db.models.ShiftWorkOrder.create({ ShiftId: datashift.dataValues.id, WorkOrderId: data.dataValues.id });
+									Db.models.ShiftWorkOrder.create({ ShiftId: datashift.dataValues.id, WorkOrderId: args.workOrder.id });
+
+
+
 								});
 							});
 						}
@@ -188,6 +191,30 @@ const WorkOrderMutation = {
 			id: { type: GraphQLInt }
 		},
 		resolve(source, args) {
+			return Db.models.WorkOrder
+				.update(
+					{
+						status: 0
+					},
+					{
+						where: {
+							id: args.id
+						},
+						returning: true
+					}
+				)
+				.then(function ([rowsUpdate, [record]]) {
+					/*	Db.models.PhaseWorkOrder.create({
+							userId: 10,//args.userId,
+							phaseworkOrderId: 30454,
+							WorkOrderId: args.id
+						});*/
+
+					if (record) return 1;
+					else return null;
+				});
+		}
+		/*resolve(source, args) {
 			return Db.models.WorkOrder.destroy({ where: { id: args.id } }).then((deleted) => {
 
 				Db.models.ShiftWorkOrder.findAll({ where: { WorkOrderId: args.id } }).then((select) => {
@@ -199,7 +226,7 @@ const WorkOrderMutation = {
 
 				return deleted;
 			});
-		}
+		}*/
 	},
 	deleteShiftDetailEmployees: {
 		type: EmployeesType,
