@@ -672,6 +672,13 @@ const EmployeesType = new GraphQLObjectType({
 					return me.getApplicationEmployee();
 				}
 			},
+			ShiftDetailEmployee: {
+				type: new GraphQLList(ShiftDetailEmployeesType),
+				resolve(me) {
+					console.log("this is me:::", me)
+					return me.getShiftDetailEmployees()
+				}
+			}
 		}
 	}
 });

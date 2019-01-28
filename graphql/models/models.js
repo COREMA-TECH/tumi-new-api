@@ -171,7 +171,7 @@ Application.belongsTo(CatalogItem, {
 	as: 'CatalogCity'
 });
 
-Shift.belongsTo(CatalogItem, {
+Shift.belongsTo(PositionRate, {
 	foreignKey: 'idPosition',
 	as: 'CatalogPosition'
 });
