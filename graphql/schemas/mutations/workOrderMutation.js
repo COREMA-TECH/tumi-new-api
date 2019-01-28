@@ -38,7 +38,7 @@ const WorkOrderMutation = {
 
 						currentQ = currentQ + 1;
 
-						Db.models.WorkOrderPosition.create({ userId: args.workOrder[0].userId, status: args.workOrder[0].status, quantity: 1, PositionRateId: args.workOrder[0].PositionRateId, WorkOrderId: data.dataValues.id });
+						//Db.models.WorkOrderPosition.create({ userId: args.workOrder[0].userId, status: args.workOrder[0].status, quantity: 1, PositionRateId: args.workOrder[0].PositionRateId, WorkOrderId: data.dataValues.id });
 
 						Db.models.Shift.bulkCreate(args.shift, { returning: true }).then((ret) => {
 							return ret.map((datashift) => {
@@ -170,7 +170,10 @@ const WorkOrderMutation = {
 									//Insert ShiftDetail records into database
 									Db.models.ShiftDetail.bulkCreate(dates, { returning: true }).then((ret) => { });
 									//Insert Shift - WorkOrder records into database
-									Db.models.ShiftWorkOrder.create({ ShiftId: datashift.dataValues.id, WorkOrderId: data.dataValues.id });
+									Db.models.ShiftWorkOrder.create({ ShiftId: datashift.dataValues.id, WorkOrderId: args.workOrder.id });
+
+
+
 								});
 							});
 						}
