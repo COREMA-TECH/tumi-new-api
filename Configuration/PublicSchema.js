@@ -35,6 +35,7 @@ const PublicSchema = buildSchema(`
 		Date_Updated: String
 		IdSchedulesEmployees:Int
 		IdSchedulesManager:Int
+		isEmployee: Boolean
 		}
 
 `);

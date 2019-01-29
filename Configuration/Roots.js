@@ -2058,13 +2058,14 @@ async function getUsers(args) {
 
 async function InsUsers(args) {
 	try {
-		console.log(args);
 
-		//console.log(args);
-		// strparam1 = 'AES_KEY';
+		var isEmployee = false
+		if ('isEmployee' in args.input)
+			isEmployee = args.input.isEmployee
+
 		const password = `PGP_SYM_ENCRYPT('TEMP','AES_KEY')`;
 		Strquery =
-			'INSERT INTO public."Users" ("Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager") VALUES(' +
+			'INSERT INTO public."Users" ("Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager", "isEmployee" ) VALUES(' +
 			args.input.Id_Entity +
 			',' +
 			args.input.Id_Contact +
@@ -2110,7 +2111,9 @@ async function InsUsers(args) {
 			args.input.IdSchedulesEmployees +
 			',' +
 			args.input.IdSchedulesManager +
-			') RETURNING "Id","Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager"';
+			',' +
+			isEmployee
+		') RETURNING "Id","Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager","isEmployee"';
 
 		console.log(Strquery);
 		const { rows } = await query(Strquery);
@@ -2132,6 +2135,12 @@ async function InsUsers(args) {
 async function UpdUsers(args) {
 	try {
 		var strparam1;
+
+		var isEmployee = false
+		if ('isEmployee' in args.input)
+			isEmployee = args.input.isEmployee
+
+
 		if (args) {
 			// strparam1 = 'AES_KEY';
 			Strquery =
@@ -2179,6 +2188,8 @@ async function UpdUsers(args) {
 				args.input.IdSchedulesEmployees +
 				', "IdSchedulesManager"=' +
 				args.input.IdSchedulesManager +
+				', "isEmployee"=' +
+				isEmployee +
 				' where "Id"=' +
 				args.input.Id;
 		} else {
@@ -2188,7 +2199,6 @@ async function UpdUsers(args) {
 		const { rows } = await query(Strquery);
 		return rows;
 	} catch (err) {
-		return err;
 		console.log('Database ' + err);
 		return err;
 	}
