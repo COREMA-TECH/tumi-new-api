@@ -145,6 +145,11 @@ const ApplicationType = new GraphQLObjectType({
 				resolve(application) {
 					return application.getApplicationPhases();
 				}
+			}, employee: {
+				type: ApplicationEmployeesType,
+				resolve(me) {
+					return me.getApplicationEmployee();
+				}
 			}
 		};
 	}
