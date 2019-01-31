@@ -29,20 +29,7 @@ const EmployeesMutation = {
 		},
 		resolve(source, args) {
 			return Db.models.Employees
-				.update(
-					{
-						firstName: args.employees.firstName,
-						lastName: args.employees.lastName,
-						electronicAddress: args.employees.electronicAddress,
-						mobileNumber: args.employees.mobileNumber,
-						idRole: args.employees.idRole,
-						isActive: args.employees.isActive,
-						userCreated: args.employees.userCreated,
-						userUpdated: args.employees.userUpdated,
-						Id_Deparment: args.employees.Id_Deparment,
-						Contact_Title: args.employees.Contact_Title,
-						idEntity: args.employees.idEntity
-					},
+				.update(args.employees,
 					{
 						where: {
 							id: args.employees.id

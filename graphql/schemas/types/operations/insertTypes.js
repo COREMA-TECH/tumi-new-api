@@ -30,6 +30,7 @@ import {
 	ApplicationEmployeesFields,
 	RolesFormsFields,
 	CatalogItemFields,
+	UsersFields
 } from '../fields';
 
 const inputInsertEmployees = new GraphQLInputObjectType({
@@ -324,6 +325,12 @@ const inputShiftQuery = new GraphQLInputObjectType({
 
 });
 
+const inputInsertUser = new GraphQLInputObjectType({
+	name: 'inputInsertUser',
+	description: 'Inputs to Insert User',
+	fields: { ...UsersFields }
+});
+
 export {
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
@@ -359,4 +366,5 @@ export {
 	inputShiftDetailQuery,
 	inputShiftDetailEmployeeQuery,
 	inputShiftQuery,
+	inputInsertUser
 };

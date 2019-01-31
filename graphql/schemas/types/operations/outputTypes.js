@@ -23,7 +23,7 @@ import {
 	ZipcodeFields,
 	ApplicationPhaseFields,
 	phaseworkOrderFields,
-	usersFields,
+	UsersFields,
 	HolidayFields,
 	EmployeesFields,
 	ShiftFields,
@@ -36,7 +36,7 @@ import {
 	ContactsFields,
 	RolesFields,
 	FormsFields,
-	RolesFormsFields,
+	RolesFormsFields
 } from '../fields';
 
 
@@ -145,7 +145,8 @@ const ApplicationType = new GraphQLObjectType({
 				resolve(application) {
 					return application.getApplicationPhases();
 				}
-			}, employee: {
+			},
+			employee: {
 				type: ApplicationEmployeesType,
 				resolve(me) {
 					return me.getApplicationEmployee();
@@ -334,7 +335,7 @@ const UsersType = new GraphQLObjectType({
 		Id: {
 			type: GraphQLInt
 		},
-		...usersFields
+		...UsersFields
 	}
 });
 
