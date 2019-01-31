@@ -98,6 +98,10 @@ export default {
 				isEmployee: {
 					type: Sequelize.BOOLEAN,
 					defaultValue: false
+				},
+				manageApp: {
+					type: Sequelize.BOOLEAN,
+					defaultValue: false
 				}
 			},
 			{

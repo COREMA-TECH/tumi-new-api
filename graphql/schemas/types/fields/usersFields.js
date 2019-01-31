@@ -65,6 +65,9 @@ const UsersFields = {
 	},
 	isEmployee: {
 		type: GraphQLBoolean
+	},
+	manageApp: {
+		type: GraphQLBoolean
 	}
 
 };

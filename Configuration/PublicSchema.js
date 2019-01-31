@@ -36,6 +36,7 @@ const PublicSchema = buildSchema(`
 		IdSchedulesEmployees:Int
 		IdSchedulesManager:Int
 		isEmployee: Boolean
+		manageApp: Boolean
 		}
 
 `);

@@ -682,6 +682,7 @@ input iParamEA {
 		IdSchedulesEmployees: Int
 		IdSchedulesManager: Int
 		isEmployee: Boolean
+		manageApp: Boolean
 	}
 
 

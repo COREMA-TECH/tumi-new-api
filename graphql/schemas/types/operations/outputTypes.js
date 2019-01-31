@@ -320,11 +320,19 @@ const PositionRateType = new GraphQLObjectType({
 const CatalogItemType = new GraphQLObjectType({
 	name: 'CatalogItemType',
 	description: 'This is for catalog item',
-	fields: {
-		Id: {
-			type: GraphQLInt
-		},
-		...CatalogItemFields
+	fields: () => {
+		return {
+			Id: {
+				type: GraphQLInt
+			},
+			...CatalogItemFields,
+			contacts: {
+				type: new GraphQLList(ContactsType),
+				resolve(me) {
+					return me.getContacts();
+				}
+			}
+		}
 	}
 });
 
