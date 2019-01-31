@@ -18,6 +18,9 @@ const EmployeesQuery = {
             },
             idEntity: {
                 type: GraphQLInt
+            },
+            idUsers: {
+                type: GraphQLInt
             }
         },
         resolve(root, args) {
