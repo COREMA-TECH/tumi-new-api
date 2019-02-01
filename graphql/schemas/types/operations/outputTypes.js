@@ -23,7 +23,7 @@ import {
 	ZipcodeFields,
 	ApplicationPhaseFields,
 	phaseworkOrderFields,
-	usersFields,
+	UsersFields,
 	HolidayFields,
 	EmployeesFields,
 	ShiftFields,
@@ -36,8 +36,12 @@ import {
 	ContactsFields,
 	RolesFields,
 	FormsFields,
+<<<<<<< HEAD
 	RolesFormsFields,
 	ConfigRegionsFields,
+=======
+	RolesFormsFields
+>>>>>>> 5d1856a806db55406dbe6ae168cc4f7648d80b4d
 } from '../fields';
 
 
@@ -145,6 +149,12 @@ const ApplicationType = new GraphQLObjectType({
 				type: new GraphQLList(ApplicationPhaseType),
 				resolve(application) {
 					return application.getApplicationPhases();
+				}
+			},
+			employee: {
+				type: ApplicationEmployeesType,
+				resolve(me) {
+					return me.getApplicationEmployee();
 				}
 			}
 		};
@@ -315,11 +325,19 @@ const PositionRateType = new GraphQLObjectType({
 const CatalogItemType = new GraphQLObjectType({
 	name: 'CatalogItemType',
 	description: 'This is for catalog item',
-	fields: {
-		Id: {
-			type: GraphQLInt
-		},
-		...CatalogItemFields
+	fields: () => {
+		return {
+			Id: {
+				type: GraphQLInt
+			},
+			...CatalogItemFields,
+			contacts: {
+				type: new GraphQLList(ContactsType),
+				resolve(me) {
+					return me.getContacts();
+				}
+			}
+		}
 	}
 });
 
@@ -330,7 +348,7 @@ const UsersType = new GraphQLObjectType({
 		Id: {
 			type: GraphQLInt
 		},
-		...usersFields
+		...UsersFields
 	}
 });
 
@@ -673,6 +691,12 @@ const EmployeesType = new GraphQLObjectType({
 					return me.getApplicationEmployee();
 				}
 			},
+			ShiftDetailEmployee: {
+				type: new GraphQLList(ShiftDetailEmployeesType),
+				resolve(me) {
+					return me.getShiftDetailEmployees()
+				}
+			}
 		}
 	}
 });

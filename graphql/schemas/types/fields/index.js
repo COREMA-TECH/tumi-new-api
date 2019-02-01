@@ -20,7 +20,7 @@ import WorkOrderPositionFields from './workOrderPositionFields';
 import ZipcodeFields from './zipcodeFields';
 import ApplicationPhaseFields from './applicationPhaseFields';
 import phaseworkOrderFields from './phaseworkOrderFields';
-import usersFields from './usersFields';
+import UsersFields from './usersFields';
 import HolidayFields from './holidayFields';
 import EmployeesFields from './employeesFields';
 import ShiftFields from './shiftFields';
@@ -60,7 +60,7 @@ export {
 	ZipcodeFields,
 	ApplicationPhaseFields,
 	phaseworkOrderFields,
-	usersFields,
+	UsersFields,
 	HolidayFields,
 	EmployeesFields,
 	ShiftFields,

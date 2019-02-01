@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLString } from 'graphql';
+import { GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
 const UsersFields = {
 	Id_Entity: {
 		type: GraphQLInt
@@ -62,6 +62,12 @@ const UsersFields = {
 	},
 	IdRegion: {
 		type: GraphQLInt
+	},
+	isEmployee: {
+		type: GraphQLBoolean
+	},
+	manageApp: {
+		type: GraphQLBoolean
 	}
 
 };

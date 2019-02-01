@@ -94,6 +94,14 @@ export default {
 				IdRegion: {
 					type: Sequelize.INTEGER,
 					allowNull: true
+				},
+				isEmployee: {
+					type: Sequelize.BOOLEAN,
+					defaultValue: false
+				},
+				manageApp: {
+					type: Sequelize.BOOLEAN,
+					defaultValue: false
 				}
 			},
 			{

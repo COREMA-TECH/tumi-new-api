@@ -14,7 +14,6 @@ const PublicSchema = buildSchema(`
 	type User{
 		Token: String
 		Id: Int
-		Id_Entity: Int
 		Id_Contact: Int
 		Id_Roles: Int
 		Code_User: String
@@ -35,6 +34,10 @@ const PublicSchema = buildSchema(`
 		Date_Updated: String
 		IdSchedulesEmployees:Int
 		IdSchedulesManager:Int
+		isEmployee: Boolean
+		manageApp: Boolean
+		Id_Entity: Int
+		CompanyName: String
 		}
 
 `);

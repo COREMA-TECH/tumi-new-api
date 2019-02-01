@@ -175,7 +175,7 @@ Application.belongsTo(CatalogItem, {
 	as: 'CatalogCity'
 });
 
-Shift.belongsTo(CatalogItem, {
+Shift.belongsTo(PositionRate, {
 	foreignKey: 'idPosition',
 	as: 'CatalogPosition'
 });
@@ -268,6 +268,10 @@ ApplicationEmployees.belongsTo(Application, {
 
 TemplateShift.belongsTo(Template);
 TemplateShift.belongsTo(Shift);
+CatalogItem.hasMany(Contacts, {
+	foreignKey: 'Id_Deparment',
+	as: 'Contacts'
+})
 
 Conn.authenticate()
 	.then(() => {
