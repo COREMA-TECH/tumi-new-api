@@ -25,11 +25,8 @@ import ShiftDetailEmployeeMutation from './shiftDetailEmployeeMutation';
 import MarkedEmployeesMutation from './markedEmployeesMutation';
 import RolesFormsMutation from './roleformMutation';
 import CatalogItemMutation from './catalogItemMutation';
-<<<<<<< HEAD
 import ConfigRegionsMutation from './configRegionsMutation';
-=======
 import UserMutation from './userMutation';
->>>>>>> 5d1856a806db55406dbe6ae168cc4f7648d80b4d
 
 export {
 	ApplicantLanguageMutation,
