@@ -36,12 +36,9 @@ import {
 	ContactsFields,
 	RolesFields,
 	FormsFields,
-<<<<<<< HEAD
 	RolesFormsFields,
 	ConfigRegionsFields,
-=======
 	RolesFormsFields
->>>>>>> 5d1856a806db55406dbe6ae168cc4f7648d80b4d
 } from '../fields';
 
 
