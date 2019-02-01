@@ -149,11 +149,8 @@ const RootMutation = new GraphQLObjectType({
 		...MarkedEmployeesMutation,
 		...RolesFormsMutation,
 		...CatalogItemMutation,
-<<<<<<< HEAD
 		...ConfigRegionsMutation,
-=======
 		...UserMutation
->>>>>>> 5d1856a806db55406dbe6ae168cc4f7648d80b4d
 	}
 });
 
