@@ -269,6 +269,7 @@ input iParamEA {
 			Electronic_Address: String
 			Primary_Email: String
 			Id_Contract_Template: Int
+			legalName: String
 	}
 	input iContractsTemplates{
 		Id: Int
@@ -406,6 +407,7 @@ input iParamEA {
 			Electronic_Address: String
 			Primary_Email: String
 			Id_Contract_Template: Int
+			legalName: String
 	}
 	type Company{
 			Id : Int

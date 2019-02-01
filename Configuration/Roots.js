@@ -2637,7 +2637,7 @@ async function InsContracts(args) {
 		if (args) {
 			console.log(args);
 			Strquery =
-				'INSERT INTO public."Contracts" ("Id_Company", "Contract_Name", "Contrat_Owner","IdManagement", "Id_Entity", "Id_User_Signed", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed","Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","Contract_Expiration_Date","Id_Contract_Template") VALUES(' +
+				'INSERT INTO public."Contracts" ("Id_Company", "Contract_Name", "Contrat_Owner","IdManagement", "Id_Entity", "Id_User_Signed", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed","Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","Contract_Expiration_Date","Id_Contract_Template","legalName") VALUES(' +
 				args.input.Id_Company +
 				',' +
 				args.input.Contract_Name +
@@ -2703,7 +2703,9 @@ async function InsContracts(args) {
 				args.input.Contract_Expiration_Date +
 				',' +
 				args.input.Id_Contract_Template +
-				') RETURNING "Id","Id_Company", "Contract_Name", "Contrat_Owner","IdManagement", "Id_Entity", "Id_User_Signed", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed","Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","Contract_Expiration_Date","Id_Contract_Template"';
+				',' +
+				args.input.legalName +
+				') RETURNING "Id","Id_Company", "Contract_Name", "Contrat_Owner","IdManagement", "Id_Entity", "Id_User_Signed", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed","Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","Contract_Expiration_Date","Id_Contract_Template","legalName"';
 		} else {
 			console.log('Error Insert Data');
 		}
@@ -2783,6 +2785,8 @@ async function UpdContracts(args) {
 				args.input.Contract_Expiration_Date +
 				', "Id_Contract_Template"=' +
 				args.input.Id_Contract_Template +
+				', "legalName"=' +
+				args.input.legalName +
 				' where "Id"=' +
 				args.input.Id;
 			console.log(Strquery);

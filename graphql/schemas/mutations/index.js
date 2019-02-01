@@ -25,6 +25,7 @@ import ShiftDetailEmployeeMutation from './shiftDetailEmployeeMutation';
 import MarkedEmployeesMutation from './markedEmployeesMutation';
 import RolesFormsMutation from './roleformMutation';
 import CatalogItemMutation from './catalogItemMutation';
+import ConfigRegionsMutation from './configRegionsMutation';
 
 export {
 	ApplicantLanguageMutation,
@@ -53,5 +54,7 @@ export {
 	ShiftDetailEmployeeMutation,
 	MarkedEmployeesMutation,
 	RolesFormsMutation,
-	CatalogItemMutation
+	CatalogItemMutation,
+	ConfigRegionsMutation,
+
 };

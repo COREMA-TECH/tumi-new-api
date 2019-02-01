@@ -37,6 +37,7 @@ import {
 	RolesFields,
 	FormsFields,
 	RolesFormsFields,
+	ConfigRegionsFields,
 } from '../fields';
 
 
@@ -845,6 +846,16 @@ const ApplicationEmployeesType = new GraphQLObjectType({
 	}
 });
 
+const ConfigRegionsType = new GraphQLObjectType({
+	name: 'ConfigRegions',
+	description: 'This is for Config Regions Table',
+	fields: () => {
+		return {
+			...ConfigRegionsFields
+		}
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -883,5 +894,5 @@ export {
 	FormsType,
 	RolesFormsType,
 	TemplateType,
-
+	ConfigRegionsType
 };

@@ -26,6 +26,7 @@ import {
 	MarkedEmployeesFields,
 	RolesFormsFields,
 	CatalogItemFields,
+	ConfigRegionsFields
 } from '../fields';
 
 const inputUpdateApplication = new GraphQLInputObjectType({
@@ -353,6 +354,18 @@ const inputUpdateCatalogItem = new GraphQLInputObjectType({
 	}
 });
 
+const inputUpdateConfigRegions = new GraphQLInputObjectType({
+	name: 'inputUpdateConfigRegions',
+	description: 'Inputs for Config Regions',
+	fields: {
+		Id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...ConfigRegionsFields
+	}
+});
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -380,4 +393,5 @@ export {
 	inputUpdateMarkedEmployees,
 	inputUpdateRolesForms,
 	inputUpdateCatalogItem,
+	inputUpdateConfigRegions,
 };
