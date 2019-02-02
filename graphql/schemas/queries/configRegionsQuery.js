@@ -7,15 +7,12 @@ const configRegionsQuery = {
         type: new GraphQLList(ConfigRegionsType),
         description: 'List employees records',
         args: {
-            id: {
-                type: GraphQLInt
-            },
             regionId: {
                 type: GraphQLInt
             }
         },
         resolve(root, args) {
-            return Db.models.ConfigRegion.findAll({ where: args });
+            return Db.models.ConfigRegions.findAll({ where: args });
         }
     }
 };

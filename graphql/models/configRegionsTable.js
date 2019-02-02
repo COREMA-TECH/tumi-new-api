@@ -16,10 +16,6 @@ export default {
 				regionalDirectorId: {
 					type: Sequelize.INTEGER,
 					allowNull: false
-				},
-				regionalRecruiterId: {
-					type: Sequelize.INTEGER,
-					allowNull: false
 				}
 			},
 			{

@@ -33,8 +33,7 @@ const configRegionsMutation = {
 					{
 						regionId: args.configregions.regionId,
 						regionalManagerId: args.configregions.regionalManagerId,
-						regionalDirectorId: args.configregions.regionalDirectorId,
-						regionalRecruiterId: args.configregions.regionalRecruiterId
+						regionalDirectorId: args.configregions.regionalDirectorId
 					},
 					{
 						where: {

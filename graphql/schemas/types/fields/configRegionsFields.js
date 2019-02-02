@@ -8,9 +8,6 @@ const configRegionsFields = {
 	},
 	regionalDirectorId: {
 		type: GraphQLInt
-	},
-	regionalRecruiterId: {
-		type: GraphQLInt
 	}
 };
 export default configRegionsFields;

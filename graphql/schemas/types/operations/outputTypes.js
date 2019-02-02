@@ -38,7 +38,7 @@ import {
 	FormsFields,
 	RolesFormsFields,
 	ConfigRegionsFields,
-	RolesFormsFields
+
 } from '../fields';
 
 
@@ -872,6 +872,10 @@ const ConfigRegionsType = new GraphQLObjectType({
 	description: 'This is for Config Regions Table',
 	fields: () => {
 		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
 			...ConfigRegionsFields
 		}
 	}
