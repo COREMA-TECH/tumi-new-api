@@ -481,6 +481,29 @@ async function UpdBusinessCompanies(args) {
 	}
 }
 
+async function UpdRegionBusinessCompanies(args) {
+	try {
+		if (args) {
+			Strquery =
+				'UPDATE public."BusinessCompany" SET "Region"=' +
+				args.Region +
+				' where "Id"=' +
+				args.Id;
+		} else {
+			console.log('Error Update Data');
+		}
+
+		console.log(Strquery);
+
+		const { rows } = await query(Strquery);
+		return rows;
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
+	}
+}
+
+
 async function DelBusinessCompanies(args) {
 	try {
 		if (args) {
@@ -2204,6 +2227,22 @@ async function UpdUsers(args) {
 	}
 }
 
+async function UpdRegionUsers(args) {
+	try {
+		if (args) {
+			Strquery =
+				'UPDATE public."Users" SET "IdRegion" =' + args.IdRegion + 'where "Id"=' + args.Id;
+		} else {
+			console.log('Error Update Data');
+		}
+		const { rows } = await query(Strquery);
+		return rows;
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
+	}
+}
+
 async function UpdUsersPassword(args) {
 	try {
 		console.log(args.Password)
@@ -3487,6 +3526,7 @@ const root = {
 	getbusinesscompanies: getBusinessCompanies,
 	insbusinesscompanies: InsBusinessCompanies,
 	updbusinesscompanies: UpdBusinessCompanies,
+	updregionbusinescompanies: UpdRegionBusinessCompanies,
 	delbusinesscompanies: DelBusinessCompanies,
 
 	getelectronicaddress: getElectronicAddress,
@@ -3543,6 +3583,7 @@ const root = {
 	updusers: UpdUsers,
 	delusers: DelUsers,
 	upduserspassword: UpdUsersPassword,
+	updregionusers: UpdRegionUsers,
 
 	getcontracts: getContracts,
 	inscontracts: InsContracts,

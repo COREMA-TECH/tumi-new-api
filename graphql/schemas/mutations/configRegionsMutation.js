@@ -28,7 +28,7 @@ const configRegionsMutation = {
 			configregions: { type: inputUpdateConfigRegions }
 		},
 		resolve(source, args) {
-			return Db.models.ConfigRegion
+			return Db.models.ConfigRegions
 				.update(
 					{
 						regionId: args.configregions.regionId,
