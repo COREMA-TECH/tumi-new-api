@@ -34,6 +34,7 @@ import ContactsFields from './contactsFields';
 import RolesFields from './roleFields';
 import FormsFields from './formFields';
 import RolesFormsFields from './roleformFields';
+import ConfigRegionsFields from './configRegionsFields';
 
 
 export {
@@ -73,4 +74,5 @@ export {
 	RolesFields,
 	FormsFields,
 	RolesFormsFields,
+	ConfigRegionsFields,
 };

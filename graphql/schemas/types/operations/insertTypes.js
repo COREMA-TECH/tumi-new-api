@@ -30,6 +30,7 @@ import {
 	ApplicationEmployeesFields,
 	RolesFormsFields,
 	CatalogItemFields,
+	ConfigRegionsFields,
 	UsersFields
 } from '../fields';
 
@@ -325,6 +326,12 @@ const inputShiftQuery = new GraphQLInputObjectType({
 
 });
 
+const inputInsertConfigRegions = new GraphQLInputObjectType({
+	name: 'inputConfigRegionsQuery',
+	description: 'Inputs for configRegions Insert',
+	fields: { ...ConfigRegionsFields }
+});
+
 const inputInsertUser = new GraphQLInputObjectType({
 	name: 'inputInsertUser',
 	description: 'Inputs to Insert User',
@@ -366,5 +373,6 @@ export {
 	inputShiftDetailQuery,
 	inputShiftDetailEmployeeQuery,
 	inputShiftQuery,
+	inputInsertConfigRegions,
 	inputInsertUser
 };

@@ -42,6 +42,8 @@ import ApplicationEmployeesModel from './applicationEmployeesTable';
 import TemplateModel from './templateTable';
 import TemplateShiftModel from './templateShiftTable';
 
+import ConfigRegionsModel from './configRegionsTable';
+
 import { Conn } from '../../Configuration/Configuration';
 
 const Application = ApplicationModel.createModel(Conn);
@@ -90,6 +92,8 @@ const ApplicationPhases = ApplicationPhasesModel.createModel(Conn);
 
 const Template = TemplateModel.createModel(Conn);
 const TemplateShift = TemplateShiftModel.createModel(Conn);
+
+const ConfigRegions = ConfigRegionsModel.createModel(Conn);
 
 ApplicationPhases.belongsTo(CatalogItem, {
 	foreignKey: 'ReasonId',

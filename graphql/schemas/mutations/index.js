@@ -25,6 +25,7 @@ import ShiftDetailEmployeeMutation from './shiftDetailEmployeeMutation';
 import MarkedEmployeesMutation from './markedEmployeesMutation';
 import RolesFormsMutation from './roleformMutation';
 import CatalogItemMutation from './catalogItemMutation';
+import ConfigRegionsMutation from './configRegionsMutation';
 import UserMutation from './userMutation';
 
 export {
@@ -55,5 +56,7 @@ export {
 	MarkedEmployeesMutation,
 	RolesFormsMutation,
 	CatalogItemMutation,
+	ConfigRegionsMutation,
+
 	UserMutation
 };

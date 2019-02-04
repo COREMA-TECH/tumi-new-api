@@ -270,6 +270,7 @@ input iParamEA {
 			Electronic_Address: String
 			Primary_Email: String
 			Id_Contract_Template: Int
+			legalName: String
 	}
 	input iContractsTemplates{
 		Id: Int
@@ -312,6 +313,7 @@ input iParamEA {
 	type Mutation{
 		insbusinesscompanies(input: iParamBC): BusinessCompany 
 		updbusinesscompanies(input: iParamBC): BusinessCompany
+		updregionbusinescompanies(Id:Int,Region:Int): BusinessCompany
 		delbusinesscompanies(Id:Int,IsActive:Int): BusinessCompany
 		inselectronicaddress(input: iParamEA): ElectronicAddress
 		updelectronicaddress(input: iParamEA): ElectronicAddress
@@ -340,6 +342,7 @@ input iParamEA {
 		delforms(Id:Int,IsActive:Int): Forms
 		insusers(input: iUsers): Users
 		updusers(input: iUsers): Users
+		updregionusers(Id:Int,IdRegion:Int): Users
 		delusers(Id:Int,IsActive:Int): Users
 		upduserspassword(Id:Int, Password:String): Users
 		inscontracts(input: iContracts): Contracts
@@ -407,6 +410,7 @@ input iParamEA {
 			Electronic_Address: String
 			Primary_Email: String
 			Id_Contract_Template: Int
+			legalName: String
 	}
 	type Company{
 			Id : Int
