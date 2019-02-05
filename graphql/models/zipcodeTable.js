@@ -13,6 +13,9 @@ export default {
             Long: {
                 type: Sequelize.INTEGER,
                 allowNull: true
+            },
+            City: {
+                type: Sequelize.STRING
             }
         },
             {

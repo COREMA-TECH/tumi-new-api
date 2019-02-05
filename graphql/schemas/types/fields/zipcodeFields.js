@@ -10,6 +10,9 @@ const Zipcodefields = {
     },
     Long: {
         type: (GraphQLString)
+    },
+    City: {
+        type: GraphQLString
     }
 };
 
