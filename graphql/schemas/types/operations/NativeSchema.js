@@ -288,7 +288,7 @@ input iParamEA {
 	{
 		getcontracts(Id:Int,IsActive:Int): [Contracts]
 		getcompanies(Id:Int,IsActive:Int): [Company]
-		getbusinesscompanies(Id:Int,IsActive:Int,Contract_Status:String,Id_Parent:Int): [BusinessCompany]
+		getbusinesscompanies(Id:Int,IsActive:Int,Contract_Status:String,Id_Parent:Int, Region:Int): [BusinessCompany]
 		getelectronicaddress(Id:Int,IsActive:Int, Related_Table: String, Id_Entity :Int): [ElectronicAddress]
 		getphonenumbers(Id:Int,IsActive:Int,Related_Table:String,Id_Entity :Int): [PhoneNumbers]
 		getaddress(Id:Int,IsActive:Int,Related_Table: String, Id_Entity :Int): [Address]
@@ -300,7 +300,7 @@ input iParamEA {
 		getcatalogitem(Id:Int,IsActive:Int,Id_Catalog:Int,Id_Parent:Int,Value:String, Id_Entity:Int): [CatalogItem]
 		getroles(Id:Int,IsActive:Int,Id_Company:Int): [Roles]
 		getforms(Id:Int,IsActive:Int): [Forms]
-		getusers(Id:Int,IsActive:Int, IsRecruiter:Int): [Users]
+		getusers(Id:Int,IsActive:Int, IsRecruiter:Int,IdRegion:Int): [Users]
 		getcontracttemplate(Id:Int,IsActive:Int): [ContractsTemplates]
 		sendcontracts(Id:Int,IsActive:Int): [Contracts]
 		createcontracts(Id:Int,IsActive:Int): [Contracts]

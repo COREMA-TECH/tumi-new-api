@@ -11,7 +11,7 @@ const fs = require('fs');
 
 var cron = require('node-cron');
 
-var Strquery, Strfilename;
+var Strquery, Strquery_2, Strfilename;
 
 cron.schedule('59 23 * * *', () => {
 	console.log('running a task At 23:59.');
@@ -197,7 +197,7 @@ async function getCompanies(args) {
 async function getBusinessCompanies(args) {
 	try {
 		//console.log(args.IsActive);
-		var strparam1, strparam2, strparam3, strparam4;
+		var strparam1, strparam2, strparam3, strparam4, strparam5;
 
 		if (args.IsActive >= 0) {
 			strparam1 = args.IsActive;
@@ -209,6 +209,12 @@ async function getBusinessCompanies(args) {
 			strparam2 = args.Id;
 		} else {
 			strparam2 = null;
+		}
+
+		if (args.Region > 0) {
+			strparam5 = args.Region;
+		} else {
+			strparam5 = null;
 		}
 
 		if (args.Id_Parent >= -1) {
@@ -225,17 +231,18 @@ async function getBusinessCompanies(args) {
 
 		if (strparam4 == -1) {
 			Strquery =
-				'SELECT * from public.vwBusinessCompany_Format  where "Contract_Status" =coalesce(' +
+				'SELECT * from public.vwBusinessCompany_Format  where "Region" = coalesce(' + strparam5 + ', "Region") and "Contract_Status" =coalesce(' +
 				strparam3 +
 				',"Contract_Status") and "IsActive" = coalesce(' +
 				strparam1 +
 				',"IsActive") and "Id" = coalesce(' +
+
 				strparam2 +
 				',"Id") and "Id_Parent" <> 0 order by "Name"';
 		}
 		else if (strparam4 == -2) {
 			Strquery =
-				'SELECT * from public.vwBusinessCompany_Format  where "Contract_Status" =coalesce(' +
+				'SELECT * from public.vwBusinessCompany_Format  where "Region" = coalesce(' + args.Region + ', "Region") and "Contract_Status" =coalesce(' +
 				strparam3 +
 				',"Contract_Status") and "IsActive" = coalesce(' +
 				strparam1 +
@@ -246,7 +253,7 @@ async function getBusinessCompanies(args) {
 		}
 		else {
 			Strquery =
-				'SELECT * from public.vwBusinessCompany_Format  where "Contract_Status" =coalesce(' +
+				'SELECT * from public.vwBusinessCompany_Format  where "Region" = coalesce(' + args.Region + ', "Region") and "Contract_Status" =coalesce(' +
 				strparam3 +
 				',"Contract_Status") and "IsActive" = coalesce(' +
 				strparam1 +
@@ -2040,7 +2047,7 @@ async function DelRolesForms(args) {
 
 async function getUsers(args) {
 	try {
-		var strparam1, strparam2, strparam3;
+		var strparam1, strparam2, strparam3, strparam4;
 
 		if (args.IsActive >= 0) {
 			strparam1 = args.IsActive;
@@ -2060,8 +2067,16 @@ async function getUsers(args) {
 			strparam3 = null;
 		}
 
+		if (args.IdRegion >= 0) {
+			strparam4 = args.IdRegion;
+		} else {
+			strparam4 = null;
+		}
+
+
+
 		Strquery =
-			'select * from public."Users" Where  "IsActive" = coalesce(' +
+			'select * from public."Users" Where "IdRegion" =coalesce(' + strparam4 + ',"IdRegion") and  "IsActive" = coalesce(' +
 			strparam1 +
 			',"IsActive") and "Id" = coalesce(' +
 			strparam2 +

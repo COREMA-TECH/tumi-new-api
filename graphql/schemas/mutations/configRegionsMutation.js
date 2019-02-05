@@ -25,19 +25,21 @@ const configRegionsMutation = {
 		type: ConfigRegionsType,
 		description: 'Update Config Regions',
 		args: {
-			configregions: { type: inputUpdateConfigRegions }
+			regionId: { type: GraphQLInt },
+			regionalManagerId: { type: GraphQLInt },
+			regionalDirectorId: { type: GraphQLInt }
 		},
 		resolve(source, args) {
 			return Db.models.ConfigRegions
 				.update(
 					{
-						regionId: args.configregions.regionId,
-						regionalManagerId: args.configregions.regionalManagerId,
-						regionalDirectorId: args.configregions.regionalDirectorId
+						//regionId: args.configregions.regionId,
+						regionalManagerId: args.regionalManagerId,
+						regionalDirectorId: args.regionalDirectorId
 					},
 					{
 						where: {
-							id: args.configregions.id
+							regionId: args.regionId
 						},
 						returning: true
 					}
