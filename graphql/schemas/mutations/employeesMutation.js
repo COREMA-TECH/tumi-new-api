@@ -14,10 +14,7 @@ const EmployeesMutation = {
 		},
 		resolve(source, args) {
 			return Db.models.Employees.bulkCreate(args.Employees, { returning: true }).then((ret) => {
-				return ret.map((data) => {
-					Db.models.Application.create({ firstName: args.Employees[0].firstName, lastName: args.Employees[0].lastName, quantity: 1, PositionRateId: args.workOrder[0].PositionRateId, WorkOrderId: data.dataValues.id });
-					return data.dataValues;
-				});
+				return ret.dataValues;
 			});
 		}
 	},

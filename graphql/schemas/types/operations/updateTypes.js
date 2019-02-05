@@ -358,7 +358,7 @@ const inputUpdateConfigRegions = new GraphQLInputObjectType({
 	name: 'inputUpdateConfigRegions',
 	description: 'Inputs for Config Regions',
 	fields: {
-		Id: {
+		id: {
 			type: new GraphQLNonNull(GraphQLInt),
 			description: 'table Id'
 		},
