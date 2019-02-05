@@ -242,7 +242,7 @@ async function getBusinessCompanies(args) {
 		}
 		else if (strparam4 == -2) {
 			Strquery =
-				'SELECT * from public.vwBusinessCompany_Format  where "Region" = coalesce(' + args.Region + ', "Region") and "Contract_Status" =coalesce(' +
+				'SELECT * from public.vwBusinessCompany_Format  where "Region" = coalesce(' + strparam5 + ', "Region") and "Contract_Status" =coalesce(' +
 				strparam3 +
 				',"Contract_Status") and "IsActive" = coalesce(' +
 				strparam1 +
@@ -253,7 +253,7 @@ async function getBusinessCompanies(args) {
 		}
 		else {
 			Strquery =
-				'SELECT * from public.vwBusinessCompany_Format  where "Region" = coalesce(' + args.Region + ', "Region") and "Contract_Status" =coalesce(' +
+				'SELECT * from public.vwBusinessCompany_Format  where "Region" = coalesce(' + strparam5 + ', "Region") and "Contract_Status" =coalesce(' +
 				strparam3 +
 				',"Contract_Status") and "IsActive" = coalesce(' +
 				strparam1 +
