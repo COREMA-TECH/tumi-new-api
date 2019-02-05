@@ -211,7 +211,7 @@ async function getBusinessCompanies(args) {
 			strparam2 = null;
 		}
 
-		if (args.Region > 0) {
+		if (args.Region >= 0) {
 			strparam5 = args.Region;
 		} else {
 			strparam5 = null;
