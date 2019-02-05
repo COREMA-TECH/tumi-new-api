@@ -33,7 +33,7 @@ const WorkOrderQuery = {
 		resolve(root, args) {
 			if (args.startDate) args.startDate = {[Op.gte]: args.startDate}
 			if (args.endDate) args.endDate = {[Op.lte]: args.endDate}
-			
+
 			return Db.models.WorkOrder.findAll({ where: args });
 		}
 	}
