@@ -88,7 +88,7 @@ export default {
 					allowNull: true
 				},
 				Zipcode: {
-					type: Sequelize.INTEGER,
+					type: Sequelize.STRING,
 					allowNull: true
 				},
 				Fax: {
