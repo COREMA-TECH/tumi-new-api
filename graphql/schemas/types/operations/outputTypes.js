@@ -561,7 +561,7 @@ const ApplicationPhaseType = new GraphQLObjectType({
 			shift: {
 				type: ShiftType,
 				resolve(me) {
-					return me.getApplicationPhasesShift();
+					return me.getShift();
 				}
 			}
 		};
@@ -652,6 +652,37 @@ const FormsType = new GraphQLObjectType({
 				description: 'table id'
 			},
 			...FormsFields
+		}
+	}
+});
+
+const TimeElapsedType = new GraphQLObjectType({
+	name: 'TimeElapsed',
+	description: 'This is for Time Elapsed',
+	fields: () => {
+		return {
+
+			Full_Name: {
+				type: GraphQLString,
+				description: 'table Full_Name'
+			},
+			TimeElapsed: {
+				type: GraphQLString,
+				description: 'table TimeElapsed'
+			},
+			RecruiterId: {
+				type: GraphQLInt,
+				description: 'table RecruiterId'
+			},
+			WorkOrderId: {
+				type: GraphQLInt,
+				description: 'table WorkOrderId'
+			},
+			ShiftId: {
+				type: GraphQLInt,
+				description: 'table ShiftId'
+			},
+
 		}
 	}
 });
@@ -755,23 +786,23 @@ const ShiftBoardType = new GraphQLObjectType({
 				type: GraphQLString,
 				description: 'table CompanyName'
 			},
-			needExperience : {
+			needExperience: {
 				type: GraphQLBoolean,
 				description: 'table NeedExperience'
 			},
-			needEnglish : {
+			needEnglish: {
 				type: GraphQLBoolean,
 				description: 'table Need English'
 			},
-			zipCode : {
+			zipCode: {
 				type: GraphQLString,
 				description: 'table zip code'
 			},
-			Id_positionApplying : {
+			Id_positionApplying: {
 				type: GraphQLInt,
 				description: "table Posisition Appliying Id"
 			},
-			positionName : {
+			positionName: {
 				type: GraphQLString,
 				description: "table Position's Name"
 			}
@@ -975,5 +1006,6 @@ export {
 	RolesFormsType,
 	TemplateType,
 	ConfigRegionsType,
+	TimeElapsedType,
 	ShiftBoardType
 };
