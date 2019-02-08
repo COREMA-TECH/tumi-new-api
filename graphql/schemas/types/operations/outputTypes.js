@@ -561,7 +561,7 @@ const ApplicationPhaseType = new GraphQLObjectType({
 			shift: {
 				type: ShiftType,
 				resolve(me) {
-					return me.getApplicationPhasesShift();
+					return me.getShift();
 				}
 			}
 		};
@@ -652,6 +652,37 @@ const FormsType = new GraphQLObjectType({
 				description: 'table id'
 			},
 			...FormsFields
+		}
+	}
+});
+
+const TimeElapsedType = new GraphQLObjectType({
+	name: 'TimeElapsed',
+	description: 'This is for Time Elapsed',
+	fields: () => {
+		return {
+
+			Full_Name: {
+				type: GraphQLString,
+				description: 'table Full_Name'
+			},
+			TimeElapsed: {
+				type: GraphQLString,
+				description: 'table TimeElapsed'
+			},
+			RecruiterId: {
+				type: GraphQLInt,
+				description: 'table RecruiterId'
+			},
+			WorkOrderId: {
+				type: GraphQLInt,
+				description: 'table WorkOrderId'
+			},
+			ShiftId: {
+				type: GraphQLInt,
+				description: 'table ShiftId'
+			},
+
 		}
 	}
 });
@@ -925,5 +956,6 @@ export {
 	FormsType,
 	RolesFormsType,
 	TemplateType,
-	ConfigRegionsType
+	ConfigRegionsType,
+	TimeElapsedType
 };
