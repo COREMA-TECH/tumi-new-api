@@ -21,6 +21,9 @@ const ApplicationPhaseFields = {
     },
     createdAt: {
         type: (GraphQLString)
+    },
+    ShiftId: {
+        type: (GraphQLInt),
     }
 };
 

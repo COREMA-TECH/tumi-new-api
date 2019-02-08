@@ -39,6 +39,7 @@ const ApplicantPhaseMutation = {
 						Comment: args.applicationPhases.Comment,
 						StageId: args.applicationPhases.StagedId,
 						WorkOrderId: args.applicationPhases.WorkOrderId,
+						ShiftId: args.applicationPhases.ShiftId
 					}, {
 						where: {
 							id: args.workOrder.id

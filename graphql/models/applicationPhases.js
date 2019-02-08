@@ -22,6 +22,10 @@ export default {
                 type: Sequelize.INTEGER,
                 allowNull: true
             },
+            ShiftId: {
+                type: Sequelize.INTEGER,
+                allowNull: true
+            },
             Comment: {
                 type: Sequelize.STRING,
                 allowNull: true

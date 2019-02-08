@@ -121,13 +121,13 @@ const ShiftQuery = {
             shiftEntity: { type: inputShiftBoardCompany }
         },
         resolve(root, args) {
-            return Db.models.Shift.findAll({ 
+            return Db.models.Shift.findAll({
                 where: args.shift,
                 include: [{
-                    model: Db.models.BusinessCompany, 
+                    model: Db.models.BusinessCompany,
                     as: 'ShiftEntity',
                     where: args.shiftEntity,
-                },{
+                }, {
                     model: Db.models.ShiftWorkOrder,
                     include: [{
                         model: Db.models.WorkOrder,
@@ -144,7 +144,7 @@ const ShiftQuery = {
                         id: shift.dataValues.id,
                         title: shift.dataValues.title,
                         quantity: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.quantity,
-                        workOrderId: shift.dataValues.ShiftWorkOrder.dataValues.id,
+                        workOrderId: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrderId,
                         CompanyName: shift.dataValues.ShiftEntity.dataValues.Name,
                         needExperience: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.needExperience,
                         needEnglish: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.needEnglish,
