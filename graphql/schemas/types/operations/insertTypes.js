@@ -346,6 +346,26 @@ const inputShiftBoardCompany = new GraphQLInputObjectType({
 	}
 })
 
+const filterShiftConvertToOpening = new GraphQLInputObjectType({
+	name: 'filterShiftConvertToOpening',
+	description: "Input to Create a Shift as Work Order [status:1] into Openening",
+	fields: () => {
+		return {
+			id: { type: GraphQLInt }
+		}
+	}
+})
+
+const filterShiftWOConvertToOpening = new GraphQLInputObjectType({
+	name: 'filterShiftWOConvertToOpening',
+	description: "Input to Create a Shift as Work Order [status:1] into Openening",
+	fields: () => {
+		return {
+			WorkOrderId: { type: GraphQLInt }
+		}
+	}
+})
+
 export {
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
@@ -383,5 +403,7 @@ export {
 	inputShiftQuery,
 	inputInsertConfigRegions,
 	inputInsertUser,
-	inputShiftBoardCompany
+	inputShiftBoardCompany,
+	filterShiftConvertToOpening,
+	filterShiftWOConvertToOpening
 };
