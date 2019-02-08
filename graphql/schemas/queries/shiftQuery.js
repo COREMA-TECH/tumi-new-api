@@ -150,7 +150,8 @@ const ShiftQuery = {
                         needEnglish: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.needEnglish,
                         zipCode: shift.dataValues.ShiftEntity.dataValues.Zipcode,
                         Id_positionApplying: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRate.dataValues.Id_positionApplying,
-                        positionName: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRate.dataValues.Position
+                        positionName: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRate.dataValues.Position,
+                        status: shift.dataValues.status,
                     });
                 });
                 return boardShifts;

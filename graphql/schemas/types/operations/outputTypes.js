@@ -805,6 +805,10 @@ const ShiftBoardType = new GraphQLObjectType({
 			positionName: {
 				type: GraphQLString,
 				description: "table Position's Name"
+			},
+			status: {
+				type: GraphQLInt,
+				description: "table Position's Name"
 			}
 		}
 	}
