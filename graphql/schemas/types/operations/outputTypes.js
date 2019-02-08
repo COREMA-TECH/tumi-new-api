@@ -557,6 +557,12 @@ const ApplicationPhaseType = new GraphQLObjectType({
 				resolve(me) {
 					return me.getApplication();
 				}
+			},
+			shift: {
+				type: ShiftType,
+				resolve(me) {
+					return me.getApplicationPhasesShift();
+				}
 			}
 		};
 	}
