@@ -58,7 +58,7 @@ const BusinessCompanyFields = {
 		type: GraphQLInt
 	},
 	Zipcode: {
-		type: GraphQLInt
+		type: GraphQLString
 	},
 	Fax: {
 		type: GraphQLString
