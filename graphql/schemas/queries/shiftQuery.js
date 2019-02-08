@@ -1,6 +1,8 @@
 import { GraphQLList, GraphQLInt, GraphQLBoolean, GraphQLString } from 'graphql';
 import { ShiftType } from '../types/operations/outputTypes';
-import { inputShiftQuery } from '../types/operations/insertTypes';
+import { ShiftBoardType } from '../types/operations/outputTypes';
+import { inputShiftQuery, inputShiftBoardCompany } from '../types/operations/insertTypes';
+
 
 import GraphQLDate from 'graphql-date';
 import Sequelize from 'sequelize';
@@ -47,7 +49,6 @@ const ShiftQuery = {
                 currentDate.setDate(currentDate.getDate() + 1)
             }
 
-            console.log("dateList:::", dateList)
             //Get Shift belonging to Previous Week
             Db.models.ShiftDetail.findAll({
                 where: {
@@ -103,11 +104,6 @@ const ShiftQuery = {
                             .then(newShiftDetails => {
                                 newShiftDetails.map(newShiftDetail => {
                                     var _shiftDetail = newShiftDetail.dataValues
-                                    console.log({
-                                        id: _shiftDetail.id, startDate: _shiftDetail.startDate,
-                                        endDate: _shiftDetail.endDate, startTime: _shiftDetail.startTime,
-                                        endTime: _shiftDetail.endTime
-                                    })
                                 })
                             })
                     }
@@ -116,7 +112,52 @@ const ShiftQuery = {
 
 
         }
-    }
+    },
+    ShiftBoard: {
+        type: new GraphQLList(ShiftBoardType),
+        description: 'List Shift records of board',
+        args: {
+            shiftEntity: { 
+                type: inputShiftBoardCompany
+            }
+        },
+        resolve(root, args) {
+            return Db.models.Shift.findAll({ 
+                include: [{
+                    model: Db.models.BusinessCompany, 
+                    as: 'ShiftEntity',
+                    where: args.shiftEntity,
+                },
+                {
+                    model: Db.models.ShiftWorkOrder,
+                    include: [{
+                        model: Db.models.WorkOrder,
+                        as: 'WorkOrder',
+                        include: [{
+                            model: Db.models.PositionRate
+                        }]
+                    }]
+                }]
+            }).then(shifts => {
+                var boardShifts = [];
+                shifts.map(shift => {
+                    boardShifts.push({
+                        id: shift.dataValues.id,
+                        title: shift.dataValues.title,
+                        quantity: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.quantity,
+                        workOrderId: shift.dataValues.ShiftWorkOrder.dataValues.id,
+                        CompanyName: shift.dataValues.ShiftEntity.dataValues.Name,
+                        needExperience: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.needExperience,
+                        needEnglish: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.needEnglish,
+                        zipCode: shift.dataValues.ShiftEntity.dataValues.Zipcode,
+                        Id_positionApplying: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRate.dataValues.Id_positionApplying,
+                        positionName: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRate.dataValues.Position
+                    });
+                });
+                return boardShifts;
+            });
+        }
+    },
 };
 
 export default ShiftQuery;

@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLObjectType, GraphQLList } from 'graphql';
+import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLObjectType, GraphQLList, GraphQLBoolean } from 'graphql';
 
 import {
 	ApplicantLanguagesFields,
@@ -724,6 +724,55 @@ const ShiftType = new GraphQLObjectType({
 	}
 });
 
+const ShiftBoardType = new GraphQLObjectType({
+	name: 'ShiftBoardType',
+	description: 'This is for Shift Board :v',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			title: {
+				type: GraphQLString,
+				description: 'table title'
+			},
+			quantity: {
+				type: GraphQLInt,
+				description: 'table quantity'
+			},
+			workOrderId: {
+				type: GraphQLInt,
+				description: 'table workOrderId'
+			},
+			CompanyName: {
+				type: GraphQLString,
+				description: 'table CompanyName'
+			},
+			needExperience : {
+				type: GraphQLBoolean,
+				description: 'table NeedExperience'
+			},
+			needEnglish : {
+				type: GraphQLBoolean,
+				description: 'table Need English'
+			},
+			zipCode : {
+				type: GraphQLString,
+				description: 'table zip code'
+			},
+			Id_positionApplying : {
+				type: GraphQLInt,
+				description: "table Posisition Appliying Id"
+			},
+			positionName : {
+				type: GraphQLString,
+				description: "table Position's Name"
+			}
+		}
+	}
+});
+
 
 const ShiftWorkOrderType = new GraphQLObjectType({
 	name: 'ShiftWorkOrder',
@@ -919,5 +968,6 @@ export {
 	FormsType,
 	RolesFormsType,
 	TemplateType,
-	ConfigRegionsType
+	ConfigRegionsType,
+	ShiftBoardType
 };
