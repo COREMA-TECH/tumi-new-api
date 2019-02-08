@@ -18,7 +18,6 @@ const ShiftDetailQuery = {
             shiftDetailEmployee: { type: inputShiftDetailEmployeeQuery }
         },
         resolve(root, args) {
-            console.log("ShiftDetail Query")
             return Db.models.ShiftDetail.findAll({
                 where: args.shiftDetail,
                 include: [

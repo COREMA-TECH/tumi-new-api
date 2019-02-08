@@ -338,6 +338,14 @@ const inputInsertUser = new GraphQLInputObjectType({
 	fields: { ...UsersFields }
 });
 
+const inputShiftBoardCompany = new GraphQLInputObjectType({
+	name: 'inputShiftBoardCompany',
+	description: "Input for Shift",
+	fields: {
+		Id: { type: GraphQLInt }
+	}
+})
+
 export {
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
@@ -374,5 +382,6 @@ export {
 	inputShiftDetailEmployeeQuery,
 	inputShiftQuery,
 	inputInsertConfigRegions,
-	inputInsertUser
+	inputInsertUser,
+	inputShiftBoardCompany
 };
