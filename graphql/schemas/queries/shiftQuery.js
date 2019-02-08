@@ -47,7 +47,6 @@ const ShiftQuery = {
                 currentDate.setDate(currentDate.getDate() + 1)
             }
 
-            console.log("dateList:::", dateList)
             //Get Shift belonging to Previous Week
             Db.models.ShiftDetail.findAll({
                 where: {
