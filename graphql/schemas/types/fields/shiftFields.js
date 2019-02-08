@@ -36,6 +36,9 @@ const shiftFields = {
 	},
 	departmentId: {
 		type: GraphQLInt
+	},
+	createdAt: {
+		type: (GraphQLString)
 	}
 };
 export default shiftFields;

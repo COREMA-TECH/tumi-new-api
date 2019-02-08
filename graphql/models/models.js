@@ -101,6 +101,11 @@ ApplicationPhases.belongsTo(CatalogItem, {
 });
 ApplicationPhases.belongsTo(Application);
 
+ApplicationPhases.belongsTo(Shift, {
+	foreignKey: 'ShiftId',
+	as: 'ApplicationPhasesShift'
+});
+
 Application.hasMany(ApplicationPhases);
 
 Application.hasMany(ApplicantLanguage);
