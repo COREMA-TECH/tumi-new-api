@@ -99,11 +99,12 @@ ApplicationPhases.belongsTo(CatalogItem, {
 	foreignKey: 'ReasonId',
 	as: 'Reason'
 });
+
 ApplicationPhases.belongsTo(Application);
 
 ApplicationPhases.belongsTo(Shift, {
 	foreignKey: 'ShiftId',
-	as: 'ApplicationPhasesShift'
+	as: 'Shift'
 });
 
 Application.hasMany(ApplicationPhases);
