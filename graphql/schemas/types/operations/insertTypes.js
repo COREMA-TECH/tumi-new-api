@@ -321,7 +321,8 @@ const inputShiftQuery = new GraphQLInputObjectType({
 		isTemplate: { type: GraphQLBoolean, defaultValue: false },
 		isActive: { type: GraphQLBoolean, defaultValue: true },
 		entityId: { type: GraphQLInt },
-		departmentId: { type: GraphQLInt }
+		departmentId: { type: GraphQLInt },
+		status: { type: GraphQLInt }
 	}
 
 });

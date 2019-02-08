@@ -117,18 +117,17 @@ const ShiftQuery = {
         type: new GraphQLList(ShiftBoardType),
         description: 'List Shift records of board',
         args: {
-            shiftEntity: { 
-                type: inputShiftBoardCompany
-            }
+            shift: { type: inputShiftQuery },
+            shiftEntity: { type: inputShiftBoardCompany }
         },
         resolve(root, args) {
             return Db.models.Shift.findAll({ 
+                where: args.shift,
                 include: [{
                     model: Db.models.BusinessCompany, 
                     as: 'ShiftEntity',
                     where: args.shiftEntity,
-                },
-                {
+                },{
                     model: Db.models.ShiftWorkOrder,
                     include: [{
                         model: Db.models.WorkOrder,
