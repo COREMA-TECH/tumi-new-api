@@ -736,7 +736,34 @@ const ShiftMutation = {
 					}
 				});
 		}
-	}
+	},
+	convertShiftToOpening: {
+		type: ShiftType,
+		description: 'Convert Shift Into Opening',
+		args: {
+			WorkOrderId: { type: GraphQLInt }
+		},
+		resolve(source, args) {
+			var Shifts = Db.models.Shift.findAll({
+				where: { status: 1 },//Only Filter Work Orders
+				include: [
+					{
+						model: Db.models.ShiftWorkOrder,
+						where: args,
+					}
+				]
+			}).then(shifts => {
+				return shifts//Return shifts that are still work orders
+			})
+			Shifts.then(records => {
+				//Create arrays of Shifts Id to be updated
+				var shiftsIds = records.map(_shift => { return _shift.id })
+				//Update Shifts
+				return Db.models.Shift.update({ status: 2 }, { where: { id: { [Op.in]: shiftsIds } } })
+			})
+
+		}
+	},
 }
 
 export default ShiftMutation;
