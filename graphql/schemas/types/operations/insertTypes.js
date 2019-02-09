@@ -1,4 +1,4 @@
-import { GraphQLInputObjectType, GraphQLNonNull, GraphQLBoolean, GraphQLString, GraphQLInt } from 'graphql';
+import { GraphQLInputObjectType, GraphQLNonNull, GraphQLBoolean, GraphQLString, GraphQLInt, GraphQLList } from 'graphql';
 
 import {
 	ApplicantLanguagesFields,
@@ -322,7 +322,7 @@ const inputShiftQuery = new GraphQLInputObjectType({
 		isActive: { type: GraphQLBoolean, defaultValue: true },
 		entityId: { type: GraphQLInt },
 		departmentId: { type: GraphQLInt },
-		status: { type: GraphQLInt }
+		status: { type: new GraphQLList(GraphQLInt) }
 	}
 
 });
