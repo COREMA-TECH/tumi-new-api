@@ -41,11 +41,13 @@ const timeElapsedQuery = {
                 let getTimes = [];
 
                 users.map((user) => {
-                    // console.log("(user.createdAt ", user.createdAt)
-                    // console.log("user.Shift.createdAt ", user.Shift.createdAt)
+                    //    console.log("(user.createdAt ", user.createdAt)
+                    //    console.log("user.Shift.createdAt ", user.Shift.createdAt)
 
-                    var duration = moment.duration(moment.utc(moment(user.createdAt, "HH:mm:ss").diff(moment(user.Shift.createdAt, "HH:mm:ss"))).format("HH:mm")).asHours();
-                    duration = parseFloat(duration).toFixed(2);
+                    //  var duration = moment.duration(moment.utc(moment(user.createdAt, "HH:mm:ss").diff(moment(user.Shift.createdAt, "HH:mm:ss"))).format("HH:mm")).asHours();
+                    var duration = moment.utc(moment(user.createdAt, "DD/MM/YYYY HH:mm:ss").diff(moment(user.Shift.createdAt, "DD/MM/YYYY HH:mm:ss"))).format("DD HH:mm:ss")
+
+                    // duration = parseFloat(duration).toFixed(2);
 
                     //var duration = moment.duration(moment.utc(moment(user.createdAt, "DD/MM/YYYY").diff(moment(user.Shift.createdAt, "DD/MM/YYYY"))).format("DD/MM/YYYY")).asDays();
                     //duration = parseFloat(duration).toFixed(2);
