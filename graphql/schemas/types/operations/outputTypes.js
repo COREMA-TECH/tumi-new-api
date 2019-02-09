@@ -809,6 +809,10 @@ const ShiftBoardType = new GraphQLObjectType({
 			status: {
 				type: GraphQLInt,
 				description: "table Position's Name"
+			},
+			isOpening: {
+				type: GraphQLInt,
+				description: "IsOpening"
 			}
 		}
 	}
