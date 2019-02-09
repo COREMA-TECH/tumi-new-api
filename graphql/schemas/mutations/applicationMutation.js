@@ -138,15 +138,19 @@ const ApplicationMutation = {
 			id: { type: GraphQLInt },
 			isLead: { type: GraphQLBoolean },
 			idRecruiter: { type: GraphQLInt },
-			idWorkOrder: { type: GraphQLInt }
+			idWorkOrder: { type: GraphQLInt },
+			positionApplyingFor: { type: GraphQLInt }
 		},
 		resolve(source, args) {
+			console.log("estos son los args ", args)
 			return Db.models.Applications
 				.update(
 					{
 						isLead: args.isLead,
 						idRecruiter: args.idRecruiter,
-						idWorkOrder: args.idWorkOrder
+						idWorkOrder: args.idWorkOrder,
+						positionApplyingFor: args.positionApplyingFor
+
 					},
 					{
 						where: {
