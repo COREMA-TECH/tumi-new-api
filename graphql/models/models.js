@@ -100,6 +100,11 @@ ApplicationPhases.belongsTo(CatalogItem, {
 	as: 'Reason'
 });
 
+ApplicationPhases.belongsTo(WorkOrder, {
+	foreignKey: 'WorkOrderId',
+	as: 'WorkOrder'
+})
+
 ApplicationPhases.belongsTo(Application);
 
 ApplicationPhases.belongsTo(Shift, {
