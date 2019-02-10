@@ -18,6 +18,18 @@ const URLAccept = 'http://ec2-52-14-244-20.us-east-2.compute.amazonaws.com:3000/
 
 //const URLReject = 'https://corema-dev-env.herokuapp.com';
 
+const nodemailer = require('nodemailer');
+let mailParams = {
+	host: 'a2plcpnl0839.prod.iad2.secureserver.net',
+	port: 465,
+	secure: true, // upgrade later with STARTTLS
+	auth: {
+		user: 'olonyl.rocha@coremagroup.com',
+		pass: 'J0$e87**'
+	}
+};
+
+const Transporter = nodemailer.createTransport(mailParams);
 
 const ConfigPg = {
 	user: user, // env var: PGUSER
@@ -38,4 +50,4 @@ const Conn = new Sequelize(database, user, password, {
 	freezeTableName: true
 });
 
-export { URLWeb, URLAccept, ConfigPg, Conn };
+export { URLWeb, URLAccept, ConfigPg, Conn, Transporter };
