@@ -30,6 +30,31 @@ const ApplicationQuery = {
 		resolve(root, args) {
 			return Db.models.Applications.findAll({ where: args });
 		}
+	},
+	applicationsByUser: {
+		type: new GraphQLList(ApplicationType),
+		description: 'List applications records',
+		args: {
+			idUsers: { type: GraphQLInt }
+		},
+		resolve(root, args) {
+			return Db.models.Applications.findAll(
+				{
+					where: { isActive: true },
+					as: "Applications",
+					include: [{
+						model: Db.models.ApplicationEmployees,
+						required: true,
+						include: [{
+							model: Db.models.Employees,
+							required: true,
+							as: "Employees",
+							where: args
+						}]
+
+					}]
+				});
+		}
 	}
 };
 
