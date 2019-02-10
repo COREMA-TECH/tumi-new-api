@@ -43,7 +43,7 @@ const ApplicantPhaseMutation = {
 											html: `<b>Lead Name:</b> ${fullName} <br/>`
 												.concat(`<b>Lead Phone #:</b> ${cellPhone} <br/>`)
 												.concat(`<b>Work Order #:</b> ${args.applicationPhases.WorkOrderId} <br/>`)
-												.concat(`<b>Recruiter:</b> ${user.dataValues.firstName} <br/>`)
+												.concat(`<b>Recruiter:</b> ${user.dataValues.Full_Name} <br/>`)
 												.concat(`<b>Date:</b> ${new Date().toISOString()} <br/>`)
 										}
 										//	send mail with defined transport object
