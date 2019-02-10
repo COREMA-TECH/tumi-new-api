@@ -811,8 +811,13 @@ const ShiftBoardType = new GraphQLObjectType({
 				description: "table Position's Name"
 			},
 			isOpening: {
+<<<<<<< HEAD
+				type: GraphQLBoolean,
+				description: "table isOpening"
+=======
 				type: GraphQLInt,
 				description: "IsOpening"
+>>>>>>> dd5ae29b7195317cb77e56aa14e3497cd2e55020
 			}
 		}
 	}
