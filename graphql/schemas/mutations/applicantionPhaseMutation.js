@@ -39,12 +39,13 @@ const ApplicantPhaseMutation = {
 										to: emails, // list of receivers
 										subject: "Interview Notification", // Subject line
 										text: "Hello world?", // plain text body
-										html: `<b>Applicant ${fullName} has been set to Interview</b>` // html body
+										html: `<b>Applicant ${fullName} has been sent to Interview</b>` // html body
 									};
 
 									// send mail with defined transport object
 									let info = Transporter.sendMail(mailOptions).then((ret) => {
 										console.log(`Message status ${ret.response}`)
+										console.log(ret)
 									})
 
 									return ret.dataValues;
