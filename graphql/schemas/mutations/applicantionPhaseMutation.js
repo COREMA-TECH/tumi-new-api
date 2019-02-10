@@ -30,16 +30,19 @@ const ApplicantPhaseMutation = {
 							//Get Applicant Information
 							return Db.models.Applications.findOne({ where: { id: args.applicationPhases.ApplicationId } })
 								.then(_application => {
-									var { firstName, middleName, lastName } = _application.dataValues;
+									var { firstName, middleName, lastName, cellPhone } = _application.dataValues;
 									var fullName = `${firstName.trim()} ${middleName.trim()} ${lastName.trim()}`
 
 									// setup email data with unicode symbols
 									let mailOptions = {
 										from: '"Corema Group" <coremagroup@hotmail.com>', // sender address
 										to: emails, // list of receivers
-										subject: "Interview Notification", // Subject line
-										text: "Hello world?", // plain text body
-										html: `<b>Applicant ${fullName} has been sent to Interview</b>` // html body
+										subject: "A new lead has sent to interview", // Subject line
+										html: `<b>Lead Name:</b> ${fullName} <br/>`
+											.concat(`<b>Lead Phone #:</b> ${cellPhone} <br/>`)
+										//	.concat(`<b>Work Order #:</b> ${cellPhone} <br/>`)
+										//	.concat(`<b>Recruiter:</b> ${cellPhone} <br/>`)
+										//	.concat(`<b>Date:</b> ${cellPhone} <br/>`)
 									};
 
 									// send mail with defined transport object
