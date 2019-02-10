@@ -152,6 +152,7 @@ const ShiftQuery = {
                         Id_positionApplying: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRate.dataValues.Id_positionApplying,
                         positionName: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRate.dataValues.Position,
                         status: shift.dataValues.status,
+                        isOpening: shift.dataValues.status == 2
                     });
                 });
                 return boardShifts;

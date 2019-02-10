@@ -35,6 +35,7 @@ const timeElapsedQuery = {
                         required: true
                     }
                 ],
+                limit: 5,
                 order: [['createdAt', 'DESC']]
             }).then(function (users) {
                 let Elapsed = [];
