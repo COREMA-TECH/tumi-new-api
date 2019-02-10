@@ -1,7 +1,7 @@
 import { inputInsertShift, filterShiftConvertToOpening, filterShiftWOConvertToOpening } from '../types/operations/insertTypes';
 import { inputUpdateShift } from '../types/operations/updateTypes';
 import { ShiftType } from '../types/operations/outputTypes';
-import { GraphQLList, GraphQLInt, GraphQLString, GraphQLInputObjectType } from 'graphql';
+import { GraphQLList, GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
 import { sendworkorderfilledemail } from '../../../Configuration/Roots';
 import GraphQLDate from 'graphql-date';
 
@@ -742,11 +742,13 @@ const ShiftMutation = {
 		description: 'Convert Shift Into Opening',
 		args: {
 			shiftWorkOrder: { type: filterShiftWOConvertToOpening },
-			shift: { type: filterShiftConvertToOpening }
+			shift: { type: filterShiftConvertToOpening },
+			sourceStatus: { type: GraphQLInt },
+			targetStatus: { type: GraphQLInt }
 		},
 		resolve(source, args) {
 			var Shifts = Db.models.Shift.findAll({
-				where: { ...args.shift, status: 1 },//Only Filter Work Orders
+				where: { ...args.shift, status: args.sourceStatus },//Only Filter Work Orders
 				include: [
 					{
 						model: Db.models.ShiftWorkOrder,
@@ -760,8 +762,8 @@ const ShiftMutation = {
 				//Create arrays of Shifts Id to be updated
 				var shiftsIds = records.map(_shift => { return _shift.id })
 				if (shiftsIds.length > 0)
-					//Converts Shift from Work Order [status:1] to Openin [status:2]
-					return Db.models.Shift.update({ status: 2 }, { where: { id: { [Op.in]: shiftsIds }, status: 1 } })
+					//Converts Shift from One status to other [1: W.OR, 2: Opening]
+					return Db.models.Shift.update({ status: args.targetStatus }, { where: { id: { [Op.in]: shiftsIds }, status: args.sourceStatus } })
 						.then(rowsUpdated => {
 							return Db.models.Shift.findAll({ where: { id: { [Op.in]: shiftsIds } } })
 						});

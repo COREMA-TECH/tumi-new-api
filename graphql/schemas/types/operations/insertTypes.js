@@ -343,7 +343,9 @@ const inputShiftBoardCompany = new GraphQLInputObjectType({
 	name: 'inputShiftBoardCompany',
 	description: "Input for Shift",
 	fields: {
-		Id: { type: GraphQLInt }
+		Id: { type: GraphQLInt },
+		State: { type: GraphQLInt },
+		City: { type: GraphQLInt }
 	}
 })
 
