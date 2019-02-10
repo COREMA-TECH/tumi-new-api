@@ -28,15 +28,14 @@ const ApplicantPhaseMutation = {
 							//Join emails
 							emails = emails.join(', ');
 							//Get Applicant Information
-							return Db.models.Applications.findOne({ 
-									where: { id: args.applicationPhases.ApplicationId }
-								}).then(_application => {
+							return Db.models.Applications.findOne({ where: { id: args.applicationPhases.ApplicationId } })
+								.then(_application => {
 									var { firstName, middleName, lastName, cellPhone } = _application.dataValues;
 									var fullName = `${firstName.trim()} ${middleName.trim()} ${lastName.trim()}`
 									// setup email data with unicode symbols
-								
-									
-									return Db.models.Users.findOne({where: {id: args.applicationPhases.UserId }}).then(user => {
+
+
+									return Db.models.Users.findOne({ where: { Id: args.applicationPhases.UserId } }).then(user => {
 										let mailOptions = {
 											from: '"Corema Group" <coremagroup@hotmail.com>', // sender address
 											to: emails, // list of receivers
@@ -45,18 +44,15 @@ const ApplicantPhaseMutation = {
 												.concat(`<b>Lead Phone #:</b> ${cellPhone} <br/>`)
 												.concat(`<b>Work Order #:</b> ${args.applicationPhases.WorkOrderId} <br/>`)
 												.concat(`<b>Recruiter:</b> ${user.dataValues.firstName} <br/>`)
-												.concat(`<b>Date:</b> ${new Date().toISOString() } <br/>`)
-												// send mail with defined transport object
-												// let info = Transporter.sendMail(mailOptions).then((ret) => {
-												// 	console.log(`Message status ${ret.response}`)
-												// 	console.log(ret)
-												// })
-											};
-											console.log(html)
-
+												.concat(`<b>Date:</b> ${new Date().toISOString()} <br/>`)
+										}
+										//	send mail with defined transport object
+										let info = Transporter.sendMail(mailOptions).then((ret) => {
+											console.log(`Message status ${ret.response}`)
+											console.log(ret)
+										})
+										return ret.dataValues;
 									});
-
-									return ret.dataValues;
 								})
 						})
 			});
