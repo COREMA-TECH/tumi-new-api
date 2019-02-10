@@ -46,7 +46,12 @@ const timeElapsedQuery = {
                     //    console.log("user.Shift.createdAt ", user.Shift.createdAt)
 
                     //  var duration = moment.duration(moment.utc(moment(user.createdAt, "HH:mm:ss").diff(moment(user.Shift.createdAt, "HH:mm:ss"))).format("HH:mm")).asHours();
-                    var duration = moment.utc(moment(user.createdAt, "DD/MM/YYYY HH:mm:ss").diff(moment(user.Shift.createdAt, "DD/MM/YYYY HH:mm:ss"))).format("DD HH:mm:ss")
+                    var duration = moment.utc(moment(user.createdAt, "DD/MM/YYYY HH:mm:ss").diff(moment(user.Shift.createdAt, "DD/MM/YYYY HH:mm:ss"))).format("DD") + ' days, '
+                    var hour = moment.utc(moment(user.createdAt, "DD/MM/YYYY HH:mm:ss").diff(moment(user.Shift.createdAt, "DD/MM/YYYY HH:mm:ss"))).format("HH") + ' hours, '
+                    var minute = moment.utc(moment(user.createdAt, "DD/MM/YYYY HH:mm:ss").diff(moment(user.Shift.createdAt, "DD/MM/YYYY HH:mm:ss"))).format("mm") + ' minutes'
+
+
+
 
                     // duration = parseFloat(duration).toFixed(2);
 
@@ -56,7 +61,7 @@ const timeElapsedQuery = {
 
                     Elapsed = {
                         Full_Name: user.Application.firstName + ' ' + user.Application.lastName,
-                        TimeElapsed: duration,
+                        TimeElapsed: duration + '' + hour + '' + minute,
                         RecruiterId: user.UserId,
                         WorkOrderId: user.WorkOrderId,
                         ShiftId: user.ShiftId,
