@@ -2074,16 +2074,25 @@ async function getUsers(args) {
 		}
 
 
-
-		Strquery =
-			'select * from public."Users" Where "IdRegion" =coalesce(' + strparam4 + ',"IdRegion") and  "IsActive" = coalesce(' +
-			strparam1 +
-			',"IsActive") and "Id" = coalesce(' +
-			strparam2 +
-			',"Id") and "IsRecruiter" = coalesce(' +
-			strparam3
-			+ ',"IsRecruiter") order by "Code_User"';
-
+		if (strparam4 == null) {
+			Strquery =
+				'select * from public."Users" Where "IsActive" = coalesce(' +
+				strparam1 +
+				',"IsActive") and "Id" = coalesce(' +
+				strparam2 +
+				',"Id") and "IsRecruiter" = coalesce(' +
+				strparam3
+				+ ',"IsRecruiter") order by "Code_User"';
+		} else {
+			Strquery =
+				'select * from public."Users" Where "IdRegion" =coalesce(' + strparam4 + ',"IdRegion") and  "IsActive" = coalesce(' +
+				strparam1 +
+				',"IsActive") and "Id" = coalesce(' +
+				strparam2 +
+				',"Id") and "IsRecruiter" = coalesce(' +
+				strparam3
+				+ ',"IsRecruiter") order by "Code_User"';
+		}
 		console.log(Strquery);
 
 		const { rows } = await query(Strquery);
@@ -2151,7 +2160,7 @@ async function InsUsers(args) {
 			args.input.IdSchedulesManager +
 			',' +
 			isEmployee +
-		') RETURNING "Id","Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager","isEmployee"';
+			') RETURNING "Id","Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager","isEmployee"';
 
 		console.log(Strquery);
 		const { rows } = await query(Strquery);
