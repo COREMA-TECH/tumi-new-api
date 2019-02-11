@@ -32,26 +32,27 @@ const ApplicantPhaseMutation = {
 								.then(_application => {
 									var { firstName, middleName, lastName, cellPhone } = _application.dataValues;
 									var fullName = `${firstName.trim()} ${middleName.trim()} ${lastName.trim()}`
-
 									// setup email data with unicode symbols
-									let mailOptions = {
-										from: '"Corema Group" <coremagroup@hotmail.com>', // sender address
-										to: emails, // list of receivers
-										subject: "A new lead has sent to interview", // Subject line
-										html: `<b>Lead Name:</b> ${fullName} <br/>`
-											.concat(`<b>Lead Phone #:</b> ${cellPhone} <br/>`)
-										//	.concat(`<b>Work Order #:</b> ${cellPhone} <br/>`)
-										//	.concat(`<b>Recruiter:</b> ${cellPhone} <br/>`)
-										//	.concat(`<b>Date:</b> ${cellPhone} <br/>`)
-									};
 
-									// send mail with defined transport object
-									let info = Transporter.sendMail(mailOptions).then((ret) => {
-										console.log(`Message status ${ret.response}`)
-										console.log(ret)
-									})
 
-									return ret.dataValues;
+									return Db.models.Users.findOne({ where: { Id: args.applicationPhases.UserId } }).then(user => {
+										let mailOptions = {
+											from: '"Corema Group" <coremagroup@hotmail.com>', // sender address
+											to: emails, // list of receivers
+											subject: "A new lead has sent to interview", // Subject line
+											html: `<b>Lead Name:</b> ${fullName} <br/>`
+												.concat(`<b>Lead Phone #:</b> ${cellPhone} <br/>`)
+												.concat(`<b>Work Order #:</b> ${args.applicationPhases.WorkOrderId} <br/>`)
+												.concat(`<b>Recruiter:</b> ${user.dataValues.Full_Name} <br/>`)
+												.concat(`<b>Date:</b> ${new Date().toISOString()} <br/>`)
+										}
+										//	send mail with defined transport object
+										let info = Transporter.sendMail(mailOptions).then((ret) => {
+											console.log(`Message status ${ret.response}`)
+											console.log(ret)
+										})
+										return ret.dataValues;
+									});
 								})
 						})
 			});
