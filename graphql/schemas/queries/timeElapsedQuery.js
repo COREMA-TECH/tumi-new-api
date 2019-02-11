@@ -47,8 +47,8 @@ const timeElapsedQuery = {
 
                     //  var duration = moment.duration(moment.utc(moment(user.createdAt, "HH:mm:ss").diff(moment(user.Shift.createdAt, "HH:mm:ss"))).format("HH:mm")).asHours();
                     var duration = moment.utc(moment(user.createdAt, "DD/MM/YYYY HH:mm:ss").diff(moment(user.Shift.createdAt, "DD/MM/YYYY HH:mm:ss"))).format("DD") + ' days, '
-                    var hour = moment.utc(moment(user.createdAt, "DD/MM/YYYY HH:mm:ss").diff(moment(user.Shift.createdAt, "DD/MM/YYYY HH:mm:ss"))).format("HH") + ' hours, '
-                    var minute = moment.utc(moment(user.createdAt, "DD/MM/YYYY HH:mm:ss").diff(moment(user.Shift.createdAt, "DD/MM/YYYY HH:mm:ss"))).format("mm") + ' minutes'
+                    var hour = moment.utc(moment(user.createdAt, "DD/MM/YYYY HH:mm:ss").diff(moment(user.Shift.createdAt, "DD/MM/YYYY HH:mm:ss"))).format("HH") + 'hrs, '
+                    var minute = moment.utc(moment(user.createdAt, "DD/MM/YYYY HH:mm:ss").diff(moment(user.Shift.createdAt, "DD/MM/YYYY HH:mm:ss"))).format("mm") + 'min'
 
 
 
