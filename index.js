@@ -9,7 +9,7 @@ import depthLimit from 'graphql-depth-limit';
 import jwt from 'jsonwebtoken';
 import { PublicSchema } from './Configuration/PublicSchema';
 
-var APP_PORT = 5000;
+var APP_PORT = 4000;
 var cors = require('cors');
 var app = express();
 const SECRET = 'asda47#$*5444adtyydssdZad!#%**';
