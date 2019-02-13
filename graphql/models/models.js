@@ -186,6 +186,11 @@ Application.belongsTo(CatalogItem, {
 	as: 'CatalogCity'
 });
 
+Application.belongsTo(Users, {
+	foreignKey: 'idRecruiter',
+	as: "Recruiter"
+})
+
 Shift.belongsTo(PositionRate, {
 	foreignKey: 'idPosition',
 	as: 'CatalogPosition'

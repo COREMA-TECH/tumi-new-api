@@ -3,7 +3,7 @@ import { inputUpdateApplicantPhase } from '../types/operations/updateTypes';
 import { ApplicationPhaseType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 import { Transporter } from '../../../Configuration/Configuration';
-
+import moment from 'moment';
 
 const ApplicantPhaseMutation = {
 
@@ -44,7 +44,7 @@ const ApplicantPhaseMutation = {
 												.concat(`<b>Lead Phone #:</b> ${cellPhone} <br/>`)
 												.concat(`<b>Work Order #:</b> ${args.applicationPhases.WorkOrderId} <br/>`)
 												.concat(`<b>Recruiter:</b> ${user.dataValues.Full_Name} <br/>`)
-												.concat(`<b>Date:</b> ${new Date().toISOString()} <br/>`)
+												.concat(`<b>Date:</b> ${moment(new Date()).format("MM/DD/YYYY")} <br/>`)
 										}
 										//	send mail with defined transport object
 										let info = Transporter.sendMail(mailOptions).then((ret) => {
