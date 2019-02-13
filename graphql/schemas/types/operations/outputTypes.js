@@ -159,6 +159,12 @@ const ApplicationType = new GraphQLObjectType({
 				resolve(me) {
 					return me.getRecruiter();
 				}
+			},
+			user: {
+				type: UsersType,
+				resolve(me) {
+					return me.getUser();
+				}
 			}
 		};
 	}

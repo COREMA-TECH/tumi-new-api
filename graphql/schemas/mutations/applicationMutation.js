@@ -13,40 +13,7 @@ const ApplicationMutation = {
 			application: { type: inputInsertApplication }
 		},
 		resolve(source, args) {
-			return Db.models.Applications.create({
-				firstName: args.application.firstName,
-				middleName: args.application.middleName,
-				lastName: args.application.lastName,
-				lastName2: args.application.lastName2,
-				date: args.application.date,
-				streetAddress: args.application.streetAddress,
-				emailAddress: args.application.emailAddress,
-				aptNumber: args.application.aptNumber,
-				city: args.application.city,
-				state: args.application.state,
-				zipCode: args.application.zipCode,
-				homePhone: args.application.homePhone,
-				cellPhone: args.application.cellPhone,
-				socialSecurityNumber: args.application.socialSecurityNumber,
-				positionApplyingFor: args.application.positionApplyingFor,
-				birthDay: args.application.birthDay,
-				car: args.application.car,
-				typeOfId: args.application.typeOfId,
-				expireDateId: args.application.expireDateId,
-				dateAvailable: args.application.dateAvailable,
-				scheduleRestrictions: args.application.scheduleRestrictions,
-				scheduleExplain: args.application.scheduleExplain,
-				convicted: args.application.convicted,
-				convictedExplain: args.application.convictedExplain,
-				comment: args.application.comment,
-				generalComment: args.application.generalComment,
-				idealJob: args.application.idealJob,
-				idLanguage: args.application.idLanguage,
-				signature: args.application.signature,
-				isLead: args.application.isLead,
-				isActive: args.application.isActive,
-				Urlphoto: args.application.Urlphoto
-			});
+			return Db.models.Applications.create(args.application);
 		}
 	},
 	updateApplication: {
