@@ -4,6 +4,9 @@ import { ApplicationPhaseType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 import { Transporter } from '../../../Configuration/Configuration';
 import moment from 'moment';
+import Sequelize from 'sequelize';
+
+const Op = Sequelize.Op;
 
 const SendNotificationToInterview = (args, ret) => {
 	//Id_Roles: 9 = Administrative Assistant
@@ -45,18 +48,71 @@ const SendNotificationToInterview = (args, ret) => {
 }
 
 const SendNotificationToLead = (args, ret) => {
-	//Get Applicant Information
-	return Db.models.Applications.findOne({ where: { id: args.applicationPhases.ApplicationId } })
+	//Get Applicant Information with associated employee
+	return Db.models.Applications.findOne(
+		{
+			where: { id: args.applicationPhases.ApplicationId },
+			include: [{
+				model: Db.models.ApplicationEmployees,
+				required: true
+			}]
+		})
 		.then(_application => {
-			var { firstName, middleName, lastName, emailAddress } = _application.dataValues
-			var fullName = `${firstName.trim()} ${middleName.trim()} ${lastName.trim()}`
-			console.log(fullName, emailAddress);
-			return Db.models.ShiftDetail.findAll({ where: { ShiftId: args.applicationPhases.ShiftId } })
-				.then(_shiftDetails => {
+			if (_application) {
+				var EmployeeId = _application.dataValues.ApplicationEmployee.dataValues.EmployeeId;
+				var { firstName, middleName, lastName, emailAddress } = _application.dataValues;
+				var fullName = `${firstName.trim()} ${middleName.trim()} ${lastName.trim()}`;
+				var html = `<b>Hi,${fullName}</b> <br/>`.concat('<i>you have been assigned for an interview:</i><br/>').concat("<b>Schedule detail</b><br/><hr/>")
+				var newShiftDetailEmployees = [], shiftDetailIds = [];
+				//Get Shift Details without or with employees
+				return Db.models.ShiftDetail.findAll(
+					{
+						where: { ShiftId: args.applicationPhases.ShiftId, status: 0 },
+						include: [{
+							model: Db.models.ShiftDetailEmployees,
+							required: false
+						}]
+					}
+				).then(_shiftDetails => {
 					_shiftDetails.map(_shiftDetail => {
-						console.log(_shiftDetail.dataValues);
-					})
+						//Get ShiftDetail information only if this record doesnt have a employee associated
+						//Exclude details with employees associated
+						if (!_shiftDetail.dataValues.ShiftDetailEmployee) {
+							var { startDate, endDate, startTime, endTime } = _shiftDetail;
+							var strShiftDetail = (`<b>Date: </b> ${moment(startDate).format("MM/DD/YYY")} <br/>`)
+								.concat(`<b>From: </b> ${startTime} <br/>`)
+								.concat(`<b>To :</b> ${endTime} <br/>`)
+								.concat('<hr/>')
+							html += strShiftDetail
+							newShiftDetailEmployees.push({ ShiftDetailId: _shiftDetail.dataValues.id, EmployeeId });
+							shiftDetailIds.push(_shiftDetail.dataValues.id)
+						}
+
+					});
+					//Insert into ShiftDetailEmployee
+					return Db.models.ShiftDetailEmployees.bulkCreate(newShiftDetailEmployees)
+						.then(_newCords => {
+							//Update ShiftDetail with status 1 : asssigned no confirmed
+							return Db.models.ShiftDetail.update({ status: 1, color: "#5f4d8b" }, {
+								where: { id: { [Op.in]: shiftDetailIds } }
+							}).then(_updated => {
+								let mailOptions = {
+									from: '"Corema Group" <coremagroup@hotmail.com>', // sender address
+									to: emailAddress, // list of receivers
+									subject: "A new lead has sent to interview", // Subject line
+									html
+								}
+								//	send mail with defined transport object
+								let info = Transporter.sendMail(mailOptions).then((ret) => {
+									console.log(`Message status ${ret.response}`)
+									console.log(ret)
+								})
+								return ret.dataValues;
+							})
+						})
 				})
+			}
+			else return null;
 		})
 
 }
