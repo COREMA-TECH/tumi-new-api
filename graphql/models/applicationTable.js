@@ -145,6 +145,10 @@ export default {
 			Urlphoto: {
 				type: Sequelize.STRING(500),
 				allowNull: true
+			},
+			UserId: {
+				type: Sequelize.INTEGER,
+				allowNull: true
 			}
 		});
 	}

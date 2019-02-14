@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLBoolean } from 'graphql';
+import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLBoolean, graphql } from 'graphql';
 import GraphQLDate from 'graphql-date';
 
 const ApplicationFields = {
@@ -143,6 +143,10 @@ const ApplicationFields = {
 	Urlphoto: {
 		type: GraphQLString,
 		description: 'Applicant Url photo'
+	},
+	UserId: {
+		type: GraphQLInt,
+		description: 'Applicant User Id'
 	}
 };
 

@@ -191,6 +191,11 @@ Application.belongsTo(CatalogItem, {
 Application.belongsTo(Users, {
 	foreignKey: 'idRecruiter',
 	as: "Recruiter"
+});
+
+Application.belongsTo(Users, {
+	foreignKey: 'UserId',
+	as: "User"
 })
 
 Shift.belongsTo(PositionRate, {
