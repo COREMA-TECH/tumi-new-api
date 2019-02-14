@@ -3,7 +3,7 @@ import Sequelize from 'sequelize';
 const user = 'corema';
 //const database = 'TUMI';
 //const database = 'Tumi_Cert';
-const database = 'Tumi_Dev';
+const database = 'Tumi_Certi';
 const password = 'S0l040.246.';
 const host = 'coremagroup.cb4kqp6rssxe.us-east-2.rds.amazonaws.com';
 
