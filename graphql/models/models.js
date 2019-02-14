@@ -115,6 +115,8 @@ ApplicationPhases.belongsTo(Shift, {
 Application.hasMany(ApplicationPhases);
 
 Application.hasMany(ApplicantLanguage);
+
+
 Application.hasMany(ApplicantEducation);
 Application.hasMany(ApplicantPreviousEmployment);
 Application.hasMany(ApplicantMilitaryServices);
