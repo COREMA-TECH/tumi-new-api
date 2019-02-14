@@ -50,11 +50,11 @@ const SendNotificationToLead = (args, ret) => {
 		.then(_application => {
 			var { firstName, middleName, lastName, emailAddress } = _application.dataValues
 			var fullName = `${firstName.trim()} ${middleName.trim()} ${lastName.trim()}`
-			console.log(fullName, emailAddress)
+			console.log(fullName, emailAddress);
 			return Db.models.ShiftDetail.findAll({ where: { ShiftId: args.applicationPhases.ShiftId } })
 				.then(_shiftDetails => {
 					_shiftDetails.map(_shiftDetail => {
-						console.log(_shiftDetail.dataValues)
+						console.log(_shiftDetail.dataValues);
 					})
 				})
 		})
