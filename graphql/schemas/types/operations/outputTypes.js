@@ -635,6 +635,10 @@ const ContactsType = new GraphQLObjectType({
 	description: 'This is for Contacts Table',
 	fields: () => {
 		return {
+			Id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
 			...ContactsFields
 		}
 	}

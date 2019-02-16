@@ -59,8 +59,26 @@ const UserMutation = {
                                                 EmployeeId: args.idEmployee
                                             }, { transaction: t })
                                                 .then(_applicationEmployee => {
+
+
+                                                    //Insert to ApplicationIdealJobs
+                                                    return Db.models.PositionRate.findOne({ where: { Id: _foundEmployee.Contact_Title } })
+                                                        .then(Positions => {
+                                                            var idealjobs = {
+                                                                ApplicationId: _application.dataValues.id,
+                                                                description: Positions.dataValues.Position,
+                                                                idPosition: _foundEmployee.Contact_Title
+                                                            }
+
+                                                            return Db.models.ApplicantIdealJobs.create(idealjobs, { transaction: t })
+                                                                .then(_applicantidealjobs => {
+                                                                    return _user.dataValues;
+                                                                });
+
+                                                        })
+
                                                     //Return user just created 
-                                                    return _user.dataValues;
+                                                    // return _user.dataValues;
                                                 })
                                         })
                                     })

@@ -3,7 +3,6 @@ import { inputUpdateApplicantDocument } from '../types/operations/updateTypes';
 import { ApplicantDocumentType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLString } from 'graphql';
 import pdf from 'html-pdf';
-import firebase from 'firebase';
 
 import Db from '../../models/models';
 
@@ -28,7 +27,7 @@ const ApplicantDocumentMutation = {
 		args: {
 			html: { type: GraphQLString },
 			ApplicationId: { type: GraphQLInt },
-			documentType: { type:GraphQLString }
+			documentType: { type: GraphQLString }
 		},
 		resolve(source, args) {
 			//aqui va la logica del PDF
@@ -54,8 +53,8 @@ const ApplicantDocumentMutation = {
 				if (err) return console.log(err);
 			});
 			//aqui va la logica de firebase
-			
-			return Db.models.ApplicantDocument.create({fileName: filename, url: srcFile, fileExtension: ".pdf", ApplicationId: args.ApplicationId, CatalogItemId: 30453}, { returning: true }).then((output) => {
+
+			return Db.models.ApplicantDocument.create({ fileName: filename, url: srcFile, fileExtension: ".pdf", ApplicationId: args.ApplicationId, CatalogItemId: 30453 }, { returning: true }).then((output) => {
 				// return output.map((element) => {
 				// 	return element.dataValues;
 				// });
@@ -85,7 +84,7 @@ const ApplicantDocumentMutation = {
 						returning: true
 					}
 				)
-				.then(function([ rowsUpdate, [ record ] ]) {
+				.then(function ([rowsUpdate, [record]]) {
 					if (record) return record.dataValues;
 					else return null;
 				});

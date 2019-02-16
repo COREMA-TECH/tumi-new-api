@@ -32,7 +32,8 @@ import {
 	RolesFormsMutation,
 	CatalogItemMutation,
 	ConfigRegionsMutation,
-	UserMutation
+	UserMutation,
+	ContactsMutation,
 } from './mutations';
 import {
 	ApplicationQuery,
@@ -149,7 +150,8 @@ const RootMutation = new GraphQLObjectType({
 		...RolesFormsMutation,
 		...CatalogItemMutation,
 		...ConfigRegionsMutation,
-		...UserMutation
+		...UserMutation,
+		...ContactsMutation,
 	}
 });
 
