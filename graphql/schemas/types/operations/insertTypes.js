@@ -31,7 +31,8 @@ import {
 	RolesFormsFields,
 	CatalogItemFields,
 	ConfigRegionsFields,
-	UsersFields
+	UsersFields,
+	ContactsFields,
 } from '../fields';
 
 const inputInsertEmployees = new GraphQLInputObjectType({
@@ -369,6 +370,12 @@ const filterShiftWOConvertToOpening = new GraphQLInputObjectType({
 	}
 })
 
+const inputInsertContact = new GraphQLInputObjectType({
+	name: 'inputContact',
+	description: 'Insert Contacts',
+	fields: { ...ContactsFields }
+})
+
 export {
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
@@ -408,5 +415,6 @@ export {
 	inputInsertUser,
 	inputShiftBoardCompany,
 	filterShiftConvertToOpening,
-	filterShiftWOConvertToOpening
+	filterShiftWOConvertToOpening,
+	inputInsertContact,
 };
