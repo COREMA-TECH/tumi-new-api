@@ -3,7 +3,6 @@ import { inputUpdateApplicantDocument } from '../types/operations/updateTypes';
 import { ApplicantDocumentType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLString } from 'graphql';
 import pdf from 'html-pdf';
-import firebase from 'firebase';
 
 import Db from '../../models/models';
 
