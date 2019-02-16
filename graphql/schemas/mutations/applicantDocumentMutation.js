@@ -1,7 +1,9 @@
 import { inputInsertApplicantDocument } from '../types/operations/insertTypes';
 import { inputUpdateApplicantDocument } from '../types/operations/updateTypes';
 import { ApplicantDocumentType } from '../types/operations/outputTypes';
-import { GraphQLList, GraphQLInt } from 'graphql';
+import { GraphQLList, GraphQLInt, GraphQLString } from 'graphql';
+import pdf from 'html-pdf';
+import firebase from 'firebase';
 
 import Db from '../../models/models';
 
@@ -17,6 +19,46 @@ const ApplicantDocumentMutation = {
 				return output.map((element) => {
 					return element.dataValues;
 				});
+			});
+		}
+	},
+	addApplicantDocumentPDF: {
+		type: new GraphQLList(ApplicantDocumentType),
+		description: 'Add applicant documents to database',
+		args: {
+			html: { type: GraphQLString },
+			ApplicationId: { type: GraphQLInt },
+			documentType: { type:GraphQLString }
+		},
+		resolve(source, args) {
+			//aqui va la logica del PDF
+			var options = {
+				format: 'Letter',
+				font: 'Arial',
+				size: 12,
+				type: "pdf",             // allowed file types: png, jpeg, pdf
+				quality: "75",           // only used for types png & jpeg
+				orientation: 'portrait',
+				zoomFactor: 1,
+				border: {
+					top: '0.98in', // default is 0, units: mm, cm, in, px
+					right: '0.98in',
+					bottom: '0.98in',
+					left: '0.98in'
+				}
+			};
+			var filename = `${args.documentType}_${args.ApplicationId}`;
+			var srcFile = `./public/${filename}.pdf`;
+
+			pdf.create(args.html, options).toFile(srcFile, function (err, res) {
+				if (err) return console.log(err);
+			});
+			//aqui va la logica de firebase
+			
+			return Db.models.ApplicantDocument.create({fileName: filename, url: srcFile, fileExtension: ".pdf", ApplicationId: args.ApplicationId, CatalogItemId: 30453}, { returning: true }).then((output) => {
+				// return output.map((element) => {
+				// 	return element.dataValues;
+				// });
 			});
 		}
 	},
