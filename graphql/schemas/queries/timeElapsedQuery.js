@@ -42,22 +42,9 @@ const timeElapsedQuery = {
                 let getTimes = [];
 
                 users.map((user) => {
-                    //    console.log("(user.createdAt ", user.createdAt)
-                    //    console.log("user.Shift.createdAt ", user.Shift.createdAt)
-
-                    //  var duration = moment.duration(moment.utc(moment(user.createdAt, "HH:mm:ss").diff(moment(user.Shift.createdAt, "HH:mm:ss"))).format("HH:mm")).asHours();
                     var duration = moment.utc(moment(user.createdAt, "DD/MM/YYYY HH:mm:ss").diff(moment(user.Shift.createdAt, "DD/MM/YYYY HH:mm:ss"))).format("DD") + ' days, '
                     var hour = moment.utc(moment(user.createdAt, "DD/MM/YYYY HH:mm:ss").diff(moment(user.Shift.createdAt, "DD/MM/YYYY HH:mm:ss"))).format("HH") + 'hrs, '
                     var minute = moment.utc(moment(user.createdAt, "DD/MM/YYYY HH:mm:ss").diff(moment(user.Shift.createdAt, "DD/MM/YYYY HH:mm:ss"))).format("mm") + 'min'
-
-
-
-
-                    // duration = parseFloat(duration).toFixed(2);
-
-                    //var duration = moment.duration(moment.utc(moment(user.createdAt, "DD/MM/YYYY").diff(moment(user.Shift.createdAt, "DD/MM/YYYY"))).format("DD/MM/YYYY")).asDays();
-                    //duration = parseFloat(duration).toFixed(2);
-
 
                     Elapsed = {
                         Full_Name: user.Application.firstName + ' ' + user.Application.lastName,
