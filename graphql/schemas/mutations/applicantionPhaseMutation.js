@@ -92,23 +92,28 @@ const SendNotificationToLead = (args, ret) => {
 					//Insert into ShiftDetailEmployee
 					return Db.models.ShiftDetailEmployees.bulkCreate(newShiftDetailEmployees)
 						.then(_newCords => {
-							//Update ShiftDetail with status 1 : asssigned no confirmed
-							return Db.models.ShiftDetail.update({ status: 1, color: "#5f4d8b" }, {
-								where: { id: { [Op.in]: shiftDetailIds } }
-							}).then(_updated => {
-								let mailOptions = {
-									from: '"Corema Group" <coremagroup@hotmail.com>', // sender address
-									to: emailAddress, // list of receivers
-									subject: "A new lead has sent to interview", // Subject line
-									html
-								}
-								//	send mail with defined transport object
-								let info = Transporter.sendMail(mailOptions).then((ret) => {
-									console.log(`Message status ${ret.response}`)
-									console.log(ret)
+							if (newShiftDetailEmployees.length > 0) {
+								//Update ShiftDetail with status 1 : asssigned no confirmed
+								return Db.models.ShiftDetail.update({ status: 1, color: "#5f4d8b" }, {
+									where: { id: { [Op.in]: shiftDetailIds } }
+								}).then(_updated => {
+
+									let mailOptions = {
+										from: '"Corema Group" <coremagroup@hotmail.com>', // sender address
+										to: emailAddress, // list of receivers
+										subject: "A new lead has sent to interview", // Subject line
+										html
+									}
+									//	send mail with defined transport object
+									let info = Transporter.sendMail(mailOptions).then((ret) => {
+										console.log(`Message status ${ret.response}`)
+										console.log(ret)
+									})
+									return ret.dataValues;
 								})
+							} else {
 								return ret.dataValues;
-							})
+							}
 						})
 				})
 			}
