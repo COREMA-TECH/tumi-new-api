@@ -13,6 +13,8 @@ import ApplicantBackgroundCheckQuery from './applicantBackgroundCheckQuery';
 import ApplicantHarassmentPolicyQuery from './applicantHarassmentPolicyQuery';
 import ApplicantWorkerCompensationQuery from './applicantWorkerCompensationQuery';
 import ApplicantDocumentQuery from './applicantDocumentQuery';
+import ApplicantW4Query from './applicantW4Query';
+import ApplicantI9Query from './applicantI9Query';
 import WorkOrderQuery from './workOrderQuery';
 import WorkOrderPositionQuery from './workOrderPositionQuery';
 import ZipcodeQuery from './zipcodeQuery';
@@ -52,6 +54,8 @@ export {
 	ApplicantHarassmentPolicyQuery,
 	ApplicantWorkerCompensationQuery,
 	ApplicantDocumentQuery,
+	ApplicantW4Query,
+	ApplicantI9Query,
 	WorkOrderQuery,
 	WorkOrderPositionQuery,
 	ZipcodeQuery,

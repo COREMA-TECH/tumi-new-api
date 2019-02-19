@@ -18,6 +18,8 @@ import {
 	ApplicantHarassmentPoliciyFields,
 	ApplicantWorkerCompensationFields,
 	ApplicantDocumentFields,
+	ApplicantW4Fields,
+	ApplicantI9Fields,
 	WorkOrderFields,
 	WorkOrderPositionFields,
 	ZipcodeFields,
@@ -468,6 +470,46 @@ const ApplicantDocumentType = new GraphQLObjectType({
 				description: 'table id'
 			},
 			...ApplicantDocumentFields,
+			application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			}
+		};
+	}
+});
+
+const ApplicantW4Type = new GraphQLObjectType({
+	name: 'ApplicantW4Type',
+	description: 'This is for Applications W4',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...ApplicantW4Fields,
+			application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			}
+		};
+	}
+});
+
+const ApplicantI9Type = new GraphQLObjectType({
+	name: 'ApplicantI9Type',
+	description: 'This is for Applications I9',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...ApplicantI9Fields,
 			application: {
 				type: ApplicationType,
 				resolve(me) {
@@ -1010,6 +1052,8 @@ export {
 	ApplicantHarassmentPolicyType,
 	ApplicantWorkerCompensationType,
 	ApplicantDocumentType,
+	ApplicantW4Type,
+	ApplicantI9Type,
 	WorkOrderType,
 	WorkOrderPositionType,
 	ZipcodeType,
