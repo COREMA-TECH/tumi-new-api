@@ -40,11 +40,11 @@ export default {
 				allowNull: true
 			},
 			city: {
-				type: Sequelize.STRING(50),
+				type: Sequelize.INTEGER,
 				allowNull: true
 			},
 			state: {
-				type: Sequelize.STRING(50),
+				type: Sequelize.INTEGER,
 				allowNull: true
 			},
 			zipCode: {

@@ -39,11 +39,11 @@ const ApplicationFields = {
 		description: 'Applicant Apt Number'
 	},
 	city: {
-		type: GraphQLString,
+		type: GraphQLInt,
 		description: 'Applicant City'
 	},
 	state: {
-		type: GraphQLString,
+		type: GraphQLInt,
 		description: 'Applicant State'
 	},
 	zipCode: {

@@ -27,6 +27,7 @@ import RolesFormsMutation from './roleformMutation';
 import CatalogItemMutation from './catalogItemMutation';
 import ConfigRegionsMutation from './configRegionsMutation';
 import UserMutation from './userMutation';
+import ContactsMutation from './contactsMutation';
 
 export {
 	ApplicantLanguageMutation,
@@ -57,6 +58,6 @@ export {
 	RolesFormsMutation,
 	CatalogItemMutation,
 	ConfigRegionsMutation,
-
-	UserMutation
+	UserMutation,
+	ContactsMutation,
 };

@@ -1,8 +1,5 @@
 import { GraphQLInt, GraphQLString } from 'graphql';
 const contactsFields = {
-	Id: {
-		type: GraphQLInt
-	},
 	Id_Entity: {
 		type: GraphQLInt
 	},

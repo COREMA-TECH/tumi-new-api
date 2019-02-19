@@ -156,7 +156,6 @@ const ShiftMutation = {
 																						employeeIdTemp = Employees.dataValues.id;
 																					}
 
-
 																					Db.models.PositionRate.findAll({ where: { Id: intPositionRateId } }).then((select) => {
 																						select.map((dataPositionRate) => {
 																							if (intEnvio == 0) {
@@ -175,10 +174,8 @@ const ShiftMutation = {
 																});
 															});
 
-
 														});
 													});
-
 
 												});
 											});
@@ -189,8 +186,6 @@ const ShiftMutation = {
 
 							});
 						});
-
-
 
 					}
 
