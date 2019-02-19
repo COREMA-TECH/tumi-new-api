@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLNonNull, GraphQLString } from 'graphql';
+import { GraphQLInt, GraphQLNonNull, GraphQLString, GraphQLBoolean } from 'graphql';
 import GraphQLDate from 'graphql-date';
 
 const ApplicantHarassmentPoliciyFields = {
@@ -25,6 +25,10 @@ const ApplicantHarassmentPoliciyFields = {
 	ApplicationId: {
 		type: new GraphQLNonNull(GraphQLInt),
 		description: 'Application Id'
+	},
+	completed: {
+		type: GraphQLBoolean,
+		description: 'Shows if this record is completed'
 	}
 };
 
