@@ -133,6 +133,8 @@ Application.hasOne(ApplicantConductCode);
 Application.hasOne(ApplicantBackgroundCheck);
 Application.hasOne(ApplicantHarassmentPolicy);
 Application.hasOne(ApplicantWorkerCompensation);
+Application.hasOne(ApplicantW4);
+Application.hasOne(ApplicantI9);
 
 ApplicantLanguage.belongsTo(Application);
 ApplicantEducation.belongsTo(Application);

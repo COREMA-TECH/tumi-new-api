@@ -520,6 +520,36 @@ const ApplicantI9Type = new GraphQLObjectType({
 	}
 });
 
+const ApplicationCompletedDataType = new GraphQLObjectType({
+	name: 'ApplicationCompletedData',
+	description: 'Returns the state of all tables related to the applicant.',
+	fields: () => {
+		return {
+			ApplicantBackgroundCheck: {
+				type: GraphQLBoolean
+			},
+			ApplicantDisclosure: {
+				type: GraphQLBoolean
+			},
+			ApplicantConductCode: {
+				type: GraphQLBoolean
+			},
+			ApplicantHarassmentPolicy: {
+				type: GraphQLBoolean
+			},
+			ApplicantWorkerCompensation: {
+				type: GraphQLBoolean
+			},
+			ApplicantW4: {
+				type: GraphQLBoolean
+			},
+			ApplicantI9: {
+				type: GraphQLBoolean
+			}
+		}
+	}
+});
+
 const WorkOrderType = new GraphQLObjectType({
 	name: 'WorkOrderType',
 	description: 'Output Type of Work Orders',
@@ -1075,5 +1105,6 @@ export {
 	TemplateType,
 	ConfigRegionsType,
 	TimeElapsedType,
-	ShiftBoardType
+	ShiftBoardType,
+	ApplicationCompletedDataType
 };
