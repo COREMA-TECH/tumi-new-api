@@ -18,6 +18,8 @@ import {
 	ApplicantHarassmentPoliciyFields,
 	ApplicantWorkerCompensationFields,
 	ApplicantDocumentFields,
+	ApplicantW4Fields,
+	ApplicantI9Fields,
 	WorkOrderFields,
 	WorkOrderPositionFields,
 	ZipcodeFields,
@@ -509,6 +511,76 @@ const ApplicantDocumentType = new GraphQLObjectType({
 				}
 			}
 		};
+	}
+});
+
+const ApplicantW4Type = new GraphQLObjectType({
+	name: 'ApplicantW4Type',
+	description: 'This is for Applications W4',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...ApplicantW4Fields,
+			application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			}
+		};
+	}
+});
+
+const ApplicantI9Type = new GraphQLObjectType({
+	name: 'ApplicantI9Type',
+	description: 'This is for Applications I9',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...ApplicantI9Fields,
+			application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			}
+		};
+	}
+});
+
+const ApplicationCompletedDataType = new GraphQLObjectType({
+	name: 'ApplicationCompletedData',
+	description: 'Returns the state of all tables related to the applicant.',
+	fields: () => {
+		return {
+			ApplicantBackgroundCheck: {
+				type: GraphQLBoolean
+			},
+			ApplicantDisclosure: {
+				type: GraphQLBoolean
+			},
+			ApplicantConductCode: {
+				type: GraphQLBoolean
+			},
+			ApplicantHarassmentPolicy: {
+				type: GraphQLBoolean
+			},
+			ApplicantWorkerCompensation: {
+				type: GraphQLBoolean
+			},
+			ApplicantW4: {
+				type: GraphQLBoolean
+			},
+			ApplicantI9: {
+				type: GraphQLBoolean
+			}
+		}
 	}
 });
 
@@ -1044,6 +1116,8 @@ export {
 	ApplicantHarassmentPolicyType,
 	ApplicantWorkerCompensationType,
 	ApplicantDocumentType,
+	ApplicantW4Type,
+	ApplicantI9Type,
 	WorkOrderType,
 	WorkOrderPositionType,
 	ZipcodeType,
@@ -1065,5 +1139,6 @@ export {
 	TemplateType,
 	ConfigRegionsType,
 	TimeElapsedType,
-	ShiftBoardType
+	ShiftBoardType,
+	ApplicationCompletedDataType
 };

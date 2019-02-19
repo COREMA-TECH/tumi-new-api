@@ -13,6 +13,8 @@ import ApplicantBackgroundCheckModel from './applicantBackgroundCheckTable';
 import ApplicantHarassmentPolicyModel from './applicantHarassmentPolicyTable';
 import ApplicantWorkerCompensationModel from './applicantWorkerCompensationTable';
 import ApplicantDocumentModel from './applicantDocumentTable';
+import ApplicantW4Model from './applicantW4Table';
+import ApplicantI9Model from './applicantI9Table';
 import WorkOrderModel from './workOrderTable';
 import PositionRateModel from './positionRateTable';
 import WorkOrderPositionModel from './workOrderPositionTable';
@@ -59,6 +61,8 @@ const ApplicantBackgroundCheck = ApplicantBackgroundCheckModel.createModel(Conn)
 const ApplicantHarassmentPolicy = ApplicantHarassmentPolicyModel.createModel(Conn);
 const ApplicantWorkerCompensation = ApplicantWorkerCompensationModel.createModel(Conn);
 const ApplicantDocument = ApplicantDocumentModel.createModel(Conn);
+const ApplicantW4 = ApplicantW4Model.createModel(Conn);
+const ApplicantI9 = ApplicantI9Model.createModel(Conn);
 const WorkOrder = WorkOrderModel.createModel(Conn);
 const WorkOrderPosition = WorkOrderPositionModel.createModel(Conn);
 
@@ -129,6 +133,8 @@ Application.hasOne(ApplicantConductCode);
 Application.hasOne(ApplicantBackgroundCheck);
 Application.hasOne(ApplicantHarassmentPolicy);
 Application.hasOne(ApplicantWorkerCompensation);
+Application.hasOne(ApplicantW4);
+Application.hasOne(ApplicantI9);
 
 ApplicantLanguage.belongsTo(Application);
 ApplicantEducation.belongsTo(Application);
@@ -138,6 +144,9 @@ ApplicantSkill.belongsTo(Application);
 ApplicantIdealJob.belongsTo(Application);
 ApplicantDocument.belongsTo(Application);
 ApplicantDocument.belongsTo(CatalogItem);
+
+ApplicantW4.belongsTo(Application);
+ApplicantI9.belongsTo(Application);
 
 ApplicantIdealJob.belongsTo(CatalogItem, {
 	foreignKey: 'idPosition',

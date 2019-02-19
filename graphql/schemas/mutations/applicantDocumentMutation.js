@@ -3,6 +3,8 @@ import { inputUpdateApplicantDocument } from '../types/operations/updateTypes';
 import { ApplicantDocumentType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLString } from 'graphql';
 import pdf from 'html-pdf';
+import AWS from 'aws-sdk';
+import fs from 'fs';
 
 import Db from '../../models/models';
 
@@ -49,12 +51,37 @@ const ApplicantDocumentMutation = {
 			var filename = `${args.documentType}_${args.ApplicationId}`;
 			var srcFile = `./public/${filename}.pdf`;
 
+			AWS.config.update({
+				accessKeyId: "AKIAJKPVCC36B44OOXJA",
+				secretAccessKey: "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"
+			});
+
+			//aqui va la logica de S3
+			var s3 = new AWS.S3();
+			var filePath = srcFile;
+
+			var params = {
+				Bucket: 'imagestumi',
+				Body : fs.createReadStream(filePath),
+				Key : "PDF/" + path.basename(filePath)
+			};
+
+			s3.upload(params, function (err, data) {
+				//handle error
+				if (err) {
+					console.log("Error", err);
+				}
+				//success
+				if (data) {
+					console.log("Uploaded in:", data.Location);
+				}
+			});
+
 			pdf.create(args.html, options).toFile(srcFile, function (err, res) {
 				if (err) return console.log(err);
 			});
-			//aqui va la logica de firebase
 
-			return Db.models.ApplicantDocument.create({ fileName: filename, url: srcFile, fileExtension: ".pdf", ApplicationId: args.ApplicationId, CatalogItemId: 30453 }, { returning: true }).then((output) => {
+			return Db.models.ApplicantDocument.create({ fileName: filename, url: srcFile, fileExtension: ".pdf", ApplicationId: args.ApplicationId }, { returning: true }).then((output) => {
 				// return output.map((element) => {
 				// 	return element.dataValues;
 				// });

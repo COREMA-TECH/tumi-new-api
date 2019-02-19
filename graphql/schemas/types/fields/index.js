@@ -15,6 +15,8 @@ import ApplicantBackgroundCheckFields from './applicantBackgroundCheckFields';
 import ApplicantHarassmentPoliciyFields from './applicantHarassmentPolicyFields';
 import ApplicantWorkerCompensationFields from './applicantWorkerCompensationFields';
 import ApplicantDocumentFields from './applicantDocumentFields';
+import ApplicantW4Fields from './applicantW4Fields';
+import ApplicantI9Fields from './applicantI9Fields';
 import WorkOrderFields from './workOrderFields';
 import WorkOrderPositionFields from './workOrderPositionFields';
 import ZipcodeFields from './zipcodeFields';
@@ -55,6 +57,8 @@ export {
 	ApplicantHarassmentPoliciyFields,
 	ApplicantWorkerCompensationFields,
 	ApplicantDocumentFields,
+	ApplicantW4Fields,
+	ApplicantI9Fields,
 	WorkOrderFields,
 	WorkOrderPositionFields,
 	ZipcodeFields,
