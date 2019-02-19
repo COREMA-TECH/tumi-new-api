@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLString, GraphQLList, GraphQLBoolean } from 'graphql';
+import { GraphQLInt, GraphQLString, GraphQLList, GraphQLBoolean, GraphQLNonNull } from 'graphql';
 import { ApplicationType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
@@ -103,6 +103,43 @@ const ApplicationQuery = {
 					}
 				],
 			});
+		}
+	},
+	applicationCompleted: {
+		type: GraphQLBoolean,
+		description: "This shows if an application is completed or no",
+		args: {
+			id: { type: new GraphQLNonNull(GraphQLInt) }
+		},
+		resolve(root, args) {
+			return Db.models.Applications.findOne({
+				where: { ...args, completed: true },
+				include: [{
+					model: Db.models.ApplicantBackgroundChecks,
+					where: { completed: true },
+					required: true
+				}, {
+					model: Db.models.ApplicantDisclosures,
+					where: { completed: true },
+					required: true
+				}, {
+					model: Db.models.ApplicantConductCodes,
+					where: { completed: true },
+					required: true
+				}, {
+					model: Db.models.ApplicantHarassmentPolicy,
+					where: { completed: true },
+					required: true
+				}, {
+					model: Db.models.ApplicantWorkerCompensation,
+					where: { completed: true },
+					required: true
+				}]
+			})
+				.then(_application => {
+					return _application != null; //Return true when all record associated to this application are completed
+				})
+
 		}
 	}
 
