@@ -17,6 +17,7 @@
 	"dependencies": {
 		"@babel/preset-stage-3": "^7.0.0",
 		"apollo-server-express": "^2.0.0",
+		"aws-sdk": "^2.404.0",
 		"babel-core": "^6.26.3",
 		"babel-plugin-transform-es2015-destructuring": "^6.23.0",
 		"babel-plugin-transform-object-rest-spread": "^6.26.0",

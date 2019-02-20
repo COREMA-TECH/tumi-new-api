@@ -16,6 +16,8 @@ import {
 	ApplicantHarassmentPoliciyFields,
 	ApplicantWorkerCompensationFields,
 	ApplicantDocumentFields,
+	ApplicantW4Fields,
+	ApplicantI9Fields,
 	WorkOrderFields,
 	WorkOrderPositionFields,
 	ApplicationPhaseFields,
@@ -166,6 +168,22 @@ const inputInsertApplicantDocument = new GraphQLInputObjectType({
 
 	fields: {
 		...ApplicantDocumentFields
+	}
+});
+const inputInsertApplicantW4 = new GraphQLInputObjectType({
+	name: 'inputInsertApplicantW4',
+	description: 'Inputs for Applications Document',
+
+	fields: {
+		...ApplicantW4Fields
+	}
+});
+const inputInsertApplicantI9 = new GraphQLInputObjectType({
+	name: 'inputInsertApplicantW4',
+	description: 'Inputs for Applications Document',
+
+	fields: {
+		...ApplicantI9Fields
 	}
 });
 const inputInsertWorkOrder = new GraphQLInputObjectType({
@@ -391,6 +409,8 @@ export {
 	inputInsertApplicantHarassmentPolicy,
 	inputInsertApplicantWorkerCompensation,
 	inputInsertApplicantDocument,
+	inputInsertApplicantW4,
+	inputInsertApplicantI9,
 	inputInsertWorkOrder,
 	inputInsertWorkOrderPosition,
 	iParamEA,

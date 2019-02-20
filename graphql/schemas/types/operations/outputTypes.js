@@ -18,6 +18,8 @@ import {
 	ApplicantHarassmentPoliciyFields,
 	ApplicantWorkerCompensationFields,
 	ApplicantDocumentFields,
+	ApplicantW4Fields,
+	ApplicantI9Fields,
 	WorkOrderFields,
 	WorkOrderPositionFields,
 	ZipcodeFields,
@@ -41,6 +43,7 @@ import {
 
 } from '../fields';
 
+import Db from '../../../models/models';
 
 const ApplicationType = new GraphQLObjectType({
 	name: 'Applications',
@@ -164,6 +167,39 @@ const ApplicationType = new GraphQLObjectType({
 				type: UsersType,
 				resolve(me) {
 					return me.getUser();
+				}
+			},
+			statusCompleted: {
+				type: GraphQLBoolean,
+				resolve(me) {
+					return Db.models.Applications.findOne({
+						where: { id: me.id, completed: true },
+						include: [{
+							model: Db.models.ApplicantBackgroundChecks,
+							where: { completed: true },
+							required: true
+						}, {
+							model: Db.models.ApplicantDisclosures,
+							where: { completed: true },
+							required: true
+						}, {
+							model: Db.models.ApplicantConductCodes,
+							where: { completed: true },
+							required: true
+						}, {
+							model: Db.models.ApplicantHarassmentPolicy,
+							where: { completed: true },
+							required: true
+						}, {
+							model: Db.models.ApplicantWorkerCompensation,
+							where: { completed: true },
+							required: true
+						}]
+					})
+						.then(_application => {
+							return _application != null; //Return true when all record associated to this application are completed
+						})
+
 				}
 			}
 		};
@@ -469,6 +505,76 @@ const ApplicantDocumentType = new GraphQLObjectType({
 				}
 			}
 		};
+	}
+});
+
+const ApplicantW4Type = new GraphQLObjectType({
+	name: 'ApplicantW4Type',
+	description: 'This is for Applications W4',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...ApplicantW4Fields,
+			application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			}
+		};
+	}
+});
+
+const ApplicantI9Type = new GraphQLObjectType({
+	name: 'ApplicantI9Type',
+	description: 'This is for Applications I9',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...ApplicantI9Fields,
+			application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			}
+		};
+	}
+});
+
+const ApplicationCompletedDataType = new GraphQLObjectType({
+	name: 'ApplicationCompletedData',
+	description: 'Returns the state of all tables related to the applicant.',
+	fields: () => {
+		return {
+			ApplicantBackgroundCheck: {
+				type: GraphQLBoolean
+			},
+			ApplicantDisclosure: {
+				type: GraphQLBoolean
+			},
+			ApplicantConductCode: {
+				type: GraphQLBoolean
+			},
+			ApplicantHarassmentPolicy: {
+				type: GraphQLBoolean
+			},
+			ApplicantWorkerCompensation: {
+				type: GraphQLBoolean
+			},
+			ApplicantW4: {
+				type: GraphQLBoolean
+			},
+			ApplicantI9: {
+				type: GraphQLBoolean
+			}
+		}
 	}
 });
 
@@ -1004,6 +1110,8 @@ export {
 	ApplicantHarassmentPolicyType,
 	ApplicantWorkerCompensationType,
 	ApplicantDocumentType,
+	ApplicantW4Type,
+	ApplicantI9Type,
 	WorkOrderType,
 	WorkOrderPositionType,
 	ZipcodeType,
@@ -1025,5 +1133,6 @@ export {
 	TemplateType,
 	ConfigRegionsType,
 	TimeElapsedType,
-	ShiftBoardType
+	ShiftBoardType,
+	ApplicationCompletedDataType
 };

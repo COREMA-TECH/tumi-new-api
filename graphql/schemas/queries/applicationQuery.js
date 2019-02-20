@@ -1,5 +1,5 @@
-import { GraphQLInt, GraphQLString, GraphQLList, GraphQLBoolean } from 'graphql';
-import { ApplicationType } from '../types/operations/outputTypes';
+import { GraphQLInt, GraphQLString, GraphQLList, GraphQLBoolean, GraphQLNonNull } from 'graphql';
+import { ApplicationType, ApplicationCompletedDataType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 import GraphQLDate from 'graphql-date';
@@ -103,6 +103,91 @@ const ApplicationQuery = {
 					}
 				],
 			});
+		}
+	},
+	applicationCompleted: {
+		type: GraphQLBoolean,
+		description: "This shows if an application is completed or no",
+		args: {
+			id: { type: new GraphQLNonNull(GraphQLInt) }
+		},
+		resolve(root, args) {
+			return Db.models.Applications.findOne({
+				where: { ...args, completed: true },
+				include: [{
+					model: Db.models.ApplicantBackgroundChecks,
+					where: { completed: true },
+					required: true
+				}, {
+					model: Db.models.ApplicantDisclosures,
+					where: { completed: true },
+					required: true
+				}, {
+					model: Db.models.ApplicantConductCodes,
+					where: { completed: true },
+					required: true
+				}, {
+					model: Db.models.ApplicantHarassmentPolicy,
+					where: { completed: true },
+					required: true
+				}, {
+					model: Db.models.ApplicantWorkerCompensation,
+					where: { completed: true },
+					required: true
+				}, {
+					model: Db.models.ApplicantW4,
+					where: { completed: true },
+					required: true
+				}, {
+					model: Db.models.ApplicantI9,
+					where: { completed: true },
+					required: true
+				}]
+			})
+				.then(_application => {
+					return _application != null; //Return true when all record associated to this application are completed
+				})
+
+		}
+	},
+	applicationCompletedData: {
+		type: ApplicationCompletedDataType,
+		description: "This shows if an application is completed or no",
+		args: {
+			id: { type: new GraphQLNonNull(GraphQLInt) }
+		},
+		resolve(root, args) {
+			return Db.models.Applications.findOne({
+				where: { ...args },
+				include: [{
+					model: Db.models.ApplicantBackgroundChecks,
+				}, {
+					model: Db.models.ApplicantDisclosures,
+				}, {
+					model: Db.models.ApplicantConductCodes,
+				}, {
+					model: Db.models.ApplicantHarassmentPolicy,
+				}, {
+					model: Db.models.ApplicantWorkerCompensation,
+				}, {
+					model: Db.models.ApplicantW4,
+				}, {
+					model: Db.models.ApplicantI9,
+				}]
+			}).then(_application => {
+				var ApplicationsStatus = {
+					ApplicantBackgroundCheck : _application.dataValues.ApplicantBackgroundCheck.completed,
+					ApplicantDisclosure : _application.dataValues.ApplicantDisclosure.completed,
+					ApplicantConductCode : _application.dataValues.ApplicantConductCode.completed,
+					ApplicantHarassmentPolicy : _application.dataValues.ApplicantHarassmentPolicy.completed,
+					ApplicantWorkerCompensation : _application.dataValues.ApplicantWorkerCompensation.completed,
+					ApplicantW4 : _application.dataValues.ApplicantW4 == null ? false : _application.dataValues.ApplicantW4.completed,
+					ApplicantI9 : _application.dataValues.ApplicantI9 == null ? false : _application.dataValues.ApplicantI9.completed
+
+				};
+				return ApplicationsStatus; //Return true when all record associated to this application are completed
+			})
+
 		}
 	}
 

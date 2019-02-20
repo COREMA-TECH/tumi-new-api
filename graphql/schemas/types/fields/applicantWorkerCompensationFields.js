@@ -53,6 +53,10 @@ const ApplicantWorkerCompensationFields = {
 	ApplicationId: {
 		type: new GraphQLNonNull(GraphQLInt),
 		description: 'Application Id'
+	},
+	completed: {
+		type: GraphQLBoolean,
+		description: "Shows if this record is completed"
 	}
 };
 
