@@ -2,25 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b916aa1b-7c39-49fb-bfc5-c4a922e29842" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/graphql/schemas/mutations/contactsMutation.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql/models/applicationTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/graphql/models/applicationTable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql/models/models.js" beforeDir="false" afterPath="$PROJECT_DIR$/graphql/models/models.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql/schemas/mutations/applicantDocumentMutation.js" beforeDir="false" afterPath="$PROJECT_DIR$/graphql/schemas/mutations/applicantDocumentMutation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql/schemas/mutations/applicantionPhaseMutation.js" beforeDir="false" afterPath="$PROJECT_DIR$/graphql/schemas/mutations/applicantionPhaseMutation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql/schemas/mutations/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/graphql/schemas/mutations/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/graphql/schemas/mutations/shiftMutation.js" beforeDir="false" afterPath="$PROJECT_DIR$/graphql/schemas/mutations/shiftMutation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql/schemas/mutations/userMutation.js" beforeDir="false" afterPath="$PROJECT_DIR$/graphql/schemas/mutations/userMutation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql/schemas/queries/applicationQuery.js" beforeDir="false" afterPath="$PROJECT_DIR$/graphql/schemas/queries/applicationQuery.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql/schemas/queries/timeElapsedQuery.js" beforeDir="false" afterPath="$PROJECT_DIR$/graphql/schemas/queries/timeElapsedQuery.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql/schemas/schemas.js" beforeDir="false" afterPath="$PROJECT_DIR$/graphql/schemas/schemas.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql/schemas/types/fields/applicationFields.js" beforeDir="false" afterPath="$PROJECT_DIR$/graphql/schemas/types/fields/applicationFields.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql/schemas/types/fields/contactsFields.js" beforeDir="false" afterPath="$PROJECT_DIR$/graphql/schemas/types/fields/contactsFields.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql/schemas/types/operations/insertTypes.js" beforeDir="false" afterPath="$PROJECT_DIR$/graphql/schemas/types/operations/insertTypes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql/schemas/types/operations/outputTypes.js" beforeDir="false" afterPath="$PROJECT_DIR$/graphql/schemas/types/operations/outputTypes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -35,55 +18,72 @@
     <session id="1433346994">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
+          <entry key="project.closed" value="3" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.1" value="1" />
+          <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.3" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="js" value="15" />
+          <entry key="js" value="23" />
           <entry key="json" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="JSON" value="1" />
-          <entry key="JavaScript" value="15" />
+          <entry key="JavaScript" value="23" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="1" />
+          <entry key="js" value="357" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JavaScript" value="1" />
+          <entry key="JavaScript" value="357" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/graphql/models/applicantHarassmentPolicyTable.js">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/graphql/schemas/mutations/shiftMutation.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="138">
-              <caret line="6" column="41" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
+            <state relative-caret-position="439">
+              <caret line="173" column="103" selection-start-line="173" selection-start-column="103" selection-end-line="173" selection-end-column="103" />
+              <folding>
+                <element signature="e#0#127#0" expanded="true" />
+                <element signature="e#1064#1472#0" />
+                <element signature="e#1489#1789#0" />
+                <element signature="e#1805#2271#0" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/graphql/schemas/types/fields/applicantHarassmentPolicyFields.js">
+        <entry file="file://$PROJECT_DIR$/graphql/schemas/mutations/userMutation.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="657">
+              <caret line="57" column="55" selection-start-line="57" selection-start-column="55" selection-end-line="57" selection-end-column="55" />
               <folding>
-                <element signature="e#0#68#0" expanded="true" />
+                <element signature="e#0#66#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/graphql/schemas/types/fields/applicationPhaseFields.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="598">
+              <caret line="26" column="5" lean-forward="true" selection-start-line="3" selection-start-column="4" selection-end-line="26" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -91,78 +91,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/graphql/schemas/types/operations/insertTypes.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7107">
-              <caret line="342" selection-start-line="342" selection-end-line="342" />
+            <state relative-caret-position="354">
+              <caret line="191" column="18" lean-forward="true" selection-start-line="191" selection-start-column="18" selection-end-line="191" selection-end-column="18" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/graphql/schemas/mutations/applicantDisclosureMutation.js">
+        <entry file="file://$PROJECT_DIR$/graphql/models/applicationPhases.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
-              <caret line="10" column="34" selection-start-line="10" selection-end-line="11" />
-              <folding>
-                <element signature="e#0#81#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/graphql/schemas/mutations/catalogItemMutation.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="506">
-              <caret line="22" column="21" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="21" />
-              <folding>
-                <element signature="e#0#73#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="261">
-              <caret line="20" column="21" lean-forward="true" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
-              <folding>
-                <element signature="e#282#327#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/graphql/schemas/mutations/applicantionPhaseMutation.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-388">
-              <caret line="126" column="5" selection-start-line="126" selection-start-column="4" selection-end-line="126" selection-end-column="5" />
-              <folding>
-                <element signature="e#0#70#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/graphql/schemas/mutations/shiftMutation.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-72">
-              <caret line="128" column="24" selection-start-line="128" selection-start-column="24" selection-end-line="128" selection-end-column="24" />
-              <folding>
-                <element signature="e#0#127#0" expanded="true" />
-                <element signature="e#589#1048#0" />
-                <element signature="e#1064#1472#0" />
-                <element signature="e#1489#1789#0" />
-                <element signature="e#1805#2271#0" />
-                <element signature="e#10075#10491#0" />
-                <element signature="e#10522#16204#0" />
-                <element signature="e#16232#22682#0" />
-                <element signature="e#22705#24565#0" />
-                <element signature="e#24580#24928#0" />
-                <element signature="e#24954#26119#0" />
-              </folding>
+            <state>
+              <caret column="24" lean-forward="true" selection-start-column="24" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -177,6 +116,8 @@
       <find>export</find>
       <find>model</find>
       <find>a</find>
+      <find>userId</find>
+      <find>inputApplicantPhase</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -216,6 +157,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -232,6 +174,12 @@
               <item name="tumi-new-api" type="b2602c69:ProjectViewProjectNode" />
               <item name="tumi-new-api" type="462c0819:PsiDirectoryNode" />
               <item name="graphql" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="tumi-new-api" type="b2602c69:ProjectViewProjectNode" />
+              <item name="tumi-new-api" type="462c0819:PsiDirectoryNode" />
+              <item name="graphql" type="462c0819:PsiDirectoryNode" />
               <item name="schemas" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -239,13 +187,12 @@
               <item name="tumi-new-api" type="462c0819:PsiDirectoryNode" />
               <item name="graphql" type="462c0819:PsiDirectoryNode" />
               <item name="schemas" type="462c0819:PsiDirectoryNode" />
-              <item name="mutations" type="462c0819:PsiDirectoryNode" />
+              <item name="types" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -279,18 +226,19 @@
       <updated>1550082841320</updated>
       <workItem from="1550082843638" duration="948000" />
       <workItem from="1550092067159" duration="1025000" />
-      <workItem from="1550592868710" duration="2133000" />
+      <workItem from="1550592868710" duration="2929000" />
+      <workItem from="1550676381244" duration="3890000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4106000" />
+    <option name="totallyTimeSpent" value="8792000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="987" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25079873" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25346112" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -307,7 +255,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Terminal" order="3" weight="0.40681577" />
+      <window_info anchor="right" id="Terminal" order="3" weight="0.58785945" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -327,9 +275,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/graphql/models/shiftTable.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/graphql/models/models.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="271">
@@ -340,10 +285,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/graphql/models/applicantHarassmentPolicyTable.js">
+    <entry file="file://$PROJECT_DIR$/package-lock.json" />
+    <entry file="file://$PROJECT_DIR$/graphql/schemas/mutations/catalogItemMutation.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="6" column="41" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
+        <state relative-caret-position="391">
+          <caret line="22" column="21" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#73#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="20" column="21" lean-forward="true" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
+          <folding>
+            <element signature="e#282#327#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graphql/schemas/mutations/applicantionPhaseMutation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2760">
+          <caret line="126" column="5" selection-start-line="126" selection-start-column="4" selection-end-line="126" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#70#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -356,10 +325,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/graphql/schemas/types/operations/insertTypes.js">
+    <entry file="file://$PROJECT_DIR$/graphql/models/applicantHarassmentPolicyTable.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7107">
-          <caret line="342" selection-start-line="342" selection-end-line="342" />
+        <state relative-caret-position="138">
+          <caret line="6" column="41" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
         </state>
       </provider>
     </entry>
@@ -373,59 +342,70 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package-lock.json">
+    <entry file="file://$PROJECT_DIR$/graphql/schemas/mutations/markedEmployeesMutation.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
-          <caret line="4237" column="13" lean-forward="true" selection-start-line="4237" selection-start-column="13" selection-end-line="4237" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/graphql/schemas/mutations/catalogItemMutation.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="22" column="21" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="21" />
+        <state relative-caret-position="-566">
           <folding>
-            <element signature="e#0#73#0" expanded="true" />
+            <element signature="e#0#77#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.js">
+    <entry file="file://$PROJECT_DIR$/graphql/schemas/mutations/roleformMutation.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="20" column="21" lean-forward="true" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
+        <state relative-caret-position="-569">
           <folding>
-            <element signature="e#282#327#0" expanded="true" />
+            <element signature="e#0#72#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/graphql/schemas/mutations/applicantionPhaseMutation.js">
+    <entry file="file://$PROJECT_DIR$/graphql/models/shiftWorkOrderTable.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graphql/models/shiftTable.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graphql/schemas/types/fields/applicationPhaseFields.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-388">
-          <caret line="126" column="5" selection-start-line="126" selection-start-column="4" selection-end-line="126" selection-end-column="5" />
+        <state relative-caret-position="598">
+          <caret line="26" column="5" lean-forward="true" selection-start-line="3" selection-start-column="4" selection-end-line="26" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graphql/schemas/types/operations/insertTypes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="354">
+          <caret line="191" column="18" lean-forward="true" selection-start-line="191" selection-start-column="18" selection-end-line="191" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graphql/models/applicationPhases.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="24" lean-forward="true" selection-start-column="24" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graphql/schemas/mutations/userMutation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="657">
+          <caret line="57" column="55" selection-start-line="57" selection-start-column="55" selection-end-line="57" selection-end-column="55" />
           <folding>
-            <element signature="e#0#70#0" expanded="true" />
+            <element signature="e#0#66#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/graphql/schemas/mutations/shiftMutation.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-72">
-          <caret line="128" column="24" selection-start-line="128" selection-start-column="24" selection-end-line="128" selection-end-column="24" />
+        <state relative-caret-position="439">
+          <caret line="173" column="103" selection-start-line="173" selection-start-column="103" selection-end-line="173" selection-end-column="103" />
           <folding>
             <element signature="e#0#127#0" expanded="true" />
-            <element signature="e#589#1048#0" />
             <element signature="e#1064#1472#0" />
             <element signature="e#1489#1789#0" />
             <element signature="e#1805#2271#0" />
-            <element signature="e#10075#10491#0" />
-            <element signature="e#10522#16204#0" />
-            <element signature="e#16232#22682#0" />
-            <element signature="e#22705#24565#0" />
-            <element signature="e#24580#24928#0" />
-            <element signature="e#24954#26119#0" />
           </folding>
         </state>
       </provider>
