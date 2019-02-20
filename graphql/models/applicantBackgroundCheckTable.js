@@ -38,6 +38,10 @@ export default {
 			applicantName: {
 				type: Sequelize.STRING(150),
 				allowNull: true
+			},
+			completed: {
+				type: Sequelize.BOOLEAN,
+				defaultValue: false
 			}
 		});
 	}

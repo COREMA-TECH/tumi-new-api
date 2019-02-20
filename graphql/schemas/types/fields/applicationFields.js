@@ -147,6 +147,10 @@ const ApplicationFields = {
 	UserId: {
 		type: GraphQLInt,
 		description: 'Applicant User Id'
+	},
+	completed: {
+		type: GraphQLBoolean,
+		description: 'Shows if an application is completed'
 	}
 };
 

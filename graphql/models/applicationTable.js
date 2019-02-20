@@ -149,6 +149,10 @@ export default {
 			UserId: {
 				type: Sequelize.INTEGER,
 				allowNull: true
+			},
+			completed: {
+				type: Sequelize.BOOLEAN,
+				defaultValue: false
 			}
 		});
 	}

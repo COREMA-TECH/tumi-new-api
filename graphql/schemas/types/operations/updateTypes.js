@@ -14,6 +14,8 @@ import {
 	ApplicantHarassmentPoliciyFields,
 	ApplicantWorkerCompensationFields,
 	ApplicantDocumentFields,
+	ApplicantW4Fields,
+	ApplicantI9Fields,
 	WorkOrderFields,
 	WorkOrderPositionFields,
 	ApplicationPhaseFields,
@@ -203,6 +205,32 @@ const inputUpdateApplicantDocument = new GraphQLInputObjectType({
 	}
 });
 
+const inputUpdateApplicantW4 = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantW4',
+	description: 'Inputs for Applications W4',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...ApplicantW4Fields
+	}
+});
+
+const inputUpdateApplicantI9 = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantW4',
+	description: 'Inputs for Applications W4',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...ApplicantI9Fields
+	}
+});
+
 const inputUpdateWorkOrder = new GraphQLInputObjectType({
 	name: 'inputUpdateWorkOrder',
 	description: 'Inputs for Work Order Update',
@@ -381,6 +409,8 @@ export {
 	inputUpdateApplicantHarassmentPolicy,
 	inputUpdateApplicantWorkerCompensation,
 	inputUpdateApplicantDocument,
+	inputUpdateApplicantW4,
+	inputUpdateApplicantI9,
 	inputUpdateWorkOrder,
 	inputUpdateWorkOrderPosition,
 	inputUpdateApplicantPhase,
