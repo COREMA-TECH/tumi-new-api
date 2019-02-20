@@ -176,11 +176,11 @@ const ApplicationQuery = {
 				}]
 			}).then(_application => {
 				var ApplicationsStatus = {
-					ApplicantBackgroundCheck : _application.dataValues.ApplicantBackgroundCheck.completed,
-					ApplicantDisclosure : _application.dataValues.ApplicantDisclosure.completed,
-					ApplicantConductCode : _application.dataValues.ApplicantConductCode.completed,
-					ApplicantHarassmentPolicy : _application.dataValues.ApplicantHarassmentPolicy.completed,
-					ApplicantWorkerCompensation : _application.dataValues.ApplicantWorkerCompensation.completed,
+					ApplicantBackgroundCheck : _application.dataValues.ApplicantBackgroundCheck == null ? false : _application.dataValues.ApplicantBackgroundCheck.completed,
+					ApplicantDisclosure : _application.dataValues.ApplicantDisclosure == null ? false : _application.dataValues.ApplicantDisclosure.completed,
+					ApplicantConductCode : _application.dataValues.ApplicantConductCode == null ? false : _application.dataValues.ApplicantConductCode.completed,
+					ApplicantHarassmentPolicy : _application.dataValues.ApplicantHarassmentPolicy == null ? false : _application.dataValues.ApplicantHarassmentPolicy.completed,
+					ApplicantWorkerCompensation : _application.dataValues.ApplicantWorkerCompensation == null ? false : _application.dataValues.ApplicantWorkerCompensation.completed,
 					ApplicantW4 : _application.dataValues.ApplicantW4 == null ? false : _application.dataValues.ApplicantW4.completed,
 					ApplicantI9 : _application.dataValues.ApplicantI9 == null ? false : _application.dataValues.ApplicantI9.completed
 
