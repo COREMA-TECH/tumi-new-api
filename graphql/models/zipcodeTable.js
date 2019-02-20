@@ -6,6 +6,10 @@ export default {
                 type: Sequelize.STRING,
                 allowNull: true
             },
+            State: {
+                type: Sequelize.STRING,
+                allowNull: true
+            },
             Lat: {
                 type: Sequelize.STRING,
                 allowNull: true
@@ -16,6 +20,12 @@ export default {
             },
             City: {
                 type: Sequelize.STRING
+            },
+            countryId :{
+                type: Sequelize.INTEGER,
+            },
+            stateId :{
+                type: Sequelize.INTEGER,
             }
         },
             {

@@ -2084,6 +2084,8 @@ async function getUsers(args) {
 				strparam3
 				+ ',"IsRecruiter") order by "Code_User"';
 		} else {
+			if(strparam4>0)
+			{
 			Strquery =
 				'select * from public."Users" Where "IdRegion" =coalesce(' + strparam4 + ',"IdRegion") and  "IsActive" = coalesce(' +
 				strparam1 +
@@ -2092,6 +2094,7 @@ async function getUsers(args) {
 				',"Id") and "IsRecruiter" = coalesce(' +
 				strparam3
 				+ ',"IsRecruiter") order by "Code_User"';
+			}
 		}
 		console.log(Strquery);
 

@@ -1,4 +1,4 @@
-import { inputInsertShift, filterShiftConvertToOpening, filterShiftWOConvertToOpening } from '../types/operations/insertTypes';
+import { inputInsertShift, filterShiftConvertToOpening, filterShiftWOConvertToOpening, inputApplicantPhase } from '../types/operations/insertTypes';
 import { inputUpdateShift } from '../types/operations/updateTypes';
 import { ShiftType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
@@ -156,12 +156,28 @@ const ShiftMutation = {
 																						employeeIdTemp = Employees.dataValues.id;
 																					}
 
-
 																					Db.models.PositionRate.findAll({ where: { Id: intPositionRateId } }).then((select) => {
 																						select.map((dataPositionRate) => {
 																							if (intEnvio == 0) {
 																								sendworkorderfilledemail({ email: strEmail, title: "Your order No. " + WOId + " has been fulfilled with position " + dataPositionRate.dataValues.Position, employees: strEmployees })
 																								intEnvio = intEnvio + 1;
+
+																								let newPlacement = {
+                                                                                                    UserId: 10,
+                                                                                                    StageId: 30463,
+                                                                                                    ApplicationId: Employees.dataValues.id,
+                                                                                                    WorkOrderId: WOId,
+                                                                                                    Comment: args.comment,
+                                                                                                    ShiftId: args.id
+																								};
+
+																								return Db.models.applicationPhases.create(newPlacement)
+																									.then(() => {
+																										console.log("Created")
+																									})
+																									.catch(error => {
+                                                                                                        console.log("Error creating phase")
+																									})
 																							}
 																						});
 																					});
@@ -175,10 +191,8 @@ const ShiftMutation = {
 																});
 															});
 
-
 														});
 													});
-
 
 												});
 											});
@@ -190,8 +204,8 @@ const ShiftMutation = {
 							});
 						});
 
-
-
+						// TODO: actualizar estado del lead de
+						// Db.models.applicationPhases.find
 					}
 
 					if (record) return record.dataValues;
