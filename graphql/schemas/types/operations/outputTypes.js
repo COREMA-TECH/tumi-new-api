@@ -194,6 +194,14 @@ const ApplicationType = new GraphQLObjectType({
 							model: Db.models.ApplicantWorkerCompensation,
 							where: { completed: true },
 							required: true
+						}, {
+							model: Db.models.ApplicantW4,
+							where: { completed: true },
+							required: true
+						}, {
+							model: Db.models.ApplicantI9,
+							where: { completed: true },
+							required: true
 						}]
 					})
 						.then(_application => {

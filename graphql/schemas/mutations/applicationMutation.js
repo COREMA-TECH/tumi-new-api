@@ -109,7 +109,6 @@ const ApplicationMutation = {
 			positionApplyingFor: { type: GraphQLInt }
 		},
 		resolve(source, args) {
-			console.log("estos son los args ", args)
 			return Db.models.Applications
 				.update(
 					{
