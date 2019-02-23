@@ -383,7 +383,13 @@ const CatalogItemType = new GraphQLObjectType({
 			Id: {
 				type: GraphQLInt
 			},
-			...CatalogItemFields
+			...CatalogItemFields,
+			contacts: {
+				type: new GraphQLList(ContactsType),
+				resolve(me) {
+					return me.getContacts();
+				}
+			}
 		}
 	}
 });
