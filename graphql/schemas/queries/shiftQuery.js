@@ -123,6 +123,10 @@ const ShiftQuery = {
         resolve(root, args) {
             return Db.models.Shift.findAll({
                 where: args.shift,
+                order: [[
+                    Db.models.ShiftWorkOrder,
+                    'WorkOrderId','DESC'
+                ]],
                 include: [{
                     model: Db.models.BusinessCompany,
                     as: 'ShiftEntity',
