@@ -6,6 +6,27 @@ import Db from '../../models/models';
 import Sequelize from 'sequelize';
 
 const UserMutation = {
+    insertUser: {
+        type: UsersType,
+        description: 'Insert user to database',
+        args: {
+            user: { type: inputInsertUser }
+        },
+        resolve(source, args) {
+            var user = {
+                ...args.user,
+                Password: Sequelize.fn('PGP_SYM_ENCRYPT', 'TEMP', 'AES_KEY')
+            }
+            //Begin transaction
+            return Db.transaction(t => {
+                return Db.models.Users.create(user, { transaction: t })
+                    .then(_user => {
+
+                        return _user.dataValues;
+                    })
+            })
+        }
+    },
     addUser: {
         type: UsersType,
         description: 'Add user to database',
@@ -76,9 +97,6 @@ const UserMutation = {
                                                                 });
 
                                                         })
-
-                                                    //Return user just created 
-                                                    // return _user.dataValues;
                                                 })
                                         })
                                     })
