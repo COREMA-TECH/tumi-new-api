@@ -1,4 +1,5 @@
 import { inputInsertUser } from '../types/operations/insertTypes';
+import { inputUpdateUser } from '../types/operations/updateTypes';
 import { UsersType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt } from 'graphql';
 
@@ -6,6 +7,16 @@ import Db from '../../models/models';
 import Sequelize from 'sequelize';
 
 const UserMutation = {
+    udpdateUser: {
+        type: UsersType,
+        description: 'Update user to database',
+        args: {
+            user: { type: inputUpdateUser }
+        },
+        resolve(source, args) {
+            return Db.models.Users.update(args.user, { where: { Id: args.user.Id } })
+        }
+    },
     insertUser: {
         type: UsersType,
         description: 'Insert user to database',
