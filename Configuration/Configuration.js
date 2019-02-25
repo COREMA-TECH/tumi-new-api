@@ -1,22 +1,22 @@
 import Sequelize from 'sequelize';
 
 const user = 'corema';
-//const database = 'TUMI';
-//const database = 'Tumi_Cert';
-const database = 'Tumi_Dev';
+
+const environments = {
+	dev: { database: 'Tumi_Dev', port: 3001, url: 'http://ec2-3-16-143-115.us-east-2.compute.amazonaws.com' },
+	prod: { database: 'TUMI', port: 3000, url: 'http://ec2-52-14-244-20.us-east-2.compute.amazonaws.com' },
+	qua: { database: 'Tumi_Certi', port: 3002, url: 'http://ec2-3-16-143-115.us-east-2.compute.amazonaws.com' }
+}
+
+const STR_ENV = 'dev';
+const OBJ_ENV = environments[STR_ENV];
+const database = OBJ_ENV.database;
+const URLWeb = `${OBJ_ENV.database}:${OBJ_ENV.port}`;
+const URLAccept = `${URLWeb}/home/schedules-accept`;
+
 const password = 'S0l040.246.';
 const host = 'coremagroup.cb4kqp6rssxe.us-east-2.rds.amazonaws.com';
-
-//const host = 'localhost';
-const URLWeb = 'http://ec2-52-14-244-20.us-east-2.compute.amazonaws.com:3000';
-//const URLWeb = 'http://ec2-3-16-143-115.us-east-2.compute.amazonaws.com:3001';
-
 const port = 5432;
-
-//const URLAccept = 'http://ec2-3-16-143-115.us-east-2.compute.amazonaws.com:3001/home/schedules-accept';
-const URLAccept = 'http://ec2-52-14-244-20.us-east-2.compute.amazonaws.com:3000/home/schedules-accept';
-
-//const URLReject = 'https://corema-dev-env.herokuapp.com';
 
 const nodemailer = require('nodemailer');
 let mailParams = {
