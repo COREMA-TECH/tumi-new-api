@@ -194,6 +194,14 @@ const inputInsertWorkOrder = new GraphQLInputObjectType({
 		...WorkOrderFields
 	}
 });
+const inputInsertWorkOrderCompany = new GraphQLInputObjectType({
+	name: 'inputInsertWorkOrderCompany',
+	description: 'Inputs for Work Order Company Insert',
+	fields: {
+		Id: { type: GraphQLInt },
+		State: { type: GraphQLInt },
+	}
+});
 const inputInsertWorkOrderPosition = new GraphQLInputObjectType({
 	name: 'inputInsertWorkOrderPosition',
 	description: 'Inputs for Work Order Position Insert',
@@ -412,6 +420,7 @@ export {
 	inputInsertApplicantW4,
 	inputInsertApplicantI9,
 	inputInsertWorkOrder,
+	inputInsertWorkOrderCompany,
 	inputInsertWorkOrderPosition,
 	iParamEA,
 	inputApplicantPhase,
