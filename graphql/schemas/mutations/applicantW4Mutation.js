@@ -66,7 +66,7 @@ const ApplicantW4Mutation = {
 				if (err) return console.log(err);
 			});
 
-			return Db.models.ApplicantW4.create({ fileName: filename, url: srcFile, fileExtension: ".pdf", completed: true, ApplicationId: args.ApplicationId }, { returning: true }).then((output) => {
+			return Db.models.ApplicantW4.create({ fileName: filename, url: srcFile, fileExtension: ".pdf", completed: true, ApplicationId: args.ApplicationId, html: args.html }, { returning: true }).then((output) => {
 				// return output.map((element) => {
 				// 	return element.dataValues;
 				// });
