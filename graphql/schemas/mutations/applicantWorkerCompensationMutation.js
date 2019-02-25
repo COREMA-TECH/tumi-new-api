@@ -40,7 +40,7 @@ const ApplicantWorkerCompensationMutation = {
 						initialNotification: args.workerCompensation.initialNotification,
 						injuryNotification: args.workerCompensation.injuryNotification,
 						injuryDate: args.workerCompensation.injuryDate,
-
+						completed: args.workerCompensation.completed,
 						signature: args.workerCompensation.signature,
 						content: args.workerCompensation.content,
 						date: args.workerCompensation.date,

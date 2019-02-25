@@ -37,7 +37,8 @@ const ApplicantHarassmentPolicyMutation = {
 						content: args.harassmentPolicy.content,
 						date: args.harassmentPolicy.date,
 						applicantName: args.harassmentPolicy.applicantName,
-						ApplicationId: args.harassmentPolicy.ApplicationId
+						ApplicationId: args.harassmentPolicy.ApplicationId,
+						completed: args.harassmentPolicy.completed
 					},
 					{
 						where: {

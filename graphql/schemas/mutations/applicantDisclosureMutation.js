@@ -34,7 +34,8 @@ const ApplicantDisclosureMutation = {
 						content: args.disclosure.content,
 						date: args.disclosure.date,
 						applicantName: args.disclosure.applicantName,
-						ApplicationId: args.disclosure.ApplicationId
+						ApplicationId: args.disclosure.ApplicationId,
+						completed: args.disclosure.completed
 					},
 					{
 						where: {
