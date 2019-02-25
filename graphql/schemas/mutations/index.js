@@ -14,6 +14,7 @@ import ApplicantHarassmentPolicyMutation from './applicantHarassmentPolicyMutati
 import ApplicantWorkerCompensationMutation from './applicantWorkerCompensationMutation';
 import ApplicantDocumentMutation from './applicantDocumentMutation';
 import ApplicantW4Mutation from './applicantW4Mutation';
+import ApplicantI9Mutation from './applicantI9Mutation';
 import WorkOrderMutation from './workOrderMutation';
 import WorkOrderPositionMutation from './workOrderPositionMutation';
 import ApplicationPhaseMutation from './applicantionPhaseMutation';
@@ -47,6 +48,7 @@ export {
 	ApplicantWorkerCompensationMutation,
 	ApplicantDocumentMutation,
 	ApplicantW4Mutation,
+	ApplicantI9Mutation,
 	WorkOrderMutation,
 	WorkOrderPositionMutation,
 	ApplicationPhaseMutation,
