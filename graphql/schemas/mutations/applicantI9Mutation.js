@@ -8,7 +8,7 @@ import fs from 'fs';
 import Db from '../../models/models';
 
 const ApplicantI9Mutation = {
-	addApplicantW4: {
+	addApplicantI9: {
 		type: new GraphQLList(ApplicantW4Type),
 		description: 'Add I9 DocumentType to database',
 		args: {
