@@ -1,4 +1,5 @@
 import { inputInsertUser } from '../types/operations/insertTypes';
+import { inputUpdateUser } from '../types/operations/updateTypes';
 import { UsersType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt } from 'graphql';
 
@@ -6,6 +7,16 @@ import Db from '../../models/models';
 import Sequelize from 'sequelize';
 
 const UserMutation = {
+    udpdateUser: {
+        type: UsersType,
+        description: 'Update user to database',
+        args: {
+            user: { type: inputUpdateUser }
+        },
+        resolve(source, args) {
+            return Db.models.Users.update(args.user, { where: { Id: args.user.Id } })
+        }
+    },
     insertUser: {
         type: UsersType,
         description: 'Insert user to database',
@@ -21,7 +32,54 @@ const UserMutation = {
             return Db.transaction(t => {
                 return Db.models.Users.create(user, { transaction: t })
                     .then(_user => {
+                        if (args.user.Id_Roles == 5 ||
+                            args.user.Id_Roles == 10) {
+                            var employee = {
+                                firstName: _user.Full_Name,
+                                lastName: '',
+                                electronicAddress: _user.Electronic_Address,
+                                mobileNumber: _user.Phone_Number,
+                                idRole: _user.Id_Roles,
+                                isActive: true,
+                                userCreated: _user.User_Created,
+                                userUpdated: _user.User_Updated,
+                                idUsers: _user.dataValues.id
+                            }
+                            return Db.models.Employees.create(employee, { transaction: t })
+                                .then(_employee => {
+                                    var _foundEmployee = _employee.dataValues;
 
+                                    //Crate Application
+                                    var application = {
+                                        firstName: _foundEmployee.firstName,
+                                        middleName: '',
+                                        lastName: _foundEmployee.lastName,
+                                        date: new Date().toISOString(),
+                                        emailAddress: _foundEmployee.electronicAddress,
+                                        cellPhone: _foundEmployee.mobileNumber,
+                                        car: false,
+                                        scheduleRestriction: false,
+                                        scheduleExplain: '',
+                                        convicted: false,
+                                        convictedExplain: '',
+                                        comment: '',
+                                        isActive: true,
+                                        idLanguage: 'es',
+                                        isLead: false,
+                                        lastName2: '',
+                                    }
+                                    return Db.models.Applications.create(application, { transaction: t })
+                                        .then(_application => {
+                                            return Db.models.ApplicationEmployees.create({
+                                                ApplicationId: _application.dataValues.id,
+                                                EmployeeId: _employee.dataVlaue.id
+                                            }, { transaction: t })
+                                                .then(_applicationEmployee => {
+                                                    return _usr.dataValues;
+                                                })
+                                        })
+                                })
+                        }
                         return _user.dataValues;
                     })
             })

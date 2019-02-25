@@ -28,7 +28,8 @@ import {
 	MarkedEmployeesFields,
 	RolesFormsFields,
 	CatalogItemFields,
-	ConfigRegionsFields
+	ConfigRegionsFields,
+	UsersFields
 } from '../fields';
 
 const inputUpdateApplication = new GraphQLInputObjectType({
@@ -394,6 +395,18 @@ const inputUpdateConfigRegions = new GraphQLInputObjectType({
 	}
 });
 
+const inputUpdateUser = new GraphQLInputObjectType({
+	name: 'inputUpdateUser',
+	description: 'Inputs for update user',
+	fields: {
+		Id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...UsersFields
+	}
+});
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -424,4 +437,5 @@ export {
 	inputUpdateRolesForms,
 	inputUpdateCatalogItem,
 	inputUpdateConfigRegions,
+	inputUpdateUser
 };
