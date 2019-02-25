@@ -3,13 +3,14 @@ const GraphHTTP = require('express-graphql');
 const Schema = require('./graphql/schemas/schemas').default;
 const root = require('./Configuration/Roots.js');
 const PublicRoot = require('./Configuration/PublicRoot');
+import { MY_PORT } from './Configuration/Configuration';
 
 const path = require('path');
 import depthLimit from 'graphql-depth-limit';
 import jwt from 'jsonwebtoken';
 import { PublicSchema } from './Configuration/PublicSchema';
 
-var APP_PORT = 4001;
+
 var cors = require('cors');
 var app = express();
 const SECRET = 'asda47#$*5444adtyydssdZad!#%**';
@@ -63,6 +64,6 @@ app.use(
 	})
 );
 
-app.listen(process.env.PORT || APP_PORT, function () {
-	console.log(`Server is running.. on Port ${APP_PORT}`);
+app.listen(process.env.PORT || MY_PORT, function () {
+	console.log(`Server is running.. on Port ${MY_PORT}`);
 });
