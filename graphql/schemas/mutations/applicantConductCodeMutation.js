@@ -34,7 +34,8 @@ const ApplicantConductCodeMutation = {
 						content: args.conductCode.content,
 						date: args.conductCode.date,
 						applicantName: args.conductCode.applicantName,
-						ApplicationId: args.conductCode.ApplicationId
+						ApplicationId: args.conductCode.ApplicationId,
+						completed: args.conductCode.completed
 					},
 					{
 						where: {

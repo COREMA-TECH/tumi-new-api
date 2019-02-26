@@ -20,6 +20,10 @@ const ApplicantI9Fields = {
 	ApplicationId: {
 		type: new GraphQLNonNull(GraphQLInt),
 		description: 'Application Id'
+	},
+	html: {
+		type: GraphQLString,
+		description: 'Html'
 	}
 };
 

@@ -20,6 +20,9 @@ export default {
 				completed: {
 					type: Sequelize.BOOLEAN,
 					defaultValue: false
+				},
+				html: {
+					type: Sequelize.TEXT('long')
 				}
 			}
 		);

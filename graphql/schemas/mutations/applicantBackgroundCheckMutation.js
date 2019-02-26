@@ -37,7 +37,7 @@ const ApplicantBackgroundCheckMutation = {
 						commercialDriverLicense: args.backgroundCheck.commercialDriverLicense,
 						licenseState: args.backgroundCheck.licenseState,
 						licenseExpiration: args.backgroundCheck.licenseExpiration,
-
+						completed: args.backgroundCheck.completed,
 						signature: args.backgroundCheck.signature,
 						content: args.backgroundCheck.content,
 						date: args.backgroundCheck.date,

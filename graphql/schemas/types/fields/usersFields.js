@@ -68,6 +68,12 @@ const UsersFields = {
 	},
 	manageApp: {
 		type: GraphQLBoolean
+	},
+	IdSchedulesEmployees: {
+		type: GraphQLInt
+	},
+	IdSchedulesManager: {
+		type: GraphQLInt
 	}
 
 };

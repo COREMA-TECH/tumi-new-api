@@ -102,6 +102,12 @@ export default {
 				manageApp: {
 					type: Sequelize.BOOLEAN,
 					defaultValue: false
+				},
+				IdSchedulesEmployees: {
+					type: Sequelize.INTEGER
+				},
+				IdSchedulesManager: {
+					type: Sequelize.INTEGER
 				}
 			},
 			{
