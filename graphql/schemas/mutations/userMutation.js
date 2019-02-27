@@ -138,14 +138,15 @@ const UserMutation = {
                                                 EmployeeId: args.idEmployee
                                             }, { transaction: t })
                                                 .then(_applicationEmployee => {
-
-
                                                     //Insert to ApplicationIdealJobs
                                                     return Db.models.PositionRate.findOne({ where: { Id: _foundEmployee.Contact_Title } })
-                                                        .then(Positions => {
+                                                        .then(_position => {
+                                                            if (_position == null)
+                                                                return _user.dataValues;
+
                                                             var idealjobs = {
                                                                 ApplicationId: _application.dataValues.id,
-                                                                description: Positions.dataValues.Position,
+                                                                description: _position.dataValues.Position,
                                                                 idPosition: _foundEmployee.Contact_Title
                                                             }
 
