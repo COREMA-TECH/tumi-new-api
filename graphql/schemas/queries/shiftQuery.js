@@ -131,11 +131,14 @@ const ShiftQuery = {
                     model: Db.models.BusinessCompany,
                     as: 'ShiftEntity',
                     where: args.shiftEntity,
+                    required: true
                 }, {
                     model: Db.models.ShiftWorkOrder,
+                    required: true,
                     include: [{
                         model: Db.models.WorkOrder,
                         as: 'WorkOrder',
+                        required: true,
                         include: [{
                             model: Db.models.PositionRate
                         }]
