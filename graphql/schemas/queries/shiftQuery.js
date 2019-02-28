@@ -1,7 +1,7 @@
-import { GraphQLList, GraphQLInt, GraphQLBoolean, GraphQLString ,GraphQLInputObjectType} from 'graphql';
-import { ShiftType,WorkOrderType } from '../types/operations/outputTypes';
+import { GraphQLList, GraphQLInt, GraphQLBoolean, GraphQLString, GraphQLInputObjectType } from 'graphql';
+import { ShiftType, WorkOrderType } from '../types/operations/outputTypes';
 import { ShiftBoardType } from '../types/operations/outputTypes';
-import { inputShiftQuery, inputShiftBoardCompany,inputQueryWorkOrder } from '../types/operations/insertTypes';
+import { inputShiftQuery, inputShiftBoardCompany, inputQueryWorkOrder } from '../types/operations/insertTypes';
 
 
 import GraphQLDate from 'graphql-date';
@@ -10,7 +10,39 @@ import Db from '../../models/models';
 
 const Op = Sequelize.Op;
 
+const GetWorkOrderBy = (filter) => {
+    var newFilter = {};
+    for (var prop in filter) {
+        //Validate if the filter has value
+        if (filter[prop])
+            //Exclude startDate and endDate from filters
+            if (!['startDate', 'endDate', 'id'].join().includes(prop))
+                newFilter = { ...newFilter, prop: filter[prop] };
+    }
+    //Create custom filter for startDate and endDate
+    if (filter.startDate && filter.endDate)
+        newFilter = {
+            ...newFilter,
+            [Op.and]: [{
+                [Op.and]: [
+                    { startDate: { [Op.gte]: filter.startDate } },
+                    { startDate: { [Op.lte]: filter.endDate } }
+                ]
+            },
+            {
+                [Op.and]: [
+                    { endDate: { [Op.gte]: filter.startDate } },
+                    { endDate: { [Op.lte]: filter.endDate } }
+                ]
+            }]
 
+        }
+    //Create filter for column [id] whether is an integer column
+    if (parseInt(filter.id) != NaN)
+        newFilter = { ...newFilter, id: filter.id };
+
+    return newFilter;
+}
 
 const ShiftQuery = {
     shift: {
@@ -124,27 +156,28 @@ const ShiftQuery = {
             workOrder: { type: inputQueryWorkOrder },
         },
         resolve(root, args) {
-
-            console.log("ShiftBoard ", args )
             return Db.models.Shift.findAll({
                 where: args.shift,
                 order: [[
                     Db.models.ShiftWorkOrder,
-                    'WorkOrderId','DESC'
+                    'WorkOrderId', 'DESC'
                 ]],
                 include: [{
                     model: Db.models.BusinessCompany,
                     as: 'ShiftEntity',
                     where: args.shiftEntity,
                     required: true
-                }, 
+                },
                 {
                     model: Db.models.ShiftWorkOrder,
                     required: true,
                     include: [{
                         model: Db.models.WorkOrder,
                         as: 'WorkOrder',
-                        where: args.workOrder,
+                        where: {
+                            ...GetWorkOrderBy(args.workOrder)
+                        },
+
                         required: true,
                         include: [{
                             model: Db.models.PositionRate
@@ -156,17 +189,14 @@ const ShiftQuery = {
                 let counter = 0;
                 let WOID = 0
 
-                //console.log("then(shifts => { ",shifts.shift)
-                //let _id = shift.dataValues.length === 0 ? 0 :shift.dataValues.ShiftWorkOrder.dataValues.WorkOrderId;
-               
                 shifts.map(shift => {
-                    if (WOID == shift.dataValues.ShiftWorkOrder.dataValues.WorkOrderId ){ 
-                        counter++;
-                   }
-                else {
-                    counter = 1;
-                }
 
+                    if (WOID == shift.dataValues.ShiftWorkOrder.dataValues.WorkOrderId) {
+                        counter++;
+                    }
+                    else {
+                        counter = 1;
+                    }
 
                     boardShifts.push({
                         id: shift.dataValues.id,
@@ -184,21 +214,21 @@ const ShiftQuery = {
                         shift: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.shift,
                         endShift: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.endShift,
                         count: counter,
-                        startDate:shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.startDate,
-                        endDate:shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.endDate,
-                        date:shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.date,
-                        comment:shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.comment,
-                        EspecialComment:shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.EspecialComment,
-                        dayWeek:shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.dayWeek,
-                        IdEntity:shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.IdEntity,
-                        contactId:shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.contactId,
-                        PositionRateId:shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRateId,
+                        startDate: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.startDate,
+                        endDate: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.endDate,
+                        date: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.date,
+                        comment: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.comment,
+                        EspecialComment: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.EspecialComment,
+                        dayWeek: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.dayWeek,
+                        IdEntity: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.IdEntity,
+                        contactId: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.contactId,
+                        PositionRateId: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRateId,
                     });
-               
+
                     WOID = shift.dataValues.ShiftWorkOrder.dataValues.WorkOrderId;
                 });
                 return boardShifts;
-             
+
             });
         }
     },
