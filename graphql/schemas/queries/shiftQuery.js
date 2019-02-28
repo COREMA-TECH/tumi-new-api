@@ -1,7 +1,7 @@
-import { GraphQLList, GraphQLInt, GraphQLBoolean, GraphQLString } from 'graphql';
-import { ShiftType } from '../types/operations/outputTypes';
+import { GraphQLList, GraphQLInt, GraphQLBoolean, GraphQLString ,GraphQLInputObjectType} from 'graphql';
+import { ShiftType,WorkOrderType } from '../types/operations/outputTypes';
 import { ShiftBoardType } from '../types/operations/outputTypes';
-import { inputShiftQuery, inputShiftBoardCompany } from '../types/operations/insertTypes';
+import { inputShiftQuery, inputShiftBoardCompany,inputQueryWorkOrder } from '../types/operations/insertTypes';
 
 
 import GraphQLDate from 'graphql-date';
@@ -9,6 +9,8 @@ import Sequelize from 'sequelize';
 import Db from '../../models/models';
 
 const Op = Sequelize.Op;
+
+
 
 const ShiftQuery = {
     shift: {
@@ -118,9 +120,12 @@ const ShiftQuery = {
         description: 'List Shift records of board',
         args: {
             shift: { type: inputShiftQuery },
-            shiftEntity: { type: inputShiftBoardCompany }
+            shiftEntity: { type: inputShiftBoardCompany },
+            workOrder: { type: inputQueryWorkOrder },
         },
         resolve(root, args) {
+
+            console.log("ShiftBoard ", args )
             return Db.models.Shift.findAll({
                 where: args.shift,
                 order: [[
@@ -139,6 +144,7 @@ const ShiftQuery = {
                     include: [{
                         model: Db.models.WorkOrder,
                         as: 'WorkOrder',
+                        where: args.workOrder,
                         required: true,
                         include: [{
                             model: Db.models.PositionRate

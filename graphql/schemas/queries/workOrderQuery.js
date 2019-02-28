@@ -1,13 +1,13 @@
 import { GraphQLInt, GraphQLList, GraphQLInputObjectType } from 'graphql';
 import { WorkOrderType } from '../types/operations/outputTypes';
-import { inputInsertWorkOrderCompany } from '../types/operations/insertTypes';
+import { inputInsertWorkOrderCompany,inputQueryWorkOrder } from '../types/operations/insertTypes';
 import Db from '../../models/models';
 import GraphQLDate from 'graphql-date';
 import Sequelize from 'sequelize';
 
 const Op = Sequelize.Op;
 
-const inputQueryWorkOrder = new GraphQLInputObjectType({
+/*const inputQueryWorkOrder = new GraphQLInputObjectType({
 	name: 'inputQueryWorkOrder',
 	description: 'Inputs for Work Order Insert',
 
@@ -17,7 +17,7 @@ const inputQueryWorkOrder = new GraphQLInputObjectType({
 		endDate: { type: GraphQLDate },
 		status: { type: GraphQLInt }
 	}
-});
+});*/
 
 const WorkOrderQuery = {
 	workOrder: {
