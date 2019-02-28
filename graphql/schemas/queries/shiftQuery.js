@@ -177,7 +177,16 @@ const ShiftQuery = {
                         isOpening: shift.dataValues.status == 2,
                         shift: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.shift,
                         endShift: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.endShift,
-                        count: counter
+                        count: counter,
+                        startDate:shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.startDate,
+                        endDate:shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.endDate,
+                        date:shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.date,
+                        comment:shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.comment,
+                        EspecialComment:shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.EspecialComment,
+                        dayWeek:shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.dayWeek,
+                        IdEntity:shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.IdEntity,
+                        contactId:shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.contactId,
+                        PositionRateId:shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRateId,
                     });
                
                     WOID = shift.dataValues.ShiftWorkOrder.dataValues.WorkOrderId;

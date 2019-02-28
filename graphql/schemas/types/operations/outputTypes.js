@@ -969,8 +969,44 @@ const ShiftBoardType = new GraphQLObjectType({
 			},
 			count: {
 				type: GraphQLInt,
-				description: "table Position's Name"
-			}
+				description: "table count"
+			},
+			startDate: {
+				type: GraphQLDate,
+				description: "table startDate"
+			},
+			endDate: {
+				type: GraphQLDate,
+				description: "table endDate"
+			},
+			date: {
+				type: GraphQLDate,
+				description: "table date"
+			},
+			comment: {
+				type: GraphQLString,
+				description: "table comment"
+			},
+			EspecialComment: {
+				type: GraphQLString,
+				description: "table EspecialComment"
+			},
+			dayWeek: {
+				type: GraphQLString,
+				description: "table dayWeek"
+			},
+			IdEntity: {
+				type: GraphQLInt,
+				description: "table IdEntity"
+			},
+			contactId: {
+				type: GraphQLInt,
+				description: "table contactId"
+			},
+			PositionRateId: {
+				type: GraphQLInt,
+				description: "table PositionRateId"
+			},
 		}
 	}
 });
