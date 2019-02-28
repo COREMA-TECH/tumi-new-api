@@ -132,7 +132,8 @@ const ShiftQuery = {
                     as: 'ShiftEntity',
                     where: args.shiftEntity,
                     required: true
-                }, {
+                }, 
+                {
                     model: Db.models.ShiftWorkOrder,
                     required: true,
                     include: [{
@@ -146,7 +147,21 @@ const ShiftQuery = {
                 }]
             }).then(shifts => {
                 var boardShifts = [];
+                let counter = 0;
+                let WOID = 0
+
+                //console.log("then(shifts => { ",shifts.shift)
+                //let _id = shift.dataValues.length === 0 ? 0 :shift.dataValues.ShiftWorkOrder.dataValues.WorkOrderId;
+               
                 shifts.map(shift => {
+                    if (WOID == shift.dataValues.ShiftWorkOrder.dataValues.WorkOrderId ){ 
+                        counter++;
+                   }
+                else {
+                    counter = 1;
+                }
+
+
                     boardShifts.push({
                         id: shift.dataValues.id,
                         title: shift.dataValues.title,
@@ -159,10 +174,16 @@ const ShiftQuery = {
                         Id_positionApplying: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRate.dataValues.Id_positionApplying,
                         positionName: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRate.dataValues.Position,
                         status: shift.dataValues.status,
-                        isOpening: shift.dataValues.status == 2
+                        isOpening: shift.dataValues.status == 2,
+                        shift: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.shift,
+                        endShift: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.endShift,
+                        count: counter
                     });
+               
+                    WOID = shift.dataValues.ShiftWorkOrder.dataValues.WorkOrderId;
                 });
                 return boardShifts;
+             
             });
         }
     },

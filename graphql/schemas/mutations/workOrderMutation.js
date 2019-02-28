@@ -204,29 +204,10 @@ const WorkOrderMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-					/*	Db.models.PhaseWorkOrder.create({
-							userId: 10,//args.userId,
-							phaseworkOrderId: 30454,
-							WorkOrderId: args.id
-						});*/
-
 					if (record) return 1;
 					else return null;
 				});
 		}
-		/*resolve(source, args) {
-			return Db.models.WorkOrder.destroy({ where: { id: args.id } }).then((deleted) => {
-
-				Db.models.ShiftWorkOrder.findAll({ where: { WorkOrderId: args.id } }).then((select) => {
-					select.map((datashiftworkOrder) => {
-						Db.models.Shift.destroy({ where: { id: datashiftworkOrder.dataValues.ShiftId } }).then((deleted) => {
-						});
-					});
-				});
-
-				return deleted;
-			});
-		}*/
 	},
 	deleteShiftDetailEmployees: {
 		type: EmployeesType,

@@ -1,5 +1,5 @@
 import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLObjectType, GraphQLList, GraphQLBoolean } from 'graphql';
-
+import GraphQLDate from 'graphql-date';
 import {
 	ApplicantLanguagesFields,
 	ApplicationFields,
@@ -943,6 +943,18 @@ const ShiftBoardType = new GraphQLObjectType({
 			isOpening: {
 				type: GraphQLInt,
 				description: "IsOpening"
+			},
+			shift: {
+				type: GraphQLString,
+				description: "table shift"
+			},
+			endShift: {
+				type: GraphQLString,
+				description: "table endShift"
+			},
+			count: {
+				type: GraphQLInt,
+				description: "table Position's Name"
 			}
 		}
 	}
