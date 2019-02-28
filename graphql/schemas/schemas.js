@@ -75,10 +75,9 @@ import {
 	ShiftDetailEmployeesQuery,
 	CatalogItemQuery,
 	ConfigRegionsQuery,
-	TimeElapsedQuery
+	TimeElapsedQuery,
+	UserQuery
 } from './queries';
-import { ShiftWorkOrderType, FormsType } from './types/operations/outputTypes';
-import { FormsFields } from './types/fields';
 
 const RootQuery = new GraphQLObjectType({
 	name: 'Query',
@@ -122,6 +121,7 @@ const RootQuery = new GraphQLObjectType({
 		...CatalogItemQuery,
 		...ConfigRegionsQuery,
 		...TimeElapsedQuery,
+		...UserQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({

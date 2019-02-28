@@ -33,8 +33,8 @@ const ApplicantI9Mutation = {
 			// 		left: '0.98in'
 			// 	}
 			// };
-			// var filename = `i9_${args.ApplicationId}`;
-			// var srcFile = `./public/${filename}.pdf`;
+			var filename = `i9_${args.ApplicationId}`;
+			var srcFile = `./public/${filename}.pdf`;
 
 			// AWS.config.update({
 			// 	accessKeyId: "AKIAJKPVCC36B44OOXJA",

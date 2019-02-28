@@ -397,11 +397,26 @@ const CatalogItemType = new GraphQLObjectType({
 const UsersType = new GraphQLObjectType({
 	name: 'UsersType',
 	description: 'This is for Users',
-	fields: {
-		Id: {
-			type: GraphQLInt
-		},
-		...UsersFields
+	fields: () => {
+		return {
+			Id: {
+				type: GraphQLInt
+			},
+			...UsersFields,
+			role: {
+				type: RolesType,
+				resolve(me) {
+					return me.getRole();
+				}
+			},
+			language: {
+				type: CatalogItemType,
+				resolve(me) {
+					return me.getLanguage();
+				}
+
+			}
+		}
 	}
 });
 

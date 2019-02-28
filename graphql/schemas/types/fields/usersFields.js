@@ -74,6 +74,12 @@ const UsersFields = {
 	},
 	IdSchedulesManager: {
 		type: GraphQLInt
+	},
+	firstName: {
+		type: GraphQLString
+	},
+	lastName: {
+		type: GraphQLString
 	}
 
 };
