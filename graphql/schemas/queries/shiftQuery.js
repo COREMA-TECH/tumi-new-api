@@ -38,7 +38,7 @@ const GetWorkOrderBy = (filter) => {
 
         }
     //Create filter for column [id] whether is an integer column
-    if (parseInt(filter.id) != NaN)
+    if (parseInt(filter.id) != NaN && filter.id)
         newFilter = { ...newFilter, id: filter.id };
 
     return newFilter;
