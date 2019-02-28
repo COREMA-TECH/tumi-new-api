@@ -212,8 +212,15 @@ Shift.belongsTo(PositionRate, {
 	as: 'CatalogPosition'
 });
 
-//Forms.hasMany(RolesForms);
-//Roles.hasMany(RolesForms);
+Users.belongsTo(Roles, {
+	foreignKey: 'Id_Roles',
+	as: 'Role'
+});
+
+Users.belongsTo(CatalogItem, {
+	foreignKey: 'Id_Language',
+	as: 'Language'
+});
 
 RolesForms.belongsTo(Forms, {
 	foreignKey: 'IdForms',

@@ -37,7 +37,7 @@ import RolesFields from './roleFields';
 import FormsFields from './formFields';
 import RolesFormsFields from './roleformFields';
 import ConfigRegionsFields from './configRegionsFields';
-
+import UserFields from './usersFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -79,4 +79,5 @@ export {
 	FormsFields,
 	RolesFormsFields,
 	ConfigRegionsFields,
+	UserFields
 };
