@@ -32,8 +32,7 @@ const UserMutation = {
             return Db.transaction(t => {
                 return Db.models.Users.create(user, { transaction: t })
                     .then(_user => {
-                        if (args.user.Id_Roles == 5 ||
-                            args.user.Id_Roles == 10) {
+                        if (!"5|10".includes(args.user.Id_Roles)) {
                             var employee = {
                                 firstName: _user.firstName,
                                 lastName: _user.lastName,
