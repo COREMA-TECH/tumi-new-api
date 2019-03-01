@@ -4,8 +4,8 @@ const user = 'corema';
 
 const environments = {
 	dev: { port: '5000', database: 'Tumi_Dev', databasePort: 5432, webPORT: 3001, webURL: 'http://ec2-3-16-143-115.us-east-2.compute.amazonaws.com' },
-	prod: { port: '4000', database: 'TUMI', databasePort: 5432, webPORT: 3000, webURL: 'http://ec2-52-14-244-20.us-east-2.compute.amazonaws.com' },
-	cert: { port: '4001', database: 'Tumi_Certi', databasePort: 5432, webPORT: 3002, webURL: 'http://ec2-3-16-143-115.us-east-2.compute.amazonaws.com' }
+	prod: { port: '4001', database: 'TUMI', databasePort: 5432, webPORT: 3000, webURL: 'http://ec2-52-14-244-20.us-east-2.compute.amazonaws.com' },
+	cert: { port: '4000', database: 'Tumi_Certi', databasePort: 5432, webPORT: 3002, webURL: 'http://ec2-3-16-143-115.us-east-2.compute.amazonaws.com' }
 }
 
 /*****MODIFICAR ACA */
