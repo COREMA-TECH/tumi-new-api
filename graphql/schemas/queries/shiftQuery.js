@@ -23,7 +23,7 @@ const GetWorkOrderFilter = (filter) => {
         if (filter[prop])
             //Exclude startDate and endDate from filters
             if (!['startDate', 'endDate', 'id'].join().includes(prop))
-                newFilter = { ...newFilter, prop: filter[prop] };
+                newFilter = { ...newFilter, [prop]: filter[prop] };
     }
     //Create custom filter for startDate and endDate
     if (filter.startDate && filter.endDate)
@@ -63,14 +63,14 @@ const GetShitEntityFilter = (filter) => {
         if (filter[prop])
             //Exclude startDate and endDate from filters
             if (prop != 'Code')
-                newFilter = { ...newFilter, prop: filter[prop] };
+                newFilter = { ...newFilter, [prop]: filter[prop] };
             //Validate if the column to filter is the Code Column , and only filter whether is not an integer value
             else if (prop == 'Code' && !Number.isInteger(parseInt(filter.Code)))
                 newFilter = {
-                    ...newFilter, Code: { [Op.like]: `%${filter.Code}%` }
+                    ...newFilter, Code: { [Op.like]: `%${filter.Code.toUpperCase()}%` }
                 }
     }
-
+    console.log(newFilter);
     return newFilter;
 }
 
