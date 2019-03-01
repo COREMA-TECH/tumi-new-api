@@ -11,15 +11,22 @@ import Db from '../../models/models';
 const Op = Sequelize.Op;
 
 const GetWorkOrderBy = (filter) => {
+    console.log("GetWorkOrderBy ",filter)
     var newFilter = {};
+    if (filter!=null || filter!=undefined)
+    {  console.log("propy ",filter)
+   
     for (var prop in filter) {
+      
         //Validate if the filter has value
+        if (filter!=null || filter!=undefined)
         if (filter[prop])
             //Exclude startDate and endDate from filters
             if (!['startDate', 'endDate', 'id'].join().includes(prop))
                 newFilter = { ...newFilter, prop: filter[prop] };
-    }
+    }}
     //Create custom filter for startDate and endDate
+    if (filter!=null || filter!=undefined)
     if (filter.startDate && filter.endDate)
         newFilter = {
             ...newFilter,
@@ -38,6 +45,7 @@ const GetWorkOrderBy = (filter) => {
 
         }
     //Create filter for column [id] whether is an integer column
+    if (filter!=null || filter!=undefined)
     if (parseInt(filter.id) != NaN && filter.id)
         newFilter = { ...newFilter, id: filter.id };
 
