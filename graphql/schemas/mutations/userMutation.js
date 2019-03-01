@@ -35,8 +35,8 @@ const UserMutation = {
                         if (args.user.Id_Roles == 5 ||
                             args.user.Id_Roles == 10) {
                             var employee = {
-                                firstName: _user.Full_Name,
-                                lastName: '',
+                                firstName: _user.firstName,
+                                lastName: _user.lastName,
                                 electronicAddress: _user.Electronic_Address,
                                 mobileNumber: _user.Phone_Number,
                                 idRole: _user.Id_Roles,
@@ -72,10 +72,10 @@ const UserMutation = {
                                         .then(_application => {
                                             return Db.models.ApplicationEmployees.create({
                                                 ApplicationId: _application.dataValues.id,
-                                                EmployeeId: _employee.dataVlaue.id
+                                                EmployeeId: _foundEmployee.id
                                             }, { transaction: t })
                                                 .then(_applicationEmployee => {
-                                                    return _usr.dataValues;
+                                                    return _user.dataValues;
                                                 })
                                         })
                                 })
