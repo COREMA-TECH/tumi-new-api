@@ -11,11 +11,9 @@ import Db from '../../models/models';
 const Op = Sequelize.Op;
 
 const GetWorkOrderBy = (filter) => {
-    console.log("GetWorkOrderBy ",filter)
     var newFilter = {};
     if (filter!=null || filter!=undefined)
-    {  console.log("propy ",filter)
-   
+    { 
     for (var prop in filter) {
       
         //Validate if the filter has value
@@ -24,7 +22,8 @@ const GetWorkOrderBy = (filter) => {
             //Exclude startDate and endDate from filters
             if (!['startDate', 'endDate', 'id'].join().includes(prop))
                 newFilter = { ...newFilter, prop: filter[prop] };
-    }}
+    }
+}
     //Create custom filter for startDate and endDate
     if (filter!=null || filter!=undefined)
     if (filter.startDate && filter.endDate)
