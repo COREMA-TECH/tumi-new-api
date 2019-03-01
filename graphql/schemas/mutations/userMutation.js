@@ -43,7 +43,7 @@ const UserMutation = {
                                 isActive: true,
                                 userCreated: _user.User_Created,
                                 userUpdated: _user.User_Updated,
-                                idUsers: _user.dataValues.id
+                                idUsers: _user.dataValues.Id
                             }
                             return Db.models.Employees.create(employee, { transaction: t })
                                 .then(_employee => {
