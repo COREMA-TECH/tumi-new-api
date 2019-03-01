@@ -10,22 +10,22 @@ import Db from '../../models/models';
 
 const Op = Sequelize.Op;
 
-const GetWorkOrderBy = (filter) => {
+const GetWorkOrderFilter = (filter) => {
     var newFilter = {};
-    if (filter!=null || filter!=undefined)
-    { 
+
+    //Validate if filter object exists
+    if (!filter)
+        return newFilter;
+
+    //Loop trough eacth filter
     for (var prop in filter) {
-      
         //Validate if the filter has value
-        if (filter!=null || filter!=undefined)
         if (filter[prop])
             //Exclude startDate and endDate from filters
             if (!['startDate', 'endDate', 'id'].join().includes(prop))
                 newFilter = { ...newFilter, prop: filter[prop] };
     }
-}
     //Create custom filter for startDate and endDate
-    if (filter!=null || filter!=undefined)
     if (filter.startDate && filter.endDate)
         newFilter = {
             ...newFilter,
@@ -44,9 +44,28 @@ const GetWorkOrderBy = (filter) => {
 
         }
     //Create filter for column [id] whether is an integer column
-    if (filter!=null || filter!=undefined)
-    if (parseInt(filter.id) != NaN && filter.id)
+    if (Number.isInteger(parseInt(filter.id)))
         newFilter = { ...newFilter, id: filter.id };
+
+    return newFilter;
+}
+
+const GetShitEntityFilter = (filter) => {
+    var newFilter = {};
+
+    //Validate if filter object exists
+    if (!filter)
+        return newFilter;
+
+    //Loop trough eacth filter
+    for (var prop in filter) {
+        //Validate if the filter has value
+        if (filter[prop])
+            //Exclude startDate and endDate from filters
+            if (prop != 'Code')
+                newFilter = { ...newFilter, prop: filter[prop] };
+            else newFilter = { ...newFilter, Code: { [Op.like]: filter.Code } }
+    }
 
     return newFilter;
 }
@@ -172,7 +191,7 @@ const ShiftQuery = {
                 include: [{
                     model: Db.models.BusinessCompany,
                     as: 'ShiftEntity',
-                    where: args.shiftEntity,
+                    where: { ...GetShitEntityFilter(args.shiftEntity) },
                     required: true
                 },
                 {
@@ -182,7 +201,7 @@ const ShiftQuery = {
                         model: Db.models.WorkOrder,
                         as: 'WorkOrder',
                         where: {
-                            ...GetWorkOrderBy(args.workOrder)
+                            ...GetWorkOrderFilter(args.workOrder)
                         },
 
                         required: true,
