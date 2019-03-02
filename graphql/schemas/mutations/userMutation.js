@@ -32,18 +32,17 @@ const UserMutation = {
             return Db.transaction(t => {
                 return Db.models.Users.create(user, { transaction: t })
                     .then(_user => {
-                        if (args.user.Id_Roles == 5 ||
-                            args.user.Id_Roles == 10) {
+                        if (args.user.Id_Roles != 5 && args.user.Id_Roles != 10) {
                             var employee = {
-                                firstName: _user.Full_Name,
-                                lastName: '',
+                                firstName: _user.firstName,
+                                lastName: _user.lastName,
                                 electronicAddress: _user.Electronic_Address,
                                 mobileNumber: _user.Phone_Number,
                                 idRole: _user.Id_Roles,
                                 isActive: true,
                                 userCreated: _user.User_Created,
                                 userUpdated: _user.User_Updated,
-                                idUsers: _user.dataValues.id
+                                idUsers: _user.dataValues.Id
                             }
                             return Db.models.Employees.create(employee, { transaction: t })
                                 .then(_employee => {
@@ -72,10 +71,10 @@ const UserMutation = {
                                         .then(_application => {
                                             return Db.models.ApplicationEmployees.create({
                                                 ApplicationId: _application.dataValues.id,
-                                                EmployeeId: _employee.dataVlaue.id
+                                                EmployeeId: _foundEmployee.id
                                             }, { transaction: t })
                                                 .then(_applicationEmployee => {
-                                                    return _usr.dataValues;
+                                                    return _user.dataValues;
                                                 })
                                         })
                                 })

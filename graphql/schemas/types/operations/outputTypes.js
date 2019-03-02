@@ -173,7 +173,7 @@ const ApplicationType = new GraphQLObjectType({
 				type: GraphQLBoolean,
 				resolve(me) {
 					return Db.models.Applications.findOne({
-						where: { id: me.id, completed: true },
+						where: { id: me.id },
 						include: [{
 							model: Db.models.ApplicantBackgroundChecks,
 							where: { completed: true },
