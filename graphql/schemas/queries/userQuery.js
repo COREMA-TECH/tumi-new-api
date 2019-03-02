@@ -1,4 +1,4 @@
-import { GraphQLList, GraphQLString, GraphQLInt } from 'graphql';
+import { GraphQLList, GraphQLInt } from 'graphql';
 import { UsersType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
@@ -14,7 +14,7 @@ const userQuery = {
                 type: GraphQLInt
             },
             Id_Roles: {
-                type: GraphQLInt
+                type: new GraphQLList(GraphQLInt)
             },
             IdRegion: {
                 type: GraphQLInt

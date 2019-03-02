@@ -7,6 +7,36 @@ import Sequelize from 'sequelize';
 
 const Op = Sequelize.Op;
 
+const getRecruiterReportFilters = (filter) => {
+	var newFilter = {};
+
+	//Validate if filter object exists
+	if (!filter)
+		return newFilter;
+
+	//Loop trough eacth filter
+	for (var prop in filter) {
+		//Validate if the filter has value
+		if (filter[prop])
+			//Exclude startDate and endDate from filters
+			if (!["startDate", "endDate"].join().includes(prop))
+				newFilter = { ...newFilter, [prop]: filter[prop] };
+	}
+	//Filter by startDate and endDate
+	if (filter.startDate && filter.endDate)
+		newFilter = {
+			...newFilter,
+			[Op.and]: [
+				{ createdAt: { [Op.gte]: filter.startDate } },
+				{ createdAt: { [Op.lte]: filter.endDate } }
+			]
+
+
+		}
+	console.log(newFilter);
+	return newFilter;
+}
+
 const ApplicationQuery = {
 	applications: {
 		type: new GraphQLList(ApplicationType),
@@ -28,6 +58,10 @@ const ApplicationQuery = {
 				type: GraphQLBoolean
 			},
 			positionApplyingFor:
+			{
+				type: GraphQLInt
+			},
+			UserId:
 			{
 				type: GraphQLInt
 			}
@@ -189,7 +223,32 @@ const ApplicationQuery = {
 			})
 
 		}
-	}
+	},
+	recruiterReport: {
+		type: new GraphQLList(ApplicationType),
+		description: 'List applications records',
+		args: {
+			isActive: {
+				type: GraphQLBoolean
+			},
+			isLead: {
+				type: GraphQLBoolean
+			},
+			UserId:
+			{
+				type: GraphQLInt
+			},
+			startDate: {
+				type: GraphQLDate
+			},
+			endDate: {
+				type: GraphQLDate
+			}
+		},
+		resolve(root, args) {
+			return Db.models.Applications.findAll({ where: { ...getRecruiterReportFilters(args) } });
+		}
+	},
 
 };
 

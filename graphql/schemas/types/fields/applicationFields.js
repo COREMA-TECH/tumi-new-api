@@ -151,6 +151,10 @@ const ApplicationFields = {
 	completed: {
 		type: GraphQLBoolean,
 		description: 'Shows if an application is completed'
+	},
+	createdAt: {
+		type: GraphQLDate,
+		description: "Date when the record was created"
 	}
 };
 
