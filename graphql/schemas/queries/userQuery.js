@@ -7,7 +7,16 @@ const userQuery = {
         type: new GraphQLList(UsersType),
         description: 'List User records',
         args: {
+            Id: {
+                type: GraphQLInt
+            },
             IsActive: {
+                type: GraphQLInt
+            },
+            Id_Roles: {
+                type: GraphQLInt
+            },
+            IdRegion: {
                 type: GraphQLInt
             }
         },
