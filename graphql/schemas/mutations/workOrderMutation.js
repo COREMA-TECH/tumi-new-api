@@ -12,67 +12,60 @@ const WorkOrderMutation = {
 		type: new GraphQLList(WorkOrderType),
 		description: 'Add Work Order to database',
 		args: {
-			workOrder: { type: new GraphQLList(inputInsertWorkOrder) },
-			shift: { type: new GraphQLList(inputInsertShift) },
-			startDate: { type: new GraphQLNonNull(GraphQLDate) },
-			endDate: { type: new GraphQLNonNull(GraphQLDate) },
-			startshift: { type: new GraphQLNonNull(GraphQLString) },
-			endshift: { type: new GraphQLNonNull(GraphQLString) },
-			quantity: { type: new GraphQLNonNull(GraphQLInt) },
-			Electronic_Address: { type: new GraphQLNonNull(GraphQLString) }
+			workOrder: { type: new GraphQLList(inputInsertWorkOrder) }
 		},
 		resolve(source, args) {
 
 			return Db.models.WorkOrder.bulkCreate(args.workOrder, { returning: true }).then((ret) => {
 				return ret.map((data) => {
 
-					Db.models.PhaseWorkOrder.create({
-						userId: args.workOrder[0].userId,
-						phaseworkOrderId: 30453,
-						WorkOrderId: data.dataValues.id
-					});
+					// Db.models.PhaseWorkOrder.create({
+					// 	userId: args.workOrder[0].userId,
+					// 	phaseworkOrderId: 30453,
+					// 	WorkOrderId: data.dataValues.id
+					// });
 
-					var currentQ = 1;
+					// var currentQ = 1;
 
-					while (currentQ <= args.quantity) {
+					// while (currentQ <= args.quantity) {
 
-						currentQ = currentQ + 1;
+					// 	currentQ = currentQ + 1;
 
-						//Db.models.WorkOrderPosition.create({ userId: args.workOrder[0].userId, status: args.workOrder[0].status, quantity: 1, PositionRateId: args.workOrder[0].PositionRateId, WorkOrderId: data.dataValues.id });
+					// 	//Db.models.WorkOrderPosition.create({ userId: args.workOrder[0].userId, status: args.workOrder[0].status, quantity: 1, PositionRateId: args.workOrder[0].PositionRateId, WorkOrderId: data.dataValues.id });
 
-						Db.models.Shift.bulkCreate(args.shift, { returning: true }).then((ret) => {
-							return ret.map((datashift) => {
-
-
-								var dates = []//List of dates
-								var currentDate = new Date(args.startDate); //Variables used to save the current date inside the while
-								var endDate = new Date(args.endDate); //Variables used to save the current date inside the while
+					// 	Db.models.Shift.bulkCreate(args.shift, { returning: true }).then((ret) => {
+					// 		return ret.map((datashift) => {
 
 
-								//	sendgenericemail({ StartDate: currentDate.toISOString().substring(0, 10), ToDate: endDate.toISOString().substring(0, 10), ShiftStart: args.startshift, ShiftEnd: args.endshift, shift: datashift.dataValues.id, email: args.Electronic_Address, title: args.shift[0].title })
+					// 			var dates = []//List of dates
+					// 			var currentDate = new Date(args.startDate); //Variables used to save the current date inside the while
+					// 			var endDate = new Date(args.endDate); //Variables used to save the current date inside the while
 
 
-								//Get every day between startDate and endDate to generate ShiftDetail records
-								while (currentDate <= endDate) {
-									let newDate = new Date(currentDate)
-									if (args.shift[0].dayWeek.indexOf('MO') != -1 && newDate.getUTCDay() == 1) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
-									if (args.shift[0].dayWeek.indexOf('TU') != -1 && newDate.getUTCDay() == 2) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
-									if (args.shift[0].dayWeek.indexOf('WE') != -1 && newDate.getUTCDay() == 3) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
-									if (args.shift[0].dayWeek.indexOf('TH') != -1 && newDate.getUTCDay() == 4) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
-									if (args.shift[0].dayWeek.indexOf('FR') != -1 && newDate.getUTCDay() == 5) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
-									if (args.shift[0].dayWeek.indexOf('SA') != -1 && newDate.getUTCDay() == 6) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
-									if (args.shift[0].dayWeek.indexOf('SU') != -1 && newDate.getUTCDay() == 0) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
+					// 			//	sendgenericemail({ StartDate: currentDate.toISOString().substring(0, 10), ToDate: endDate.toISOString().substring(0, 10), ShiftStart: args.startshift, ShiftEnd: args.endshift, shift: datashift.dataValues.id, email: args.Electronic_Address, title: args.shift[0].title })
 
-									currentDate.setDate(currentDate.getDate() + 1)
-								}
 
-								//Insert ShiftDetail records into database
-								Db.models.ShiftDetail.bulkCreate(dates, { returning: true }).then((ret) => { });
-								//Insert Shift - WorkOrder records into database
-								Db.models.ShiftWorkOrder.create({ ShiftId: datashift.dataValues.id, WorkOrderId: data.dataValues.id });
-							});
-						});
-					}
+					// 			//Get every day between startDate and endDate to generate ShiftDetail records
+					// 			while (currentDate <= endDate) {
+					// 				let newDate = new Date(currentDate)
+					// 				if (args.shift[0].dayWeek.indexOf('MO') != -1 && newDate.getUTCDay() == 1) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
+					// 				if (args.shift[0].dayWeek.indexOf('TU') != -1 && newDate.getUTCDay() == 2) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
+					// 				if (args.shift[0].dayWeek.indexOf('WE') != -1 && newDate.getUTCDay() == 3) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
+					// 				if (args.shift[0].dayWeek.indexOf('TH') != -1 && newDate.getUTCDay() == 4) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
+					// 				if (args.shift[0].dayWeek.indexOf('FR') != -1 && newDate.getUTCDay() == 5) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
+					// 				if (args.shift[0].dayWeek.indexOf('SA') != -1 && newDate.getUTCDay() == 6) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
+					// 				if (args.shift[0].dayWeek.indexOf('SU') != -1 && newDate.getUTCDay() == 0) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
+
+					// 				currentDate.setDate(currentDate.getDate() + 1)
+					// 			}
+
+					// 			//Insert ShiftDetail records into database
+					// 			Db.models.ShiftDetail.bulkCreate(dates, { returning: true }).then((ret) => { });
+					// 			//Insert Shift - WorkOrder records into database
+					// 			Db.models.ShiftWorkOrder.create({ ShiftId: datashift.dataValues.id, WorkOrderId: data.dataValues.id });
+					// 		});
+					// 	});
+					// }
 
 					return data.dataValues;
 				});
