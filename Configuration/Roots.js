@@ -21,7 +21,7 @@ cron.schedule('59 23 * * *', () => {
 /*var mailParams = {
 	service: 'Hotmail',
 	auth: {
-		user: 'coremagroup@hotmail.com',
+		user: 'tumistaffing@hotmail.com',
 		pass: 'Corema123'
 	},
 	pool: true,
@@ -94,7 +94,7 @@ async function SendExpiredContracts() {
 
 		const { rows } = await query(Strquery);
 		var mailOptions = {
-			from: 'coremagroup@hotmail.com',
+			from: 'tumistaffing@hotmail.com',
 			to: '',
 			subject: 'Contract Expiration Reminder',
 			html: 'Your contract is about to expire'
@@ -2444,7 +2444,7 @@ async function SendContracts(args) {
 		Strfilename = './public/Contract_' + rows[0].Contract_Name.trim() + '.pdf';
 
 		var mailOptions = {
-			from: 'coremagroup@hotmail.com',
+			from: 'tumistaffing@hotmail.com',
 			to: rows[0].Electronic_Address,
 			subject: rows[0].Contract_Name.trim() + '.pdf',
 			html:
@@ -2572,7 +2572,7 @@ async function SendContracts(args) {
 		});
 
 		var mailOptions = {
-			from: 'coremagroup@hotmail.com',
+			from: 'tumistaffing@hotmail.com',
 			to: rows[0].Primary_Email,
 			subject: rows[0].Contract_Name.trim() + '.pdf',
 			html:
@@ -3199,7 +3199,7 @@ async function CreateDocumentsPDF(args) {
 async function SendEmail(args) {
 	try {
 		var mailOptions = {
-			from: 'coremagroup@hotmail.com',
+			from: 'tumistaffing@hotmail.com',
 			to: args.email,
 			subject: args.title,
 			html:
@@ -3329,7 +3329,7 @@ async function SendGenericEmail(args) {
 	try {
 		console.log("Estos son los args ", args)
 		var mailOptions = {
-			from: 'coremagroup@hotmail.com',
+			from: 'tumistaffing@hotmail.com',
 			to: args.email,
 			subject: "new shift for " + args.title,
 			html:
@@ -3469,7 +3469,7 @@ async function SendWorkOrderFilledEmail(args) {
 		console.log("Informacion de los args ", args)
 
 		var mailOptions = {
-			from: 'coremagroup@hotmail.com',
+			from: 'tumistaffing@hotmail.com',
 			to: args.email,
 			subject: args.title,
 			html:
