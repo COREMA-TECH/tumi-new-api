@@ -30,6 +30,10 @@ const ApplicationQuery = {
 			positionApplyingFor:
 			{
 				type: GraphQLInt
+			},
+			UserId:
+			{
+				type: GraphQLInt
 			}
 		},
 		resolve(root, args) {
