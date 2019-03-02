@@ -26,7 +26,8 @@ const UserMutation = {
         resolve(source, args) {
             var user = {
                 ...args.user,
-                Password: Sequelize.fn('PGP_SYM_ENCRYPT', 'TEMP', 'AES_KEY')
+                Password: Sequelize.fn('PGP_SYM_ENCRYPT', 'TEMP', 'AES_KEY'),
+                isEmployee: args.user.Id_Roles == 9
             }
             //Begin transaction
             return Db.transaction(t => {
