@@ -375,7 +375,8 @@ const inputShiftBoardCompany = new GraphQLInputObjectType({
 	fields: {
 		Id: { type: GraphQLInt },
 		State: { type: GraphQLInt },
-		City: { type: GraphQLInt }
+		City: { type: GraphQLInt },
+		Code: { type: GraphQLString }
 	}
 })
 

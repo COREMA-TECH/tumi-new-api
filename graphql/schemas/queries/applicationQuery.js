@@ -113,7 +113,7 @@ const ApplicationQuery = {
 		},
 		resolve(root, args) {
 			return Db.models.Applications.findOne({
-				where: { ...args, completed: true },
+				where: { ...args },
 				include: [{
 					model: Db.models.ApplicantBackgroundChecks,
 					where: { completed: true },
