@@ -1,5 +1,5 @@
 import { inputInsertApplicantW4 } from '../types/operations/insertTypes';
-import { ApplicantW4Type } from '../types/operations/outputTypes';
+import { ApplicantI9Type } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLBoolean, GraphQLString } from 'graphql';
 import pdf from 'html-pdf';
 import AWS from 'aws-sdk';
@@ -9,7 +9,7 @@ import Db from '../../models/models';
 
 const ApplicantI9Mutation = {
 	addApplicantI9: {
-		type: new GraphQLList(ApplicantW4Type),
+		type: new GraphQLList(ApplicantI9Type),
 		description: 'Add I9 DocumentType to database',
 		args: {
 			html: { type: GraphQLString },
@@ -33,8 +33,8 @@ const ApplicantI9Mutation = {
 			// 		left: '0.98in'
 			// 	}
 			// };
-			// var filename = `i9_${args.ApplicationId}`;
-			// var srcFile = `./public/${filename}.pdf`;
+			var filename = `i9_${args.ApplicationId}`;
+			var srcFile = `./public/${filename}.pdf`;
 
 			// AWS.config.update({
 			// 	accessKeyId: "AKIAJKPVCC36B44OOXJA",

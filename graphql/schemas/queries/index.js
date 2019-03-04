@@ -35,7 +35,7 @@ import ShiftDetailEmployeesQuery from './shiftDetailEmployeesQuery';
 import CatalogItemQuery from './catalogItemQuery';
 import ConfigRegionsQuery from './configRegionsQuery';
 import TimeElapsedQuery from './timeElapsedQuery';
-
+import UserQuery from './userQuery';
 
 import phaseworkOrderQuery from './phaseworkOrderQuery';
 export {
@@ -77,4 +77,5 @@ export {
 	CatalogItemQuery,
 	ConfigRegionsQuery,
 	TimeElapsedQuery,
+	UserQuery
 };

@@ -108,6 +108,12 @@ export default {
 				},
 				IdSchedulesManager: {
 					type: Sequelize.INTEGER
+				},
+				firstName: {
+					type: Sequelize.STRING(120)
+				},
+				lastName: {
+					type: Sequelize.STRING(120)
 				}
 			},
 			{

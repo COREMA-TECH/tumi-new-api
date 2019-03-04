@@ -1,5 +1,5 @@
 import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLObjectType, GraphQLList, GraphQLBoolean } from 'graphql';
-
+import GraphQLDate from 'graphql-date';
 import {
 	ApplicantLanguagesFields,
 	ApplicationFields,
@@ -173,7 +173,7 @@ const ApplicationType = new GraphQLObjectType({
 				type: GraphQLBoolean,
 				resolve(me) {
 					return Db.models.Applications.findOne({
-						where: { id: me.id, completed: true },
+						where: { id: me.id },
 						include: [{
 							model: Db.models.ApplicantBackgroundChecks,
 							where: { completed: true },
@@ -397,11 +397,26 @@ const CatalogItemType = new GraphQLObjectType({
 const UsersType = new GraphQLObjectType({
 	name: 'UsersType',
 	description: 'This is for Users',
-	fields: {
-		Id: {
-			type: GraphQLInt
-		},
-		...UsersFields
+	fields: () => {
+		return {
+			Id: {
+				type: GraphQLInt
+			},
+			...UsersFields,
+			role: {
+				type: RolesType,
+				resolve(me) {
+					return me.getRole();
+				}
+			},
+			language: {
+				type: CatalogItemType,
+				resolve(me) {
+					return me.getLanguage();
+				}
+
+			}
+		}
 	}
 });
 
@@ -943,7 +958,55 @@ const ShiftBoardType = new GraphQLObjectType({
 			isOpening: {
 				type: GraphQLInt,
 				description: "IsOpening"
-			}
+			},
+			shift: {
+				type: GraphQLString,
+				description: "table shift"
+			},
+			endShift: {
+				type: GraphQLString,
+				description: "table endShift"
+			},
+			count: {
+				type: GraphQLInt,
+				description: "table count"
+			},
+			startDate: {
+				type: GraphQLDate,
+				description: "table startDate"
+			},
+			endDate: {
+				type: GraphQLDate,
+				description: "table endDate"
+			},
+			date: {
+				type: GraphQLDate,
+				description: "table date"
+			},
+			comment: {
+				type: GraphQLString,
+				description: "table comment"
+			},
+			EspecialComment: {
+				type: GraphQLString,
+				description: "table EspecialComment"
+			},
+			dayWeek: {
+				type: GraphQLString,
+				description: "table dayWeek"
+			},
+			IdEntity: {
+				type: GraphQLInt,
+				description: "table IdEntity"
+			},
+			contactId: {
+				type: GraphQLInt,
+				description: "table contactId"
+			},
+			PositionRateId: {
+				type: GraphQLInt,
+				description: "table PositionRateId"
+			},
 		}
 	}
 });

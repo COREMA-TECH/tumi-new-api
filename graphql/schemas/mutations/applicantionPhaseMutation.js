@@ -27,7 +27,7 @@ const SendNotificationToInterview = (args, ret) => {
 					// setup email data with unicode symbols
 					return Db.models.Users.findOne({ where: { Id: args.applicationPhases.UserId } }).then(user => {
 						let mailOptions = {
-							from: '"Corema Group" <coremagroup@hotmail.com>', // sender address
+							from: '"Corema Group" <tumistaffing@hotmail.com>', // sender address
 							to: emails, // list of receivers
 							subject: "A new lead has sent to interview", // Subject line
 							html: `<b>Lead Name:</b> ${fullName} <br/>`
@@ -99,7 +99,7 @@ const SendNotificationToLead = (args, ret) => {
 								}).then(_updated => {
 
 									let mailOptions = {
-										from: '"Corema Group" <coremagroup@hotmail.com>', // sender address
+										from: '"Corema Group" <tumistaffing@hotmail.com>', // sender address
 										to: emailAddress, // list of receivers
 										subject: "A new lead has sent to interview", // Subject line
 										html

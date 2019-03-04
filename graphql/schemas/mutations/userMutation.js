@@ -26,24 +26,24 @@ const UserMutation = {
         resolve(source, args) {
             var user = {
                 ...args.user,
-                Password: Sequelize.fn('PGP_SYM_ENCRYPT', 'TEMP', 'AES_KEY')
+                Password: Sequelize.fn('PGP_SYM_ENCRYPT', 'TEMP', 'AES_KEY'),
+                isEmployee: args.user.Id_Roles == 9
             }
             //Begin transaction
             return Db.transaction(t => {
                 return Db.models.Users.create(user, { transaction: t })
                     .then(_user => {
-                        if (args.user.Id_Roles == 5 ||
-                            args.user.Id_Roles == 10) {
+                        if (args.user.Id_Roles != 5 && args.user.Id_Roles != 10) {
                             var employee = {
-                                firstName: _user.Full_Name,
-                                lastName: '',
+                                firstName: _user.firstName,
+                                lastName: _user.lastName,
                                 electronicAddress: _user.Electronic_Address,
                                 mobileNumber: _user.Phone_Number,
                                 idRole: _user.Id_Roles,
                                 isActive: true,
                                 userCreated: _user.User_Created,
                                 userUpdated: _user.User_Updated,
-                                idUsers: _user.dataValues.id
+                                idUsers: _user.dataValues.Id
                             }
                             return Db.models.Employees.create(employee, { transaction: t })
                                 .then(_employee => {
@@ -72,10 +72,10 @@ const UserMutation = {
                                         .then(_application => {
                                             return Db.models.ApplicationEmployees.create({
                                                 ApplicationId: _application.dataValues.id,
-                                                EmployeeId: _employee.dataVlaue.id
+                                                EmployeeId: _foundEmployee.id
                                             }, { transaction: t })
                                                 .then(_applicationEmployee => {
-                                                    return _usr.dataValues;
+                                                    return _user.dataValues;
                                                 })
                                         })
                                 })
@@ -138,14 +138,15 @@ const UserMutation = {
                                                 EmployeeId: args.idEmployee
                                             }, { transaction: t })
                                                 .then(_applicationEmployee => {
-
-
                                                     //Insert to ApplicationIdealJobs
                                                     return Db.models.PositionRate.findOne({ where: { Id: _foundEmployee.Contact_Title } })
-                                                        .then(Positions => {
+                                                        .then(_position => {
+                                                            if (_position == null)
+                                                                return _user.dataValues;
+
                                                             var idealjobs = {
                                                                 ApplicationId: _application.dataValues.id,
-                                                                description: Positions.dataValues.Position,
+                                                                description: _position.dataValues.Position,
                                                                 idPosition: _foundEmployee.Contact_Title
                                                             }
 

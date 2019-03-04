@@ -1,4 +1,5 @@
 import { GraphQLInputObjectType, GraphQLNonNull, GraphQLBoolean, GraphQLString, GraphQLInt, GraphQLList } from 'graphql';
+import GraphQLDate from 'graphql-date';
 
 import {
 	ApplicantLanguagesFields,
@@ -349,7 +350,9 @@ const inputShiftQuery = new GraphQLInputObjectType({
 		isActive: { type: GraphQLBoolean, defaultValue: true },
 		entityId: { type: GraphQLInt },
 		departmentId: { type: GraphQLInt },
-		status: { type: new GraphQLList(GraphQLInt) }
+		status: { type: new GraphQLList(GraphQLInt) },
+		startDate: { type: GraphQLDate },
+		endDate: { type: GraphQLDate },
 	}
 
 });
@@ -372,9 +375,22 @@ const inputShiftBoardCompany = new GraphQLInputObjectType({
 	fields: {
 		Id: { type: GraphQLInt },
 		State: { type: GraphQLInt },
-		City: { type: GraphQLInt }
+		City: { type: GraphQLInt },
+		Code: { type: GraphQLString }
 	}
 })
+
+const inputQueryWorkOrder = new GraphQLInputObjectType({
+	name: 'inputQueryWorkOrder',
+	description: 'Inputs for Work Order Insert',
+
+	fields: {
+		id: { type: GraphQLString },//This must to be a string even that the table column is Integer type
+		startDate: { type: GraphQLDate },
+		endDate: { type: GraphQLDate },
+		status: { type: GraphQLInt }
+	}
+});
 
 const filterShiftConvertToOpening = new GraphQLInputObjectType({
 	name: 'filterShiftConvertToOpening',
@@ -446,4 +462,5 @@ export {
 	filterShiftConvertToOpening,
 	filterShiftWOConvertToOpening,
 	inputInsertContact,
+	inputQueryWorkOrder
 };
