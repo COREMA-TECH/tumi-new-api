@@ -135,7 +135,7 @@ const SendNotificationToLead = (args, ret) => {
 								}).then(_updated => {
 
 									let mailOptions = {
-										from: '"Corema Group" <tumistaffing@hotmail.com>', // sender address
+										from: '"Tumi Staffing" <tumistaffing@hotmail.com>', // sender address
 										to: emailAddress, // list of receivers
 										subject: "A new lead has sent to interview", // Subject line
 										html

@@ -97,7 +97,32 @@ async function SendExpiredContracts() {
 			from: 'tumistaffing@hotmail.com',
 			to: '',
 			subject: 'Contract Expiration Reminder',
-			html: 'Your contract is about to expire'
+            html: `<div style="width: 100%; background: #fff; max-width: 800px; border: 2px solid #eee; border-radius: 3px; overflow: hidden; margin-right: 10px;">
+									  <img src="https://i.imgur.com/Xshz5k1.png" alt="Tumi Staffing" style="display: block; width: 100%; max-width: 350px; margin: 0 auto; height: 180px; background: #ddd;">
+									  <h2 style="width: 100%; text-align: center; color: #fed326; font-weight: 400; font-family: Helvetica">Contract Expiration Alert</h2>
+									  <div style="text-align: center; font-family: Helvetica; font-weight: 400; color: #444">
+										<p>For more information visit our contract page by clicking <a href="#">here</a></a></p>
+									  </div>
+									  <div style="background: #eee; margin-top: 45px; margin-bottom: 15px; padding: 5px;">
+										<div style="text-align: left; padding: 15px 5px; font-size: 15px;">
+										  <div style="font-family: Helvetica; font-weight: 400; color: green">Contract Name: <span style="color: #777;"></span></div>
+										  <div style="font-family: Helvetica; font-weight: 400; color: green">Expiration Date: <span style="color: #777;"></span></div>
+										</div>
+									  </div>
+									  <div style="text-align: justify; padding: 2px 10px; font-family: Helvetica; font-weight: 400; color: #444; font-size: 16px;">
+										<p>Formed by hospitality professionals, we are dedicated to helping your hotel achieve greater customer satisfaction increased QA scores, boost efficiencies and reduce cost.</p>
+									  </div>
+									  <div style="background: #111; margin-top: 5px; padding: 5px;">
+										<div style="text-align: center; font-size: 13px; font-family: Helvetica; font-weight: 300; color: #999; padding: 25px;">
+										  <div>
+											PRIVACY STATEMENT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TERM OF SERVICES
+										  </div>
+										  <div style="margin-top: 15px;">
+											© 2018 Tumi Staffing, Inc PO Box 592715 San Antonio, TX 78259
+										  </div>
+										</div>
+									  </div>
+									</div>`
 		};
 		console.log("estas son las rows ", rows);
 
