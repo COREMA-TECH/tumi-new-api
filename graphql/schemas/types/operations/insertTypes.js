@@ -428,7 +428,7 @@ const inputInsertContact = new GraphQLInputObjectType({
 
 // Type to use in payroll mutation and query
 const insertPayrollType = new GraphQLInputObjectType({
-    name: 'payroll',
+    name: 'payrollType',
     description: 'This represent a payroll',
     fields: () => {
         return {

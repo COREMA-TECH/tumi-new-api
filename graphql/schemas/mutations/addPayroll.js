@@ -20,7 +20,6 @@ const addPayroll = {
                 });
         }
     },
-
 };
 
 export default addPayroll;
