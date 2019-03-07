@@ -1,4 +1,12 @@
-import { GraphQLInputObjectType, GraphQLNonNull, GraphQLBoolean, GraphQLString, GraphQLInt, GraphQLList } from 'graphql';
+import {
+    GraphQLInputObjectType,
+    GraphQLNonNull,
+    GraphQLBoolean,
+    GraphQLString,
+    GraphQLInt,
+    GraphQLList,
+    GraphQLObjectType
+} from 'graphql';
 import GraphQLDate from 'graphql-date';
 
 import {
@@ -418,7 +426,28 @@ const inputInsertContact = new GraphQLInputObjectType({
 	fields: { ...ContactsFields }
 })
 
+// Type to use in payroll mutation and query
+const insertPayrollType = new GraphQLInputObjectType({
+    name: 'payroll',
+    description: 'This represent a payroll',
+    fields: () => {
+        return {
+            weekStart: {
+                type: GraphQLInt
+            },
+            payPeriod: {
+                type: GraphQLInt
+            },
+            lastPayPeriod: {
+                type: GraphQLDate
+            },
+        }
+    }
+});
+
+
 export {
+    insertPayrollType,
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
 	inputInsertApplicantEducation,
@@ -462,5 +491,5 @@ export {
 	filterShiftConvertToOpening,
 	filterShiftWOConvertToOpening,
 	inputInsertContact,
-	inputQueryWorkOrder
+	inputQueryWorkOrder,
 };
