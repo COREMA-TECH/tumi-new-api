@@ -11,6 +11,9 @@ const WorkOrderFields = {
 	contactId: {
 		type: GraphQLInt
 	},
+	departmentId: {
+		type: GraphQLInt
+	},
 	date: {
 		type: new GraphQLNonNull(GraphQLDate)
 	},
