@@ -36,6 +36,7 @@ import {
 	ConfigRegionsMutation,
 	UserMutation,
 	ContactsMutation,
+	payrollMutation
 } from './mutations';
 import {
 	ApplicationQuery,
@@ -76,7 +77,8 @@ import {
 	CatalogItemQuery,
 	ConfigRegionsQuery,
 	TimeElapsedQuery,
-	UserQuery
+	UserQuery,
+	payrollQuery
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -121,7 +123,8 @@ const RootQuery = new GraphQLObjectType({
 		...CatalogItemQuery,
 		...ConfigRegionsQuery,
 		...TimeElapsedQuery,
-		...UserQuery
+		...UserQuery,
+		...payrollQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({
@@ -160,6 +163,7 @@ const RootMutation = new GraphQLObjectType({
 		...ConfigRegionsMutation,
 		...UserMutation,
 		...ContactsMutation,
+		...payrollMutation
 	}
 });
 

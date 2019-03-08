@@ -30,8 +30,10 @@ import CatalogItemMutation from './catalogItemMutation';
 import ConfigRegionsMutation from './configRegionsMutation';
 import UserMutation from './userMutation';
 import ContactsMutation from './contactsMutation';
+import payrollMutation from './payrollMutation';
 
 export {
+	payrollMutation,
 	ApplicantLanguageMutation,
 	ApplicationMutation,
 	ElectronicAddressMutation,

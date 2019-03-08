@@ -1,4 +1,12 @@
-import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLObjectType, GraphQLList, GraphQLBoolean } from 'graphql';
+import {
+    GraphQLInt,
+    GraphQLString,
+    GraphQLNonNull,
+    GraphQLObjectType,
+    GraphQLList,
+    GraphQLBoolean,
+    GraphQLInputObjectType
+} from 'graphql';
 import GraphQLDate from 'graphql-date';
 import {
 	ApplicantLanguagesFields,
@@ -44,6 +52,7 @@ import {
 } from '../fields';
 
 import Db from '../../../models/models';
+import payrollFields from "../fields/payrollFields";
 
 const ApplicationType = new GraphQLObjectType({
 	name: 'Applications',
@@ -1168,6 +1177,20 @@ const ConfigRegionsType = new GraphQLObjectType({
 	}
 });
 
+// Type to use in payroll mutation and query
+const listPayrollType = new GraphQLObjectType({
+    name: 'payroll',
+    description: 'This represent a payroll',
+    fields: () => {
+        return {
+            id: {
+                type: GraphQLInt,
+            },
+            ...payrollFields
+        }
+    }
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -1211,5 +1234,6 @@ export {
 	ConfigRegionsType,
 	TimeElapsedType,
 	ShiftBoardType,
-	ApplicationCompletedDataType
+	ApplicationCompletedDataType,
+	listPayrollType
 };
