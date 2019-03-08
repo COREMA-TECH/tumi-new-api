@@ -23,9 +23,7 @@ const payrollMutation = {
             return models.Payroll
                 .create(args.payroll, {returning: true})
                 .then((output) => {
-                    return output.map((element) => {
-                        return element.dataValues;
-                    });
+                    return output.dataValues;
                 });
         }
     },
@@ -52,7 +50,7 @@ const payrollMutation = {
                         returning: true
                     }
                 )
-                .then(function([ rowsUpdate, [ record ] ]) {
+                .then(function ([rowsUpdate, [record]]) {
                     if (record) return record.dataValues;
                     else return null;
                 });
