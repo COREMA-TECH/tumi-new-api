@@ -19,58 +19,75 @@ const WorkOrderMutation = {
 			let shifts = [], phasesData = [], dates = [], ShiftWorkOrder = [];
 
 			return Db.models.WorkOrder.bulkCreate(args.workOrder, { returning: true }).then((ret) => {
-				ret.map((data) => {
+				return ret.map((data) => {
 
-					let workOrdersPhase, currentQ = 1, shiftData, ShiftWorkOrderData;
+					let workOrdersPhase = {}, currentQ = 0, shiftData, ShiftWorkOrderData;
+					let weekDays = data.dataValues.dayWeek.replace("MO", 1).replace("TU", 2).replace("WE", 3).replace("TH", 4).replace("FR", 5).replace("SA", 6).replace("SU", 0);
 
-					workOrdersPhase.userId = data.dataValues.userId;
-					workOrdersPhase.phaseworkOrderId = 30453;
-					workOrdersPhase.WorkOrderId = data.dataValues.id;
+					workOrdersPhase = {
+						userId : data.dataValues.userId,
+						phaseworkOrderId : 30453,
+						WorkOrderId : data.dataValues.id
+					}
 
 					phasesData.push(workOrdersPhase);
 					
 					while (currentQ < data.dataValues.quantity) {
-						shiftData.entityId = data.dataValues.IdEntity;
-						shiftData.title = data.dataValues.id;
-						shiftData.color = '#96989A';
-						shiftData.status = 1;
-						shiftData.idPosition = data.dataValues.PositionRateId;
-						shiftData.startDate = data.dataValues.startDate;
-						shiftData.endDate = data.dataValues.endDate;
-						shiftData.needExperience = data.dataValues.needExperience;
-						shiftData.needEnglish = data.dataValues.needEnglish;
-						shiftData.comment = data.dataValues.comment;
-						shiftData.contactId = data.dataValues.contactId,
-						shiftData.EspecialComment = "";
-						shiftData.endshift = data.dataValues.endShift;
+						shiftData = {
+							entityId : data.dataValues.IdEntity,
+							title : data.dataValues.id,
+							color : '#96989A',
+							status : 1,
+							idPosition : data.dataValues.PositionRateId,
+							startDate : data.dataValues.startDate,
+							endDate : data.dataValues.endDate,
+							needExperience : data.dataValues.needExperience,
+							needEnglish : data.dataValues.needEnglish,
+							comment : data.dataValues.comment,
+							contactId : data.dataValues.contactId,
+							EspecialComment : "",
+							endshift : data.dataValues.endShift,
+							departmentId: data.dataValues.departmentId,
+							dayWeek: data.dataValues.dayWeek
+						}
 						shifts.push(shiftData);
 						currentQ = currentQ + 1;
 					}
 
-					Db.models.Shift.bulkCreate(shifts, { returning: true }),then((shiftsSaved) => {
+					Db.models.Shift.bulkCreate(shifts, { returning: true }).then((shiftsSaved) => {
 						shiftsSaved.map((shift) => {
 							let currentDate = new Date(shift.dataValues.startDate);
-							while (currentDate <= endDate) {
-								let newDate = new Date(currentDate)
-								if (data.dataValues.dayWeek.indexOf('MO') != -1 && newDate.getUTCDay() == 1) { dates.push({ startDate: newDate, endDate: newDate, startTime: data.dataValues.shift, endTime: data.dataValues.endShift, ShiftId: shift.dataValues.id, color: '#96989A', status: 0 }); }
-								if (data.dataValues.dayWeek.indexOf('TU') != -1 && newDate.getUTCDay() == 2) { dates.push({ startDate: newDate, endDate: newDate, startTime: data.dataValues.shift, endTime: data.dataValues.endShift, ShiftId: shift.dataValues.id, color: '#96989A', status: 0 }); }
-								if (data.dataValues.dayWeek.indexOf('WE') != -1 && newDate.getUTCDay() == 3) { dates.push({ startDate: newDate, endDate: newDate, startTime: data.dataValues.shift, endTime: data.dataValues.endShift, ShiftId: shift.dataValues.id, color: '#96989A', status: 0 }); }
-								if (data.dataValues.dayWeek.indexOf('TH') != -1 && newDate.getUTCDay() == 4) { dates.push({ startDate: newDate, endDate: newDate, startTime: data.dataValues.shift, endTime: data.dataValues.endShift, ShiftId: shift.dataValues.id, color: '#96989A', status: 0 }); }
-								if (data.dataValues.dayWeek.indexOf('FR') != -1 && newDate.getUTCDay() == 5) { dates.push({ startDate: newDate, endDate: newDate, startTime: data.dataValues.shift, endTime: data.dataValues.endShift, ShiftId: shift.dataValues.id, color: '#96989A', status: 0 }); }
-								if (data.dataValues.dayWeek.indexOf('SA') != -1 && newDate.getUTCDay() == 6) { dates.push({ startDate: newDate, endDate: newDate, startTime: data.dataValues.shift, endTime: data.dataValues.endShift, ShiftId: shift.dataValues.id, color: '#96989A', status: 0 }); }
-								if (data.dataValues.dayWeek.indexOf('SU') != -1 && newDate.getUTCDay() == 0) { dates.push({ startDate: newDate, endDate: newDate, startTime: data.dataValues.shift, endTime: data.dataValues.endShift, ShiftId: shift.dataValues.id, color: '#96989A', status: 0 }); }
+							while (currentDate <= data.dataValues.endDate) {
+								let newDate = new Date(currentDate);
+
+								if (weekDays.includes(newDate.getDay())) {
+									dates.push({
+										startDate: newDate,
+										endDate: newDate,
+										startTime: data.dataValues.shift,
+										endTime: data.dataValues.endShift,
+										color: '#96989A', 
+										status: 0
+									});
+								}
+
 								currentDate.setDate(currentDate.getDate() + 1)
 							}
-							ShiftWorkOrderData.ShiftId = shift.dataValues.id;
-							ShiftWorkOrderData.WorkOrderId = data.dataValues.id;
+							ShiftWorkOrderData = {
+								ShiftId : shift.dataValues.id,
+								WorkOrderId : data.dataValues.id
+							}
 							ShiftWorkOrder.push(ShiftWorkOrderData);
 						});
 					});
+					
 				});
 			}).then(() => {
-				Db.models.PhaseWorkOrder.bulkCreate(phasesData);
-				Db.models.ShiftWorkOrder.bulkCreate(ShiftWorkOrder);
-				Db.models.ShiftDetail.bulkCreate(dates);
+				Db.models.PhaseWorkOrder.bulkCreate(phasesData).then(() => {
+					Db.models.ShiftWorkOrder.bulkCreate(ShiftWorkOrder).then(() => {
+						Db.models.ShiftDetail.bulkCreate(dates);
+					});
+				});
 			});
 		}
 	},
