@@ -1144,7 +1144,8 @@ const PunchesReportType = new GraphQLObjectType({
 			lunchIn: { type: GraphQLString },
 			lunchOut: { type: GraphQLString },
 			hotelCode: { type: GraphQLString },
-			positionCode: { type: GraphQLString }
+			positionCode: { type: GraphQLString },
+			imageMarked: { type: GraphQLString }
 		}
 	}
 })

@@ -3,7 +3,44 @@ import { MarkedEmployeesType, PunchesReportType } from '../types/operations/outp
 import Db from '../../models/models';
 import GraphQLDate from 'graphql-date';
 import moment from 'moment';
-import { isNumber } from 'util';
+import Sequelize from 'sequelize';
+
+const Op = Sequelize.Op;
+
+const getPunchesEmployeeFilter = (filter) => {
+    var newFilter = {};
+
+    //Validate if filter object exists
+    if (!filter)
+        return newFilter;
+
+    //Loop trough eacth filter
+    for (var prop in filter) {
+        //Validate if the filter has value
+        if (filter[prop])
+            //Exclude startDate and endDate from filters
+            if (!["employee", "startDate", "endDate"].join().includes(prop))
+                newFilter = { ...newFilter, [prop]: filter[prop] };
+    }
+    return newFilter;
+}
+const getPunchesMarkerFilter = (filter) => {
+    var newFilter = {};
+
+    //Validate if filter object exists
+    if (!filter)
+        return newFilter;
+
+    if (filter.endDate && filter.startDate)
+        newFilter = {
+            ...newFilter,
+            [Op.and]: [
+                { markedDate: { [Op.gte]: filter.startDate } },
+                { markedDate: { [Op.lte]: filter.endDate.setUTCHours(23, 59, 59) } }
+            ]
+        }
+    return newFilter;
+}
 
 const MarkedEmployeesQuery = {
     markedEmployees: {
@@ -30,11 +67,20 @@ const MarkedEmployeesQuery = {
     punches: {
         type: new GraphQLList(PunchesReportType),
         description: "Get Punches report",
+        args: {
+            idEntity: { type: GraphQLInt },
+            Id_Department: { type: GraphQLInt },
+            employee: { type: GraphQLString },
+            startDate: { type: GraphQLDate },
+            endDate: { type: GraphQLDate },
+        },
         resolve(root, args) {
             var punches = [];
             return Db.models.MarkedEmployees.findAll({
+                where: { ...getPunchesMarkerFilter(args) },
                 include: [{
                     model: Db.models.Employees,
+                    where: { ...getPunchesEmployeeFilter(args) },
                     as: 'Employees',
                     required: true
                 }, {
@@ -70,7 +116,8 @@ const MarkedEmployeesQuery = {
                                 payRate: position.Pay_Rate,
                                 date: moment(markedDate).format('YYYY/MM/DD'),
                                 hotelCode: company.Code,
-                                positionCode: position.Position
+                                positionCode: position.Position,
+                                imageMarked
                             }
                             objPunches = { ...objPunches, [key]: reportRow }
                         }
@@ -94,7 +141,8 @@ const MarkedEmployeesQuery = {
                     })
 
                     //Create array of punches based on object structure
-                    var punches = Object.keys(objPunches).map(i => {
+                    var punches = [];
+                    Object.keys(objPunches).map(i => {
                         var punche = objPunches[i];//Get Punche Object
                         var startTime = moment.utc(punche.clockIn, 'HH:mm:ss');//Get Start Time
                         var endTime = moment.utc(punche.clockOut, 'HH:mm:ss');//Get End Time
@@ -103,7 +151,10 @@ const MarkedEmployeesQuery = {
 
                         punche.hoursWorked = !isNaN(parseFloat(workedTime)) ? parseFloat(workedTime) : 0; //Update worked time
 
-                        return punche;//Return new object
+                        var employee = args.employee || '';
+
+                        if (punche.name.trim().toUpperCase().includes(employee.trim().toUpperCase()))
+                            punches.push(punche);//Return new object
 
                     });
 
