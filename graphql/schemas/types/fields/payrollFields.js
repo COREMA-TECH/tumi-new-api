@@ -1,6 +1,5 @@
-import { GraphQLInt, GraphQLString, GraphQLBoolean, GraphQLNonNull } from 'graphql';
+import {GraphQLInt} from 'graphql';
 import GraphQLDate from 'graphql-date';
-
 
 
 const payrollFields = {
@@ -13,7 +12,6 @@ const payrollFields = {
     lastPayPeriod: {
         type: GraphQLDate
     },
-
 };
 
 export default payrollFields;

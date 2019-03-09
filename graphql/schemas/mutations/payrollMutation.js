@@ -1,10 +1,7 @@
 import {insertPayrollType} from '../types/operations/insertTypes';
 import models from '../../../models';
-import payrollFields from "../types/fields/payrollFields";
 import {listPayrollType} from "../types/operations/outputTypes";
 import {updatePayrollType} from "../types/operations/updateTypes";
-import {GraphQLInt} from "graphql";
-import GraphQLDate from "graphql-date";
 
 /**
  * Payroll mutation with two operation, create a new payroll or update an existing payroll
