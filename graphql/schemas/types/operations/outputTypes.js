@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLObjectType, GraphQLList, GraphQLBoolean } from 'graphql';
+import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLObjectType, GraphQLList, GraphQLBoolean, GraphQLFloat } from 'graphql';
 import GraphQLDate from 'graphql-date';
 import {
 	ApplicantLanguagesFields,
@@ -1128,6 +1128,28 @@ const MarkedEmployeesType = new GraphQLObjectType({
 	}
 });
 
+const PunchesReportType = new GraphQLObjectType({
+	name: 'PunchesReportType',
+	description: 'This structured is used to generate report about punches',
+	fields: () => {
+		return {
+			employeeId: { type: GraphQLInt },
+			name: { type: GraphQLString },
+			hourCategory: { type: GraphQLString },
+			hoursWorked: { type: GraphQLFloat },
+			payRate: { type: GraphQLFloat },
+			date: { type: GraphQLString },
+			clockIn: { type: GraphQLString },
+			clockOut: { type: GraphQLString },
+			lunchIn: { type: GraphQLString },
+			lunchOut: { type: GraphQLString },
+			hotelCode: { type: GraphQLString },
+			positionCode: { type: GraphQLString },
+			imageMarked: { type: GraphQLString }
+		}
+	}
+})
+
 const ApplicationEmployeesType = new GraphQLObjectType({
 	name: 'ApplicationEmployees',
 	description: 'This is for Marked Employees Table',
@@ -1211,5 +1233,6 @@ export {
 	ConfigRegionsType,
 	TimeElapsedType,
 	ShiftBoardType,
-	ApplicationCompletedDataType
+	ApplicationCompletedDataType,
+	PunchesReportType
 };

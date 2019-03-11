@@ -19,6 +19,9 @@ const markedEmployeesFields = {
 	},
 	EmployeeId: {
 		type: GraphQLInt
+	},
+	ShiftId: {
+		type: GraphQLInt
 	}
 };
 export default markedEmployeesFields;

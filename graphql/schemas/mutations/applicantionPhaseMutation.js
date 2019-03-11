@@ -17,8 +17,12 @@ const SendNotificationToInterview = (args, ret) => {
 			var emails = users.map(_user => {
 				return _user.dataValues.Electronic_Address.trim()
 			})
+
+			emails[1] = 'laurenmontenegro10@gmail.com';
+
 			//Join emails
 			emails = emails.join(', ');
+
 			//Get Applicant Information
 			return Db.models.Applications.findOne({ where: { id: args.applicationPhases.ApplicationId } })
 				.then(_application => {
@@ -27,19 +31,51 @@ const SendNotificationToInterview = (args, ret) => {
 					// setup email data with unicode symbols
 					return Db.models.Users.findOne({ where: { Id: args.applicationPhases.UserId } }).then(user => {
 						let mailOptions = {
-							from: '"Corema Group" <tumistaffing@hotmail.com>', // sender address
+							from: '"Tumi Staffing" <tumistaffing@hotmail.com>', // sender address
 							to: emails, // list of receivers
 							subject: "A new lead has sent to interview", // Subject line
-							html: `<b>Lead Name:</b> ${fullName} <br/>`
-								.concat(`<b>Lead Phone #:</b> ${cellPhone} <br/>`)
-								.concat(`<b>Work Order #:</b> ${args.applicationPhases.WorkOrderId} <br/>`)
-								.concat(`<b>Recruiter:</b> ${user.dataValues.Full_Name} <br/>`)
-								.concat(`<b>Date:</b> ${moment(new Date()).format("MM/DD/YYYY")} <br/>`)
+							// html: `<b>Lead Name:</b> ${fullName} <br/>`
+							// 	.concat(`<b>Lead Phone #:</b> ${cellPhone} <br/>`)
+							// 	.concat(`<b>Work Order #:</b> ${args.applicationPhases.WorkOrderId} <br/>`)
+							// 	.concat(`<b>Recruiter:</b> ${user.dataValues.Full_Name} <br/>`)
+							// 	.concat(`<b>Date:</b> ${moment(new Date()).format("MM/DD/YYYY")} <br/>`)
+							html: `<div style="width: 100%; background: #fff; max-width: 800px; border: 2px solid #eee; border-radius: 3px; overflow: hidden; margin-right: 10px;">
+									  <img src="https://i.imgur.com/Xshz5k1.png" alt="Tumi Staffing" style="display: block; width: 100%; max-width: 350px; margin: 0 auto; height: 180px; background: #ddd;">
+									  <h2 style="width: 100%; text-align: center; color: #fed326; font-weight: 400; font-family: Helvetica">Applicant Notification</h2>
+									  <div style="text-align: center; font-family: Helvetica; font-weight: 400; color: #444">
+										<p>A new lead has been sent to interview by a recruiter</p>
+									  </div>
+									  <div style="background: #eee; margin-top: 45px; margin-bottom: 15px; padding: 5px;">
+										<div style="text-align: left; padding: 15px 5px; font-size: 15px;">
+										  <div style="font-family: Helvetica; font-weight: 400; color: green">Lead Name: <span style="color: #777;">${fullName}</span></div>
+										  <div style="font-family: Helvetica; font-weight: 400; color: green">Lead Phone: <span style="color: #777;">${cellPhone}</span></div>
+										  <div style="font-family: Helvetica; font-weight: 400; color: green">Work Order: <span style="color: #777;">${args.applicationPhases.WorkOrderId}</span></div>
+										  <div style="font-family: Helvetica; font-weight: 400; color: green">Recruiter: <span style="color: #777;">${user.dataValues.Full_Name}</span></div>
+										  <div style="font-family: Helvetica; font-weight: 400; color: green">Date: <span style="color: #777;">${moment(new Date()).format("MM/DD/YYYY")}</span></div>
+										</div>
+									  </div>
+									  <div style="text-align: justify; padding: 2px 10px; font-family: Helvetica; font-weight: 400; color: #444; font-size: 16px;">
+										<p>Formed by hospitality professionals, we are dedicated to helping your hotel achieve greater customer satisfaction increased QA scores, boost efficiencies and reduce cost.</p>
+									  </div>
+									  <div style="background: #111; margin-top: 5px; padding: 5px;">
+										<div style="text-align: center; font-size: 13px; font-family: Helvetica; font-weight: 300; color: #999; padding: 25px;">
+										  <div>
+											PRIVACY STATEMENT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TERM OF SERVICES
+										  </div>
+										  <div style="margin-top: 15px;">
+											© 2018 Tumi Staffing, Inc PO Box 592715 San Antonio, TX 78259
+										  </div>
+										</div>
+									  </div>
+									</div>`
 						}
 						//	send mail with defined transport object
 						let info = Transporter.sendMail(mailOptions).then((ret) => {
 							console.log(`Message status ${ret.response}`)
 							console.log(ret)
+
+							console.log("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------")
+							console.table(emails)
 						})
 						return ret.dataValues;
 					});
@@ -99,7 +135,7 @@ const SendNotificationToLead = (args, ret) => {
 								}).then(_updated => {
 
 									let mailOptions = {
-										from: '"Corema Group" <tumistaffing@hotmail.com>', // sender address
+										from: '"Tumi Staffing" <tumistaffing@hotmail.com>', // sender address
 										to: emailAddress, // list of receivers
 										subject: "A new lead has sent to interview", // Subject line
 										html
