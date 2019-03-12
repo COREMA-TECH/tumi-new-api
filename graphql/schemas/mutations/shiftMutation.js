@@ -163,12 +163,12 @@ const ShiftMutation = {
 																								intEnvio = intEnvio + 1;
 
 																								let newPlacement = {
-                                                                                                    UserId: 10,
-                                                                                                    StageId: 30463,
-                                                                                                    ApplicationId: Employees.dataValues.id,
-                                                                                                    WorkOrderId: WOId,
-                                                                                                    Comment: args.comment,
-                                                                                                    ShiftId: args.id
+																									UserId: 10,
+																									StageId: 30463,
+																									ApplicationId: Employees.dataValues.id,
+																									WorkOrderId: WOId,
+																									Comment: args.comment,
+																									ShiftId: args.id
 																								};
 
 																								return Db.models.applicationPhases.create(newPlacement)
@@ -176,7 +176,7 @@ const ShiftMutation = {
 																										console.log("Created")
 																									})
 																									.catch(error => {
-                                                                                                        console.log("Error creating phase")
+																										console.log("Error creating phase")
 																									})
 																							}
 																						});
@@ -452,11 +452,38 @@ const ShiftMutation = {
 																		delete _shiftDetailEmployee.id;
 																		delete _shiftDetailEmployee.createdAt;
 																		delete _shiftDetailEmployee.updatedAt;
+																		return Db.models.ShiftDetailEmployees.findAndCountAll(
+																			{
+																				where: { EmployeeId: _shiftDetailEmployee.EmployeeId },
 
-																		return Db.models.ShiftDetailEmployees.create(_shiftDetailEmployee, { returning: true })
-																			.then(newShiftDetailEmployee => {
+																				include: [{
+																					model: Db.models.ShiftDetail,
+																					required: true,
+																					where: {
+																						startDate: _shiftDetail.startDate,
+																						[Op.or]: [
+																							{
+																								startTime: { [Op.lte]: _shiftDetail.startTime },
+																								endTime: { [Op.gte]: _shiftDetail.startTime }
+																							},
+																							{
+																								startTime: { [Op.lte]: _shiftDetail.endTime },
+																								endTime: { [Op.gte]: _shiftDetail.endTime }
+																							}
+																						]
 
+																					}
+																				}]
 																			})
+																			.then(result => {
+																				if (result.count == 0)
+																					return Db.models.ShiftDetailEmployees.create(_shiftDetailEmployee, { returning: true })
+																						.then(newShiftDetailEmployee => {
+
+																						})
+																				else return null;
+																			})
+
 																	})
 																})
 														})
@@ -643,11 +670,38 @@ const ShiftMutation = {
 																delete _shiftDetailEmployee.id;
 																delete _shiftDetailEmployee.createdAt;
 																delete _shiftDetailEmployee.updatedAt;
+																return Db.models.ShiftDetailEmployees.findAndCountAll(
+																	{
+																		where: { EmployeeId: _shiftDetailEmployee.EmployeeId },
 
-																return Db.models.ShiftDetailEmployees.create(_shiftDetailEmployee, { returning: true })
-																	.then(newShiftDetailEmployee => {
+																		include: [{
+																			model: Db.models.ShiftDetail,
+																			required: true,
+																			where: {
+																				startDate: _shiftDetail.startDate,
+																				[Op.or]: [
+																					{
+																						startTime: { [Op.lte]: _shiftDetail.startTime },
+																						endTime: { [Op.gte]: _shiftDetail.startTime }
+																					},
+																					{
+																						startTime: { [Op.lte]: _shiftDetail.endTime },
+																						endTime: { [Op.gte]: _shiftDetail.endTime }
+																					}
+																				]
 
+																			}
+																		}]
 																	})
+																	.then(result => {
+																		if (result.count == 0)
+																			return Db.models.ShiftDetailEmployees.create(_shiftDetailEmployee, { returning: true })
+																				.then(newShiftDetailEmployee => {
+
+																				})
+																		else return null;
+																	})
+
 															})
 
 														})
