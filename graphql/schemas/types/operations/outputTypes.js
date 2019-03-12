@@ -5,7 +5,8 @@ import {
     GraphQLObjectType,
     GraphQLList,
     GraphQLBoolean,
-    GraphQLInputObjectType
+	GraphQLInputObjectType,
+	GraphQLFloat
 } from 'graphql';
 import GraphQLDate from 'graphql-date';
 import {
@@ -1257,5 +1258,6 @@ export {
 	TimeElapsedType,
 	ShiftBoardType,
 	ApplicationCompletedDataType,
-	listPayrollType
+	listPayrollType,
+	PunchesReportType
 };
