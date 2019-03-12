@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "corema",
+    "password": "S0l040.246.",
+    "port": 5432,
+    "database": "Tumi_Dev",
+    "host": "coremagroup.cb4kqp6rssxe.us-east-2.rds.amazonaws.com",
+    "max": 10,
+    "idleTimeoutMillis": 900000,
+    "dialect": "postgresql"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
