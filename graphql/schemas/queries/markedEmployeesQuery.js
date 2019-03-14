@@ -19,7 +19,7 @@ const getPunchesEmployeeFilter = (filter) => {
         //Validate if the filter has value
         if (filter[prop])
             //Exclude startDate and endDate from filters
-            if (!["employee", "startDate", "endDate"].join().includes(prop))
+            if (!["employee", "startDate", "endDate", "idEntity"].join().includes(prop))
                 newFilter = { ...newFilter, [prop]: filter[prop] };
     }
     return newFilter;
@@ -39,6 +39,24 @@ const getPunchesMarkerFilter = (filter) => {
                 { markedDate: { [Op.lte]: filter.endDate.setUTCHours(23, 59, 59) } }
             ]
         }
+    return newFilter;
+}
+
+const getPunchesCompanyFilter = (filter) => {
+    var newFilter = {};
+
+    //Validate if filter object exists
+    if (!filter)
+        return newFilter;
+
+    //Loop trough eacth filter
+    for (var prop in filter) {
+        //Validate if the filter has value
+        if (filter[prop])
+            //Only filter by idEntity
+            if (prop == "idEntity")
+                newFilter = { ...newFilter, Id: filter[prop] };
+    }
     return newFilter;
 }
 
@@ -93,6 +111,7 @@ const MarkedEmployeesQuery = {
                     }]
                 }, {
                     model: Db.models.BusinessCompany,
+                    where: { ...getPunchesCompanyFilter(args) },
                     required: true
                 }]
             })
