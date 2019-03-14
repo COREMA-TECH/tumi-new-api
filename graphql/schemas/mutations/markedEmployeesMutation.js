@@ -35,6 +35,7 @@ const MarkedEmployeesMutation = {
 						markedDate: args.markedemployees.markedDate,
 						markedTime: args.markedemployees.markedTime,
 						imageMarked: args.markedemployees.imageMarked,
+						notes:args.markedemployees.notes
 					},
 					{
 						where: {
