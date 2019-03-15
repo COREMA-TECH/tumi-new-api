@@ -22,6 +22,9 @@ const markedEmployeesFields = {
 	},
 	ShiftId: {
 		type: GraphQLInt
+	},
+	notes: {
+		type: GraphQLString
 	}
 };
 export default markedEmployeesFields;

@@ -30,6 +30,9 @@ export default {
 				},
 				ShiftId: {
 					type: Sequelize.INTEGER,
+				},
+				notes: {
+					type: Sequelize.STRING
 				}
 			}
 		);
