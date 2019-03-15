@@ -32,7 +32,10 @@ export default {
 					type: Sequelize.INTEGER,
 				},
 				flag: {
-					type: Sequelize.BOOLEAN,
+					type: Sequelize.BOOLEAN
+				},
+				notes: {
+					type: Sequelize.STRING
 				}
 			}
 		);

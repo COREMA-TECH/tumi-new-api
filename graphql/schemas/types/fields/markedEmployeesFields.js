@@ -25,6 +25,9 @@ const markedEmployeesFields = {
 	},
 	flag: {
 		type: GraphQLBoolean
+	},
+	notes: {
+		type: GraphQLString
 	}
 };
 export default markedEmployeesFields;
