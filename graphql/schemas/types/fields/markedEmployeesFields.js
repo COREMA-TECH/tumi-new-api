@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLString } from 'graphql';
+import { GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
 import GraphQLDate from 'graphql-date';
 
 const markedEmployeesFields = {
@@ -22,6 +22,9 @@ const markedEmployeesFields = {
 	},
 	ShiftId: {
 		type: GraphQLInt
+	},
+	flag: {
+		type: GraphQLBoolean
 	}
 };
 export default markedEmployeesFields;

@@ -1,10 +1,10 @@
 import {
-    GraphQLInt,
-    GraphQLString,
-    GraphQLNonNull,
-    GraphQLObjectType,
-    GraphQLList,
-    GraphQLBoolean,
+	GraphQLInt,
+	GraphQLString,
+	GraphQLNonNull,
+	GraphQLObjectType,
+	GraphQLList,
+	GraphQLBoolean,
 	GraphQLInputObjectType,
 	GraphQLFloat
 } from 'graphql';
@@ -1155,7 +1155,12 @@ const PunchesReportType = new GraphQLObjectType({
 			lunchOut: { type: GraphQLString },
 			hotelCode: { type: GraphQLString },
 			positionCode: { type: GraphQLString },
-			imageMarked: { type: GraphQLString }
+			imageMarkedIn: { type: GraphQLString },
+			imageMarkedOut: { type: GraphQLString },
+			flagMarkedIn: { type: GraphQLBoolean },
+			flagMarkedOut: { type: GraphQLBoolean },
+			idMarkedIn: { type: GraphQLInt },
+			idMarkedOut: { type: GraphQLInt }
 		}
 	}
 })
@@ -1202,16 +1207,16 @@ const ConfigRegionsType = new GraphQLObjectType({
 
 // Type to use in payroll mutation and query
 const listPayrollType = new GraphQLObjectType({
-    name: 'payroll',
-    description: 'This represent a payroll',
-    fields: () => {
-        return {
-            id: {
-                type: GraphQLInt,
-            },
-            ...payrollFields
-        }
-    }
+	name: 'payroll',
+	description: 'This represent a payroll',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+			},
+			...payrollFields
+		}
+	}
 });
 
 export {
