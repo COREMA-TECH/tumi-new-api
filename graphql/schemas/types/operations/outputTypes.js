@@ -880,6 +880,12 @@ const EmployeesType = new GraphQLObjectType({
 					return me.getApplicationEmployee();
 				}
 			},
+			Deparment: {
+				type: CatalogItemType,
+				resolve(me) {
+					return me.getCatalogDepartment();
+				}
+			},
 			ShiftDetailEmployee: {
 				type: new GraphQLList(ShiftDetailEmployeesType),
 				resolve(me) {
@@ -1187,6 +1193,7 @@ const ApplicationEmployeesType = new GraphQLObjectType({
 					return me.getApplication();
 				}
 			},
+
 		}
 	}
 });
