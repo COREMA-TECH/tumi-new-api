@@ -64,6 +64,9 @@ const ApplicationQuery = {
 			UserId:
 			{
 				type: GraphQLInt
+			},
+			socialSecurityNumber: {
+				type: GraphQLString
 			}
 		},
 		resolve(root, args) {

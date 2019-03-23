@@ -282,6 +282,11 @@ ShiftDetailEmployees.belongsTo(Employees, {
 
 Employees.hasMany(MarkedEmployees)
 
+Employees.belongsTo(CatalogItem, {
+	foreignKey: 'Id_Deparment',
+	as: 'CatalogDepartment'
+});
+
 MarkedEmployees.belongsTo(Employees, {
 	foreignKey: 'EmployeeId',
 	as: 'Employees'
