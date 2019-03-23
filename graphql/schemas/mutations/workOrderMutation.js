@@ -12,69 +12,81 @@ const WorkOrderMutation = {
 		type: new GraphQLList(WorkOrderType),
 		description: 'Add Work Order to database',
 		args: {
-			workOrder: { type: new GraphQLList(inputInsertWorkOrder) },
-			shift: { type: new GraphQLList(inputInsertShift) },
-			startDate: { type: new GraphQLNonNull(GraphQLDate) },
-			endDate: { type: new GraphQLNonNull(GraphQLDate) },
-			startshift: { type: new GraphQLNonNull(GraphQLString) },
-			endshift: { type: new GraphQLNonNull(GraphQLString) },
-			quantity: { type: new GraphQLNonNull(GraphQLInt) },
-			Electronic_Address: { type: new GraphQLNonNull(GraphQLString) }
+			workOrder: { type: new GraphQLList(inputInsertWorkOrder) }
 		},
 		resolve(source, args) {
+
+			let shifts = [], phasesData = [], dates = [], ShiftWorkOrder = [];
 
 			return Db.models.WorkOrder.bulkCreate(args.workOrder, { returning: true }).then((ret) => {
 				return ret.map((data) => {
 
-					Db.models.PhaseWorkOrder.create({
-						userId: args.workOrder[0].userId,
-						phaseworkOrderId: 30453,
-						WorkOrderId: data.dataValues.id
-					});
+					let workOrdersPhase = {}, currentQ = 0, shiftData, ShiftWorkOrderData;
+					let weekDays = data.dataValues.dayWeek.replace("MO", 1).replace("TU", 2).replace("WE", 3).replace("TH", 4).replace("FR", 5).replace("SA", 6).replace("SU", 0);
 
-					var currentQ = 1;
-
-					while (currentQ <= args.quantity) {
-
-						currentQ = currentQ + 1;
-
-						//Db.models.WorkOrderPosition.create({ userId: args.workOrder[0].userId, status: args.workOrder[0].status, quantity: 1, PositionRateId: args.workOrder[0].PositionRateId, WorkOrderId: data.dataValues.id });
-
-						Db.models.Shift.bulkCreate(args.shift, { returning: true }).then((ret) => {
-							return ret.map((datashift) => {
-
-
-								var dates = []//List of dates
-								var currentDate = new Date(args.startDate); //Variables used to save the current date inside the while
-								var endDate = new Date(args.endDate); //Variables used to save the current date inside the while
-
-
-								//	sendgenericemail({ StartDate: currentDate.toISOString().substring(0, 10), ToDate: endDate.toISOString().substring(0, 10), ShiftStart: args.startshift, ShiftEnd: args.endshift, shift: datashift.dataValues.id, email: args.Electronic_Address, title: args.shift[0].title })
-
-
-								//Get every day between startDate and endDate to generate ShiftDetail records
-								while (currentDate <= endDate) {
-									let newDate = new Date(currentDate)
-									if (args.shift[0].dayWeek.indexOf('MO') != -1 && newDate.getUTCDay() == 1) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
-									if (args.shift[0].dayWeek.indexOf('TU') != -1 && newDate.getUTCDay() == 2) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
-									if (args.shift[0].dayWeek.indexOf('WE') != -1 && newDate.getUTCDay() == 3) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
-									if (args.shift[0].dayWeek.indexOf('TH') != -1 && newDate.getUTCDay() == 4) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
-									if (args.shift[0].dayWeek.indexOf('FR') != -1 && newDate.getUTCDay() == 5) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
-									if (args.shift[0].dayWeek.indexOf('SA') != -1 && newDate.getUTCDay() == 6) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
-									if (args.shift[0].dayWeek.indexOf('SU') != -1 && newDate.getUTCDay() == 0) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: 0 }); }
-
-									currentDate.setDate(currentDate.getDate() + 1)
-								}
-
-								//Insert ShiftDetail records into database
-								Db.models.ShiftDetail.bulkCreate(dates, { returning: true }).then((ret) => { });
-								//Insert Shift - WorkOrder records into database
-								Db.models.ShiftWorkOrder.create({ ShiftId: datashift.dataValues.id, WorkOrderId: data.dataValues.id });
-							});
-						});
+					workOrdersPhase = {
+						userId : data.dataValues.userId,
+						phaseworkOrderId : 30453,
+						WorkOrderId : data.dataValues.id
 					}
 
-					return data.dataValues;
+					phasesData.push(workOrdersPhase);
+					
+					while (currentQ < data.dataValues.quantity) {
+						shiftData = {
+							entityId : data.dataValues.IdEntity,
+							title : data.dataValues.id,
+							color : '#96989A',
+							status : 1,
+							idPosition : data.dataValues.PositionRateId,
+							startDate : data.dataValues.startDate,
+							endDate : data.dataValues.endDate,
+							needExperience : data.dataValues.needExperience,
+							needEnglish : data.dataValues.needEnglish,
+							comment : data.dataValues.comment,
+							contactId : data.dataValues.contactId,
+							EspecialComment : "",
+							endshift : data.dataValues.endShift,
+							departmentId: data.dataValues.departmentId,
+							dayWeek: data.dataValues.dayWeek
+						}
+						shifts.push(shiftData);
+						currentQ = currentQ + 1;
+					}
+
+					Db.models.Shift.bulkCreate(shifts, { returning: true }).then((shiftsSaved) => {
+						shiftsSaved.map((shift) => {
+							let currentDate = new Date(shift.dataValues.startDate);
+							while (currentDate <= data.dataValues.endDate) {
+								let newDate = new Date(currentDate);
+
+								if (weekDays.includes(newDate.getDay())) {
+									dates.push({
+										startDate: newDate,
+										endDate: newDate,
+										startTime: data.dataValues.shift,
+										endTime: data.dataValues.endShift,
+										color: '#96989A', 
+										status: 0
+									});
+								}
+
+								currentDate.setDate(currentDate.getDate() + 1)
+							}
+							ShiftWorkOrderData = {
+								ShiftId : shift.dataValues.id,
+								WorkOrderId : data.dataValues.id
+							}
+							ShiftWorkOrder.push(ShiftWorkOrderData);
+						});
+					});
+					
+				});
+			}).then(() => {
+				Db.models.PhaseWorkOrder.bulkCreate(phasesData).then(() => {
+					Db.models.ShiftWorkOrder.bulkCreate(ShiftWorkOrder).then(() => {
+						Db.models.ShiftDetail.bulkCreate(dates);
+					});
 				});
 			});
 		}

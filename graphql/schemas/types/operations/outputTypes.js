@@ -1,4 +1,13 @@
-import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLObjectType, GraphQLList, GraphQLBoolean } from 'graphql';
+import {
+	GraphQLInt,
+	GraphQLString,
+	GraphQLNonNull,
+	GraphQLObjectType,
+	GraphQLList,
+	GraphQLBoolean,
+	GraphQLInputObjectType,
+	GraphQLFloat
+} from 'graphql';
 import GraphQLDate from 'graphql-date';
 import {
 	ApplicantLanguagesFields,
@@ -44,6 +53,7 @@ import {
 } from '../fields';
 
 import Db from '../../../models/models';
+import payrollFields from "../fields/payrollFields";
 
 const ApplicationType = new GraphQLObjectType({
 	name: 'Applications',
@@ -1128,6 +1138,33 @@ const MarkedEmployeesType = new GraphQLObjectType({
 	}
 });
 
+const PunchesReportType = new GraphQLObjectType({
+	name: 'PunchesReportType',
+	description: 'This structured is used to generate report about punches',
+	fields: () => {
+		return {
+			employeeId: { type: GraphQLInt },
+			name: { type: GraphQLString },
+			hourCategory: { type: GraphQLString },
+			hoursWorked: { type: GraphQLFloat },
+			payRate: { type: GraphQLFloat },
+			date: { type: GraphQLString },
+			clockIn: { type: GraphQLString },
+			clockOut: { type: GraphQLString },
+			lunchIn: { type: GraphQLString },
+			lunchOut: { type: GraphQLString },
+			hotelCode: { type: GraphQLString },
+			positionCode: { type: GraphQLString },
+			imageMarkedIn: { type: GraphQLString },
+			imageMarkedOut: { type: GraphQLString },
+			flagMarkedIn: { type: GraphQLBoolean },
+			flagMarkedOut: { type: GraphQLBoolean },
+			idMarkedIn: { type: GraphQLInt },
+			idMarkedOut: { type: GraphQLInt }
+		}
+	}
+})
+
 const ApplicationEmployeesType = new GraphQLObjectType({
 	name: 'ApplicationEmployees',
 	description: 'This is for Marked Employees Table',
@@ -1164,6 +1201,20 @@ const ConfigRegionsType = new GraphQLObjectType({
 				description: 'table id'
 			},
 			...ConfigRegionsFields
+		}
+	}
+});
+
+// Type to use in payroll mutation and query
+const listPayrollType = new GraphQLObjectType({
+	name: 'payroll',
+	description: 'This represent a payroll',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+			},
+			...payrollFields
 		}
 	}
 });
@@ -1211,5 +1262,7 @@ export {
 	ConfigRegionsType,
 	TimeElapsedType,
 	ShiftBoardType,
-	ApplicationCompletedDataType
+	ApplicationCompletedDataType,
+	listPayrollType,
+	PunchesReportType
 };

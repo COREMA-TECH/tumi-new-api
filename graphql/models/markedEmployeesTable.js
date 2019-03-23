@@ -24,6 +24,18 @@ export default {
 				imageMarked: {
 					type: Sequelize.STRING,
 					allowNull: true
+				},
+				EmployeeId: {
+					type: Sequelize.INTEGER,
+				},
+				ShiftId: {
+					type: Sequelize.INTEGER,
+				},
+				flag: {
+					type: Sequelize.BOOLEAN
+				},
+				notes: {
+					type: Sequelize.STRING
 				}
 			}
 		);

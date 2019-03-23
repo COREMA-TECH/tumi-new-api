@@ -18,7 +18,7 @@ const SendNotificationToInterview = (args, ret) => {
 				return _user.dataValues.Electronic_Address.trim()
 			})
 
-            emails[1] = 'laurenmontenegro10@gmail.com';
+			emails[1] = 'laurenmontenegro10@gmail.com';
 
 			//Join emails
 			emails = emails.join(', ');
@@ -74,8 +74,8 @@ const SendNotificationToInterview = (args, ret) => {
 							console.log(`Message status ${ret.response}`)
 							console.log(ret)
 
-                            console.log("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------")
-                            console.table(emails)
+							console.log("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------")
+							console.table(emails)
 						})
 						return ret.dataValues;
 					});

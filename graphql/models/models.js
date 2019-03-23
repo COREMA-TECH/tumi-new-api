@@ -292,6 +292,12 @@ MarkedEmployees.belongsTo(CatalogItem, {
 	as: 'CatalogMarked'
 });
 
+MarkedEmployees.belongsTo(Shift);
+MarkedEmployees.belongsTo(BusinessCompany, {
+	foreignKey: 'entityId',
+});
+
+
 Application.hasOne(ApplicationEmployees);
 Employees.hasOne(ApplicationEmployees);
 

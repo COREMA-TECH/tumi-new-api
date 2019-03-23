@@ -31,6 +31,7 @@ import {
 	ConfigRegionsFields,
 	UsersFields
 } from '../fields';
+import payrollFields from "../fields/payrollFields";
 
 const inputUpdateApplication = new GraphQLInputObjectType({
 	name: 'inputUpdateApplication',
@@ -407,6 +408,20 @@ const inputUpdateUser = new GraphQLInputObjectType({
 	}
 });
 
+// Type to use in payroll mutation and query to update a payroll
+const updatePayrollType = new GraphQLInputObjectType({
+	name: 'updatePayrollType',
+	description: 'This represent a payroll update',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt
+			},
+			...payrollFields
+		}
+	}
+});
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -437,5 +452,6 @@ export {
 	inputUpdateRolesForms,
 	inputUpdateCatalogItem,
 	inputUpdateConfigRegions,
-	inputUpdateUser
+	inputUpdateUser,
+	updatePayrollType
 };

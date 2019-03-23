@@ -69,7 +69,11 @@ export default {
 			quantityFilled: {
 				type: Sequelize.INTEGER,
 				allowNull: true
-			}
+			},
+			departmentId: {
+				type: Sequelize.INTEGER,
+				allowNull: true
+			},
 		});
 	}
 };
