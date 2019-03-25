@@ -4,6 +4,9 @@ import Db from '../../models/models';
 import GraphQLDate from 'graphql-date';
 import moment from 'moment';
 import Sequelize from 'sequelize';
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
 
 const Op = Sequelize.Op;
 
@@ -82,8 +85,8 @@ const PunchesEmployeesQuery = {
             return Db.models.MarkedEmployees.findAll({ where: args });
         }
     },
-    punches: {
-        type: new GraphQLList(PunchesReportType),
+    punchesConsolidated: {
+        type: new GraphQLString,
         description: "Get Punches report",
         args: {
             idEntity: { type: GraphQLInt },
@@ -176,7 +179,37 @@ const PunchesEmployeesQuery = {
 
                     });
 
-                    return punches;//Return list of punches
+                    // output file in the same folder
+                    const filename = path.join(__dirname, 'output.csv');
+                    const output = []; // holds all rows of data
+
+                    data.forEach((d) => {
+                        const row = []; // a new array for each row of data
+                        row.push(d.employeeId);
+                        row.push(d.name);
+                        row.push(d.hourCategory);
+                        row.push(d.hoursWorked);
+                        row.push(d.payRate);
+                        row.push(d.date);
+                        row.push(d.clockIn);
+                        row.push(d.clockOut);
+                        row.push(d.lunchIn);
+                        row.push(d.lunchOut);
+                        row.push(d.hotelCode);
+                        row.push(d.positionCode);
+                        row.push(d.imageMarkedIn);
+                        row.push(d.imageMarkedOut);
+                        row.push(d.flagMarkedIn);
+                        row.push(d.flagMarkedOut);
+                        row.push(d.idMarkedIn);
+                        row.push(d.idMarkedOut);
+
+                        output.push(row.join()); // by default, join() uses a ','
+                    });
+
+                    fs.writeFileSync(filename, output.join(os.EOL));
+
+                    return filename; //Return the filename - path
                 })
         }
     }
