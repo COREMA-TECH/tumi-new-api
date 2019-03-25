@@ -38,6 +38,7 @@ import FormsFields from './formFields';
 import RolesFormsFields from './roleformFields';
 import ConfigRegionsFields from './configRegionsFields';
 import UserFields from './usersFields';
+import consolidatedPunchesCSVTypes from './consolidatedPunchesCSVType';
 
 export {
 	ApplicantLanguagesFields,
@@ -79,5 +80,6 @@ export {
 	FormsFields,
 	RolesFormsFields,
 	ConfigRegionsFields,
-	UserFields
+	UserFields,
+    consolidatedPunchesCSVTypes
 };

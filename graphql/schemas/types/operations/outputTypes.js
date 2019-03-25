@@ -49,7 +49,7 @@ import {
 	FormsFields,
 	RolesFormsFields,
 	ConfigRegionsFields,
-
+    consolidatedPunchesCSVTypes
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -1226,6 +1226,19 @@ const listPayrollType = new GraphQLObjectType({
 	}
 });
 
+// Type to use in payroll mutation and query
+const getCSVURLType = new GraphQLObjectType({
+	name: 'CSVUrl',
+	description: 'This represent a url',
+	fields: () => {
+		return {
+			...consolidatedPunchesCSVTypes
+		}
+	}
+});
+
+
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -1271,5 +1284,6 @@ export {
 	ShiftBoardType,
 	ApplicationCompletedDataType,
 	listPayrollType,
-	PunchesReportType
+	PunchesReportType,
+    getCSVURLType
 };

@@ -1,4 +1,4 @@
-import {GraphQLInt, GraphQLString} from 'graphql';
+import {GraphQLInt, GraphQLObjectType, GraphQLString} from 'graphql';
 import Db from '../../models/models';
 import GraphQLDate from 'graphql-date';
 import moment from 'moment';
@@ -6,6 +6,7 @@ import Sequelize from 'sequelize';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
+import {getCSVURLType} from "../types/operations/outputTypes";
 
 const Op = Sequelize.Op;
 
@@ -67,10 +68,8 @@ const getPunchesCompanyFilter = (filter) => {
 
 const PunchesEmployeesQuery = {
     punchesConsolidated: {
-        type: {
-            filename: GraphQLString
-        },
-        description: "Get Punches report",
+        type: getCSVURLType,
+        description: "Get Punches csv",
         args: {
             idEntity: {type: GraphQLInt},
             Id_Department: {type: GraphQLInt},
@@ -175,10 +174,10 @@ const PunchesEmployeesQuery = {
                     });
 
                     // output file in the same folder
-                    const filename = path.join(__dirname, 'output.csv');
+                    const filename = path.join('./public/', 'output.csv');
                     const output = []; // holds all rows of data
 
-                    data.forEach((d) => {
+                    punches.forEach((d) => {
                         const row = []; // a new array for each row of data
                         row.push(d.employeeId);
                         row.push(d.name);
@@ -204,8 +203,10 @@ const PunchesEmployeesQuery = {
 
                     fs.writeFileSync(filename, output.join(os.EOL));
 
+                    console.clear();
+                    console.log("------------------------------------------------------------------------------------------------");
                     console.log("Filename ----> ", filename.toString());
-                    return filename; //Return the filename - path
+                    return "This is the url"; //Return the filename - path
                 })
         }
     }
