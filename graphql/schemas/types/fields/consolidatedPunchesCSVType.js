@@ -1,8 +1,8 @@
-import {GraphQLString} from 'graphql';
+import {GraphQLNonNull, GraphQLString} from 'graphql';
 
 const punchesCSVFields = {
     path: {
-        type: GraphQLString
+        type: new GraphQLNonNull(GraphQLString)
     },
 };
 

@@ -174,11 +174,13 @@ const PunchesEmployeesQuery = {
                     });
 
                     // output file in the same folder
-                    const filename = path.join('./public/', 'output.csv');
+                    const filename = path.join(__dirname, 'output.csv');
                     const output = []; // holds all rows of data
 
+                    const row = [];
+
                     punches.forEach((d) => {
-                        const row = []; // a new array for each row of data
+                         // a new array for each row of data
                         row.push(d.employeeId);
                         row.push(d.name);
                         row.push(d.hourCategory);
@@ -206,7 +208,10 @@ const PunchesEmployeesQuery = {
                     console.clear();
                     console.log("------------------------------------------------------------------------------------------------");
                     console.log("Filename ----> ", filename.toString());
-                    return "This is the url"; //Return the filename - path
+
+
+                    let pathname = filename.toString();
+                    return pathname; //Return the filename - path
                 })
         }
     }
