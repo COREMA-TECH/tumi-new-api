@@ -178,9 +178,31 @@ const PunchesEmployeesQuery = {
                     const output = []; // holds all rows of data
 
                     const row = [];
+                    row.push("Employee ID");
+                    row.push("Name");
+                    row.push("Hour Category");
+                    row.push("hoursWorked");
+                    row.push("Pay Rate");
+                    row.push("Date");
+                    row.push("Clock In");
+                    row.push("Clock Out");
+                    row.push("Lunch In");
+                    row.push("Lunch Out");
+                    row.push("Hotel Code");
+                    row.push("Position Code");
+                    row.push("Image Marked In");
+                    row.push("Image Marked Out");
+                    row.push("Flag Marked In");
+                    row.push("FlagMarkedOut");
+                    row.push("Id Marked In");
+                    row.push("Id Marked Out");
+
+                    output.push(row.join())
 
                     punches.forEach((d) => {
-                         // a new array for each row of data
+                        // a new array for each row of data
+                        const row = [];
+
                         row.push(d.employeeId);
                         row.push(d.name);
                         row.push(d.hourCategory);
