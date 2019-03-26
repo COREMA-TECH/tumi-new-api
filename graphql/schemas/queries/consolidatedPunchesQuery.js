@@ -179,6 +179,7 @@ const PunchesEmployeesQuery = {
                     const filename = path.join(mainPath + '/public/', 'output.csv'); // TODO: test url
                     const output = []; // holds all rows of data
 
+                    // Create first row to show header with titles
                     const row = [];
                     row.push("Employee ID");
                     row.push("Name");
@@ -199,6 +200,7 @@ const PunchesEmployeesQuery = {
                     row.push("Id Marked In");
                     row.push("Id Marked Out");
 
+                    // Save the first row
                     output.push(row.join())
 
                     punches.forEach((d) => {
@@ -230,7 +232,7 @@ const PunchesEmployeesQuery = {
                     fs.writeFileSync(filename, output.join(os.EOL));
 
                     console.clear();
-                    console.log("------------------------------------------------------------------------------------------------");
+                    console.log("----------------------------------------------------------------------------");
                     console.log("Filename ----> ", filename.toString());
 
 
