@@ -68,7 +68,7 @@ const getPunchesCompanyFilter = (filter) => {
 
 const PunchesEmployeesQuery = {
     punchesConsolidated: {
-        type: getCSVURLType,
+        type: GraphQLString,
         description: "Get Punches csv",
         args: {
             idEntity: {type: GraphQLInt},
@@ -173,6 +173,10 @@ const PunchesEmployeesQuery = {
 
                     });
 
+                    /**
+                     *
+                     * @type {string}
+                     */
                     let mainPath = path.dirname(require.main.filename);
 
                     // output file in the same folder
@@ -235,7 +239,12 @@ const PunchesEmployeesQuery = {
 
 
                     let pathname = filename.toString();
-                    return pathname; //Return the filename - path
+                    /**
+                     *
+                     */
+
+
+                    return '/public/' + 'output.csv'; //Return the filename - path
                 })
         }
     }
