@@ -173,8 +173,10 @@ const PunchesEmployeesQuery = {
 
                     });
 
+                    let mainPath = path.dirname(require.main.filename);
+
                     // output file in the same folder
-                    const filename = path.join(__dirname, 'output.csv');
+                    const filename = path.join(mainPath + '/public/', 'output.csv'); // TODO: test url
                     const output = []; // holds all rows of data
 
                     const row = [];
