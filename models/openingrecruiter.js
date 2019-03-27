@@ -1,6 +1,6 @@
 'use strict';
 import UsersTable from '../graphql/models/UsersTable';
-import OpeningTable from '../graphql/models/ShiftDetailTable';
+import OpeningTable from '../graphql/models/shiftDetailTable';
 
 module.exports = (sequelize, DataTypes) => {
     const OpeningRecruiter = sequelize.define('OpeningRecruiter', {
