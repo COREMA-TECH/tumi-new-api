@@ -1,4 +1,10 @@
-import { inputInsertShift, filterShiftConvertToOpening, filterShiftWOConvertToOpening, inputApplicantPhase } from '../types/operations/insertTypes';
+import {
+    inputInsertShift,
+    filterShiftConvertToOpening,
+    filterShiftWOConvertToOpening,
+    inputApplicantPhase,
+    insertOpeningRecruiterType
+} from '../types/operations/insertTypes';
 import { inputUpdateShift } from '../types/operations/updateTypes';
 import { ShiftType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
@@ -13,14 +19,13 @@ import Db from '../../models/models';
 
 const OpeningRecruiterMutation = {
 	addOpeningRecruiter: {
-		type: new GraphQLList(ShiftType),
+		type: insertOpeningRecruiterType,
 		description: 'Add OpeningRecruiter',
 		args: {
-			recruiterId: {
-				type: GraphQLInt
-			},
-			openingId: {
-				type: GraphQLInt
+			openingRecruiter: {
+				type: {
+
+				}
 			}
 		},
 		resolve(source, args) {

@@ -44,6 +44,7 @@ import {
 	ConfigRegionsFields,
 	UsersFields,
 	ContactsFields,
+	openingRecruiterFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -439,6 +440,22 @@ const insertPayrollType = new GraphQLInputObjectType({
 });
 
 
+
+// Type to use in payroll mutation and query
+const insertOpeningRecruiterType = new GraphQLInputObjectType({
+    name: 'insertOpeningRecruiterType',
+    description: 'This represent a  Opening Recruiter insert',
+    fields: () => {
+        return {
+            ...openingRecruiterFields
+        }
+    }
+});
+
+
+
+
+
 export {
     insertPayrollType,
 	inputInsertApplicantLanguage,
@@ -485,4 +502,5 @@ export {
 	filterShiftWOConvertToOpening,
 	inputInsertContact,
 	inputQueryWorkOrder,
+    insertOpeningRecruiterType
 };

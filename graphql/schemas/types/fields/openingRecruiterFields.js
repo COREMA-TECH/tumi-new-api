@@ -8,4 +8,5 @@ const openingRecruiterFields = {
         type: GraphQLInt
     }
 };
+
 export default openingRecruiterFields;
