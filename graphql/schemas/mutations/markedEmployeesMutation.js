@@ -28,15 +28,7 @@ const MarkedEmployeesMutation = {
 		},
 		resolve(source, args) {
 			return Db.models.MarkedEmployees
-				.update(
-					{
-						entityId: args.markedemployees.entityId,
-						typeMarkedId: args.markedemployees.typeMarkedId,
-						markedDate: args.markedemployees.markedDate,
-						markedTime: args.markedemployees.markedTime,
-						imageMarked: args.markedemployees.imageMarked,
-						notes:args.markedemployees.notes
-					},
+				.update(args.markedemployees,
 					{
 						where: {
 							id: args.markedemployees.id

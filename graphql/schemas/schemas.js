@@ -78,7 +78,8 @@ import {
 	ConfigRegionsQuery,
 	TimeElapsedQuery,
 	UserQuery,
-	payrollQuery
+	payrollQuery,
+	consolidatedPunchesQuery
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -124,7 +125,8 @@ const RootQuery = new GraphQLObjectType({
 		...ConfigRegionsQuery,
 		...TimeElapsedQuery,
 		...UserQuery,
-		...payrollQuery
+		...payrollQuery,
+		...consolidatedPunchesQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({

@@ -31,6 +31,9 @@ export default {
 				ShiftId: {
 					type: Sequelize.INTEGER,
 				},
+				flag: {
+					type: Sequelize.BOOLEAN
+				},
 				notes: {
 					type: Sequelize.STRING
 				}

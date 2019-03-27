@@ -13,7 +13,7 @@ var cron = require('node-cron');
 
 var Strquery, Strquery_2, Strfilename;
 
-cron.schedule('59 23 * * *', () => {
+cron.schedule('59 11 * * *', () => {
 	console.log('running a task At 23:59.');
 	SendExpiredContracts();
 });
@@ -79,6 +79,8 @@ async function ChangeStatusNS() {
 }
 
 async function SendExpiredContracts() {
+	console.log("Expiration contract");
+
 	try {
 		const strday = `'day'`;
 		Strquery =
@@ -131,10 +133,10 @@ async function SendExpiredContracts() {
                     from: 'tumistaffing@hotmail.com',
                     to: '',
                     subject: 'Contract Expiration Reminder',
-                    html: htmlForEmail(element.Contract_Name, element.Contract_Expiration_Date)
+                    html: htmlForEmail(element.Contracrt, element.Contract_Expiration_Date)
                 };
 
-				mailOptions.to = element.Electronic_Address;
+				mailOptions.to = 'laurenmontenegro10@gmail.com';
 
 				transporter.sendMail(mailOptions, function (error, info) {
 					if (error) {
@@ -147,7 +149,7 @@ async function SendExpiredContracts() {
 					console.log('\n');
 				});
 
-				mailOptions.to = element.Primary_Email;
+				mailOptions.to = 'laurenmontenegro10@gmail.com';
 
 				transporter.sendMail(mailOptions, function (error, info) {
 					if (error) {

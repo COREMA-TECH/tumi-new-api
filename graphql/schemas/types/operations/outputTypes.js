@@ -1,10 +1,10 @@
 import {
-    GraphQLInt,
-    GraphQLString,
-    GraphQLNonNull,
-    GraphQLObjectType,
-    GraphQLList,
-    GraphQLBoolean,
+	GraphQLInt,
+	GraphQLString,
+	GraphQLNonNull,
+	GraphQLObjectType,
+	GraphQLList,
+	GraphQLBoolean,
 	GraphQLInputObjectType,
 	GraphQLFloat
 } from 'graphql';
@@ -49,7 +49,7 @@ import {
 	FormsFields,
 	RolesFormsFields,
 	ConfigRegionsFields,
-
+    consolidatedPunchesCSVTypes
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -880,6 +880,12 @@ const EmployeesType = new GraphQLObjectType({
 					return me.getApplicationEmployee();
 				}
 			},
+			Deparment: {
+				type: CatalogItemType,
+				resolve(me) {
+					return me.getCatalogDepartment();
+				}
+			},
 			ShiftDetailEmployee: {
 				type: new GraphQLList(ShiftDetailEmployeesType),
 				resolve(me) {
@@ -1155,7 +1161,12 @@ const PunchesReportType = new GraphQLObjectType({
 			lunchOut: { type: GraphQLString },
 			hotelCode: { type: GraphQLString },
 			positionCode: { type: GraphQLString },
-			imageMarked: { type: GraphQLString }
+			imageMarkedIn: { type: GraphQLString },
+			imageMarkedOut: { type: GraphQLString },
+			flagMarkedIn: { type: GraphQLBoolean },
+			flagMarkedOut: { type: GraphQLBoolean },
+			idMarkedIn: { type: GraphQLInt },
+			idMarkedOut: { type: GraphQLInt }
 		}
 	}
 })
@@ -1182,6 +1193,7 @@ const ApplicationEmployeesType = new GraphQLObjectType({
 					return me.getApplication();
 				}
 			},
+
 		}
 	}
 });
@@ -1202,17 +1214,30 @@ const ConfigRegionsType = new GraphQLObjectType({
 
 // Type to use in payroll mutation and query
 const listPayrollType = new GraphQLObjectType({
-    name: 'payroll',
-    description: 'This represent a payroll',
-    fields: () => {
-        return {
-            id: {
-                type: GraphQLInt,
-            },
-            ...payrollFields
-        }
-    }
+	name: 'payroll',
+	description: 'This represent a payroll',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+			},
+			...payrollFields
+		}
+	}
 });
+
+// Type to use in payroll mutation and query
+const getCSVURLType = new GraphQLObjectType({
+	name: 'CSVUrl',
+	description: 'This represent a url',
+	fields: () => {
+		return {
+			...consolidatedPunchesCSVTypes
+		}
+	}
+});
+
+
 
 export {
 	ApplicationType,
@@ -1259,5 +1284,6 @@ export {
 	ShiftBoardType,
 	ApplicationCompletedDataType,
 	listPayrollType,
-	PunchesReportType
+	PunchesReportType,
+    getCSVURLType
 };

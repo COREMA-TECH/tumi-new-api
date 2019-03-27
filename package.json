@@ -24,6 +24,7 @@
 		"babel-preset-env": "^1.7.0",
 		"babel-preset-latest": "^6.24.1",
 		"cors": "^2.8.4",
+		"csv": "^5.1.1",
 		"express": "^4.16.3",
 		"express-graphql": "^0.6.12",
 		"firebase": "^5.8.3",
@@ -45,7 +46,8 @@
 		"pg-promise": "^8.4.5",
 		"phantomjs-prebuilt": "^2.1.13",
 		"sequelize": "^4.38.1",
-		"sudo": "^1.0.3"
+		"sudo": "^1.0.3",
+		"uuid": "^3.3.2"
 	},
 	"devDependencies": {
 		"@babel/preset-stage-3": "^7.0.0",
