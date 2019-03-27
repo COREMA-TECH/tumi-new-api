@@ -7,6 +7,7 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import {getCSVURLType} from "../types/operations/outputTypes";
+const uuidv4 = require('uuid/v4');
 
 const Op = Sequelize.Op;
 
@@ -68,7 +69,7 @@ const getPunchesCompanyFilter = (filter) => {
 
 const PunchesEmployeesQuery = {
     punchesConsolidated: {
-        type: getCSVURLType,
+        type: GraphQLString,
         description: "Get Punches csv",
         args: {
             idEntity: {type: GraphQLInt},
@@ -173,10 +174,17 @@ const PunchesEmployeesQuery = {
 
                     });
 
+                    /**
+                     *
+                     * @type {string}
+                     */
                     let mainPath = path.dirname(require.main.filename);
 
+                    // random string
+                    let random = uuidv4();
+
                     // output file in the same folder
-                    const filename = path.join(mainPath + '/public/', 'output.csv'); // TODO: test url
+                    const filename = path.join(mainPath + '/public/', 'output-' + random.substring(0, 5) + '.csv'); // TODO: test url
                     const output = []; // holds all rows of data
 
                     // Create first row to show header with titles
@@ -237,7 +245,12 @@ const PunchesEmployeesQuery = {
 
 
                     let pathname = filename.toString();
-                    return pathname; //Return the filename - path
+                    /**
+                     *
+                     */
+
+
+                    return '/public/' + 'output-' + random.substring(0, 5) + '.csv'; //Return the filename - path
                 })
         }
     }
