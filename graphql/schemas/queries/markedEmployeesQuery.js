@@ -82,6 +82,81 @@ const MarkedEmployeesQuery = {
             return Db.models.MarkedEmployees.findAll({ where: args });
         }
     },
+    punchesDetails: {
+        type: new GraphQLList(MarkedEmployeesType),
+        description: 'List punches by employees and date',
+        args: {
+            EmployeeId: {
+                type: GraphQLInt
+            }
+        },
+        resolve(root, args) {
+            return Db.models.MarkedEmployees.findAll({ 
+                where: args,
+                order: [
+                    ['markedDate','DESC'],
+                    ['markedTime','ASC']
+                ],
+                include: [{
+                    model: Db.models.Employees,
+                    as: 'Employees',
+                    required: true,
+                    include: [{
+                        model: Db.models.ShiftDetailEmployees,
+                        required: true,
+                        include: [{
+                            model: Db.models.ShiftDetail,
+                            required: true,
+                            include: [{
+                                model: Db.models.Shift,
+                                required: true,
+                                include: [{
+                                    model: Db.models.ShiftWorkOrder,
+                                    required: true
+                                }]
+                            }]
+                        }]
+                    }]
+                }, {
+                    model: Db.models.CatalogItem,
+                    as: 'CatalogMarked',
+                    required: true
+                },{
+                    model: Db.models.BusinessCompany,
+                    required: true
+                }]
+            }).then(markedEmployees => {
+                let details = {};
+                let CurrentMarkedDate = '', x = 0;
+                markedEmployees.map(markedEmployee => {
+                    var markedDate = markedEmployee.dataValues.markedDate;
+                    var key = `${moment(markedDate).format('YYYYMMDD')}`;
+                    if (CurrentMarkedDate != key) {
+                        details[key] = {
+                            id: markedEmployee.dataValues.id,
+                            date: markedEmployee.dataValues.markedDate,
+                            Employee: markedEmployee.dataValues.Employees.dataValues.firstName,
+                            Location: markedEmployee.dataValues.BusinessCompany.dataValues.State
+                        };
+                        details[key].time = [];
+                        details[key].time.push({
+                            mark: markedEmployee.dataValues.markedTime,
+                            typeMarkedId: markedEmployee.dataValues.markedTime,
+                            typeMarkedName: markedEmployee.dataValues.CatalogMarked.dataValues.Value
+                        });
+                    } else {
+                        details[key].time.push({
+                            mark: markedEmployee.dataValues.markedTime,
+                            typeMarkedId: markedEmployee.dataValues.markedTime,
+                            typeMarkedName: markedEmployee.dataValues.CatalogMarked.dataValues.Value
+                        });         
+                    }
+                    CurrentMarkedDate = key;          
+                });
+                console.log(details)
+            });
+        }
+    },
     punches: {
         type: new GraphQLList(PunchesReportType),
         description: "Get Punches report",
