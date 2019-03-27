@@ -48,6 +48,10 @@ import ConfigRegionsModel from './configRegionsTable';
 
 import { Conn } from '../../Configuration/Configuration';
 
+
+// OpeningRecruiter
+import OpeningRecruiter from './openingrecruiterModel';
+
 const Application = ApplicationModel.createModel(Conn);
 const ApplicantLanguage = ApplicantLanaguageModel.createModel(Conn);
 const ApplicantEducation = ApplicantEducationModel.createModel(Conn);
@@ -96,6 +100,9 @@ const ApplicationPhases = ApplicationPhasesModel.createModel(Conn);
 
 const Template = TemplateModel.createModel(Conn);
 const TemplateShift = TemplateShiftModel.createModel(Conn);
+
+
+const OpeningRecruiterModel = OpeningRecruiter.createModel(Conn);
 
 const ConfigRegions = ConfigRegionsModel.createModel(Conn);
 
@@ -323,6 +330,22 @@ CatalogItem.hasMany(Contacts, {
 	as: 'Contacts'
 })
 
+
+
+// Opening recruiter associations
+OpeningRecruiterModel.belongsTo(Users, {foreignKey: 'recruiterId'});
+OpeningRecruiterModel.belongsTo(ShiftDetail, {foreignKey: 'openingId'});
+
+Users.hasMany(OpeningRecruiterModel, {
+	foreignKey: 'recruiterId'
+});
+
+ShiftDetail.hasMany(OpeningRecruiterModel, {
+	foreignKey: 'openingId'
+});
+
+
+
 Conn.authenticate()
 	.then(() => {
 		console.log('Connection has been established successfully.');
@@ -331,8 +354,8 @@ Conn.authenticate()
 		console.error('Unable to connect to the database:', err);
 	});
 
-//Conn.sync({ force: false }).then(() => {
-/*make sure you use false here. otherwise the total data 
+// Conn.sync({ force: false }).then(() => {
+/*make sure you use false here. otherwise the total data
 	from the impported models will get deleted and new tables will be created*/
 // now we cann do all db operations on customers table.
 //Ex:- lets read all data
@@ -341,6 +364,6 @@ Conn.authenticate()
 //console.log('Applications are:-', applications);
 //	});
 //	console.log('sync is completed');
-//});
+// });
 
 export default Conn;
