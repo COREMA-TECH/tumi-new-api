@@ -333,14 +333,14 @@ CatalogItem.hasMany(Contacts, {
 
 
 // Opening recruiter associations
-OpeningRecruiterModel.hasMany(UsersModel)
-OpeningRecruiterModel.hasMany(ShiftDetail)
+OpeningRecruiterModel.belongsTo(Users, {foreignKey: 'recruiterId'});
+OpeningRecruiterModel.belongsTo(ShiftDetail, {foreignKey: 'openingId'});
 
-UsersModel.belongsTo(OpeningRecruiterModel, {
+Users.hasMany(OpeningRecruiterModel, {
 	foreignKey: 'recruiterId'
 });
 
-ShiftDetail.belongsTo(OpeningRecruiterModel, {
+ShiftDetail.hasMany(OpeningRecruiterModel, {
 	foreignKey: 'openingId'
 });
 

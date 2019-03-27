@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
     }, {});
     OpeningRecruiter.associate = function (models) {
         // associations can be defined here
-        OpeningRecruiter.hasMany(UsersTable, {foreignKey: 'recruiterId'});
-        OpeningRecruiter.hasMany(OpeningTable, {foreignKey: 'openingId'});
+        // OpeningRecruiter.hasMany(UsersTable, {foreignKey: 'recruiterId'});
+        // OpeningRecruiter.hasMany(OpeningTable, {foreignKey: 'openingId'});
     };
     return OpeningRecruiter;
 };
