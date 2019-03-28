@@ -49,7 +49,8 @@ import {
 	FormsFields,
 	RolesFormsFields,
 	ConfigRegionsFields,
-    consolidatedPunchesCSVTypes
+    consolidatedPunchesCSVTypes,
+	openingRecruiterFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -1237,6 +1238,20 @@ const getCSVURLType = new GraphQLObjectType({
 	}
 });
 
+// Type to use in payroll mutation and query
+const listOpeningRecruiterQuery = new GraphQLObjectType({
+	name: 'OpeningRecruiter',
+	description: 'This represent a opening recruiter list',
+    fields: () => {
+        return {
+            id: {
+                type: GraphQLInt,
+            },
+            ...openingRecruiterFields
+        }
+    }
+});
+
 
 
 export {
@@ -1285,5 +1300,6 @@ export {
 	ApplicationCompletedDataType,
 	listPayrollType,
 	PunchesReportType,
-    getCSVURLType
+    getCSVURLType,
+    listOpeningRecruiterQuery
 };
