@@ -1,67 +1,31 @@
-import {
-    inputInsertShift,
-    filterShiftConvertToOpening,
-    filterShiftWOConvertToOpening,
-    inputApplicantPhase,
-    insertOpeningRecruiterType
-} from '../types/operations/insertTypes';
-import { inputUpdateShift } from '../types/operations/updateTypes';
-import { ShiftType } from '../types/operations/outputTypes';
-import { GraphQLList, GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
-import { sendworkorderfilledemail } from '../../../Configuration/Roots';
-import GraphQLDate from 'graphql-date';
+import {insertOpeningRecruiterType} from '../types/operations/insertTypes';
+import {listOpeningRecruiterQuery} from '../types/operations/outputTypes';
 
 import Sequelize from 'sequelize';
+import Db from '../../models/models';
+
 const Op = Sequelize.Op;
 
 
-import Db from '../../models/models';
-
 const OpeningRecruiterMutation = {
-	addOpeningRecruiter: {
-		type: insertOpeningRecruiterType,
-		description: 'Add OpeningRecruiter',
-		args: {
-			openingRecruiter: {
-				type: {
-
-				}
-			}
-		},
-		resolve(source, args) {
-			return Db.models.Shift.bulkCreate(args.Shift, { returning: true }).then((ret) => {
-				return ret.map((data) => {
-					//	sendgenericemail({ shift: datashift.dataValues.id, email: "mppomar@gmail.com", title: "New Shift publish" })
-
-
-					return data.dataValues;
-				});
-			});
-		}
-	},
-	updateOpeningRecruiter: {
-		type: ShiftType,
-		description: 'Update OpeningRecruiter',
-		args: {
-			Shift: { type: inputUpdateShift }
-		},
-		resolve(source, args) {
-			return Db.models.Shift
-				.update(
-					args.Shift,
-					{
-						where: {
-							id: args.Shift.id
-						},
-						returning: true
-					}
-				)
-				.then(function ([rowsUpdate, [record]]) {
-					if (record) return record.dataValues;
-					else return null;
-				});
-		}
-	}
+    addOpeningRecruiter: {
+        type: listOpeningRecruiterQuery,
+        description: 'Add OpeningRecruiter',
+        args: {
+            openingRecruiter: {
+                type: insertOpeningRecruiterType
+            }
+        },
+        resolve(source, args) {
+            return Db.models.OpeningRecruiterModel
+                .bulkCreate(args.openingRecruiter, {returning: true})
+                .then((ret) => {
+                    return ret.map((data) => {
+                        return data.dataValues;
+                    });
+                });
+        }
+    },
 };
 
 export default OpeningRecruiterMutation;
