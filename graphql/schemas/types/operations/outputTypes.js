@@ -1252,7 +1252,18 @@ const listOpeningRecruiterQuery = new GraphQLObjectType({
     }
 });
 
-
+const listOpeningRecruiterType = new GraphQLObjectType({
+	name: 'OpeningRecruiter',
+	description: 'This represent a opening recruiter list',
+    fields: () => {
+        return {
+            id: {
+                type: GraphQLInt,
+            },
+            ...openingRecruiterFields
+        }
+    }
+});
 
 export {
 	ApplicationType,
@@ -1301,5 +1312,6 @@ export {
 	listPayrollType,
 	PunchesReportType,
     getCSVURLType,
-    listOpeningRecruiterQuery
+	listOpeningRecruiterQuery,
+	listOpeningRecruiterType
 };
