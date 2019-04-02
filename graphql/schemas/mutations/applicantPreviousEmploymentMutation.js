@@ -14,18 +14,7 @@ const ApplicantPreviousEmploymentMutation = {
 		resolve(source, args) {
 			return Db.models.ApplicantPreviousEmployments
 				.update(
-					{
-						ApplicationId: args.applicantPreviousEmployment.ApplicationId,
-						companyName: args.applicantPreviousEmployment.companyName,
-						phone: args.applicantPreviousEmployment.phone,
-						address: args.applicantPreviousEmployment.address,
-						supervisor: args.applicantPreviousEmployment.supervisor,
-						jobTitle: args.applicantPreviousEmployment.jobTitle,
-						payRate: args.applicantPreviousEmployment.payRate,
-						startDate: args.applicantPreviousEmployment.startDate,
-						endDate: args.applicantPreviousEmployment.endDate,
-						reasonForLeaving: args.applicantPreviousEmployment.reasonForLeaving
-					},
+					args.applicantPreviousEmployment,
 					{
 						where: {
 							id: args.applicantPreviousEmployment.id
@@ -33,7 +22,7 @@ const ApplicantPreviousEmploymentMutation = {
 						returning: true
 					}
 				)
-				.then(function([ rowsUpdate, [ record ] ]) {
+				.then(function ([rowsUpdate, [record]]) {
 					if (record) return record.dataValues;
 					else return null;
 				});

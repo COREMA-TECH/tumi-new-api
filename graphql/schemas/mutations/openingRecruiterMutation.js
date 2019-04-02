@@ -17,7 +17,7 @@ const OpeningRecruiterMutation = {
             }
         },
         resolve(source, args) {
-            return Db.models.OpeningRecruiterModel
+            return Db.models.OpeningRecruiter
                 .bulkCreate(args.openingRecruiter, {returning: true})
                 .then((ret) => {
                     return ret.map((data) => {

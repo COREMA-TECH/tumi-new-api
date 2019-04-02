@@ -25,6 +25,7 @@ import ShiftQuery from './shiftQuery';
 import ShiftDetailsQuery from './shiftDetailQuery';
 import ShiftWorkOrderQuery from './shiftWorkOrderQuery';
 import MarkedEmployeesQuery from './markedEmployeesQuery';
+import MarkedEmployeesConsolidateQuery from './markedEmployeesConsolidateQuery';
 import ApplicationEmployeesQuery from './applicationEmployeesQuery';
 import ContactsQuery from './contactsQuery';
 import RolesQuery from './roleQuery';
@@ -69,6 +70,7 @@ export {
 	ShiftDetailsQuery,
 	ShiftWorkOrderQuery,
 	MarkedEmployeesQuery,
+	MarkedEmployeesConsolidateQuery,
 	ApplicationEmployeesQuery,
 	ContactsQuery,
 	RolesQuery,

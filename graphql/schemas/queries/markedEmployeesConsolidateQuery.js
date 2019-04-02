@@ -60,7 +60,7 @@ const getPunchesCompanyFilter = (filter) => {
     return newFilter;
 }
 
-const MarkedEmployeesQuery = {
+const MarkedEmployeesConsolidateQuery = {
     markedEmployees: {
         type: new GraphQLList(MarkedEmployeesType),
         description: 'List employees records',
@@ -82,82 +82,7 @@ const MarkedEmployeesQuery = {
             return Db.models.MarkedEmployees.findAll({ where: args });
         }
     },
-    punchesDetails: {
-        type: new GraphQLList(MarkedEmployeesType),
-        description: 'List punches by employees and date',
-        args: {
-            EmployeeId: {
-                type: GraphQLInt
-            }
-        },
-        resolve(root, args) {
-            return Db.models.MarkedEmployees.findAll({ 
-                where: args,
-                order: [
-                    ['markedDate','DESC'],
-                    ['markedTime','ASC']
-                ],
-                include: [{
-                    model: Db.models.Employees,
-                    as: 'Employees',
-                    required: true,
-                    include: [{
-                        model: Db.models.ShiftDetailEmployees,
-                        required: true,
-                        include: [{
-                            model: Db.models.ShiftDetail,
-                            required: true,
-                            include: [{
-                                model: Db.models.Shift,
-                                required: true,
-                                include: [{
-                                    model: Db.models.ShiftWorkOrder,
-                                    required: true
-                                }]
-                            }]
-                        }]
-                    }]
-                }, {
-                    model: Db.models.CatalogItem,
-                    as: 'CatalogMarked',
-                    required: true
-                },{
-                    model: Db.models.BusinessCompany,
-                    required: true
-                }]
-            }).then(markedEmployees => {
-                let details = {};
-                let CurrentMarkedDate = '', x = 0;
-                markedEmployees.map(markedEmployee => {
-                    var markedDate = markedEmployee.dataValues.markedDate;
-                    var key = `${moment(markedDate).format('YYYYMMDD')}`;
-                    if (CurrentMarkedDate != key) {
-                        details[key] = {
-                            id: markedEmployee.dataValues.id,
-                            date: markedEmployee.dataValues.markedDate,
-                            Employee: markedEmployee.dataValues.Employees.dataValues.firstName,
-                            Location: markedEmployee.dataValues.BusinessCompany.dataValues.State
-                        };
-                        details[key].time = [];
-                        details[key].time.push({
-                            mark: markedEmployee.dataValues.markedTime,
-                            typeMarkedId: markedEmployee.dataValues.markedTime,
-                            typeMarkedName: markedEmployee.dataValues.CatalogMarked.dataValues.Value
-                        });
-                    } else {
-                        details[key].time.push({
-                            mark: markedEmployee.dataValues.markedTime,
-                            typeMarkedId: markedEmployee.dataValues.markedTime,
-                            typeMarkedName: markedEmployee.dataValues.CatalogMarked.dataValues.Value
-                        });         
-                    }
-                    CurrentMarkedDate = key;          
-                });
-                console.log(details)
-            });
-        }
-    },
-    punches: {
+    markedEmployeesConsolidate: {
         type: new GraphQLList(PunchesReportType),
         description: "Get Punches report",
         args: {
@@ -168,12 +93,18 @@ const MarkedEmployeesQuery = {
             endDate: { type: GraphQLDate },
         },
         resolve(root, args) {
-            var punches = [];
+            var punchesConsolidate = [];
             return Db.models.MarkedEmployees.findAll({
                 where: { ...getPunchesMarkerFilter(args) },
+                order: [
+                    ['EmployeeId', 'DESC'],
+                ],
                 include: [{
                     model: Db.models.Employees,
                     where: { ...getPunchesEmployeeFilter(args) },
+                    order: [
+                        ['id', 'DESC'],
+                    ],
                     as: 'Employees',
                     required: true
                 }, {
@@ -184,22 +115,24 @@ const MarkedEmployeesQuery = {
                         as: 'CatalogPosition',
                         required: true
                     }]
-                }, {
+                }/*, {
                     model: Db.models.BusinessCompany,
                     where: { ...getPunchesCompanyFilter(args) },
-                    required: true
-                }]
+                    required: true, 
+                    order: [
+                        ['id', 'DESC'],
+                    ],
+                }*/]
             })
                 .then(marks => {
                     var objPunches = {};
                     marks.map(_mark => {
                         var { id, entityId, typeMarkedId, markedDate, markedTime, imageMarked, EmployeeId, ShiftId, flag } = _mark.dataValues;
-                        var key = `${entityId}-${EmployeeId}-${ShiftId}-${moment(markedDate).format('YYYYMMDD')}`;
+                        var key = `${EmployeeId}-${moment(markedDate).format('YYYYMMDD')}`;
                         var employee = _mark.dataValues.Employees.dataValues;
                         var shift = _mark.dataValues.Shift.dataValues;
                         var position = shift.CatalogPosition.dataValues;
-                        var company = _mark.dataValues.BusinessCompany.dataValues;
-
+                       
                         //Create new punch object if this object doesnt exist into the array of punches
                         if (!objPunches[key]) {
                             var reportRow = {
@@ -209,7 +142,7 @@ const MarkedEmployeesQuery = {
                                 hoursWorked: 0,
                                 payRate: position.Pay_Rate,
                                 date: moment(markedDate).format('YYYY/MM/DD'),
-                                hotelCode: company.Code,
+                                hotelCode: 'Generic',//company.Code,
                                 positionCode: position.Position,
                             }
                             objPunches = { ...objPunches, [key]: reportRow }
@@ -234,30 +167,49 @@ const MarkedEmployeesQuery = {
                     })
 
                     //Create array of punches based on object structure
-                    var punches = [];
+                    var markedEmployeesConsolidate = [];
+                    var workedTime ;
+                    var employee ;
+                    var Id_Employees = 0;
+                    var Old_Id_Employees = 0;
+                    var _workedTime=0;
+
                     Object.keys(objPunches).map(i => {
-                        var punche = objPunches[i];//Get Punche Object
-                        var startTime = moment.utc(punche.clockIn, 'HH:mm:ss');//Get Start Time
-                        var endTime = moment.utc(punche.clockOut, 'HH:mm:ss');//Get End Time
-                        var duration = moment.duration(endTime.diff(startTime));//Calculate duration between times
-                        var workedTime = ((duration.hours() + (duration.minutes() / 60)) * 1.00).toFixed(2);//Calulate duration in minutes/float
+                       
+                        var punchesConsolidate = objPunches[i];//Get Punche Object
 
-                        punche.hoursWorked = !isNaN(parseFloat(workedTime)) ? parseFloat(workedTime) : 0; //Update worked time
+                        Id_Employees = punchesConsolidate.employeeId;
+                        _workedTime = 0;
+                        Object.keys(objPunches).map(j => {
+                            var _punchesConsolidate = objPunches[j];//Get Punche Object
+                            
+                            var startTime = moment.utc(_punchesConsolidate.clockIn, 'HH:mm:ss');//Get Start Time
+                            var endTime = moment.utc(_punchesConsolidate.clockOut, 'HH:mm:ss');//Get End Time
+                            var duration = moment.duration(endTime.diff(startTime));//Calculate duration between times
+                         
+                            workedTime = parseFloat(((duration.hours() + (duration.minutes() / 60)) * 1.00).toFixed(2));//Calulate duration in minutes/float
 
-                        var employee = args.employee || '';
+                            if(Id_Employees==_punchesConsolidate.employeeId)
+                            {
+                            _workedTime = parseFloat(_workedTime + (!isNaN(parseFloat(workedTime)) ? parseFloat(workedTime) : 0 )); 
+                            }
+                        });
 
-                        if (punche.name.trim().toUpperCase().includes(employee.trim().toUpperCase()))
-                            punches.push(punche);//Return new object
+                        employee = args.employee || '';                       
+                        punchesConsolidate.hoursWorked =_workedTime; 
 
+                        if (Old_Id_Employees!=0 && Old_Id_Employees!=Id_Employees)
+                        {
+                        if (punchesConsolidate.name.trim().toUpperCase().includes(employee.trim().toUpperCase()))
+                            markedEmployeesConsolidate.push(punchesConsolidate);//Return new object                        
+                        }
+                        Old_Id_Employees=Id_Employees;
                     });
 
-                    return punches;//Return list of punches
+                    return markedEmployeesConsolidate;//Return list of punches
                 })
         }
     }
 };
 
-
-
-export default MarkedEmployeesQuery;
-
+export default MarkedEmployeesConsolidateQuery;

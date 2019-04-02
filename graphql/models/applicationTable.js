@@ -153,7 +153,11 @@ export default {
 			completed: {
 				type: Sequelize.BOOLEAN,
 				defaultValue: false
-			}
+			},
+			directDeposit: {
+				type: Sequelize.BOOLEAN,
+				defaultValue: false
+			},
 		});
 	}
 };

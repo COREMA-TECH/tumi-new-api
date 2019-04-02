@@ -152,6 +152,10 @@ const ApplicationFields = {
 		type: GraphQLBoolean,
 		description: 'Shows if an application is completed'
 	},
+	directDeposit: {
+		type: GraphQLBoolean,
+		description: 'Shows if an application is direct Deposit'
+	},
 	createdAt: {
 		type: GraphQLDate,
 		description: "Date when the record was created"
