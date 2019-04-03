@@ -151,7 +151,7 @@ const MarkedEmployeesQuery = {
                             typeMarkedName: markedEmployee.dataValues.CatalogMarked.dataValues.Value
                         });         
                     }
-                    CurrentMarkedDate = key;          
+                    CurrentMarkedDate = key;    
                 });
                 console.log(details)
             });
@@ -193,7 +193,7 @@ const MarkedEmployeesQuery = {
                 .then(marks => {
                     var objPunches = {};
                     marks.map(_mark => {
-                        var { id, entityId, typeMarkedId, markedDate, markedTime, imageMarked, EmployeeId, ShiftId, flag } = _mark.dataValues;
+                        var { id, entityId, typeMarkedId, markedDate, markedTime, imageMarked, EmployeeId, ShiftId } = _mark.dataValues;
                         var key = `${entityId}-${EmployeeId}-${ShiftId}-${moment(markedDate).format('YYYYMMDD')}`;
                         var employee = _mark.dataValues.Employees.dataValues;
                         var shift = _mark.dataValues.Shift.dataValues;
@@ -211,6 +211,7 @@ const MarkedEmployeesQuery = {
                                 date: moment(markedDate).format('YYYY/MM/DD'),
                                 hotelCode: company.Code,
                                 positionCode: position.Position,
+                                imageMarked
                             }
                             objPunches = { ...objPunches, [key]: reportRow }
                         }
@@ -219,10 +220,10 @@ const MarkedEmployeesQuery = {
                         //Update marker type hour based on type and hour
                         switch (typeMarkedId) {
                             case 30570: //Clock In
-                                objPunches[key] = { ...objPunches[key], clockIn: hour, imageMarkedIn: imageMarked, flagMarkedIn: flag, idMarkedIn: id };
+                                objPunches[key] = { ...objPunches[key], clockIn: hour };
                                 break;
                             case 30571://Clock Out
-                                objPunches[key] = { ...objPunches[key], clockOut: hour, imageMarkedOut: imageMarked, flagMarkedOut: flag, idMarkedOut: id };
+                                objPunches[key] = { ...objPunches[key], clockOut: hour };
                                 break;
                             case 30572://Break In
                                 objPunches[key] = { ...objPunches[key], lunchIn: hour };
@@ -257,7 +258,4 @@ const MarkedEmployeesQuery = {
     }
 };
 
-
-
 export default MarkedEmployeesQuery;
-

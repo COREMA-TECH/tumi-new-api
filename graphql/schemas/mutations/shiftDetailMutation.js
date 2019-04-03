@@ -117,7 +117,7 @@ const shiftDetailMutation = {
 				//Get every day between startDate and endDate to generate ShiftDetail records
 				while (currentDate <= args.shift.endDate) {
 					let newDate = new Date(currentDate)
-
+					
 					if (weekDays.includes(newDate.getDay())) {
 						datesList.push({
 							startDate: newDate,
