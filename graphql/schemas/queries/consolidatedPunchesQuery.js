@@ -1,4 +1,4 @@
-import {GraphQLInt, GraphQLObjectType, GraphQLString} from 'graphql';
+import { GraphQLInt, GraphQLObjectType, GraphQLString, GraphQLBoolean } from 'graphql';
 import Db from '../../models/models';
 import GraphQLDate from 'graphql-date';
 import moment from 'moment';
@@ -6,7 +6,7 @@ import Sequelize from 'sequelize';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
-import {getCSVURLType} from "../types/operations/outputTypes";
+import { getCSVURLType } from "../types/operations/outputTypes";
 const uuidv4 = require('uuid/v4');
 
 const Op = Sequelize.Op;
@@ -22,9 +22,9 @@ const getPunchesEmployeeFilter = (filter) => {
     for (let prop in filter) {
         //Validate if the filter has value
         if (filter[prop])
-        //Exclude startDate and endDate from filters
-            if (!["employee", "startDate", "endDate", "idEntity"].join().includes(prop))
-                newFilter = {...newFilter, [prop]: filter[prop]};
+            //Exclude startDate and endDate from filters
+            if (!["employee", "startDate", "endDate", "idEntity", "directDeposit"].join().includes(prop))
+                newFilter = { ...newFilter, [prop]: filter[prop] };
     }
     return newFilter;
 };
@@ -40,8 +40,8 @@ const getPunchesMarkerFilter = (filter) => {
         newFilter = {
             ...newFilter,
             [Op.and]: [
-                {markedDate: {[Op.gte]: filter.startDate}},
-                {markedDate: {[Op.lte]: filter.endDate.setUTCHours(23, 59, 59)}}
+                { markedDate: { [Op.gte]: filter.startDate } },
+                { markedDate: { [Op.lte]: filter.endDate.setUTCHours(23, 59, 59) } }
             ]
         };
 
@@ -59,9 +59,9 @@ const getPunchesCompanyFilter = (filter) => {
     for (let prop in filter) {
         //Validate if the filter has value
         if (filter[prop])
-        //Only filter by idEntity
+            //Only filter by idEntity
             if (prop == "idEntity")
-                newFilter = {...newFilter, Id: filter[prop]};
+                newFilter = { ...newFilter, Id: filter[prop] };
     }
 
     return newFilter;
@@ -72,21 +72,32 @@ const PunchesEmployeesQuery = {
         type: GraphQLString,
         description: "Get Punches csv",
         args: {
-            idEntity: {type: GraphQLInt},
-            Id_Department: {type: GraphQLInt},
-            employee: {type: GraphQLString},
-            startDate: {type: GraphQLDate},
-            endDate: {type: GraphQLDate},
+            idEntity: { type: GraphQLInt },
+            Id_Department: { type: GraphQLInt },
+            employee: { type: GraphQLString },
+            startDate: { type: GraphQLDate },
+            endDate: { type: GraphQLDate },
+            directDeposit: { type: GraphQLBoolean }
         },
         resolve(root, args) {
             let punches = [];
             return Db.models.MarkedEmployees.findAll({
-                where: {...getPunchesMarkerFilter(args)},
+                where: { ...getPunchesMarkerFilter(args) },
                 include: [{
                     model: Db.models.Employees,
-                    where: {...getPunchesEmployeeFilter(args)},
+                    where: { ...getPunchesEmployeeFilter(args) },
                     as: 'Employees',
-                    required: true
+                    required: true,
+                    include: [{
+                        model: Db.models.ApplicationEmployees,
+                        required: true,
+                        include: [{
+                            model: Db.models.Applications,
+                            as: 'Application',
+                            required: true,
+                            where: { directDeposit: args.directDeposit }
+                        }]
+                    }]
                 }, {
                     model: Db.models.Shift,
                     required: true,
@@ -97,14 +108,15 @@ const PunchesEmployeesQuery = {
                     }]
                 }, {
                     model: Db.models.BusinessCompany,
-                    where: {...getPunchesCompanyFilter(args)},
+                    where: { ...getPunchesCompanyFilter(args) },
                     required: true
                 }]
             })
                 .then(marks => {
+                    console.log(marks);
                     let objPunches = {};
                     marks.map(_mark => {
-                        let {id, entityId, typeMarkedId, markedDate, markedTime, imageMarked, EmployeeId, ShiftId, flag} = _mark.dataValues;
+                        let { id, entityId, typeMarkedId, markedDate, markedTime, imageMarked, EmployeeId, ShiftId, flag } = _mark.dataValues;
                         let key = `${entityId}-${EmployeeId}-${ShiftId}-${moment(markedDate).format('YYYYMMDD')}`;
                         let employee = _mark.dataValues.Employees.dataValues;
                         let shift = _mark.dataValues.Shift.dataValues;
@@ -123,7 +135,7 @@ const PunchesEmployeesQuery = {
                                 hotelCode: company.Code,
                                 positionCode: position.Position,
                             }
-                            objPunches = {...objPunches, [key]: reportRow}
+                            objPunches = { ...objPunches, [key]: reportRow }
                         }
                         //Format punche time
                         let hour = moment.utc(markedTime, 'HH:mm').format('HH:mm');
@@ -148,10 +160,10 @@ const PunchesEmployeesQuery = {
                                 };
                                 break;
                             case 30572://Break In
-                                objPunches[key] = {...objPunches[key], lunchIn: hour};
+                                objPunches[key] = { ...objPunches[key], lunchIn: hour };
                                 break;
                             case 30573://Break Out
-                                objPunches[key] = {...objPunches[key], lunchOut: hour};
+                                objPunches[key] = { ...objPunches[key], lunchOut: hour };
                                 break;
                         }
                     });
