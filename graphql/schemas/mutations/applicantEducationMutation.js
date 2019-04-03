@@ -29,18 +29,9 @@ const ApplicantEducationMutation = {
 			applicantEducation: { type: inputUpdateApplicantEducation }
 		},
 		resolve(source, args) {
-			return Db.models.ApplicantEducataions
+			return Db.models.ApplicantEducations
 				.update(
-					{
-						ApplicationId: args.applicantEducation.ApplicationId,
-						schoolType: args.applicantEducation.schoolType,
-						educationName: args.applicantEducation.educationName,
-						educationAddress: args.applicantEducation.educationAddress,
-						startDate: args.applicantEducation.startDate,
-						endDate: args.applicantEducation.endDate,
-						graduated: args.applicantEducation.graduated,
-						degree: args.applicantEducation.degree
-					},
+					args.applicantEducation,
 					{
 						where: {
 							id: args.applicantEducation.id
@@ -48,7 +39,7 @@ const ApplicantEducationMutation = {
 						returning: true
 					}
 				)
-				.then(function([ rowsUpdate, [ record ] ]) {
+				.then(function ([rowsUpdate, [record]]) {
 					if (record) return record.dataValues;
 					else return null;
 				});
