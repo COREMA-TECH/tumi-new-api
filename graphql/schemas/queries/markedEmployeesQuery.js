@@ -44,7 +44,6 @@ const getPunchesMarkerFilter = (filter) => {
 
 const getPunchesCompanyFilter = (filter) => {
     var newFilter = {};
-
     //Validate if filter object exists
     if (!filter)
         return newFilter;
