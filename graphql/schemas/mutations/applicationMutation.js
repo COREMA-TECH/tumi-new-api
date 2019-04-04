@@ -98,6 +98,32 @@ const ApplicationMutation = {
 				});
 		}
 	},
+	updateDirectDeposit: {
+		type: ApplicationType,
+		description: 'Update Direct Deposit',
+		args: {
+			id: { type: GraphQLInt },
+			directDeposit: { type: GraphQLBoolean }
+		},
+		resolve(source, args) {
+			return Db.models.Applications
+				.update(
+					{
+						directDeposit: args.directDeposit
+					},
+					{
+						where: {
+							id: args.id
+						},
+						returning: true
+					}
+				)
+				.then(function ([rowsUpdate, [record]]) {
+					if (record) return record.dataValues;
+					else return null;
+				});
+		}
+	},
 	updateApplicationConvertLead: {
 		type: ApplicationType,
 		description: 'Update Lead Aplicant Form Info',
