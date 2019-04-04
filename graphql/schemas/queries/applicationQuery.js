@@ -77,7 +77,9 @@ const ApplicationQuery = {
 		type: new GraphQLList(ApplicationType),
 		description: 'List applications records',
 		args: {
-			idUsers: { type: GraphQLInt }
+			idUsers: { type: GraphQLInt },
+			Id_Department: { type: GraphQLInt },
+			idEntity: { type: GraphQLInt }
 		},
 		resolve(root, args) {
 			return Db.models.Applications.findAll(
@@ -86,10 +88,10 @@ const ApplicationQuery = {
 					as: "Applications",
 					include: [{
 						model: Db.models.ApplicationEmployees,
-						required: args.idUsers != null,
+						required: args.idUsers != null || args.idEntity != null || args.Id_Department != null,
 						include: [{
 							model: Db.models.Employees,
-							required: args.idUsers != null,
+							required: args.idUsers != null || args.idEntity != null || args.Id_Department != null,
 							as: "Employees",
 							where: args
 						}]

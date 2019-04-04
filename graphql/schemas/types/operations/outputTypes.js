@@ -49,7 +49,7 @@ import {
 	FormsFields,
 	RolesFormsFields,
 	ConfigRegionsFields,
-    consolidatedPunchesCSVTypes,
+	consolidatedPunchesCSVTypes,
 	openingRecruiterFields
 } from '../fields';
 
@@ -1172,6 +1172,36 @@ const PunchesReportType = new GraphQLObjectType({
 	}
 })
 
+const PunchesReportDetailType = new GraphQLObjectType({
+	name: 'PunchesReportDetailType',
+	description: 'This structured is used to generate report detail about punches',
+	fields: () => {
+		return {
+			key: { type: GraphQLString },
+			employeeId: { type: GraphQLInt },
+			name: { type: GraphQLString },
+			date: { type: GraphQLString },
+			punches: { type: new GraphQLList(PunchesReportDetailPunchesType) },
+			workedHours: { type: GraphQLFloat }
+		}
+	}
+})
+
+const PunchesReportDetailPunchesType = new GraphQLObjectType({
+	name: 'PunchesReportDetailPunchesType',
+	description: 'This structured is used to generate report detail about punches',
+	fields: () => {
+		return {
+			clockIn: { type: GraphQLString },
+			clockOut: { type: GraphQLString },
+			duration: { type: GraphQLFloat },
+			job: { type: GraphQLString },
+			hotelCode: { type: GraphQLString },
+			notes: { type: GraphQLString }
+		}
+	}
+})
+
 const ApplicationEmployeesType = new GraphQLObjectType({
 	name: 'ApplicationEmployees',
 	description: 'This is for Marked Employees Table',
@@ -1242,17 +1272,28 @@ const getCSVURLType = new GraphQLObjectType({
 const listOpeningRecruiterQuery = new GraphQLObjectType({
 	name: 'OpeningRecruiter',
 	description: 'This represent a opening recruiter list',
-    fields: () => {
-        return {
-            id: {
-                type: GraphQLInt,
-            },
-            ...openingRecruiterFields
-        }
-    }
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+			},
+			...openingRecruiterFields
+		}
+	}
 });
 
-
+const listOpeningRecruiterType = new GraphQLObjectType({
+	name: 'OpeningRecruiter',
+	description: 'This represent a opening recruiter list',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+			},
+			...openingRecruiterFields
+		}
+	}
+});
 
 export {
 	ApplicationType,
@@ -1300,6 +1341,8 @@ export {
 	ApplicationCompletedDataType,
 	listPayrollType,
 	PunchesReportType,
-    getCSVURLType,
-    listOpeningRecruiterQuery
+	getCSVURLType,
+	listOpeningRecruiterQuery,
+	listOpeningRecruiterType,
+	PunchesReportDetailType
 };

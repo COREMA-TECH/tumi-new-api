@@ -2,6 +2,8 @@ import {insertPayrollType} from '../types/operations/insertTypes';
 import models from '../../../models';
 import {listPayrollType} from "../types/operations/outputTypes";
 import {updatePayrollType} from "../types/operations/updateTypes";
+import Db from '../../models/models';
+import moment from 'moment';
 
 /**
  * Payroll mutation with two operation, create a new payroll or update an existing payroll
@@ -17,11 +19,15 @@ const payrollMutation = {
             }
         },
         resolve(source, args) {
-            return models.Payroll
-                .create(args.payroll, {returning: true})
-                .then((output) => {
-                    return output.dataValues;
-                });
+            return models.Payroll.create(args.payroll, {returning: true}).then((output) => {
+                //return output.dataValues;
+                //console.log(output.dataValues);
+                let lastPayPeriod = output.dataValues.lastPayPeriod;
+                let lastPayPeriodDate = moment(lastPayPeriod);
+                // while() {
+
+                // }
+            });
         }
     },
     updatePayroll: {

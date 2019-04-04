@@ -44,7 +44,6 @@ const getPunchesMarkerFilter = (filter) => {
 
 const getPunchesCompanyFilter = (filter) => {
     var newFilter = {};
-
     //Validate if filter object exists
     if (!filter)
         return newFilter;
@@ -80,6 +79,81 @@ const MarkedEmployeesQuery = {
         },
         resolve(root, args) {
             return Db.models.MarkedEmployees.findAll({ where: args });
+        }
+    },
+    punchesDetails: {
+        type: new GraphQLList(MarkedEmployeesType),
+        description: 'List punches by employees and date',
+        args: {
+            EmployeeId: {
+                type: GraphQLInt
+            }
+        },
+        resolve(root, args) {
+            return Db.models.MarkedEmployees.findAll({
+                where: args,
+                order: [
+                    ['markedDate', 'DESC'],
+                    ['markedTime', 'ASC']
+                ],
+                include: [{
+                    model: Db.models.Employees,
+                    as: 'Employees',
+                    required: true,
+                    include: [{
+                        model: Db.models.ShiftDetailEmployees,
+                        required: true,
+                        include: [{
+                            model: Db.models.ShiftDetail,
+                            required: true,
+                            include: [{
+                                model: Db.models.Shift,
+                                required: true,
+                                include: [{
+                                    model: Db.models.ShiftWorkOrder,
+                                    required: true
+                                }]
+                            }]
+                        }]
+                    }]
+                }, {
+                    model: Db.models.CatalogItem,
+                    as: 'CatalogMarked',
+                    required: true
+                }, {
+                    model: Db.models.BusinessCompany,
+                    required: true
+                }]
+            }).then(markedEmployees => {
+                let details = {};
+                let CurrentMarkedDate = '', x = 0;
+                markedEmployees.map(markedEmployee => {
+                    var markedDate = markedEmployee.dataValues.markedDate;
+                    var key = `${moment(markedDate).format('YYYYMMDD')}`;
+                    if (CurrentMarkedDate != key) {
+                        details[key] = {
+                            id: markedEmployee.dataValues.id,
+                            date: markedEmployee.dataValues.markedDate,
+                            Employee: markedEmployee.dataValues.Employees.dataValues.firstName,
+                            Location: markedEmployee.dataValues.BusinessCompany.dataValues.State
+                        };
+                        details[key].time = [];
+                        details[key].time.push({
+                            mark: markedEmployee.dataValues.markedTime,
+                            typeMarkedId: markedEmployee.dataValues.markedTime,
+                            typeMarkedName: markedEmployee.dataValues.CatalogMarked.dataValues.Value
+                        });
+                    } else {
+                        details[key].time.push({
+                            mark: markedEmployee.dataValues.markedTime,
+                            typeMarkedId: markedEmployee.dataValues.markedTime,
+                            typeMarkedName: markedEmployee.dataValues.CatalogMarked.dataValues.Value
+                        });
+                    }
+                    CurrentMarkedDate = key;
+                });
+                console.log(details)
+            });
         }
     },
     punches: {
@@ -118,8 +192,8 @@ const MarkedEmployeesQuery = {
                 .then(marks => {
                     var objPunches = {};
                     marks.map(_mark => {
-                        var { id, entityId, typeMarkedId, markedDate, markedTime, imageMarked, EmployeeId, ShiftId, flag } = _mark.dataValues;
-                        var key = `${entityId}-${EmployeeId}-${ShiftId}-${moment(markedDate).format('YYYYMMDD')}`;
+                        var { id, entityId, typeMarkedId, markedDate, markedTime, imageMarked, EmployeeId, ShiftId } = _mark.dataValues;
+                        var key = `${entityId}-${EmployeeId}-${ShiftId}-${moment.utc(markedDate).format('YYYYMMDD')}`;
                         var employee = _mark.dataValues.Employees.dataValues;
                         var shift = _mark.dataValues.Shift.dataValues;
                         var position = shift.CatalogPosition.dataValues;
@@ -133,9 +207,10 @@ const MarkedEmployeesQuery = {
                                 hourCategory: '01Reg',
                                 hoursWorked: 0,
                                 payRate: position.Pay_Rate,
-                                date: moment(markedDate).format('YYYY/MM/DD'),
+                                date: moment.utc(markedDate).format('YYYY/MM/DD'),
                                 hotelCode: company.Code,
                                 positionCode: position.Position,
+                                imageMarked
                             }
                             objPunches = { ...objPunches, [key]: reportRow }
                         }
@@ -144,10 +219,10 @@ const MarkedEmployeesQuery = {
                         //Update marker type hour based on type and hour
                         switch (typeMarkedId) {
                             case 30570: //Clock In
-                                objPunches[key] = { ...objPunches[key], clockIn: hour, imageMarkedIn: imageMarked, flagMarkedIn: flag, idMarkedIn: id };
+                                objPunches[key] = { ...objPunches[key], clockIn: hour };
                                 break;
                             case 30571://Clock Out
-                                objPunches[key] = { ...objPunches[key], clockOut: hour, imageMarkedOut: imageMarked, flagMarkedOut: flag, idMarkedOut: id };
+                                objPunches[key] = { ...objPunches[key], clockOut: hour };
                                 break;
                             case 30572://Break In
                                 objPunches[key] = { ...objPunches[key], lunchIn: hour };
@@ -182,7 +257,4 @@ const MarkedEmployeesQuery = {
     }
 };
 
-
-
 export default MarkedEmployeesQuery;
-
