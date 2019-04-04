@@ -117,7 +117,7 @@ const PunchesEmployeesQuery = {
                     let objPunches = {};
                     marks.map(_mark => {
                         let { id, entityId, typeMarkedId, markedDate, markedTime, imageMarked, EmployeeId, ShiftId, flag } = _mark.dataValues;
-                        let key = `${entityId}-${EmployeeId}-${ShiftId}-${moment(markedDate).format('YYYYMMDD')}`;
+                        let key = `${entityId}-${EmployeeId}-${ShiftId}-${moment.utc(markedDate).format('YYYYMMDD')}`;
                         let employee = _mark.dataValues.Employees.dataValues;
                         let shift = _mark.dataValues.Shift.dataValues;
                         let position = shift.CatalogPosition.dataValues;
@@ -131,7 +131,7 @@ const PunchesEmployeesQuery = {
                                 hourCategory: '01Reg',
                                 hoursWorked: 0,
                                 payRate: position.Pay_Rate,
-                                date: moment(markedDate).format('YYYY/MM/DD'),
+                                date: moment.utc(markedDate).format('YYYY/MM/DD'),
                                 hotelCode: company.Code,
                                 positionCode: position.Position,
                             }

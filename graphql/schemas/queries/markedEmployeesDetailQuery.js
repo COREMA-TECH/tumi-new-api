@@ -94,10 +94,11 @@ const MarkedEmployeesDetailQuery = {
                 .then(marks => {
                     var objPunches = {};
                     marks.map(_mark => {
-                        var { id, entityId, typeMarkedId, markedDate, markedTime, EmployeeId, notes } = _mark.dataValues;
+                        var { typeMarkedId, markedTime, EmployeeId, notes, markedDate } = _mark.dataValues;
+
                         var markType = '30570||30571'.includes(typeMarkedId) ? '001' : '002';//ClockIn||ClockOut (001), otherwise '002'
-                        var key = `${EmployeeId}-${moment(markedDate).format('YYYYMMDD')}-${markType}`;
-                        var groupKey = `${EmployeeId}-${moment(markedDate).format('YYYYMMDD')}`;
+                        var key = `${EmployeeId}-${moment.utc(markedDate).format('YYYYMMDD')}-${markType}`;
+                        var groupKey = `${EmployeeId}-${moment.utc(markedDate).format('YYYYMMDD')}`;
                         var employee = _mark.dataValues.Employees.dataValues;
                         var shift = _mark.dataValues.Shift.dataValues;
                         var position = shift.CatalogPosition.dataValues;
@@ -108,7 +109,7 @@ const MarkedEmployeesDetailQuery = {
                                 key: groupKey,
                                 employeeId: EmployeeId,
                                 name: `${employee.firstName} ${employee.lastName}`,
-                                date: moment(markedDate).format('YYYY/MM/DD'),
+                                date: moment.utc(markedDate).format('YYYY/MM/DD'),
                                 duration: 0,
                                 job: markType == '002' ? 'Lunch Break' : position.Position,
                                 hotelCode: 'Generic',//company.Code,

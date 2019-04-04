@@ -90,11 +90,11 @@ const MarkedEmployeesQuery = {
             }
         },
         resolve(root, args) {
-            return Db.models.MarkedEmployees.findAll({ 
+            return Db.models.MarkedEmployees.findAll({
                 where: args,
                 order: [
-                    ['markedDate','DESC'],
-                    ['markedTime','ASC']
+                    ['markedDate', 'DESC'],
+                    ['markedTime', 'ASC']
                 ],
                 include: [{
                     model: Db.models.Employees,
@@ -120,7 +120,7 @@ const MarkedEmployeesQuery = {
                     model: Db.models.CatalogItem,
                     as: 'CatalogMarked',
                     required: true
-                },{
+                }, {
                     model: Db.models.BusinessCompany,
                     required: true
                 }]
@@ -148,9 +148,9 @@ const MarkedEmployeesQuery = {
                             mark: markedEmployee.dataValues.markedTime,
                             typeMarkedId: markedEmployee.dataValues.markedTime,
                             typeMarkedName: markedEmployee.dataValues.CatalogMarked.dataValues.Value
-                        });         
+                        });
                     }
-                    CurrentMarkedDate = key;    
+                    CurrentMarkedDate = key;
                 });
                 console.log(details)
             });
@@ -193,7 +193,7 @@ const MarkedEmployeesQuery = {
                     var objPunches = {};
                     marks.map(_mark => {
                         var { id, entityId, typeMarkedId, markedDate, markedTime, imageMarked, EmployeeId, ShiftId } = _mark.dataValues;
-                        var key = `${entityId}-${EmployeeId}-${ShiftId}-${moment(markedDate).format('YYYYMMDD')}`;
+                        var key = `${entityId}-${EmployeeId}-${ShiftId}-${moment.utc(markedDate).format('YYYYMMDD')}`;
                         var employee = _mark.dataValues.Employees.dataValues;
                         var shift = _mark.dataValues.Shift.dataValues;
                         var position = shift.CatalogPosition.dataValues;
@@ -207,7 +207,7 @@ const MarkedEmployeesQuery = {
                                 hourCategory: '01Reg',
                                 hoursWorked: 0,
                                 payRate: position.Pay_Rate,
-                                date: moment(markedDate).format('YYYY/MM/DD'),
+                                date: moment.utc(markedDate).format('YYYY/MM/DD'),
                                 hotelCode: company.Code,
                                 positionCode: position.Position,
                                 imageMarked
