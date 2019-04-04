@@ -37,7 +37,7 @@ import {
 	UserMutation,
 	ContactsMutation,
 	payrollMutation,
-    OpeningRecruiterMutation,
+	OpeningRecruiterMutation,
 } from './mutations';
 import {
 	ApplicationQuery,
@@ -68,7 +68,7 @@ import {
 	ShiftDetailsQuery,
 	ShiftWorkOrderQuery,
 	MarkedEmployeesQuery,
-	MarkedEmployeesConsolidateQuery,
+	MarkedEmployeesDetailQuery,
 	ApplicationEmployeesQuery,
 	ContactsQuery,
 	RolesQuery,
@@ -117,7 +117,7 @@ const RootQuery = new GraphQLObjectType({
 		...ShiftDetailsQuery,
 		...ShiftWorkOrderQuery,
 		...MarkedEmployeesQuery,
-		...MarkedEmployeesConsolidateQuery,
+		...MarkedEmployeesDetailQuery,
 		...ApplicationEmployeesQuery,
 		...ContactsQuery,
 		...RolesQuery,

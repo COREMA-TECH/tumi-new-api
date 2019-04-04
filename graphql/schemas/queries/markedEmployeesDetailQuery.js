@@ -1,5 +1,5 @@
 import { GraphQLList, GraphQLString, GraphQLInt } from 'graphql';
-import { MarkedEmployeesType, PunchesReportConsolidateType } from '../types/operations/outputTypes';
+import { MarkedEmployeesType, PunchesReportDetailType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 import GraphQLDate from 'graphql-date';
 import moment from 'moment';
@@ -14,14 +14,9 @@ const getPunchesEmployeeFilter = (filter) => {
     if (!filter)
         return newFilter;
 
-    //Loop trough eacth filter
-    for (var prop in filter) {
-        //Validate if the filter has value
-        if (filter[prop])
-            //Exclude startDate and endDate from filters
-            if (!["employee", "startDate", "endDate", "idEntity"].join().includes(prop))
-                newFilter = { ...newFilter, [prop]: filter[prop] };
-    }
+    //Validate if the filter has value
+    if (filter.idUser)
+        newFilter = { ...newFilter, idUsers: filter.idUser };
     return newFilter;
 }
 const getPunchesMarkerFilter = (filter) => {
@@ -42,25 +37,7 @@ const getPunchesMarkerFilter = (filter) => {
     return newFilter;
 }
 
-const getPunchesCompanyFilter = (filter) => {
-    var newFilter = {};
-
-    //Validate if filter object exists
-    if (!filter)
-        return newFilter;
-
-    //Loop trough eacth filter
-    for (var prop in filter) {
-        //Validate if the filter has value
-        if (filter[prop])
-            //Only filter by idEntity
-            if (prop == "idEntity")
-                newFilter = { ...newFilter, Id: filter[prop] };
-    }
-    return newFilter;
-}
-
-const MarkedEmployeesConsolidateQuery = {
+const MarkedEmployeesDetailQuery = {
     markedEmployees: {
         type: new GraphQLList(MarkedEmployeesType),
         description: 'List employees records',
@@ -82,18 +59,15 @@ const MarkedEmployeesConsolidateQuery = {
             return Db.models.MarkedEmployees.findAll({ where: args });
         }
     },
-    markedEmployeesConsolidate: {
-        type: new GraphQLList(PunchesReportConsolidateType),
+    markedEmployeesDetail: {
+        type: new GraphQLList(PunchesReportDetailType),
         description: "Get Punches report",
         args: {
-            idEntity: { type: GraphQLInt },
-            Id_Department: { type: GraphQLInt },
-            employee: { type: GraphQLString },
+            idUser: { type: GraphQLInt },
             startDate: { type: GraphQLDate },
-            endDate: { type: GraphQLDate },
+            endDate: { type: GraphQLDate }
         },
         resolve(root, args) {
-            var punchesConsolidate = [];
             return Db.models.MarkedEmployees.findAll({
                 where: { ...getPunchesMarkerFilter(args) },
                 order: [
@@ -115,14 +89,7 @@ const MarkedEmployeesConsolidateQuery = {
                         as: 'CatalogPosition',
                         required: true
                     }]
-                }/*, {
-                    model: Db.models.BusinessCompany,
-                    where: { ...getPunchesCompanyFilter(args) },
-                    required: true, 
-                    order: [
-                        ['id', 'DESC'],
-                    ],
-                }*/]
+                }]
             })
                 .then(marks => {
                     var objPunches = {};
@@ -181,8 +148,6 @@ const MarkedEmployeesConsolidateQuery = {
 
                     });
 
-                    console.log({ punches })
-
                     //Create Punches Consolidated
                     var punchesConsolidated = [];
                     var oldKey = '';
@@ -207,4 +172,4 @@ const MarkedEmployeesConsolidateQuery = {
     }
 };
 
-export default MarkedEmployeesConsolidateQuery;
+export default MarkedEmployeesDetailQuery;

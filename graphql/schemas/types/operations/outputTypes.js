@@ -1172,24 +1172,24 @@ const PunchesReportType = new GraphQLObjectType({
 	}
 })
 
-const PunchesReportConsolidateType = new GraphQLObjectType({
-	name: 'PunchesReportConsolidateType',
-	description: 'This structured is used to generate report consolidated about punches',
+const PunchesReportDetailType = new GraphQLObjectType({
+	name: 'PunchesReportDetailType',
+	description: 'This structured is used to generate report detail about punches',
 	fields: () => {
 		return {
 			key: { type: GraphQLString },
 			employeeId: { type: GraphQLInt },
 			name: { type: GraphQLString },
 			date: { type: GraphQLString },
-			punches: { type: new GraphQLList(PunchesReportConsolidateDetailType) },
+			punches: { type: new GraphQLList(PunchesReportDetailPunchesType) },
 			workedHours: { type: GraphQLFloat }
 		}
 	}
 })
 
-const PunchesReportConsolidateDetailType = new GraphQLObjectType({
-	name: 'PunchesReportConsolidateDetailType',
-	description: 'This structured is used to generate report consolidated about punches',
+const PunchesReportDetailPunchesType = new GraphQLObjectType({
+	name: 'PunchesReportDetailPunchesType',
+	description: 'This structured is used to generate report detail about punches',
 	fields: () => {
 		return {
 			clockIn: { type: GraphQLString },
@@ -1285,14 +1285,14 @@ const listOpeningRecruiterQuery = new GraphQLObjectType({
 const listOpeningRecruiterType = new GraphQLObjectType({
 	name: 'OpeningRecruiter',
 	description: 'This represent a opening recruiter list',
-    fields: () => {
-        return {
-            id: {
-                type: GraphQLInt,
-            },
-            ...openingRecruiterFields
-        }
-    }
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+			},
+			...openingRecruiterFields
+		}
+	}
 });
 
 export {
@@ -1341,8 +1341,8 @@ export {
 	ApplicationCompletedDataType,
 	listPayrollType,
 	PunchesReportType,
-    getCSVURLType,
+	getCSVURLType,
 	listOpeningRecruiterQuery,
 	listOpeningRecruiterType,
-	PunchesReportConsolidateType
+	PunchesReportDetailType
 };
