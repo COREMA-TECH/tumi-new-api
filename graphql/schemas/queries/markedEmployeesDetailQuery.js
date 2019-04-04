@@ -89,6 +89,8 @@ const MarkedEmployeesDetailQuery = {
                         as: 'CatalogPosition',
                         required: true
                     }]
+                }, {
+                    model: Db.models.BusinessCompany
                 }]
             })
                 .then(marks => {
@@ -102,6 +104,7 @@ const MarkedEmployeesDetailQuery = {
                         var employee = _mark.dataValues.Employees.dataValues;
                         var shift = _mark.dataValues.Shift.dataValues;
                         var position = shift.CatalogPosition.dataValues;
+                        let company = _mark.dataValues.BusinessCompany.dataValues;
 
                         //Create new punch object if this object doesnt exist into the array of punches
                         if (!objPunches[key]) {
@@ -112,7 +115,7 @@ const MarkedEmployeesDetailQuery = {
                                 date: moment.utc(markedDate).format('YYYY/MM/DD'),
                                 duration: 0,
                                 job: markType == '002' ? 'Lunch Break' : position.Position,
-                                hotelCode: 'Generic',//company.Code,
+                                hotelCode: company.Name,
                                 notes,
                             }
                             objPunches = { ...objPunches, [key]: reportRow }
