@@ -5,6 +5,10 @@ import { GraphQLList, GraphQLInt, GraphQLBoolean } from 'graphql';
 
 import Db from '../../models/models';
 
+import Sequelize from 'sequelize';
+const Op = Sequelize.Op;
+
+
 const MarkedEmployeesMutation = {
 	addMarkedEmployees: {
 		type: new GraphQLList(MarkedEmployeesType),
@@ -13,11 +17,35 @@ const MarkedEmployeesMutation = {
 			MarkedEmployees: { type: new GraphQLList(inputInsertMarkedEmployees) }
 		},
 		resolve(source, args) {
-			return Db.models.MarkedEmployees.bulkCreate(args.MarkedEmployees, { returning: true }).then((ret) => {
-				return ret.map((data) => {
-					return data.dataValues;
-				});
-			});
+			return args.MarkedEmployees.map(mark => {
+				return Db.models.ShiftDetailEmployees.findOne(
+					{
+						include: [{
+							model: Db.models.ShiftDetail,
+							where: {
+								startTime: { [Op.lte]: mark.markedTime },
+								endTime: { [Op.gte]: mark.markedTime }
+							}
+						}, {
+							model: Db.models.Employees,
+							where: { idEntity: mark.entityId, id: mark.EmployeeId }
+						}]
+					}
+				).then(_uniqueMark => {
+					var shiftDetail = null, ShiftId = null;
+					//Inser mark without associatedshift
+					if (_uniqueMark) {
+						shiftDetail = _uniqueMark.dataValues.ShiftDetail.dataValues;
+						ShiftId = shiftDetail.ShiftId;
+					}
+
+					return Db.models.MarkedEmployees.create({ ...mark, ShiftId }, { returning: true }).then((ret) => {
+						console.log(ret.dataValues)
+						return ret.dataValues;
+					});
+				})
+			})
+
 		}
 	},
 	updateMarkedEmployees: {
