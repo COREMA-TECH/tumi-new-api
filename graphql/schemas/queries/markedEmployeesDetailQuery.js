@@ -15,8 +15,8 @@ const getPunchesEmployeeFilter = (filter) => {
         return newFilter;
 
     //Validate if the filter has value
-    if (filter.idUser)
-        newFilter = { ...newFilter, idUsers: filter.idUser };
+    if (filter.EmployeeId)
+        newFilter = { ...newFilter, id: filter.EmployeeId };
     return newFilter;
 }
 const getPunchesMarkerFilter = (filter) => {
@@ -63,7 +63,7 @@ const MarkedEmployeesDetailQuery = {
         type: new GraphQLList(PunchesReportDetailType),
         description: "Get Punches report",
         args: {
-            idUser: { type: GraphQLInt },
+            EmployeeId: { type: GraphQLInt },
             startDate: { type: GraphQLDate },
             endDate: { type: GraphQLDate }
         },
