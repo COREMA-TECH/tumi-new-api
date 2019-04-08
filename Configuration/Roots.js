@@ -13,20 +13,15 @@ var cron = require('node-cron');
 
 var Strquery, Strquery_2, Strfilename;
 
-cron.schedule('59 11 * * *', () => {
+//cron.schedule('59 11 * * *', () => {
+	cron.schedule('* * * * *', () => {
 	console.log('running a task At 23:59.');
 	SendExpiredContracts();
+	ChangeStatustoExpired();
+	ChangeStatustoCompleted();
 });
 
-/*var mailParams = {
-	service: 'Hotmail',
-	auth: {
-		user: 'tumistaffing@hotmail.com',
-		pass: 'Corema123'
-	},
-	pool: true,
-	rateDelta: 20000
-};*/
+
 
 let mailParams = {
 	host: 'a2plcpnl0839.prod.iad2.secureserver.net',
@@ -70,6 +65,40 @@ async function ChangeStatusNS() {
 		ChangeStatusNS
 		const { rows } = await query(Strquery);
 
+
+		return rows;
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
+	}
+}
+
+async function ChangeStatustoExpired() {
+	try {
+		const strday = `'day'`;
+		const status = `'2'`;
+	
+		Strquery =
+			'update public."Contracts" set "Contract_Status" = 2 where "IsActive" = 1  and "Contract_Status" <> ' + status + '   and DATE_PART( ' + strday + ' ,"Contract_Expiration_Date"::timestamp - NOW()::timestamp)<=0;';
+
+		const { rows } = await query(Strquery);
+
+		return rows;
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
+	}
+}
+
+async function ChangeStatustoCompleted() {
+	try {
+
+		const status = `'0'`;
+	
+		Strquery =
+			'update public."Contracts" set "Contract_Status" = 1 where "IsActive" = 1  and "Contract_Status" = ' + status + 'and "Client_Signature" IS NOT NULL AND "Company_Signature" IS NOT NULL ;';
+
+		const { rows } = await query(Strquery);
 
 		return rows;
 	} catch (err) {
