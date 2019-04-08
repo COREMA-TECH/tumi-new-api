@@ -56,7 +56,6 @@ async function ReturntoLead() {
 
 async function ChangeStatusNS() {
 	try {
-		console.log('entro al ChangeStatusNS ');
 		const strday = `'day'`;
 		const strcomment = `'No Show'`
 		Strquery =
@@ -153,8 +152,6 @@ async function SendExpiredContracts() {
 		);
 
 		const { rows } = await query(Strquery);
-
-		console.log("estas son las rows ", rows);
 
 		if (rows != null) {
 			rows.forEach(function (element) {
