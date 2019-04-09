@@ -50,7 +50,7 @@ import { Conn } from '../../Configuration/Configuration';
 
 
 // OpeningRecruiter
-import OpeningRecruiter from './openingrecruiterModel';
+import OpeningRecruiterModel from './openingrecruiterModel';
 
 const Application = ApplicationModel.createModel(Conn);
 const ApplicantLanguage = ApplicantLanaguageModel.createModel(Conn);
@@ -102,7 +102,7 @@ const Template = TemplateModel.createModel(Conn);
 const TemplateShift = TemplateShiftModel.createModel(Conn);
 
 
-const OpeningRecruiterModel = OpeningRecruiter.createModel(Conn);
+const OpeningRecruiter = OpeningRecruiterModel.createModel(Conn);
 
 const ConfigRegions = ConfigRegionsModel.createModel(Conn);
 
@@ -333,14 +333,14 @@ CatalogItem.hasMany(Contacts, {
 
 
 // Opening recruiter associations
-OpeningRecruiterModel.belongsTo(Users, {foreignKey: 'recruiterId'});
-OpeningRecruiterModel.belongsTo(ShiftDetail, {foreignKey: 'openingId'});
+OpeningRecruiter.belongsTo(Users, {foreignKey: 'recruiterId'});
+OpeningRecruiter.belongsTo(Shift, {foreignKey: 'openingId'});
 
-Users.hasMany(OpeningRecruiterModel, {
+Users.hasMany(OpeningRecruiter, {
 	foreignKey: 'recruiterId'
 });
 
-ShiftDetail.hasMany(OpeningRecruiterModel, {
+Shift.hasMany(OpeningRecruiter, {
 	foreignKey: 'openingId'
 });
 

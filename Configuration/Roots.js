@@ -3384,9 +3384,21 @@ async function SendEmail(args) {
 	}
 }
 
+async function SendSMS(args) {
+	const accountSid = 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
+	const authToken = 'your_auth_token';
+	const client = require('twilio')(accountSid, authToken);
+
+	client.messages.create({
+		body: args.msg,
+		from: '+15017122661',
+		to: args.number
+	})
+	.then(message => console.log(message.sid));
+}
+
 async function SendGenericEmail(args) {
 	try {
-		console.log("Estos son los args ", args)
 		var mailOptions = {
 			from: 'tumistaffing@hotmail.com',
 			to: args.email,

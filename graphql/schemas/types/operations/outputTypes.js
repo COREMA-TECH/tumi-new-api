@@ -1024,6 +1024,10 @@ const ShiftBoardType = new GraphQLObjectType({
 				type: GraphQLInt,
 				description: "table PositionRateId"
 			},
+			OpeningRecruiter: {
+				type: new GraphQLList(listOpeningRecruiterQuery),
+				description: "Opening Recruiter"
+			},
 		}
 	}
 });
@@ -1283,7 +1287,7 @@ const listOpeningRecruiterQuery = new GraphQLObjectType({
 });
 
 const listOpeningRecruiterType = new GraphQLObjectType({
-	name: 'OpeningRecruiter',
+	name: 'listOpeningRecruiterType',
 	description: 'This represent a opening recruiter list',
 	fields: () => {
 		return {

@@ -16,12 +16,8 @@ const OpeningRecruiterMutation = {
         },
         resolve(source, args) {
             return Db.models.OpeningRecruiter
-                    .bulkCreate(args.openingRecruiter, {returning: true})
-                    .then((ret) => {
-
-                        return ret.map((data) => {
-                            return data.dataValues;
-                        });
+                    .create(args.openingRecruiter).catch(err => {
+                        console.log(err)
                     });
         }
     },

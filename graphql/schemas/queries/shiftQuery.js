@@ -207,12 +207,13 @@ const ShiftQuery = {
                         where: {
                             ...GetWorkOrderFilter(args.workOrder)
                         },
-
                         required: true,
                         include: [{
                             model: Db.models.PositionRate
                         }]
                     }]
+                }, {
+                    model: Db.models.OpeningRecruiter
                 }]
             }).then(shifts => {
                 var boardShifts = [];
@@ -253,6 +254,7 @@ const ShiftQuery = {
                         IdEntity: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.IdEntity,
                         contactId: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.contactId,
                         PositionRateId: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRateId,
+                        OpeningRecruiter: shift.dataValues.OpeningRecruiters ? shift.dataValues.OpeningRecruiters : []
                     });
 
                     WOID = shift.dataValues.ShiftWorkOrder.dataValues.WorkOrderId;

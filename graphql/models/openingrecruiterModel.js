@@ -3,19 +3,16 @@ import Sequelize from 'sequelize';
 
 export default {
     createModel(Conn) {
-        return Conn.define(
-            'OpeningRecruiter',
-            {
-                recruiterId: {
-                    type: Sequelize.INTEGER,
-                    allowNull: true
-                },
-                openingId: {
-                    type: Sequelize.INTEGER,
-                    allowNull: true
-                },
-            }
-        );
+        return Conn.define('OpeningRecruiter',{
+            recruiterId: {
+                type: Sequelize.INTEGER,
+                allowNull: true
+            },
+            openingId: {
+                type: Sequelize.INTEGER,
+                allowNull: true
+            },
+        });
     }
 };
 
