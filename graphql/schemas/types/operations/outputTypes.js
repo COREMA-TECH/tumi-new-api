@@ -50,7 +50,8 @@ import {
 	RolesFormsFields,
 	ConfigRegionsFields,
 	consolidatedPunchesCSVTypes,
-	openingRecruiterFields
+	openingRecruiterFields,
+	SmsLogFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -1295,6 +1296,17 @@ const listOpeningRecruiterType = new GraphQLObjectType({
 	}
 });
 
+const SmsLogType = new GraphQLObjectType({
+	name: 'SmsLogType',
+	description: 'This object represents a Sms request',
+	fields: () => {
+		return {
+			id: { type: GraphQLInt },
+			...SmsLogFields
+		}
+	}
+})
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -1344,5 +1356,6 @@ export {
 	getCSVURLType,
 	listOpeningRecruiterQuery,
 	listOpeningRecruiterType,
-	PunchesReportDetailType
+	PunchesReportDetailType,
+	SmsLogType
 };
