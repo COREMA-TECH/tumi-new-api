@@ -13,8 +13,7 @@ var cron = require('node-cron');
 
 var Strquery, Strquery_2, Strfilename;
 
-//cron.schedule('59 11 * * *', () => {
-	cron.schedule('* * * * *', () => {
+cron.schedule('59 11 * * *', () => {
 	console.log('running a task At 23:59.');
 	SendExpiredContracts();
 	ChangeStatustoExpired();
@@ -2372,7 +2371,7 @@ async function DelUsers(args) {
 async function getContracts(args) {
 	try {
 		console.log(args.IsActive);
-		var strparam1, strparam2, strparam3;
+		var strparam1, strparam2, strparam3,strparam4;
 
 		if (args.IsActive >= 0) {
 			strparam1 = args.IsActive;
@@ -2386,12 +2385,30 @@ async function getContracts(args) {
 			strparam2 = null;
 		}
 
+		if (args.IdManagement >= 0) {
+			strparam3 = args.IdManagement;
+		} else {
+			strparam3 = null;
+		}
+
+		if (args.Id_Entity >= 0) {
+			strparam4 = args.Id_Entity;
+		} else {
+			strparam4 = null;
+		}
+
 		Strquery =
 			' select * from public.vwcontracts_Format  where "IsActive" = coalesce(' +
 			strparam1 +
-			',"IsActive") and "Id" = coalesce(' +
+			',"IsActive") and "IdManagement" = coalesce(' +
+			strparam3 +
+			',"IdManagement") and "Id_Entity" = coalesce(' +
+			strparam4 +
+			',"Id_Entity") and "Id" = coalesce(' +
 			strparam2 +
 			',"Id") order by "Id"';
+
+			console.log("getContracts ",Strquery)
 
 		const { rows } = await query(Strquery);
 		return rows;
