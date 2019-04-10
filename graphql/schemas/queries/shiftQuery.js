@@ -213,12 +213,17 @@ const ShiftQuery = {
                         }]
                     }]
                 }, {
-                    model: Db.models.OpeningRecruiter
+                    model: Db.models.OpeningRecruiter,
+                    include: [{
+                        model: Db.models.Users
+                    }]
                 }]
             }).then(shifts => {
                 var boardShifts = [];
                 let counter = 0;
                 let WOID = 0
+                let data;
+                let users = [];
 
                 shifts.map(shift => {
 
@@ -228,8 +233,7 @@ const ShiftQuery = {
                     else {
                         counter = 1;
                     }
-
-                    boardShifts.push({
+                    data = {
                         id: shift.dataValues.id,
                         title: shift.dataValues.title,
                         quantity: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.quantity,
@@ -254,8 +258,21 @@ const ShiftQuery = {
                         IdEntity: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.IdEntity,
                         contactId: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.contactId,
                         PositionRateId: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRateId,
-                        OpeningRecruiter: shift.dataValues.OpeningRecruiters ? shift.dataValues.OpeningRecruiters : []
-                    });
+                        OpeningRecruiter: shift.dataValues.OpeningRecruiters ? shift.dataValues.OpeningRecruiters : [],
+                    }
+                    
+                    if (shift.dataValues.OpeningRecruiters) {
+                        shift.dataValues.OpeningRecruiters.map(_or => {
+                            users.push(_or.dataValues.User.dataValues);
+                        })
+                        data.Users = users;
+                    } else 
+                        data.Users = [];
+                    
+                    //console.log(shift.dataValues.OpeningRecruiters ? shift.dataValues.OpeningRecruiters.dataValues : [])
+                    boardShifts.push(data);
+
+                    users = [];
 
                     WOID = shift.dataValues.ShiftWorkOrder.dataValues.WorkOrderId;
                 });

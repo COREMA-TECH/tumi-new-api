@@ -3402,8 +3402,8 @@ async function SendEmail(args) {
 }
 
 async function SendSMS(args) {
-	const accountSid = 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
-	const authToken = 'your_auth_token';
+	const accountSid = 'AC4cc6bedd9ea4f990e3d49e24ec0b11bf';
+	const authToken = '4c06477eab6453006fb21ff733745e00';
 	const client = require('twilio')(accountSid, authToken);
 
 	client.messages.create({
@@ -3718,7 +3718,8 @@ const root = {
 	createdocumentspdf: CreateDocumentsPDF,
 	sendemail: SendEmail,
 	sendgenericemail: SendGenericEmail,
-	sendworkorderfilledemail: SendWorkOrderFilledEmail
+	sendworkorderfilledemail: SendWorkOrderFilledEmail,
+	SendSMS: SendSMS
 };
 
 module.exports = root;

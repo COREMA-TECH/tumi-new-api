@@ -1028,6 +1028,10 @@ const ShiftBoardType = new GraphQLObjectType({
 				type: new GraphQLList(listOpeningRecruiterQuery),
 				description: "Opening Recruiter"
 			},
+			Users: {
+				type: new GraphQLList(UsersType),
+				description: "Opening Recruiter"
+			},
 		}
 	}
 });
@@ -1281,7 +1285,11 @@ const listOpeningRecruiterQuery = new GraphQLObjectType({
 			id: {
 				type: GraphQLInt,
 			},
-			...openingRecruiterFields
+			...openingRecruiterFields,
+			Users: {
+				type: new GraphQLList(UsersType),
+				description: "Opening Recruiter"
+			},
 		}
 	}
 });
