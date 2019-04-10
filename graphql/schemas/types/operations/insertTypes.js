@@ -1,11 +1,11 @@
 import {
-    GraphQLInputObjectType,
-    GraphQLNonNull,
-    GraphQLBoolean,
-    GraphQLString,
-    GraphQLInt,
-    GraphQLList,
-    GraphQLObjectType
+	GraphQLInputObjectType,
+	GraphQLNonNull,
+	GraphQLBoolean,
+	GraphQLString,
+	GraphQLInt,
+	GraphQLList,
+	GraphQLObjectType
 } from 'graphql';
 import GraphQLDate from 'graphql-date';
 
@@ -44,7 +44,8 @@ import {
 	ConfigRegionsFields,
 	UsersFields,
 	ContactsFields,
-	openingRecruiterFields
+	openingRecruiterFields,
+	SmsLogFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -430,34 +431,44 @@ const inputInsertContact = new GraphQLInputObjectType({
 
 // Type to use in payroll mutation and query
 const insertPayrollType = new GraphQLInputObjectType({
-    name: 'insertPayrollType',
-    description: 'This represent a payroll insert',
-    fields: () => {
-        return {
-            ...payrollFields
-        }
-    }
+	name: 'insertPayrollType',
+	description: 'This represent a payroll insert',
+	fields: () => {
+		return {
+			...payrollFields
+		}
+	}
 });
 
 
 
 // Type to use in payroll mutation and query
 const insertOpeningRecruiterType = new GraphQLInputObjectType({
-    name: 'insertOpeningRecruiterType',
-    description: 'This represent a  Opening Recruiter insert',
-    fields: () => {
-        return {
-            ...openingRecruiterFields
-        }
-    }
+	name: 'insertOpeningRecruiterType',
+	description: 'This represent a  Opening Recruiter insert',
+	fields: () => {
+		return {
+			...openingRecruiterFields
+		}
+	}
 });
 
+//type to use in SmsLog mutation and query
+const inputInsertSmsLogType = new GraphQLInputObjectType({
+	name: 'inputInsertSmsLogType',
+	description: 'This object represents a SmsLog request',
+	fields: () => {
+		return {
+			...SmsLogFields
+		}
+	}
+})
 
 
 
 
 export {
-    insertPayrollType,
+	insertPayrollType,
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
 	inputInsertApplicantEducation,
@@ -502,5 +513,6 @@ export {
 	filterShiftWOConvertToOpening,
 	inputInsertContact,
 	inputQueryWorkOrder,
-    insertOpeningRecruiterType
+	insertOpeningRecruiterType,
+	inputInsertSmsLogType
 };

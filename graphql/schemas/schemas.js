@@ -38,6 +38,8 @@ import {
 	ContactsMutation,
 	payrollMutation,
 	OpeningRecruiterMutation,
+	SmsLogMutation
+
 } from './mutations';
 import {
 	ApplicationQuery,
@@ -82,7 +84,8 @@ import {
 	UserQuery,
 	payrollQuery,
 	consolidatedPunchesQuery,
-	OpeningRecruiterQuery
+	OpeningRecruiterQuery,
+	SmsLogQuery
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -131,7 +134,8 @@ const RootQuery = new GraphQLObjectType({
 		...UserQuery,
 		...payrollQuery,
 		...consolidatedPunchesQuery,
-		...OpeningRecruiterQuery
+		...OpeningRecruiterQuery,
+		...SmsLogQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({
@@ -171,7 +175,8 @@ const RootMutation = new GraphQLObjectType({
 		...UserMutation,
 		...ContactsMutation,
 		...payrollMutation,
-		...OpeningRecruiterMutation
+		...OpeningRecruiterMutation,
+		...SmsLogMutation
 	}
 });
 

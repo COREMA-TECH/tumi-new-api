@@ -29,7 +29,8 @@ import {
 	RolesFormsFields,
 	CatalogItemFields,
 	ConfigRegionsFields,
-	UsersFields
+	UsersFields,
+	SmsLogFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -422,6 +423,17 @@ const updatePayrollType = new GraphQLInputObjectType({
 	}
 });
 
+//Type to use in Smslog table
+const inputUpdateSmsLogType = new GraphQLInputObjectType({
+	name: 'inputUpdateSmsLogType',
+	description: 'This object respresents an input type to update Smslog records',
+	fields: () => {
+		return {
+			...SmsLogFields
+		}
+	}
+})
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -453,5 +465,6 @@ export {
 	inputUpdateCatalogItem,
 	inputUpdateConfigRegions,
 	inputUpdateUser,
-	updatePayrollType
+	updatePayrollType,
+	inputUpdateSmsLogType
 };
