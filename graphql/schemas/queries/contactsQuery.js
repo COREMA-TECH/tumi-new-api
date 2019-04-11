@@ -16,6 +16,9 @@ const ContactsQuery = {
             IsActive: {
                 type: GraphQLInt
             },
+            ApplicationId: {
+                type: GraphQLInt
+            }
         },
         resolve(root, args) {
             return Db.models.Contacts.findAll({ where: args });

@@ -44,6 +44,9 @@ const contactsFields = {
 	},
 	Contact_Title: {
 		type: GraphQLInt
+	},
+	ApplicationId: {
+		type: GraphQLInt
 	}
 };
 export default contactsFields;

@@ -42,6 +42,7 @@ import payrollQuery from './payrollQuery';
 import phaseworkOrderQuery from './phaseworkOrderQuery';
 import consolidatedPunchesQuery from './consolidatedPunchesQuery';
 import SmsLogQuery from './smsLogQuery';
+import businessCompanyQuery from './businessCompanyQuery';
 
 export {
 	ApplicantLanguageQuery,
@@ -86,5 +87,6 @@ export {
 	UserQuery,
 	payrollQuery,
 	consolidatedPunchesQuery,
-	SmsLogQuery
+	SmsLogQuery,
+	businessCompanyQuery
 };

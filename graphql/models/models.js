@@ -349,6 +349,9 @@ Shift.hasMany(OpeningRecruiter, {
 SmsLog.belongsTo(Employees);
 SmsLog.belongsTo(Shift);
 
+Contacts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
+Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
+BusinessCompany.hasMany(Contacts, { foreignKey: 'Id_Entity' });
 
 Conn.authenticate()
 	.then(() => {

@@ -70,6 +70,10 @@ export default {
 				Contact_Title: {
 					type: Sequelize.INTEGER,
 					allowNull: true
+				},
+				ApplicationId: {
+					type: Sequelize.INTEGER,
+					allowNull: true
 				}
 
 			},
