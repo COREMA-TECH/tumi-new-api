@@ -1211,6 +1211,36 @@ const PunchesReportDetailPunchesType = new GraphQLObjectType({
 	}
 })
 
+
+const PunchesReportConsolidateType = new GraphQLObjectType({
+	name: 'PunchesReportConsolidateType',
+	description: 'This structured is used to generate report consolidated about punches',
+	fields: () => {
+		return {
+			key: { type: GraphQLString },
+			date: { type: GraphQLString },
+			punches: { type: new GraphQLList(PunchesReportConsolidatedPunchesType) }
+		}
+	}
+})
+
+const PunchesReportConsolidatedPunchesType = new GraphQLObjectType({
+	name: 'PunchesReportConsolidatedPunchesType',
+	description: 'This structured is used to generate report consolidated about punches',
+	fields: () => {
+		return {
+			key: { type: GraphQLString },
+			name: { type: GraphQLString },
+			employeeId: { type: GraphQLInt },
+			clockIn: { type: GraphQLString },
+			clockOut: { type: GraphQLString },
+			duration: { type: GraphQLFloat },
+			job: { type: GraphQLString },
+			hotelCode: { type: GraphQLString }
+		}
+	}
+})
+
 const ApplicationEmployeesType = new GraphQLObjectType({
 	name: 'ApplicationEmployees',
 	description: 'This is for Marked Employees Table',
@@ -1369,5 +1399,6 @@ export {
 	listOpeningRecruiterQuery,
 	listOpeningRecruiterType,
 	PunchesReportDetailType,
-	SmsLogType
+	SmsLogType,
+	PunchesReportConsolidateType
 };

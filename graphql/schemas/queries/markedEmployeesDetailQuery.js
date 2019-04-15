@@ -107,7 +107,7 @@ const MarkedEmployeesDetailQuery = {
                         let company = _mark.dataValues.BusinessCompany.dataValues;
 
                         //Create new punch object if this object doesnt exist into the array of punches
-                        if (!objPunches[key]) {
+                        if (!objPunches[groupKey]) {
                             var reportRow = {
                                 key: groupKey,
                                 employeeId: EmployeeId,
@@ -118,17 +118,17 @@ const MarkedEmployeesDetailQuery = {
                                 hotelCode: company.Name,
                                 notes,
                             }
-                            objPunches = { ...objPunches, [key]: reportRow }
+                            objPunches = { ...objPunches, [groupKey]: reportRow }
                         }
                         //Format punche time
                         var hour = moment.utc(markedTime, 'HH:mm').format('HH:mm');
                         //Update marker type hour based on type and hour
                         switch (typeMarkedId) {
                             case 30570 || 30572: //Clock In//Break In
-                                objPunches[key] = { ...objPunches[key], clockIn: hour };
+                                objPunches[groupKey] = { ...objPunches[groupKey], clockIn: hour };
                                 break;
                             case 30571 || 30573://Clock Out//Break Out
-                                objPunches[key] = { ...objPunches[key], clockOut: hour };
+                                objPunches[groupKey] = { ...objPunches[groupKey], clockOut: hour };
                                 break;
                         }
                     })
