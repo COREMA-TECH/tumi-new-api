@@ -1234,6 +1234,8 @@ const PunchesReportConsolidatedPunchesType = new GraphQLObjectType({
 			employeeId: { type: GraphQLInt },
 			clockIn: { type: GraphQLString },
 			clockOut: { type: GraphQLString },
+			imageMarkedIn: { type: GraphQLString },
+			imageMarkedOut: { type: GraphQLString },
 			duration: { type: GraphQLFloat },
 			job: { type: GraphQLString },
 			hotelCode: { type: GraphQLString }

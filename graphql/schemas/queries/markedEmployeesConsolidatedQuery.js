@@ -101,7 +101,7 @@ const MarkedEmployeesConsolidated = {
                 .then(marks => {
                     var objPunches = {};
                     marks.map(_mark => {
-                        var { typeMarkedId, markedTime, EmployeeId, notes, markedDate } = _mark.dataValues;
+                        var { typeMarkedId, markedTime, EmployeeId, notes, markedDate, imageMarked } = _mark.dataValues;
 
                         var markType = '30570||30571'.includes(typeMarkedId) ? '001' : '002';//ClockIn||ClockOut (001), otherwise '002'
                         var key = `${EmployeeId}-${moment.utc(markedDate).format('YYYYMMDD')}-${markType}`;
@@ -145,9 +145,11 @@ const MarkedEmployeesConsolidated = {
                             switch (typeMarkedId) {
                                 case 30570 || 30572: //Clock In//Break In
                                     punch.clockIn = hour;
+                                    punch.imageMarkedIn = imageMarked;
                                     break;
                                 case 30571 || 30573://Clock Out//Break Out
                                     punch.clockOut = hour;
+                                    punch.imageMarkedOut = imageMarked;
                                     break;
                             }
                         }
