@@ -15,6 +15,7 @@ const businessCompanyQuery = {
             return Db.models.BusinessCompany.findAll({
                 include: [{
                     model: Db.models.Contacts,
+                    where: { IsActive: 1 },
                     required: true,
                     include: [{
                         model: Db.models.Applications,
