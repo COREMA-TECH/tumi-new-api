@@ -134,7 +134,6 @@ const ShiftQuery = {
                 ]
             }).then(shiftDetails => {
                 shiftDetails.map(shiftDetail => {
-                    //Find dates by week day
                     var date = dateList.find(item => { return item.getDay() == shiftDetail.startDate.getDay() })
                     if (date) {
                         Db.models.ShiftDetail.findAll({

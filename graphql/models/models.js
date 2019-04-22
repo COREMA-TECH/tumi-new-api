@@ -47,7 +47,7 @@ import TemplateShiftModel from './templateShiftTable';
 import ConfigRegionsModel from './configRegionsTable';
 import SmsLogModel from './smsLogTable';
 
-import { Conn } from '../../Configuration/Configuration';
+import { Conn } from '../../Configuration/ConfigurationBK';
 
 import CoordenadasModel from './coordenadasTable';
 
