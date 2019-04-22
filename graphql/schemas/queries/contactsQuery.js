@@ -11,7 +11,7 @@ const ContactsQuery = {
                 type: GraphQLInt
             },
             Id_Entity: {
-                type: GraphQLInt
+                type: new GraphQLList(GraphQLInt)
             },
             IsActive: {
                 type: GraphQLInt
