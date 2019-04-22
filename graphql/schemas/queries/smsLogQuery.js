@@ -11,6 +11,9 @@ const SmsLogQuery = {
             },
             EmployeeId: {
                 type: GraphQLInt
+            },
+            ShiftId: {
+                type: GraphQLInt
             }
         },
         resolve(root, args) {

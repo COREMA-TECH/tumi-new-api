@@ -1,5 +1,5 @@
 import { GraphQLList, GraphQLString } from 'graphql';
-import { ZipcodeType } from '../types/operations/outputTypes';
+import { ZipcodeType,CoordenadasType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 const ZipcodeQuery = {
@@ -12,7 +12,10 @@ const ZipcodeQuery = {
             }
         },
         resolve(root, args) {
-            return Db.models.Zipcode.findAll({ where: args });
+            return Db.models.Zipcode.findAll({ where: args,
+                limit: 1 }
+                
+            );
         }
     },
     zipcode_City_State: {
@@ -25,6 +28,20 @@ const ZipcodeQuery = {
         },
         resolve(root, args) {
             return Db.models.Zipcode.findAll({ where: {Zipcode:args.Zipcode,countryId:{ $ne: null} } });
+        }
+    },
+    Coordenadas:{
+        type: new GraphQLList(CoordenadasType),
+        description: 'List Coordenadas records',
+        args: {
+            zipCode: {
+                type: GraphQLString
+            }
+        },
+        resolve(root, args) {
+            return Db.models.Coordenadas.findAll({ where: args }
+                
+            );
         }
     }
 

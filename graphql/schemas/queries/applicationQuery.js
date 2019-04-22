@@ -1,12 +1,12 @@
 import { GraphQLInt, GraphQLString, GraphQLList, GraphQLBoolean, GraphQLNonNull } from 'graphql';
-import { ApplicationType, ApplicationCompletedDataType } from '../types/operations/outputTypes';
+import { ApplicationType, ApplicationCompletedDataType,ApplicationTypeBoard } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 import GraphQLDate from 'graphql-date';
 import Sequelize from 'sequelize';
 
 const Op = Sequelize.Op;
-
+	  
 const getRecruiterReportFilters = (filter) => {
 	var newFilter = {};
 
@@ -107,16 +107,14 @@ const ApplicationQuery = {
 			language: { type: GraphQLBoolean },
 			experience: { type: GraphQLBoolean },
 			Position: { type: GraphQLString },
-			//isLead: { type: GraphQLBoolean },
-			//isActive: { type: GraphQLBoolean },
 			ShiftId: { type: GraphQLInt },
-			WorkOrderId: { type: GraphQLInt },
+			WorkOrderId: { type: GraphQLInt }
 		},
 		resolve(root, args) {
 
 			return Db.models.Applications.findAll({
 				where: {
-					//isLead: args.isLead,
+					isLead: false,
 					isActive: true
 				},
 				include: [
@@ -138,10 +136,10 @@ const ApplicationQuery = {
 						model: Db.models.ApplicationPhases,
 						where: { WorkOrderId: args.WorkOrderId, ShiftId: args.ShiftId },
 						required: false,
-
 					}
 				],
-			});
+			
+			})
 		}
 	},
 	applicationCompleted: {

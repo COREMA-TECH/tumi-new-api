@@ -49,6 +49,7 @@ import SmsLogModel from './smsLogTable';
 
 import { Conn } from '../../Configuration/Configuration';
 
+import CoordenadasModel from './coordenadasTable';
 
 // OpeningRecruiter
 import OpeningRecruiterModel from './openingrecruiterModel';
@@ -89,6 +90,8 @@ const RolesForms = RolesFormsModel.createModel(Conn);
 const Zipcode = ZipcodeModel.createModel(Conn);
 Zipcode.removeAttribute('id');
 
+const Coordenadas = CoordenadasModel.createModel(Conn);
+
 const Employees = EmployeesModel.createModel(Conn);
 const Shift = ShiftModel.createModel(Conn);
 const ShiftDetail = ShiftDetailModel.createModel(Conn);
@@ -118,18 +121,13 @@ ApplicationPhases.belongsTo(WorkOrder, {
 	as: 'WorkOrder'
 })
 
-ApplicationPhases.belongsTo(Application);
-
 ApplicationPhases.belongsTo(Shift, {
 	foreignKey: 'ShiftId',
 	as: 'Shift'
 });
 
 Application.hasMany(ApplicationPhases);
-
 Application.hasMany(ApplicantLanguage);
-
-
 Application.hasMany(ApplicantEducation);
 Application.hasMany(ApplicantPreviousEmployment);
 Application.hasMany(ApplicantMilitaryServices);
@@ -145,6 +143,7 @@ Application.hasOne(ApplicantWorkerCompensation);
 Application.hasOne(ApplicantW4);
 Application.hasOne(ApplicantI9);
 
+ApplicationPhases.belongsTo(Application);
 ApplicantLanguage.belongsTo(Application);
 ApplicantEducation.belongsTo(Application);
 ApplicantPreviousEmployment.belongsTo(Application);
@@ -206,6 +205,11 @@ Application.belongsTo(CatalogItem, {
 	as: 'CatalogCity'
 });
 
+Application.belongsTo(Coordenadas, {
+	foreignKey: 'zipCode',
+	as: 'Coordenadas'
+});
+
 Application.belongsTo(Users, {
 	foreignKey: 'idRecruiter',
 	as: "Recruiter"
@@ -241,14 +245,6 @@ RolesForms.belongsTo(Roles, {
 	as: 'Roles'
 })
 
-
-/*Employees.hasOne(ApplicationEmployees);
-
-ApplicationEmployees.belongsTo(Employees, {
-	foreignKey: 'EmployeeId',
-	as: 'Employees'
-});
-*/
 
 Shift.hasMany(ShiftDetail, { onDelete: 'cascade' });
 ShiftDetail.hasOne(ShiftDetailEmployees, { onDelete: 'cascade' });

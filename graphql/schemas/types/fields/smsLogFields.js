@@ -13,7 +13,7 @@ const SmsLogFields = {
     EmployeeId: {
         type: GraphQLInt
     },
-    Shiftid: {
+    ShiftId: {
         type: GraphQLInt
     }
 }

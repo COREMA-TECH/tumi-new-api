@@ -41,6 +41,7 @@ import UserFields from './usersFields';
 import consolidatedPunchesCSVTypes from './consolidatedPunchesCSVType';
 import openingRecruiterFields from './openingRecruiterFields';
 import SmsLogFields from './smsLogFields';
+import CoordenadasFields from './coordenadasFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -85,5 +86,6 @@ export {
 	UserFields,
 	consolidatedPunchesCSVTypes,
 	openingRecruiterFields,
-	SmsLogFields
+	SmsLogFields,
+	CoordenadasFields
 };

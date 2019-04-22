@@ -32,6 +32,7 @@ import {
 	WorkOrderFields,
 	WorkOrderPositionFields,
 	ZipcodeFields,
+	CoordenadasFields,
 	ApplicationPhaseFields,
 	phaseworkOrderFields,
 	UsersFields,
@@ -83,6 +84,18 @@ const ApplicationType = new GraphQLObjectType({
 				type: new GraphQLList(ApplicantPreviousEmploymentType),
 				resolve(application) {
 					return application.getApplicantPreviousEmployments();
+				}
+			},
+			Phases: {
+				type: new GraphQLList(ApplicationPhaseType),
+				resolve(application) {
+					return application.getApplicationPhases();
+				}
+			},
+			Coordenadas: {
+				type:  CoordenadasType,
+				resolve(application) {
+					return application.getCoordenadas();
 				}
 			},
 			militaryServices: {
@@ -155,12 +168,6 @@ const ApplicationType = new GraphQLObjectType({
 				type: new GraphQLList(ApplicantDocumentType),
 				resolve(application) {
 					return application.getApplicantDocuments();
-				}
-			},
-			applicationPhases: {
-				type: new GraphQLList(ApplicationPhaseType),
-				resolve(application) {
-					return application.getApplicationPhases();
 				}
 			},
 			employee: {
@@ -690,6 +697,16 @@ const ZipcodeType = new GraphQLObjectType({
 	fields: () => {
 		return {
 			...ZipcodeFields
+		};
+	}
+});
+
+const CoordenadasType = new GraphQLObjectType({
+	name: 'Coordenadas',
+	description: 'This is for Coordenadas Table',
+	fields: () => {
+		return {
+			...CoordenadasFields
 		};
 	}
 });
@@ -1402,5 +1419,6 @@ export {
 	listOpeningRecruiterType,
 	PunchesReportDetailType,
 	SmsLogType,
-	PunchesReportConsolidateType
+	PunchesReportConsolidateType,
+	CoordenadasType
 };

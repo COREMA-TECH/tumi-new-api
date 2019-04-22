@@ -14,7 +14,10 @@ export default {
                 response: {
                     type: Sequelize.STRING,
                     allowNull: true
-                }
+                },
+                ShiftId: {
+					type: Sequelize.INTEGER
+				}
             }
         )
     }
