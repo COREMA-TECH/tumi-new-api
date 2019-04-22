@@ -19,6 +19,17 @@ const ContactsMutation = {
 			});
 		}
 	},
+	disableContactByHotel_Application: {
+		type: new GraphQLList(ContactsType),
+		description: 'Disable contact by hotel and application Ids',
+		args: {
+			Id_Entity: { type: GraphQLInt },
+			ApplicationId: { type: GraphQLInt }
+		},
+		resolve(source, args) {
+			return Db.models.Contacts.update({ IsActive: 0 }, { where: { Id_Entity: args.Id_Entity, ApplicationId: args.ApplicationId } });
+		}
+	},
 };
 
 export default ContactsMutation;
