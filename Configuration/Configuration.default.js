@@ -1,35 +1,35 @@
 import Sequelize from 'sequelize';
 
 const environments = {
-	dev: { 
-		user: 'corema',
-		password: 'S0l040.246.',
-		host: 'coremagroup.cb4kqp6rssxe.us-east-2.rds.amazonaws.com',
-		port: '5000', 
-		database: 'Tumi_Dev', 
-		databasePort: 5432, 
-		webPORT: 3001, 
-		webURL: 'http://ec2-3-16-143-115.us-east-2.compute.amazonaws.com' 
+	dev: {
+		user: 'tumiusr',
+		password: 'Nicaragu^&jkiu#z',
+		host: 'tumidb.cbvpubcios7n.us-east-2.rds.amazonaws.com',
+		port: '5000',
+		database: 'tumidb',
+		databasePort: 5432,
+		webPORT: 3001,
+		webURL: 'http://ec2-3-16-143-115.us-east-2.compute.amazonaws.com'
 	},
-	prod: { 
+	prod: {
 		user: 'tumiusr',
 		password: 'Nicaragu^&jkiu#z',
 		host: 'tumidb.cnzodd8fyfab.us-east-1.rds.amazonaws.com',
-		port: '4000', 
-		database: 'tumidb', 
-		databasePort: 5432, 
-		webPORT: 3000, 
-		webURL: 'http://app.orionsystem1.com' 
+		port: '4000',
+		database: 'tumidb',
+		databasePort: 5432,
+		webPORT: 3000,
+		webURL: 'http://app.orionsystem1.com'
 	},
-	cert: { 
+	cert: {
 		user: 'corema',
 		password: 'S0l040.246.',
 		host: 'coremagroup.cb4kqp6rssxe.us-east-2.rds.amazonaws.com',
-		port: '4001', 
-		database: 'Tumi_Certi', 
-		databasePort: 5432, 
-		webPORT: 3002, 
-		webURL: 'http://ec2-3-16-143-115.us-east-2.compute.amazonaws.com' 
+		port: '4001',
+		database: 'Tumi_Certi',
+		databasePort: 5432,
+		webPORT: 3002,
+		webURL: 'http://ec2-3-16-143-115.us-east-2.compute.amazonaws.com'
 	}
 }
 
