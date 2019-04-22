@@ -5,6 +5,7 @@ import { GraphQLList, GraphQLInt, GraphQLString } from 'graphql';
 import Sequelize from 'sequelize';
 
 import Db from '../../models/models';
+import { SendSMS } from '../../../Configuration/Roots';
 
 const Op = Sequelize.Op;
 
@@ -83,6 +84,7 @@ const SmsLogMutation = {
                                     { status, color },
                                     { where: { id } })
                                     .then(ret => {
+
                                         //Detele Employee relation when reponse is NO
                                         if (args.response.toUpperCase() == rejectMessage.toUpperCase())
                                             return Db.models.ShiftDetailEmployees.destroy(
@@ -90,7 +92,48 @@ const SmsLogMutation = {
                                             ).then(_shiftDetailemployee => {
                                                 return _smsLog;
                                             })
-                                        else return _smsLog;
+                                        else {
+                                            console.log({
+                                                msg: "Congratulations!! The Job is yours!!",
+                                                number: _smsLog.dataValues.number
+                                            })
+                                            SendSMS({
+                                                msg: "Congratulations!! The Job is yours!!",
+                                                number: _smsLog.dataValues.number
+                                            });
+
+                                            return Db.models.SMSLog.findAll({
+                                                where: {
+                                                    id: { [Op.ne]: _smsLog.dataValues.id },
+                                                    response: null,
+                                                    ShiftId: _smsLog.dataValues.ShiftId
+                                                }
+                                            }).then(_auto => {
+                                                _auto.map((_rejected) => {
+                                                    console.log({
+                                                        msg: "This Job is not available anymore.",
+                                                        number: _rejected.number
+                                                    });
+                                                    SendSMS({
+                                                        msg: "This Job is not available anymore.",
+                                                        number: _rejected.number
+                                                    });
+                                                })
+                                                //Update Log
+                                                return Db.models.SMSLog.update({ response: "ACCEPTED BY ANOTHER PERSON" },
+                                                    {
+                                                        where: {
+                                                            id: { [Op.ne]: _smsLog.dataValues.id },
+                                                            response: null,
+                                                            ShiftId: _smsLog.dataValues.ShiftId
+                                                        }, returning: true
+                                                    })
+                                                    .then(() => {
+                                                        return _smsLog;
+                                                    })
+                                            })
+
+                                        };
                                     })
                             })
                             return _smsLog;

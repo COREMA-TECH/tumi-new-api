@@ -31,7 +31,7 @@ import ConfigRegionsMutation from './configRegionsMutation';
 import UserMutation from './userMutation';
 import ContactsMutation from './contactsMutation';
 import payrollMutation from './payrollMutation';
-import OpeningRecruiterMutation from './OpeningRecruiterMutation'
+import OpeningRecruiterMutation from './openingRecruiterMutation';
 import SmsLogMutation from './smsLogMutation';
 
 export {
