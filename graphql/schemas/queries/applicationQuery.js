@@ -5,8 +5,15 @@ import Db from '../../models/models';
 import GraphQLDate from 'graphql-date';
 import Sequelize from 'sequelize';
 
+
 const Op = Sequelize.Op;
-	  
+const FilterStatus=(filter)=>{
+	console.log("FilterStatus "+ filter)
+	if (filter.isActive )
+	{return { isActive:filter.isActive}}
+	else{return {}}
+}	
+
 const getRecruiterReportFilters = (filter) => {
 	var newFilter = {};
 
@@ -79,12 +86,13 @@ const ApplicationQuery = {
 		args: {
 			idUsers: { type: GraphQLInt },
 			Id_Department: { type: GraphQLInt },
-			idEntity: { type: GraphQLInt }
+			idEntity: { type: GraphQLInt },
+			isActive:{ type: new GraphQLList(GraphQLBoolean) }
 		},
 		resolve(root, args) {
 			return Db.models.Applications.findAll(
 				{
-					where: { isActive: true },
+					where: { isActive: {  [Op.in]: args.isActive } },
 					as: "Applications",
 					include: [{
 						model: Db.models.ApplicationEmployees,
