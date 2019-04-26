@@ -1241,6 +1241,36 @@ const PunchesReportConsolidateType = new GraphQLObjectType({
 	}
 })
 
+const PunchesEmployeeReportConsolidateType = new GraphQLObjectType({
+	name: 'PunchesEmployeeReportConsolidateType',
+	description: 'This structured is used to generate report consolidated about punches',
+	fields: () => {
+		return {
+			key: { type: GraphQLString },
+			employeeId: { type: GraphQLInt },
+			name: { type: GraphQLString },
+			date: { type: GraphQLString },
+			punches: { type: new GraphQLList(PunchesReportConsolidateDetailType) },
+			workedHours: { type: GraphQLFloat }
+		}
+	}
+})
+
+const PunchesReportConsolidateDetailType = new GraphQLObjectType({
+	name: 'PunchesReportConsolidateDetailType',
+	description: 'This structured is used to generate report consolidated about punches',
+	fields: () => {
+		return {
+			clockIn: { type: GraphQLString },
+			clockOut: { type: GraphQLString },
+			duration: { type: GraphQLFloat },
+			job: { type: GraphQLString },
+			hotelCode: { type: GraphQLString },
+			notes: { type: GraphQLString }
+		}
+	}
+})
+
 const PunchesReportConsolidatedPunchesType = new GraphQLObjectType({
 	name: 'PunchesReportConsolidatedPunchesType',
 	description: 'This structured is used to generate report consolidated about punches',
@@ -1420,5 +1450,6 @@ export {
 	PunchesReportDetailType,
 	SmsLogType,
 	PunchesReportConsolidateType,
-	CoordenadasType
+	CoordenadasType,
+	PunchesEmployeeReportConsolidateType
 };
