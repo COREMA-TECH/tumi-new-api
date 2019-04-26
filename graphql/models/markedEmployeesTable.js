@@ -22,7 +22,7 @@ export default {
 					allowNull: true
 				},
 				imageMarked: {
-					type: Sequelize.STRING,
+					type: Sequelize.TEXT('long'),
 					allowNull: true
 				},
 				EmployeeId: {
