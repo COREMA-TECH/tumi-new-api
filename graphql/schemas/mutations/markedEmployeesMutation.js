@@ -33,17 +33,14 @@ const MarkedEmployeesMutation = {
 					}
 				).then(_uniqueMark => {
 					var shiftDetail = null, ShiftId = null;
-					//Inser mark without associatedshift
+					//Insert mark without associatedshift
 					if (_uniqueMark) {
 						shiftDetail = _uniqueMark.dataValues.ShiftDetail.dataValues;
 						ShiftId = shiftDetail.ShiftId;
 					}
 
-					return Db.models.MarkedEmployees.create({ ...mark, ShiftId }, { returning: true }).then((ret) => {
-						console.log(ret.dataValues)
-						return ret.dataValues;
-					});
-				})
+					return Db.models.MarkedEmployees.create({ ...mark, ShiftId });
+				}).catch(error => { console.log(error); })
 			})
 
 		}
