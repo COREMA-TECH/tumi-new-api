@@ -67,7 +67,6 @@ const GetShitEntityFilter = (filter) => {
         //Validate if the column to filter is the Code Column , and only filter whether is not an integer value
 
     }
-    console.log(newFilter);
     return newFilter;
 }
 
@@ -224,9 +223,10 @@ const ShiftQuery = {
 
                 shifts.map(shift => {
 
-                    if (args.shiftEntity.Code)
-                        if (!Number.isInteger(parseInt(args.shiftEntity.Code)))
-                            companyCode = args.shiftEntity.Code;
+                    if (args.shiftEntity)//Validate if exists shiftEntity parameter
+                        if (args.shiftEntity.Code)//Validate if Code filter exists 
+                            if (!Number.isInteger(parseInt(args.shiftEntity.Code)))
+                                companyCode = args.shiftEntity.Code;
 
                     if (shift.dataValues.ShiftEntity.dataValues.Code.toUpperCase().includes(companyCode.toUpperCase()) || companyCode.toUpperCase() == '') {
 
