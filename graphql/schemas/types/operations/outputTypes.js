@@ -93,7 +93,7 @@ const ApplicationType = new GraphQLObjectType({
 				}
 			},
 			Coordenadas: {
-				type:  CoordenadasType,
+				type: CoordenadasType,
 				resolve(application) {
 					return application.getCoordenadas();
 				}
@@ -1049,6 +1049,10 @@ const ShiftBoardType = new GraphQLObjectType({
 			Users: {
 				type: new GraphQLList(UsersType),
 				description: "Opening Recruiter"
+			},
+			departmentId: {
+				type: GraphQLInt,
+				description: "Department Id"
 			},
 		}
 	}

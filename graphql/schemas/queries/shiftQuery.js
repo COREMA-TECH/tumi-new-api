@@ -262,6 +262,7 @@ const ShiftQuery = {
                             contactId: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.contactId,
                             PositionRateId: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRateId,
                             OpeningRecruiter: shift.dataValues.OpeningRecruiters ? shift.dataValues.OpeningRecruiters : [],
+                            departmentId: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.departmentId
                         }
 
                         if (shift.dataValues.OpeningRecruiters) {

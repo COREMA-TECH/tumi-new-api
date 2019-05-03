@@ -25,28 +25,28 @@ const WorkOrderMutation = {
 					let weekDays = data.dataValues.dayWeek.replace("MO", 1).replace("TU", 2).replace("WE", 3).replace("TH", 4).replace("FR", 5).replace("SA", 6).replace("SU", 0);
 
 					workOrdersPhase = {
-						userId : data.dataValues.userId,
-						phaseworkOrderId : 30453,
-						WorkOrderId : data.dataValues.id
+						userId: data.dataValues.userId,
+						phaseworkOrderId: 30453,
+						WorkOrderId: data.dataValues.id
 					}
 
 					phasesData.push(workOrdersPhase);
-					
+
 					while (currentQ < data.dataValues.quantity) {
 						shiftData = {
-							entityId : data.dataValues.IdEntity,
-							title : data.dataValues.id,
-							color : '#96989A',
-							status : 1,
-							idPosition : data.dataValues.PositionRateId,
-							startDate : data.dataValues.startDate,
-							endDate : data.dataValues.endDate,
-							needExperience : data.dataValues.needExperience,
-							needEnglish : data.dataValues.needEnglish,
-							comment : data.dataValues.comment,
-							contactId : data.dataValues.contactId,
-							EspecialComment : "",
-							endshift : data.dataValues.endShift,
+							entityId: data.dataValues.IdEntity,
+							title: data.dataValues.id,
+							color: '#96989A',
+							status: 1,
+							idPosition: data.dataValues.PositionRateId,
+							startDate: data.dataValues.startDate,
+							endDate: data.dataValues.endDate,
+							needExperience: data.dataValues.needExperience,
+							needEnglish: data.dataValues.needEnglish,
+							comment: data.dataValues.comment,
+							contactId: data.dataValues.contactId,
+							EspecialComment: "",
+							endshift: data.dataValues.endShift,
 							departmentId: data.dataValues.departmentId,
 							dayWeek: data.dataValues.dayWeek
 						}
@@ -66,7 +66,7 @@ const WorkOrderMutation = {
 										endDate: newDate,
 										startTime: data.dataValues.shift,
 										endTime: data.dataValues.endShift,
-										color: '#96989A', 
+										color: '#96989A',
 										status: 0
 									});
 								}
@@ -74,13 +74,13 @@ const WorkOrderMutation = {
 								currentDate.setDate(currentDate.getDate() + 1)
 							}
 							ShiftWorkOrderData = {
-								ShiftId : shift.dataValues.id,
-								WorkOrderId : data.dataValues.id
+								ShiftId: shift.dataValues.id,
+								WorkOrderId: data.dataValues.id
 							}
 							ShiftWorkOrder.push(ShiftWorkOrderData);
 						});
 					});
-					
+
 				});
 			}).then(() => {
 				Db.models.PhaseWorkOrder.bulkCreate(phasesData).then(() => {
@@ -106,25 +106,7 @@ const WorkOrderMutation = {
 		resolve(source, args) {
 			return Db.models.WorkOrder
 				.update(
-					{
-						IdEntity: args.workOrder.IdEntity,
-						userId: args.workOrder.userId,
-						contactId: args.workOrder.contactId,
-						date: args.workOrder.date,
-						status: args.workOrder.status,
-						quantity: args.workOrder.quantity,
-						shift: args.workOrder.shift,
-						endShift: args.workOrder.endShift,
-						startDate: args.workOrder.startDate,
-						endDate: args.workOrder.endDate,
-						needExperience: args.workOrder.needExperience,
-						needEnglish: args.workOrder.needEnglish,
-						PositionRateId: args.workOrder.PositionRateId,
-						comment: args.workOrder.comment,
-						EspecialComment: args.workOrder.EspecialComment,
-						dayWeek: args.workOrder.dayWeek,
-						quantityFilled: 0
-					},
+					args.workOrder,
 					{
 						where: {
 							id: args.workOrder.id
@@ -136,61 +118,62 @@ const WorkOrderMutation = {
 					if (record) {
 						var currentQ = 1;
 
-						Db.models.ShiftWorkOrder.findAll({ where: { WorkOrderId: args.workOrder.id } }).then((select) => {
-							select.map((datashiftworkOrder) => {
+						return Db.models.ShiftWorkOrder.findAll({ where: { WorkOrderId: args.workOrder.id } }).then((select) => {
+							return select.map((datashiftworkOrder) => {
 								Db.models.Shift.destroy({ where: { id: datashiftworkOrder.dataValues.ShiftId } }).then((deleted) => {
 								});
 							});
-						});
+						}).then(() => {
+							while (currentQ <= args.quantity) {
 
-						while (currentQ <= args.quantity) {
+								currentQ = currentQ + 1;
 
-							currentQ = currentQ + 1;
-
-							Db.models.Shift.bulkCreate(args.shift, { returning: true }).then((ret) => {
-								return ret.map((datashift) => {
-
-
-									var dates = []//List of dates
-									var currentDate = new Date(args.startDate); //Variables used to save the current date inside the while
-									var endDate = new Date(args.endDate); //Variables used to save the current date inside the while
+								return Db.models.Shift.bulkCreate(args.shift, { returning: true }).then((ret) => {
+									return ret.map((datashift) => {
 
 
-									//	sendgenericemail({ StartDate: currentDate.toISOString().substring(0, 10), ToDate: endDate.toISOString().substring(0, 10), ShiftStart: args.startshift, ShiftEnd: args.endshift, shift: datashift.dataValues.id, email: args.Electronic_Address, title: args.shift[0].title })
+										var dates = []//List of dates
+										var currentDate = new Date(args.startDate); //Variables used to save the current date inside the while
+										var endDate = new Date(args.endDate); //Variables used to save the current date inside the while
 
 
-									//Get every day between startDate and endDate to generate ShiftDetail records
-									while (currentDate <= endDate) {
-										let newDate = new Date(currentDate)
-										if (args.shift[0].dayWeek.indexOf('MO') != -1 && newDate.getUTCDay() == 1) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: args.shift[0].status }); }
-										if (args.shift[0].dayWeek.indexOf('TU') != -1 && newDate.getUTCDay() == 2) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: args.shift[0].status }); }
-										if (args.shift[0].dayWeek.indexOf('WE') != -1 && newDate.getUTCDay() == 3) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: args.shift[0].status }); }
-										if (args.shift[0].dayWeek.indexOf('TH') != -1 && newDate.getUTCDay() == 4) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: args.shift[0].status }); }
-										if (args.shift[0].dayWeek.indexOf('FR') != -1 && newDate.getUTCDay() == 5) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: args.shift[0].status }); }
-										if (args.shift[0].dayWeek.indexOf('SA') != -1 && newDate.getUTCDay() == 6) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: args.shift[0].status }); }
-										if (args.shift[0].dayWeek.indexOf('SU') != -1 && newDate.getUTCDay() == 0) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: args.shift[0].status }); }
-
-										currentDate.setDate(currentDate.getDate() + 1)
-									}
-
-									/*ret.map(item => {
-										dates.push({ startDate: args.startDate, endDate: args.endDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id });
-										//	sendgenericemail({ StartDate: currentDate.toISOString().substring(0, 10), ToDate: endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: item.id, email: "mppomar@gmail.com", title: args.shift.title })
-	
-									})*/
-
-									//Insert ShiftDetail records into database
-									Db.models.ShiftDetail.bulkCreate(dates, { returning: true }).then((ret) => { });
-									//Insert Shift - WorkOrder records into database
-									Db.models.ShiftWorkOrder.create({ ShiftId: datashift.dataValues.id, WorkOrderId: args.workOrder.id });
+										//	sendgenericemail({ StartDate: currentDate.toISOString().substring(0, 10), ToDate: endDate.toISOString().substring(0, 10), ShiftStart: args.startshift, ShiftEnd: args.endshift, shift: datashift.dataValues.id, email: args.Electronic_Address, title: args.shift[0].title })
 
 
+										//Get every day between startDate and endDate to generate ShiftDetail records
+										while (currentDate <= endDate) {
+											let newDate = new Date(currentDate)
+											if (args.shift[0].dayWeek.indexOf('MO') != -1 && newDate.getUTCDay() == 1) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: args.shift[0].status }); }
+											if (args.shift[0].dayWeek.indexOf('TU') != -1 && newDate.getUTCDay() == 2) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: args.shift[0].status }); }
+											if (args.shift[0].dayWeek.indexOf('WE') != -1 && newDate.getUTCDay() == 3) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: args.shift[0].status }); }
+											if (args.shift[0].dayWeek.indexOf('TH') != -1 && newDate.getUTCDay() == 4) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: args.shift[0].status }); }
+											if (args.shift[0].dayWeek.indexOf('FR') != -1 && newDate.getUTCDay() == 5) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: args.shift[0].status }); }
+											if (args.shift[0].dayWeek.indexOf('SA') != -1 && newDate.getUTCDay() == 6) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: args.shift[0].status }); }
+											if (args.shift[0].dayWeek.indexOf('SU') != -1 && newDate.getUTCDay() == 0) { dates.push({ startDate: newDate, endDate: newDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id, color: args.shift[0].color, status: args.shift[0].status }); }
 
+											currentDate.setDate(currentDate.getDate() + 1)
+										}
+
+										/*ret.map(item => {
+											dates.push({ startDate: args.startDate, endDate: args.endDate, startTime: args.startshift, endTime: args.endshift, ShiftId: datashift.dataValues.id });
+											//	sendgenericemail({ StartDate: currentDate.toISOString().substring(0, 10), ToDate: endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: item.id, email: "mppomar@gmail.com", title: args.shift.title })
+		
+										})*/
+
+										//Insert ShiftDetail records into database
+										return Db.models.ShiftDetail.bulkCreate(dates, { returning: true }).then((ret) => { })
+											.then(() => {
+												//Insert Shift - WorkOrder records into database
+												return Db.models.ShiftWorkOrder.create({ ShiftId: datashift.dataValues.id, WorkOrderId: args.workOrder.id }).then(() => {
+													return record.dataValues;
+												})
+											})
+									});
 								});
-							});
-						}
+							}
+							return record.dataValues;
+						})
 
-						return record.dataValues;
 					}
 					else { return null; }
 				});
