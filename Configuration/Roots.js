@@ -2644,6 +2644,7 @@ async function SendContracts(args) {
 				console.log(error);
 			} else {
 				console.log('Email enviado: ' + info.response);
+				console.log('Email to: ' + rows[0].Electronic_Address);
 			}
 		});
 
@@ -2772,6 +2773,7 @@ async function SendContracts(args) {
 				console.log(error);
 			} else {
 				console.log('Email enviado: ' + info.response);
+				console.log('Email to: ' + rows[0].Primary_Email);
 			}
 		});
 
