@@ -64,13 +64,9 @@ const GetShitEntityFilter = (filter) => {
             //Exclude startDate and endDate from filters
             if (prop != 'Code')
                 newFilter = { ...newFilter, [prop]: filter[prop] };
-            //Validate if the column to filter is the Code Column , and only filter whether is not an integer value
-            else if (prop == 'Code' && !Number.isInteger(parseInt(filter.Code)))
-                newFilter = {
-                    ...newFilter, Code: { [Op.like]: `%${filter.Code.toUpperCase()}%` }
-                }
+        //Validate if the column to filter is the Code Column , and only filter whether is not an integer value
+
     }
-    console.log(newFilter);
     return newFilter;
 }
 
@@ -223,58 +219,70 @@ const ShiftQuery = {
                 let WOID = 0
                 let data;
                 let users = [];
+                let companyCode = '';
 
                 shifts.map(shift => {
 
-                    if (WOID == shift.dataValues.ShiftWorkOrder.dataValues.WorkOrderId) {
-                        counter++;
-                    }
-                    else {
-                        counter = 1;
-                    }
-                    data = {
-                        id: shift.dataValues.id,
-                        title: shift.dataValues.title,
-                        quantity: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.quantity,
-                        workOrderId: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrderId,
-                        CompanyName: shift.dataValues.ShiftEntity.dataValues.Name,
-                        needExperience: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.needExperience,
-                        needEnglish: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.needEnglish,
-                        zipCode: shift.dataValues.ShiftEntity.dataValues.Zipcode,
-                        Id_positionApplying: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRate.dataValues.Id_positionApplying,
-                        positionName: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRate.dataValues.Position,
-                        status: shift.dataValues.status,
-                        isOpening: shift.dataValues.status == 2,
-                        shift: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.shift,
-                        endShift: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.endShift,
-                        count: counter,
-                        startDate: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.startDate,
-                        endDate: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.endDate,
-                        date: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.date,
-                        comment: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.comment,
-                        EspecialComment: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.EspecialComment,
-                        dayWeek: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.dayWeek,
-                        IdEntity: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.IdEntity,
-                        contactId: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.contactId,
-                        PositionRateId: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRateId,
-                        OpeningRecruiter: shift.dataValues.OpeningRecruiters ? shift.dataValues.OpeningRecruiters : [],
-                    }
-                    
-                    if (shift.dataValues.OpeningRecruiters) {
-                        shift.dataValues.OpeningRecruiters.map(_or => {
-                            users.push(_or.dataValues.User.dataValues);
-                        })
-                        data.Users = users;
-                    } else 
-                        data.Users = [];
-                    
-                    //console.log(shift.dataValues.OpeningRecruiters ? shift.dataValues.OpeningRecruiters.dataValues : [])
-                    boardShifts.push(data);
+                    if (args.shiftEntity)//Validate if exists shiftEntity parameter
+                        if (args.shiftEntity.Code)//Validate if Code filter exists 
+                            if (!Number.isInteger(parseInt(args.shiftEntity.Code)))
+                                companyCode = args.shiftEntity.Code;
 
-                    users = [];
+                    if (shift.dataValues.ShiftEntity.dataValues.Code.toUpperCase().includes(companyCode.toUpperCase()) || companyCode.toUpperCase() == '') {
 
-                    WOID = shift.dataValues.ShiftWorkOrder.dataValues.WorkOrderId;
+                        if (WOID == shift.dataValues.ShiftWorkOrder.dataValues.WorkOrderId) {
+                            counter++;
+                        }
+                        else {
+                            counter = 1;
+                        }
+                        data = {
+                            id: shift.dataValues.id,
+                            title: shift.dataValues.title,
+                            quantity: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.quantity,
+                            workOrderId: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrderId,
+                            CompanyName: shift.dataValues.ShiftEntity.dataValues.Name,
+                            needExperience: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.needExperience,
+                            needEnglish: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.needEnglish,
+                            zipCode: shift.dataValues.ShiftEntity.dataValues.Zipcode,
+                            Id_positionApplying: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRate.dataValues.Id_positionApplying,
+                            positionName: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRate.dataValues.Position,
+                            status: shift.dataValues.status,
+                            isOpening: shift.dataValues.status == 2,
+                            shift: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.shift,
+                            endShift: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.endShift,
+                            count: counter,
+                            startDate: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.startDate,
+                            endDate: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.endDate,
+                            date: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.date,
+                            comment: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.comment,
+                            EspecialComment: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.EspecialComment,
+                            dayWeek: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.dayWeek,
+                            IdEntity: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.IdEntity,
+                            contactId: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.contactId,
+                            PositionRateId: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.PositionRateId,
+                            OpeningRecruiter: shift.dataValues.OpeningRecruiters ? shift.dataValues.OpeningRecruiters : [],
+                            departmentId: shift.dataValues.ShiftWorkOrder.dataValues.WorkOrder.dataValues.departmentId
+                        }
+
+                        if (shift.dataValues.OpeningRecruiters) {
+                            shift.dataValues.OpeningRecruiters.map(_or => {
+                                users.push(_or.dataValues.User.dataValues);
+                            })
+                            data.Users = users;
+                        } else
+                            data.Users = [];
+
+                        //console.log(shift.dataValues.OpeningRecruiters ? shift.dataValues.OpeningRecruiters.dataValues : [])
+                        boardShifts.push(data);
+
+                        users = [];
+
+                        WOID = shift.dataValues.ShiftWorkOrder.dataValues.WorkOrderId;
+                    }
                 });
+
+
                 return boardShifts;
 
             });
