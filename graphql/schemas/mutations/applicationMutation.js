@@ -187,13 +187,14 @@ const ApplicationMutation = {
 		type: ApplicationType,
 		description: 'Disable Application Form Info',
 		args: {
-			id: { type: GraphQLInt }
+			id: { type: GraphQLInt },
+			isActive:{ type: GraphQLBoolean }
 		},
 		resolve(source, args) {
 			return Db.models.Applications
 				.update(
 					{
-						isActive: false
+						isActive: args.isActive
 					},
 					{
 						where: {

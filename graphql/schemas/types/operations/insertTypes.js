@@ -63,6 +63,7 @@ const inputInsertApplication = new GraphQLInputObjectType({
 	description: 'Inputs for Application Mutation',
 
 	fields: {
+		id: { type: GraphQLInt },
 		...ApplicationFields
 	}
 });
