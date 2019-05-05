@@ -81,6 +81,41 @@ const MarkedEmployeesQuery = {
             return Db.models.MarkedEmployees.findAll({ where: args });
         }
     },
+    activeEmployeesByMarks: {
+        type: new GraphQLList(MarkedEmployeesType),
+        description: 'List employees records',
+        args: {
+            id: {
+                type: GraphQLInt
+            },
+            typeMarkedId: {
+                type: GraphQLInt
+            },
+            markedDate: {
+                type: GraphQLDate
+            },
+            markedTime: {
+                type: GraphQLString
+            },
+            EmployeeId: {
+                type: GraphQLInt
+            }
+        },
+        resolve(root, args) {
+            let dateParam = {};
+
+            if(args)
+                dateParam = args;
+
+            dateParam = {
+                ...dateParam, 
+                markedDate: {
+                    $gt: moment(Date.now()).subtract(2, "week").toDate()
+                }
+            }
+            return Db.models.MarkedEmployees.findAll({ where: dateParam });
+        }
+    },
     punchesDetails: {
         type: new GraphQLList(MarkedEmployeesType),
         description: 'List punches by employees and date',

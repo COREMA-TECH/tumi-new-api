@@ -1,6 +1,7 @@
 import { GraphQLList, GraphQLString, GraphQLBoolean, GraphQLInt } from 'graphql';
 import { EmployeesType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
+import moment from 'moment';
 
 import Sequelize from 'sequelize';
 const Op = Sequelize.Op;
@@ -60,6 +61,34 @@ const EmployeesQuery = {
                     {
                         model: Db.models.ShiftDetailEmployees,
                         required: true
+                    }
+                ]
+            });
+        }
+    },
+
+    activeEmployees: {
+        type: new GraphQLList(EmployeesType),
+        description: 'Retrieve active employees based on last marking time',
+        args: {
+            id: {
+                type: GraphQLInt,                
+            },        
+        },        
+        resolve(root, args) {
+            return Db.models.Employees.findAll({
+                where: args,
+                include: [
+                    {
+                        model: Db.models.MarkedEmployees,
+                        required: true,
+                        limit: 1,
+                        where:{
+                            markedDate: {
+                                $gt: moment(Date.now()).subtract(2, "week").toDate()
+                            }
+                        },
+                        order: [ [ 'markedDate', 'DESC' ]],
                     }
                 ]
             });
