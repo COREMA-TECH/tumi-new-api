@@ -1,5 +1,5 @@
 import { GraphQLList, GraphQLString, GraphQLInt } from 'graphql';
-import { PunchesReportType } from '../types/operations/outputTypes';
+import { PunchesReportConsolidateType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 import GraphQLDate from 'graphql-date';
 import moment from 'moment';
@@ -60,8 +60,8 @@ const getPunchesCompanyFilter = (filter) => {
 }
 
 const MarkedEmployeesConsolidated = {
-      markedEmployeesConsolidated: {
-        type: new GraphQLList(PunchesReportType),
+    markedEmployeesConsolidated: {
+        type: new GraphQLList(PunchesReportConsolidateType),
         description: "Get Punches report",
         args: {
             idEntity: { type: GraphQLInt },
@@ -155,8 +155,6 @@ const MarkedEmployeesConsolidated = {
                         }
 
                     })
-                    console.log(objPunches);
-
                     // Create array of punches based on object structure to calculate duration
                     var punchesConsolidated = [];
                     Object.keys(objPunches).map(i => {

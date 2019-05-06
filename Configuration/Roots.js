@@ -75,7 +75,7 @@ async function ChangeStatustoExpired() {
 	try {
 		const strday = `'day'`;
 		const status = `'2'`;
-	
+
 		Strquery =
 			'update public."Contracts" set "Contract_Status" = 2 where "IsActive" = 1  and "Contract_Status" <> ' + status + '   and DATE_PART( ' + strday + ' ,"Contract_Expiration_Date"::timestamp - NOW()::timestamp)<=0;';
 
@@ -92,7 +92,7 @@ async function ChangeStatustoCompleted() {
 	try {
 
 		const status = `'0'`;
-	
+
 		Strquery =
 			'update public."Contracts" set "Contract_Status" = 1 where "IsActive" = 1  and "Contract_Status" = ' + status + 'and "Client_Signature" IS NOT NULL AND "Company_Signature" IS NOT NULL ;';
 
@@ -122,7 +122,7 @@ async function SendExpiredContracts() {
 		console.log(Strquery);
 
 		let htmlForEmail = (contractName, expirationDate) => (
-            						`<div style="width: 100%; background: #fff; max-width: 800px; border: 2px solid #eee; border-radius: 3px; overflow: hidden; margin-right: 10px;">
+			`<div style="width: 100%; background: #fff; max-width: 800px; border: 2px solid #eee; border-radius: 3px; overflow: hidden; margin-right: 10px;">
 										  <img src="https://i.imgur.com/Xshz5k1.png" alt="Tumi Staffing" style="display: block; width: 100%; max-width: 350px; margin: 0 auto; height: 180px; background: #ddd;">
 										  <h2 style="width: 100%; text-align: center; color: #fed326; font-weight: 400; font-family: Helvetica">Contract Expiration Alert</h2>
 										  <div style="text-align: center; font-family: Helvetica; font-weight: 400; color: #444">
@@ -154,12 +154,12 @@ async function SendExpiredContracts() {
 
 		if (rows != null) {
 			rows.forEach(function (element) {
-                var mailOptions = {
-                    from: 'tumistaffing@hotmail.com',
-                    to: '',
-                    subject: 'Contract Expiration Reminder',
-                    html: htmlForEmail(element.Contracrt, element.Contract_Expiration_Date)
-                };
+				var mailOptions = {
+					from: 'tumistaffing@hotmail.com',
+					to: '',
+					subject: 'Contract Expiration Reminder',
+					html: htmlForEmail(element.Contracrt, element.Contract_Expiration_Date)
+				};
 
 				mailOptions.to = 'laurenmontenegro10@gmail.com';
 
@@ -2146,16 +2146,15 @@ async function getUsers(args) {
 				strparam3
 				+ ',"IsRecruiter") order by "Code_User"';
 		} else {
-			if(strparam4>0)
-			{
-			Strquery =
-				'select * from public."Users" Where "IdRegion" =coalesce(' + strparam4 + ',"IdRegion") and  "IsActive" = coalesce(' +
-				strparam1 +
-				',"IsActive") and "Id" = coalesce(' +
-				strparam2 +
-				',"Id") and "IsRecruiter" = coalesce(' +
-				strparam3
-				+ ',"IsRecruiter") order by "Code_User"';
+			if (strparam4 > 0) {
+				Strquery =
+					'select * from public."Users" Where "IdRegion" =coalesce(' + strparam4 + ',"IdRegion") and  "IsActive" = coalesce(' +
+					strparam1 +
+					',"IsActive") and "Id" = coalesce(' +
+					strparam2 +
+					',"Id") and "IsRecruiter" = coalesce(' +
+					strparam3
+					+ ',"IsRecruiter") order by "Code_User"';
 			}
 		}
 		console.log(Strquery);
@@ -2372,7 +2371,7 @@ async function DelUsers(args) {
 async function getContracts(args) {
 	try {
 		console.log(args.IsActive);
-		var strparam1, strparam2, strparam3,strparam4;
+		var strparam1, strparam2, strparam3, strparam4;
 
 		if (args.IsActive >= 0) {
 			strparam1 = args.IsActive;
@@ -2409,7 +2408,7 @@ async function getContracts(args) {
 			strparam2 +
 			',"Id") order by "Id"';
 
-			console.log("getContracts ",Strquery)
+		console.log("getContracts ", Strquery)
 
 		const { rows } = await query(Strquery);
 		return rows;
@@ -3408,8 +3407,8 @@ async function SendEmail(args) {
 }
 
 async function SendSMS(args) {
-	const accountSid = 'AC4cc6bedd9ea4f990e3d49e24ec0b11bf';
-	const authToken = '4c06477eab6453006fb21ff733745e00';
+	const accountSid = 'ACc87252cde23126e76c58a8582bc35678';
+	const authToken = '259589325b7b13cc0b2625a96ef60035';
 	const client = require('twilio')(accountSid, authToken);
 
 	client.messages.create({
@@ -3417,7 +3416,7 @@ async function SendSMS(args) {
 		from: '+12028041551',
 		to: args.number
 	})
-	.then(message => console.log(message.sid));
+		.then(message => console.log(message.sid));
 }
 
 async function SendGenericEmail(args) {
