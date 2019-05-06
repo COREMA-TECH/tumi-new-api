@@ -30,6 +30,7 @@ input iParamEA {
 	Date_Created: String
 	Date_Updated: String
 	Id_Contract: Int
+	catalogItem_id: Int
 	}
 	input iParamA {
 	Id: Int
@@ -633,6 +634,7 @@ input iParamEA {
 		User_Updated : Int
 		Date_Created: String
 		Date_Updated: String
+		catalogItem_id: Int
 	}
 	type Roles{
 		Id : Int
