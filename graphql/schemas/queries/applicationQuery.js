@@ -1,5 +1,5 @@
 import { GraphQLInt, GraphQLString, GraphQLList, GraphQLBoolean, GraphQLNonNull } from 'graphql';
-import { ApplicationType, ApplicationCompletedDataType,ApplicationTypeBoard } from '../types/operations/outputTypes';
+import { ApplicationType, ApplicationCompletedDataType, ApplicationTypeBoard } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 import GraphQLDate from 'graphql-date';
@@ -7,12 +7,11 @@ import Sequelize from 'sequelize';
 
 
 const Op = Sequelize.Op;
-const FilterStatus=(filter)=>{
-	console.log("FilterStatus "+ filter)
-	if (filter.isActive )
-	{return { isActive:filter.isActive}}
-	else{return {}}
-}	
+const FilterStatus = (filter) => {
+	console.log("FilterStatus " + filter)
+	if (filter.isActive) { return { isActive: filter.isActive } }
+	else { return {} }
+}
 
 const getRecruiterReportFilters = (filter) => {
 	var newFilter = {};
@@ -87,12 +86,12 @@ const ApplicationQuery = {
 			idUsers: { type: GraphQLInt },
 			Id_Department: { type: GraphQLInt },
 			idEntity: { type: GraphQLInt },
-			isActive:{ type: new GraphQLList(GraphQLBoolean) }
+			isActive: { type: new GraphQLList(GraphQLBoolean) }
 		},
 		resolve(root, args) {
 			return Db.models.Applications.findAll(
 				{
-					where: { isActive: {  [Op.in]: args.isActive } },
+					where: { isActive: { [Op.in]: args.isActive } },
 					as: "Applications",
 					include: [{
 						model: Db.models.ApplicationEmployees,
@@ -146,7 +145,7 @@ const ApplicationQuery = {
 						required: false,
 					}*/
 				],
-			
+
 			})
 		}
 	},
@@ -230,6 +229,7 @@ const ApplicationQuery = {
 					ApplicantI9: _application.dataValues.ApplicantI9 == null ? false : _application.dataValues.ApplicantI9.completed
 
 				};
+				console.log({ ApplicationsStatus });
 				return ApplicationsStatus; //Return true when all record associated to this application are completed
 			})
 
