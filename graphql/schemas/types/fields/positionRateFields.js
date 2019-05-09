@@ -44,6 +44,9 @@ const PositionRateFields = {
 	},
 	Comment: {
 		type: GraphQLString
+	},
+	catalogItem_id:{
+		type: GraphQLInt
 	}
 };
 export default PositionRateFields;

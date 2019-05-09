@@ -75,7 +75,7 @@ async function ChangeStatustoExpired() {
 	try {
 		const strday = `'day'`;
 		const status = `'2'`;
-	
+
 		Strquery =
 			'update public."Contracts" set "Contract_Status" = 2 where "IsActive" = 1  and "Contract_Status" <> ' + status + '   and DATE_PART( ' + strday + ' ,"Contract_Expiration_Date"::timestamp - NOW()::timestamp)<=0;';
 
@@ -92,7 +92,7 @@ async function ChangeStatustoCompleted() {
 	try {
 
 		const status = `'0'`;
-	
+
 		Strquery =
 			'update public."Contracts" set "Contract_Status" = 1 where "IsActive" = 1  and "Contract_Status" = ' + status + 'and "Client_Signature" IS NOT NULL AND "Company_Signature" IS NOT NULL ;';
 
@@ -122,7 +122,7 @@ async function SendExpiredContracts() {
 		console.log(Strquery);
 
 		let htmlForEmail = (contractName, expirationDate) => (
-            						`<div style="width: 100%; background: #fff; max-width: 800px; border: 2px solid #eee; border-radius: 3px; overflow: hidden; margin-right: 10px;">
+			`<div style="width: 100%; background: #fff; max-width: 800px; border: 2px solid #eee; border-radius: 3px; overflow: hidden; margin-right: 10px;">
 										  <img src="https://i.imgur.com/Xshz5k1.png" alt="Tumi Staffing" style="display: block; width: 100%; max-width: 350px; margin: 0 auto; height: 180px; background: #ddd;">
 										  <h2 style="width: 100%; text-align: center; color: #fed326; font-weight: 400; font-family: Helvetica">Contract Expiration Alert</h2>
 										  <div style="text-align: center; font-family: Helvetica; font-weight: 400; color: #444">
@@ -154,12 +154,12 @@ async function SendExpiredContracts() {
 
 		if (rows != null) {
 			rows.forEach(function (element) {
-                var mailOptions = {
-                    from: 'tumistaffing@hotmail.com',
-                    to: '',
-                    subject: 'Contract Expiration Reminder',
-                    html: htmlForEmail(element.Contracrt, element.Contract_Expiration_Date)
-                };
+				var mailOptions = {
+					from: 'tumistaffing@hotmail.com',
+					to: '',
+					subject: 'Contract Expiration Reminder',
+					html: htmlForEmail(element.Contracrt, element.Contract_Expiration_Date)
+				};
 
 				mailOptions.to = 'laurenmontenegro10@gmail.com';
 
@@ -1629,7 +1629,7 @@ async function InsPosition(args) {
 	try {
 		if (args) {
 			Strquery =
-				'INSERT INTO public."PositionRate" ("Id_Entity", "Id_Department","Id_positionApplying" ,"Position", "Bill_Rate", "Pay_Rate", "Shift","IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated","Id_Contract","Comment") VALUES(' +
+				'INSERT INTO public."PositionRate" ("Id_Entity", "Id_Department","Id_positionApplying" ,"Position", "Bill_Rate", "Pay_Rate", "Shift","IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated","Id_Contract","Comment","catalogItem_id") VALUES(' +
 				args.input.Id_Entity +
 				',' +
 				args.input.Id_Department +
@@ -1657,7 +1657,9 @@ async function InsPosition(args) {
 				args.input.Id_Contract +
 				',' +
 				args.input.Comment +
-				') RETURNING "Id", "Id_Entity", "Id_Department","Id_positionApplying" ,"Position", "Bill_Rate", "Pay_Rate", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated"';
+				',' +
+				args.input.catalogItem_id +
+				') RETURNING "Id", "Id_Entity", "Id_Department","Id_positionApplying" ,"Position", "Bill_Rate", "Pay_Rate", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated","catalogItem_id"';
 		} else {
 			console.log('Error Insert Data');
 		}
@@ -1702,6 +1704,8 @@ async function UpdPosition(args) {
 				args.input.Id_Contract +
 				', "Comment"=' +
 				args.input.Comment +
+				', "catalogItem_id"=' +
+				args.catalogItem_id +
 				' where "Id"=' +
 				args.input.Id;
 		} else {
@@ -2142,16 +2146,15 @@ async function getUsers(args) {
 				strparam3
 				+ ',"IsRecruiter") order by "Code_User"';
 		} else {
-			if(strparam4>0)
-			{
-			Strquery =
-				'select * from public."Users" Where "IdRegion" =coalesce(' + strparam4 + ',"IdRegion") and  "IsActive" = coalesce(' +
-				strparam1 +
-				',"IsActive") and "Id" = coalesce(' +
-				strparam2 +
-				',"Id") and "IsRecruiter" = coalesce(' +
-				strparam3
-				+ ',"IsRecruiter") order by "Code_User"';
+			if (strparam4 > 0) {
+				Strquery =
+					'select * from public."Users" Where "IdRegion" =coalesce(' + strparam4 + ',"IdRegion") and  "IsActive" = coalesce(' +
+					strparam1 +
+					',"IsActive") and "Id" = coalesce(' +
+					strparam2 +
+					',"Id") and "IsRecruiter" = coalesce(' +
+					strparam3
+					+ ',"IsRecruiter") order by "Code_User"';
 			}
 		}
 		console.log(Strquery);
@@ -2173,7 +2176,7 @@ async function InsUsers(args) {
 
 		const password = `PGP_SYM_ENCRYPT('TEMP','AES_KEY')`;
 		Strquery =
-			'INSERT INTO public."Users" ("Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager", "isEmployee" ) VALUES(' +
+			'INSERT INTO public."Users" ("Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager", "isEmployee", "manageApp" ) VALUES(' +
 			args.input.Id_Entity +
 			',' +
 			args.input.Id_Contact +
@@ -2221,7 +2224,9 @@ async function InsUsers(args) {
 			args.input.IdSchedulesManager +
 			',' +
 			isEmployee +
-			') RETURNING "Id","Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager","isEmployee"';
+			',' +
+			(args.input.manageApp || false) +
+			') RETURNING "Id","Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager","isEmployee", "manageApp"';
 
 		console.log(Strquery);
 		const { rows } = await query(Strquery);
@@ -2368,7 +2373,7 @@ async function DelUsers(args) {
 async function getContracts(args) {
 	try {
 		console.log(args.IsActive);
-		var strparam1, strparam2, strparam3,strparam4;
+		var strparam1, strparam2, strparam3, strparam4;
 
 		if (args.IsActive >= 0) {
 			strparam1 = args.IsActive;
@@ -2405,7 +2410,7 @@ async function getContracts(args) {
 			strparam2 +
 			',"Id") order by "Id"';
 
-			console.log("getContracts ",Strquery)
+		console.log("getContracts ", Strquery)
 
 		const { rows } = await query(Strquery);
 		return rows;
@@ -3310,8 +3315,8 @@ async function SendEmail(args) {
 				'Is limited only by what you can dream' +
 				'<h3 style="color: #ecc500;font-size: 32px;text-align: center;margin: $margin 0;">Welcome</h3>' +
 				'<p>' +
-				'We are in the process of setting you up as part of the Tummy family. <br>' +
-				'We need youn to complete the following steps to get the process rolling' +
+				'We are in the process of setting you up as part of the Tumi family. <br>' +
+				'We need you to complete the following steps to get the process rolling' +
 				'</p>' +
 				'<h3 style="color: #297560;font-size: 16px;text-align: left;margin: $margin 0;">User:   ' +
 				args.username +
@@ -3404,8 +3409,8 @@ async function SendEmail(args) {
 }
 
 async function SendSMS(args) {
-	const accountSid = 'AC4cc6bedd9ea4f990e3d49e24ec0b11bf';
-	const authToken = '4c06477eab6453006fb21ff733745e00';
+	const accountSid = 'ACc87252cde23126e76c58a8582bc35678';
+	const authToken = '259589325b7b13cc0b2625a96ef60035';
 	const client = require('twilio')(accountSid, authToken);
 
 	client.messages.create({
@@ -3413,7 +3418,7 @@ async function SendSMS(args) {
 		from: '+12028041551',
 		to: args.number
 	})
-	.then(message => console.log(message.sid));
+		.then(message => console.log(message.sid));
 }
 
 async function SendGenericEmail(args) {

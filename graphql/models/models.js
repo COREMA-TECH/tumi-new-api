@@ -285,6 +285,10 @@ ShiftDetailEmployees.belongsTo(Employees, {
 });
 
 
+Employees.belongsTo(BusinessCompany, {
+	foreignKey: 'idEntity'
+})
+
 Employees.hasMany(MarkedEmployees)
 
 Employees.belongsTo(CatalogItem, {

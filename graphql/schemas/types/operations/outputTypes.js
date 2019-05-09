@@ -910,6 +910,12 @@ const EmployeesType = new GraphQLObjectType({
 				resolve(me) {
 					return me.getShiftDetailEmployees()
 				}
+			},
+			BusinessCompany: {
+				type: BusinessCompanyType,
+				resolve(me) {
+					return me.getBusinessCompany()
+				}
 			}
 		}
 	}

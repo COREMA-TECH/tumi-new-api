@@ -70,6 +70,10 @@ export default {
 				Comment: {
 					type: Sequelize.STRING,
 					allowNull: true
+				},
+				catalogItem_id:{
+					type: Sequelize.INTEGER,
+					allowNull: false
 				}
 			},
 			{
