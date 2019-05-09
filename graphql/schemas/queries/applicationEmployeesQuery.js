@@ -13,6 +13,9 @@ const applicationEmployeesQuery = {
             ApplicationId:{
                 type: GraphQLInt
             },
+            EmployeeId:{
+                type: GraphQLInt
+            },
         },
         resolve(root, args) {
             return Db.models.ApplicationEmployees.findAll({ where: args });
