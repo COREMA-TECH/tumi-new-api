@@ -67,7 +67,8 @@ const WorkOrderMutation = {
 										startTime: data.dataValues.shift,
 										endTime: data.dataValues.endShift,
 										color: '#96989A',
-										status: 0
+										status: 0,
+										ShiftId: shift.dataValues.id
 									});
 								}
 
