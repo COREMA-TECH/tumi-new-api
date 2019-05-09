@@ -2176,7 +2176,7 @@ async function InsUsers(args) {
 
 		const password = `PGP_SYM_ENCRYPT('TEMP','AES_KEY')`;
 		Strquery =
-			'INSERT INTO public."Users" ("Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager", "isEmployee" ) VALUES(' +
+			'INSERT INTO public."Users" ("Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager", "isEmployee", "manageApp" ) VALUES(' +
 			args.input.Id_Entity +
 			',' +
 			args.input.Id_Contact +
@@ -2224,7 +2224,9 @@ async function InsUsers(args) {
 			args.input.IdSchedulesManager +
 			',' +
 			isEmployee +
-			') RETURNING "Id","Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager","isEmployee"';
+			',' +
+			(args.input.manageApp || false) +
+			') RETURNING "Id","Id_Entity", "Id_Contact", "Id_Roles", "Code_User", "Full_Name", "Electronic_Address", "Phone_Number", "Password", "Id_Language", "IsAdmin", "AllowDelete", "AllowInsert", "AllowEdit", "AllowExport", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "IsRecruiter", "IdRegion","IdSchedulesEmployees","IdSchedulesManager","isEmployee", "manageApp"';
 
 		console.log(Strquery);
 		const { rows } = await query(Strquery);

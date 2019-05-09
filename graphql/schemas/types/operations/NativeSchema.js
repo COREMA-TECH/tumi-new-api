@@ -231,6 +231,7 @@ input iParamEA {
 		IdSchedulesManager: Int
 		idEmployee: Int
 		isEmployee: Boolean
+		manageApp: Boolean
 	}
 	input iContracts{
 			Id: Int
