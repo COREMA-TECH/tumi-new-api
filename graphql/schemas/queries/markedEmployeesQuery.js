@@ -285,7 +285,6 @@ const MarkedEmployeesQuery = {
                             punches.push(punche);//Return new object
 
                     });
-
                     return punches;//Return list of punches
                 })
         }
