@@ -44,6 +44,7 @@ import consolidatedPunchesQuery from './consolidatedPunchesQuery';
 import SmsLogQuery from './smsLogQuery';
 import businessCompanyQuery from './businessCompanyQuery';
 import MarkedEmployeesConsolidated from './markedEmployeesConsolidatedQuery';
+import MarkedEmployeesApproved from './markedEmployeesApprovedQuery';
 import RegionQuery from './regionQuery';
 
 export {
@@ -92,5 +93,6 @@ export {
 	SmsLogQuery,
 	businessCompanyQuery,
 	MarkedEmployeesConsolidated,
+	MarkedEmployeesApproved,
 	RegionQuery
 };

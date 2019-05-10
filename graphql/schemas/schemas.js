@@ -87,7 +87,8 @@ import {
 	OpeningRecruiterQuery,
 	SmsLogQuery,
 	businessCompanyQuery,
-	MarkedEmployeesConsolidated
+	MarkedEmployeesConsolidated,
+	MarkedEmployeesApproved
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -139,7 +140,8 @@ const RootQuery = new GraphQLObjectType({
 		...OpeningRecruiterQuery,
 		...SmsLogQuery,
 		...businessCompanyQuery,
-		...MarkedEmployeesConsolidated
+		...MarkedEmployeesConsolidated,
+		...MarkedEmployeesApproved
 	}
 });
 const RootMutation = new GraphQLObjectType({
