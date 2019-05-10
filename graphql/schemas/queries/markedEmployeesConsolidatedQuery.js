@@ -1,5 +1,5 @@
 import { GraphQLList, GraphQLString, GraphQLInt } from 'graphql';
-import { PunchesReportConsolidateType } from '../types/operations/outputTypes';
+import { PunchesReportType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 import GraphQLDate from 'graphql-date';
 import moment from 'moment';
@@ -62,7 +62,7 @@ const getPunchesCompanyFilter = (filter) => {
 
 const MarkedEmployeesConsolidated = {
     markedEmployeesConsolidated: {
-        type: new GraphQLList(PunchesReportConsolidateType),
+        type: new GraphQLList(PunchesReportType),
         description: "Get Punches report",
         args: {
             idEntity: { type: GraphQLInt },
