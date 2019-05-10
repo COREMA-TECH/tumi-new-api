@@ -158,6 +158,10 @@ export default {
 				type: Sequelize.BOOLEAN,
 				defaultValue: false
 			},
+			pin: {
+				type: Sequelize.STRING(20),
+				allowNull: true
+			},
 		});
 	}
 };
