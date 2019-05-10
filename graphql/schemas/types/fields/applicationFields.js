@@ -159,7 +159,11 @@ const ApplicationFields = {
 	createdAt: {
 		type: GraphQLDate,
 		description: "Date when the record was created"
-	}
+	},
+	pin: {
+		type: GraphQLString,
+		description: 'Applicant pin'
+	},
 };
 
 export default ApplicationFields;

@@ -1,7 +1,7 @@
 import { inputInsertUser } from '../types/operations/insertTypes';
 import { inputUpdateUser } from '../types/operations/updateTypes';
 import { UsersType } from '../types/operations/outputTypes';
-import { GraphQLList, GraphQLInt } from 'graphql';
+import { GraphQLList, GraphQLInt, GraphQLString } from 'graphql';
 
 import Db from '../../models/models';
 import Sequelize from 'sequelize';
@@ -90,7 +90,8 @@ const UserMutation = {
         description: 'Add user to database',
         args: {
             user: { type: inputInsertUser },
-            idEmployee: { type: GraphQLInt }
+            idEmployee: { type: GraphQLInt },
+            pin: { type: GraphQLString }
         },
         resolve(source, args) {
             var user = {
@@ -125,6 +126,7 @@ const UserMutation = {
                                     idLanguage: 'es',
                                     isLead: false,
                                     lastName2: '',
+                                    pin: user.Code_User.substr(-4)
                                 }
                                 return Db.models.Applications.create(application, { transaction: t })
                                     .then(_application => {
