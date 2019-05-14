@@ -6,6 +6,7 @@ import { GraphQLList, GraphQLInt, GraphQLBoolean } from 'graphql';
 import Db from '../../models/models';
 
 import Sequelize from 'sequelize';
+import { ContextualizedQueryLatencyStats } from 'apollo-engine-reporting-protobuf';
 const Op = Sequelize.Op;
 
 
@@ -17,31 +18,7 @@ const MarkedEmployeesMutation = {
 			MarkedEmployees: { type: new GraphQLList(inputInsertMarkedEmployees) }
 		},
 		resolve(source, args) {
-			return args.MarkedEmployees.map(mark => {
-				return Db.models.ShiftDetailEmployees.findOne(
-					{
-						include: [{
-							model: Db.models.ShiftDetail,
-							where: {
-								startTime: { [Op.lte]: mark.markedTime },
-								endTime: { [Op.gte]: mark.markedTime }
-							}
-						}, {
-							model: Db.models.Employees,
-							where: { idEntity: mark.entityId, id: mark.EmployeeId }
-						}]
-					}
-				).then(_uniqueMark => {
-					var shiftDetail = null, ShiftId = null;
-					//Insert mark without associatedshift
-					if (_uniqueMark) {
-						shiftDetail = _uniqueMark.dataValues.ShiftDetail.dataValues;
-						ShiftId = shiftDetail.ShiftId;
-					}
-
-					return Db.models.MarkedEmployees.create({ ...mark, ShiftId });
-				}).catch(error => { console.log(error); })
-			})
+			return Db.models.MarkedEmployees.bulkCreate(args.MarkedEmployees);
 
 		}
 	},

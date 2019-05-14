@@ -35,7 +35,7 @@ async function getValid_Users(args, { SECRET }) {
 		//console.log(Strquery);
 
 		const { rows } = await query(Strquery);
-
+		console.log({ rows })
 		if (rows.length <= 0) return null;
 		else {
 			const user = rows[0];
