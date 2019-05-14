@@ -139,11 +139,11 @@ const ApplicationQuery = {
 						where: { description: { [Op.iLike]: args.Position + '%' } },
 						required: true
 					},
-					/*{
+					{
 						model: Db.models.ApplicationPhases,
 						where: { WorkOrderId: args.WorkOrderId, ShiftId: args.ShiftId },
 						required: false,
-					}*/
+					}
 				],
 
 			})
