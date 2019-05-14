@@ -100,7 +100,7 @@ const ApplicationQuery = {
 							model: Db.models.Employees,
 							required: args.idUsers != null || args.idEntity != null || args.Id_Department != null,
 							as: "Employees",
-							where: { idEntity: args.idEntity, Id_Deparment: args.Id_Department }
+							where: args
 						}]
 
 					}]
