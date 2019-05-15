@@ -53,14 +53,9 @@ const EmployeesQuery = {
                             {
                                 model: Db.models.Applications,
                                 as: "Application",
-                                required: true,
-                                where: { socialSecurityNumber: { [Op.ne]: null } }
+                                required: true
                             }
                         ]
-                    },
-                    {
-                        model: Db.models.ShiftDetailEmployees,
-                        required: true
                     }
                 ]
             });
@@ -72,9 +67,9 @@ const EmployeesQuery = {
         description: 'Retrieve active employees based on last marking time',
         args: {
             id: {
-                type: GraphQLInt,                
-            },        
-        },        
+                type: GraphQLInt,
+            },
+        },
         resolve(root, args) {
             return Db.models.Employees.findAll({
                 where: args,
@@ -83,12 +78,12 @@ const EmployeesQuery = {
                         model: Db.models.MarkedEmployees,
                         required: true,
                         limit: 1,
-                        where:{
+                        where: {
                             markedDate: {
                                 $gt: moment(Date.now()).subtract(2, "week").toDate()
                             }
                         },
-                        order: [ [ 'markedDate', 'DESC' ]],
+                        order: [['markedDate', 'DESC']],
                     }
                 ]
             });
