@@ -25,6 +25,7 @@ async function query(q) {
 }
 
 async function getValid_Users(args, { SECRET }) {
+	console.log({ args })
 	try {
 		Strquery =
 			'select "Id","Password","Code_User","Full_Name" ,"Id_Roles" ,"Electronic_Address"  ,"Phone_Number"  ,"Id_Language"  ,"IsAdmin"  ,"AllowEdit"  ,"AllowDelete"  ,"AllowInsert","AllowExport" ,"IsActive","IdSchedulesEmployees","IdSchedulesManager","isEmployee","manageApp","Id_Entity","CompanyName" from public.vwValid_User Where  "Code_User" = ' +
