@@ -13,6 +13,7 @@ const ApplicationMutation = {
 			application: { type: inputInsertApplication }
 		},
 		resolve(source, args) {
+			console.log("Variables de la application ", args)
 			return Db.models.Applications.create(args.application);
 		}
 	},
@@ -57,7 +58,11 @@ const ApplicationMutation = {
 						signature: args.application.signature,
 						isLead: args.application.isLead,
 						isActive: args.application.isActive,
-						Urlphoto: args.application.Urlphoto
+						Urlphoto: args.application.Urlphoto,
+						dateCreation: args.application.dateCreation,
+						immediately: args.application.optionHearTumi,
+						optionHearTumi: args.application.optionHearTumi,
+						nameReferences: args.application.nameReferences,
 					},
 					{
 						where: {
