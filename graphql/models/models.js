@@ -15,6 +15,8 @@ import ApplicantWorkerCompensationModel from './applicantWorkerCompensationTable
 import ApplicantDocumentModel from './applicantDocumentTable';
 import ApplicantW4Model from './applicantW4Table';
 import ApplicantI9Model from './applicantI9Table';
+import ApplicantIndependentContractModel from './applicantIndependentContractTable';
+
 import WorkOrderModel from './workOrderTable';
 import PositionRateModel from './positionRateTable';
 import WorkOrderPositionModel from './workOrderPositionTable';
@@ -69,6 +71,8 @@ const ApplicantWorkerCompensation = ApplicantWorkerCompensationModel.createModel
 const ApplicantDocument = ApplicantDocumentModel.createModel(Conn);
 const ApplicantW4 = ApplicantW4Model.createModel(Conn);
 const ApplicantI9 = ApplicantI9Model.createModel(Conn);
+const ApplicantIndependentContract = ApplicantIndependentContractModel.createModel(Conn);
+
 const WorkOrder = WorkOrderModel.createModel(Conn);
 const WorkOrderPosition = WorkOrderPositionModel.createModel(Conn);
 
@@ -142,6 +146,7 @@ Application.hasOne(ApplicantHarassmentPolicy);
 Application.hasOne(ApplicantWorkerCompensation);
 Application.hasOne(ApplicantW4);
 Application.hasOne(ApplicantI9);
+Application.hasOne(ApplicantIndependentContract);
 
 ApplicationPhases.belongsTo(Application);
 ApplicantLanguage.belongsTo(Application);
@@ -155,6 +160,7 @@ ApplicantDocument.belongsTo(CatalogItem);
 
 ApplicantW4.belongsTo(Application);
 ApplicantI9.belongsTo(Application);
+ApplicantIndependentContract.belongsTo(Application);
 
 ApplicantIdealJob.belongsTo(CatalogItem, {
 	foreignKey: 'idPosition',
@@ -361,16 +367,16 @@ Conn.authenticate()
 		console.error('Unable to connect to the database:', err);
 	});
 
-//Conn.sync({ force: false }).then(() => {
-/*make sure you use false here. otherwise the total data
-	from the impported models will get deleted and new tables will be created*/
-// now we cann do all db operations on customers table.
-//Ex:- lets read all data
-//	console.log('Applications Inside Connection', Applications.findAll);
-//	Applications.findAll().then((applications) => {
-//console.log('Applications are:-', applications);
-//	});
-//	console.log('sync is completed');
-//});
+Conn.sync({ force: false }).then(() => {
+	/*make sure you use false here. otherwise the total data
+		from the impported models will get deleted and new tables will be created*/
+	// now we cann do all db operations on customers table.
+	//Ex:- lets read all data
+	//	console.log('Applications Inside Connection', Applications.findAll);
+	//	Applications.findAll().then((applications) => {
+	//console.log('Applications are:-', applications);
+	//	});
+	//	console.log('sync is completed');
+});
 
 export default Conn;

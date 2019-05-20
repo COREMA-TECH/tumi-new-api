@@ -15,6 +15,8 @@ import ApplicantWorkerCompensationQuery from './applicantWorkerCompensationQuery
 import ApplicantDocumentQuery from './applicantDocumentQuery';
 import ApplicantW4Query from './applicantW4Query';
 import ApplicantI9Query from './applicantI9Query';
+import ApplicantIndependentContractQuery from './applicantIndependentContractQuery';
+
 import WorkOrderQuery from './workOrderQuery';
 import WorkOrderPositionQuery from './workOrderPositionQuery';
 import ZipcodeQuery from './zipcodeQuery';
@@ -94,5 +96,6 @@ export {
 	businessCompanyQuery,
 	MarkedEmployeesConsolidated,
 	MarkedEmployeesApproved,
-	RegionQuery
+	RegionQuery,
+	ApplicantIndependentContractQuery
 };
