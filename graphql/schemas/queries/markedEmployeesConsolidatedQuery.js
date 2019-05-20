@@ -85,14 +85,6 @@ const MarkedEmployeesConsolidated = {
                     as: 'Employees',
                     required: true
                 }, {
-                    model: Db.models.Shift,
-                    required: true,
-                    include: [{
-                        model: Db.models.PositionRate,
-                        as: 'CatalogPosition',
-                        required: true
-                    }]
-                }, {
                     model: Db.models.BusinessCompany,
                     where: { ...getPunchesCompanyFilter(args) },
                     required: true
@@ -101,14 +93,15 @@ const MarkedEmployeesConsolidated = {
                 .then(marks => {
                     var objPunches = {};
                     marks.map(_mark => {
+
                         var { typeMarkedId, markedTime, EmployeeId, notes, markedDate, imageMarked } = _mark.dataValues;
 
                         var markType = '30570||30571'.includes(typeMarkedId) ? '001' : '002';//ClockIn||ClockOut (001), otherwise '002'
                         var key = `${EmployeeId}-${moment.utc(markedDate).format('YYYYMMDD')}-${markType}`;
                         var groupKey = `${moment.utc(markedDate).format('YYYYMMDD')}`;
                         var employee = _mark.dataValues.Employees.dataValues;
-                        var shift = _mark.dataValues.Shift.dataValues;
-                        var position = shift.CatalogPosition.dataValues;
+                        // var shift = _mark.dataValues.Shift.dataValues;
+                        // var position = shift.CatalogPosition.dataValues;
                         let company = _mark.dataValues.BusinessCompany.dataValues;
                         let punch = {};
 
@@ -121,7 +114,7 @@ const MarkedEmployeesConsolidated = {
                                 key,
                                 name,
                                 employeeId: EmployeeId,
-                                job: markType == '002' ? 'Lunch Break' : position.Position,
+                                job: markType == '002' ? 'Lunch Break' : "N/D",
                                 hotelCode: company.Name
                             }
                             //Create new punch object if this object doesnt exist into the array of punches
@@ -141,17 +134,18 @@ const MarkedEmployeesConsolidated = {
                             }
                             //Format punche time
                             var hour = moment.utc(markedTime, 'HH:mm').format('HH:mm');
+
                             //Update marker type hour based on type and hour
-                            switch (typeMarkedId) {
-                                case 30570 || 30572: //Clock In//Break In
-                                    punch.clockIn = hour;
-                                    punch.imageMarkedIn = imageMarked;
-                                    break;
-                                case 30571 || 30573://Clock Out//Break Out
-                                    punch.clockOut = hour;
-                                    punch.imageMarkedOut = imageMarked;
-                                    break;
+                            if ("30570||30572".includes(typeMarkedId)) {
+                                punch.clockIn = hour;
+                                punch.imageMarkedIn = imageMarked;
                             }
+                            else if ("30571||30573".includes(typeMarkedId)) {
+                                punch.clockOut = hour;
+                                punch.imageMarkedOut = imageMarked;
+
+                            }
+                            console.log({ typeMarkedId, hour, markedTime, punch })
                         }
 
                     })
