@@ -942,6 +942,12 @@ const ShiftType = new GraphQLObjectType({
 				resolve(me) {
 					return me.getShiftWorkOrder();
 				}
+			},
+			position: {
+				type: PositionRateType,
+				resolve(me) {
+					return me.getCatalogPosition();
+				}
 			}
 		}
 	}
