@@ -11,7 +11,7 @@ const ApplicationFields = {
 		description: 'Applicant First Name'
 	},
 	middleName: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Applicant Middle Name'
 	},
 	lastName: {
@@ -163,6 +163,22 @@ const ApplicationFields = {
 	pin: {
 		type: GraphQLString,
 		description: 'Applicant pin'
+	},
+	dateCreation: {
+		type: GraphQLDate,
+		description: "dateCreation"
+	},
+	immediately: {
+		type: GraphQLBoolean,
+		description: 'immediately'
+	},
+	optionHearTumi: {
+		type: GraphQLInt,
+		description: 'optionHearTumi'
+	},
+	nameReferences: {
+		type: GraphQLString,
+		description: 'nameReferences'
 	},
 };
 
