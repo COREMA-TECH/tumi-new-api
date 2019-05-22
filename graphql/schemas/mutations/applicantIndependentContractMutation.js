@@ -8,7 +8,7 @@ import Db from '../../models/models';
 
 const ApplicantIndependentContractMutation = {
     addApplicantIndependentContract: {
-        type: new GraphQLList(ApplicantIndepenentContractType),
+        type: ApplicantIndepenentContractType,
         description: 'Add Independent Contract to database',
         args: {
             html: { type: GraphQLString },

@@ -14,7 +14,7 @@ export default {
                     allowNull: true
                 },
                 fileExtension: {
-                    type: Sequelize.INTEGER,
+                    type: Sequelize.STRING,
                     allowNull: true
                 },
                 html: {

@@ -189,6 +189,12 @@ const ApplicationType = new GraphQLObjectType({
 					return me.getUser();
 				}
 			},
+			independentContract: {
+				type: ApplicantIndepenentContractType,
+				resolve(me) {
+					return me.getApplicantIndependentContract();
+				}
+			},
 			statusCompleted: {
 				type: GraphQLBoolean,
 				resolve(me) {
