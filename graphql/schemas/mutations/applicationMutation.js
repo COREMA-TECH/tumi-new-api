@@ -63,6 +63,12 @@ const ApplicationMutation = {
 						immediately: args.application.optionHearTumi,
 						optionHearTumi: args.application.optionHearTumi,
 						nameReferences: args.application.nameReferences,
+						eeoc: args.application.eeoc,
+						exemptions: args.application.exemptions,
+						area: args.application.area,
+						hireType:args.application.hireType,
+						gender:args.application.gender,
+						marital:args.application.marital,
 					},
 					{
 						where: {
