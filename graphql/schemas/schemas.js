@@ -5,6 +5,7 @@ import { mergeSchemas } from 'graphql-tools';
 
 import {
 	ApplicationMutation,
+	ApplicationAccountMutation,
 	ApplicantLanguageMutation,
 	ElectronicAddressMutation,
 	ApplicantEducationMutation,
@@ -182,7 +183,8 @@ const RootMutation = new GraphQLObjectType({
 		...ContactsMutation,
 		...payrollMutation,
 		...OpeningRecruiterMutation,
-		...SmsLogMutation
+		...SmsLogMutation,
+		...ApplicationAccountMutation
 	}
 });
 

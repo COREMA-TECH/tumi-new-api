@@ -33,10 +33,12 @@ import ContactsMutation from './contactsMutation';
 import payrollMutation from './payrollMutation';
 import OpeningRecruiterMutation from './openingRecruiterMutation';
 import SmsLogMutation from './smsLogMutation';
+import ApplicationAccountMutation from './ApplicationAccountMutation';
 
 export {
 	payrollMutation,
 	ApplicantLanguageMutation,
+	ApplicationAccountMutation,
 	ApplicationMutation,
 	ElectronicAddressMutation,
 	ApplicantEducationMutation,

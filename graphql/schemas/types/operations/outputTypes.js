@@ -52,7 +52,8 @@ import {
 	ConfigRegionsFields,
 	consolidatedPunchesCSVTypes,
 	openingRecruiterFields,
-	SmsLogFields
+	SmsLogFields,
+	ApplicationAccountFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -249,6 +250,20 @@ const ApplicantLanguageType = new GraphQLObjectType({
 					return applicantLanguage.getApplication();
 				}
 			}
+		};
+	}
+});
+
+const ApplicationAccountType = new GraphQLObjectType({
+	name: 'ApplicationAccounts',
+	description: 'This is for the Application Accounts',
+	fields: () => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Application Account Id'
+			},
+			...ApplicationAccountFields			
 		};
 	}
 });
@@ -1422,6 +1437,7 @@ export {
 	ApplicantPreviousEmploymentType,
 	ApplicantMilitaryServiceType,
 	ApplicantSkillType,
+	ApplicationAccountType,
 	CompanyPreferenceType,
 	ApplicantIdealJobType,
 	PositionRateType,

@@ -45,7 +45,8 @@ import {
 	UsersFields,
 	ContactsFields,
 	openingRecruiterFields,
-	SmsLogFields
+	SmsLogFields,
+	ApplicationAccountFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -463,10 +464,13 @@ const inputInsertSmsLogType = new GraphQLInputObjectType({
 			...SmsLogFields
 		}
 	}
-})
+});
 
-
-
+const inputInsertApplicationAccount = new GraphQLInputObjectType({
+	name: 'inputApplicationAccount',
+	description: 'Insert ApplicationAccount',
+	fields: { ...ApplicationAccountFields }
+});
 
 export {
 	insertPayrollType,
@@ -515,5 +519,6 @@ export {
 	inputInsertContact,
 	inputQueryWorkOrder,
 	insertOpeningRecruiterType,
-	inputInsertSmsLogType
+	inputInsertSmsLogType,
+	inputInsertApplicationAccount
 };
