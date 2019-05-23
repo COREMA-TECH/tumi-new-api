@@ -145,7 +145,6 @@ const MarkedEmployeesConsolidated = {
                                 punch.imageMarkedOut = imageMarked;
 
                             }
-                            console.log({ typeMarkedId, hour, markedTime, punch })
                         }
 
                     })
