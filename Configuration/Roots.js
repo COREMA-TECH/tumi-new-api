@@ -1781,7 +1781,7 @@ async function InsRoles(args) {
 	try {
 		if (args) {
 			Strquery =
-				'INSERT INTO public."Roles" ("Id_Company", "Description", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated") VALUES(' +
+				'INSERT INTO public."Roles" ("Id_Company", "Description", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "default_form_id") VALUES(' +
 				args.input.Id_Company +
 				',' +
 				args.input.Description +
@@ -1795,7 +1795,9 @@ async function InsRoles(args) {
 				args.input.Date_Created +
 				',' +
 				args.input.Date_Updated +
-				') RETURNING "Id", "Id_Company", "Description", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated"';
+				',' +
+				args.input.default_form_id +
+				') RETURNING "Id", "Id_Company", "Description", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "default_form_id"';
 		} else {
 			console.log('Error Insert Data');
 		}

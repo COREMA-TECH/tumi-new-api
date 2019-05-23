@@ -52,7 +52,8 @@ import {
 	ConfigRegionsFields,
 	consolidatedPunchesCSVTypes,
 	openingRecruiterFields,
-	SmsLogFields
+	SmsLogFields,
+	ApplicantIndependentContractFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -186,6 +187,12 @@ const ApplicationType = new GraphQLObjectType({
 				type: UsersType,
 				resolve(me) {
 					return me.getUser();
+				}
+			},
+			independentContract: {
+				type: ApplicantIndepenentContractType,
+				resolve(me) {
+					return me.getApplicantIndependentContract();
 				}
 			},
 			statusCompleted: {
@@ -586,6 +593,26 @@ const ApplicantI9Type = new GraphQLObjectType({
 				description: 'table id'
 			},
 			...ApplicantI9Fields,
+			application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			}
+		};
+	}
+});
+
+const ApplicantIndepenentContractType = new GraphQLObjectType({
+	name: 'ApplicantIndepenentContractType',
+	description: 'This is for Applications Independent Contract',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...ApplicantIndependentContractFields,
 			application: {
 				type: ApplicationType,
 				resolve(me) {
@@ -1467,5 +1494,6 @@ export {
 	SmsLogType,
 	PunchesReportConsolidateType,
 	CoordenadasType,
-	PunchesEmployeeReportConsolidateType
+	PunchesEmployeeReportConsolidateType,
+	ApplicantIndepenentContractType
 };

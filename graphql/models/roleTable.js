@@ -38,6 +38,10 @@ export default {
 				Date_Updated: {
 					type: Sequelize.STRING,
 					allowNull: false
+				},
+				default_form_id: {
+					type: Sequelize.INTEGER,
+					allowNull: true
 				}
 			},
 			{
