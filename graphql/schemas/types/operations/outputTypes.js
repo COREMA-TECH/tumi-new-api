@@ -11,6 +11,7 @@ import {
 import GraphQLDate from 'graphql-date';
 import {
 	ApplicantLanguagesFields,
+	ApplicationAccountDocumentFields,
 	ApplicationFields,
 	ElectronicAddressFields,
 	ApplicantEducationFields,
@@ -250,6 +251,20 @@ const ApplicantLanguageType = new GraphQLObjectType({
 					return applicantLanguage.getApplication();
 				}
 			}
+		};
+	}
+});
+
+const ApplicationAccountDocumentType = new GraphQLObjectType({
+	name: 'ApplicationAccountDocuments',
+	description: 'Documents attached to Application Account',
+	fields: _ => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Id'
+			},
+			...ApplicationAccountDocumentFields
 		};
 	}
 });
@@ -1483,5 +1498,6 @@ export {
 	SmsLogType,
 	PunchesReportConsolidateType,
 	CoordenadasType,
-	PunchesEmployeeReportConsolidateType
+	PunchesEmployeeReportConsolidateType,
+	ApplicationAccountDocumentType
 };

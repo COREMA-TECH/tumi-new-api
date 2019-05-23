@@ -8,7 +8,6 @@ import {
 	GraphQLObjectType
 } from 'graphql';
 import GraphQLDate from 'graphql-date';
-
 import {
 	ApplicantLanguagesFields,
 	ApplicationFields,
@@ -46,7 +45,8 @@ import {
 	ContactsFields,
 	openingRecruiterFields,
 	SmsLogFields,
-	ApplicationAccountFields
+	ApplicationAccountFields,
+	ApplicationAccountDocumentFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -472,7 +472,15 @@ const inputInsertApplicationAccount = new GraphQLInputObjectType({
 	fields: { ...ApplicationAccountFields }
 });
 
+
+const inputInsertApplicationAccountDocument = new GraphQLInputObjectType({
+	name: 'inputApplicationAccountDocument',
+	description: 'Insert Application Account Document',
+	fields: { ...ApplicationAccountDocumentFields }
+});
+
 export {
+	inputInsertApplicationAccountDocument,
 	insertPayrollType,
 	inputInsertApplicantLanguage,
 	inputInsertApplication,

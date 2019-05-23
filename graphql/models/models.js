@@ -52,6 +52,7 @@ import { Conn } from '../../Configuration/Configuration';
 import CoordenadasModel from './coordenadasTable';
 
 import ApplicationAccountModel from './applicationAccount';
+import ApplicationAccountDocumentsModel from './applicationAccountDocuments';
 
 // OpeningRecruiter
 import OpeningRecruiterModel from './openingrecruiterModel';
@@ -73,6 +74,7 @@ const ApplicantW4 = ApplicantW4Model.createModel(Conn);
 const ApplicantI9 = ApplicantI9Model.createModel(Conn);
 const WorkOrder = WorkOrderModel.createModel(Conn);
 const WorkOrderPosition = WorkOrderPositionModel.createModel(Conn);
+const ApplicationAccountDocument = ApplicationAccountDocumentsModel.createModel(Conn);
 
 const ElectronicAddress = ElectronicAddressModel.createModel(Conn);
 const CompanyPreference = CompanyPreferencesModel.createModel(Conn);
@@ -171,6 +173,7 @@ ApplicantHarassmentPolicy.belongsTo(Application);
 ApplicantWorkerCompensation.belongsTo(Application);
 
 ApplicationAccount.belongsTo(Application);
+ApplicationAccountDocument.belongsTo(ApplicationAccount);
 
 WorkOrder.belongsTo(PositionRate);
 
@@ -376,6 +379,6 @@ Conn.authenticate()
 //console.log('Applications are:-', applications);
 //	});
 //	console.log('sync is completed');
-//});
+// });
 
 export default Conn;
