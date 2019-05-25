@@ -201,6 +201,10 @@ export default {
 			marital: {
 				type: Sequelize.INTEGER,
 				allowNull: true
+			},
+			sendInterview: {
+				type: Sequelize.BOOLEAN	,
+				allowNull: true
 			}
 		});
 	}

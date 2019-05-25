@@ -4,6 +4,8 @@ import { ApplicationType } from '../types/operations/outputTypes';
 
 import Db from '../../models/models';
 import { graphql, GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
+import {  SendSMS } from '../../../Configuration/Roots';
+
 
 const ApplicationMutation = {
 	addApplication: {
@@ -69,6 +71,7 @@ const ApplicationMutation = {
 						hireType:args.application.hireType,
 						gender:args.application.gender,
 						marital:args.application.marital,
+						sendInterview:args.application.sendInterview
 					},
 					{
 						where: {
@@ -78,7 +81,18 @@ const ApplicationMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-					if (record) return record.dataValues;
+					if (record) 
+					{
+						if (args.application.sendInterview)
+						{
+							SendSMS({
+								msg: args.application.firstName + ' ' + args.application.lastName,
+								number: args.application.cellPhone
+							});
+						}
+
+						return record.dataValues;
+					}
 					else return null;
 				});
 		}
