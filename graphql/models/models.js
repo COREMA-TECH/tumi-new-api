@@ -357,6 +357,8 @@ SmsLog.belongsTo(Shift);
 
 Contacts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
 Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
+Application.hasMany(Contacts);
+
 BusinessCompany.hasMany(Contacts, { foreignKey: 'Id_Entity' });
 
 Conn.authenticate()
