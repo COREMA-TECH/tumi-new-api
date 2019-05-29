@@ -62,7 +62,7 @@ const getPunchesCompanyFilter = (filter) => {
 const MarkedEmployeesQuery = {
     markedEmployees: {
         type: new GraphQLList(MarkedEmployeesType),
-        description: 'List employees records',
+        description: 'List employees recordssssss',
         args: {
             id: {
                 type: GraphQLInt
@@ -75,6 +75,9 @@ const MarkedEmployeesQuery = {
             },
             markedTime: {
                 type: GraphQLString
+            },
+            EmployeeId:{
+                type: GraphQLInt
             },
         },
         resolve(root, args) {
