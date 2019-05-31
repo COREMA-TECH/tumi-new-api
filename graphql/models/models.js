@@ -56,6 +56,19 @@ import CoordenadasModel from './coordenadasTable';
 // OpeningRecruiter
 import OpeningRecruiterModel from './openingrecruiterModel';
 
+//Break Rules
+import BreakRule from './breakRule';
+import BreakRuleDetail from './breakRuleDetail';
+
+
+const BreakRuleModel = BreakRule.createModel(Conn);
+const BreakRuleDetailModel = BreakRuleDetail.createModel(Conn);
+
+BreakRuleDetailModel.belongsTo(BreakRuleModel, {
+	foreignKey: 'breakRuleId',
+	as: 'BreakRule'
+});
+
 const Application = ApplicationModel.createModel(Conn);
 const ApplicantLanguage = ApplicantLanaguageModel.createModel(Conn);
 const ApplicantEducation = ApplicantEducationModel.createModel(Conn);

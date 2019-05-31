@@ -43,7 +43,12 @@ import openingRecruiterFields from './openingRecruiterFields';
 import SmsLogFields from './smsLogFields';
 import CoordenadasFields from './coordenadasFields';
 import ApplicantIndependentContractFields from './applicantIndependentContractFields';
+import BreakRuleFields from './breakRuleFields';
+import BreakRuleDetailFields from './breakRuleDetailFields';
+
 export {
+	BreakRuleFields,
+	BreakRuleDetailFields,
 	ApplicantLanguagesFields,
 	ApplicationFields,
 	ElectronicAddressFields,
