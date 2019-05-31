@@ -1828,6 +1828,8 @@ async function UpdRoles(args) {
 				args.input.Date_Created +
 				', "Date_Updated"=' +
 				args.input.Date_Updated +
+				', "default_form_id"=' +
+				args.input.default_form_id +
 				' where "Id"=' +
 				args.input.Id;
 		} else {
