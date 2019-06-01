@@ -291,6 +291,31 @@ const MarkedEmployeesQuery = {
                     return punches;//Return list of punches
                 })
         }
+    },
+    tardiness: {
+        type: new GraphQLList(EmployeesType),
+        description: 'Retrieve active employees based on last marking time',
+        args: {
+            id: {
+                type: GraphQLInt,
+            },
+        },
+        resolve(root, args) {
+            return Db.models.Employees.findAll({
+                where: args,
+                include: [{
+                    model: Db.models.MarkedEmployees,
+                    required: true,
+                    limit: 1,
+                    where: {
+                        markedDate: {
+                            $gt: moment(Date.now()).subtract(2, "week").toDate()
+                        }
+                    },
+                    order: [['markedDate', 'DESC']],
+                }]
+            });
+        }
     }
 };
 
