@@ -21,6 +21,10 @@ const BreakRuleFields = {
     lenght: {
 		type: GraphQLFloat,
 		description: 'Break duration'
+    },
+    isActive: {
+    type: GraphQLBoolean,
+    description: 'Is this rule active?'
     }
 }
 

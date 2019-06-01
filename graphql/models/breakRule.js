@@ -24,6 +24,11 @@ export default {
 				lenght: {
 					type: Sequelize.FLOAT,
 					allowNull: false
+				},
+				isActive: {
+					type: Sequelize.BOOLEAN,
+					allowNull: false,
+					defaultValue: true
 				}
 			}
 		);

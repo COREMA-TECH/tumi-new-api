@@ -31,7 +31,9 @@ import {
 	ConfigRegionsFields,
 	UsersFields,
 	SmsLogFields,
-	ApplicantIndependentContractFields
+	ApplicantIndependentContractFields,
+	BreakRuleFields,
+	BreakRuleDetailFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -448,6 +450,33 @@ const inputUpdateSmsLogType = new GraphQLInputObjectType({
 	}
 })
 
+//Update break rule
+const inputUpdateBreakRule = new GraphQLInputObjectType({
+	name: 'inputUpdateBreakRule',
+	description: 'Inputs for Break Rule Mutation',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Break Rule Id'
+		},
+		...BreakRuleFields
+	}
+});
+
+const inputUpdateBreakRuleDetail = new GraphQLInputObjectType({
+	name: 'inputUpdateBreakRuleDetail',
+	description: 'Inputs for Break Rule Mutation',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Break Rule Detail Id'
+		},
+		...BreakRuleDetailFields
+	}
+});
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -481,5 +510,7 @@ export {
 	inputUpdateUser,
 	updatePayrollType,
 	inputUpdateSmsLogType,
-	inputUpdateApplicantIndependentContract
+	inputUpdateApplicantIndependentContract,
+	inputUpdateBreakRule,
+	inputUpdateBreakRuleDetail
 };

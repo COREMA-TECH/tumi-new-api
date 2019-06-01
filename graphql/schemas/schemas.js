@@ -39,7 +39,8 @@ import {
 	payrollMutation,
 	OpeningRecruiterMutation,
 	SmsLogMutation,
-	ApplicantIndependentContractMutation
+	ApplicantIndependentContractMutation,
+	BreakRuleMutation
 
 } from './mutations';
 import {
@@ -186,7 +187,8 @@ const RootMutation = new GraphQLObjectType({
 		...payrollMutation,
 		...OpeningRecruiterMutation,
 		...SmsLogMutation,
-		...ApplicantIndependentContractMutation
+		...ApplicantIndependentContractMutation,
+		...BreakRuleMutation
 	}
 });
 
