@@ -53,7 +53,9 @@ import {
 	consolidatedPunchesCSVTypes,
 	openingRecruiterFields,
 	SmsLogFields,
-	ApplicantIndependentContractFields
+	ApplicantIndependentContractFields,
+	BreakRuleFields,
+	BreakRuleDetailFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -237,6 +239,40 @@ const ApplicationType = new GraphQLObjectType({
 				}
 			}
 		};
+	}
+});
+
+const BreakRuleType = new GraphQLObjectType({
+	name: 'BreakRuleType',
+	description: 'Break Rules table',
+	fields: _ => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Break rule id'
+			},
+			...BreakRuleFields
+		}
+	}
+});
+
+const BreakRuleDetailType = new GraphQLObjectType({
+	name: 'BreakRuleDetailType',
+	description: 'Break rule detail when a break rule is set to automatic',
+	fields: _ => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Break rule detail'
+			},
+			...BreakRuleDetailFields,
+			breakRule: {
+				type: BreakRuleType,
+				resolve(breakRuleDetail) {
+					return breakRuleDetail.getBreakRule();
+				}
+			}
+		}
 	}
 });
 
@@ -1495,5 +1531,7 @@ export {
 	PunchesReportConsolidateType,
 	CoordenadasType,
 	PunchesEmployeeReportConsolidateType,
-	ApplicantIndepenentContractType
+	ApplicantIndepenentContractType,
+	BreakRuleType,
+	BreakRuleDetailType
 };
