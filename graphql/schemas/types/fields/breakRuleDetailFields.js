@@ -2,6 +2,10 @@ import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLBoolean, graphql, Gra
 import GraphQLDate from 'graphql-date';
 
 const BreakRuleFields = {
+    breakRuleId: {
+    type: GraphQLInt,
+    description: 'Break rule this config belongs to'
+    },
     shiftReached: {
 		type: GraphQLFloat,
 		description: 'Break starts at x time into the shift'

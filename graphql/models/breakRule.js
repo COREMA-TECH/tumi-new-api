@@ -5,6 +5,10 @@ export default {
 		return Conn.define(
 			'BreakRule',
 			{
+				businessCompanyId: {
+					type: Sequelize.INTEGER,
+					allowNull: false
+				},
 				name: {
 					type: Sequelize.STRING,
 					allowNull: false

@@ -251,7 +251,13 @@ const BreakRuleType = new GraphQLObjectType({
 				type: new GraphQLNonNull(GraphQLInt),
 				description: 'Break rule id'
 			},
-			...BreakRuleFields
+			...BreakRuleFields,
+			businessCompany: {
+				type: BusinessCompanyType,
+				resolve(breakRule) {
+					return breakRule.getBusinessCompany();
+				}
+			}
 		}
 	}
 });

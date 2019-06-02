@@ -2,6 +2,10 @@ import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLBoolean, graphql, Gra
 import GraphQLDate from 'graphql-date';
 
 const BreakRuleFields = {
+    businessCompanyId: {
+      type: GraphQLString,
+      description: 'Hotel this rule applies to'
+    },
     name: {
 		type: GraphQLString,
 		description: 'Rule Name'

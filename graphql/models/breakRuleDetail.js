@@ -5,6 +5,10 @@ export default {
 		return Conn.define(
 			'BreakRuleDetail',
 			{
+				breakRuleId: {
+					type: Sequelize.INTEGER,
+					allowNull: false
+				},
                 shiftReached: {
 					type: Sequelize.FLOAT,
 					allowNull: false
