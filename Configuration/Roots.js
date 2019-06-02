@@ -3415,14 +3415,19 @@ async function SendEmail(args) {
 async function SendSMS(args) {
 	const accountSid = 'ACc87252cde23126e76c58a8582bc35678';
 	const authToken = '259589325b7b13cc0b2625a96ef60035';
+
 	const client = require('twilio')(accountSid, authToken);
+
+	const prefix = '';
+	const sender = '+18565796117';
 
 	client.messages.create({
 		body: args.msg,
-		from: '+12028041551',
+		from: sender,
 		to: args.number
 	})
-		.then(message => console.log(message.sid));
+	.then(message => console.log(message.sid))
+	.catch(error => console.log(error));
 }
 
 async function SendGenericEmail(args) {
