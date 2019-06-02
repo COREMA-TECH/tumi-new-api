@@ -3,7 +3,7 @@ import GraphQLDate from 'graphql-date';
 
 const BreakRuleFields = {
     businessCompanyId: {
-      type: GraphQLString,
+      type: GraphQLInt,
       description: 'Hotel this rule applies to'
     },
     name: {

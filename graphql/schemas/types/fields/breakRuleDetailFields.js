@@ -1,7 +1,7 @@
 import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLBoolean, graphql, GraphQLFloat } from 'graphql';
 import GraphQLDate from 'graphql-date';
 
-const BreakRuleFields = {
+const BreakRuleDetailFields = {
     breakRuleId: {
     type: GraphQLInt,
     description: 'Break rule this config belongs to'
@@ -28,4 +28,4 @@ const BreakRuleFields = {
     }
 }
 
-export default BreakRuleFields;
+export default BreakRuleDetailFields;
