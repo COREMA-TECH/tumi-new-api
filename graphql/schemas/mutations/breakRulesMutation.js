@@ -1,5 +1,5 @@
 import Db from '../../models/models';
-import { graphql, GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
+import { graphql, GraphQLInt, GraphQLString, GraphQLBoolean, GraphQLList } from 'graphql';
 
 import { inputInsertBreakRuleType } from '../types/operations/insertTypes';
 import { BreakRuleType } from '../types/operations/outputTypes';
@@ -10,11 +10,25 @@ const BreakRuleMutation = {
 		type: BreakRuleType,
 		description: 'Add break rule record to database',
 		args: {
-			breakRule: { type: inputInsertBreakRuleType }
+			breakRule: { type: inputInsertBreakRuleType },
+			employees: { type: GraphQLList(GraphQLInt) }
 		},
 		resolve(source, args) {
 			console.log("Variables ", args)
-			return Db.models.BreakRule.create(args.breakRule);
+			const {breakRule, employees} = args;
+
+			return Db.models.BreakRule.create(breakRule)
+			.then(createdBreakRule => {
+				let employeesBreakRules = employees.map(employeeId => {
+					return { employeeId: employeeId, breakRuleId: createdBreakRule.id }
+				});
+
+				return Db.models.Employee_BreakRule.bulkCreate(employeesBreakRules, { returning: true }).then( ret => {
+					return ret.map((data) => {
+						return data.dataValues;
+					});
+				});
+			})
 		}
     },
     
@@ -22,12 +36,20 @@ const BreakRuleMutation = {
         type: BreakRuleType,
         description: 'Update break rule',
         args: {
-            breakRule: { type: inputUpdateBreakRule }
+			breakRule: { type: inputUpdateBreakRule },
+			employees: { type: GraphQLList(GraphQLInt) }
         },
         resolve(source, args) {
 			console.log("Updating ", args)
             
-            const { id, name, code, isPaid, isAutomatic, lenght, isActive = true } = args.breakRule;
+			const { id, name, code, isPaid, isAutomatic, lenght, isActive = true } = args.breakRule;
+			const { employees }	= args;
+			
+			Db.models.Employee_BreakRule.destroy({
+				where: {
+					breakRuleId: id
+				}
+			});
 
             return Db.models.BreakRule.update({ name, code, isPaid, isAutomatic, lenght, isActive }, {
                 where: {
@@ -36,6 +58,12 @@ const BreakRuleMutation = {
                 returning: true
             })
             .then(function ([rowsUpdate, [record]]) {
+				let employeesBreakRules = employees.map(employeeId => {
+					return { employeeId: employeeId, breakRuleId: id }
+				});
+
+				Db.models.Employee_BreakRule.bulkCreate(employeesBreakRules, { returning: true });
+
                 if (record) return record.dataValues;
                 else return null;
             });

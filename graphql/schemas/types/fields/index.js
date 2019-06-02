@@ -45,10 +45,9 @@ import CoordenadasFields from './coordenadasFields';
 import ApplicantIndependentContractFields from './applicantIndependentContractFields';
 import BreakRuleFields from './breakRuleFields';
 import BreakRuleDetailFields from './breakRuleDetailFields';
+import Employee_BreakRuleFields from './employee_breakRuleFields';
 
 export {
-	BreakRuleFields,
-	BreakRuleDetailFields,
 	ApplicantLanguagesFields,
 	ApplicationFields,
 	ElectronicAddressFields,
@@ -93,5 +92,8 @@ export {
 	openingRecruiterFields,
 	SmsLogFields,
 	CoordenadasFields,
-	ApplicantIndependentContractFields
+	ApplicantIndependentContractFields,
+	BreakRuleFields,
+	BreakRuleDetailFields,
+	Employee_BreakRuleFields,
 };

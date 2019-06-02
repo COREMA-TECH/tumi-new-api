@@ -53,12 +53,14 @@ import { Conn } from '../../Configuration/Configuration';
 
 import CoordenadasModel from './coordenadasTable';
 
+
 // OpeningRecruiter
 import OpeningRecruiterModel from './openingrecruiterModel';
 
 //Break Rules
 import BreakRule from './breakRule';
 import BreakRuleDetail from './breakRuleDetail';
+import Employee_BreakRuleModel from './employee_breakRuleTable';
 
 
 const BreakRuleModel = BreakRule.createModel(Conn);
@@ -121,6 +123,8 @@ const OpeningRecruiter = OpeningRecruiterModel.createModel(Conn);
 
 const ConfigRegions = ConfigRegionsModel.createModel(Conn);
 const SmsLog = SmsLogModel.createModel(Conn);
+
+const Employee_BreakRule = Employee_BreakRuleModel.createModel(Conn); 
 
 ApplicationPhases.belongsTo(CatalogItem, {
 	foreignKey: 'ReasonId',
@@ -374,6 +378,22 @@ BreakRuleModel.belongsTo(BusinessCompany, {
 BreakRuleDetailModel.belongsTo(BreakRuleModel, {
 	foreignKey: 'breakRuleId',
 	as: 'BreakRule'
+});
+
+Employees.hasMany(Employee_BreakRule, {
+	foreignKey: 'employeeId'
+});
+
+BreakRuleModel.hasMany(Employee_BreakRule, {
+	foreignKey: 'breakRuleId'
+});
+
+Employee_BreakRule.belongsTo(Employees, {
+	foreignKey: 'employeeId'
+});
+
+Employee_BreakRule.belongsTo(BreakRuleModel, {
+	foreignKey: 'breakRuleId'
 });
 
 Conn.authenticate()
