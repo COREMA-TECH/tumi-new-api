@@ -55,7 +55,8 @@ import {
 	SmsLogFields,
 	ApplicantIndependentContractFields,
 	BreakRuleFields,
-	BreakRuleDetailFields
+	BreakRuleDetailFields,
+	Employee_BreakRuleFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -242,6 +243,26 @@ const ApplicationType = new GraphQLObjectType({
 	}
 });
 
+const Employee_BreakRuleType = new GraphQLObjectType({
+	name: "Employee_BreakRuleType",
+	description: 'Links employees to break rules',
+	fields: _ => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'employee and break rule link'
+			},
+			...Employee_BreakRuleFields,
+			employees: {
+				type: EmployeesType,
+				resolve(me) {
+					return me.getEmployee();
+				}
+			}
+		}
+	}
+})
+
 const BreakRuleType = new GraphQLObjectType({
 	name: 'BreakRuleType',
 	description: 'Break Rules table',
@@ -257,7 +278,13 @@ const BreakRuleType = new GraphQLObjectType({
 				resolve(breakRule) {
 					return breakRule.getBusinessCompany();
 				}
-			}
+			},
+			employee_BreakRule: {
+				type: new GraphQLList(Employee_BreakRuleType),
+				resolve(me) {
+					return me.getEmployee_BreakRules();
+				}
+			}			
 		}
 	}
 });
@@ -1539,5 +1566,6 @@ export {
 	PunchesEmployeeReportConsolidateType,
 	ApplicantIndepenentContractType,
 	BreakRuleType,
-	BreakRuleDetailType
+	BreakRuleDetailType,
+	Employee_BreakRuleType
 };

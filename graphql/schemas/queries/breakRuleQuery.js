@@ -38,7 +38,18 @@ const BreakRuleQuery = {
             }, 
         },
 		resolve(root, args) {
-			return Db.models.BreakRule.findAll({ where: args });
+			return Db.models.BreakRule.findAll({ 
+                where: args,
+                include: [{
+                    model: Db.models.Employee_BreakRule,
+                    required: true,
+
+                    include: [{
+                        model: Db.models.Employees,
+                        required: true
+                    }]
+                }]
+            });
 		}
     }
 }
