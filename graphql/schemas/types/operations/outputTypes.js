@@ -393,11 +393,19 @@ const ElectronicAddressType = new GraphQLObjectType({
 const PositionRateType = new GraphQLObjectType({
 	name: 'PositionRateType',
 	description: 'This is for position rate item',
-	fields: {
-		Id: {
-			type: GraphQLInt
-		},
-		...PositionRateFields
+	fields: () => {
+		return {
+			Id: {
+				type: GraphQLInt
+			},
+			...PositionRateFields,
+			department: {
+				type: CatalogItemType,
+				resolve(me) {
+					return me.getDepartment();
+				}
+			}
+		}
 	}
 });
 
@@ -764,6 +772,20 @@ const ApplicationPhaseType = new GraphQLObjectType({
 		};
 	}
 });
+const ApplicationPhaseResumeType = new GraphQLObjectType({
+	name: 'ApplicationPhaseResume',
+	description: 'This is for ApplicationPhase Resume',
+	fields: () => {
+
+		return {
+			leadEntered: { type: GraphQLInt },
+			sentToInterview: { type: GraphQLInt },
+			showed: { type: GraphQLInt },
+			noShow: { type: GraphQLInt },
+			hired: { type: GraphQLInt }
+		};
+	}
+});
 
 const phaseworkOrderType = new GraphQLObjectType({
 	name: 'PhaseWorkOrder',
@@ -782,7 +804,7 @@ const phaseworkOrderType = new GraphQLObjectType({
 				resolve(me) {
 					return me.getUsersWO();
 				}
-			},
+			}
 		};
 	}
 });
@@ -1495,5 +1517,6 @@ export {
 	PunchesReportConsolidateType,
 	CoordenadasType,
 	PunchesEmployeeReportConsolidateType,
-	ApplicantIndepenentContractType
+	ApplicantIndepenentContractType,
+	ApplicationPhaseResumeType
 };

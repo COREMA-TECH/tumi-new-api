@@ -178,6 +178,11 @@ WorkOrder.belongsTo(PositionRate);
 WorkOrder.hasMany(WorkOrderPosition, { onDelete: 'cascade' });
 WorkOrderPosition.belongsTo(PositionRate);
 
+PositionRate.belongsTo(CatalogItem, {
+	foreignKey: 'Id_Department',
+	as: 'Department'
+});
+
 WorkOrder.hasMany(phaseworkOrder);
 phaseworkOrder.belongsTo(WorkOrder);
 
