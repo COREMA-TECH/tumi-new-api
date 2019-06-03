@@ -1674,6 +1674,7 @@ async function InsPosition(args) {
 
 async function UpdPosition(args) {
 	try {
+		console.log("update position ", args)
 		if (args) {
 			Strquery =
 				'UPDATE public."PositionRate" SET "Id_Entity"=' +
@@ -1705,13 +1706,14 @@ async function UpdPosition(args) {
 				', "Comment"=' +
 				args.input.Comment +
 				', "catalogItem_id"=' +
-				args.catalogItem_id +
+				args.input.catalogItem_id +
 				' where "Id"=' +
 				args.input.Id;
 		} else {
 			console.log('Error Update Data');
 		}
 
+		console.log("Position and Rate ", Strquery)
 		const { rows } = await query(Strquery);
 		return rows;
 	} catch (err) {
@@ -3140,102 +3142,6 @@ async function ValidTokens(args) {
 	}
 }
 
-async function CreatePdfContracts(args) {
-	try {
-		var strparam1, strparam2;
-
-		if (args.IsActive >= 0) {
-			strparam1 = args.IsActive;
-		} else {
-			strparam1 = null;
-		}
-
-		if (args.Id >= 0) {
-			strparam2 = args.Id;
-		} else {
-			strparam2 = null;
-		}
-
-		Strquery =
-			'select "Contracts"."Id","Token"."Token","Token"."Signatory", "Id_Company", "Id_Entity", "Contract_Name", "Contrat_Owner", "Id_User_Signed",(SELECT "Electronic_Address" FROM public."Contacts" where "Id"= "Contracts"."Id_User_Signed") as "Electronic_Address", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed", "Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F", "Client_Signature", "Company_Signature","Contract_Expiration_Date",(SELECT "Primary_Email" FROM public."Company" where "Id"= "Contracts"."Id_Company") as "Primary_Email"  from public."Contracts" inner join public."Token" on "Token"."Id_Contract" = "Contracts"."Id"  where "Contracts"."IsActive" = coalesce(' +
-			strparam1 +
-			',"Contracts"."IsActive") and "Contracts"."Id" = coalesce(' +
-			strparam2 +
-			',"Contracts"."Id") order by "Contracts"."Id"';
-
-		console.log(Strquery);
-
-		const { rows } = await query(Strquery);
-
-		var content = rows[0].Contract_Terms;
-		Strfilename = './public/Contract_' + rows[0].Contract_Name.trim() + '.pdf';
-
-		var html = fs.readFileSync(content, 'utf8');
-		var options = {
-			format: 'Letter',
-			border: {
-				top: '0.98in', // default is 0, units: mm, cm, in, px
-				right: '0.98in',
-				bottom: '0.98in',
-				left: '0.98in'
-			}
-		};
-		if (fs.existsSync(Strfilename)) {
-			fs.unlinkSync(Strfilename);
-		}
-
-		console.log('html listo ', html);
-
-		pdf.create(html, options).toFile(Strfilename, function (err, res) {
-			if (err) return console.log(err);
-			console.log(res); // { filename: '/app/businesscard.pdf' }
-		});
-
-		return Strfilename;
-	} catch (err) {
-		console.log('Database ' + err);
-		return err;
-	}
-}
-
-//Method Connect to Send Contracts by emails
-/*async function CreateDocumentsPDF(args) {
-	try {
-		var content = args.contentHTML;
-		Strfilename = './public/Documents/' + args.Name.trim() + '.pdf';
-
-		console.log(fs.existsSync(Strfilename));
-		if (fs.existsSync(Strfilename) == false) {
-
-
-			pdfshift
-				.convert(content, {
-					landscape: false,
-					use_print: true,
-					margin: { left: '72px', right: '72px', top: '72px', bottom: '72px' }
-				})
-				.then(function (binary_file) {
-					fs.writeFile(Strfilename, binary_file, 'binary', function () { });
-				})
-				.catch(function ({ message, code, response, errors = null }) { });
-
-			while (true) {
-				try {
-					fs.accessSync(Strfilename, fs.W_OK);
-					return rows;
-				} catch (e) {
-					console.log('Sigue escribiendo', e);
-				}
-			}
-		}
-
-		return Strfilename;
-	} catch (err) {
-		console.log('Database ' + err);
-		return err;
-	}
-}*/
-
 async function CreateDocumentsPDF(args) {
 	try {
 		var content = args.contentHTML;
@@ -3646,6 +3552,30 @@ async function SendWorkOrderFilledEmail(args) {
 	}
 }
 
+async function SendEmailVerification(args) {
+	try {
+		var mailOptions = {
+			from: 'tumistaffing@hotmail.com',
+			to: args.email,
+			subject: "Employment Verification",
+			html:'<p>Your html here</p>'
+		};
+
+		transporter.sendMail(mailOptions, function (error, info) {
+			if (error) {
+				console.log(error);
+			} else {
+				console.log('Email enviado: ' + info.response);
+			}
+		});
+
+		return 'Email Send';
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
+	}
+}
+
 const root = {
 	getcompanies: getCompanies,
 
@@ -3730,7 +3660,8 @@ const root = {
 	sendemail: SendEmail,
 	sendgenericemail: SendGenericEmail,
 	sendworkorderfilledemail: SendWorkOrderFilledEmail,
-	SendSMS: SendSMS
+	SendSMS: SendSMS,
+	sendemailverification : SendEmailVerification
 };
 
 module.exports = root;
