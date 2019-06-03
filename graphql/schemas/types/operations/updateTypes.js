@@ -30,7 +30,10 @@ import {
 	CatalogItemFields,
 	ConfigRegionsFields,
 	UsersFields,
-	SmsLogFields
+	SmsLogFields,
+	ApplicantIndependentContractFields,
+	BreakRuleFields,
+	BreakRuleDetailFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -434,6 +437,46 @@ const inputUpdateSmsLogType = new GraphQLInputObjectType({
 	}
 })
 
+//Update break rule
+const inputUpdateBreakRule = new GraphQLInputObjectType({
+	name: 'inputUpdateBreakRule',
+	description: 'Inputs for Break Rule Mutation',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Break Rule Id'
+		},
+		...BreakRuleFields
+	}
+});
+
+const inputUpdateBreakRuleDetail = new GraphQLInputObjectType({
+	name: 'inputUpdateBreakRuleDetail',
+	description: 'Inputs for Break Rule Mutation',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Break Rule Detail Id'
+		},
+		...BreakRuleDetailFields
+	}
+});
+
+const inputUpdateApplicantIndependentContract = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantIndependentContract',
+	description: 'Inputs for Applications Independent Contract',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...ApplicantIndependentContractFields
+	}
+});
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -466,5 +509,8 @@ export {
 	inputUpdateConfigRegions,
 	inputUpdateUser,
 	updatePayrollType,
-	inputUpdateSmsLogType
+	inputUpdateSmsLogType,
+	inputUpdateApplicantIndependentContract,
+	inputUpdateBreakRule,
+	inputUpdateBreakRuleDetail
 };

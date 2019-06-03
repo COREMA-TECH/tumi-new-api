@@ -51,9 +51,18 @@ import { Conn } from '../../Configuration/Configuration';
 
 import CoordenadasModel from './coordenadasTable';
 
+
 // OpeningRecruiter
 import OpeningRecruiterModel from './openingrecruiterModel';
 
+//Break Rules
+import BreakRule from './breakRule';
+import BreakRuleDetail from './breakRuleDetail';
+import Employee_BreakRuleModel from './employee_breakRuleTable';
+
+
+const BreakRuleModel = BreakRule.createModel(Conn);
+const BreakRuleDetailModel = BreakRuleDetail.createModel(Conn);
 const Application = ApplicationModel.createModel(Conn);
 const ApplicantLanguage = ApplicantLanaguageModel.createModel(Conn);
 const ApplicantEducation = ApplicantEducationModel.createModel(Conn);
@@ -110,6 +119,8 @@ const OpeningRecruiter = OpeningRecruiterModel.createModel(Conn);
 
 const ConfigRegions = ConfigRegionsModel.createModel(Conn);
 const SmsLog = SmsLogModel.createModel(Conn);
+
+const Employee_BreakRule = Employee_BreakRuleModel.createModel(Conn); 
 
 ApplicationPhases.belongsTo(CatalogItem, {
 	foreignKey: 'ReasonId',
@@ -332,8 +343,6 @@ CatalogItem.hasMany(Contacts, {
 	as: 'Contacts'
 })
 
-
-
 // Opening recruiter associations
 OpeningRecruiter.belongsTo(Users, { foreignKey: 'recruiterId' });
 OpeningRecruiter.belongsTo(Shift, { foreignKey: 'openingId' });
@@ -353,6 +362,36 @@ Contacts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
 Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
 BusinessCompany.hasMany(Contacts, { foreignKey: 'Id_Entity' });
 
+BreakRuleModel.belongsTo(BusinessCompany, {
+	foreignKey: 'businessCompanyId',
+	as: 'BusinessCompany'
+})
+
+BreakRuleModel.hasOne(BreakRuleDetailModel, {
+	foreignKey: 'breakRuleId'
+})
+
+BreakRuleDetailModel.belongsTo(BreakRuleModel, {
+	foreignKey: 'breakRuleId',
+	as: 'BreakRule'
+});
+
+Employees.hasMany(Employee_BreakRule, {
+	foreignKey: 'employeeId'
+});
+
+BreakRuleModel.hasMany(Employee_BreakRule, {
+	foreignKey: 'breakRuleId'
+});
+
+Employee_BreakRule.belongsTo(Employees, {
+	foreignKey: 'employeeId'
+});
+
+Employee_BreakRule.belongsTo(BreakRuleModel, {
+	foreignKey: 'breakRuleId'
+});
+
 Conn.authenticate()
 	.then(() => {
 		console.log('Connection has been established successfully.');
@@ -361,7 +400,7 @@ Conn.authenticate()
 		console.error('Unable to connect to the database:', err);
 	});
 
-//Conn.sync({ force: false }).then(() => {
+// Conn.sync({ force: false }).then(() => {
 /*make sure you use false here. otherwise the total data
 	from the impported models will get deleted and new tables will be created*/
 // now we cann do all db operations on customers table.
@@ -371,6 +410,6 @@ Conn.authenticate()
 //console.log('Applications are:-', applications);
 //	});
 //	console.log('sync is completed');
-//});
+// });
 
 export default Conn;
