@@ -52,6 +52,8 @@ import RegionQuery from './regionQuery';
 import BreakRuleQuery from './breakRuleQuery';
 import BreakRuleDetailQuery from './breakRuleDetailQuery';
 
+import ApplicationAccountQuery from './applicationAccountQuery';
+
 export {
 	ApplicantLanguageQuery,
 	ApplicationQuery,
@@ -102,5 +104,6 @@ export {
 	RegionQuery,
 	ApplicantIndependentContractQuery,
 	BreakRuleQuery,
-	BreakRuleDetailQuery
+	BreakRuleDetailQuery,
+	ApplicationAccountQuery
 };

@@ -360,7 +360,13 @@ const ApplicationAccountType = new GraphQLObjectType({
 				type: new GraphQLNonNull(GraphQLInt),
 				description: 'Application Account Id'
 			},
-			...ApplicationAccountFields			
+			...ApplicationAccountFields,
+			applicationDocuments: {
+				type: new GraphQLList(ApplicationAccountDocumentType),
+				resolve(me) {
+					return me.getApplicationAccountDocuments()
+				}
+			}			
 		};
 	}
 });

@@ -25,9 +25,9 @@ const ApplicationAccountFields = {
 		type: GraphQLInt,
 		description: 'Zipcode'
     },
-    bankNumber: {
-		type: GraphQLInt,
-		description: 'Bank Number'
+    bankName: {
+		type: GraphQLString,
+		description: 'Bank Name'
     },
     accountNumber: {
 		type: GraphQLInt,
@@ -48,6 +48,10 @@ const ApplicationAccountFields = {
 	amountType: {
 		type: GraphQLString,
 		description: 'Amount Type'
+	},
+	address: {
+		type: GraphQLString,
+		description: "address"
 	}
 };
 

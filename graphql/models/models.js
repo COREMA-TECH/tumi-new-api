@@ -189,7 +189,13 @@ ApplicantHarassmentPolicy.belongsTo(Application);
 ApplicantWorkerCompensation.belongsTo(Application);
 
 ApplicationAccount.belongsTo(Application);
-ApplicationAccountDocument.belongsTo(ApplicationAccount);
+ApplicationAccountDocument.belongsTo(ApplicationAccount, {
+	foreignKey: 'applicationAccountId'
+});
+
+ApplicationAccount.hasMany(ApplicationAccountDocument, {
+	foreignKey: 'applicationAccountId'
+});
 
 WorkOrder.belongsTo(PositionRate);
 

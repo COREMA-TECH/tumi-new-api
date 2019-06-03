@@ -29,8 +29,8 @@ export default {
                     type: Sequelize.INTEGER,
                     allowNull: false
                 },
-                bankNumber: {
-                    type: Sequelize.INTEGER,
+                bankName: {
+                    type: Sequelize.STRING,
                     allowNull: false
                 },
                 routingNumber: {
@@ -50,6 +50,10 @@ export default {
                     allowNull: false
                 },
                 amountType: {
+                    type: Sequelize.STRING,
+                    allowNull: false
+                },
+                address: {
                     type: Sequelize.STRING,
                     allowNull: false
                 }

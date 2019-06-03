@@ -19,11 +19,13 @@ const ApplicationAccountMutation = {
                     .then((data) => {
                         const docs = args.applicationAccountDocs.map(item => {
                             return {
-                                ...item,
-                                applicationAccountId: data.dataValues.id
+                                applicationAccountId: data.dataValues.id,
+                                path: item.path,
+                                name: item.name,
+                                extension: item.extension
                             }
                         });
-                        Db.models.ApplicationAccountDocument.bulkCreate(docs, {returning: true, transaction: t}).catch(error => console.log(error));
+                        Db.models.ApplicationAccountDocument.bulkCreate(docs, {returning: true}).catch(error => console.log(error));
                 });
             });
 		}
