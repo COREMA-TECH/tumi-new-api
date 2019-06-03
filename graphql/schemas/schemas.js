@@ -38,10 +38,7 @@ import {
 	ContactsMutation,
 	payrollMutation,
 	OpeningRecruiterMutation,
-	SmsLogMutation,
-	ApplicantIndependentContractMutation,
-	BreakRuleMutation,
-	BreakRuleDetailMutation
+	SmsLogMutation
 
 } from './mutations';
 import {
@@ -91,10 +88,7 @@ import {
 	SmsLogQuery,
 	businessCompanyQuery,
 	MarkedEmployeesConsolidated,
-	MarkedEmployeesApproved,
-	ApplicantIndependentContractQuery,
-	BreakRuleDetailQuery,
-	BreakRuleQuery
+	MarkedEmployeesApproved
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -147,10 +141,7 @@ const RootQuery = new GraphQLObjectType({
 		...SmsLogQuery,
 		...businessCompanyQuery,
 		...MarkedEmployeesConsolidated,
-		...MarkedEmployeesApproved,
-		...ApplicantIndependentContractQuery,
-		...BreakRuleQuery,
-		...BreakRuleDetailQuery
+		...MarkedEmployeesApproved
 	}
 });
 const RootMutation = new GraphQLObjectType({
@@ -191,10 +182,7 @@ const RootMutation = new GraphQLObjectType({
 		...ContactsMutation,
 		...payrollMutation,
 		...OpeningRecruiterMutation,
-		...SmsLogMutation,
-		...ApplicantIndependentContractMutation,
-		...BreakRuleMutation,
-		...BreakRuleDetailMutation
+		...SmsLogMutation
 	}
 });
 

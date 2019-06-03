@@ -42,10 +42,6 @@ import consolidatedPunchesCSVTypes from './consolidatedPunchesCSVType';
 import openingRecruiterFields from './openingRecruiterFields';
 import SmsLogFields from './smsLogFields';
 import CoordenadasFields from './coordenadasFields';
-import ApplicantIndependentContractFields from './applicantIndependentContractFields';
-import BreakRuleFields from './breakRuleFields';
-import BreakRuleDetailFields from './breakRuleDetailFields';
-import Employee_BreakRuleFields from './employee_breakRuleFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -91,9 +87,5 @@ export {
 	consolidatedPunchesCSVTypes,
 	openingRecruiterFields,
 	SmsLogFields,
-	CoordenadasFields,
-	ApplicantIndependentContractFields,
-	BreakRuleFields,
-	BreakRuleDetailFields,
-	Employee_BreakRuleFields,
+	CoordenadasFields
 };

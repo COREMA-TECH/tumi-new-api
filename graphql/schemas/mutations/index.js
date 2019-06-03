@@ -33,8 +33,6 @@ import ContactsMutation from './contactsMutation';
 import payrollMutation from './payrollMutation';
 import OpeningRecruiterMutation from './openingRecruiterMutation';
 import SmsLogMutation from './smsLogMutation';
-import BreakRuleMutation from './breakRulesMutation';
-import BreakRuleDetailMutation from './breakRuleDetailsMutation';
 
 export {
 	payrollMutation,
@@ -71,8 +69,5 @@ export {
 	UserMutation,
 	ContactsMutation,
 	OpeningRecruiterMutation,
-	SmsLogMutation,
-	ApplicantIndependentContractMutation,
-	BreakRuleMutation,
-	BreakRuleDetailMutation
+	SmsLogMutation
 };
