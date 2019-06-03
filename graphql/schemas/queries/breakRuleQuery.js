@@ -42,7 +42,6 @@ const BreakRuleQuery = {
                 where: args,
                 include: [{
                     model: Db.models.Employee_BreakRule,
-                    required: true,
 
                     include: [{
                         model: Db.models.Employees,

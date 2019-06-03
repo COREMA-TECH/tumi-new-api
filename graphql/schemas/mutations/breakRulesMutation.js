@@ -23,12 +23,9 @@ const BreakRuleMutation = {
 					return { employeeId: employeeId, breakRuleId: createdBreakRule.id }
 				});
 
-				return Db.models.Employee_BreakRule.bulkCreate(employeesBreakRules, { returning: true }).then( ret => {
-					return ret.map((data) => {
-						return data.dataValues;
-					});
-				});
-			})
+				Db.models.Employee_BreakRule.bulkCreate(employeesBreakRules, { returning: true });
+				return createdBreakRule;
+			});
 		}
     },
     

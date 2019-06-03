@@ -375,6 +375,10 @@ BreakRuleModel.belongsTo(BusinessCompany, {
 	as: 'BusinessCompany'
 })
 
+BreakRuleModel.hasOne(BreakRuleDetailModel, {
+	foreignKey: 'breakRuleId'
+})
+
 BreakRuleDetailModel.belongsTo(BreakRuleModel, {
 	foreignKey: 'breakRuleId',
 	as: 'BreakRule'
