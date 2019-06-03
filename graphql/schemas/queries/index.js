@@ -49,6 +49,7 @@ import RegionQuery from './regionQuery';
 
 import BreakRuleQuery from './breakRuleQuery';
 import BreakRuleDetailQuery from './breakRuleDetailQuery';
+import ApplicantIndependentContractQuery from './applicantIndependentContractQuery';
 
 export {
 	ApplicantLanguageQuery,
