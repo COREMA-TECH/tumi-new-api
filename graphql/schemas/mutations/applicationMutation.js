@@ -4,8 +4,6 @@ import { ApplicationType } from '../types/operations/outputTypes';
 
 import Db from '../../models/models';
 import { graphql, GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
-import {  SendSMS } from '../../../Configuration/Roots';
-
 
 const ApplicationMutation = {
 	addApplication: {
@@ -15,7 +13,6 @@ const ApplicationMutation = {
 			application: { type: inputInsertApplication }
 		},
 		resolve(source, args) {
-			console.log("Variables de la application ", args)
 			return Db.models.Applications.create(args.application);
 		}
 	},
@@ -60,18 +57,7 @@ const ApplicationMutation = {
 						signature: args.application.signature,
 						isLead: args.application.isLead,
 						isActive: args.application.isActive,
-						Urlphoto: args.application.Urlphoto,
-						dateCreation: args.application.dateCreation,
-						immediately: args.application.optionHearTumi,
-						optionHearTumi: args.application.optionHearTumi,
-						nameReferences: args.application.nameReferences,
-						eeoc: args.application.eeoc,
-						exemptions: args.application.exemptions,
-						area: args.application.area,
-						hireType:args.application.hireType,
-						gender:args.application.gender,
-						marital:args.application.marital,
-						sendInterview:args.application.sendInterview
+						Urlphoto: args.application.Urlphoto
 					},
 					{
 						where: {
@@ -81,18 +67,7 @@ const ApplicationMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-					if (record) 
-					{
-						if (args.application.sendInterview)
-						{
-							SendSMS({
-								msg: args.application.firstName + ' ' + args.application.lastName,
-								number: args.application.cellPhone
-							});
-						}
-
-						return record.dataValues;
-					}
+					if (record) return record.dataValues;
 					else return null;
 				});
 		}

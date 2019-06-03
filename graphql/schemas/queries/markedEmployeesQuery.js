@@ -1,5 +1,5 @@
 import { GraphQLList, GraphQLString, GraphQLInt } from 'graphql';
-import { MarkedEmployeesType, PunchesReportType, EmployeesType } from '../types/operations/outputTypes';
+import { MarkedEmployeesType, PunchesReportType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 import GraphQLDate from 'graphql-date';
 import moment from 'moment';
@@ -62,7 +62,7 @@ const getPunchesCompanyFilter = (filter) => {
 const MarkedEmployeesQuery = {
     markedEmployees: {
         type: new GraphQLList(MarkedEmployeesType),
-        description: 'List employees recordssssss',
+        description: 'List employees records',
         args: {
             id: {
                 type: GraphQLInt
@@ -75,9 +75,6 @@ const MarkedEmployeesQuery = {
             },
             markedTime: {
                 type: GraphQLString
-            },
-            EmployeeId:{
-                type: GraphQLInt
             },
         },
         resolve(root, args) {
@@ -290,74 +287,6 @@ const MarkedEmployeesQuery = {
                     });
                     return punches;//Return list of punches
                 })
-        }
-    },
-    tardiness: {
-        type: new GraphQLList(EmployeesType),
-        description: 'Retrieve active employees based on last marking time',
-        args: {
-            id: {
-                type: GraphQLInt,
-            },
-        },
-        resolve(root, args) {
-            return Db.models.Employees.findAll({
-                where: args,
-                include: [{
-                    model: Db.models.ShiftDetailEmployees,
-                    required: true,
-                    include: [{
-                        model: Db.models.ShiftDetail,
-                        required: true,
-                        order: [['startDate', 'DESC']],
-                    }]
-                },{
-                    model: Db.models.MarkedEmployees,
-                    required: true,
-                    where: {
-                        typeMarkedId: 30570
-                    },
-                    order: [['markedDate', 'DESC']],
-                }]
-            }).then(result => {
-                const employees = result;
-                let tardinessData = {};
-                employees.map(employee => {
-                    let ObjKey = `${employee.dataValues.firstName} ${employee.dataValues.lastName}`;
-                    let startDate, startTime, markedTime, markedData = {};
-                  
-                    tardinessData[ObjKey] = {
-                        name: `${employee.dataValues.firstName} ${employee.dataValues.lastName}`
-                    };
-
-                    employee.dataValues.ShiftDetailEmployees.map(ShiftDetailEmployee => {
-                        startDate = moment(ShiftDetailEmployee.dataValues.ShiftDetail.dataValues.startDate).format('YYYYMMDD');
-                        startTime = ShiftDetailEmployee.dataValues.ShiftDetail.dataValues.startTime;
-                        markedData = {
-                            ShiftStart: startTime
-                        }
-                        employee.dataValues.MarkedEmployees.map(MarkedEmployee => {
-                            console.log(moment(MarkedEmployee.dataValues.markedDate).format('YYYYMMDD'));
-                            console.log(startDate);
-                            if (moment(MarkedEmployee.dataValues.markedDate).format('YYYYMMDD') === startDate) {
-                                markedTime = MarkedEmployee.dataValues.markedTime;
-                                markedData = {
-                                    ...markedData,
-                                    ClockIn: markedTime
-                                }
-                            }
-                        });
-                    });
-
-                    tardinessData[ObjKey] = {
-                        ... tardinessData[ObjKey],
-                        markedData
-                    }
-                   
-
-                });
-                //console.log(tardinessData);
-            });
         }
     }
 };

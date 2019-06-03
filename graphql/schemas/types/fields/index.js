@@ -42,7 +42,7 @@ import consolidatedPunchesCSVTypes from './consolidatedPunchesCSVType';
 import openingRecruiterFields from './openingRecruiterFields';
 import SmsLogFields from './smsLogFields';
 import CoordenadasFields from './coordenadasFields';
-import ApplicantIndependentContractFields from './applicantIndependentContractFields';
+
 export {
 	ApplicantLanguagesFields,
 	ApplicationFields,
@@ -87,6 +87,5 @@ export {
 	consolidatedPunchesCSVTypes,
 	openingRecruiterFields,
 	SmsLogFields,
-	CoordenadasFields,
-	ApplicantIndependentContractFields
+	CoordenadasFields
 };

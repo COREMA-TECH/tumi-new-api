@@ -45,8 +45,7 @@ import {
 	UsersFields,
 	ContactsFields,
 	openingRecruiterFields,
-	SmsLogFields,
-	ApplicantIndependentContractFields
+	SmsLogFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -200,16 +199,6 @@ const inputInsertApplicantI9 = new GraphQLInputObjectType({
 		...ApplicantI9Fields
 	}
 });
-
-const inputInsertApplicantIndependentContract = new GraphQLInputObjectType({
-	name: 'inputInsertApplicantIndependentContract',
-	description: 'Inputs for Applications Independent Contract',
-
-	fields: {
-		...ApplicantIndependentContractFields
-	}
-});
-
 const inputInsertWorkOrder = new GraphQLInputObjectType({
 	name: 'inputInsertWorkOrder',
 	description: 'Inputs for Work Order Insert',
@@ -526,6 +515,5 @@ export {
 	inputInsertContact,
 	inputQueryWorkOrder,
 	insertOpeningRecruiterType,
-	inputInsertSmsLogType,
-	inputInsertApplicantIndependentContract
+	inputInsertSmsLogType
 };

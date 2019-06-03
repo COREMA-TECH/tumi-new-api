@@ -30,8 +30,7 @@ import {
 	CatalogItemFields,
 	ConfigRegionsFields,
 	UsersFields,
-	SmsLogFields,
-	ApplicantIndependentContractFields
+	SmsLogFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -232,19 +231,6 @@ const inputUpdateApplicantI9 = new GraphQLInputObjectType({
 			description: 'table Id'
 		},
 		...ApplicantI9Fields
-	}
-});
-
-const inputUpdateApplicantIndependentContract = new GraphQLInputObjectType({
-	name: 'inputUpdateApplicantIndependentContract',
-	description: 'Inputs for Applications Independent Contract',
-
-	fields: {
-		id: {
-			type: new GraphQLNonNull(GraphQLInt),
-			description: 'table Id'
-		},
-		...ApplicantIndependentContractFields
 	}
 });
 
@@ -480,6 +466,5 @@ export {
 	inputUpdateConfigRegions,
 	inputUpdateUser,
 	updatePayrollType,
-	inputUpdateSmsLogType,
-	inputUpdateApplicantIndependentContract
+	inputUpdateSmsLogType
 };
