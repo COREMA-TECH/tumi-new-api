@@ -47,6 +47,9 @@ import MarkedEmployeesConsolidated from './markedEmployeesConsolidatedQuery';
 import MarkedEmployeesApproved from './markedEmployeesApprovedQuery';
 import RegionQuery from './regionQuery';
 
+import BreakRuleQuery from './breakRuleQuery';
+import BreakRuleDetailQuery from './breakRuleDetailQuery';
+
 export {
 	ApplicantLanguageQuery,
 	ApplicationQuery,
@@ -94,5 +97,8 @@ export {
 	businessCompanyQuery,
 	MarkedEmployeesConsolidated,
 	MarkedEmployeesApproved,
-	RegionQuery
+	RegionQuery,
+	ApplicantIndependentContractQuery,
+	BreakRuleQuery,
+	BreakRuleDetailQuery
 };

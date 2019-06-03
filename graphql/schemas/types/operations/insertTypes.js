@@ -45,7 +45,10 @@ import {
 	UsersFields,
 	ContactsFields,
 	openingRecruiterFields,
-	SmsLogFields
+	SmsLogFields,
+	ApplicantIndependentContractFields,
+	BreakRuleFields,
+	BreakRuleDetailFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -441,8 +444,6 @@ const insertPayrollType = new GraphQLInputObjectType({
 	}
 });
 
-
-
 // Type to use in payroll mutation and query
 const insertOpeningRecruiterType = new GraphQLInputObjectType({
 	name: 'insertOpeningRecruiterType',
@@ -465,8 +466,23 @@ const inputInsertSmsLogType = new GraphQLInputObjectType({
 	}
 })
 
+//Insert base break rules
+const inputInsertBreakRuleType = new GraphQLInputObjectType({
+	name: 'inputInsertBreakRuleType',
+	description: 'Represents the base of a Break Rule',
+	fields: () => {
+		return { ...BreakRuleFields }
+	}
+})
 
-
+//Insert break rule description, in case the base break rule is automatic
+const inputInsertBreakRuleDescriptionType = new GraphQLInputObjectType({
+	name: 'inputInsertBreakRuleDescriptionType',
+	description: 'Represents the config of a Break Rule where a break is set to automatic',
+	fields: () => {
+		return { ...BreakRuleDetailFields }
+	}
+})
 
 export {
 	insertPayrollType,
@@ -515,5 +531,8 @@ export {
 	inputInsertContact,
 	inputQueryWorkOrder,
 	insertOpeningRecruiterType,
-	inputInsertSmsLogType
+	inputInsertSmsLogType,
+	inputInsertApplicantIndependentContract,
+	inputInsertBreakRuleType,
+	inputInsertBreakRuleDescriptionType
 };

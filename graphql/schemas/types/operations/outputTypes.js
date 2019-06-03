@@ -52,7 +52,11 @@ import {
 	ConfigRegionsFields,
 	consolidatedPunchesCSVTypes,
 	openingRecruiterFields,
-	SmsLogFields
+	SmsLogFields,
+	ApplicantIndependentContractFields,
+	BreakRuleFields,
+	BreakRuleDetailFields,
+	Employee_BreakRuleFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -230,6 +234,78 @@ const ApplicationType = new GraphQLObjectType({
 				}
 			}
 		};
+	}
+});
+
+const Employee_BreakRuleType = new GraphQLObjectType({
+	name: "Employee_BreakRuleType",
+	description: 'Links employees to break rules',
+	fields: _ => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'employee and break rule link'
+			},
+			...Employee_BreakRuleFields,
+			employees: {
+				type: EmployeesType,
+				resolve(me) {
+					return me.getEmployee();
+				}
+			}
+		}
+	}
+})
+
+const BreakRuleType = new GraphQLObjectType({
+	name: 'BreakRuleType',
+	description: 'Break Rules table',
+	fields: _ => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Break rule id'
+			},
+			...BreakRuleFields,
+			breakRuleDetail: {
+				type: BreakRuleDetailType,
+				resolve(me) {
+					return me.getBreakRuleDetail();
+				}
+			},
+			businessCompany: {
+				type: BusinessCompanyType,
+				resolve(breakRule) {
+					return breakRule.getBusinessCompany();
+				}
+			},
+			employee_BreakRule: {
+				type: new GraphQLList(Employee_BreakRuleType),
+				resolve(me) {
+					return me.getEmployee_BreakRules();
+				}
+			}			
+		}
+	}
+});
+
+const BreakRuleDetailType = new GraphQLObjectType({
+	name: 'BreakRuleDetailType',
+	description: 'Break rule detail when a break rule is set to automatic',
+	fields: _ => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Break rule detail'
+			},
+			...BreakRuleDetailFields,
+			breakRule: {
+				type: BreakRuleType,
+				resolve(breakRuleDetail) {
+					return breakRuleDetail.getBreakRule();
+				}
+			}
+		}
 	}
 });
 
@@ -1467,5 +1543,9 @@ export {
 	SmsLogType,
 	PunchesReportConsolidateType,
 	CoordenadasType,
-	PunchesEmployeeReportConsolidateType
+	PunchesEmployeeReportConsolidateType,
+	ApplicantIndepenentContractType,
+	BreakRuleType,
+	BreakRuleDetailType,
+	Employee_BreakRuleType
 };
