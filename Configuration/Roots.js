@@ -1781,7 +1781,7 @@ async function InsRoles(args) {
 	try {
 		if (args) {
 			Strquery =
-				'INSERT INTO public."Roles" ("Id_Company", "Description", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated") VALUES(' +
+				'INSERT INTO public."Roles" ("Id_Company", "Description", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "default_form_id") VALUES(' +
 				args.input.Id_Company +
 				',' +
 				args.input.Description +
@@ -1795,7 +1795,9 @@ async function InsRoles(args) {
 				args.input.Date_Created +
 				',' +
 				args.input.Date_Updated +
-				') RETURNING "Id", "Id_Company", "Description", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated"';
+				',' +
+				args.input.default_form_id +
+				') RETURNING "Id", "Id_Company", "Description", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "default_form_id"';
 		} else {
 			console.log('Error Insert Data');
 		}
@@ -1826,6 +1828,8 @@ async function UpdRoles(args) {
 				args.input.Date_Created +
 				', "Date_Updated"=' +
 				args.input.Date_Updated +
+				', "default_form_id"=' +
+				args.input.default_form_id +
 				' where "Id"=' +
 				args.input.Id;
 		} else {
@@ -3411,14 +3415,19 @@ async function SendEmail(args) {
 async function SendSMS(args) {
 	const accountSid = 'ACc87252cde23126e76c58a8582bc35678';
 	const authToken = '259589325b7b13cc0b2625a96ef60035';
+
 	const client = require('twilio')(accountSid, authToken);
+
+	const prefix = '';
+	const sender = '+18565796117';
 
 	client.messages.create({
 		body: args.msg,
-		from: '+12028041551',
+		from: sender,
 		to: args.number
 	})
-		.then(message => console.log(message.sid));
+	.then(message => console.log(message.sid))
+	.catch(error => console.log(error));
 }
 
 async function SendGenericEmail(args) {

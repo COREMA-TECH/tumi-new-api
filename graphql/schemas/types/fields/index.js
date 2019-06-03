@@ -44,6 +44,10 @@ import SmsLogFields from './smsLogFields';
 import CoordenadasFields from './coordenadasFields';
 import ApplicationAccountFields from './applicationAccountFields';
 import ApplicationAccountDocumentFields from './applicationAccountDocumentFields';
+import ApplicantIndependentContractFields from './applicantIndependentContractFields';
+import BreakRuleFields from './breakRuleFields';
+import BreakRuleDetailFields from './breakRuleDetailFields';
+import Employee_BreakRuleFields from './employee_breakRuleFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -91,5 +95,9 @@ export {
 	openingRecruiterFields,
 	SmsLogFields,
 	CoordenadasFields,
-	ApplicationAccountDocumentFields
+	ApplicationAccountDocumentFields,
+	ApplicantIndependentContractFields,
+	BreakRuleFields,
+	BreakRuleDetailFields,
+	Employee_BreakRuleFields,
 };

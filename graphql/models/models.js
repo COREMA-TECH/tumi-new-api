@@ -15,6 +15,8 @@ import ApplicantWorkerCompensationModel from './applicantWorkerCompensationTable
 import ApplicantDocumentModel from './applicantDocumentTable';
 import ApplicantW4Model from './applicantW4Table';
 import ApplicantI9Model from './applicantI9Table';
+import ApplicantIndependentContractModel from './applicantIndependentContractTable';
+
 import WorkOrderModel from './workOrderTable';
 import PositionRateModel from './positionRateTable';
 import WorkOrderPositionModel from './workOrderPositionTable';
@@ -57,6 +59,14 @@ import ApplicationAccountDocumentsModel from './applicationAccountDocuments';
 // OpeningRecruiter
 import OpeningRecruiterModel from './openingrecruiterModel';
 
+//Break Rules
+import BreakRule from './breakRule';
+import BreakRuleDetail from './breakRuleDetail';
+import Employee_BreakRuleModel from './employee_breakRuleTable';
+
+
+const BreakRuleModel = BreakRule.createModel(Conn);
+const BreakRuleDetailModel = BreakRuleDetail.createModel(Conn);
 const Application = ApplicationModel.createModel(Conn);
 const ApplicantLanguage = ApplicantLanaguageModel.createModel(Conn);
 const ApplicantEducation = ApplicantEducationModel.createModel(Conn);
@@ -72,6 +82,8 @@ const ApplicantWorkerCompensation = ApplicantWorkerCompensationModel.createModel
 const ApplicantDocument = ApplicantDocumentModel.createModel(Conn);
 const ApplicantW4 = ApplicantW4Model.createModel(Conn);
 const ApplicantI9 = ApplicantI9Model.createModel(Conn);
+const ApplicantIndependentContract = ApplicantIndependentContractModel.createModel(Conn);
+
 const WorkOrder = WorkOrderModel.createModel(Conn);
 const WorkOrderPosition = WorkOrderPositionModel.createModel(Conn);
 const ApplicationAccountDocument = ApplicationAccountDocumentsModel.createModel(Conn);
@@ -116,6 +128,8 @@ const ConfigRegions = ConfigRegionsModel.createModel(Conn);
 const SmsLog = SmsLogModel.createModel(Conn);
 const ApplicationAccount = ApplicationAccountModel.createModel(Conn);
 
+const Employee_BreakRule = Employee_BreakRuleModel.createModel(Conn); 
+
 ApplicationPhases.belongsTo(CatalogItem, {
 	foreignKey: 'ReasonId',
 	as: 'Reason'
@@ -147,6 +161,7 @@ Application.hasOne(ApplicantHarassmentPolicy);
 Application.hasOne(ApplicantWorkerCompensation);
 Application.hasOne(ApplicantW4);
 Application.hasOne(ApplicantI9);
+Application.hasOne(ApplicantIndependentContract);
 
 ApplicationPhases.belongsTo(Application);
 ApplicantLanguage.belongsTo(Application);
@@ -160,6 +175,7 @@ ApplicantDocument.belongsTo(CatalogItem);
 
 ApplicantW4.belongsTo(Application);
 ApplicantI9.belongsTo(Application);
+ApplicantIndependentContract.belongsTo(Application);
 
 ApplicantIdealJob.belongsTo(CatalogItem, {
 	foreignKey: 'idPosition',
@@ -340,8 +356,6 @@ CatalogItem.hasMany(Contacts, {
 	as: 'Contacts'
 })
 
-
-
 // Opening recruiter associations
 OpeningRecruiter.belongsTo(Users, { foreignKey: 'recruiterId' });
 OpeningRecruiter.belongsTo(Shift, { foreignKey: 'openingId' });
@@ -359,7 +373,39 @@ SmsLog.belongsTo(Shift);
 
 Contacts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
 Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
+Application.hasMany(Contacts);
+
 BusinessCompany.hasMany(Contacts, { foreignKey: 'Id_Entity' });
+
+BreakRuleModel.belongsTo(BusinessCompany, {
+	foreignKey: 'businessCompanyId',
+	as: 'BusinessCompany'
+})
+
+BreakRuleModel.hasOne(BreakRuleDetailModel, {
+	foreignKey: 'breakRuleId'
+})
+
+BreakRuleDetailModel.belongsTo(BreakRuleModel, {
+	foreignKey: 'breakRuleId',
+	as: 'BreakRule'
+});
+
+Employees.hasMany(Employee_BreakRule, {
+	foreignKey: 'employeeId'
+});
+
+BreakRuleModel.hasMany(Employee_BreakRule, {
+	foreignKey: 'breakRuleId'
+});
+
+Employee_BreakRule.belongsTo(Employees, {
+	foreignKey: 'employeeId'
+});
+
+Employee_BreakRule.belongsTo(BreakRuleModel, {
+	foreignKey: 'breakRuleId'
+});
 
 Conn.authenticate()
 	.then(() => {

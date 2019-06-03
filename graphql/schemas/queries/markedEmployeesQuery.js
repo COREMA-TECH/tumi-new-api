@@ -4,6 +4,8 @@ import Db from '../../models/models';
 import GraphQLDate from 'graphql-date';
 import moment from 'moment';
 import Sequelize from 'sequelize';
+import {  SendSMS } from '../../../Configuration/Roots';
+
 
 const Op = Sequelize.Op;
 
@@ -62,7 +64,7 @@ const getPunchesCompanyFilter = (filter) => {
 const MarkedEmployeesQuery = {
     markedEmployees: {
         type: new GraphQLList(MarkedEmployeesType),
-        description: 'List employees records',
+        description: 'List employees recordssssss',
         args: {
             id: {
                 type: GraphQLInt
@@ -78,7 +80,7 @@ const MarkedEmployeesQuery = {
             },
             EmployeeId:{
                 type: GraphQLInt
-            }
+            },
         },
         resolve(root, args) {
             return Db.models.MarkedEmployees.findAll({ where: args });
@@ -290,6 +292,23 @@ const MarkedEmployeesQuery = {
                     });
                     return punches;//Return list of punches
                 })
+        }
+    },
+    smsTest: {
+        type: new GraphQLList(PunchesReportType),
+        description: "Get Punches report",
+        args: {
+            idEntity: { type: GraphQLInt },
+            Id_Department: { type: GraphQLInt },
+            employee: { type: GraphQLString },
+            startDate: { type: GraphQLDate },
+            endDate: { type: GraphQLDate },
+        },
+        resolve(root, args) {
+            SendSMS({
+                msg: "hola",
+                number: "+17322070986"
+            });
         }
     }
 };

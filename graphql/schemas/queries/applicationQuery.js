@@ -71,7 +71,10 @@ const ApplicationQuery = {
 			},
 			socialSecurityNumber: {
 				type: GraphQLString
-			}
+			},
+			idRecruiter: {
+				type: GraphQLInt
+			},
 		},
 		resolve(root, args) {
 			return Db.models.Applications.findAll({ where: args });

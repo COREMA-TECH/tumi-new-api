@@ -46,7 +46,10 @@ import {
 	openingRecruiterFields,
 	SmsLogFields,
 	ApplicationAccountFields,
-	ApplicationAccountDocumentFields
+	ApplicationAccountDocumentFields,
+	ApplicantIndependentContractFields,
+	BreakRuleFields,
+	BreakRuleDetailFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -200,6 +203,16 @@ const inputInsertApplicantI9 = new GraphQLInputObjectType({
 		...ApplicantI9Fields
 	}
 });
+
+const inputInsertApplicantIndependentContract = new GraphQLInputObjectType({
+	name: 'inputInsertApplicantIndependentContract',
+	description: 'Inputs for Applications Independent Contract',
+
+	fields: {
+		...ApplicantIndependentContractFields
+	}
+});
+
 const inputInsertWorkOrder = new GraphQLInputObjectType({
 	name: 'inputInsertWorkOrder',
 	description: 'Inputs for Work Order Insert',
@@ -442,8 +455,6 @@ const insertPayrollType = new GraphQLInputObjectType({
 	}
 });
 
-
-
 // Type to use in payroll mutation and query
 const insertOpeningRecruiterType = new GraphQLInputObjectType({
 	name: 'insertOpeningRecruiterType',
@@ -478,6 +489,24 @@ const inputInsertApplicationAccountDocument = new GraphQLInputObjectType({
 	description: 'Insert Application Account Document',
 	fields: { ...ApplicationAccountDocumentFields }
 });
+
+//Insert base break rules
+const inputInsertBreakRuleType = new GraphQLInputObjectType({
+	name: 'inputInsertBreakRuleType',
+	description: 'Represents the base of a Break Rule',
+	fields: () => {
+		return { ...BreakRuleFields }
+	}
+})
+
+//Insert break rule description, in case the base break rule is automatic
+const inputInsertBreakRuleDescriptionType = new GraphQLInputObjectType({
+	name: 'inputInsertBreakRuleDescriptionType',
+	description: 'Represents the config of a Break Rule where a break is set to automatic',
+	fields: () => {
+		return { ...BreakRuleDetailFields }
+	}
+})
 
 export {
 	inputInsertApplicationAccountDocument,
@@ -528,5 +557,8 @@ export {
 	inputQueryWorkOrder,
 	insertOpeningRecruiterType,
 	inputInsertSmsLogType,
-	inputInsertApplicationAccount
+	inputInsertApplicationAccount,
+	inputInsertApplicantIndependentContract,
+	inputInsertBreakRuleType,
+	inputInsertBreakRuleDescriptionType
 };

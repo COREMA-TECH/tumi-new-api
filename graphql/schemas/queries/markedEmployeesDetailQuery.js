@@ -56,7 +56,7 @@ const MarkedEmployeesDetailQuery = {
             },
             EmployeeId:{
                 type: GraphQLInt
-            }
+             }
         },
         resolve(root, args) {
             return Db.models.MarkedEmployees.findAll({ where: args });

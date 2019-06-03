@@ -15,6 +15,8 @@ import ApplicantWorkerCompensationMutation from './applicantWorkerCompensationMu
 import ApplicantDocumentMutation from './applicantDocumentMutation';
 import ApplicantW4Mutation from './applicantW4Mutation';
 import ApplicantI9Mutation from './applicantI9Mutation';
+import ApplicantIndependentContractMutation from './applicantIndependentContractMutation';
+
 import WorkOrderMutation from './workOrderMutation';
 import WorkOrderPositionMutation from './workOrderPositionMutation';
 import ApplicationPhaseMutation from './applicantionPhaseMutation';
@@ -34,6 +36,8 @@ import payrollMutation from './payrollMutation';
 import OpeningRecruiterMutation from './openingRecruiterMutation';
 import SmsLogMutation from './smsLogMutation';
 import ApplicationAccountMutation from './ApplicationAccountMutation';
+import BreakRuleMutation from './breakRulesMutation';
+import BreakRuleDetailMutation from './breakRuleDetailsMutation';
 
 export {
 	payrollMutation,
@@ -71,5 +75,8 @@ export {
 	UserMutation,
 	ContactsMutation,
 	OpeningRecruiterMutation,
-	SmsLogMutation
+	SmsLogMutation,
+	ApplicantIndependentContractMutation,
+	BreakRuleMutation,
+	BreakRuleDetailMutation
 };
