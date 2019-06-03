@@ -15,8 +15,6 @@ import ApplicantWorkerCompensationModel from './applicantWorkerCompensationTable
 import ApplicantDocumentModel from './applicantDocumentTable';
 import ApplicantW4Model from './applicantW4Table';
 import ApplicantI9Model from './applicantI9Table';
-import ApplicantIndependentContractModel from './applicantIndependentContractTable';
-
 import WorkOrderModel from './workOrderTable';
 import PositionRateModel from './positionRateTable';
 import WorkOrderPositionModel from './workOrderPositionTable';
@@ -71,8 +69,6 @@ const ApplicantWorkerCompensation = ApplicantWorkerCompensationModel.createModel
 const ApplicantDocument = ApplicantDocumentModel.createModel(Conn);
 const ApplicantW4 = ApplicantW4Model.createModel(Conn);
 const ApplicantI9 = ApplicantI9Model.createModel(Conn);
-const ApplicantIndependentContract = ApplicantIndependentContractModel.createModel(Conn);
-
 const WorkOrder = WorkOrderModel.createModel(Conn);
 const WorkOrderPosition = WorkOrderPositionModel.createModel(Conn);
 
@@ -146,7 +142,6 @@ Application.hasOne(ApplicantHarassmentPolicy);
 Application.hasOne(ApplicantWorkerCompensation);
 Application.hasOne(ApplicantW4);
 Application.hasOne(ApplicantI9);
-Application.hasOne(ApplicantIndependentContract);
 
 ApplicationPhases.belongsTo(Application);
 ApplicantLanguage.belongsTo(Application);
@@ -160,7 +155,6 @@ ApplicantDocument.belongsTo(CatalogItem);
 
 ApplicantW4.belongsTo(Application);
 ApplicantI9.belongsTo(Application);
-ApplicantIndependentContract.belongsTo(Application);
 
 ApplicantIdealJob.belongsTo(CatalogItem, {
 	foreignKey: 'idPosition',
@@ -357,8 +351,6 @@ SmsLog.belongsTo(Shift);
 
 Contacts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
 Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
-Application.hasMany(Contacts);
-
 BusinessCompany.hasMany(Contacts, { foreignKey: 'Id_Entity' });
 
 Conn.authenticate()

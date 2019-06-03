@@ -38,8 +38,7 @@ import {
 	ContactsMutation,
 	payrollMutation,
 	OpeningRecruiterMutation,
-	SmsLogMutation,
-	ApplicantIndependentContractMutation
+	SmsLogMutation
 
 } from './mutations';
 import {
@@ -89,8 +88,7 @@ import {
 	SmsLogQuery,
 	businessCompanyQuery,
 	MarkedEmployeesConsolidated,
-	MarkedEmployeesApproved,
-	ApplicantIndependentContractQuery
+	MarkedEmployeesApproved
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -143,8 +141,7 @@ const RootQuery = new GraphQLObjectType({
 		...SmsLogQuery,
 		...businessCompanyQuery,
 		...MarkedEmployeesConsolidated,
-		...MarkedEmployeesApproved,
-		...ApplicantIndependentContractQuery
+		...MarkedEmployeesApproved
 	}
 });
 const RootMutation = new GraphQLObjectType({
@@ -185,8 +182,7 @@ const RootMutation = new GraphQLObjectType({
 		...ContactsMutation,
 		...payrollMutation,
 		...OpeningRecruiterMutation,
-		...SmsLogMutation,
-		...ApplicantIndependentContractMutation
+		...SmsLogMutation
 	}
 });
 

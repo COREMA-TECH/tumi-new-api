@@ -8,6 +8,7 @@ import Sequelize from 'sequelize';
 
 const Op = Sequelize.Op;
 const FilterStatus = (filter) => {
+	console.log("FilterStatus " + filter)
 	if (filter.isActive) { return { isActive: filter.isActive } }
 	else { return {} }
 }
@@ -38,6 +39,7 @@ const getRecruiterReportFilters = (filter) => {
 
 
 		}
+	console.log(newFilter);
 	return newFilter;
 }
 
@@ -71,10 +73,7 @@ const ApplicationQuery = {
 			},
 			socialSecurityNumber: {
 				type: GraphQLString
-			},
-			idRecruiter: {
-				type: GraphQLInt
-			},
+			}
 		},
 		resolve(root, args) {
 			return Db.models.Applications.findAll({ where: args });

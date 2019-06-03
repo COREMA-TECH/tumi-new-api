@@ -39,5 +39,6 @@ const employeesFields = {
 	hireDate: {
 		type: GraphQLString
 	}
+
 };
 export default employeesFields;

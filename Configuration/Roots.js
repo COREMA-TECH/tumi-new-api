@@ -1705,7 +1705,7 @@ async function UpdPosition(args) {
 				', "Comment"=' +
 				args.input.Comment +
 				', "catalogItem_id"=' +
-				args.catalogItem_id +
+				args.input.catalogItem_id +
 				' where "Id"=' +
 				args.input.Id;
 		} else {
