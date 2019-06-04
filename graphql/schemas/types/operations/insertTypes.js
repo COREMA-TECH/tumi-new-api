@@ -8,7 +8,6 @@ import {
 	GraphQLObjectType
 } from 'graphql';
 import GraphQLDate from 'graphql-date';
-
 import {
 	ApplicantLanguagesFields,
 	ApplicationFields,
@@ -46,6 +45,8 @@ import {
 	ContactsFields,
 	openingRecruiterFields,
 	SmsLogFields,
+	ApplicationAccountFields,
+	ApplicationAccountDocumentFields,
 	ApplicantIndependentContractFields,
 	BreakRuleFields,
 	BreakRuleDetailFields
@@ -464,7 +465,20 @@ const inputInsertSmsLogType = new GraphQLInputObjectType({
 			...SmsLogFields
 		}
 	}
-})
+});
+
+const inputInsertApplicationAccount = new GraphQLInputObjectType({
+	name: 'inputApplicationAccount',
+	description: 'Insert ApplicationAccount',
+	fields: { ...ApplicationAccountFields }
+});
+
+
+const inputInsertApplicationAccountDocument = new GraphQLInputObjectType({
+	name: 'inputApplicationAccountDocument',
+	description: 'Insert Application Account Document',
+	fields: { ...ApplicationAccountDocumentFields }
+});
 
 //Insert base break rules
 const inputInsertBreakRuleType = new GraphQLInputObjectType({
@@ -494,6 +508,7 @@ const inputInsertApplicantIndependentContract = new GraphQLInputObjectType({
 });
 
 export {
+	inputInsertApplicationAccountDocument,
 	insertPayrollType,
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
@@ -541,6 +556,7 @@ export {
 	inputQueryWorkOrder,
 	insertOpeningRecruiterType,
 	inputInsertSmsLogType,
+	inputInsertApplicationAccount,
 	inputInsertApplicantIndependentContract,
 	inputInsertBreakRuleType,
 	inputInsertBreakRuleDescriptionType
