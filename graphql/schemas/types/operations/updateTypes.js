@@ -237,19 +237,6 @@ const inputUpdateApplicantI9 = new GraphQLInputObjectType({
 	}
 });
 
-const inputUpdateApplicantIndependentContract = new GraphQLInputObjectType({
-	name: 'inputUpdateApplicantIndependentContract',
-	description: 'Inputs for Applications Independent Contract',
-
-	fields: {
-		id: {
-			type: new GraphQLNonNull(GraphQLInt),
-			description: 'table Id'
-		},
-		...ApplicantIndependentContractFields
-	}
-});
-
 const inputUpdateWorkOrder = new GraphQLInputObjectType({
 	name: 'inputUpdateWorkOrder',
 	description: 'Inputs for Work Order Update',
@@ -474,6 +461,19 @@ const inputUpdateBreakRuleDetail = new GraphQLInputObjectType({
 			description: 'Break Rule Detail Id'
 		},
 		...BreakRuleDetailFields
+	}
+});
+
+const inputUpdateApplicantIndependentContract = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantIndependentContract',
+	description: 'Inputs for Applications Independent Contract',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...ApplicantIndependentContractFields
 	}
 });
 

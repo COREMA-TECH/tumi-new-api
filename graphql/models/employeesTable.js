@@ -53,10 +53,6 @@ export default {
 					type: Sequelize.INTEGER,
 					allowNull: true
 				},
-				hireDate: {
-					type: Sequelize.DATE,
-					allowNull: true
-				}
 			}
 		);
 	}

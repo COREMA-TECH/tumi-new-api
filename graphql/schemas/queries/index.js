@@ -15,8 +15,6 @@ import ApplicantWorkerCompensationQuery from './applicantWorkerCompensationQuery
 import ApplicantDocumentQuery from './applicantDocumentQuery';
 import ApplicantW4Query from './applicantW4Query';
 import ApplicantI9Query from './applicantI9Query';
-import ApplicantIndependentContractQuery from './applicantIndependentContractQuery';
-
 import WorkOrderQuery from './workOrderQuery';
 import WorkOrderPositionQuery from './workOrderPositionQuery';
 import ZipcodeQuery from './zipcodeQuery';
@@ -51,6 +49,9 @@ import RegionQuery from './regionQuery';
 
 import BreakRuleQuery from './breakRuleQuery';
 import BreakRuleDetailQuery from './breakRuleDetailQuery';
+import ApplicantIndependentContractQuery from './applicantIndependentContractQuery';
+
+import ApplicationAccountQuery from './applicationAccountQuery';
 
 import TransactionLogQuery from './transactionLogQuery'
 
@@ -105,5 +106,6 @@ export {
 	ApplicantIndependentContractQuery,
 	BreakRuleQuery,
 	BreakRuleDetailQuery,
-	TransactionLogQuery
+	TransactionLogQuery,
+	ApplicationAccountQuery
 };

@@ -21,7 +21,7 @@ const WorkOrderMutation = {
 			let shifts = [], phasesData = [], dates = [], ShiftWorkOrder = [];
 
 			return Db.models.WorkOrder.bulkCreate(args.workOrder, { returning: true }).then((ret) => {
-				return ret.map((data) => {
+				ret.map((data) => {
 
 					let workOrdersPhase = {}, currentQ = 0, shiftData, ShiftWorkOrderData;
 					let weekDays = data.dataValues.dayWeek.replace("MO", 1).replace("TU", 2).replace("WE", 3).replace("TH", 4).replace("FR", 5).replace("SA", 6).replace("SU", 0);
@@ -56,7 +56,7 @@ const WorkOrderMutation = {
 						currentQ = currentQ + 1;
 					}
 
-					Db.models.Shift.bulkCreate(shifts, { returning: true }).then((shiftsSaved) => {
+					return Db.models.Shift.bulkCreate(shifts, { returning: true }).then((shiftsSaved) => {
 						shiftsSaved.map((shift) => {
 							let currentDate = new Date(shift.dataValues.startDate);
 							while (currentDate <= data.dataValues.endDate) {
@@ -86,9 +86,11 @@ const WorkOrderMutation = {
 
 				});
 			}).then(() => {
-				Db.models.PhaseWorkOrder.bulkCreate(phasesData).then(() => {
-					Db.models.ShiftWorkOrder.bulkCreate(ShiftWorkOrder).then(() => {
-						Db.models.ShiftDetail.bulkCreate(dates);
+				return Db.models.PhaseWorkOrder.bulkCreate(phasesData).then(() => {
+					return Db.models.ShiftWorkOrder.bulkCreate(ShiftWorkOrder).then(() => {
+						return Db.models.ShiftDetail.bulkCreate(dates);
+					}).catch(error => {
+						console.log(error)
 					});
 				});
 

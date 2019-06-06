@@ -11,6 +11,7 @@ import {
 import GraphQLDate from 'graphql-date';
 import {
 	ApplicantLanguagesFields,
+	ApplicationAccountDocumentFields,
 	ApplicationFields,
 	ElectronicAddressFields,
 	ApplicantEducationFields,
@@ -53,6 +54,7 @@ import {
 	consolidatedPunchesCSVTypes,
 	openingRecruiterFields,
 	SmsLogFields,
+	ApplicationAccountFields,
 	ApplicantIndependentContractFields,
 	BreakRuleFields,
 	BreakRuleDetailFields,
@@ -201,12 +203,6 @@ const ApplicationType = new GraphQLObjectType({
 					return me.getUser();
 				}
 			},
-			independentContract: {
-				type: ApplicantIndepenentContractType,
-				resolve(me) {
-					return me.getApplicantIndependentContract();
-				}
-			},
 			statusCompleted: {
 				type: GraphQLBoolean,
 				resolve(me) {
@@ -299,7 +295,7 @@ const BreakRuleType = new GraphQLObjectType({
 				resolve(me) {
 					return me.getEmployee_BreakRules();
 				}
-			}			
+			}
 		}
 	}
 });
@@ -340,6 +336,40 @@ const ApplicantLanguageType = new GraphQLObjectType({
 					return applicantLanguage.getApplication();
 				}
 			}
+		};
+	}
+});
+
+const ApplicationAccountDocumentType = new GraphQLObjectType({
+	name: 'ApplicationAccountDocuments',
+	description: 'Documents attached to Application Account',
+	fields: _ => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Id'
+			},
+			...ApplicationAccountDocumentFields
+		};
+	}
+});
+
+const ApplicationAccountType = new GraphQLObjectType({
+	name: 'ApplicationAccounts',
+	description: 'This is for the Application Accounts',
+	fields: () => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Application Account Id'
+			},
+			...ApplicationAccountFields,
+			applicationDocuments: {
+				type: new GraphQLList(ApplicationAccountDocumentType),
+				resolve(me) {
+					return me.getApplicationAccountDocuments()
+				}
+			}			
 		};
 	}
 });
@@ -477,11 +507,19 @@ const ElectronicAddressType = new GraphQLObjectType({
 const PositionRateType = new GraphQLObjectType({
 	name: 'PositionRateType',
 	description: 'This is for position rate item',
-	fields: {
-		Id: {
-			type: GraphQLInt
-		},
-		...PositionRateFields
+	fields: () => {
+		return {
+			Id: {
+				type: GraphQLInt
+			},
+			...PositionRateFields,
+			department: {
+				type: CatalogItemType,
+				resolve(me) {
+					return me.getDepartment();
+				}
+			}
+		}
 	}
 });
 
@@ -687,26 +725,6 @@ const ApplicantI9Type = new GraphQLObjectType({
 	}
 });
 
-const ApplicantIndepenentContractType = new GraphQLObjectType({
-	name: 'ApplicantIndepenentContractType',
-	description: 'This is for Applications Independent Contract',
-	fields: () => {
-		return {
-			id: {
-				type: GraphQLInt,
-				description: 'table id'
-			},
-			...ApplicantIndependentContractFields,
-			application: {
-				type: ApplicationType,
-				resolve(me) {
-					return me.getApplication();
-				}
-			}
-		};
-	}
-});
-
 const ApplicationCompletedDataType = new GraphQLObjectType({
 	name: 'ApplicationCompletedData',
 	description: 'Returns the state of all tables related to the applicant.',
@@ -848,6 +866,20 @@ const ApplicationPhaseType = new GraphQLObjectType({
 		};
 	}
 });
+const ApplicationPhaseResumeType = new GraphQLObjectType({
+	name: 'ApplicationPhaseResume',
+	description: 'This is for ApplicationPhase Resume',
+	fields: () => {
+
+		return {
+			leadEntered: { type: GraphQLInt },
+			sentToInterview: { type: GraphQLInt },
+			showed: { type: GraphQLInt },
+			noShow: { type: GraphQLInt },
+			hired: { type: GraphQLInt }
+		};
+	}
+});
 
 const phaseworkOrderType = new GraphQLObjectType({
 	name: 'PhaseWorkOrder',
@@ -866,7 +898,7 @@ const phaseworkOrderType = new GraphQLObjectType({
 				resolve(me) {
 					return me.getUsersWO();
 				}
-			},
+			}
 		};
 	}
 });
@@ -1539,6 +1571,27 @@ const SmsLogType = new GraphQLObjectType({
 	}
 })
 
+const ApplicantIndepenentContractType = new GraphQLObjectType({
+	name: 'ApplicantIndepenentContractType',
+	description: 'This is for Applications Independent Contract',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...ApplicantIndependentContractFields,
+			application: {
+				type: ApplicationType,
+				resolve(me) {
+					return me.getApplication();
+				}
+			}
+		};
+	}
+});
+
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -1547,6 +1600,7 @@ export {
 	ApplicantPreviousEmploymentType,
 	ApplicantMilitaryServiceType,
 	ApplicantSkillType,
+	ApplicationAccountType,
 	CompanyPreferenceType,
 	ApplicantIdealJobType,
 	PositionRateType,
@@ -1593,9 +1647,11 @@ export {
 	PunchesReportConsolidateType,
 	CoordenadasType,
 	PunchesEmployeeReportConsolidateType,
+	ApplicationAccountDocumentType,
 	ApplicantIndepenentContractType,
 	BreakRuleType,
 	BreakRuleDetailType,
 	Employee_BreakRuleType,
-	transactionLogsTypes
+	transactionLogsTypes,
+	ApplicationPhaseResumeType
 };

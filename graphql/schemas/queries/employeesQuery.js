@@ -38,7 +38,7 @@ const EmployeesQuery = {
         },
         resolve(root, args) {
 
-            return Db.models.Contacts.findAll({ where: { Id_Entity: args.idEntity } }).then(_contacts => {
+            return Db.models.Contacts.findAll({ where: { Id_Entity: args.idEntity, isActive: 1 } }).then(_contacts => {
                 var applicationIds = [], filter = {};
                 _contacts.map(_record => {
                     if (_record.dataValues.ApplicationId)

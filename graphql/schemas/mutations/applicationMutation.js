@@ -4,8 +4,6 @@ import { ApplicationType } from '../types/operations/outputTypes';
 
 import Db from '../../models/models';
 import { graphql, GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
-import {  SendSMS } from '../../../Configuration/Roots';
-
 
 const ApplicationMutation = {
 	addApplication: {
@@ -78,18 +76,7 @@ const ApplicationMutation = {
 						signature: args.application.signature,
 						isLead: args.application.isLead,
 						isActive: args.application.isActive,
-						Urlphoto: args.application.Urlphoto,
-						dateCreation: args.application.dateCreation,
-						immediately: args.application.optionHearTumi,
-						optionHearTumi: args.application.optionHearTumi,
-						nameReferences: args.application.nameReferences,
-						eeoc: args.application.eeoc,
-						exemptions: args.application.exemptions,
-						area: args.application.area,
-						hireType:args.application.hireType,
-						gender:args.application.gender,
-						marital:args.application.marital,
-						sendInterview:args.application.sendInterview
+						Urlphoto: args.application.Urlphoto
 					},
 					{
 						where: {

@@ -54,6 +54,8 @@ import { Conn } from '../../Configuration/Configuration';
 
 import CoordenadasModel from './coordenadasTable';
 
+import ApplicationAccountModel from './applicationAccount';
+import ApplicationAccountDocumentsModel from './applicationAccountDocuments';
 
 // OpeningRecruiter
 import OpeningRecruiterModel from './openingrecruiterModel';
@@ -62,7 +64,7 @@ import OpeningRecruiterModel from './openingrecruiterModel';
 import BreakRule from './breakRule';
 import BreakRuleDetail from './breakRuleDetail';
 import Employee_BreakRuleModel from './employee_breakRuleTable';
-
+import ApplicantIndependentContractModel from './applicantIndependentContractTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
 const BreakRuleDetailModel = BreakRuleDetail.createModel(Conn);
@@ -81,10 +83,9 @@ const ApplicantWorkerCompensation = ApplicantWorkerCompensationModel.createModel
 const ApplicantDocument = ApplicantDocumentModel.createModel(Conn);
 const ApplicantW4 = ApplicantW4Model.createModel(Conn);
 const ApplicantI9 = ApplicantI9Model.createModel(Conn);
-const ApplicantIndependentContract = ApplicantIndependentContractModel.createModel(Conn);
-
 const WorkOrder = WorkOrderModel.createModel(Conn);
 const WorkOrderPosition = WorkOrderPositionModel.createModel(Conn);
+const ApplicationAccountDocument = ApplicationAccountDocumentsModel.createModel(Conn);
 
 const TransactionLog = TransactionLogModel.createModel(Conn);
 
@@ -126,8 +127,10 @@ const OpeningRecruiter = OpeningRecruiterModel.createModel(Conn);
 
 const ConfigRegions = ConfigRegionsModel.createModel(Conn);
 const SmsLog = SmsLogModel.createModel(Conn);
+const ApplicationAccount = ApplicationAccountModel.createModel(Conn);
 
-const Employee_BreakRule = Employee_BreakRuleModel.createModel(Conn); 
+const Employee_BreakRule = Employee_BreakRuleModel.createModel(Conn);
+const ApplicantIndependentContract = ApplicantIndependentContractModel.createModel(Conn);
 
 ApplicationPhases.belongsTo(CatalogItem, {
 	foreignKey: 'ReasonId',
@@ -171,10 +174,10 @@ ApplicantSkill.belongsTo(Application);
 ApplicantIdealJob.belongsTo(Application);
 ApplicantDocument.belongsTo(Application);
 ApplicantDocument.belongsTo(CatalogItem);
+ApplicantIndependentContract.belongsTo(Application);
 
 ApplicantW4.belongsTo(Application);
 ApplicantI9.belongsTo(Application);
-ApplicantIndependentContract.belongsTo(Application);
 
 ApplicantIdealJob.belongsTo(CatalogItem, {
 	foreignKey: 'idPosition',
@@ -187,10 +190,24 @@ ApplicantBackgroundCheck.belongsTo(Application);
 ApplicantHarassmentPolicy.belongsTo(Application);
 ApplicantWorkerCompensation.belongsTo(Application);
 
+ApplicationAccount.belongsTo(Application);
+ApplicationAccountDocument.belongsTo(ApplicationAccount, {
+	foreignKey: 'applicationAccountId'
+});
+
+ApplicationAccount.hasMany(ApplicationAccountDocument, {
+	foreignKey: 'applicationAccountId'
+});
+
 WorkOrder.belongsTo(PositionRate);
 
 WorkOrder.hasMany(WorkOrderPosition, { onDelete: 'cascade' });
 WorkOrderPosition.belongsTo(PositionRate);
+
+PositionRate.belongsTo(CatalogItem, {
+	foreignKey: 'Id_Department',
+	as: 'Department'
+});
 
 WorkOrder.hasMany(phaseworkOrder);
 phaseworkOrder.belongsTo(WorkOrder);
@@ -369,8 +386,6 @@ SmsLog.belongsTo(Shift);
 
 Contacts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
 Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
-Application.hasMany(Contacts);
-
 BusinessCompany.hasMany(Contacts, { foreignKey: 'Id_Entity' });
 
 BreakRuleModel.belongsTo(BusinessCompany, {
