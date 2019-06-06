@@ -15,7 +15,6 @@ import ApplicantWorkerCompensationModel from './applicantWorkerCompensationTable
 import ApplicantDocumentModel from './applicantDocumentTable';
 import ApplicantW4Model from './applicantW4Table';
 import ApplicantI9Model from './applicantI9Table';
-import ApplicantIndependentContractModel from './applicantIndependentContractTable';
 import TransactionLogModel from './transactionLogTable';
 
 import WorkOrderModel from './workOrderTable';
