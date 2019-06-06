@@ -468,14 +468,14 @@ const inputInsertSmsLogType = new GraphQLInputObjectType({
 });
 
 const inputInsertApplicationAccount = new GraphQLInputObjectType({
-	name: 'inputApplicationAccount',
+	name: 'inputInsertApplicationAccount',
 	description: 'Insert ApplicationAccount',
 	fields: { ...ApplicationAccountFields }
 });
 
 
 const inputInsertApplicationAccountDocument = new GraphQLInputObjectType({
-	name: 'inputApplicationAccountDocument',
+	name: 'inputInsertApplicationAccountDocument',
 	description: 'Insert Application Account Document',
 	fields: { ...ApplicationAccountDocumentFields }
 });
@@ -508,7 +508,6 @@ const inputInsertApplicantIndependentContract = new GraphQLInputObjectType({
 });
 
 export {
-	inputInsertApplicationAccountDocument,
 	insertPayrollType,
 	inputInsertApplicantLanguage,
 	inputInsertApplication,
@@ -557,6 +556,7 @@ export {
 	insertOpeningRecruiterType,
 	inputInsertSmsLogType,
 	inputInsertApplicationAccount,
+	inputInsertApplicationAccountDocument,
 	inputInsertApplicantIndependentContract,
 	inputInsertBreakRuleType,
 	inputInsertBreakRuleDescriptionType
