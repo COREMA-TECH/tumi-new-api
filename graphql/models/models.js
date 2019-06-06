@@ -61,7 +61,7 @@ import OpeningRecruiterModel from './openingrecruiterModel';
 import BreakRule from './breakRule';
 import BreakRuleDetail from './breakRuleDetail';
 import Employee_BreakRuleModel from './employee_breakRuleTable';
-
+import ApplicantIndependentContractModel from './applicantIndependentContractTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
 const BreakRuleDetailModel = BreakRuleDetail.createModel(Conn);
@@ -124,7 +124,8 @@ const ConfigRegions = ConfigRegionsModel.createModel(Conn);
 const SmsLog = SmsLogModel.createModel(Conn);
 const ApplicationAccount = ApplicationAccountModel.createModel(Conn);
 
-const Employee_BreakRule = Employee_BreakRuleModel.createModel(Conn); 
+const Employee_BreakRule = Employee_BreakRuleModel.createModel(Conn);
+const ApplicantIndependentContract = ApplicantIndependentContractModel.createModel(Conn);
 
 ApplicationPhases.belongsTo(CatalogItem, {
 	foreignKey: 'ReasonId',
@@ -157,6 +158,7 @@ Application.hasOne(ApplicantHarassmentPolicy);
 Application.hasOne(ApplicantWorkerCompensation);
 Application.hasOne(ApplicantW4);
 Application.hasOne(ApplicantI9);
+Application.hasOne(ApplicantIndependentContract);
 
 ApplicationPhases.belongsTo(Application);
 ApplicantLanguage.belongsTo(Application);
@@ -167,6 +169,7 @@ ApplicantSkill.belongsTo(Application);
 ApplicantIdealJob.belongsTo(Application);
 ApplicantDocument.belongsTo(Application);
 ApplicantDocument.belongsTo(CatalogItem);
+ApplicantIndependentContract.belongsTo(Application);
 
 ApplicantW4.belongsTo(Application);
 ApplicantI9.belongsTo(Application);
