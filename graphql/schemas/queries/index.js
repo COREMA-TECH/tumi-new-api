@@ -51,6 +51,8 @@ import BreakRuleQuery from './breakRuleQuery';
 import BreakRuleDetailQuery from './breakRuleDetailQuery';
 import ApplicantIndependentContractQuery from './applicantIndependentContractQuery';
 
+import ApplicationAccountQuery from './applicationAccountQuery';
+
 export {
 	ApplicantLanguageQuery,
 	ApplicationQuery,
@@ -101,5 +103,6 @@ export {
 	RegionQuery,
 	ApplicantIndependentContractQuery,
 	BreakRuleQuery,
-	BreakRuleDetailQuery
+	BreakRuleDetailQuery,
+	ApplicationAccountQuery
 };

@@ -11,6 +11,7 @@ import {
 import GraphQLDate from 'graphql-date';
 import {
 	ApplicantLanguagesFields,
+	ApplicationAccountDocumentFields,
 	ApplicationFields,
 	ElectronicAddressFields,
 	ApplicantEducationFields,
@@ -53,6 +54,7 @@ import {
 	consolidatedPunchesCSVTypes,
 	openingRecruiterFields,
 	SmsLogFields,
+	ApplicationAccountFields,
 	ApplicantIndependentContractFields,
 	BreakRuleFields,
 	BreakRuleDetailFields,
@@ -325,6 +327,40 @@ const ApplicantLanguageType = new GraphQLObjectType({
 					return applicantLanguage.getApplication();
 				}
 			}
+		};
+	}
+});
+
+const ApplicationAccountDocumentType = new GraphQLObjectType({
+	name: 'ApplicationAccountDocuments',
+	description: 'Documents attached to Application Account',
+	fields: _ => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Id'
+			},
+			...ApplicationAccountDocumentFields
+		};
+	}
+});
+
+const ApplicationAccountType = new GraphQLObjectType({
+	name: 'ApplicationAccounts',
+	description: 'This is for the Application Accounts',
+	fields: () => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Application Account Id'
+			},
+			...ApplicationAccountFields,
+			applicationDocuments: {
+				type: new GraphQLList(ApplicationAccountDocumentType),
+				resolve(me) {
+					return me.getApplicationAccountDocuments()
+				}
+			}			
 		};
 	}
 });
@@ -1541,6 +1577,7 @@ export {
 	ApplicantPreviousEmploymentType,
 	ApplicantMilitaryServiceType,
 	ApplicantSkillType,
+	ApplicationAccountType,
 	CompanyPreferenceType,
 	ApplicantIdealJobType,
 	PositionRateType,
@@ -1587,6 +1624,7 @@ export {
 	PunchesReportConsolidateType,
 	CoordenadasType,
 	PunchesEmployeeReportConsolidateType,
+	ApplicationAccountDocumentType,
 	ApplicantIndepenentContractType,
 	BreakRuleType,
 	BreakRuleDetailType,
