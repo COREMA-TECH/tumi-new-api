@@ -46,6 +46,7 @@ import ApplicantIndependentContractFields from './applicantIndependentContractFi
 import BreakRuleFields from './breakRuleFields';
 import BreakRuleDetailFields from './breakRuleDetailFields';
 import Employee_BreakRuleFields from './employee_breakRuleFields';
+import TransactionLogFields from './transactionLogFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -96,4 +97,5 @@ export {
 	BreakRuleFields,
 	BreakRuleDetailFields,
 	Employee_BreakRuleFields,
+	TransactionLogFields
 };

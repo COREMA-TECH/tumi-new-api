@@ -12,21 +12,39 @@ const ApplicationMutation = {
 		type: ApplicationType,
 		description: 'Add application record to database',
 		args: {
-			application: { type: inputInsertApplication }
+			application: { type: inputInsertApplication },
+			codeuser: { type: GraphQLInt },
+			nameUser: { type: GraphQLString },
 		},
 		resolve(source, args) {
 			console.log("Variables de la application ", args)
-			return Db.models.Applications.create(args.application);
+			var date = new Date().toISOString();
+			return Db.models.Applications.create(args.application).then(application => {
+				
+				return Db.models.TransactionLogs.create({
+					codeUser: args.codeuser,
+					nameUser: args.codeuser,
+					actionDate: date.getDate(),
+					action: 'CREATED ROW',
+					affectedObject: 'Application'
+					});
+
+			});
+			
+		
 		}
 	},
 	updateApplication: {
 		type: ApplicationType,
 		description: 'Update Application Form Info',
 		args: {
+			codeuser: { type: GraphQLInt },
+			nameUser: { type: GraphQLString },
 			application: { type: inputUpdateApplication }
 		},
 		resolve(source, args) {
-			return Db.models.Applications
+			var date = new Date().toISOString();
+			 return Db.models.Applications
 				.update(
 					{
 						firstName: args.application.firstName,
@@ -90,6 +108,15 @@ const ApplicationMutation = {
 								number: args.application.cellPhone
 							});
 						}
+
+
+						Db.models.TransactionLogs.create({
+							codeUser: args.codeuser,
+							nameUser: args.nameUser,
+							actionDate: date,
+							action: 'UPDATED ROW',
+							affectedObject: 'Application'
+							});
 
 						return record.dataValues;
 					}
@@ -157,7 +184,9 @@ const ApplicationMutation = {
 			isLead: { type: GraphQLBoolean },
 			idRecruiter: { type: GraphQLInt },
 			idWorkOrder: { type: GraphQLInt },
-			positionApplyingFor: { type: GraphQLInt }
+			positionApplyingFor: { type: GraphQLInt },
+			codeuser: { type: GraphQLInt },
+			nameUser: { type: GraphQLString }
 		},
 		resolve(source, args) {
 			return Db.models.Applications
@@ -177,7 +206,19 @@ const ApplicationMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-					if (record) return record.dataValues;
+					if (record) {
+
+						var date = new Date().toISOString();
+						Db.models.TransactionLogs.create({
+							codeUser: args.codeuser,
+							nameUser: args.nameUser,
+							actionDate: date,
+							action: 'UPDATED ROW',
+							affectedObject: 'APPLICATION'
+							});
+
+						return record.dataValues;
+					}
 					else return null;
 				});
 		}
@@ -213,9 +254,13 @@ const ApplicationMutation = {
 		description: 'Disable Application Form Info',
 		args: {
 			id: { type: GraphQLInt },
-			isActive:{ type: GraphQLBoolean }
+			isActive:{ type: GraphQLBoolean },
+			codeuser: { type: GraphQLInt },
+			nameUser: { type: GraphQLString }
 		},
 		resolve(source, args) {
+			var date = new Date().toISOString();
+
 			return Db.models.Applications
 				.update(
 					{
@@ -229,7 +274,19 @@ const ApplicationMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-					if (record) return record.dataValues;
+					if (record){
+
+						Db.models.TransactionLogs.create({
+							codeUser: args.codeuser,
+							nameUser: args.nameUser,
+							actionDate: date,
+							action: 'DELETE ROW',
+							affectedObject: 'Application'
+							});
+
+							return record.dataValues;
+					}
+
 					else return null;
 				});
 		}

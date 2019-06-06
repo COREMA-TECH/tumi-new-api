@@ -48,7 +48,8 @@ import {
 	SmsLogFields,
 	ApplicantIndependentContractFields,
 	BreakRuleFields,
-	BreakRuleDetailFields
+	BreakRuleDetailFields,
+	TransactionLogFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -494,6 +495,15 @@ const inputInsertBreakRuleDescriptionType = new GraphQLInputObjectType({
 	}
 })
 
+const inputInsertTransactionLogType = new GraphQLInputObjectType({
+	name: 'inputInsertTransactionLogType',
+	description: 'Inputs for Transaction Logs Mutation',
+	fields: () => {
+		return { ...TransactionLogFields }
+	}
+	
+});
+
 export {
 	insertPayrollType,
 	inputInsertApplicantLanguage,
@@ -544,5 +554,6 @@ export {
 	inputInsertSmsLogType,
 	inputInsertApplicantIndependentContract,
 	inputInsertBreakRuleType,
-	inputInsertBreakRuleDescriptionType
+	inputInsertBreakRuleDescriptionType,
+	inputInsertTransactionLogType
 };

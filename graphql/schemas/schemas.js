@@ -94,7 +94,8 @@ import {
 	MarkedEmployeesApproved,
 	ApplicantIndependentContractQuery,
 	BreakRuleDetailQuery,
-	BreakRuleQuery
+	BreakRuleQuery,
+	TransactionLogQuery
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -150,7 +151,8 @@ const RootQuery = new GraphQLObjectType({
 		...MarkedEmployeesApproved,
 		...ApplicantIndependentContractQuery,
 		...BreakRuleQuery,
-		...BreakRuleDetailQuery
+		...BreakRuleDetailQuery,
+		...TransactionLogQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({

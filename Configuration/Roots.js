@@ -3563,7 +3563,7 @@ async function SendEmailVerification(args) {
 			from: 'tumistaffing@hotmail.com',
 			to: args.email,
 			subject: "Employment Verification",
-			html:'<p>Your html here</p>'
+			html:'<p>Dear user, the verification sheet has been attached.</p>'
 		};
 
 		transporter.sendMail(mailOptions, function (error, info) {
