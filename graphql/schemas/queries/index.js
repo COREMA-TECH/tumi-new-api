@@ -53,6 +53,8 @@ import ApplicantIndependentContractQuery from './applicantIndependentContractQue
 
 import ApplicationAccountQuery from './applicationAccountQuery';
 
+import TransactionLogQuery from './transactionLogQuery'
+
 export {
 	ApplicantLanguageQuery,
 	ApplicationQuery,
@@ -104,5 +106,6 @@ export {
 	ApplicantIndependentContractQuery,
 	BreakRuleQuery,
 	BreakRuleDetailQuery,
+	TransactionLogQuery,
 	ApplicationAccountQuery
 };
