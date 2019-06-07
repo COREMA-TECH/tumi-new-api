@@ -58,8 +58,7 @@ import {
 	ApplicantIndependentContractFields,
 	BreakRuleFields,
 	BreakRuleDetailFields,
-	Employee_BreakRuleFields,
-	TransactionLogFields
+	Employee_BreakRuleFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -73,14 +72,6 @@ const ApplicationType = new GraphQLObjectType({
 			id: {
 				type: new GraphQLNonNull(GraphQLInt),
 				description: 'Applicant Id'
-			},
-			codeuser: {
-				type: new GraphQLNonNull(GraphQLInt),
-				description: 'Code User'
-			},
-			nameUser: {
-				type: new GraphQLNonNull(GraphQLString),
-				description: 'Name User'
 			},
 			...ApplicationFields,
 			languages: {
@@ -1504,20 +1495,6 @@ const listPayrollType = new GraphQLObjectType({
 	}
 });
 
-// Type to use in Transaction Logs
-const transactionLogsTypes = new GraphQLObjectType({
-	name: 'transactionLogs',
-	description: 'This represent a all the transaction in system',
-	fields: () => {
-		return {
-			id: {
-				type: GraphQLInt,
-			},
-			...TransactionLogFields
-		}
-	}
-});
-
 // Type to use in payroll mutation and query
 const getCSVURLType = new GraphQLObjectType({
 	name: 'CSVUrl',
@@ -1652,6 +1629,5 @@ export {
 	BreakRuleType,
 	BreakRuleDetailType,
 	Employee_BreakRuleType,
-	transactionLogsTypes,
 	ApplicationPhaseResumeType
 };

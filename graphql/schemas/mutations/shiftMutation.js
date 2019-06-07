@@ -57,22 +57,10 @@ const ShiftMutation = {
 		description: 'Delete Shift record from database',
 		args: {
 			//id: { type: GraphQLList(GraphQLInt) }
-			id: { type: GraphQLInt },
-			codeuser: { type: GraphQLInt },
-			nameUser: { type: GraphQLString }
+			id: { type: GraphQLInt }
 		},
 		resolve(source, args) {
 			return Db.models.Shift.destroy({ where: { id: args.id } }).then((deleted) => {
-				
-				var date = new Date().toISOString();
-						Db.models.TransactionLogs.create({
-							codeUser: args.codeuser,
-							nameUser: args.nameUser,
-							actionDate: date,
-							action: 'UPDATE ROW',
-							affectedObject: 'WORK ORDER - SHIFT'
-							});
-
 				return deleted;
 			});
 		}
@@ -82,9 +70,7 @@ const ShiftMutation = {
 		description: 'Delete Shift record from database',
 		args: {
 			//id: { type: GraphQLList(GraphQLInt) }
-			id: { type: GraphQLInt },
-			codeuser: { type: GraphQLInt },
-			nameUser: { type: GraphQLString }
+			id: { type: GraphQLInt }
 		},
 		resolve(source, args) {
 			return Db.models.Shift
@@ -100,18 +86,7 @@ const ShiftMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-					if (record) {
-
-						var date = new Date().toISOString();
-						Db.models.TransactionLogs.create({
-							codeUser: args.codeuser,
-							nameUser: args.nameUser,
-							actionDate: date,
-							action: 'DELETED ROW',
-							affectedObject: 'SHIFT'
-							});
-							return record.dataValues;
-					}
+					if (record) return record.dataValues;
 					else return null;
 				});
 		}
@@ -123,9 +98,7 @@ const ShiftMutation = {
 			id: { type: GraphQLInt },
 			status: { type: GraphQLInt },
 			color: { type: GraphQLString },
-			comment: { type: GraphQLString },
-			codeuser: { type: GraphQLInt },
-			nameUser: { type: GraphQLString }
+			comment: { type: GraphQLString }
 
 		},
 		resolve(source, args) {
@@ -151,15 +124,6 @@ const ShiftMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-
-					var date = new Date().toISOString();
-						Db.models.TransactionLogs.create({
-							codeUser: args.codeuser,
-							nameUser: args.nameUser,
-							actionDate: date,
-							action: 'UPDATED ROW',
-							affectedObject: 'SHIFT'
-							});
 
 					if (args.status == 2) {
 						Db.models.ShiftWorkOrder.findAll({ where: { ShiftId: args.id } }).then((select) => {

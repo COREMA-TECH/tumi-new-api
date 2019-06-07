@@ -12,9 +12,7 @@ const WorkOrderMutation = {
 		type: new GraphQLList(WorkOrderType),
 		description: 'Add Work Order to database',
 		args: {
-			workOrder: { type: new GraphQLList(inputInsertWorkOrder) },
-			codeuser: { type: GraphQLInt },
-			nameUser: { type: GraphQLString }
+			workOrder: { type: new GraphQLList(inputInsertWorkOrder) }
 		},
 		resolve(source, args) {
 
@@ -93,16 +91,6 @@ const WorkOrderMutation = {
 						console.log(error)
 					});
 				});
-
-				
-				var date = new Date().toISOString();
-				Db.models.TransactionLogs.create({
-					codeUser: args.codeuser,
-					nameUser: args.nameUser,
-					actionDate: date,
-					action: 'CREATED ROW',
-					affectedObject: 'WORK ORDER'
-					});
 			});
 		}
 	},
@@ -116,9 +104,7 @@ const WorkOrderMutation = {
 			endDate: { type: GraphQLDate },
 			startshift: { type: GraphQLString },
 			endshift: { type: GraphQLString },
-			quantity: { type: GraphQLInt },
-			codeuser: { type: GraphQLInt },
-			nameUser: { type: GraphQLString }
+			quantity: { type: GraphQLInt }
 		},
 		resolve(source, args) {
 			return Db.models.WorkOrder
@@ -188,16 +174,6 @@ const WorkOrderMutation = {
 									});
 								});
 							}
-
-							
-						var date = new Date().toISOString();
-						Db.models.TransactionLogs.create({
-							codeUser: args.codeuser,
-							nameUser: args.nameUser,
-							actionDate: date,
-							action: 'UPDATED ROW',
-							affectedObject: 'WORK ORDER'
-							});
 							return record.dataValues;
 						})
 
@@ -210,9 +186,7 @@ const WorkOrderMutation = {
 		type: GraphQLInt,
 		description: 'Delete workorder record from database',
 		args: {
-			id: { type: GraphQLInt },
-			codeuser: { type: GraphQLInt },
-			nameUser: { type: GraphQLString }
+			id: { type: GraphQLInt }
 		},
 		resolve(source, args) {
 			return Db.models.WorkOrder
@@ -228,20 +202,7 @@ const WorkOrderMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-					if (record){
-
-						
-						var date = new Date().toISOString();
-						Db.models.TransactionLogs.create({
-							codeUser: args.codeuser,
-							nameUser: args.nameUser,
-							actionDate: date,
-							action: 'DELETED ROW',
-							affectedObject: 'WORK ORDER'
-							});
-
-						return 1;	
-					}
+					if (record) return 1;
 					else return null;
 				});
 		}
@@ -250,22 +211,10 @@ const WorkOrderMutation = {
 		type: EmployeesType,
 		description: 'Delete employees record from database',
 		args: {
-			id: { type: GraphQLInt },
-			codeuser: { type: GraphQLInt },
-			nameUser: { type: GraphQLString }
+			id: { type: GraphQLInt }
 		},
 		resolve(source, args) {
 			return Db.models.ShiftDetailEmployees.destroy({ where: { EmployeeId: args.id } }).then((deleted) => {
-				
-			var date = new Date().toISOString();
-			Db.models.TransactionLogs.create({
-				codeUser: args.codeuser,
-				nameUser: args.nameUser,
-				actionDate: date,
-				action: 'DELETED ROW',
-				affectedObject: 'SHIFT DETAIL EMPLOYEES'
-				});
-				
 				return deleted;
 			});
 		}
@@ -275,9 +224,7 @@ const WorkOrderMutation = {
 		description: 'Convert WorkOrder to Opening',
 		args: {
 			id: { type: GraphQLInt },
-			userId: { type: GraphQLInt },
-			codeuser: { type: GraphQLInt },
-			nameUser: { type: GraphQLString }
+			userId: { type: GraphQLInt }
 		},
 		resolve(source, args) {
 			return Db.models.WorkOrder
@@ -299,19 +246,7 @@ const WorkOrderMutation = {
 						WorkOrderId: args.id
 					});
 
-					if (record) {
-						var date = new Date().toISOString();
-						Db.models.TransactionLogs.create({
-							codeUser: args.codeuser,
-							nameUser: args.nameUser,
-							actionDate: date,
-							action: 'UPDATED ROW',
-							affectedObject: 'WORK ORDER'
-							});
-
-							return record.dataValues;
-
-					}
+					if (record) return record.dataValues;
 					else return null;
 				});
 		}
@@ -321,9 +256,7 @@ const WorkOrderMutation = {
 		description: 'Reject Work Order',
 		args: {
 			id: { type: GraphQLInt },
-			userId: { type: GraphQLInt },
-			codeuser: { type: GraphQLInt },
-			nameUser: { type: GraphQLString }
+			userId: { type: GraphQLInt }
 		},
 		resolve(source, args) {
 			return Db.models.WorkOrder
@@ -345,21 +278,7 @@ const WorkOrderMutation = {
 						WorkOrderId: args.id
 					});
 
-					if (record){
-						
-						var date = new Date().toISOString();
-						Db.models.TransactionLogs.create({
-							codeUser: args.codeuser,
-							nameUser: args.nameUser,
-							actionDate: date,
-							action: 'UPDATED ROW',
-							affectedObject: 'WORK ORDER'
-							});
-
-
-						return record.dataValues;
-
-					} 
+					if (record) return record.dataValues;
 					else return null;
 				});
 		}
@@ -385,18 +304,7 @@ const WorkOrderMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-					if (record) {
-						var date = new Date().toISOString();
-						Db.models.TransactionLogs.create({
-							codeUser: args.codeuser,
-							nameUser: args.nameUser,
-							actionDate: date,
-							action: 'UPDATED ROW',
-							affectedObject: 'WORK ORDER'
-							});
-
-					return record.dataValues;
-				}
+					if (record) return record.dataValues;
 					else return null;
 				});
 		}

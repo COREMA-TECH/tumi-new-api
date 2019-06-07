@@ -10,39 +10,20 @@ const ApplicationMutation = {
 		type: ApplicationType,
 		description: 'Add application record to database',
 		args: {
-			application: { type: inputInsertApplication },
-			codeuser: { type: GraphQLInt },
-			nameUser: { type: GraphQLString },
+			application: { type: inputInsertApplication }
 		},
 		resolve(source, args) {
-			console.log("Variables de la application ", args)
-			var date = new Date().toISOString();
-			return Db.models.Applications.create(args.application).then(application => {
-				
-				return Db.models.TransactionLogs.create({
-					codeUser: args.codeuser,
-					nameUser: args.codeuser,
-					actionDate: date.getDate(),
-					action: 'CREATED ROW',
-					affectedObject: 'Application'
-					});
-
-			});
-			
-		
+			return Db.models.Applications.create(args.application);
 		}
 	},
 	updateApplication: {
 		type: ApplicationType,
 		description: 'Update Application Form Info',
 		args: {
-			codeuser: { type: GraphQLInt },
-			nameUser: { type: GraphQLString },
 			application: { type: inputUpdateApplication }
 		},
 		resolve(source, args) {
-			var date = new Date().toISOString();
-			 return Db.models.Applications
+			return Db.models.Applications
 				.update(
 					{
 						firstName: args.application.firstName,
@@ -86,27 +67,7 @@ const ApplicationMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-					if (record) 
-					{
-						if (args.application.sendInterview)
-						{
-							SendSMS({
-								msg: args.application.firstName + ' ' + args.application.lastName,
-								number: args.application.cellPhone
-							});
-						}
-
-
-						Db.models.TransactionLogs.create({
-							codeUser: args.codeuser,
-							nameUser: args.nameUser,
-							actionDate: date,
-							action: 'UPDATED ROW',
-							affectedObject: 'Application'
-							});
-
-						return record.dataValues;
-					}
+					if (record) return record.dataValues;
 					else return null;
 				});
 		}
@@ -171,9 +132,7 @@ const ApplicationMutation = {
 			isLead: { type: GraphQLBoolean },
 			idRecruiter: { type: GraphQLInt },
 			idWorkOrder: { type: GraphQLInt },
-			positionApplyingFor: { type: GraphQLInt },
-			codeuser: { type: GraphQLInt },
-			nameUser: { type: GraphQLString }
+			positionApplyingFor: { type: GraphQLInt }
 		},
 		resolve(source, args) {
 			return Db.models.Applications
@@ -193,19 +152,7 @@ const ApplicationMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-					if (record) {
-
-						var date = new Date().toISOString();
-						Db.models.TransactionLogs.create({
-							codeUser: args.codeuser,
-							nameUser: args.nameUser,
-							actionDate: date,
-							action: 'UPDATED ROW',
-							affectedObject: 'APPLICATION'
-							});
-
-						return record.dataValues;
-					}
+					if (record) return record.dataValues;
 					else return null;
 				});
 		}
@@ -241,13 +188,9 @@ const ApplicationMutation = {
 		description: 'Disable Application Form Info',
 		args: {
 			id: { type: GraphQLInt },
-			isActive:{ type: GraphQLBoolean },
-			codeuser: { type: GraphQLInt },
-			nameUser: { type: GraphQLString }
+			isActive:{ type: GraphQLBoolean }
 		},
 		resolve(source, args) {
-			var date = new Date().toISOString();
-
 			return Db.models.Applications
 				.update(
 					{
@@ -261,19 +204,7 @@ const ApplicationMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-					if (record){
-
-						Db.models.TransactionLogs.create({
-							codeUser: args.codeuser,
-							nameUser: args.nameUser,
-							actionDate: date,
-							action: 'DELETE ROW',
-							affectedObject: 'Application'
-							});
-
-							return record.dataValues;
-					}
-
+					if (record) return record.dataValues;
 					else return null;
 				});
 		}
