@@ -8,7 +8,6 @@ import {
 	GraphQLObjectType
 } from 'graphql';
 import GraphQLDate from 'graphql-date';
-
 import {
 	ApplicantLanguagesFields,
 	ApplicationFields,
@@ -46,9 +45,12 @@ import {
 	ContactsFields,
 	openingRecruiterFields,
 	SmsLogFields,
+	ApplicationAccountFields,
+	ApplicationAccountDocumentFields,
 	ApplicantIndependentContractFields,
 	BreakRuleFields,
-	BreakRuleDetailFields
+	BreakRuleDetailFields,
+	TransactionLogFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -464,7 +466,20 @@ const inputInsertSmsLogType = new GraphQLInputObjectType({
 			...SmsLogFields
 		}
 	}
-})
+});
+
+const inputInsertApplicationAccount = new GraphQLInputObjectType({
+	name: 'inputInsertApplicationAccount',
+	description: 'Insert ApplicationAccount',
+	fields: { ...ApplicationAccountFields }
+});
+
+
+const inputInsertApplicationAccountDocument = new GraphQLInputObjectType({
+	name: 'inputInsertApplicationAccountDocument',
+	description: 'Insert Application Account Document',
+	fields: { ...ApplicationAccountDocumentFields }
+});
 
 //Insert base break rules
 const inputInsertBreakRuleType = new GraphQLInputObjectType({
@@ -483,6 +498,14 @@ const inputInsertBreakRuleDescriptionType = new GraphQLInputObjectType({
 		return { ...BreakRuleDetailFields }
 	}
 })
+
+const inputInsertTransactionLogType = new GraphQLInputObjectType({
+	name: 'inputInsertTransactionLogType',
+	description: 'Inputs for Transaction Logs Mutation',
+	fields: () => {
+		return { ...TransactionLogFields }
+	}
+});
 
 const inputInsertApplicantIndependentContract = new GraphQLInputObjectType({
 	name: 'inputInsertApplicantIndependentContract',
@@ -541,7 +564,10 @@ export {
 	inputQueryWorkOrder,
 	insertOpeningRecruiterType,
 	inputInsertSmsLogType,
+	inputInsertApplicationAccount,
+	inputInsertApplicationAccountDocument,
 	inputInsertApplicantIndependentContract,
 	inputInsertBreakRuleType,
-	inputInsertBreakRuleDescriptionType
+	inputInsertBreakRuleDescriptionType,
+	inputInsertTransactionLogType
 };

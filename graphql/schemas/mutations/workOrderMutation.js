@@ -12,7 +12,9 @@ const WorkOrderMutation = {
 		type: new GraphQLList(WorkOrderType),
 		description: 'Add Work Order to database',
 		args: {
-			workOrder: { type: new GraphQLList(inputInsertWorkOrder) }
+			workOrder: { type: new GraphQLList(inputInsertWorkOrder) },
+			codeuser: { type: GraphQLInt },
+			nameUser: { type: GraphQLString }
 		},
 		resolve(source, args) {
 
@@ -84,13 +86,24 @@ const WorkOrderMutation = {
 
 				});
 			}).then(() => {
+				var date = new Date().toISOString();
 				return Db.models.PhaseWorkOrder.bulkCreate(phasesData).then(() => {
 					return Db.models.ShiftWorkOrder.bulkCreate(ShiftWorkOrder).then(() => {
-						return Db.models.ShiftDetail.bulkCreate(dates);
+						return Db.models.ShiftDetail.bulkCreate(dates).then(() => {
+							return Db.models.TransactionLogs.create({
+								codeUser: args.codeuser,
+								nameUser: args.nameUser,
+								actionDate: date,
+								action: 'CREATED ROW',
+								affectedObject: 'WORK ORDER'
+								});
+						});
 					}).catch(error => {
 						console.log(error)
 					});
 				});
+
+				
 			});
 		}
 	},
@@ -104,7 +117,9 @@ const WorkOrderMutation = {
 			endDate: { type: GraphQLDate },
 			startshift: { type: GraphQLString },
 			endshift: { type: GraphQLString },
-			quantity: { type: GraphQLInt }
+			quantity: { type: GraphQLInt },
+			codeuser: { type: GraphQLInt },
+			nameUser: { type: GraphQLString }
 		},
 		resolve(source, args) {
 			return Db.models.WorkOrder
@@ -174,6 +189,16 @@ const WorkOrderMutation = {
 									});
 								});
 							}
+
+							
+						var date = new Date().toISOString();
+						Db.models.TransactionLogs.create({
+							codeUser: args.codeuser,
+							nameUser: args.nameUser,
+							actionDate: date,
+							action: 'UPDATED ROW',
+							affectedObject: 'WORK ORDER'
+							});
 							return record.dataValues;
 						})
 
@@ -186,7 +211,9 @@ const WorkOrderMutation = {
 		type: GraphQLInt,
 		description: 'Delete workorder record from database',
 		args: {
-			id: { type: GraphQLInt }
+			id: { type: GraphQLInt },
+			codeuser: { type: GraphQLInt },
+			nameUser: { type: GraphQLString }
 		},
 		resolve(source, args) {
 			return Db.models.WorkOrder
@@ -202,7 +229,20 @@ const WorkOrderMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-					if (record) return 1;
+					if (record){
+
+						
+						var date = new Date().toISOString();
+						Db.models.TransactionLogs.create({
+							codeUser: args.codeuser,
+							nameUser: args.nameUser,
+							actionDate: date,
+							action: 'DELETED ROW',
+							affectedObject: 'WORK ORDER'
+							});
+
+						return 1;	
+					}
 					else return null;
 				});
 		}
@@ -211,10 +251,22 @@ const WorkOrderMutation = {
 		type: EmployeesType,
 		description: 'Delete employees record from database',
 		args: {
-			id: { type: GraphQLInt }
+			id: { type: GraphQLInt },
+			codeuser: { type: GraphQLInt },
+			nameUser: { type: GraphQLString }
 		},
 		resolve(source, args) {
 			return Db.models.ShiftDetailEmployees.destroy({ where: { EmployeeId: args.id } }).then((deleted) => {
+				
+			var date = new Date().toISOString();
+			Db.models.TransactionLogs.create({
+				codeUser: args.codeuser,
+				nameUser: args.nameUser,
+				actionDate: date,
+				action: 'DELETED ROW',
+				affectedObject: 'SHIFT DETAIL EMPLOYEES'
+				});
+				
 				return deleted;
 			});
 		}
@@ -224,7 +276,9 @@ const WorkOrderMutation = {
 		description: 'Convert WorkOrder to Opening',
 		args: {
 			id: { type: GraphQLInt },
-			userId: { type: GraphQLInt }
+			userId: { type: GraphQLInt },
+			codeuser: { type: GraphQLInt },
+			nameUser: { type: GraphQLString }
 		},
 		resolve(source, args) {
 			return Db.models.WorkOrder
@@ -246,7 +300,19 @@ const WorkOrderMutation = {
 						WorkOrderId: args.id
 					});
 
-					if (record) return record.dataValues;
+					if (record) {
+						var date = new Date().toISOString();
+						Db.models.TransactionLogs.create({
+							codeUser: args.codeuser,
+							nameUser: args.nameUser,
+							actionDate: date,
+							action: 'UPDATED ROW',
+							affectedObject: 'WORK ORDER'
+							});
+
+							return record.dataValues;
+
+					}
 					else return null;
 				});
 		}
@@ -256,7 +322,9 @@ const WorkOrderMutation = {
 		description: 'Reject Work Order',
 		args: {
 			id: { type: GraphQLInt },
-			userId: { type: GraphQLInt }
+			userId: { type: GraphQLInt },
+			codeuser: { type: GraphQLInt },
+			nameUser: { type: GraphQLString }
 		},
 		resolve(source, args) {
 			return Db.models.WorkOrder
@@ -278,7 +346,21 @@ const WorkOrderMutation = {
 						WorkOrderId: args.id
 					});
 
-					if (record) return record.dataValues;
+					if (record){
+						
+						var date = new Date().toISOString();
+						Db.models.TransactionLogs.create({
+							codeUser: args.codeuser,
+							nameUser: args.nameUser,
+							actionDate: date,
+							action: 'UPDATED ROW',
+							affectedObject: 'WORK ORDER'
+							});
+
+
+						return record.dataValues;
+
+					} 
 					else return null;
 				});
 		}
@@ -304,7 +386,18 @@ const WorkOrderMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-					if (record) return record.dataValues;
+					if (record) {
+						var date = new Date().toISOString();
+						Db.models.TransactionLogs.create({
+							codeUser: args.codeuser,
+							nameUser: args.nameUser,
+							actionDate: date,
+							action: 'UPDATED ROW',
+							affectedObject: 'WORK ORDER'
+							});
+
+					return record.dataValues;
+				}
 					else return null;
 				});
 		}

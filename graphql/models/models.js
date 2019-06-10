@@ -15,6 +15,8 @@ import ApplicantWorkerCompensationModel from './applicantWorkerCompensationTable
 import ApplicantDocumentModel from './applicantDocumentTable';
 import ApplicantW4Model from './applicantW4Table';
 import ApplicantI9Model from './applicantI9Table';
+import TransactionLogModel from './transactionLogTable';
+
 import WorkOrderModel from './workOrderTable';
 import PositionRateModel from './positionRateTable';
 import WorkOrderPositionModel from './workOrderPositionTable';
@@ -51,6 +53,8 @@ import { Conn } from '../../Configuration/Configuration';
 
 import CoordenadasModel from './coordenadasTable';
 
+import ApplicationAccountModel from './applicationAccount';
+import ApplicationAccountDocumentsModel from './applicationAccountDocuments';
 
 // OpeningRecruiter
 import OpeningRecruiterModel from './openingrecruiterModel';
@@ -80,6 +84,9 @@ const ApplicantW4 = ApplicantW4Model.createModel(Conn);
 const ApplicantI9 = ApplicantI9Model.createModel(Conn);
 const WorkOrder = WorkOrderModel.createModel(Conn);
 const WorkOrderPosition = WorkOrderPositionModel.createModel(Conn);
+const ApplicationAccountDocument = ApplicationAccountDocumentsModel.createModel(Conn);
+
+const TransactionLog = TransactionLogModel.createModel(Conn);
 
 const ElectronicAddress = ElectronicAddressModel.createModel(Conn);
 const CompanyPreference = CompanyPreferencesModel.createModel(Conn);
@@ -119,6 +126,7 @@ const OpeningRecruiter = OpeningRecruiterModel.createModel(Conn);
 
 const ConfigRegions = ConfigRegionsModel.createModel(Conn);
 const SmsLog = SmsLogModel.createModel(Conn);
+const ApplicationAccount = ApplicationAccountModel.createModel(Conn);
 
 const Employee_BreakRule = Employee_BreakRuleModel.createModel(Conn);
 const ApplicantIndependentContract = ApplicantIndependentContractModel.createModel(Conn);
@@ -180,6 +188,15 @@ ApplicantConductCode.belongsTo(Application);
 ApplicantBackgroundCheck.belongsTo(Application);
 ApplicantHarassmentPolicy.belongsTo(Application);
 ApplicantWorkerCompensation.belongsTo(Application);
+
+ApplicationAccount.belongsTo(Application);
+ApplicationAccountDocument.belongsTo(ApplicationAccount, {
+	foreignKey: 'applicationAccountId'
+});
+
+ApplicationAccount.hasMany(ApplicationAccountDocument, {
+	foreignKey: 'applicationAccountId'
+});
 
 WorkOrder.belongsTo(PositionRate);
 
@@ -416,7 +433,7 @@ Conn.authenticate()
 		console.error('Unable to connect to the database:', err);
 	});
 
-// Conn.sync({ force: false }).then(() => {
+//Conn.sync({ force: false }).then(() => {
 /*make sure you use false here. otherwise the total data
 	from the impported models will get deleted and new tables will be created*/
 // now we cann do all db operations on customers table.
@@ -426,6 +443,6 @@ Conn.authenticate()
 //console.log('Applications are:-', applications);
 //	});
 //	console.log('sync is completed');
-// });
+ //});
 
 export default Conn;

@@ -5,6 +5,7 @@ import { mergeSchemas } from 'graphql-tools';
 
 import {
 	ApplicationMutation,
+	ApplicationAccountMutation,
 	ApplicantLanguageMutation,
 	ElectronicAddressMutation,
 	ApplicantEducationMutation,
@@ -94,7 +95,9 @@ import {
 	MarkedEmployeesApproved,
 	ApplicantIndependentContractQuery,
 	BreakRuleDetailQuery,
-	BreakRuleQuery
+	BreakRuleQuery,
+	TransactionLogQuery,
+	ApplicationAccountQuery
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -150,7 +153,9 @@ const RootQuery = new GraphQLObjectType({
 		...MarkedEmployeesApproved,
 		...ApplicantIndependentContractQuery,
 		...BreakRuleQuery,
-		...BreakRuleDetailQuery
+		...BreakRuleDetailQuery,
+		...TransactionLogQuery,
+		...ApplicationAccountQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({
@@ -192,6 +197,7 @@ const RootMutation = new GraphQLObjectType({
 		...payrollMutation,
 		...OpeningRecruiterMutation,
 		...SmsLogMutation,
+		...ApplicationAccountMutation,
 		...ApplicantIndependentContractMutation,
 		...BreakRuleMutation,
 		...BreakRuleDetailMutation

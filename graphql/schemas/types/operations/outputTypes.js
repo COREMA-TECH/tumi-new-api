@@ -11,6 +11,7 @@ import {
 import GraphQLDate from 'graphql-date';
 import {
 	ApplicantLanguagesFields,
+	ApplicationAccountDocumentFields,
 	ApplicationFields,
 	ElectronicAddressFields,
 	ApplicantEducationFields,
@@ -53,10 +54,12 @@ import {
 	consolidatedPunchesCSVTypes,
 	openingRecruiterFields,
 	SmsLogFields,
+	ApplicationAccountFields,
 	ApplicantIndependentContractFields,
 	BreakRuleFields,
 	BreakRuleDetailFields,
-	Employee_BreakRuleFields
+	Employee_BreakRuleFields,
+	TransactionLogFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -70,6 +73,14 @@ const ApplicationType = new GraphQLObjectType({
 			id: {
 				type: new GraphQLNonNull(GraphQLInt),
 				description: 'Applicant Id'
+			},
+			codeuser: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Code User'
+			},
+			nameUser: {
+				type: new GraphQLNonNull(GraphQLString),
+				description: 'Name User'
 			},
 			...ApplicationFields,
 			languages: {
@@ -323,6 +334,40 @@ const ApplicantLanguageType = new GraphQLObjectType({
 				type: ApplicationType,
 				resolve(applicantLanguage) {
 					return applicantLanguage.getApplication();
+				}
+			}
+		};
+	}
+});
+
+const ApplicationAccountDocumentType = new GraphQLObjectType({
+	name: 'ApplicationAccountDocuments',
+	description: 'Documents attached to Application Account',
+	fields: _ => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Id'
+			},
+			...ApplicationAccountDocumentFields
+		};
+	}
+});
+
+const ApplicationAccountType = new GraphQLObjectType({
+	name: 'ApplicationAccounts',
+	description: 'This is for the Application Accounts',
+	fields: () => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Application Account Id'
+			},
+			...ApplicationAccountFields,
+			applicationDocuments: {
+				type: new GraphQLList(ApplicationAccountDocumentType),
+				resolve(me) {
+					return me.getApplicationAccountDocuments()
 				}
 			}
 		};
@@ -1480,6 +1525,20 @@ const listPayrollType = new GraphQLObjectType({
 	}
 });
 
+// Type to use in Transaction Logs
+const transactionLogsTypes = new GraphQLObjectType({
+	name: 'transactionLogs',
+	description: 'This represent a all the transaction in system',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+			},
+			...TransactionLogFields
+		}
+	}
+});
+
 // Type to use in payroll mutation and query
 const getCSVURLType = new GraphQLObjectType({
 	name: 'CSVUrl',
@@ -1562,6 +1621,7 @@ export {
 	ApplicantPreviousEmploymentType,
 	ApplicantMilitaryServiceType,
 	ApplicantSkillType,
+	ApplicationAccountType,
 	CompanyPreferenceType,
 	ApplicantIdealJobType,
 	PositionRateType,
@@ -1608,10 +1668,12 @@ export {
 	PunchesReportConsolidateType,
 	CoordenadasType,
 	PunchesEmployeeReportConsolidateType,
+	ApplicationAccountDocumentType,
 	ApplicantIndepenentContractType,
 	BreakRuleType,
 	BreakRuleDetailType,
 	Employee_BreakRuleType,
 	ApplicationPhaseResumeType,
-	PunchesConsolidatedForCSVType
+	PunchesConsolidatedForCSVType,
+	transactionLogsTypes
 };
