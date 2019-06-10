@@ -1354,7 +1354,28 @@ const PunchesReportConsolidateType = new GraphQLObjectType({
 		}
 	}
 })
-
+const PunchesConsolidatedForCSVType = new GraphQLObjectType({
+	name: 'PunchesConsolidatedForCSVType',
+	description: 'This structured is used to generate CSV from consolidated report',
+	fields: () => {
+		return {
+			key: { type: GraphQLString },
+			employeeId: { type: GraphQLInt },
+			hourCategory: { type: GraphQLString },
+			hoursWorked: { type: GraphQLFloat },
+			lunchDeduction: { type: GraphQLFloat },
+			payRate: { type: GraphQLFloat },
+			dateIn: { type: GraphQLString },
+			dateOut: { type: GraphQLString },
+			clockIn: { type: GraphQLString },
+			clockOut: { type: GraphQLString },
+			hotelCode: { type: GraphQLString },
+			departmentCode: { type: GraphQLString },
+			positionCode: { type: GraphQLString },
+			idCompanyParent: { type: GraphQLInt }
+		}
+	}
+})
 const PunchesEmployeeReportConsolidateType = new GraphQLObjectType({
 	name: 'PunchesEmployeeReportConsolidateType',
 	description: 'This structured is used to generate report consolidated about punches',
@@ -1591,5 +1612,6 @@ export {
 	BreakRuleType,
 	BreakRuleDetailType,
 	Employee_BreakRuleType,
-	ApplicationPhaseResumeType
+	ApplicationPhaseResumeType,
+	PunchesConsolidatedForCSVType
 };
