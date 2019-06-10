@@ -164,6 +164,30 @@ const ApplicationFields = {
 		type: GraphQLString,
 		description: 'Applicant pin'
 	},
+	eeoc: {
+		type: GraphQLInt,
+		description: 'eeoc'
+	},
+	exemptions: {
+		type: GraphQLInt,
+		description: 'exemptions'
+	},
+	area:{
+		type: GraphQLString,
+		description: 'area'
+	},
+	hireType: {
+		type: GraphQLInt,
+		description: 'hireType'
+	},
+	gender: {
+		type: GraphQLInt,
+		description: 'hireType'
+	},
+	marital: {
+		type: GraphQLInt,
+		description: 'hireType'
+	}
 };
 
 export default ApplicationFields;
