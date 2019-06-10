@@ -18,9 +18,6 @@ const userQuery = {
             },
             IdRegion: {
                 type: GraphQLInt
-            },
-            Id_Entity: {
-                type: GraphQLInt
             }
         },
         resolve(root, args) {

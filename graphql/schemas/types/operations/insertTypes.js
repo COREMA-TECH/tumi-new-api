@@ -49,7 +49,8 @@ import {
 	ApplicationAccountDocumentFields,
 	ApplicantIndependentContractFields,
 	BreakRuleFields,
-	BreakRuleDetailFields
+	BreakRuleDetailFields,
+	TransactionLogFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -498,6 +499,14 @@ const inputInsertBreakRuleDescriptionType = new GraphQLInputObjectType({
 	}
 })
 
+const inputInsertTransactionLogType = new GraphQLInputObjectType({
+	name: 'inputInsertTransactionLogType',
+	description: 'Inputs for Transaction Logs Mutation',
+	fields: () => {
+		return { ...TransactionLogFields }
+	}
+});
+
 const inputInsertApplicantIndependentContract = new GraphQLInputObjectType({
 	name: 'inputInsertApplicantIndependentContract',
 	description: 'Inputs for Applications Independent Contract',
@@ -559,5 +568,6 @@ export {
 	inputInsertApplicationAccountDocument,
 	inputInsertApplicantIndependentContract,
 	inputInsertBreakRuleType,
-	inputInsertBreakRuleDescriptionType
+	inputInsertBreakRuleDescriptionType,
+	inputInsertTransactionLogType
 };

@@ -96,6 +96,7 @@ import {
 	ApplicantIndependentContractQuery,
 	BreakRuleDetailQuery,
 	BreakRuleQuery,
+	TransactionLogQuery,
 	ApplicationAccountQuery
 } from './queries';
 
@@ -153,6 +154,7 @@ const RootQuery = new GraphQLObjectType({
 		...ApplicantIndependentContractQuery,
 		...BreakRuleQuery,
 		...BreakRuleDetailQuery,
+		...TransactionLogQuery,
 		...ApplicationAccountQuery
 	}
 });
