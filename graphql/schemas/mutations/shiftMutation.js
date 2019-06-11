@@ -71,7 +71,7 @@ const ShiftMutation = {
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: userdate,
+							actionDate: serverdate,
 							action: 'UPDATE ROW',
 							affectedObject: 'WORK ORDER - SHIFT'
 							});
@@ -112,7 +112,7 @@ const ShiftMutation = {
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: userdate,
+							actionDate: serverdate,
 							action: 'DELETED ROW',
 							affectedObject: 'SHIFT'
 							});
@@ -165,7 +165,7 @@ const ShiftMutation = {
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: userdate,
+							actionDate: serverdate,
 							action: 'UPDATED ROW',
 							affectedObject: 'SHIFT'
 							});
@@ -384,7 +384,7 @@ const ShiftMutation = {
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: userdate,
+							actionDate: serverdate,
 							action: 'DELETED ROW',
 							affectedObject: 'SHIFT'
 							});
@@ -912,7 +912,7 @@ const ShiftMutation = {
 							Db.models.TransactionLogs.create({
 								codeUser: args.codeuser,
 								nameUser: args.nameUser,
-								actionDate: userdate,
+								actionDate: serverdate,
 								action: 'UPDATED ROW',
 								affectedObject: 'SHIFT'
 								});

@@ -98,7 +98,7 @@ const WorkOrderMutation = {
 							return Db.models.TransactionLogs.create({
 								codeUser: args.codeuser,
 								nameUser: args.nameUser,
-								actionDate: userdate,
+								actionDate: serverdate,
 								action: 'CREATED ROW',
 								affectedObject: 'WORK ORDER'
 							});
@@ -203,7 +203,7 @@ const WorkOrderMutation = {
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: userdate,
+							actionDate: serverdate,
 							action: 'UPDATED ROW',
 							affectedObject: 'WORK ORDER'
 							});
@@ -247,7 +247,7 @@ const WorkOrderMutation = {
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: userdate,
+							actionDate: serverdate,
 							action: 'DELETED ROW',
 							affectedObject: 'WORK ORDER'
 							});
@@ -276,7 +276,7 @@ const WorkOrderMutation = {
 			Db.models.TransactionLogs.create({
 				codeUser: args.codeuser,
 				nameUser: args.nameUser,
-				actionDate: userdate,
+				actionDate: serverdate,
 				action: 'DELETED ROW',
 				affectedObject: 'SHIFT DETAIL EMPLOYEES'
 				});
@@ -322,7 +322,7 @@ const WorkOrderMutation = {
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: userdate,
+							actionDate: serverdate,
 							action: 'UPDATED ROW',
 							affectedObject: 'WORK ORDER'
 							});
@@ -372,7 +372,7 @@ const WorkOrderMutation = {
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: userdate,
+							actionDate: serverdate,
 							action: 'UPDATED ROW',
 							affectedObject: 'WORK ORDER'
 							});
@@ -414,7 +414,7 @@ const WorkOrderMutation = {
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: userdate,
+							actionDate: serverdate,
 							action: 'UPDATED ROW',
 							affectedObject: 'WORK ORDER'
 							});
