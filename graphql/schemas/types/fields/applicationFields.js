@@ -203,6 +203,10 @@ const ApplicationFields = {
 	marital: {
 		type: GraphQLInt,
 		description: 'hireType'
+	},
+	sendInterview: {
+		type: GraphQLBoolean,
+		description: 'sendInterview'
 	}
 };
 
