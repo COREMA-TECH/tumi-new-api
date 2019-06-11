@@ -44,11 +44,12 @@ const shiftDetailMutation = {
 						where: {
 							[Op.or]: [
 								{ id: args.shiftDetail.id },
-								{ ShiftId: args.ShiftId }
+								{ ShiftId: args.shiftDetail.ShiftId }
 							]
 						}, returning: true
 					})
 				.then(function ([rowsUpdate, [record]]) {
+					console.log()
 					if (record) return record.dataValues;
 					else return null;
 				});
@@ -117,7 +118,7 @@ const shiftDetailMutation = {
 				//Get every day between startDate and endDate to generate ShiftDetail records
 				while (currentDate <= args.shift.endDate) {
 					let newDate = new Date(currentDate)
-					
+
 					if (weekDays.includes(newDate.getDay())) {
 						datesList.push({
 							startDate: newDate,

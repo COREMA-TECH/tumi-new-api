@@ -164,6 +164,22 @@ const ApplicationFields = {
 		type: GraphQLString,
 		description: 'Applicant pin'
 	},
+	dateCreation: {
+		type: GraphQLDate,
+		description: 'Applicant dateCreation'
+	},
+	immediately: {
+		type: GraphQLBoolean,
+		description: 'Applicant immediately'
+	},
+	optionHearTumi: {
+		type:  GraphQLInt,
+		description: 'Applicant optionHearTumi'
+	},
+	nameReferences: {
+		type: GraphQLString,
+		description: 'Applicant nameReferences'
+	},
 	eeoc: {
 		type: GraphQLInt,
 		description: 'eeoc'

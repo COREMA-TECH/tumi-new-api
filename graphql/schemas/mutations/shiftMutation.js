@@ -64,11 +64,14 @@ const ShiftMutation = {
 		resolve(source, args) {
 			return Db.models.Shift.destroy({ where: { id: args.id } }).then((deleted) => {
 				
-				var date = new Date().toISOString();
+				var userdate = new Date();
+						var timezone = userdate.getTimezoneOffset();
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+						
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: date,
+							actionDate: userdate,
 							action: 'UPDATE ROW',
 							affectedObject: 'WORK ORDER - SHIFT'
 							});
@@ -102,11 +105,14 @@ const ShiftMutation = {
 				.then(function ([rowsUpdate, [record]]) {
 					if (record) {
 
-						var date = new Date().toISOString();
+						var userdate = new Date();
+						var timezone = userdate.getTimezoneOffset();
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+						
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: date,
+							actionDate: userdate,
 							action: 'DELETED ROW',
 							affectedObject: 'SHIFT'
 							});
@@ -152,11 +158,14 @@ const ShiftMutation = {
 				)
 				.then(function ([rowsUpdate, [record]]) {
 
-					var date = new Date().toISOString();
+					var userdate = new Date();
+						var timezone = userdate.getTimezoneOffset();
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+						
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: date,
+							actionDate: userdate,
 							action: 'UPDATED ROW',
 							affectedObject: 'SHIFT'
 							});
@@ -365,7 +374,24 @@ const ShiftMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-					if (record) return record.dataValues;
+					if (record) 
+					{
+
+						var userdate = new Date();
+						var timezone = userdate.getTimezoneOffset();
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+					
+						Db.models.TransactionLogs.create({
+							codeUser: args.codeuser,
+							nameUser: args.nameUser,
+							actionDate: userdate,
+							action: 'DELETED ROW',
+							affectedObject: 'SHIFT'
+							});
+
+						return record.dataValues;
+
+					}
 					else return null;
 				});
 		}
@@ -878,6 +904,19 @@ const ShiftMutation = {
 					//Converts Shift from One status to other [1: W.OR, 2: Opening]
 					return Db.models.Shift.update({ status: args.targetStatus }, { where: { id: { [Op.in]: shiftsIds }, status: args.sourceStatus } })
 						.then(rowsUpdated => {
+							
+							var userdate = new Date();
+							var timezone = userdate.getTimezoneOffset();
+							var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+				
+							Db.models.TransactionLogs.create({
+								codeUser: args.codeuser,
+								nameUser: args.nameUser,
+								actionDate: userdate,
+								action: 'UPDATED ROW',
+								affectedObject: 'SHIFT'
+								});
+
 							return Db.models.Shift.findAll({ where: { id: { [Op.in]: shiftsIds } } })
 						});
 				else return [];

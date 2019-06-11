@@ -162,6 +162,22 @@ export default {
 				type: Sequelize.STRING(20),
 				allowNull: true
 			},
+			dateCreation: {
+				type: Sequelize.DATE,
+				allowNull: true
+			},
+			immediately: {
+				type: Sequelize.BOOLEAN,
+				defaultValue: false
+			},
+			optionHearTumi: {
+				type: Sequelize.INTEGER,
+				allowNull: true
+			},
+			nameReferences: {
+				type: Sequelize.STRING(200),
+				allowNull: true
+			},
 			eeoc: {
 				type: Sequelize.INTEGER,
 				allowNull: true
