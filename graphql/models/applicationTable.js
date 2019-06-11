@@ -186,7 +186,7 @@ export default {
 				type: Sequelize.INTEGER,
 				allowNull: true
 			},
-			area	: {
+			area:{
 				type: Sequelize.STRING(20),
 				allowNull: true
 			},
@@ -198,15 +198,10 @@ export default {
 				type: Sequelize.INTEGER,
 				allowNull: true
 			},
-			marital	: {
+			marital: {
 				type: Sequelize.INTEGER,
 				allowNull: true
-			},
-			sendInterview	: {
-				type: Sequelize.BOOLEAN,
-				defaultValue: true
 			}
-
 		});
 	}
 };

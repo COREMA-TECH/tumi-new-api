@@ -41,7 +41,7 @@ const ApplicationMutation = {
 			application: { type: inputUpdateApplication }
 		},
 		resolve(source, args) {
-			var date = new Date().toISOString();
+			
 			 return Db.models.Applications
 				.update(
 					{
@@ -96,7 +96,8 @@ const ApplicationMutation = {
 							});
 						}
 
-
+						var date = new Date().toISOString();
+						
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,

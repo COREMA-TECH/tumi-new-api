@@ -166,50 +166,44 @@ const ApplicationFields = {
 	},
 	dateCreation: {
 		type: GraphQLDate,
-		description: "Date when the record was created"
+		description: 'Applicant dateCreation'
 	},
 	immediately: {
 		type: GraphQLBoolean,
-		description: 'Shows if an application is direct Deposit'
+		description: 'Applicant immediately'
 	},
 	optionHearTumi: {
-		type: GraphQLInt,
-		description: 'Applicant User Id'
+		type:  GraphQLInt,
+		description: 'Applicant optionHearTumi'
 	},
 	nameReferences: {
 		type: GraphQLString,
-		description: 'Applicant pin'
+		description: 'Applicant nameReferences'
 	},
 	eeoc: {
 		type: GraphQLInt,
-		description: 'Applicant User Id'
+		description: 'eeoc'
 	},
 	exemptions: {
 		type: GraphQLInt,
-		description: 'Applicant User Id'
+		description: 'exemptions'
 	},
-	area	: {
+	area:{
 		type: GraphQLString,
-		description: 'Applicant pin'
+		description: 'area'
 	},
 	hireType: {
 		type: GraphQLInt,
-		description: 'Applicant User Id'
+		description: 'hireType'
 	},
 	gender: {
 		type: GraphQLInt,
-		description: 'Applicant User Id'
+		description: 'hireType'
 	},
-	marital	: {
+	marital: {
 		type: GraphQLInt,
-		description: 'Applicant User Id'
-	},
-	sendInterview	: {
-		type: GraphQLBoolean,
-		description: 'Shows if an application is direct Deposit'
+		description: 'hireType'
 	}
-
-
 };
 
 export default ApplicationFields;

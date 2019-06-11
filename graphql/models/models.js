@@ -281,6 +281,10 @@ RolesForms.belongsTo(Roles, {
 	as: 'Roles'
 })
 
+BusinessCompany.hasOne(CompanyPreference, {
+	foreignKey: 'EntityId',
+	as: "CompanyPref"
+})
 
 Shift.hasMany(ShiftDetail, { onDelete: 'cascade' });
 ShiftDetail.hasOne(ShiftDetailEmployees, { onDelete: 'cascade' });
@@ -330,6 +334,10 @@ Employees.hasMany(MarkedEmployees)
 Employees.belongsTo(CatalogItem, {
 	foreignKey: 'Id_Deparment',
 	as: 'CatalogDepartment'
+});
+Employees.belongsTo(PositionRate, {
+	foreignKey: 'Contact_Title',
+	as: 'Title'
 });
 
 MarkedEmployees.belongsTo(Employees, {

@@ -14,7 +14,6 @@ const BreakRuleMutation = {
 			employees: { type: GraphQLList(GraphQLInt) }
 		},
 		resolve(source, args) {
-			console.log("Variables ", args)
 			const {breakRule, employees} = args;
 
 			return Db.models.BreakRule.create(breakRule)

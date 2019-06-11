@@ -86,23 +86,24 @@ const WorkOrderMutation = {
 
 				});
 			}).then(() => {
+				var date = new Date().toISOString();
 				return Db.models.PhaseWorkOrder.bulkCreate(phasesData).then(() => {
 					return Db.models.ShiftWorkOrder.bulkCreate(ShiftWorkOrder).then(() => {
-						return Db.models.ShiftDetail.bulkCreate(dates);
+						return Db.models.ShiftDetail.bulkCreate(dates).then(() => {
+							Db.models.TransactionLogs.create({
+								codeUser: args.codeuser,
+								nameUser: args.nameUser,
+								actionDate: date,
+								action: 'CREATED ROW',
+								affectedObject: 'WORK ORDER'
+							});
+						});
 					}).catch(error => {
 						console.log(error)
 					});
 				});
 
 				
-				var date = new Date().toISOString();
-				Db.models.TransactionLogs.create({
-					codeUser: args.codeuser,
-					nameUser: args.nameUser,
-					actionDate: date,
-					action: 'CREATED ROW',
-					affectedObject: 'WORK ORDER'
-					});
 			});
 		}
 	},
