@@ -12,7 +12,7 @@ export default {
 				allowNull: true
 			},
 			actionDate: {
-				type: Sequelize.DATE,
+				type: Sequelize.STRING,
 				allowNull: false
 			},
 			action: {

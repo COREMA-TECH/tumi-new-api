@@ -38,6 +38,7 @@
 		"html-pdf": "^2.2.0",
 		"jsonwebtoken": "^8.3.0",
 		"merge-graphql-schemas": "^1.5.5",
+		"moment-timezone": "^0.5.25",
 		"mongose": "0.0.2-security",
 		"mssql": "^3.3.0",
 		"node-cron": "^2.0.1",

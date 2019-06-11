@@ -11,7 +11,7 @@ const TransactionLogFields = {
 		description: 'Name User'
 	},
 	actionDate: {
-		type: GraphQLDate,
+		type: GraphQLString,
 		description: 'Action Date'
 	},
 	action: {

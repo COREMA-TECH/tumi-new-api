@@ -4,6 +4,7 @@ import { ShiftType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
 import { sendworkorderfilledemail } from '../../../Configuration/Roots';
 import GraphQLDate from 'graphql-date';
+import moment from 'moment-timezone';
 
 import Sequelize from 'sequelize';
 const Op = Sequelize.Op;
@@ -67,7 +68,7 @@ const ShiftMutation = {
 				var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
 						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						
+						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
@@ -108,7 +109,7 @@ const ShiftMutation = {
 						var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
 						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						
+						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
@@ -161,7 +162,7 @@ const ShiftMutation = {
 					var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
 						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						
+						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
@@ -380,7 +381,7 @@ const ShiftMutation = {
 						var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
 						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-					
+						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
@@ -908,7 +909,7 @@ const ShiftMutation = {
 							var userdate = new Date();
 							var timezone = userdate.getTimezoneOffset();
 							var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-				
+							serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
 							Db.models.TransactionLogs.create({
 								codeUser: args.codeuser,
 								nameUser: args.nameUser,

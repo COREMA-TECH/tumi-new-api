@@ -6,6 +6,7 @@ import GraphQLDate from 'graphql-date';
 import { sendgenericemail } from '../../../Configuration/Roots';
 import Db from '../../models/models';
 import { EmployeesType } from '../types/operations/outputTypes';
+import moment from 'moment-timezone';
 
 const WorkOrderMutation = {
 	addWorkOrder: {
@@ -94,7 +95,7 @@ const WorkOrderMutation = {
 							var userdate = new Date();
 							var timezone = userdate.getTimezoneOffset();
 							var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						
+							serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
 							return Db.models.TransactionLogs.create({
 								codeUser: args.codeuser,
 								nameUser: args.nameUser,
@@ -199,7 +200,7 @@ const WorkOrderMutation = {
 							var userdate = new Date();
 							var timezone = userdate.getTimezoneOffset();
 							var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-							
+							serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
@@ -272,7 +273,7 @@ const WorkOrderMutation = {
 				var userdate = new Date();
 				var timezone = userdate.getTimezoneOffset();
 				var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-				
+				serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
 			Db.models.TransactionLogs.create({
 				codeUser: args.codeuser,
 				nameUser: args.nameUser,
@@ -318,7 +319,7 @@ const WorkOrderMutation = {
 						var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
 						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						
+						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
@@ -368,7 +369,7 @@ const WorkOrderMutation = {
 						var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
 						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						
+						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
@@ -410,7 +411,7 @@ const WorkOrderMutation = {
 						var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
 						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						
+						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,

@@ -4,6 +4,7 @@ import { ApplicationType } from '../types/operations/outputTypes';
 
 import Db from '../../models/models';
 import { graphql, GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
+import moment from 'moment-timezone';
 
 const ApplicationMutation = {
 	addApplication: {
@@ -21,8 +22,8 @@ const ApplicationMutation = {
 				var userdate = new Date();
 				var timezone = userdate.getTimezoneOffset();
 				var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						 
-
+				serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
+				
 				return Db.models.TransactionLogs.create({
 					codeUser: args.codeuser,
 					nameUser: args.codeuser,
@@ -103,7 +104,7 @@ const ApplicationMutation = {
 						 var userdate = new Date();
 						 var timezone = userdate.getTimezoneOffset();
 						 var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						 
+						 serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
 
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
@@ -206,6 +207,7 @@ const ApplicationMutation = {
 						var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
 						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
 						
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
@@ -277,7 +279,7 @@ const ApplicationMutation = {
 						var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
 						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						
+						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
 
 						
 						Db.models.TransactionLogs.create({

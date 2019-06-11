@@ -2,6 +2,7 @@ import { inputInsertEmployees } from '../types/operations/insertTypes';
 import { inputUpdateEmployees } from '../types/operations/updateTypes';
 import { EmployeesType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLBoolean,GraphQLString } from 'graphql';
+import moment from 'moment-timezone';
 
 import Db from '../../models/models';
 
@@ -20,7 +21,8 @@ const EmployeesMutation = {
 				var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
 						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						
+						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
+
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
@@ -57,7 +59,7 @@ const EmployeesMutation = {
 						var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
 						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						
+						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
@@ -102,7 +104,7 @@ const EmployeesMutation = {
 						var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
 						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						
+						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
