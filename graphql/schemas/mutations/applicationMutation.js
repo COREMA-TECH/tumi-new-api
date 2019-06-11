@@ -26,7 +26,7 @@ const ApplicationMutation = {
 				return Db.models.TransactionLogs.create({
 					codeUser: args.codeuser,
 					nameUser: args.codeuser,
-					actionDate:  userdate,
+					actionDate:  serverdate,
 					action: 'CREATED ROW',
 					affectedObject: 'EMPLOYEE PACKAGE'
 					});

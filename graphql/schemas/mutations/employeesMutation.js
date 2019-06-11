@@ -24,7 +24,7 @@ const EmployeesMutation = {
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: serverdate,
+							actionDate: userdate,
 							action: 'CREATED ROW',
 							affectedObject: 'EMPLOYEES'
 							});
@@ -61,7 +61,7 @@ const EmployeesMutation = {
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: serverdate,
+							actionDate: userdate,
 							action: 'UPDATED ROW',
 							affectedObject: 'EMPLOYEES'
 							});
@@ -106,7 +106,7 @@ const EmployeesMutation = {
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: serverdate,
+							actionDate: userdate,
 							action: 'DELETED ROW',
 							affectedObject: 'EMPLOYEES'
 							});
