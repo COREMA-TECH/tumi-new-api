@@ -108,7 +108,7 @@ const ApplicationMutation = {
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: userdate,
+							actionDate: serverdate,
 							action: 'UPDATED ROW',
 							affectedObject: 'EMPLOYEE PACKAGE'
 							});
@@ -210,7 +210,7 @@ const ApplicationMutation = {
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: userdate,
+							actionDate: serverdate,
 							action: 'UPDATED ROW',
 							affectedObject: 'EMPLOYEE PACKAGE'
 							});
@@ -283,7 +283,7 @@ const ApplicationMutation = {
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: userdate,
+							actionDate: serverdate,
 							action: 'DELETE ROW',
 							affectedObject:'EMPLOYEE PACKAGE'
 							});
