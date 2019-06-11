@@ -15,16 +15,16 @@ const ApplicationMutation = {
 			nameUser: { type: GraphQLString },
 		},
 		resolve(source, args) {
-			console.log("Variables de la application ", args)
+			
 			var date = new Date().toISOString();
 			return Db.models.Applications.create(args.application).then(application => {
 				
 				return Db.models.TransactionLogs.create({
 					codeUser: args.codeuser,
 					nameUser: args.codeuser,
-					actionDate: date.getDate(),
+					actionDate:  date,
 					action: 'CREATED ROW',
-					affectedObject: 'Application'
+					affectedObject: 'EMPLOYEE PACKAGE'
 					});
 
 			});
@@ -102,7 +102,7 @@ const ApplicationMutation = {
 							nameUser: args.nameUser,
 							actionDate: date,
 							action: 'UPDATED ROW',
-							affectedObject: 'Application'
+							affectedObject: 'EMPLOYEE PACKAGE'
 							});
 
 						return record.dataValues;
@@ -201,7 +201,7 @@ const ApplicationMutation = {
 							nameUser: args.nameUser,
 							actionDate: date,
 							action: 'UPDATED ROW',
-							affectedObject: 'APPLICATION'
+							affectedObject: 'EMPLOYEE PACKAGE'
 							});
 
 						return record.dataValues;
@@ -268,7 +268,7 @@ const ApplicationMutation = {
 							nameUser: args.nameUser,
 							actionDate: date,
 							action: 'DELETE ROW',
-							affectedObject: 'Application'
+							affectedObject:'EMPLOYEE PACKAGE'
 							});
 
 							return record.dataValues;

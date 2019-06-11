@@ -162,6 +162,51 @@ export default {
 				type: Sequelize.STRING(20),
 				allowNull: true
 			},
+			dateCreation: {
+				type: Sequelize.DATE,
+				allowNull: true
+			},
+			immediately: {
+				type: Sequelize.BOOLEAN,
+				defaultValue: false
+			},
+			optionHearTumi: {
+				type: Sequelize.INTEGER,
+				allowNull: true
+			},
+			nameReferences: {
+				type: Sequelize.STRING(200),
+				allowNull: true
+			},
+			eeoc: {
+				type: Sequelize.INTEGER,
+				allowNull: true
+			},
+			exemptions: {
+				type: Sequelize.INTEGER,
+				allowNull: true
+			},
+			area	: {
+				type: Sequelize.STRING(20),
+				allowNull: true
+			},
+			hireType: {
+				type: Sequelize.INTEGER,
+				allowNull: true
+			},
+			gender: {
+				type: Sequelize.INTEGER,
+				allowNull: true
+			},
+			marital	: {
+				type: Sequelize.INTEGER,
+				allowNull: true
+			},
+			sendInterview	: {
+				type: Sequelize.BOOLEAN,
+				defaultValue: true
+			}
+
 		});
 	}
 };
