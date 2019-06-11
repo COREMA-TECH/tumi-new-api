@@ -17,11 +17,14 @@ const EmployeesMutation = {
 		resolve(source, args) {
 			return Db.models.Employees.bulkCreate(args.Employees, { returning: true }).then((ret) => {
 
-				var date = new Date().toISOString();
+				var userdate = new Date();
+						var timezone = userdate.getTimezoneOffset();
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+						
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: date,
+							actionDate: userdate,
 							action: 'CREATED ROW',
 							affectedObject: 'EMPLOYEES'
 							});
@@ -51,11 +54,14 @@ const EmployeesMutation = {
 				.then(function ([rowsUpdate, [record]]) {
 					if (record)
 					{
-						var date = new Date().toISOString();
+						var userdate = new Date();
+						var timezone = userdate.getTimezoneOffset();
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+						
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: date,
+							actionDate: userdate,
 							action: 'UPDATED ROW',
 							affectedObject: 'EMPLOYEES'
 							});
@@ -93,11 +99,14 @@ const EmployeesMutation = {
 				.then(function ([rowsUpdate, [record]]) {
 					if (record) {
 
-						var date = new Date().toISOString();
+						var userdate = new Date();
+						var timezone = userdate.getTimezoneOffset();
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+						
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: date,
+							actionDate: userdate,
 							action: 'DELETED ROW',
 							affectedObject: 'EMPLOYEES'
 							});

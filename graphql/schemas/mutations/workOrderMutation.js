@@ -86,14 +86,19 @@ const WorkOrderMutation = {
 
 				});
 			}).then(() => {
-				var date = new Date().toISOString();
+				
 				return Db.models.PhaseWorkOrder.bulkCreate(phasesData).then(() => {
 					return Db.models.ShiftWorkOrder.bulkCreate(ShiftWorkOrder).then(() => {
 						return Db.models.ShiftDetail.bulkCreate(dates).then(() => {
-							Db.models.TransactionLogs.create({
+
+							var userdate = new Date();
+							var timezone = userdate.getTimezoneOffset();
+							var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+						
+							return Db.models.TransactionLogs.create({
 								codeUser: args.codeuser,
 								nameUser: args.nameUser,
-								actionDate: date,
+								actionDate: userdate,
 								action: 'CREATED ROW',
 								affectedObject: 'WORK ORDER'
 							});
@@ -191,11 +196,14 @@ const WorkOrderMutation = {
 							}
 
 							
-						var date = new Date().toISOString();
+							var userdate = new Date();
+							var timezone = userdate.getTimezoneOffset();
+							var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+							
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: date,
+							actionDate: userdate,
 							action: 'UPDATED ROW',
 							affectedObject: 'WORK ORDER'
 							});
@@ -232,11 +240,14 @@ const WorkOrderMutation = {
 					if (record){
 
 						
-						var date = new Date().toISOString();
+						var userdate = new Date();
+						var timezone = userdate.getTimezoneOffset();
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+						
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: date,
+							actionDate: userdate,
 							action: 'DELETED ROW',
 							affectedObject: 'WORK ORDER'
 							});
@@ -258,11 +269,14 @@ const WorkOrderMutation = {
 		resolve(source, args) {
 			return Db.models.ShiftDetailEmployees.destroy({ where: { EmployeeId: args.id } }).then((deleted) => {
 				
-			var date = new Date().toISOString();
+				var userdate = new Date();
+				var timezone = userdate.getTimezoneOffset();
+				var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+				
 			Db.models.TransactionLogs.create({
 				codeUser: args.codeuser,
 				nameUser: args.nameUser,
-				actionDate: date,
+				actionDate: userdate,
 				action: 'DELETED ROW',
 				affectedObject: 'SHIFT DETAIL EMPLOYEES'
 				});
@@ -301,11 +315,14 @@ const WorkOrderMutation = {
 					});
 
 					if (record) {
-						var date = new Date().toISOString();
+						var userdate = new Date();
+						var timezone = userdate.getTimezoneOffset();
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+						
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: date,
+							actionDate: userdate,
 							action: 'UPDATED ROW',
 							affectedObject: 'WORK ORDER'
 							});
@@ -348,11 +365,14 @@ const WorkOrderMutation = {
 
 					if (record){
 						
-						var date = new Date().toISOString();
+						var userdate = new Date();
+						var timezone = userdate.getTimezoneOffset();
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+						
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: date,
+							actionDate: userdate,
 							action: 'UPDATED ROW',
 							affectedObject: 'WORK ORDER'
 							});
@@ -387,11 +407,14 @@ const WorkOrderMutation = {
 				)
 				.then(function ([rowsUpdate, [record]]) {
 					if (record) {
-						var date = new Date().toISOString();
+						var userdate = new Date();
+						var timezone = userdate.getTimezoneOffset();
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+						
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: date,
+							actionDate: userdate,
 							action: 'UPDATED ROW',
 							affectedObject: 'WORK ORDER'
 							});

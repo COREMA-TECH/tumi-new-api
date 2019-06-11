@@ -15,16 +15,20 @@ const ApplicationMutation = {
 			nameUser: { type: GraphQLString },
 		},
 		resolve(source, args) {
-			console.log("Variables de la application ", args)
-			var date = new Date().toISOString();
+			
 			return Db.models.Applications.create(args.application).then(application => {
 				
+				var userdate = new Date();
+				var timezone = userdate.getTimezoneOffset();
+				var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+						 
+
 				return Db.models.TransactionLogs.create({
 					codeUser: args.codeuser,
 					nameUser: args.codeuser,
-					actionDate: date.getDate(),
+					actionDate:  userdate,
 					action: 'CREATED ROW',
-					affectedObject: 'Application'
+					affectedObject: 'EMPLOYEE PACKAGE'
 					});
 
 			});
@@ -41,7 +45,7 @@ const ApplicationMutation = {
 			application: { type: inputUpdateApplication }
 		},
 		resolve(source, args) {
-			var date = new Date().toISOString();
+			
 			 return Db.models.Applications
 				.update(
 					{
@@ -96,13 +100,17 @@ const ApplicationMutation = {
 							});
 						}
 
+						 var userdate = new Date();
+						 var timezone = userdate.getTimezoneOffset();
+						 var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+						 
 
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: date,
+							actionDate: userdate,
 							action: 'UPDATED ROW',
-							affectedObject: 'Application'
+							affectedObject: 'EMPLOYEE PACKAGE'
 							});
 
 						return record.dataValues;
@@ -195,13 +203,16 @@ const ApplicationMutation = {
 				.then(function ([rowsUpdate, [record]]) {
 					if (record) {
 
-						var date = new Date().toISOString();
+						var userdate = new Date();
+						var timezone = userdate.getTimezoneOffset();
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+						
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: date,
+							actionDate: userdate,
 							action: 'UPDATED ROW',
-							affectedObject: 'APPLICATION'
+							affectedObject: 'EMPLOYEE PACKAGE'
 							});
 
 						return record.dataValues;
@@ -246,8 +257,7 @@ const ApplicationMutation = {
 			nameUser: { type: GraphQLString }
 		},
 		resolve(source, args) {
-			var date = new Date().toISOString();
-
+			
 			return Db.models.Applications
 				.update(
 					{
@@ -263,12 +273,19 @@ const ApplicationMutation = {
 				.then(function ([rowsUpdate, [record]]) {
 					if (record){
 
+
+						var userdate = new Date();
+						var timezone = userdate.getTimezoneOffset();
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+						
+
+						
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
-							actionDate: date,
+							actionDate: userdate,
 							action: 'DELETE ROW',
-							affectedObject: 'Application'
+							affectedObject:'EMPLOYEE PACKAGE'
 							});
 
 							return record.dataValues;
