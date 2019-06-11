@@ -96,7 +96,7 @@ const WorkOrderMutation = {
 							var timezone = userdate.getTimezoneOffset();
 							var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
 							serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
-							return Db.models.TransactionLogs.create({
+							Db.models.TransactionLogs.create({
 								codeUser: args.codeuser,
 								nameUser: args.nameUser,
 								actionDate: serverdate,
