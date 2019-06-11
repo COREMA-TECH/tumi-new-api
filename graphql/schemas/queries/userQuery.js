@@ -18,7 +18,9 @@ const userQuery = {
             },
             IdRegion: {
                 type: GraphQLInt
-            }
+            },
+            Id_Contact: { type: GraphQLInt }
+
         },
         resolve(root, args) {
             return Db.models.Users.findAll({ where: args });
