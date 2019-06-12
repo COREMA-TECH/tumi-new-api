@@ -405,7 +405,8 @@ const inputQueryWorkOrder = new GraphQLInputObjectType({
 		id: { type: GraphQLString },//This must to be a string even that the table column is Integer type
 		startDate: { type: GraphQLDate },
 		endDate: { type: GraphQLDate },
-		status: { type: GraphQLInt }
+		status: { type: GraphQLInt },
+		IdEntity: { type: GraphQLInt }
 	}
 });
 
