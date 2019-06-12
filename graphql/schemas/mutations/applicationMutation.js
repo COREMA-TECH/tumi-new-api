@@ -23,18 +23,26 @@ const ApplicationMutation = {
 				var timezone = userdate.getTimezoneOffset();
 				var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
 				serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
+
+				if (args.application.sendInterview) {
+					SendSMS({
+						msg: args.application.firstName + ' ' + args.application.lastName,
+						number: args.application.cellPhone
+					});
+				}
 				
-				return Db.models.TransactionLogs.create({
+				
+				Db.models.TransactionLogs.create({
 					codeUser: args.codeuser,
 					nameUser: args.codeuser,
 					actionDate:  serverdate,
 					action: 'CREATED ROW',
 					affectedObject: 'EMPLOYEE PACKAGE'
-					});
+				});
 
-			});
-			
-		
+				return application.dataValues;
+
+			});	
 		}
 	},
 	updateApplication: {
