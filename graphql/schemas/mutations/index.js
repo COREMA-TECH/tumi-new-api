@@ -33,7 +33,7 @@ import ContactsMutation from './contactsMutation';
 import payrollMutation from './payrollMutation';
 import OpeningRecruiterMutation from './openingRecruiterMutation';
 import SmsLogMutation from './smsLogMutation';
-import ApplicationAccountMutation from './ApplicationAccountMutation';
+import ApplicationAccountMutation from './applicationAccountMutation';
 import BreakRuleMutation from './breakRulesMutation';
 import BreakRuleDetailMutation from './breakRuleDetailsMutation';
 import ApplicantIndependentContractMutation from './applicantIndependentContractMutation';
