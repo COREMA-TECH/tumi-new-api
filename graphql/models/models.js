@@ -271,6 +271,16 @@ Users.belongsTo(CatalogItem, {
 	as: 'Language'
 });
 
+Contacts.hasMany(Users, {
+	foreignKey: 'Id_Contact',
+	as: 'Users'
+});
+
+Users.belongsTo(Contacts, {
+	foreignKey: 'Id_Contact',
+	as: 'Contact'
+});
+
 RolesForms.belongsTo(Forms, {
 	foreignKey: 'IdForms',
 	as: 'Forms'
@@ -443,6 +453,6 @@ Conn.authenticate()
 //console.log('Applications are:-', applications);
 //	});
 //	console.log('sync is completed');
- //});
+//});
 
 export default Conn;

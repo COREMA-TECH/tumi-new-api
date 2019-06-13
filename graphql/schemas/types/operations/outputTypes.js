@@ -563,6 +563,12 @@ const UsersType = new GraphQLObjectType({
 					return me.getLanguage();
 				}
 
+			},
+			contacts: {
+				type: ContactsType,
+				resolve(me) {
+					return me.getContact();
+				}
 			}
 		}
 	}
@@ -932,7 +938,7 @@ const HolidayType = new GraphQLObjectType({
 });
 
 const ContactsType = new GraphQLObjectType({
-	name: 'Contacts',
+	name: 'ContactOutput',
 	description: 'This is for Contacts Table',
 	fields: () => {
 		return {
@@ -940,7 +946,13 @@ const ContactsType = new GraphQLObjectType({
 				type: GraphQLInt,
 				description: 'table id'
 			},
-			...ContactsFields
+			...ContactsFields,
+			users: {
+				type: new GraphQLList(UsersType),
+				resolve(me) {
+					return me.getUsers();
+				}
+			}
 		}
 	}
 });
