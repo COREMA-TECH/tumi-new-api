@@ -1,5 +1,5 @@
 import { GraphQLInt, GraphQLString, GraphQLList, GraphQLBoolean, GraphQLNonNull } from 'graphql';
-import { ApplicationType, ApplicationCompletedDataType, ApplicationTypeBoard } from '../types/operations/outputTypes';
+import { ApplicationCodeUserType, ApplicationType, ApplicationCompletedDataType, ApplicationTypeBoard } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 import GraphQLDate from 'graphql-date';
@@ -8,7 +8,6 @@ import Sequelize from 'sequelize';
 
 const Op = Sequelize.Op;
 const FilterStatus = (filter) => {
-	console.log("FilterStatus " + filter)
 	if (filter.isActive) { return { isActive: filter.isActive } }
 	else { return {} }
 }
