@@ -254,6 +254,22 @@ const ApplicationType = new GraphQLObjectType({
 	}
 });
 
+const ApplicationCodeUserType = new GraphQLObjectType({
+	name: 'ApplicationCodeUserType',
+	description: 'This is for application form',
+	fields: () => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Applicant Id'
+			},
+			Code_User: {
+				type: GraphQLString
+			},
+		};
+	}
+});
+
 const Employee_BreakRuleType = new GraphQLObjectType({
 	name: "Employee_BreakRuleType",
 	description: 'Links employees to break rules',
@@ -1693,5 +1709,6 @@ export {
 	Employee_BreakRuleType,
 	ApplicationPhaseResumeType,
 	PunchesConsolidatedForCSVType,
-	transactionLogsTypes
+	transactionLogsTypes,
+	ApplicationCodeUserType
 };
