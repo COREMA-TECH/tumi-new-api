@@ -17,11 +17,11 @@ export default {
 			},
 			startDate: {
 				type: Sequelize.DATE,
-				allowNull: false
+				allowNull: true
 			},
 			endDate: {
 				type: Sequelize.DATE,
-				allowNull: false
+				allowNull: true
 			},
 			graduated: {
 				type: Sequelize.BOOLEAN,

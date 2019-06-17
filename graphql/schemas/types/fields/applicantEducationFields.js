@@ -15,11 +15,11 @@ const ApplicantEducationFields = {
 		description: 'Applicant Education Adress'
 	},
 	startDate: {
-		type: new GraphQLNonNull(GraphQLDate),
+		type:GraphQLDate,
 		description: 'Applicant Education Start Date'
 	},
 	endDate: {
-		type: new GraphQLNonNull(GraphQLDate),
+		type:GraphQLDate,
 		description: 'Applicant Education End Date'
 	},
 	graduated: {
