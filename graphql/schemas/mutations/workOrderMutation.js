@@ -1,4 +1,4 @@
-import { inputInsertWorkOrder, inputInsertShift } from '../types/operations/insertTypes';
+import { inputInsertWorkOrder, inputInsertShift, inputInsertWorkOrderGridType } from '../types/operations/insertTypes';
 import { inputUpdateWorkOrder } from '../types/operations/updateTypes';
 import { WorkOrderType, PhaseWorkOrderType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLString, GraphQLNonNull } from 'graphql';
@@ -87,15 +87,15 @@ const WorkOrderMutation = {
 
 				});
 			}).then(() => {
-				
+
 				return Db.models.PhaseWorkOrder.bulkCreate(phasesData).then(() => {
 					return Db.models.ShiftWorkOrder.bulkCreate(ShiftWorkOrder).then(() => {
 						return Db.models.ShiftDetail.bulkCreate(dates).then(() => {
 
 							var userdate = new Date();
 							var timezone = userdate.getTimezoneOffset();
-							var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-							serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
+							var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
+							serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
 							Db.models.TransactionLogs.create({
 								codeUser: args.codeuser,
 								nameUser: args.nameUser,
@@ -109,7 +109,7 @@ const WorkOrderMutation = {
 					});
 				});
 
-				
+
 			});
 		}
 	},
@@ -196,17 +196,17 @@ const WorkOrderMutation = {
 								});
 							}
 
-							
+
 							var userdate = new Date();
 							var timezone = userdate.getTimezoneOffset();
-							var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-							serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
-						Db.models.TransactionLogs.create({
-							codeUser: args.codeuser,
-							nameUser: args.nameUser,
-							actionDate: serverdate,
-							action: 'UPDATED ROW',
-							affectedObject: 'WORK ORDER'
+							var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
+							serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
+							Db.models.TransactionLogs.create({
+								codeUser: args.codeuser,
+								nameUser: args.nameUser,
+								actionDate: serverdate,
+								action: 'UPDATED ROW',
+								affectedObject: 'WORK ORDER'
 							});
 							return record.dataValues;
 						})
@@ -238,22 +238,22 @@ const WorkOrderMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-					if (record){
+					if (record) {
 
-						
+
 						var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
-						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
+
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
 							actionDate: serverdate,
 							action: 'DELETED ROW',
 							affectedObject: 'WORK ORDER'
-							});
+						});
 
-						return 1;	
+						return 1;
 					}
 					else return null;
 				});
@@ -269,19 +269,19 @@ const WorkOrderMutation = {
 		},
 		resolve(source, args) {
 			return Db.models.ShiftDetailEmployees.destroy({ where: { EmployeeId: args.id } }).then((deleted) => {
-				
+
 				var userdate = new Date();
 				var timezone = userdate.getTimezoneOffset();
-				var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-				serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
-			Db.models.TransactionLogs.create({
-				codeUser: args.codeuser,
-				nameUser: args.nameUser,
-				actionDate: serverdate,
-				action: 'DELETED ROW',
-				affectedObject: 'SHIFT DETAIL EMPLOYEES'
+				var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
+				serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
+				Db.models.TransactionLogs.create({
+					codeUser: args.codeuser,
+					nameUser: args.nameUser,
+					actionDate: serverdate,
+					action: 'DELETED ROW',
+					affectedObject: 'SHIFT DETAIL EMPLOYEES'
 				});
-				
+
 				return deleted;
 			});
 		}
@@ -318,17 +318,17 @@ const WorkOrderMutation = {
 					if (record) {
 						var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
-						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
+						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
 							actionDate: serverdate,
 							action: 'UPDATED ROW',
 							affectedObject: 'WORK ORDER'
-							});
+						});
 
-							return record.dataValues;
+						return record.dataValues;
 
 					}
 					else return null;
@@ -364,24 +364,24 @@ const WorkOrderMutation = {
 						WorkOrderId: args.id
 					});
 
-					if (record){
-						
+					if (record) {
+
 						var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
-						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
+						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
 							actionDate: serverdate,
 							action: 'UPDATED ROW',
 							affectedObject: 'WORK ORDER'
-							});
+						});
 
 
 						return record.dataValues;
 
-					} 
+					}
 					else return null;
 				});
 		}
@@ -410,22 +410,132 @@ const WorkOrderMutation = {
 					if (record) {
 						var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
-						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
+						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
 							actionDate: serverdate,
 							action: 'UPDATED ROW',
 							affectedObject: 'WORK ORDER'
-							});
+						});
 
-					return record.dataValues;
-				}
+						return record.dataValues;
+					}
 					else return null;
 				});
 		}
+	},
+	addWorkOrderGrid: {
+		type: new GraphQLList(WorkOrderType),
+		description: 'Add Work Order to database',
+		args: {
+			workOrder: { type: new GraphQLList(inputInsertWorkOrderGridType) },
+			codeuser: { type: GraphQLInt },
+			nameUser: { type: GraphQLString }
+		},
+		resolve(source, args) {
+
+			args.workOrder.map(_ => {
+				let shifts = [], phasesData = [], dates = [], ShiftWorkOrder = [];
+				let workOrderRecord = {}, employeeId;
+				Object.keys(_).map(key => {
+					if (key != "employeeId")
+						workOrderRecord = { ...workOrderRecord, [key]: _[key] };
+					else employeeId = _[key]
+				})
+				return Db.models.WorkOrder.create(workOrderRecord).then((ret) => {
+					let workOrder = ret.dataValues;
+					let workOrdersPhase = {}, currentQ = 0, shiftData, ShiftWorkOrderData;
+					let weekDays = workOrder.dayWeek.replace("MO", 1).replace("TU", 2).replace("WE", 3).replace("TH", 4).replace("FR", 5).replace("SA", 6).replace("SU", 0);
+
+					workOrdersPhase = {
+						userId: workOrder.userId,
+						phaseworkOrderId: 30453,
+						WorkOrderId: workOrder.id
+					}
+
+					phasesData.push(workOrdersPhase);
+
+					while (currentQ < workOrder.quantity) {
+						shiftData = {
+							entityId: workOrder.IdEntity,
+							title: workOrder.id,
+							color: '#96989A',
+							status: 1,
+							idPosition: workOrder.PositionRateId,
+							startDate: workOrder.startDate,
+							endDate: workOrder.endDate,
+							needExperience: workOrder.needExperience,
+							needEnglish: workOrder.needEnglish,
+							comment: workOrder.comment,
+							contactId: workOrder.contactId,
+							EspecialComment: "",
+							endshift: workOrder.endShift,
+							departmentId: workOrder.departmentId,
+							dayWeek: workOrder.dayWeek
+						}
+						shifts.push(shiftData);
+						currentQ = currentQ + 1;
+					}
+
+					return Db.models.Shift.bulkCreate(shifts, { returning: true }).then((shiftsSaved) => {
+						shiftsSaved.map((shift) => {
+							let currentDate = moment.utc(shift.dataValues.startDate)._d;
+							while (currentDate <= workOrder.endDate) {
+								let newDate = moment.utc(currentDate)._d;
+								if (weekDays.includes(moment.utc(currentDate).day())) {
+									dates.push({
+										startDate: newDate,
+										endDate: newDate,
+										startTime: workOrder.shift,
+										endTime: workOrder.endShift,
+										color: '#96989A',
+										status: 0,
+										ShiftId: shift.dataValues.id
+									});
+								}
+								currentDate.setDate(currentDate.getDate() + 1)
+							}
+							ShiftWorkOrderData = {
+								ShiftId: shift.dataValues.id,
+								WorkOrderId: workOrder.id
+							}
+							ShiftWorkOrder.push(ShiftWorkOrderData);
+						});
+						return Db.models.PhaseWorkOrder.bulkCreate(phasesData).then(() => {
+							return Db.models.ShiftWorkOrder.bulkCreate(ShiftWorkOrder).then(() => {
+								return Db.models.ShiftDetail.bulkCreate(dates, { returning: true }).then((_shiftDetail) => {
+									let shitDetailEmployees = [];
+									_shiftDetail.map(_rec => {
+										shitDetailEmployees.push({ ShiftDetailId: _rec.dataValues.id, EmployeeId: employeeId });
+									})
+									return Db.models.ShiftDetailEmployees.bulkCreate(shitDetailEmployees).then(_retDet => {
+										var userdate = new Date();
+										var timezone = userdate.getTimezoneOffset();
+										var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
+										serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
+										Db.models.TransactionLogs.create({
+											codeUser: args.codeuser,
+											nameUser: args.nameUser,
+											actionDate: serverdate,
+											action: 'CREATED ROW',
+											affectedObject: 'WORK ORDER'
+										});
+										return workOrderRecord;
+									})
+								});
+							}).catch(error => {
+								console.log(error)
+							});
+						});
+					})
+				})
+
+			})
+		}
 	}
+
 };
 
 export default WorkOrderMutation;
