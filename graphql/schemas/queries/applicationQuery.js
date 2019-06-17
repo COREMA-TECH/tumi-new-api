@@ -1,5 +1,5 @@
 import { GraphQLInt, GraphQLString, GraphQLList, GraphQLBoolean, GraphQLNonNull } from 'graphql';
-import { ApplicationType, ApplicationCompletedDataType, ApplicationTypeBoard } from '../types/operations/outputTypes';
+import { ApplicationCodeUserType, ApplicationType, ApplicationCompletedDataType, ApplicationTypeBoard } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 import GraphQLDate from 'graphql-date';
@@ -8,7 +8,6 @@ import Sequelize from 'sequelize';
 
 const Op = Sequelize.Op;
 const FilterStatus = (filter) => {
-	console.log("FilterStatus " + filter)
 	if (filter.isActive) { return { isActive: filter.isActive } }
 	else { return {} }
 }
@@ -263,7 +262,64 @@ const ApplicationQuery = {
 			return Db.models.Applications.findAll({ where: { ...getRecruiterReportFilters(args) } });
 		}
 	},
-
+	applicationCodeUser: {
+		type: new GraphQLList(ApplicationCodeUserType),
+		description: 'List applications records',
+		args: {
+			id: {
+				type: GraphQLInt
+			},
+			firstName: {
+				type: GraphQLString
+			},
+			isActive: {
+				type: GraphQLBoolean
+			},
+			idLanguage: {
+				type: GraphQLInt
+			},
+			isLead: {
+				type: GraphQLBoolean
+			},
+			positionApplyingFor:
+			{
+				type: GraphQLInt
+			},
+			UserId:
+			{
+				type: GraphQLInt
+			},
+			socialSecurityNumber: {
+				type: GraphQLString
+			}
+		},
+		resolve(root, args) {
+			return Db.models.Applications.findAll({ 
+				where: args,
+				include: [{
+					model: Db.models.ApplicationEmployees,
+					include: [{
+						model: Db.models.Employees,
+						as: 'Employees',
+						include: [{
+							model: Db.models.Users
+						}]
+					}]
+				}]
+			}).then(applications => {
+				let app = {};
+				let applicationsArray = [];
+				applications.map(application => {
+					app = {
+						id: application.dataValues.id,
+						Code_User:  application.dataValues.ApplicationEmployee ? application.dataValues.ApplicationEmployee.dataValues.Employees.dataValues.User.dataValues.Code_User : null
+					};
+					applicationsArray.push(app);
+				});
+				return applicationsArray;
+			});
+		}
+	}
 };
 
 export default ApplicationQuery;
