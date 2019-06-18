@@ -17,7 +17,12 @@ const TransactionLogQuery = {
 			affectedObject: {type: GraphQLString}
 		},
 		resolve(root, args) {
-			return Db.models.TransactionLogs.findAll({ where: args });
+			return Db.models.TransactionLogs.findAll({ where: args
+			,
+			order: [
+				['id', 'DESC']
+			  ]
+			});
 		}
 	},
 };

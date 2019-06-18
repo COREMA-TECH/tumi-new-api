@@ -17,9 +17,11 @@ const ApplicationMutation = {
 			nameUser: { type: GraphQLString },
 		},
 		resolve(source, args) {
-			
+
 			return Db.models.Applications.create(args.application).then(application => {
 				
+			
+
 				var userdate = new Date();
 				var timezone = userdate.getTimezoneOffset();
 				var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
@@ -33,13 +35,25 @@ const ApplicationMutation = {
 				}
 				
 				
-				Db.models.TransactionLogs.create({
-					codeUser: args.codeuser,
-					nameUser: args.codeuser,
-					actionDate:  serverdate,
-					action: 'CREATED ROW',
-					affectedObject: 'EMPLOYEE PACKAGE'
-				});
+				if (args.application.isLead)
+						 {
+							Db.models.TransactionLogs.create({
+								codeUser: args.codeuser,
+								nameUser: args.nameUser,
+								actionDate: serverdate,
+								action: 'CREATED ROW',
+								affectedObject: 'LEAD'
+								});
+						 }else
+						 {
+						Db.models.TransactionLogs.create({
+							codeUser: args.codeuser,
+							nameUser: args.nameUser,
+							actionDate: serverdate,
+							action: 'CREATED ROW',
+							affectedObject: 'EMPLOYEE PACKAGE'
+							});
+						}
 
 				return application.dataValues;
 
@@ -90,7 +104,17 @@ const ApplicationMutation = {
 						signature: args.application.signature,
 						isLead: args.application.isLead,
 						isActive: args.application.isActive,
-						Urlphoto: args.application.Urlphoto
+						Urlphoto: args.application.Urlphoto,
+						dateCreation: args.application.dateCreation,
+						immediately: args.application.optionHearTumi,
+						optionHearTumi: args.application.optionHearTumi,
+						nameReferences: args.application.nameReferences,
+						eeoc: args.application.eeoc,
+						exemptions: args.application.exemptions,
+						area:args.application.area,
+						hireType: args.application.hireType,
+						gender: args.application.gender,
+						marital:args.application.marital
 					},
 					{
 						where: {
@@ -110,11 +134,24 @@ const ApplicationMutation = {
 							});
 						}
 
+						console.log("args.codeuser ", args.codeuser, "args.nameUser ",args.nameUser )
+
 						 var userdate = new Date();
 						 var timezone = userdate.getTimezoneOffset();
 						 var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
 						 serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
 
+						 if (args.application.isLead)
+						 {
+							Db.models.TransactionLogs.create({
+								codeUser: args.codeuser,
+								nameUser: args.nameUser,
+								actionDate: serverdate,
+								action: 'UPDATED ROW',
+								affectedObject: 'LEAD'
+								});
+						 }else
+						 {
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
@@ -122,7 +159,7 @@ const ApplicationMutation = {
 							action: 'UPDATED ROW',
 							affectedObject: 'EMPLOYEE PACKAGE'
 							});
-
+						}
 						return record.dataValues;
 					}
 					else return null;
