@@ -97,7 +97,8 @@ import {
 	BreakRuleDetailQuery,
 	BreakRuleQuery,
 	TransactionLogQuery,
-	ApplicationAccountQuery
+	ApplicationAccountQuery,
+	ApplicationSummaryQuery,
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -155,7 +156,8 @@ const RootQuery = new GraphQLObjectType({
 		...BreakRuleQuery,
 		...BreakRuleDetailQuery,
 		...TransactionLogQuery,
-		...ApplicationAccountQuery
+		...ApplicationAccountQuery,
+		...ApplicationSummaryQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({

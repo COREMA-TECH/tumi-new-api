@@ -1612,6 +1612,46 @@ const ApplicantIndepenentContractType = new GraphQLObjectType({
 	}
 });
 
+const ApplicationSummaryType = new GraphQLObjectType({
+	name: 'ApplicationSummaryType',
+	description: 'This structured is used to generate Summary tab in Application Package',
+	fields: () => {
+		return {
+			id: { type: GraphQLInt },
+			firstName: { type: GraphQLString },
+			lastName: { type: GraphQLString },
+			middleName: { type: GraphQLString },
+			socialSecurityNumber: { type: GraphQLString },
+			homePhone:{ type: GraphQLString },
+			cellPhone: { type: GraphQLString },
+			birthDate: { type: GraphQLDate },
+			streetAddress: { type: GraphQLString },
+			city: { type: GraphQLString },
+			state: { type: GraphQLString },
+			zipCode: { type: GraphQLString },
+			Hotel: { type: GraphQLString },
+			Department: { type: GraphQLString },
+			Job: { type: GraphQLString },
+			hiredDate: { type: GraphQLDate },
+			Type: { type: GraphQLDate },
+			payRate: { type: GraphQLFloat },
+			status: { type: GraphQLString },
+			numberDepartment: { type: GraphQLInt },
+			recruiter: { type: GraphQLString },
+			directDepositAccount : { type: GraphQLString },
+			bankName: { type: GraphQLString},
+			routing: { type: GraphQLString },
+			noID: { type: GraphQLInt },
+			typeID: { type: GraphQLString},
+			expDate: { type: GraphQLDate },
+			car: { type: GraphQLBoolean },
+			kids: { type: GraphQLBoolean },
+			area: { type: GraphQLString }
+		}
+	}
+})
+
+
 
 export {
 	ApplicationType,
@@ -1675,5 +1715,6 @@ export {
 	Employee_BreakRuleType,
 	ApplicationPhaseResumeType,
 	PunchesConsolidatedForCSVType,
-	transactionLogsTypes
+	transactionLogsTypes,
+	ApplicationSummaryType
 };
