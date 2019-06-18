@@ -22,11 +22,11 @@ const environments = {
 		webURL: 'http://app.orionsystem1.com'
 	},
 	cert: {
-		user: 'corema',
-		password: 'S0l040.246.',
-		host: 'coremagroup.cb4kqp6rssxe.us-east-2.rds.amazonaws.com',
-		port: '4001',
-		database: 'Tumi_Certi',
+		user: 'tumiusr',
+		password: 'mrD92QmqxUzsZsv',
+		host: 'tumi-cert.cbvpubcios7n.us-east-2.rds.amazonaws.com',
+		port: '80',
+		database: 'tumi-cert',
 		databasePort: 5432,
 		webPORT: 3002,
 		webURL: 'http://ec2-3-16-143-115.us-east-2.compute.amazonaws.com'

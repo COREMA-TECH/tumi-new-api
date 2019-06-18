@@ -5,6 +5,7 @@ import { ApplicationType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 import { graphql, GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
 import moment from 'moment-timezone';
+import { SendSMS } from '../../../Configuration/Roots';
 
 const ApplicationMutation = {
 	addApplication: {
