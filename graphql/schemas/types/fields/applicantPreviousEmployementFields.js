@@ -23,15 +23,15 @@ const ApplicantPreviousEmploymentFields = {
 		description: 'Previous Employment Job Title'
 	},
 	payRate: {
-		type: new GraphQLNonNull(GraphQLFloat),
+		type: GraphQLFloat,
 		description: 'Applicant Pay Rate'
 	},
 	startDate: {
-		type: new GraphQLNonNull(GraphQLDate),
+		type: GraphQLDate,
 		description: 'Employment Start Date'
 	},
 	endDate: {
-		type: new GraphQLNonNull(GraphQLDate),
+		type: GraphQLDate,
 		description: 'Employment End  Date'
 	},
 	reasonForLeaving: {

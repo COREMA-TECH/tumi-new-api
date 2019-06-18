@@ -25,15 +25,15 @@ export default {
 			},
 			payRate: {
 				type: Sequelize.FLOAT,
-				allowNull: false
+				allowNull: true
 			},
 			startDate: {
 				type: Sequelize.DATE,
-				allowNull: false
+				allowNull: true
 			},
 			endDate: {
 				type: Sequelize.DATE,
-				allowNull: false
+				allowNull: true
 			},
 			reasonForLeaving: {
 				type: Sequelize.STRING,

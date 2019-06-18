@@ -334,6 +334,9 @@ ShiftDetailEmployees.belongsTo(Employees, {
 	as: 'Employees'
 });
 
+Employees.belongsTo(Users, {
+	foreignKey: 'idUsers'
+})
 
 Employees.belongsTo(BusinessCompany, {
 	foreignKey: 'idEntity'

@@ -212,6 +212,15 @@ const inputInsertWorkOrder = new GraphQLInputObjectType({
 		...WorkOrderFields
 	}
 });
+const inputInsertWorkOrderGridType = new GraphQLInputObjectType({
+	name: 'inputInsertWorkOrderGridType',
+	description: 'Inputs for Work Order Insert Grid',
+
+	fields: {
+		...WorkOrderFields,
+		employeeId: { type: GraphQLInt }
+	}
+});
 const inputInsertWorkOrderCompany = new GraphQLInputObjectType({
 	name: 'inputInsertWorkOrderCompany',
 	description: 'Inputs for Work Order Company Insert',
@@ -570,5 +579,6 @@ export {
 	inputInsertApplicantIndependentContract,
 	inputInsertBreakRuleType,
 	inputInsertBreakRuleDescriptionType,
-	inputInsertTransactionLogType
+	inputInsertTransactionLogType,
+	inputInsertWorkOrderGridType
 };
