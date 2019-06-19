@@ -3332,8 +3332,8 @@ async function SendSMS(args) {
 		from: sender,
 		to: args.number
 	})
-	.then(message => console.log(message.sid))
-	.catch(error => console.log(error));
+		.then(message => console.log(message.sid))
+		.catch(error => console.log(error));
 }
 
 async function SendGenericEmail(args) {
@@ -3563,7 +3563,31 @@ async function SendEmailVerification(args) {
 			from: 'tumistaffing@hotmail.com',
 			to: args.email,
 			subject: "Employment Verification",
-			html:'<p>Dear user, the verification sheet has been attached.</p>'
+			html: '<p>Dear user, the verification sheet has been attached.</p>'
+		};
+
+		transporter.sendMail(mailOptions, function (error, info) {
+			if (error) {
+				console.log(error);
+			} else {
+				console.log('Email enviado: ' + info.response);
+			}
+		});
+
+		return 'Email Send';
+	} catch (err) {
+		console.log('Database ' + err);
+		return err;
+	}
+}
+
+async function SendEmailResetPassword(args) {
+	try {
+		var mailOptions = {
+			from: 'tumistaffing@hotmail.com',
+			to: args.email,
+			subject: "Reset password",
+			html: `<p>Dear user, please enter with ${args.password} password to your account.</p>`
 		};
 
 		transporter.sendMail(mailOptions, function (error, info) {
@@ -3666,7 +3690,8 @@ const root = {
 	sendgenericemail: SendGenericEmail,
 	sendworkorderfilledemail: SendWorkOrderFilledEmail,
 	SendSMS: SendSMS,
-	sendemailverification : SendEmailVerification
+	sendemailverification: SendEmailVerification,
+	sendEmailResetPassword: SendEmailResetPassword
 };
 
 module.exports = root;

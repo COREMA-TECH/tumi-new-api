@@ -5,6 +5,7 @@ import { GraphQLList, GraphQLInt, GraphQLString } from 'graphql';
 
 import Db from '../../models/models';
 import Sequelize from 'sequelize';
+import { sendEmailResetPassword } from '../../../Configuration/Roots';
 
 const UserMutation = {
     udpdateUser: {
@@ -83,6 +84,27 @@ const UserMutation = {
                         return _user.dataValues;
                     })
             })
+        }
+    },
+    updatePassword: {
+        type: UsersType,
+        description: 'Reset password based on Username',
+        args: {
+            Code_User: { type: GraphQLString }
+        },
+        resolve(source, args) {
+            let password = 'TEMP';
+            return Db.models.Users.update({ Password: Sequelize.fn('PGP_SYM_ENCRYPT', password, 'AES_KEY') }, { where: { Code_User: args.Code_User }, returning: true })
+                .then(([rowsUpdated, [Users]]) => {
+                    if (Users) {
+                        let { Electronic_Address } = Users.dataValues;
+                        sendEmailResetPassword({
+                            email: Electronic_Address.trim(),
+                            password: password
+                        })
+                        return Users;
+                    }
+                })
         }
     },
     addUser: {
