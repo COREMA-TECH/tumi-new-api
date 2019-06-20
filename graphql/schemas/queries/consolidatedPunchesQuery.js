@@ -100,7 +100,7 @@ const PunchesEmployeesQuery = {
                     }]
                 }, {
                     model: Db.models.Shift,
-                    required: true,
+                    required: false,
                     include: [{
                         model: Db.models.PositionRate,
                         as: 'CatalogPosition',
@@ -113,14 +113,13 @@ const PunchesEmployeesQuery = {
                 }]
             })
                 .then(marks => {
-                    console.log(marks);
                     let objPunches = {};
                     marks.map(_mark => {
                         let { id, entityId, typeMarkedId, markedDate, markedTime, imageMarked, EmployeeId, ShiftId, flag } = _mark.dataValues;
                         let key = `${entityId}-${EmployeeId}-${ShiftId}-${moment.utc(markedDate).format('YYYYMMDD')}`;
                         let employee = _mark.dataValues.Employees.dataValues;
-                        let shift = _mark.dataValues.Shift.dataValues;
-                        let position = shift.CatalogPosition.dataValues;
+                        let shift = _mark.dataValues.Shift ? _mark.dataValues.Shift.dataValues : null;
+                        let position = _mark.dataValues.Shift ? shift.CatalogPosition.dataValues : null;
                         let company = _mark.dataValues.BusinessCompany.dataValues;
 
                         //Create new punch object if this object doesnt exist into the array of punches
@@ -130,10 +129,12 @@ const PunchesEmployeesQuery = {
                                 name: `${employee.firstName} ${employee.lastName}`,
                                 hourCategory: '01Reg',
                                 hoursWorked: 0,
-                                payRate: position.Pay_Rate,
+                                payRate: position ? position.Pay_Rate : 0,
                                 date: moment.utc(markedDate).format('YYYY/MM/DD'),
                                 hotelCode: company.Code,
-                                positionCode: position.Position,
+                                positionCode: position ? position.Position : 'N/D',
+                                clockIn: "00:00",
+                                clockOut: "24:00"
                             }
                             objPunches = { ...objPunches, [key]: reportRow }
                         }
@@ -251,8 +252,6 @@ const PunchesEmployeesQuery = {
 
                     fs.writeFileSync(filename, output.join(os.EOL));
 
-                    console.clear();
-                    console.log("----------------------------------------------------------------------------");
                     console.log("Filename ----> ", filename.toString());
 
 
