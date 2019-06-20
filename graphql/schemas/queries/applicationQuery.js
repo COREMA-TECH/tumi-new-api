@@ -76,6 +76,12 @@ const ApplicationQuery = {
 			idRecruiter: {
 				type: GraphQLInt
 			},
+			homePhone: {
+				type: GraphQLString
+			},
+			cellPhone: {
+				type: GraphQLString
+			}
 		},
 		resolve(root, args) {
 			return Db.models.Applications.findAll({ where: args });
