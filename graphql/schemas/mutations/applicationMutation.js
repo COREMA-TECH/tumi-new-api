@@ -106,7 +106,7 @@ const ApplicationMutation = {
 						isActive: args.application.isActive,
 						Urlphoto: args.application.Urlphoto,
 						dateCreation: args.application.dateCreation,
-						immediately: args.application.optionHearTumi,
+						immediately: args.application.immediately,
 						optionHearTumi: args.application.optionHearTumi,
 						nameReferences: args.application.nameReferences,
 						eeoc: args.application.eeoc,
