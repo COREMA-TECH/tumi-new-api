@@ -107,6 +107,13 @@ const ApplicationType = new GraphQLObjectType({
 					return application.getApplicationPhases();
 				}
 			},
+			Account: {
+				type: ApplicationAccountType,
+				resolve(application) {
+					return application.getApplicationAccount();
+				}
+			},
+			
 			Coordenadas: {
 				type: CoordenadasType,
 				resolve(application) {
@@ -1624,7 +1631,7 @@ const ApplicationSummaryType = new GraphQLObjectType({
 			socialSecurityNumber: { type: GraphQLString },
 			homePhone:{ type: GraphQLString },
 			cellPhone: { type: GraphQLString },
-			birthDate: { type: GraphQLDate },
+			birthDay: { type: GraphQLDate },
 			streetAddress: { type: GraphQLString },
 			city: { type: GraphQLString },
 			state: { type: GraphQLString },

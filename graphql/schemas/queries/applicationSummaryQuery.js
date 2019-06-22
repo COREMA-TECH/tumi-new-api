@@ -16,9 +16,10 @@ const ApplicationSummaryQuery = {
 		},
 		resolve(root, args) {
 			return Db.models.Applications.findOne({
-				where: { ...args }
+                where: { ...args }
 			}).then(_application => {
-                console.log("_application ", _application.dataValues.id)
+                
+                console.log("_application ", _application)
 				var ApplicationSummary = {
 					id: _application.dataValues.id,
                     firstName: _application.dataValues.firstName,
@@ -29,9 +30,9 @@ const ApplicationSummaryQuery = {
                     cellPhone: _application.dataValues.cellPhone,
                     birthDay: _application.dataValues.birthDay,
                     streetAddress: _application.dataValues.streetAddress,
-                    city: _application.dataValues.streetAddress,
-                    state: _application.dataValues.streetAddress,
-                    zipCode: _application.dataValues.streetAddress,
+                    city: _application.dataValues.city,
+                    state: _application.dataValues.state,
+                    zipCode: _application.dataValues.zipCode,
                     Hotel: '',
                     Department: '',
                     Job: '',
