@@ -24,6 +24,19 @@ const WorkOrderMutation = {
 			return Db.models.WorkOrder.bulkCreate(args.workOrder, { returning: true }).then((ret) => {
 				ret.map((data) => {
 
+					//se guarda un registro en la tabla transaction log, uno por cada work order creada
+					var userdate = new Date();
+					var timezone = userdate.getTimezoneOffset();
+					var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
+					serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
+					Db.models.TransactionLogs.create({
+						codeUser: args.codeuser,
+						nameUser: args.nameUser,
+						actionDate: serverdate,
+						action: 'CREATED ROW',
+						affectedObject: 'WORK ORDER'
+					});
+
 					let workOrdersPhase = {}, currentQ = 0, shiftData, ShiftWorkOrderData;
 					let weekDays = data.dataValues.dayWeek.replace("MO", 1).replace("TU", 2).replace("WE", 3).replace("TH", 4).replace("FR", 5).replace("SA", 6).replace("SU", 0);
 
@@ -77,6 +90,16 @@ const WorkOrderMutation = {
 
 								currentDate.setDate(currentDate.getDate() + 1)
 							}
+							
+							//se guarda un registro en la tabla transaction log, uno por cada shift creado
+							Db.models.TransactionLogs.create({
+								codeUser: args.codeuser,
+								nameUser: args.nameUser,
+								actionDate: serverdate,
+								action: 'CREATED ROW',
+								affectedObject: 'SHIFT'
+							});
+
 							ShiftWorkOrderData = {
 								ShiftId: shift.dataValues.id,
 								WorkOrderId: data.dataValues.id
@@ -92,17 +115,7 @@ const WorkOrderMutation = {
 					return Db.models.ShiftWorkOrder.bulkCreate(ShiftWorkOrder).then(() => {
 						return Db.models.ShiftDetail.bulkCreate(dates).then(() => {
 
-							var userdate = new Date();
-							var timezone = userdate.getTimezoneOffset();
-							var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
-							serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
-							Db.models.TransactionLogs.create({
-								codeUser: args.codeuser,
-								nameUser: args.nameUser,
-								actionDate: serverdate,
-								action: 'CREATED ROW',
-								affectedObject: 'WORK ORDER'
-							});
+							
 						});
 					}).catch(error => {
 						console.log(error)

@@ -54,7 +54,7 @@ import ApplicantIndependentContractQuery from './applicantIndependentContractQue
 import ApplicationAccountQuery from './applicationAccountQuery';
 
 import TransactionLogQuery from './transactionLogQuery';
-import ApplicationSummaryQuery from './ApplicationSummaryQuery';
+import ApplicationSummaryQuery from './applicationSummaryQuery';
 
 export {
 	ApplicantLanguageQuery,
