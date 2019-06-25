@@ -19,17 +19,20 @@ const EmployeesMutation = {
 			return Db.models.Employees.bulkCreate(args.Employees, { returning: true }).then((ret) => {
 
 				var userdate = new Date();
-						var timezone = userdate.getTimezoneOffset();
-						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
+				var timezone = userdate.getTimezoneOffset();
+				var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+				serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
 
-						Db.models.TransactionLogs.create({
-							codeUser: args.codeuser,
-							nameUser: args.nameUser,
-							actionDate: serverdate,
-							action: 'CREATED ROW',
-							affectedObject: 'EMPLOYEES'
-							});
+				ret.map(r => {
+					Db.models.TransactionLogs.create({
+						codeUser: args.codeuser,
+						nameUser: args.nameUser,
+						actionDate: serverdate,
+						action: 'CREATED ROW',
+						affectedObject: 'EMPLOYEES'
+					});
+				});
+
 
 				return ret.dataValues;
 			});
