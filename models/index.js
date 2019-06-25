@@ -39,3 +39,4 @@ db.Sequelize = Sequelize;
 module.exports = db;
 
 console.log('test');
+console.log('tes2t');
