@@ -1,5 +1,5 @@
 import { GraphQLList, GraphQLString, GraphQLBoolean, GraphQLInt } from 'graphql';
-import { BusinessCompanyType } from '../types/operations/outputTypes';
+import { BusinessCompanyType, employeesByPropertiesType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 const businessCompanyQuery = {
@@ -27,7 +27,7 @@ const businessCompanyQuery = {
         }
     },
     employeesByProperties: {
-        type: new GraphQLList(BusinessCompanyType),
+        type: new GraphQLList(employeesByPropertiesType),
         description: 'List of employees by properties',
         args: {
             Id: { type: GraphQLInt }
@@ -51,12 +51,13 @@ const businessCompanyQuery = {
                     BusinessCompanyObj = {
                         code: BusinessCompany.dataValues.Code,
                         name: BusinessCompany.dataValues.Name,
-                        Employees: []
+                        count_associate: BusinessCompany.dataValues.Employees ? BusinessCompany.dataValues.Employees.length : 0,
+                        employees: []
                     };
 
                     BusinessCompany.Employees.map(Employee => {
                         if (Employee.dataValues) {
-                            BusinessCompanyObj.Employees.push({
+                            BusinessCompanyObj.employees.push({
                                 id: Employee.dataValues.id,
                                 name: Employee.dataValues.firstName + " " + Employee.dataValues.lastName,
                                 position: Employee.dataValues.PositionRate ? Employee.dataValues.PositionRate.dataValues.Position: 'N/A',
@@ -69,7 +70,7 @@ const businessCompanyQuery = {
                     employeesByProperties.push(BusinessCompanyObj);
 
                 });
-                console.log(employeesByProperties)
+                return employeesByProperties;
             });
         }
     }
