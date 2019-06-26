@@ -5,23 +5,23 @@ export default {
 		return Conn.define('ApplicantMilitaryServices', {
 			branch: {
 				type: Sequelize.STRING,
-				allowNull: false
+				allowNull: true
 			},
 			startDate: {
 				type: Sequelize.DATE,
-				allowNull: false
+				allowNull: true
 			},
 			endDate: {
 				type: Sequelize.DATE,
-				allowNull: false
+				allowNull: true
 			},
 			rankAtDischarge: {
 				type: Sequelize.STRING,
-				allowNull: false
+				allowNull: true
 			},
 			typeOfDischarge: {
 				type: Sequelize.INTEGER,
-				allowNull: false
+				allowNull: true
 			},
 			ApplicationId: {
 				type: Sequelize.INTEGER,

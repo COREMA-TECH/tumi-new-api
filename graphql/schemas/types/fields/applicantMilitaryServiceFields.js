@@ -3,23 +3,23 @@ import GraphQLDate from 'graphql-date';
 
 const ApplicantMilitaryServiceFields = {
 	branch: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Military Service Branch'
 	},
 	startDate: {
-		type: new GraphQLNonNull(GraphQLDate),
+		type: GraphQLDate,
 		description: 'Military Service Start Date'
 	},
 	endDate: {
-		type: new GraphQLNonNull(GraphQLDate),
+		type: GraphQLDate,
 		description: 'Military Service End Date'
 	},
 	rankAtDischarge: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Military Service Rank at Discharge'
 	},
 	typeOfDischarge: {
-		type: new GraphQLNonNull(GraphQLInt),
+		type: GraphQLInt,
 		description: 'Military Service Type of Discharge'
 	},
 	ApplicationId: {
