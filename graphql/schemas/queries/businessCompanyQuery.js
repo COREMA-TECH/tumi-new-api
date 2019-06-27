@@ -1,5 +1,5 @@
 import { GraphQLList, GraphQLString, GraphQLBoolean, GraphQLInt } from 'graphql';
-import { BusinessCompanyType } from '../types/operations/outputTypes';
+import { BusinessCompanyType, employeesByPropertiesType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 const businessCompanyQuery = {
@@ -23,6 +23,54 @@ const businessCompanyQuery = {
                         where: args
                     }]
                 }]
+            });
+        }
+    },
+    employeesByProperties: {
+        type: new GraphQLList(employeesByPropertiesType),
+        description: 'List of employees by properties',
+        args: {
+            Id: { type: GraphQLInt }
+        },
+        resolve(root, args) {
+            return Db.models.BusinessCompany.findAll({
+                include: [{
+                    model: Db.models.Employees,
+                    include: [{
+                        model: Db.models.PositionRate,
+                        as: 'Title'
+                    }]
+                }, {
+                    model: Db.models.CatalogItem,
+                    where: { Id_Catalog: 8 }
+                }]
+            }).then(ret => {
+                let employeesByProperties = [];
+                let BusinessCompanyObj = {};
+                ret.map(BusinessCompany => {
+                    BusinessCompanyObj = {
+                        code: BusinessCompany.dataValues.Code,
+                        name: BusinessCompany.dataValues.Name,
+                        count_associate: BusinessCompany.dataValues.Employees ? BusinessCompany.dataValues.Employees.length : 0,
+                        employees: []
+                    };
+
+                    BusinessCompany.Employees.map(Employee => {
+                        if (Employee.dataValues) {
+                            BusinessCompanyObj.employees.push({
+                                id: Employee.dataValues.id,
+                                name: Employee.dataValues.firstName + " " + Employee.dataValues.lastName,
+                                position: Employee.dataValues.PositionRate ? Employee.dataValues.PositionRate.dataValues.Position: 'N/A',
+                                los: 0,
+                                phone: Employee.dataValues.mobileNumber
+                            });
+                        }
+                    });
+
+                    employeesByProperties.push(BusinessCompanyObj);
+
+                });
+                return employeesByProperties;
             });
         }
     }

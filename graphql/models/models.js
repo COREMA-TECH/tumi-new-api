@@ -410,6 +410,8 @@ SmsLog.belongsTo(Shift);
 Contacts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
 Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
 BusinessCompany.hasMany(Contacts, { foreignKey: 'Id_Entity' });
+BusinessCompany.hasMany(Employees, { foreignKey: 'idEntity' });
+BusinessCompany.hasMany(CatalogItem, { foreignKey: 'Id_Entity' });
 
 BreakRuleModel.belongsTo(BusinessCompany, {
 	foreignKey: 'businessCompanyId',

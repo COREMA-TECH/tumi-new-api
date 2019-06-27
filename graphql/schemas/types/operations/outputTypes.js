@@ -938,6 +938,32 @@ const phaseworkOrderType = new GraphQLObjectType({
 	}
 });
 
+const employeesListByPropertiesType = new GraphQLObjectType({
+	name: 'employeesListByPropertiesType',
+	description: 'employeesListByPropertiesType',
+	fields: () => {
+		return {
+			id: { type: GraphQLInt },
+			name: { type: GraphQLString },
+			position: { type: GraphQLString },
+			los: { type: GraphQLInt },
+			phone: { type: GraphQLString }
+		}
+	}
+});
+
+const employeesByPropertiesType = new GraphQLObjectType({
+	name: 'employeesByPropertiesType',
+	description: 'employeesByPropertiesType',
+	fields: () => {
+		return {
+			code: { type: GraphQLString },
+			name: { type: GraphQLString },
+			count_associate: { type: GraphQLInt },
+			employees: { type: GraphQLList(employeesListByPropertiesType) }
+		}
+	}
+});
 
 const BusinessCompanyType = new GraphQLObjectType({
 	name: 'BusinessCompany',
@@ -1757,5 +1783,7 @@ export {
 	PunchesConsolidatedForCSVType,
 	transactionLogsTypes,
 	ApplicationSummaryType,
-	ApplicationCodeUserType
+	ApplicationCodeUserType,
+	employeesListByPropertiesType,
+	employeesByPropertiesType
 };
