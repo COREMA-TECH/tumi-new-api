@@ -947,7 +947,8 @@ const employeesListByPropertiesType = new GraphQLObjectType({
 			name: { type: GraphQLString },
 			position: { type: GraphQLString },
 			los: { type: GraphQLInt },
-			phone: { type: GraphQLString }
+			phone: { type: GraphQLString },
+			startDate: { type: GraphQLString }
 		}
 	}
 });
@@ -957,10 +958,14 @@ const employeesByPropertiesType = new GraphQLObjectType({
 	description: 'employeesByPropertiesType',
 	fields: () => {
 		return {
+			id: { type: GraphQLInt },
 			code: { type: GraphQLString },
 			name: { type: GraphQLString },
 			count_associate: { type: GraphQLInt },
-			employees: { type: GraphQLList(employeesListByPropertiesType) }
+			employees: { type: GraphQLList(employeesListByPropertiesType) },
+			operationManager : { type: GraphQLString },
+			region: { type: GraphQLInt },
+			count_department: { type: GraphQLInt }
 		}
 	}
 });
