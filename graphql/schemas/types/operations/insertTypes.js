@@ -50,7 +50,8 @@ import {
 	ApplicantIndependentContractFields,
 	BreakRuleFields,
 	BreakRuleDetailFields,
-	TransactionLogFields
+	TransactionLogFields,
+	VisitFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -526,6 +527,15 @@ const inputInsertApplicantIndependentContract = new GraphQLInputObjectType({
 	}
 });
 
+const inputInsertVisit = new GraphQLInputObjectType({
+	name: 'inputInsertVisit',
+	description: 'Inputs for Visit',
+
+	fields: {
+		...VisitFields
+	}
+});
+
 export {
 	insertPayrollType,
 	inputInsertApplicantLanguage,
@@ -580,5 +590,6 @@ export {
 	inputInsertBreakRuleType,
 	inputInsertBreakRuleDescriptionType,
 	inputInsertTransactionLogType,
-	inputInsertWorkOrderGridType
+	inputInsertWorkOrderGridType,
+	inputInsertVisit
 };

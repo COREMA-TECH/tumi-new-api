@@ -55,6 +55,7 @@ import ApplicationAccountQuery from './applicationAccountQuery';
 
 import TransactionLogQuery from './transactionLogQuery';
 import ApplicationSummaryQuery from './applicationSummaryQuery';
+import VisitQuery from './visitQuery';
 
 export {
 	ApplicantLanguageQuery,
@@ -109,5 +110,6 @@ export {
 	BreakRuleDetailQuery,
 	TransactionLogQuery,
 	ApplicationAccountQuery,
-	ApplicationSummaryQuery
+	ApplicationSummaryQuery,
+	VisitQuery
 };

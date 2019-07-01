@@ -33,7 +33,8 @@ import {
 	SmsLogFields,
 	ApplicantIndependentContractFields,
 	BreakRuleFields,
-	BreakRuleDetailFields
+	BreakRuleDetailFields,
+	VisitFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -477,6 +478,19 @@ const inputUpdateApplicantIndependentContract = new GraphQLInputObjectType({
 	}
 });
 
+const inputUpdateVisit = new GraphQLInputObjectType({
+	name: 'inputUpdateVisit',
+	description: 'Inputs for Visit',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Visit Id'
+		},
+		...VisitFields
+	}
+});
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -512,5 +526,6 @@ export {
 	inputUpdateSmsLogType,
 	inputUpdateApplicantIndependentContract,
 	inputUpdateBreakRule,
-	inputUpdateBreakRuleDetail
+	inputUpdateBreakRuleDetail,
+	inputUpdateVisit
 };

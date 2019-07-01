@@ -42,7 +42,8 @@ import {
 	SmsLogMutation,
 	ApplicantIndependentContractMutation,
 	BreakRuleMutation,
-	BreakRuleDetailMutation
+	BreakRuleDetailMutation,
+	VisitMutation
 
 } from './mutations';
 import {
@@ -99,6 +100,7 @@ import {
 	TransactionLogQuery,
 	ApplicationAccountQuery,
 	ApplicationSummaryQuery,
+	VisitQuery
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -157,7 +159,8 @@ const RootQuery = new GraphQLObjectType({
 		...BreakRuleDetailQuery,
 		...TransactionLogQuery,
 		...ApplicationAccountQuery,
-		...ApplicationSummaryQuery
+		...ApplicationSummaryQuery,
+		...VisitQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({
@@ -202,7 +205,8 @@ const RootMutation = new GraphQLObjectType({
 		...ApplicationAccountMutation,
 		...ApplicantIndependentContractMutation,
 		...BreakRuleMutation,
-		...BreakRuleDetailMutation
+		...BreakRuleDetailMutation,
+		...VisitMutation
 	}
 });
 
