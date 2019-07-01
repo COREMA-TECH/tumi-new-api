@@ -41,23 +41,26 @@ const businessCompanyQuery = {
                     include: [{
                         model: Db.models.PositionRate,
                         as: 'Title'
-                    }, {
-                        model: Db.models.MarkedEmployees,
-                        limit: 1,
-                        order: [['EmployeeId', 'DESC']]
                     }]
                 }, {
                     model: Db.models.CatalogItem,
                     where: { Id_Catalog: 8 }
+                }, {
+                    model: Db.models.BusinessCompany,
+                    as: 'CompanyParent'
                 }]
             }).then(ret => {
                 let employeesByProperties = [];
                 let BusinessCompanyObj = {};
 
-                let OperationManagers = [];
                 let BusinessCompanyId = [];
 
                 ret.map(BusinessCompany => {
+
+                    let managementCompany = "N/A";
+
+                    if (BusinessCompany.dataValues.CompanyParent)
+                        managementCompany = BusinessCompany.dataValues.CompanyParent.dataValues.Code + '|' + BusinessCompany.dataValues.CompanyParent.dataValues.Name;
 
                     BusinessCompanyId.push(BusinessCompany.dataValues.Region);
                     BusinessCompanyObj = {
@@ -67,15 +70,16 @@ const businessCompanyQuery = {
                         region: BusinessCompany.dataValues.Region,
                         count_associate: BusinessCompany.dataValues.Employees ? BusinessCompany.dataValues.Employees.length : 0,
                         count_department: BusinessCompany.dataValues.CatalogItems ? BusinessCompany.dataValues.CatalogItems.length : 0,
+                        management_company: managementCompany,
                         employees: []
                     };
 
                     BusinessCompany.Employees.map(Employee => {
                         let workedDays = 0;
                         let markedDate = "N/A"
-                        if (Employee.dataValues.MarkedEmployees.length > 0) {
+                        if (Employee.dataValues.hireDate) {
                             let serverdate = moment.utc(Date.now());
-                            markedDate = moment.utc(Employee.dataValues.MarkedEmployees[0].dataValues.markedDate);
+                            markedDate = moment.utc(Employee.dataValues.hireDate);
                             workedDays = serverdate.diff(markedDate,'days');
                         }
 

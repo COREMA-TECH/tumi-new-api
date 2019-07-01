@@ -297,7 +297,12 @@ RolesForms.belongsTo(Roles, {
 BusinessCompany.hasOne(CompanyPreference, {
 	foreignKey: 'EntityId',
 	as: "CompanyPref"
-})
+});
+
+BusinessCompany.belongsTo(BusinessCompany, {
+	foreignKey: 'Id_Parent',
+	as: "CompanyParent"
+});
 
 Shift.hasMany(ShiftDetail, { onDelete: 'cascade' });
 ShiftDetail.hasOne(ShiftDetailEmployees, { onDelete: 'cascade' });
