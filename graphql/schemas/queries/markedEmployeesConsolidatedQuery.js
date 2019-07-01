@@ -39,12 +39,15 @@ const getPunchesMarkerFilter = (filter) => {
     if (!filter)
         return newFilter;
 
+    let startDate = moment.utc(filter.startDate).local()._d;
+    let endDate = moment.utc(filter.endDate).local()._d;
+
     if (filter.endDate && filter.startDate)
         newFilter = {
             ...newFilter,
             [Op.and]: [
-                { markedDate: { [Op.gte]: filter.startDate } },
-                { markedDate: { [Op.lte]: filter.endDate.setUTCHours(23, 59, 59) } }
+                { markedDate: { [Op.gte]: startDate.setUTCHours(0, 0, 0) } },
+                { markedDate: { [Op.lte]: endDate.setUTCHours(22, 59, 59) } }
             ]
         }
     return newFilter;
@@ -83,7 +86,7 @@ const MarkedEmployeesConsolidated = {
                 where: { ...getPunchesMarkerFilter(args) },
                 order: [
                     ['EmployeeId', 'DESC'],
-                    ['markedDate', 'ASC']
+                    ['markedTime', 'ASC']
                 ],
                 include: [{
                     model: Db.models.Employees,
@@ -107,7 +110,6 @@ const MarkedEmployeesConsolidated = {
 
                         var { typeMarkedId, markedTime, EmployeeId, notes, markedDate, imageMarked } = _mark.dataValues;
 
-                        var markType = '30570||30571'.includes(typeMarkedId) ? '001' : '002';//ClockIn||ClockOut (001), otherwise '002'
                         var key = `${EmployeeId}-${moment.utc(markedDate).format('YYYYMMDD')}-${typeMarkedId}`;
                         var groupKey = `${moment.utc(markedDate).format('YYYYMMDD')}`;
                         var employee = _mark.dataValues.Employees.dataValues;
@@ -160,11 +162,12 @@ const MarkedEmployeesConsolidated = {
                                     let _nextMarkValues = nextMark.dataValues;
                                     var _nextMarkHour = moment.utc(_nextMarkValues.markedTime, 'HH:mm').format('HH:mm');
 
-                                    if (_nextMarkValues.EmployeeId == _mark.EmployeeId) {
+                                    if (_nextMarkValues.EmployeeId == _mark.EmployeeId &&
+                                        moment.utc(_nextMarkValues.markedDate).local().format("YYYYMMDDD") == moment.utc(_mark.markedDate).local().format("YYYYMMDDD")) {
                                         punch.clockOut = _nextMarkHour;
                                         punch.imageMarkedOut = _nextMarkValues.imageMarked;
                                         if (_nextMarkValues.typeMarkedId == BREAKOUT && typeMarkedId == BREAKIN)
-                                            punch.job = 'Lunch Break'
+                                            punch.job = 'Lunch Break'
                                     }
                                 }
 
@@ -182,7 +185,7 @@ const MarkedEmployeesConsolidated = {
                             var startTime = moment.utc(_punch.clockIn, 'HH:mm:ss');//Get Start Time
                             var endTime = moment.utc(_punch.clockOut, 'HH:mm:ss');//Get End Time
                             var duration = moment.duration(endTime.diff(startTime));//Calculate duration between times
-                            var workedTime = ((duration.hours() + (duration.minutes() / 60)) * 1.00).toFixed(2);//Calulate duration in minutes/float
+                            var workedTime = (duration.asHours() * 1.00).toFixed(2)//((duration.hours() + (duration.minutes() / 60)) * 1.00).toFixed(2);//Calulate duration in minutes/float
 
                             _punch.duration = !isNaN(parseFloat(workedTime)) ? parseFloat(workedTime) : 0; //Update worked time
                         })
