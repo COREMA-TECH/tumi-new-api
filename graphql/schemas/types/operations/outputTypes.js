@@ -965,7 +965,8 @@ const employeesByPropertiesType = new GraphQLObjectType({
 			employees: { type: GraphQLList(employeesListByPropertiesType) },
 			operationManager : { type: GraphQLString },
 			region: { type: GraphQLInt },
-			count_department: { type: GraphQLInt }
+			count_department: { type: GraphQLInt },
+			management_company: { type: GraphQLString }
 		}
 	}
 });
