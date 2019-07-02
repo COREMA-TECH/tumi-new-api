@@ -51,13 +51,11 @@ export default {
 				hooks: {
 					beforeCreate: function (_, options) {
 						_.markedTime = getHour(_);
-						_.markedDate = moment.utc(_.markedDate).format('MM/DD/YYYY 00:00:00');
 					},
 					beforeBulkCreate: function (_, options) {
 						_.map(_ => {
 							let mark = _.dataValues;
 							mark.markedTime = getHour(mark);
-							mark.markedDate = moment.utc(mark.markedDate).format('MM/DD/YYYY 00:00:00');
 						})
 					}
 				}
