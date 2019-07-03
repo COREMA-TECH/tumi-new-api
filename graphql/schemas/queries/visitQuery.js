@@ -18,7 +18,15 @@ const VisitQuery = {
             }
         },
         resolve(root, args) {
-            return Db.models.Visits.findAll({ where: args });
+            return Db.models.Visits.findAll({ 
+                where: args,
+                include: [
+                    {
+                        model: Db.models.BusinessCompany,
+                        required: true
+                    }
+                ]
+            });
         }
     }
 };

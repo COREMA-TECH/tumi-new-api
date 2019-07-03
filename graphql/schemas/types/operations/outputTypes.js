@@ -1735,7 +1735,13 @@ const VisitType = new GraphQLObjectType({
 				type: GraphQLInt,
 				description: 'table id'
 			},
-			...VisitFields
+			...VisitFields,
+			BusinessCompany: {
+				type: BusinessCompanyType,
+				resolve(me) {
+					return me.getBusinessCompany();
+				}
+			}
 		};
 	}
 });
