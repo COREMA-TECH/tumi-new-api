@@ -87,7 +87,7 @@ const businessCompanyQuery = {
                         if (Employee.dataValues) {
                             let title = 'N/A';
                             if (Employee.dataValues.Title) {
-                                title = Employee.dataValues.Title.dataValues ? Employee.dataValues.Title.dataValues.Position : 'N/A'
+                                title = Employee.dataValues.Title.dataValues ? Employee.dataValues.Title.dataValues.Position : 'N/A';
                             }
                             BusinessCompanyObj.employees.push({
                                 id: Employee.dataValues.id,
