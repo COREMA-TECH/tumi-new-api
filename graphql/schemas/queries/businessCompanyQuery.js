@@ -44,7 +44,8 @@ const businessCompanyQuery = {
                     }]
                 }, {
                     model: Db.models.CatalogItem,
-                    where: { Id_Catalog: 8 }
+                    where: { Id_Catalog: 8 },
+                    required: false
                 }, {
                     model: Db.models.BusinessCompany,
                     as: 'CompanyParent'
@@ -53,7 +54,7 @@ const businessCompanyQuery = {
                 let employeesByProperties = [];
                 let BusinessCompanyObj = {};
 
-                let BusinessCompanyId = [];
+                let BusinessCompanyRegion = [];
 
                 ret.map(BusinessCompany => {
 
@@ -62,7 +63,7 @@ const businessCompanyQuery = {
                     if (BusinessCompany.dataValues.CompanyParent)
                         managementCompany = BusinessCompany.dataValues.CompanyParent.dataValues.Code + '|' + BusinessCompany.dataValues.CompanyParent.dataValues.Name;
 
-                    BusinessCompanyId.push(BusinessCompany.dataValues.Region);
+                    BusinessCompanyRegion.push(BusinessCompany.dataValues.Region);
                     BusinessCompanyObj = {
                         id: BusinessCompany.dataValues.Id,
                         code: BusinessCompany.dataValues.Code,
@@ -84,10 +85,14 @@ const businessCompanyQuery = {
                         }
 
                         if (Employee.dataValues) {
+                            let title = 'N/A';
+                            if (Employee.dataValues.Title) {
+                                title = Employee.dataValues.Title.dataValues ? Employee.dataValues.Title.dataValues.Position : 'N/A';
+                            }
                             BusinessCompanyObj.employees.push({
                                 id: Employee.dataValues.id,
                                 name: Employee.dataValues.firstName + " " + Employee.dataValues.lastName,
-                                position: Employee.dataValues.PositionRate ? Employee.dataValues.PositionRate.dataValues.Position: 'N/A',
+                                position: title,
                                 los: workedDays,
                                 phone: Employee.dataValues.mobileNumber,
                                 startDate: markedDate
@@ -99,7 +104,7 @@ const businessCompanyQuery = {
 
                 });
 
-                return Db.models.Users.findAll({returning: true, where: { IdRegion: BusinessCompanyId } }).then(users => {
+                return Db.models.Users.findAll({returning: true, where: { IdRegion: BusinessCompanyRegion } }).then(users => {
                     employeesByProperties.map(employeesByProperty => {
                         users.map(user => {
                             employeesByProperty.operationManager = employeesByProperty.region === user.IdRegion ? user.firstName + " " + user.lastName : 'N/A';

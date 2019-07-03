@@ -110,7 +110,7 @@ const MarkedEmployeesConsolidated = {
 
                         var { typeMarkedId, markedTime, EmployeeId, notes, markedDate, imageMarked } = _mark.dataValues;
 
-                        var key = `${EmployeeId}-${moment.utc(markedDate).format('YYYYMMDD')}-${typeMarkedId}`;
+                        var key = `${EmployeeId}-${moment.utc(markedDate).format('YYYYMMDD')}`;
                         var groupKey = `${moment.utc(markedDate).format('YYYYMMDD')}`;
                         var employee = _mark.dataValues.Employees.dataValues;
                         // var shift = _mark.dataValues.Shift.dataValues;
