@@ -28,6 +28,9 @@ const markedEmployeesFields = {
 	},
 	notes: {
 		type: GraphQLString
+	},
+	key: {
+		type: GraphQLString
 	}
 };
 export default markedEmployeesFields;
