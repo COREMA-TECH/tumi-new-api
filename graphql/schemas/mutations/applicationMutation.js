@@ -19,13 +19,13 @@ const ApplicationMutation = {
 		resolve(source, args) {
 
 			return Db.models.Applications.create(args.application).then(application => {
-				
-			
+
+
 
 				var userdate = new Date();
 				var timezone = userdate.getTimezoneOffset();
-				var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-				serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
+				var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
+				serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
 
 				if (args.application.sendInterview) {
 					SendSMS({
@@ -33,31 +33,29 @@ const ApplicationMutation = {
 						number: args.application.cellPhone
 					});
 				}
-				
-				
-				if (args.application.isLead)
-						 {
-							Db.models.TransactionLogs.create({
-								codeUser: args.codeuser,
-								nameUser: args.nameUser,
-								actionDate: serverdate,
-								action: 'CREATED ROW',
-								affectedObject: 'LEAD'
-								});
-						 }else
-						 {
-						Db.models.TransactionLogs.create({
-							codeUser: args.codeuser,
-							nameUser: args.nameUser,
-							actionDate: serverdate,
-							action: 'CREATED ROW',
-							affectedObject: 'EMPLOYEE PACKAGE'
-							});
-						}
+
+
+				if (args.application.isLead) {
+					Db.models.TransactionLogs.create({
+						codeUser: args.codeuser,
+						nameUser: args.nameUser,
+						actionDate: serverdate,
+						action: 'CREATED ROW',
+						affectedObject: 'LEAD'
+					});
+				} else {
+					Db.models.TransactionLogs.create({
+						codeUser: args.codeuser,
+						nameUser: args.nameUser,
+						actionDate: serverdate,
+						action: 'CREATED ROW',
+						affectedObject: 'EMPLOYEE PACKAGE'
+					});
+				}
 
 				return application.dataValues;
 
-			});	
+			});
 		}
 	},
 	updateApplication: {
@@ -69,53 +67,9 @@ const ApplicationMutation = {
 			application: { type: inputUpdateApplication }
 		},
 		resolve(source, args) {
-			
-			 return Db.models.Applications
-				.update(
-					{
-						firstName: args.application.firstName,
-						middleName: args.application.middleName,
-						lastName: args.application.lastName,
-						lastName2: args.application.lastName2,
-						date: args.application.date,
-						streetAddress: args.application.streetAddress,
-						emailAddress: args.application.emailAddress,
-						aptNumber: args.application.aptNumber,
-						city: args.application.city,
-						state: args.application.state,
-						zipCode: args.application.zipCode,
-						homePhone: args.application.homePhone,
-						cellPhone: args.application.cellPhone,
-						socialSecurityNumber: args.application.socialSecurityNumber,
-						positionApplyingFor: args.application.positionApplyingFor,
-						birthDay: args.application.birthDay,
-						car: args.application.car,
-						typeOfId: args.application.typeOfId,
-						expireDateId: args.application.expireDateId,
-						dateAvailable: args.application.dateAvailable,
-						scheduleRestrictions: args.application.scheduleRestrictions,
-						scheduleExplain: args.application.scheduleExplain,
-						convicted: args.application.convicted,
-						convictedExplain: args.application.convictedExplain,
-						comment: args.application.comment,
-						generalComment: args.application.generalComment,
-						idealJob: args.application.idealJob,
-						idLanguage: args.application.idLanguage,
-						signature: args.application.signature,
-						isLead: args.application.isLead,
-						isActive: args.application.isActive,
-						Urlphoto: args.application.Urlphoto,
-						dateCreation: args.application.dateCreation,
-						immediately: args.application.immediately,
-						optionHearTumi: args.application.optionHearTumi,
-						nameReferences: args.application.nameReferences,
-						eeoc: args.application.eeoc,
-						exemptions: args.application.exemptions,
-						area:args.application.area,
-						hireType: args.application.hireType,
-						gender: args.application.gender,
-						marital:args.application.marital
-					},
+
+			return Db.models.Applications
+				.update(args.application,
 					{
 						where: {
 							id: args.application.id
@@ -124,40 +78,36 @@ const ApplicationMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-					if (record) 
-					{
-						if (args.application.sendInterview)
-						{
+					if (record) {
+						if (args.application.sendInterview) {
 							SendSMS({
 								msg: args.application.firstName + ' ' + args.application.lastName,
 								number: args.application.cellPhone
 							});
 						}
 
-						console.log("args.codeuser ", args.codeuser, "args.nameUser ",args.nameUser )
+						console.log("args.codeuser ", args.codeuser, "args.nameUser ", args.nameUser)
 
-						 var userdate = new Date();
-						 var timezone = userdate.getTimezoneOffset();
-						 var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						 serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
+						var userdate = new Date();
+						var timezone = userdate.getTimezoneOffset();
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
+						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
 
-						 if (args.application.isLead)
-						 {
+						if (args.application.isLead) {
 							Db.models.TransactionLogs.create({
 								codeUser: args.codeuser,
 								nameUser: args.nameUser,
 								actionDate: serverdate,
 								action: 'UPDATED ROW',
 								affectedObject: 'LEAD'
-								});
-						 }else
-						 {
-						Db.models.TransactionLogs.create({
-							codeUser: args.codeuser,
-							nameUser: args.nameUser,
-							actionDate: serverdate,
-							action: 'UPDATED ROW',
-							affectedObject: 'EMPLOYEE PACKAGE'
+							});
+						} else {
+							Db.models.TransactionLogs.create({
+								codeUser: args.codeuser,
+								nameUser: args.nameUser,
+								actionDate: serverdate,
+								action: 'UPDATED ROW',
+								affectedObject: 'EMPLOYEE PACKAGE'
 							});
 						}
 						return record.dataValues;
@@ -252,16 +202,16 @@ const ApplicationMutation = {
 
 						var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
-						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
 						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
-						
+
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
 							actionDate: serverdate,
 							action: 'UPDATED ROW',
 							affectedObject: 'EMPLOYEE PACKAGE'
-							});
+						});
 
 						return record.dataValues;
 					}
@@ -300,12 +250,12 @@ const ApplicationMutation = {
 		description: 'Disable Application Form Info',
 		args: {
 			id: { type: GraphQLInt },
-			isActive:{ type: GraphQLBoolean },
+			isActive: { type: GraphQLBoolean },
 			codeuser: { type: GraphQLInt },
 			nameUser: { type: GraphQLString }
 		},
 		resolve(source, args) {
-			
+
 			return Db.models.Applications
 				.update(
 					{
@@ -319,24 +269,24 @@ const ApplicationMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-					if (record){
+					if (record) {
 
 
 						var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
-						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
 						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
 
-						
+
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
 							actionDate: serverdate,
 							action: 'DELETE ROW',
-							affectedObject:'EMPLOYEE PACKAGE'
-							});
+							affectedObject: 'EMPLOYEE PACKAGE'
+						});
 
-							return record.dataValues;
+						return record.dataValues;
 					}
 
 					else return null;
