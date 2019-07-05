@@ -64,6 +64,7 @@ import BreakRule from './breakRule';
 import BreakRuleDetail from './breakRuleDetail';
 import Employee_BreakRuleModel from './employee_breakRuleTable';
 import ApplicantIndependentContractModel from './applicantIndependentContractTable';
+import VisitModel from './visitTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
 const BreakRuleDetailModel = BreakRuleDetail.createModel(Conn);
@@ -130,6 +131,8 @@ const ApplicationAccount = ApplicationAccountModel.createModel(Conn);
 
 const Employee_BreakRule = Employee_BreakRuleModel.createModel(Conn);
 const ApplicantIndependentContract = ApplicantIndependentContractModel.createModel(Conn);
+const Visit = VisitModel.createModel(Conn);
+
 
 ApplicationPhases.belongsTo(CatalogItem, {
 	foreignKey: 'ReasonId',
@@ -455,6 +458,15 @@ Employee_BreakRule.belongsTo(Employees, {
 Employee_BreakRule.belongsTo(BreakRuleModel, {
 	foreignKey: 'breakRuleId'
 });
+
+Visit.belongsTo(Users, {
+	foreignKey: 'OpManagerId'
+})
+
+Visit.belongsTo(BusinessCompany, {
+	foreignKey: 'BusinessCompanyId'
+})
+
 
 Conn.authenticate()
 	.then(() => {

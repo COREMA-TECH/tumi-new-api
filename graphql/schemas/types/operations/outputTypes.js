@@ -59,7 +59,8 @@ import {
 	BreakRuleFields,
 	BreakRuleDetailFields,
 	Employee_BreakRuleFields,
-	TransactionLogFields
+	TransactionLogFields,
+	VisitFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -1739,6 +1740,26 @@ const worKOrdersByRegionType = new GraphQLObjectType({
 });
 
 
+const VisitType = new GraphQLObjectType({
+	name: 'VisitType',
+	description: 'This is for Visits',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...VisitFields,
+			BusinessCompany: {
+				type: BusinessCompanyType,
+				resolve(me) {
+					return me.getBusinessCompany();
+				}
+			}
+		};
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -1806,5 +1827,6 @@ export {
 	ApplicationCodeUserType,
 	employeesListByPropertiesType,
 	employeesByPropertiesType,
-	worKOrdersByRegionType
+	worKOrdersByRegionType,
+	VisitType
 };
