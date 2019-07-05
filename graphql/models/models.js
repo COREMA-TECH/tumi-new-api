@@ -203,6 +203,12 @@ ApplicationAccount.hasMany(ApplicationAccountDocument, {
 
 WorkOrder.belongsTo(PositionRate);
 
+WorkOrder.belongsTo(BusinessCompany, {
+	foreignKey: 'IdEntity',
+	as: 'BusinessCompanyWO'
+});
+
+
 WorkOrder.hasMany(WorkOrderPosition, { onDelete: 'cascade' });
 WorkOrderPosition.belongsTo(PositionRate);
 
@@ -213,11 +219,6 @@ PositionRate.belongsTo(CatalogItem, {
 
 WorkOrder.hasMany(phaseworkOrder);
 phaseworkOrder.belongsTo(WorkOrder);
-
-WorkOrder.belongsTo(BusinessCompany, {
-	foreignKey: 'IdEntity',
-	as: 'BusinessCompanyWO'
-});
 
 phaseworkOrder.belongsTo(CatalogItem, {
 	foreignKey: 'phaseworkOrderId',
@@ -397,6 +398,11 @@ CatalogItem.hasMany(Contacts, {
 	as: 'Contacts'
 })
 
+CatalogItem.hasMany(BusinessCompany, {
+	foreignKey: 'Region'
+});
+
+
 // Opening recruiter associations
 OpeningRecruiter.belongsTo(Users, { foreignKey: 'recruiterId' });
 OpeningRecruiter.belongsTo(Shift, { foreignKey: 'openingId' });
@@ -417,6 +423,8 @@ Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
 BusinessCompany.hasMany(Contacts, { foreignKey: 'Id_Entity' });
 BusinessCompany.hasMany(Employees, { foreignKey: 'idEntity' });
 BusinessCompany.hasMany(CatalogItem, { foreignKey: 'Id_Entity' });
+
+BusinessCompany.hasMany(WorkOrder, { foreignKey: 'IdEntity' });
 
 BreakRuleModel.belongsTo(BusinessCompany, {
 	foreignKey: 'businessCompanyId',

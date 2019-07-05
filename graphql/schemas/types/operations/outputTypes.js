@@ -1725,6 +1725,20 @@ const ApplicantIndepenentContractType = new GraphQLObjectType({
 	}
 });
 
+const worKOrdersByRegionType = new GraphQLObjectType({
+	name: "worKOrdersByRegionType",
+	description: "this structure is used to generate chart for work orders by regions",
+	fields: () => {
+		return {
+			id: { type: GraphQLInt },
+			name: { type: GraphQLString },
+			workOrders_count: { type: GraphQLInt },
+			color: { type: GraphQLString }
+		}
+	}
+});
+
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -1791,5 +1805,6 @@ export {
 	ApplicationSummaryType,
 	ApplicationCodeUserType,
 	employeesListByPropertiesType,
-	employeesByPropertiesType
+	employeesByPropertiesType,
+	worKOrdersByRegionType
 };
