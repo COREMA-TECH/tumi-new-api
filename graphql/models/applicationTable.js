@@ -9,15 +9,15 @@ export default {
 			},
 			firstName: {
 				type: Sequelize.STRING(50),
-				allowNull: false
+				allowNull: true
 			},
 			middleName: {
 				type: Sequelize.STRING(50),
-				allowNull: false
+				allowNull: true
 			},
 			lastName: {
 				type: Sequelize.STRING(50),
-				allowNull: false
+				allowNull: true
 			},
 			lastName2: {
 				type: Sequelize.STRING(50),
@@ -186,7 +186,7 @@ export default {
 				type: Sequelize.INTEGER,
 				allowNull: true
 			},
-			area:{
+			area: {
 				type: Sequelize.STRING(20),
 				allowNull: true
 			},
