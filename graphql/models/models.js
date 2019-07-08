@@ -459,6 +459,10 @@ Visit.belongsTo(BusinessCompany, {
 	foreignKey: 'BusinessCompanyId'
 })
 
+ConfigRegions.belongsTo(Users, {
+	foreignKey: 'regionalManagerId',
+	as: 'OperationManager'
+})
 
 Conn.authenticate()
 	.then(() => {
