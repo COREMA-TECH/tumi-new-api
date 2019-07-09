@@ -114,7 +114,6 @@ const businessCompanyQuery = {
                 } 
                 
                 return Db.models.Users.findAll({returning: true, where: userFilter }).then(users => {
-                    console.log(userFilter)
                     let empProp = employeesByProperties;
                     
                     if (args.operationManagerId) { 
