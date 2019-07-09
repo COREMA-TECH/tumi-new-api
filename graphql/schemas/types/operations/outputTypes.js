@@ -76,11 +76,11 @@ const ApplicationType = new GraphQLObjectType({
 				description: 'Applicant Id'
 			},
 			codeuser: {
-				type: new GraphQLNonNull(GraphQLInt),
+				type: GraphQLInt,
 				description: 'Code User'
 			},
 			nameUser: {
-				type: new GraphQLNonNull(GraphQLString),
+				type: GraphQLString,
 				description: 'Name User'
 			},
 			...ApplicationFields,
