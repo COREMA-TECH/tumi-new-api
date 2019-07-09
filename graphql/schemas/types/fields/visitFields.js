@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLString, GraphQLNonNull } from 'graphql';
+import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLBoolean } from 'graphql';
 const VisitsFields = {
 	startTime: {
         type: new GraphQLNonNull(GraphQLString)
@@ -23,6 +23,9 @@ const VisitsFields = {
     },
     endLongitude: {
         type: GraphQLString
+    },
+    isActive: {
+        type: GraphQLBoolean
     },
     OpManagerId: {
         type: GraphQLInt

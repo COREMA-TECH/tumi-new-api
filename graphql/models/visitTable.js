@@ -36,6 +36,10 @@ export default {
                 endLongitude: {
 					type: Sequelize.STRING,
 					allowNull: true
+				},
+				isActive: {
+					type: Sequelize.BOOLEAN,
+					allowNull: true
 				}
 			}
 		);
