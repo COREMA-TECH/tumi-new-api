@@ -41,6 +41,7 @@
 		"moment-timezone": "^0.5.25",
 		"mongose": "0.0.2-security",
 		"mssql": "^3.3.0",
+		"mysql2": "^1.6.5",
 		"node-cron": "^2.0.1",
 		"nodemailer": "^4.6.8",
 		"nodemon": "^1.18.11",
