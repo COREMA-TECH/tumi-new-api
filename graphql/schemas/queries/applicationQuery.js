@@ -112,6 +112,39 @@ const ApplicationQuery = {
 						}]
 
 					}]
+				}).then(_ => {
+					let applicationList = [];
+					let applicationIds = [];
+					//Get applications and applications ids
+					_.map(_application => {
+						let application = _application.dataValues;
+
+						applicationIds.push(application.id);
+						applicationList.push(_application);
+
+					})
+					//return first filter if idEntity is null and idUser and Id_Department have values
+					if (!args.idEntity || args.idUsers || args.Id_Department) return applicationList;
+
+					//Get applications by contacts and hotel
+					return Db.models.Contacts.findAll({ where: { Id_Entity: args.idEntity, IsActive: 1, ApplicationId: { $notIn: applicationIds } } })
+						.then(_contacts => {
+							applicationIds = [];//reset array
+							_contacts.map(_contact => {
+								let contact = _contact.dataValues;
+								applicationIds.push(contact.ApplicationId);
+							})
+							return Db.models.Applications.findAll(
+								{
+									where: { isActive: { [Op.in]: args.isActive }, id: { $in: applicationIds } },
+								})
+								.then(_applicationContacts => {
+									_applicationContacts.map(_applicationContact => {
+										applicationList.push(_applicationContact);
+									})
+									return applicationList;
+								})
+						})
 				});
 		}
 	},
@@ -300,7 +333,7 @@ const ApplicationQuery = {
 			}
 		},
 		resolve(root, args) {
-			return Db.models.Applications.findAll({ 
+			return Db.models.Applications.findAll({
 				where: args,
 				include: [{
 					model: Db.models.ApplicationEmployees,
@@ -318,7 +351,7 @@ const ApplicationQuery = {
 				applications.map(application => {
 					app = {
 						id: application.dataValues.id,
-						Code_User:  application.dataValues.ApplicationEmployee ? application.dataValues.ApplicationEmployee.dataValues.Employees.dataValues.User.dataValues.Code_User : null
+						Code_User: application.dataValues.ApplicationEmployee ? application.dataValues.ApplicationEmployee.dataValues.Employees.dataValues.User.dataValues.Code_User : null
 					};
 					applicationsArray.push(app);
 				});
