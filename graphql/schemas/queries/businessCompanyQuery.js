@@ -1,5 +1,6 @@
 import { GraphQLList, GraphQLString, GraphQLBoolean, GraphQLInt } from 'graphql';
 import { BusinessCompanyType, employeesByPropertiesType } from '../types/operations/outputTypes';
+import { inputInsertBusinessCompany } from '../types/operations/insertTypes';
 import Db from '../../models/models';
 import moment from 'moment';
 import moment_tz from 'moment-timezone';
@@ -32,10 +33,12 @@ const businessCompanyQuery = {
         type: new GraphQLList(employeesByPropertiesType),
         description: 'List of employees by properties',
         args: {
-            Id: { type: GraphQLInt }
+            property: { type: inputInsertBusinessCompany },
+            operationManagerId: { type: GraphQLInt }
         },
         resolve(root, args) {
             return Db.models.BusinessCompany.findAll({
+                where: args.property,
                 include: [{
                     model: Db.models.Employees,
                     include: [{
@@ -103,17 +106,33 @@ const businessCompanyQuery = {
                     employeesByProperties.push(BusinessCompanyObj);
 
                 });
-
-                return Db.models.Users.findAll({returning: true, where: { IdRegion: BusinessCompanyRegion } }).then(users => {
-                    employeesByProperties.map(employeesByProperty => {
-                        users.map(user => {
-                            employeesByProperty.operationManager = employeesByProperty.region === user.IdRegion ? user.firstName + " " + user.lastName : 'N/A';
+                let userFilter = { IdRegion: BusinessCompanyRegion };
+                if (args.operationManagerId) {
+                    userFilter = {
+                        Id: args.operationManagerId
+                    }
+                } 
+                
+                return Db.models.Users.findAll({returning: true, where: userFilter }).then(users => {
+                    let empProp = employeesByProperties;
+                    
+                    if (args.operationManagerId) { 
+                        empProp = employeesByProperties.filter(employeesByProperty => {
+                            return !!employeesByProperty.region && employeesByProperty.region === users[0].IdRegion
                         });
-                    });
-                    return employeesByProperties;
+                    }
+
+                    if (empProp.length > 0){
+                        empProp.map(employeesByProperty => {
+                            users.map(user => {
+                                employeesByProperty.operationManager = employeesByProperty.region === user.IdRegion ? user.firstName + " " + user.lastName : 'N/A';
+                            });
+                        });
+                    }
+                    return empProp;
                 }).catch(error => console.log(error));
 
-            });
+            }).catch(error => console.log(error));
         }
     }
 };

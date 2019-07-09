@@ -51,7 +51,8 @@ import {
 	BreakRuleFields,
 	BreakRuleDetailFields,
 	TransactionLogFields,
-	VisitFields
+	VisitFields,
+	BusinessCompanyFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -205,6 +206,18 @@ const inputInsertApplicantI9 = new GraphQLInputObjectType({
 		...ApplicantI9Fields
 	}
 });
+
+
+const inputInsertBusinessCompany = new GraphQLInputObjectType({
+	name: 'inputInsertBusinessCompany',
+	description: 'Inputs for Business Company',
+
+	fields: {
+		Id: { type: GraphQLInt },
+		...BusinessCompanyFields
+	}
+});
+
 const inputInsertWorkOrder = new GraphQLInputObjectType({
 	name: 'inputInsertWorkOrder',
 	description: 'Inputs for Work Order Insert',
@@ -591,5 +604,6 @@ export {
 	inputInsertBreakRuleDescriptionType,
 	inputInsertTransactionLogType,
 	inputInsertWorkOrderGridType,
-	inputInsertVisit
+	inputInsertVisit,
+	inputInsertBusinessCompany
 };
