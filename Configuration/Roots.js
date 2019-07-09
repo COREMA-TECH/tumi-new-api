@@ -2567,8 +2567,8 @@ async function SendContracts(args) {
 				'Is limited only by what you can dream' +
 				'<h3 style="color: #ecc500;font-size: 32px;text-align: center;margin: $margin 0;">Welcome</h3>' +
 				'<p>' +
-				'We are in the process of setting you up as part of the Tummy family. <br>' +
-				'We need youn to complete the following steps to get the process rolling' +
+				'We are in the process of setting you up as part of the Tumi family. <br>' +
+				'We need you to complete the following steps to get the process rolling' +
 				'</p>' +
 				'<a href="' +
 				URLWeb +
@@ -2696,8 +2696,8 @@ async function SendContracts(args) {
 				'Is limited only by what you can dream' +
 				'<h3 style="color: #ecc500;font-size: 32px;text-align: center;margin: $margin 0;">Welcome</h3>' +
 				'<p>' +
-				'We are in the process of setting you up as part of the Tummy family. <br>' +
-				'We need youn to complete the following steps to get the process rolling' +
+				'We are in the process of setting you up as part of the Tumi family. <br>' +
+				'We need you to complete the following steps to get the process rolling' +
 				'</p>' +
 				'<a href="' +
 				URLWeb +
