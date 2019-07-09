@@ -46,6 +46,9 @@ export default {
 				},
 				notes: {
 					type: Sequelize.STRING
+				},
+				key: {
+					type: Sequelize.STRING
 				}
 			}, {
 				hooks: {

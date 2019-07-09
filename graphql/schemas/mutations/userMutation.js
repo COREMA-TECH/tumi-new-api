@@ -97,10 +97,11 @@ const UserMutation = {
             return Db.models.Users.update({ Password: Sequelize.fn('PGP_SYM_ENCRYPT', password, 'AES_KEY') }, { where: { Code_User: args.Code_User }, returning: true })
                 .then(([rowsUpdated, [Users]]) => {
                     if (Users) {
-                        let { Electronic_Address } = Users.dataValues;
+                        let { Electronic_Address, Code_User } = Users.dataValues;
                         sendEmailResetPassword({
                             email: Electronic_Address.trim(),
-                            password: password
+                            password: password,
+                            username: Code_User
                         })
                         return Users;
                     }

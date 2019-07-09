@@ -38,6 +38,9 @@ const employeesFields = {
 	},
 	hireDate: {
 		type: GraphQLString
+	},
+	startDate: {
+		type: GraphQLString
 	}
 
 };

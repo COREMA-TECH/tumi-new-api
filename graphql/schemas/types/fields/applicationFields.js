@@ -7,15 +7,15 @@ const ApplicationFields = {
 		description: 'Application Language'
 	},
 	firstName: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Applicant First Name'
 	},
 	middleName: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Applicant Middle Name'
 	},
 	lastName: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Applicant Last Name'
 	},
 	lastName2: {
@@ -173,7 +173,7 @@ const ApplicationFields = {
 		description: 'Applicant immediately'
 	},
 	optionHearTumi: {
-		type:  GraphQLInt,
+		type: GraphQLInt,
 		description: 'Applicant optionHearTumi'
 	},
 	nameReferences: {
@@ -188,7 +188,7 @@ const ApplicationFields = {
 		type: GraphQLInt,
 		description: 'exemptions'
 	},
-	area:{
+	area: {
 		type: GraphQLString,
 		description: 'area'
 	},

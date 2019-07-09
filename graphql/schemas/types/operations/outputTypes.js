@@ -114,7 +114,7 @@ const ApplicationType = new GraphQLObjectType({
 					return application.getApplicationAccount();
 				}
 			},
-			
+
 			Coordenadas: {
 				type: CoordenadasType,
 				resolve(application) {
@@ -964,7 +964,7 @@ const employeesByPropertiesType = new GraphQLObjectType({
 			name: { type: GraphQLString },
 			count_associate: { type: GraphQLInt },
 			employees: { type: GraphQLList(employeesListByPropertiesType) },
-			operationManager : { type: GraphQLString },
+			operationManager: { type: GraphQLString },
 			region: { type: GraphQLInt },
 			count_department: { type: GraphQLInt },
 			management_company: { type: GraphQLString }
@@ -1554,7 +1554,7 @@ const ApplicationSummaryType = new GraphQLObjectType({
 			lastName: { type: GraphQLString },
 			middleName: { type: GraphQLString },
 			socialSecurityNumber: { type: GraphQLString },
-			homePhone:{ type: GraphQLString },
+			homePhone: { type: GraphQLString },
 			cellPhone: { type: GraphQLString },
 			birthDate: { type: GraphQLDate },
 			streetAddress: { type: GraphQLString },
@@ -1570,11 +1570,11 @@ const ApplicationSummaryType = new GraphQLObjectType({
 			status: { type: GraphQLString },
 			numberDepartment: { type: GraphQLInt },
 			recruiter: { type: GraphQLString },
-			directDepositAccount : { type: GraphQLString },
-			bankName: { type: GraphQLString},
+			directDepositAccount: { type: GraphQLString },
+			bankName: { type: GraphQLString },
 			routing: { type: GraphQLString },
 			noID: { type: GraphQLInt },
-			typeID: { type: GraphQLString},
+			typeID: { type: GraphQLString },
 			expDate: { type: GraphQLDate },
 			car: { type: GraphQLBoolean },
 			kids: { type: GraphQLBoolean },
@@ -1620,7 +1620,13 @@ const ConfigRegionsType = new GraphQLObjectType({
 				type: GraphQLInt,
 				description: 'table id'
 			},
-			...ConfigRegionsFields
+			...ConfigRegionsFields,
+			OperationManager: {
+				type: UsersType,
+				resolve(me) {
+					return me.getOperationManager();
+				}
+			},
 		}
 	}
 });

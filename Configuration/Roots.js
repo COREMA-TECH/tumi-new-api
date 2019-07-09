@@ -3587,7 +3587,7 @@ async function SendEmailResetPassword(args) {
 			from: 'tumistaffing@hotmail.com',
 			to: args.email,
 			subject: "Reset password",
-			html: `<p>Dear user, please enter with ${args.password} password to your account.</p>`
+			html: `<p>Hello, ${args.username}<br/>Your Temporary Password is: ${args.password}<br/>You will be required to change your password when you first logon to the website.</p>`
 		};
 
 		transporter.sendMail(mailOptions, function (error, info) {

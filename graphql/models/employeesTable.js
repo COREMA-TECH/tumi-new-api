@@ -56,6 +56,10 @@ export default {
 				hireDate: {
 					type: Sequelize.STRING,
 					allowNull: true
+				},
+				startDate: {
+					type: Sequelize.STRING,
+					allowNull: true
 				}
 			}
 		);
