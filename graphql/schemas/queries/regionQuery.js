@@ -1,5 +1,5 @@
 import { GraphQLList, GraphQLString, GraphQLBoolean, GraphQLInt } from 'graphql';
-import { CatalogItemType, worKOrdersByRegionType } from '../types/operations/outputTypes';
+import { CatalogItemType, worKOrdersByRegionType, employeesByHotel } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 import Sequelize from 'sequelize';
 
@@ -37,43 +37,98 @@ const RegionQuery = {
                     }]
                 }]
 			}).then(regions => {
+                const regionsArray = regions.map(region => {
+                    let regionInfo = {
+                        id: region.dataValues.Id,
+                        name: region.dataValues.Name.trim(),
+                        workOrders_count: 0,
+                        color: "#000000".replace(/0/g, () => {
+                                   return (~~(Math.random() * 16)).toString(16);
+                               })
+                    }
 
-                let dataRegion = [];
-                let regionsDatas = [];
+                    regionInfo.workOrders_count = region.dataValues.BusinessCompanies.length === 0 ? 0 : region.dataValues.BusinessCompanies.reduce((acc, curr) => {
+                        return acc + curr.dataValues.WorkOrders.length;
+                    }, 0);
 
-                regions.map(region => {
-                    let regionItemName = region.dataValues.Name;
-                    let regionItemId = region.dataValues.Id;
-                    dataRegion[`${regionItemName}-${regionItemId}`] = {
-                        id: regionItemId,
-                        name: regionItemName,
-                    } 
+                    return regionInfo;
+                });                
 
-                    region.dataValues.BusinessCompanies.map(BusinessCompany => {
-                        dataRegion[`${regionItemName}-${regionItemId}`].workOrders_count = BusinessCompany.dataValues.WorkOrders ? BusinessCompany.dataValues.WorkOrders.length : 0;
-                        dataRegion[`${regionItemName}-${regionItemId}`].color = "#000000".replace(/0/g, () => {
-                            return (~~(Math.random() * 16)).toString(16);
-                        });
-                    });
-
-                });
-
-                Object.keys(dataRegion).map(i => {
-                    let region = dataRegion[i]; 
-                    let regionObject = {
-                        id: region.id,
-                        name: region.name,
-                        workOrders_count: region.workOrders_count || 0,
-                        color: region.color
-                    };
-                    regionsDatas.push(regionObject);
-                });
-
-               return regionsDatas;
+               return regionsArray;
             });
 		}
-	}
+    },
+    
+    worKOrdersByCategory: {
+		type: new GraphQLList(worKOrdersByRegionType),
+		description: 'List work order by categories',
+		resolve(root, args) {
+			return Db.models.CatalogItem.findAll({ 
+                where: { Id_Catalog: 8 },
+                include: [{
+                    model: Db.models.WorkOrder,                    
+                }]
+			}).then(categories => {
+                    const categoriesArray = categories.map(category => {
+                    let categoryInfo = {
+                        id: category.dataValues.Id,
+                        name: category.dataValues.Description.trim(),
+                        workOrders_count: 0,
+                        color: "#000000".replace(/0/g, () => {
+                                   return (~~(Math.random() * 16)).toString(16);
+                               })
+                    }
+               
+                    categoryInfo.workOrders_count = category.dataValues.WorkOrders.length === 0 ? 0 : category.dataValues.WorkOrders.length;
+                    return categoryInfo;
+                });                
 
+                return categoriesArray;
+            });
+		}
+    },
+
+    employeesByHotel: {
+		type: new GraphQLList(employeesByHotel),
+		description: 'List employees by hotels',
+		resolve(root, args) {
+			return Db.models.BusinessCompany.findAll({ 
+                include: [{
+                    model: Db.models.Employees,                    
+                }]
+			}).then(hotels => {
+                const hotelsArray = hotels.map(hotel => {
+                    let hotelInfo = {
+                        id: hotel.dataValues.Id,
+                        name: hotel.dataValues.Name.trim(),
+                        employeeCount: 0,
+                        color: "#000000".replace(/0/g, () => {
+                                    return (~~(Math.random() * 16)).toString(16);
+                                })
+                    }
+            
+                    hotelInfo.employeeCount = hotel.dataValues.Employees.length;
+                    return hotelInfo;
+                })
+                .filter(item => item.employeeCount > 0);                
+
+                return hotelsArray;                
+            });
+		}
+    },
+    
+    getHiredEmployeesCount: {
+        type: GraphQLInt,
+        description: "Amount of hired employees",
+        resolve(root, args) {
+            return Db.models.Employees.count({
+                where: { hireDate: { [Op.ne]: null } }
+            }).then(count => {
+                console.log(count);
+                return count;
+            });
+        }
+    }
 }
 
 export default RegionQuery;

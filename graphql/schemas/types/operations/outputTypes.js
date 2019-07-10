@@ -1739,6 +1739,19 @@ const worKOrdersByRegionType = new GraphQLObjectType({
 	}
 });
 
+const employeesByHotel = new GraphQLObjectType({
+	name: "employeesByHotel",
+	description: "This structure is used to generate chart for employees by hotel in dashboards",
+	fields: () => {
+		return {
+			id: { type: GraphQLInt },
+			name: { type: GraphQLString },
+			employeeCount: { type: GraphQLInt },
+			color: { type: GraphQLString }
+		}
+	}
+});
+
 
 const VisitType = new GraphQLObjectType({
 	name: 'VisitType',
@@ -1828,5 +1841,6 @@ export {
 	employeesListByPropertiesType,
 	employeesByPropertiesType,
 	worKOrdersByRegionType,
-	VisitType
+	VisitType,
+	employeesByHotel
 };

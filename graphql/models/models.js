@@ -405,6 +405,10 @@ CatalogItem.hasMany(BusinessCompany, {
 	foreignKey: 'Region'
 });
 
+CatalogItem.hasMany(WorkOrder, {
+	foreignKey: 'departmentId'
+});
+
 
 // Opening recruiter associations
 OpeningRecruiter.belongsTo(Users, { foreignKey: 'recruiterId' });
