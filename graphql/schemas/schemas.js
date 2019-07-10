@@ -100,6 +100,7 @@ import {
 	TransactionLogQuery,
 	ApplicationAccountQuery,
 	ApplicationSummaryQuery,
+	RegionQuery,
 	VisitQuery
 } from './queries';
 
@@ -160,6 +161,7 @@ const RootQuery = new GraphQLObjectType({
 		...TransactionLogQuery,
 		...ApplicationAccountQuery,
 		...ApplicationSummaryQuery,
+		...RegionQuery,
 		...VisitQuery
 	}
 });

@@ -1732,6 +1732,33 @@ const ApplicantIndepenentContractType = new GraphQLObjectType({
 	}
 });
 
+const worKOrdersByRegionType = new GraphQLObjectType({
+	name: "worKOrdersByRegionType",
+	description: "this structure is used to generate chart for work orders by regions",
+	fields: () => {
+		return {
+			id: { type: GraphQLInt },
+			name: { type: GraphQLString },
+			workOrders_count: { type: GraphQLInt },
+			color: { type: GraphQLString }
+		}
+	}
+});
+
+const employeesByHotel = new GraphQLObjectType({
+	name: "employeesByHotel",
+	description: "This structure is used to generate chart for employees by hotel in dashboards",
+	fields: () => {
+		return {
+			id: { type: GraphQLInt },
+			name: { type: GraphQLString },
+			employeeCount: { type: GraphQLInt },
+			color: { type: GraphQLString }
+		}
+	}
+});
+
+
 const VisitType = new GraphQLObjectType({
 	name: 'VisitType',
 	description: 'This is for Visits',
@@ -1819,5 +1846,7 @@ export {
 	ApplicationCodeUserType,
 	employeesListByPropertiesType,
 	employeesByPropertiesType,
-	VisitType
+	worKOrdersByRegionType,
+	VisitType,
+	employeesByHotel
 };
