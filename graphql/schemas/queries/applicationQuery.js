@@ -358,6 +358,52 @@ const ApplicationQuery = {
 				return applicationsArray;
 			});
 		}
+	},
+	validateApplicationUniqueness: {
+		type: ApplicationType,
+		description: 'Return an specific Application filtered by Name , Phone and SSN, this is to validate Application Uniqueness',
+		args: {
+			firstName: { type: new GraphQLNonNull(GraphQLString) },
+			lastName: { type: new GraphQLNonNull(GraphQLString) },
+			socialSecurityNumber: { type: new GraphQLNonNull(GraphQLString) },
+			homePhone: { type: new GraphQLNonNull(GraphQLString) },
+			cellPhone: { type: new GraphQLNonNull(GraphQLString) },
+			id: { type: new GraphQLNonNull(GraphQLInt) }
+		},
+		resolve(root, args) {
+			return Db.models.Applications.findOne({
+				where: {
+					id: { $ne: args.id },
+					isActive: true,
+					$or: [
+						{
+							$and: [
+								{
+									firstName: args.firstName,
+									lastName: args.lastName,
+									$or: [{
+										cellPhone: args.cellPhone
+									},
+									{
+										homePhone: args.homePhone
+									}]
+								}
+							]
+						},
+						{
+							$and: [{
+								socialSecurityNumber: args.socialSecurityNumber
+							},
+							{
+								socialSecurityNumber: {
+									$ne: ''
+								}
+							}]
+						}
+					]
+				}
+			})
+		}
 	}
 };
 
