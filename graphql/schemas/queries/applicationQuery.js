@@ -378,9 +378,17 @@ const ApplicationQuery = {
 					$or: [
 						{
 							$and: [
+								Sequelize.where(
+									Sequelize.fn('upper', Sequelize.col('firstName')), {
+										$eq: args.firstName.toUpperCase()
+									}
+								),
+								Sequelize.where(
+									Sequelize.fn('upper', Sequelize.col('lastName')), {
+										$eq: args.lastName.toUpperCase()
+									}
+								),
 								{
-									firstName: args.firstName,
-									lastName: args.lastName,
 									$or: [{
 										cellPhone: args.cellPhone
 									},
