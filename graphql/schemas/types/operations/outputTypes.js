@@ -1862,7 +1862,7 @@ export {
 	ApplicationCodeUserType,
 	employeesListByPropertiesType,
 	employeesByPropertiesType,
-	EmployeeUniquenessOutputType
+	EmployeeUniquenessOutputType,
 	worKOrdersByRegionType,
 	VisitType,
 	employeesByHotel
