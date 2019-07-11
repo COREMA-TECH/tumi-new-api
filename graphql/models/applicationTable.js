@@ -201,6 +201,14 @@ export default {
 			marital: {
 				type: Sequelize.INTEGER,
 				allowNull: true
+			},
+			numberId: {
+				type: Sequelize.STRING,
+				allowNull: true
+			},
+			employmentType: {
+				type: Sequelize.STRING,
+				allowNull: true
 			}
 		});
 	}
