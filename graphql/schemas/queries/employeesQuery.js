@@ -1,5 +1,7 @@
-import { GraphQLList, GraphQLString, GraphQLBoolean, GraphQLInt, GraphQLNonNull } from 'graphql';
-import { EmployeesType } from '../types/operations/outputTypes';
+import { GraphQLList, GraphQLBoolean, GraphQLInt, GraphQLNonNull } from 'graphql';
+import { EmployeesType, EmployeeUniquenessOutputType } from '../types/operations/outputTypes';
+import { inputEmployeeUniquenessType } from '../types/operations/insertTypes';
+
 import Db from '../../models/models';
 import moment from 'moment';
 
@@ -126,6 +128,42 @@ const EmployeesQuery = {
                     }
                 ]
             });
+        }
+    },
+    validateEmployeeUniqueness: {
+        type: new GraphQLList(EmployeeUniquenessOutputType),
+        description: 'Return an specific Employee filtered by Names and Phone, this is to validate Employee Uniqueness',
+        args: {
+            employees: {
+                type: new GraphQLList(inputEmployeeUniquenessType)
+            }
+        },
+        resolve(root, args) {
+            return args.employees.map(_employee => {
+                return Db.models.Employees.findOne({
+                    where: {
+                        $and: [
+                            { id: { $ne: _employee.id } },
+                            { isActive: true },
+                            { mobileNumber: _employee.mobileNumber },
+                            Sequelize.where(
+                                Sequelize.fn('upper', Sequelize.col('firstName')), {
+                                    $eq: _employee.firstName.toUpperCase()
+                                }
+                            ),
+                            Sequelize.where(
+                                Sequelize.fn('upper', Sequelize.col('lastName')), {
+                                    $eq: _employee.lastName.toUpperCase()
+                                }
+                            )
+                        ]
+                    }
+                })
+                    .then(_ => {
+                        return { ..._employee, isUnique: _ === null }
+                    })
+            })
+
         }
     }
 };

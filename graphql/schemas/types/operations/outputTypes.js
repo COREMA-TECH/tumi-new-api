@@ -1752,6 +1752,22 @@ const VisitType = new GraphQLObjectType({
 	}
 });
 
+
+const EmployeeUniquenessOutputType = new GraphQLObjectType({
+	name: 'EmployeeUniquenessOutputType',
+	description: 'This is to return the result of Employee Uniqueness validation',
+	fields: () => {
+		return {
+			firstName: { type: (GraphQLString) },
+			lastName: { type: (GraphQLString) },
+			mobileNumber: { type: (GraphQLString) },
+			id: { type: (GraphQLInt) },
+			isUnique: { type: GraphQLBoolean },
+			index: { type: GraphQLString }
+		};
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -1819,5 +1835,6 @@ export {
 	ApplicationCodeUserType,
 	employeesListByPropertiesType,
 	employeesByPropertiesType,
-	VisitType
+	VisitType,
+	EmployeeUniquenessOutputType
 };

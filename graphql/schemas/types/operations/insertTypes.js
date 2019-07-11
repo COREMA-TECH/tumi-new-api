@@ -549,6 +549,21 @@ const inputInsertVisit = new GraphQLInputObjectType({
 	}
 });
 
+
+const inputEmployeeUniquenessType = new GraphQLInputObjectType({
+	name: 'inputEmployeeUniquenessType',
+	description: 'This is to validate Employee Uniqueness',
+	fields: () => {
+		return {
+			firstName: { type: new GraphQLNonNull(GraphQLString) },
+			lastName: { type: new GraphQLNonNull(GraphQLString) },
+			mobileNumber: { type: new GraphQLNonNull(GraphQLString) },
+			id: { type: new GraphQLNonNull(GraphQLInt) },
+			index: { type: new GraphQLNonNull(GraphQLString) }
+		}
+	}
+});
+
 export {
 	insertPayrollType,
 	inputInsertApplicantLanguage,
@@ -605,5 +620,6 @@ export {
 	inputInsertTransactionLogType,
 	inputInsertWorkOrderGridType,
 	inputInsertVisit,
-	inputInsertBusinessCompany
+	inputInsertBusinessCompany,
+	inputEmployeeUniquenessType
 };
