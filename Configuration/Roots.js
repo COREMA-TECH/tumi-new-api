@@ -3327,10 +3327,12 @@ async function SendSMS(args) {
 	const prefix = '';
 	const sender = '+18565796117';
 
+	const number = args.number.replace(/[.*+?^${}()|[\]\\]/g, '').replace(/ /g,'').replace(/-/g,'');
+
 	client.messages.create({
 		body: args.msg,
 		from: sender,
-		to: args.number
+		to: '+' + number
 	})
 		.then(message => console.log(message.sid))
 		.catch(error => console.log(error));
