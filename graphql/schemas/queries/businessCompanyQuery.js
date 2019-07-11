@@ -37,8 +37,12 @@ const businessCompanyQuery = {
             operationManagerId: { type: GraphQLInt }
         },
         resolve(root, args) {
+            let whereProperty = {Id_Parent: {$notIn: [0,99999]}};
+            if (args.property)
+                whereProperty = {...whereProperty, ...args.property}
+
             return Db.models.BusinessCompany.findAll({
-                where: args.property,
+                where: { ...whereProperty },
                 include: [{
                     model: Db.models.Employees,
                     include: [{
@@ -47,7 +51,7 @@ const businessCompanyQuery = {
                     }]
                 }, {
                     model: Db.models.CatalogItem,
-                    where: { Id_Catalog: 8 },
+                    where: { Id_Catalog: 8, IsActive: 1 },
                     required: false
                 }, {
                     model: Db.models.BusinessCompany,
