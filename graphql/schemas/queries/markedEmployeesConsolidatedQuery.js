@@ -108,7 +108,7 @@ const MarkedEmployeesConsolidated = {
                     for (var index = 0; index < marks.length; index++) {
                         let _mark = marks[index];
 
-                        var { typeMarkedId, markedTime, EmployeeId, notes, markedDate, imageMarked } = _mark.dataValues;
+                        var { typeMarkedId, markedTime, EmployeeId, notes, markedDate, imageMarked, id } = _mark.dataValues;
 
                         var key = `${EmployeeId}-${moment.utc(markedDate).format('YYYYMMDD')}`;
                         var groupKey = `${moment.utc(markedDate).format('YYYYMMDD')}`;
@@ -128,7 +128,8 @@ const MarkedEmployeesConsolidated = {
                                 name,
                                 employeeId: EmployeeId,
                                 job: '',
-                                hotelCode: company.Name
+                                hotelCode: company.Name,
+                                hotelId: company.Id
                             }
                             //Create new punch object if this object doesnt exist into the array of punches
                             if (!objPunches[groupKey]) {
@@ -156,6 +157,7 @@ const MarkedEmployeesConsolidated = {
                                 //  if ("30570||30572".includes(typeMarkedId)) {
                                 punch.clockIn = hour;
                                 punch.imageMarkedIn = imageMarked;
+                                punch.clockInId = id;
 
                                 let nextMark = marks[index + 1];
                                 if (nextMark) {
@@ -166,6 +168,7 @@ const MarkedEmployeesConsolidated = {
                                         moment.utc(_nextMarkValues.markedDate).local().format("YYYYMMDDD") == moment.utc(_mark.markedDate).local().format("YYYYMMDDD")) {
                                         punch.clockOut = _nextMarkHour;
                                         punch.imageMarkedOut = _nextMarkValues.imageMarked;
+                                        punch.clockOutId = id;
                                         if (_nextMarkValues.typeMarkedId == BREAKOUT && typeMarkedId == BREAKIN)
                                             punch.job = 'Lunch Break'
                                     }

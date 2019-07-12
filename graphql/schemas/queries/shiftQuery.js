@@ -7,6 +7,7 @@ import { inputShiftQuery, inputShiftBoardCompany, inputQueryWorkOrder } from '..
 import GraphQLDate from 'graphql-date';
 import Sequelize from 'sequelize';
 import Db from '../../models/models';
+import moment from 'moment';
 
 const Op = Sequelize.Op;
 
@@ -288,6 +289,40 @@ const ShiftQuery = {
             });
         }
     },
+    ShiftVsWorkedHours: {
+        type: new GraphQLList(ShiftType),
+        description: 'List of Shift vs Marked Hours',
+        resolve(root, args) {
+            return Db.models.Employees.findAll({
+                include: [{
+                    model: Db.models.ShiftDetailEmployees,
+                    include: [{
+                        model: Db.models.ShiftDetail,
+                        required: true
+                    }]
+                },{
+                    model: Db.models.MarkedEmployees
+                }]
+            }).then(ret => {
+                //momentDurationFormatSetup(moment);
+                let EmployeesHours = ret.map(Employee => {
+
+                    let SchedulesHours = Employee.dataValues.ShiftDetailEmployees.reduce((acum, item) => {
+                        return acum + moment(item.dataValues.ShiftDetail.dataValues.endTime,'hh:mm').diff(moment(item.dataValues.ShiftDetail.dataValues.startTime,'hh:mm'), 'hours');
+                    }, 0);
+
+                    // let WorkedHours = Employee.dataValues.MarkedEmployees.reduce((acum, item) => { 
+                    //     return acum + 
+                    // }, 0);
+
+                    return {
+                        name: Employee.dataValues.firstName + ' ' + Employee.dataValues.lastName,
+                        SchedulesHours: SchedulesHours
+                    }
+                });
+            });
+        }
+    }
 };
 
 export default ShiftQuery;
