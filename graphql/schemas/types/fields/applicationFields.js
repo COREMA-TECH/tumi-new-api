@@ -207,6 +207,14 @@ const ApplicationFields = {
 	sendInterview: {
 		type: GraphQLBoolean,
 		description: 'sendInterview'
+	},
+	numberId:{
+		type: GraphQLString,
+		description: 'numberId'
+	},
+	employmentType: {
+		type: GraphQLString,
+		description: 'employmentType'
 	}
 };
 
