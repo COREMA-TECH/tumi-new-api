@@ -1469,7 +1469,7 @@ const PunchesReportConsolidateType = new GraphQLObjectType({
 		return {
 			key: { type: GraphQLString },
 			date: { type: GraphQLString },
-			punches: { type: new GraphQLList(PunchesReportConsolidatedPunchesType) }
+			punches: { type: new GraphQLList(PunchesReportConsolidatedPunchesType) },
 		}
 	}
 })
@@ -1539,7 +1539,10 @@ const PunchesReportConsolidatedPunchesType = new GraphQLObjectType({
 			imageMarkedOut: { type: GraphQLString },
 			duration: { type: GraphQLFloat },
 			job: { type: GraphQLString },
-			hotelCode: { type: GraphQLString }
+			hotelCode: { type: GraphQLString },
+			hotelId: { type: GraphQLString },
+			clockInId: { type: GraphQLInt },
+			clockOutId: { type: GraphQLInt }
 		}
 	}
 })
