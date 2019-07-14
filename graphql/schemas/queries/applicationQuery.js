@@ -92,14 +92,18 @@ const ApplicationQuery = {
 		description: 'List applications records',
 		args: {
 			idUsers: { type: GraphQLInt },
-			Id_Department: { type: GraphQLInt },
+			Id_Deparment: { type: GraphQLInt },
 			idEntity: { type: GraphQLInt },
 			isActive: { type: new GraphQLList(GraphQLBoolean) }
 		},
 		resolve(root, args) {
+			let isActiveFilter = {};
+			if (args.isActive) {
+				isActiveFilter = { isActive: { [Op.in]: args.isActive } }
+			}
 			return Db.models.Applications.findAll(
 				{
-					where: { isActive: { [Op.in]: args.isActive } },
+					where: { ...isActiveFilter },
 					as: "Applications",
 					include: [{
 						model: Db.models.ApplicationEmployees,
