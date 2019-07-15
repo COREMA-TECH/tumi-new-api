@@ -1591,7 +1591,9 @@ const PunchesReportConsolidatedPunchesType = new GraphQLObjectType({
 			hotelCode: { type: GraphQLString },
 			hotelId: { type: GraphQLString },
 			clockInId: { type: GraphQLInt },
-			clockOutId: { type: GraphQLInt }
+			clockOutId: { type: GraphQLInt },
+			noteIn: { type: GraphQLString },
+			noteOut: { type: GraphQLString }
 		}
 	}
 })
