@@ -110,7 +110,7 @@ const businessCompanyQuery = {
                     employeesByProperties.push(BusinessCompanyObj);
 
                 });
-                let userFilter = { IdRegion: BusinessCompanyRegion };
+                let userFilter = { IdRegion: BusinessCompanyRegion, Id_Roles: 3, IsActive: 1 };
                 if (args.operationManagerId) {
                     userFilter = {
                         Id: args.operationManagerId
@@ -122,7 +122,7 @@ const businessCompanyQuery = {
                     
                     if (args.operationManagerId) { 
                         empProp = employeesByProperties.filter(employeesByProperty => {
-                            return !!employeesByProperty.region && employeesByProperty.region === users[0].IdRegion
+                            return employeesByProperty.region === users[0].IdRegion
                         });
                     }
 

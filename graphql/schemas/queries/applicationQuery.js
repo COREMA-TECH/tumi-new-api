@@ -179,11 +179,11 @@ const ApplicationQuery = {
 						model: Db.models.ApplicantPreviousEmployments,
 						required: args.experience,
 					},
-					{
-						model: Db.models.ApplicantIdealJobs,
-						where: { description: { [Op.iLike]: args.Position + '%' } },
-						required: true
-					},
+					// {
+					// 	model: Db.models.ApplicantIdealJobs,
+					// 	where: { description: { [Op.iLike]: args.Position + '%' } },
+					// 	required: true
+					// },
 					{
 						model: Db.models.ApplicationPhases,
 						where: { WorkOrderId: args.WorkOrderId, ShiftId: args.ShiftId },

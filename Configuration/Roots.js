@@ -3332,7 +3332,7 @@ async function SendSMS(args) {
 	client.messages.create({
 		body: args.msg,
 		from: sender,
-		to: '+' + number
+		to: '+1' + number
 	})
 		.then(message => console.log(message.sid))
 		.catch(error => console.log(error));

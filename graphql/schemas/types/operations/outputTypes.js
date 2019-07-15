@@ -1138,6 +1138,55 @@ const EmployeesType = new GraphQLObjectType({
 	}
 });
 
+const shiftVsWorkedHoursDetailType = new GraphQLObjectType({
+	name: 'ShiftVSWorkHoursDetail',
+	description: 'Shift vs Work Hours list',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'Employee id'
+			},
+			name: {
+				type: GraphQLString,
+				description: 'Employee Name'
+			},
+			schedulesHours: {
+				type: GraphQLFloat
+			},
+			workedHours: {
+				type: GraphQLFloat
+			},
+			difference: {
+				type: GraphQLFloat
+			}
+		}
+	}
+});
+
+const shiftVsWorkedHoursType = new GraphQLObjectType({
+	name: 'ShiftVSWorkHours',
+	description: 'Shift vs Work Hours list',
+	fields: () => {
+		return {
+			schedulesHours: {
+				type: GraphQLInt,
+				description: 'Employee id'
+			},
+			workedHours: {
+				type: GraphQLString,
+				description: 'Employee Name'
+			},
+			difference: {
+				type: GraphQLFloat
+			},
+			detail: {
+				type: new GraphQLList(shiftVsWorkedHoursDetailType)
+			}
+		}
+	}
+});
+
 const ShiftType = new GraphQLObjectType({
 	name: 'Shift',
 	description: 'This is for Shift Table',
@@ -1542,7 +1591,9 @@ const PunchesReportConsolidatedPunchesType = new GraphQLObjectType({
 			hotelCode: { type: GraphQLString },
 			hotelId: { type: GraphQLString },
 			clockInId: { type: GraphQLInt },
-			clockOutId: { type: GraphQLInt }
+			clockOutId: { type: GraphQLInt },
+			noteIn: { type: GraphQLString },
+			noteOut: { type: GraphQLString }
 		}
 	}
 })
@@ -1868,5 +1919,6 @@ export {
 	EmployeeUniquenessOutputType,
 	worKOrdersByRegionType,
 	VisitType,
-	employeesByHotel
+	employeesByHotel,
+	shiftVsWorkedHoursType
 };
