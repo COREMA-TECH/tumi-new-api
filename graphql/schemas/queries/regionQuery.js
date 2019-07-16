@@ -13,22 +13,22 @@ const RegionQuery = {
             Id: {
                 type: GraphQLInt
             },
-            Id_Catalog:{
+            Id_Catalog: {
                 type: GraphQLInt
             }
         },
         resolve(root, args) {
             return Db.models.CatalogItem.findAll({ where: args }).then(data => {
-                
+
             });
         }
     },
 
     worKOrdersByRegion: {
-		type: new GraphQLList(worKOrdersByRegionType),
-		description: 'List work order by regions',
-		resolve(root, args) {
-			return Db.models.CatalogItem.findAll({ 
+        type: new GraphQLList(worKOrdersByRegionType),
+        description: 'List work order by regions',
+        resolve(root, args) {
+            return Db.models.CatalogItem.findAll({
                 where: { Id_Catalog: 4 },
                 include: [{
                     model: Db.models.BusinessCompany,
@@ -36,15 +36,15 @@ const RegionQuery = {
                         model: Db.models.WorkOrder
                     }]
                 }]
-			}).then(regions => {
+            }).then(regions => {
                 const regionsArray = regions.map(region => {
                     let regionInfo = {
                         id: region.dataValues.Id,
                         name: region.dataValues.Name.trim(),
                         workOrders_count: 0,
                         color: "#000000".replace(/0/g, () => {
-                                   return (~~(Math.random() * 16)).toString(16);
-                               })
+                            return (~~(Math.random() * 16)).toString(16);
+                        })
                     }
 
                     regionInfo.workOrders_count = region.dataValues.BusinessCompanies.length === 0 ? 0 : region.dataValues.BusinessCompanies.reduce((acc, curr) => {
@@ -52,71 +52,71 @@ const RegionQuery = {
                     }, 0);
 
                     return regionInfo;
-                });                
+                });
 
-               return regionsArray;
+                return regionsArray;
             });
-		}
+        }
     },
-    
+
     worKOrdersByCategory: {
-		type: new GraphQLList(worKOrdersByRegionType),
-		description: 'List work order by categories',
-		resolve(root, args) {
-			return Db.models.CatalogItem.findAll({ 
+        type: new GraphQLList(worKOrdersByRegionType),
+        description: 'List work order by categories',
+        resolve(root, args) {
+            return Db.models.CatalogItem.findAll({
                 where: { Id_Catalog: 8 },
                 include: [{
-                    model: Db.models.WorkOrder,                    
+                    model: Db.models.WorkOrder,
                 }]
-			}).then(categories => {
-                    const categoriesArray = categories.map(category => {
+            }).then(categories => {
+                const categoriesArray = categories.map(category => {
                     let categoryInfo = {
                         id: category.dataValues.Id,
                         name: category.dataValues.Description.trim(),
                         workOrders_count: 0,
                         color: "#000000".replace(/0/g, () => {
-                                   return (~~(Math.random() * 16)).toString(16);
-                               })
+                            return (~~(Math.random() * 16)).toString(16);
+                        })
                     }
-               
+
                     categoryInfo.workOrders_count = category.dataValues.WorkOrders.length === 0 ? 0 : category.dataValues.WorkOrders.length;
                     return categoryInfo;
-                });                
+                });
 
                 return categoriesArray;
             });
-		}
+        }
     },
 
     employeesByHotel: {
-		type: new GraphQLList(employeesByHotel),
-		description: 'List employees by hotels',
-		resolve(root, args) {
-			return Db.models.BusinessCompany.findAll({ 
+        type: new GraphQLList(employeesByHotel),
+        description: 'List employees by hotels',
+        resolve(root, args) {
+            return Db.models.BusinessCompany.findAll({
                 include: [{
-                    model: Db.models.Employees,                    
+                    model: Db.models.Employees,
                 }]
-			}).then(hotels => {
+            }).then(hotels => {
                 const hotelsArray = hotels.map(hotel => {
                     let hotelInfo = {
                         id: hotel.dataValues.Id,
                         name: hotel.dataValues.Name.trim(),
                         employeeCount: 0,
                         color: "#000000".replace(/0/g, () => {
-                                    return (~~(Math.random() * 16)).toString(16);
-                                })
+                            return (~~(Math.random() * 16)).toString(16);
+                        })
                     }
-            
+
                     hotelInfo.employeeCount = hotel.dataValues.Employees.length;
                     return hotelInfo;
                 })
-                .filter(item => item.employeeCount > 0);                
+                    .filter(item => item.employeeCount > 0);
 
-                return hotelsArray;                
+                return hotelsArray;
             });
-		}
+        }
     },
-    
+
     getHiredEmployeesCount: {
         type: GraphQLInt,
         description: "Amount of hired employees",
@@ -124,7 +124,6 @@ const RegionQuery = {
             return Db.models.Employees.count({
                 where: { hireDate: { [Op.ne]: null } }
             }).then(count => {
-                console.log(count);
                 return count;
             });
         }

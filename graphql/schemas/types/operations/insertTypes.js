@@ -52,7 +52,8 @@ import {
 	BreakRuleDetailFields,
 	TransactionLogFields,
 	VisitFields,
-	BusinessCompanyFields
+	BusinessCompanyFields,
+	ApplicantVerificationLetterFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -549,7 +550,6 @@ const inputInsertVisit = new GraphQLInputObjectType({
 	}
 });
 
-
 const inputEmployeeUniquenessType = new GraphQLInputObjectType({
 	name: 'inputEmployeeUniquenessType',
 	description: 'This is to validate Employee Uniqueness',
@@ -561,6 +561,15 @@ const inputEmployeeUniquenessType = new GraphQLInputObjectType({
 			id: { type: new GraphQLNonNull(GraphQLInt) },
 			index: { type: new GraphQLNonNull(GraphQLString) }
 		}
+	}
+});
+
+const inputInsertApplicantVerificationLetterType = new GraphQLInputObjectType({
+	name: 'inputInsertApplicantVerificationLetterType',
+	description: 'Inputs to Insert Applicant Verification Letter',
+
+	fields: {
+		...ApplicantVerificationLetterFields
 	}
 });
 
@@ -621,5 +630,6 @@ export {
 	inputInsertWorkOrderGridType,
 	inputInsertVisit,
 	inputInsertBusinessCompany,
-	inputEmployeeUniquenessType
+	inputEmployeeUniquenessType,
+	inputInsertApplicantVerificationLetterType
 };

@@ -38,7 +38,6 @@ const getRecruiterReportFilters = (filter) => {
 
 
 		}
-	console.log(newFilter);
 	return newFilter;
 }
 
@@ -274,7 +273,6 @@ const ApplicationQuery = {
 					ApplicantI9: _application.dataValues.ApplicantI9 == null ? false : _application.dataValues.ApplicantI9.completed
 
 				};
-				console.log({ ApplicationsStatus });
 				return ApplicationsStatus; //Return true when all record associated to this application are completed
 			})
 

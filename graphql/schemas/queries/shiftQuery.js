@@ -274,7 +274,6 @@ const ShiftQuery = {
                         } else
                             data.Users = [];
 
-                        //console.log(shift.dataValues.OpeningRecruiters ? shift.dataValues.OpeningRecruiters.dataValues : [])
                         boardShifts.push(data);
 
                         users = [];
@@ -300,7 +299,7 @@ const ShiftQuery = {
                         model: Db.models.ShiftDetail,
                         required: true
                     }]
-                },{
+                }, {
                     model: Db.models.MarkedEmployees
                 }]
             }).then(ret => {
@@ -308,7 +307,7 @@ const ShiftQuery = {
                 let EmployeesHours = ret.map(Employee => {
 
                     let SchedulesHours = Employee.dataValues.ShiftDetailEmployees.reduce((acum, item) => {
-                        return acum + moment(item.dataValues.ShiftDetail.dataValues.endTime,'hh:mm').diff(moment(item.dataValues.ShiftDetail.dataValues.startTime,'hh:mm'), 'hours');
+                        return acum + moment(item.dataValues.ShiftDetail.dataValues.endTime, 'hh:mm').diff(moment(item.dataValues.ShiftDetail.dataValues.startTime, 'hh:mm'), 'hours');
                     }, 0);
 
                     // let WorkedHours = Employee.dataValues.MarkedEmployees.reduce((acum, item) => { 

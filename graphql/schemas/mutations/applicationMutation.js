@@ -86,8 +86,6 @@ const ApplicationMutation = {
 							});
 						}
 
-						console.log("args.codeuser ", args.codeuser, "args.nameUser ", args.nameUser)
-
 						var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
 						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));

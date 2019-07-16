@@ -36,7 +36,6 @@ const BreakRuleMutation = {
 			employees: { type: GraphQLList(GraphQLInt) }
         },
         resolve(source, args) {
-			console.log("Updating ", args)
             
 			const { id, name, code, isPaid, isAutomatic, lenght, isActive = true } = args.breakRule;
 			const { employees }	= args;
