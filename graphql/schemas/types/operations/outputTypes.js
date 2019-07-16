@@ -108,10 +108,10 @@ const ApplicationType = new GraphQLObjectType({
 					return application.getApplicationPhases();
 				}
 			},
-			Account: {
-				type: ApplicationAccountType,
+			Accounts: {
+				type: new GraphQLList(ApplicationAccountType),
 				resolve(application) {
-					return application.getApplicationAccount();
+					return application.getApplicationAccounts();
 				}
 			},
 
