@@ -169,7 +169,6 @@ Application.hasOne(ApplicantI9);
 Application.hasOne(ApplicantIndependentContract);
 Application.hasOne(ApplicationAccount);
 Application.hasOne(ApplicantVerificationLetter);
-
 ApplicationPhases.belongsTo(Application);
 ApplicantLanguage.belongsTo(Application);
 ApplicantEducation.belongsTo(Application);
@@ -197,6 +196,9 @@ ApplicantHarassmentPolicy.belongsTo(Application);
 ApplicantWorkerCompensation.belongsTo(Application);
 
 ApplicationAccount.belongsTo(Application);
+Application.hasMany(ApplicationAccount, {
+	foreignKey: 'applicationId'
+});
 
 ApplicationAccountDocument.belongsTo(ApplicationAccount, {
 	foreignKey: 'applicationAccountId'
