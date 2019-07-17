@@ -67,12 +67,15 @@ const RegionQuery = {
                 where: { Id_Catalog: 8 },
                 include: [{
                     model: Db.models.WorkOrder,
+                    include:[{ model: Db.models.PositionRate }]
                 }]
             }).then(categories => {
                 const categoriesArray = categories.map(category => {
+                    // console.log(category.dataValues.WorkOrders);
+                    
                     let categoryInfo = {
                         id: category.dataValues.Id,
-                        name: category.dataValues.Description.trim(),
+                        name: (category.dataValues.WorkOrders && category.dataValues.WorkOrders.length > 0) ? category.dataValues.WorkOrders[0].PositionRate.dataValues.Position.trim() : '',
                         workOrders_count: 0,
                         color: "#000000".replace(/0/g, () => {
                             return (~~(Math.random() * 16)).toString(16);
@@ -81,7 +84,8 @@ const RegionQuery = {
 
                     categoryInfo.workOrders_count = category.dataValues.WorkOrders.length === 0 ? 0 : category.dataValues.WorkOrders.length;
                     return categoryInfo;
-                });
+
+                }).filter(item => item.workOrders_count > 0)
 
                 return categoriesArray;
             });
