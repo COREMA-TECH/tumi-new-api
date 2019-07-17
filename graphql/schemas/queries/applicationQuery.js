@@ -38,7 +38,6 @@ const getRecruiterReportFilters = (filter) => {
 
 
 		}
-	console.log(newFilter);
 	return newFilter;
 }
 
@@ -179,11 +178,11 @@ const ApplicationQuery = {
 						model: Db.models.ApplicantPreviousEmployments,
 						required: args.experience,
 					},
-					{
-						model: Db.models.ApplicantIdealJobs,
-						where: { description: { [Op.iLike]: args.Position + '%' } },
-						required: true
-					},
+					// {
+					// 	model: Db.models.ApplicantIdealJobs,
+					// 	where: { description: { [Op.iLike]: args.Position + '%' } },
+					// 	required: true
+					// },
 					{
 						model: Db.models.ApplicationPhases,
 						where: { WorkOrderId: args.WorkOrderId, ShiftId: args.ShiftId },
@@ -274,7 +273,6 @@ const ApplicationQuery = {
 					ApplicantI9: _application.dataValues.ApplicantI9 == null ? false : _application.dataValues.ApplicantI9.completed
 
 				};
-				console.log({ ApplicationsStatus });
 				return ApplicationsStatus; //Return true when all record associated to this application are completed
 			})
 

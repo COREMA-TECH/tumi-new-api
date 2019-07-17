@@ -1,5 +1,5 @@
 import { GraphQLList, GraphQLInt, GraphQLBoolean, GraphQLString, GraphQLInputObjectType } from 'graphql';
-import { ShiftType, WorkOrderType } from '../types/operations/outputTypes';
+import { ShiftType, WorkOrderType, shiftVsWorkedHoursType } from '../types/operations/outputTypes';
 import { ShiftBoardType } from '../types/operations/outputTypes';
 import { inputShiftQuery, inputShiftBoardCompany, inputQueryWorkOrder } from '../types/operations/insertTypes';
 
@@ -274,7 +274,6 @@ const ShiftQuery = {
                         } else
                             data.Users = [];
 
-                        //console.log(shift.dataValues.OpeningRecruiters ? shift.dataValues.OpeningRecruiters.dataValues : [])
                         boardShifts.push(data);
 
                         users = [];
@@ -289,8 +288,8 @@ const ShiftQuery = {
             });
         }
     },
-    ShiftVsWorkedHours: {
-        type: new GraphQLList(ShiftType),
+    shiftVsWorkedHours: {
+        type: shiftVsWorkedHoursType,
         description: 'List of Shift vs Marked Hours',
         resolve(root, args) {
             return Db.models.Employees.findAll({
@@ -300,26 +299,44 @@ const ShiftQuery = {
                         model: Db.models.ShiftDetail,
                         required: true
                     }]
-                },{
+                }, {
                     model: Db.models.MarkedEmployees
                 }]
             }).then(ret => {
                 //momentDurationFormatSetup(moment);
+                let totalSchedulesHours = 0;
+                let totalWorkedHours = 0;
+
                 let EmployeesHours = ret.map(Employee => {
 
                     let SchedulesHours = Employee.dataValues.ShiftDetailEmployees.reduce((acum, item) => {
-                        return acum + moment(item.dataValues.ShiftDetail.dataValues.endTime,'hh:mm').diff(moment(item.dataValues.ShiftDetail.dataValues.startTime,'hh:mm'), 'hours');
+                        return acum + moment(item.dataValues.ShiftDetail.dataValues.endTime, 'hh:mm').diff(moment(item.dataValues.ShiftDetail.dataValues.startTime, 'hh:mm'), 'hours');
                     }, 0);
 
                     // let WorkedHours = Employee.dataValues.MarkedEmployees.reduce((acum, item) => { 
                     //     return acum + 
                     // }, 0);
 
+                    totalSchedulesHours += SchedulesHours;
+                    totalWorkedHours += totalWorkedHours;
+
                     return {
+                        id: Employee.dataValues.id,
                         name: Employee.dataValues.firstName + ' ' + Employee.dataValues.lastName,
-                        SchedulesHours: SchedulesHours
+                        schedulesHours: SchedulesHours,
+                        workedHours: 0,
+                        difference: SchedulesHours - 0
                     }
                 });
+
+                let EmployeesHoursTotal = {
+                    schedulesHours: totalSchedulesHours,
+                    workedHours: totalWorkedHours,
+                    difference: totalSchedulesHours - totalWorkedHours,
+                    detail: EmployeesHours
+                };
+
+                return EmployeesHoursTotal;
             });
         }
     }

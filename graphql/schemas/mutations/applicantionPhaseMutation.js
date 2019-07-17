@@ -72,10 +72,7 @@ const SendNotificationToInterview = (args, ret) => {
 						//	send mail with defined transport object
 						let info = Transporter.sendMail(mailOptions).then((ret) => {
 							console.log(`Message status ${ret.response}`)
-							console.log(ret)
-
 							console.log("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------")
-							console.table(emails)
 						})
 						return ret.dataValues;
 					});

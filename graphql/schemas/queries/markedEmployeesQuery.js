@@ -189,7 +189,6 @@ const MarkedEmployeesQuery = {
                     }
                     CurrentMarkedDate = key;
                 });
-                console.log(details)
             });
         }
     },

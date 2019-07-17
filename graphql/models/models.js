@@ -65,6 +65,7 @@ import BreakRuleDetail from './breakRuleDetail';
 import Employee_BreakRuleModel from './employee_breakRuleTable';
 import ApplicantIndependentContractModel from './applicantIndependentContractTable';
 import VisitModel from './visitTable';
+import ApplicantVerificationLetterModel from './applicantVerificationLetterTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
 const BreakRuleDetailModel = BreakRuleDetail.createModel(Conn);
@@ -132,7 +133,7 @@ const ApplicationAccount = ApplicationAccountModel.createModel(Conn);
 const Employee_BreakRule = Employee_BreakRuleModel.createModel(Conn);
 const ApplicantIndependentContract = ApplicantIndependentContractModel.createModel(Conn);
 const Visit = VisitModel.createModel(Conn);
-
+const ApplicantVerificationLetter = ApplicantVerificationLetterModel.createModel(Conn);
 
 ApplicationPhases.belongsTo(CatalogItem, {
 	foreignKey: 'ReasonId',
@@ -166,9 +167,8 @@ Application.hasOne(ApplicantWorkerCompensation);
 Application.hasOne(ApplicantW4);
 Application.hasOne(ApplicantI9);
 Application.hasOne(ApplicantIndependentContract);
-//Application.hasOne(ApplicationAccount);
-
-
+Application.hasOne(ApplicationAccount);
+Application.hasOne(ApplicantVerificationLetter);
 ApplicationPhases.belongsTo(Application);
 ApplicantLanguage.belongsTo(Application);
 ApplicantEducation.belongsTo(Application);
@@ -179,6 +179,7 @@ ApplicantIdealJob.belongsTo(Application);
 ApplicantDocument.belongsTo(Application);
 ApplicantDocument.belongsTo(CatalogItem);
 ApplicantIndependentContract.belongsTo(Application);
+ApplicantVerificationLetter.belongsTo(Application);
 
 ApplicantW4.belongsTo(Application);
 ApplicantI9.belongsTo(Application);
@@ -306,6 +307,7 @@ BusinessCompany.hasOne(CompanyPreference, {
 	as: "CompanyPref"
 });
 
+//commentar si da error al correr migracion
 BusinessCompany.belongsTo(BusinessCompany, {
 	foreignKey: 'Id_Parent',
 	as: "CompanyParent"
@@ -404,6 +406,7 @@ CatalogItem.hasMany(Contacts, {
 	as: 'Contacts'
 })
 
+//commentar si da error al correr migracion
 CatalogItem.hasMany(BusinessCompany, {
 	foreignKey: 'Region'
 });
@@ -427,8 +430,9 @@ Shift.hasMany(OpeningRecruiter, {
 
 SmsLog.belongsTo(Employees);
 SmsLog.belongsTo(Shift);
-
+//commentar si da error al correr migracion
 Contacts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
+//commentar si da error al correr migracion
 Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
 BusinessCompany.hasMany(Contacts, { foreignKey: 'Id_Entity' });
 BusinessCompany.hasMany(Employees, { foreignKey: 'idEntity' });
@@ -497,6 +501,6 @@ Conn.authenticate()
 //console.log('Applications are:-', applications);
 //	});
 //	console.log('sync is completed');
-//});
+// });
 
 export default Conn;
