@@ -60,7 +60,8 @@ import {
 	BreakRuleDetailFields,
 	Employee_BreakRuleFields,
 	TransactionLogFields,
-	VisitFields
+	VisitFields,
+	ApplicantVerificationLetterFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -1849,6 +1850,17 @@ const EmployeeUniquenessOutputType = new GraphQLObjectType({
 	}
 });
 
+const ApplicantVerificationLetterType = new GraphQLObjectType({
+	name: 'ApplicantVerificationLetterType',
+	description: 'This object represents an Applicant verification Letter',
+	fields: () => {
+		return {
+			id: { type: GraphQLInt },
+			...ApplicantVerificationLetterFields
+		}
+	}
+})
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -1920,5 +1932,6 @@ export {
 	worKOrdersByRegionType,
 	VisitType,
 	employeesByHotel,
+	ApplicantVerificationLetterType,
 	shiftVsWorkedHoursType
 };

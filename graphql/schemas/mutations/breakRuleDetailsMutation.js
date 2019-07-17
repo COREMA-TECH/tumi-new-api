@@ -7,15 +7,14 @@ import { inputUpdateBreakRuleDetail } from '../types/operations/updateTypes';
 
 const BreakRuleDetailMutation = {
     addBreakRuleDetail: {
-		type: BreakRuleDetailType,
-		description: 'Add break rule detail record to database',
-		args: {
-			breakRuleDetail: { type: inputInsertBreakRuleDescriptionType }
-		},
-		resolve(source, args) {
-			console.log("Variables ", args)
-			return Db.models.BreakRuleDetail.create(args.breakRuleDetail);
-		}
+        type: BreakRuleDetailType,
+        description: 'Add break rule detail record to database',
+        args: {
+            breakRuleDetail: { type: inputInsertBreakRuleDescriptionType }
+        },
+        resolve(source, args) {
+            return Db.models.BreakRuleDetail.create(args.breakRuleDetail);
+        }
     },
 
     updateBreakRuleDetail: {
@@ -25,8 +24,6 @@ const BreakRuleDetailMutation = {
             breakRuleDetail: { type: inputUpdateBreakRuleDetail }
         },
         resolve(source, args) {
-			console.log("Updating ", args)
-            
             const { id, shiftReached, isRepeating, days, breakStartTime, breakPlacement } = args.breakRuleDetail;
 
             return Db.models.BreakRuleDetail.update({ shiftReached, isRepeating, days, breakStartTime, breakPlacement }, {
@@ -35,11 +32,11 @@ const BreakRuleDetailMutation = {
                 },
                 returning: true
             })
-            .then(function ([rowsUpdate, [record]]) {
-                if (record) return record.dataValues;
-                else return null;
-            });
-		}
+                .then(function ([rowsUpdate, [record]]) {
+                    if (record) return record.dataValues;
+                    else return null;
+                });
+        }
     },
 }
 

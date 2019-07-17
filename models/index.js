@@ -1,12 +1,12 @@
 'use strict';
 
-let fs        = require('fs');
-let path      = require('path');
+let fs = require('fs');
+let path = require('path');
 let Sequelize = require('sequelize');
-let basename  = path.basename(__filename);
-let env       = 'development';
-let config    = require(__dirname + '/../config/config.json')[env];
-let db        = {};
+let basename = path.basename(__filename);
+let env = 'development';
+let config = require(__dirname + '/../config/config.json')[env];
+let db = {};
 
 let sequelize;
 
@@ -37,5 +37,3 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 module.exports = db;
-
-console.log('test');

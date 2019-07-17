@@ -1,7 +1,7 @@
-import {insertPayrollType} from '../types/operations/insertTypes';
+import { insertPayrollType } from '../types/operations/insertTypes';
 import models from '../../../models';
-import {listPayrollType} from "../types/operations/outputTypes";
-import {updatePayrollType} from "../types/operations/updateTypes";
+import { listPayrollType } from "../types/operations/outputTypes";
+import { updatePayrollType } from "../types/operations/updateTypes";
 import Db from '../../models/models';
 import moment from 'moment';
 
@@ -19,14 +19,9 @@ const payrollMutation = {
             }
         },
         resolve(source, args) {
-            return models.Payroll.create(args.payroll, {returning: true}).then((output) => {
-                //return output.dataValues;
-                //console.log(output.dataValues);
+            return models.Payroll.create(args.payroll, { returning: true }).then((output) => {
                 let lastPayPeriod = output.dataValues.lastPayPeriod;
                 let lastPayPeriodDate = moment(lastPayPeriod);
-                // while() {
-
-                // }
             });
         }
     },

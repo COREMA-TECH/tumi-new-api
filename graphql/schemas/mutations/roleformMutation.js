@@ -13,7 +13,6 @@ const RolesFormsMutation = {
 			rolesforms: { type: new GraphQLList(inputInsertRolesForms) }
 		},
 		resolve(source, args) {
-			console.log("Estanis eb addRolesforms ", args)
 			return Db.models.RolesForms.bulkCreate(args.rolesforms, { returning: true }).then((ret) => {
 				return ret.map((data) => {
 					return data.dataValues;
@@ -28,7 +27,6 @@ const RolesFormsMutation = {
 			rolesforms: { type: inputUpdateRolesForms }
 		},
 		resolve(source, args) {
-			console.log("Estanis eb addRolesforms ", args)
 			return Db.models.RolesForms
 				.update(
 					{

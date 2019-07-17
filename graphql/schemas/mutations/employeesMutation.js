@@ -88,7 +88,6 @@ const EmployeesMutation = {
 			nameUser: { type: GraphQLString }
 		},
 		resolve(source, args) {
-			console.log("argumentos ", args)
 			return Db.models.Employees
 				.update(
 					{

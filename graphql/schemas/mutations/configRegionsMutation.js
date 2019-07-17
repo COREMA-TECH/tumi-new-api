@@ -30,7 +30,6 @@ const configRegionsMutation = {
 			regionalDirectorId: { type: GraphQLInt }
 		},
 		resolve(source, args) {
-			console.log("updateConfigRegions", args)
 			return Db.models.ConfigRegions
 				.update(
 					{

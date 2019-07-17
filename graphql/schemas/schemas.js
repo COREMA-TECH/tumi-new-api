@@ -43,7 +43,8 @@ import {
 	ApplicantIndependentContractMutation,
 	BreakRuleMutation,
 	BreakRuleDetailMutation,
-	VisitMutation
+	VisitMutation,
+	ApplicantVerificationLetterMutation
 
 } from './mutations';
 import {
@@ -208,7 +209,8 @@ const RootMutation = new GraphQLObjectType({
 		...ApplicantIndependentContractMutation,
 		...BreakRuleMutation,
 		...BreakRuleDetailMutation,
-		...VisitMutation
+		...VisitMutation,
+		...ApplicantVerificationLetterMutation
 	}
 });
 

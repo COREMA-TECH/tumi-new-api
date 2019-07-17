@@ -54,8 +54,6 @@ const timeElapsedQuery = {
                         ShiftId: user.ShiftId,
                     }
 
-                    console.log(Elapsed)
-
                     getTimes.push(Elapsed)
 
                 })
