@@ -1,6 +1,4 @@
-import { inputInsertApplicantW4 } from '../types/operations/insertTypes';
-import { ApplicantVerificationLetterType } from '../types/operations/outputTypes';
-import { GraphQLList, GraphQLInt, GraphQLString, GraphQLNonNull } from 'graphql';
+import { GraphQLInt, GraphQLString, GraphQLNonNull } from 'graphql';
 import pdf from 'html-pdf';
 import { Transporter } from '../../../Configuration/Configuration';
 import Db from '../../models/models';
