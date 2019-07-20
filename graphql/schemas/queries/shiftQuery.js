@@ -291,12 +291,27 @@ const ShiftQuery = {
     shiftVsWorkedHours: {
         type: shiftVsWorkedHoursType,
         description: 'List of Shift vs Marked Hours',
+        args: {
+            startDate: { type: GraphQLDate },
+            endDate: { type: GraphQLDate }
+        },
         resolve(root, args) {
+            let datesRange = {};
+            if (args.startDate && args.endDate) {
+                datesRange = {
+                    [Op.and]: [
+                        { startDate: { [Op.gte]: args.startDate } },
+                        { endDate: { [Op.lte]: args.endDate } }
+                    ]
+                }
+            }
+
             return Db.models.Employees.findAll({
                 include: [{
                     model: Db.models.ShiftDetailEmployees,
                     include: [{
                         model: Db.models.ShiftDetail,
+                        where: datesRange,
                         required: true
                     }]
                 }, {
