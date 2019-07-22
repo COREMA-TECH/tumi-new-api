@@ -37,43 +37,51 @@ const ApplicantVerificationLetterMutation = {
             var srcFile = `./public/Documents/${filename}.pdf`;
 
 
-            return Db.models.ApplicantVerificationLetter.create({ ApplicationId: args.ApplicationId, html: args.html, fileName: filename })
-                .then((output) => {
-                    //Craete PDF
-                    pdf.create(args.html, options).toFile(srcFile, (err, res) => {
-                        if (err) return console.log(err);
-                        //Sen Email
-                        let mailOptions = {
-                            from: '"Tumi Staffing" <tumistaffing@hotmail.com>', // sender address
-                            to: args.email, // list of receivers
-                            subject: "Employment Verification Letter", // Subject line
-                            attachments: [{
-                                filename,
-                                path: res.filename,
-                                contentType: 'application/pdf'
-                            }],
-                        }
-                        //	send mail with defined transport object
-                        Transporter.sendMail(mailOptions).then((ret) => {
-                            console.log(`Message status ${ret.response}`)
-                        }).catch(error => {
-                            console.log(error);
-                        })
-                    })
+            return Db.models.Applications.findOne({ where: { id: args.ApplicationId } })
+                .then(_ => {
+                    let { firstName, lastName } = _.dataValues;
+                    let fullname = `${firstName} ${lastName}`;
 
-                    let notExists = true;
-                    //Verify when PDF has been created
-                    while (notExists) {
-                        try {
-                            fs.accessSync(srcFile, fs.W_OK);
-                            notExists = false;
+                    return Db.models.ApplicantVerificationLetter.create({ ApplicationId: args.ApplicationId, html: args.html, fileName: filename })
+                        .then((output) => {
+                            //Craete PDF
+                            pdf.create(args.html, options).toFile(srcFile, (err, res) => {
+                                if (err) return console.log(err);
+                                //Sen Email
+                                let mailOptions = {
+                                    from: '"Tumi Staffing" <tumistaffing@hotmail.com>', // sender address
+                                    to: args.email, // list of receivers
+                                    subject: "Employment Verification Letter", // Subject line
+                                    html: `<p>Your employment verification request for ${fullname} can be found attached</p><p>Thank you</p>`,
+                                    attachments: [{
+                                        filename,
+                                        path: res.filename,
+                                        contentType: 'application/pdf'
+                                    }],
+                                }
+                                //	send mail with defined transport object
+                                Transporter.sendMail(mailOptions).then((ret) => {
+                                    console.log(`Message status ${ret.response}`)
+                                }).catch(error => {
+                                    console.log(error);
+                                })
+                            })
 
-                        } catch (e) {
-                            console.log("Sigue escribiendo");
-                        }
-                    }
-                    return srcFile;
-                });
+                            let notExists = true;
+                            //Verify when PDF has been created
+                            while (notExists) {
+                                try {
+                                    fs.accessSync(srcFile, fs.W_OK);
+                                    notExists = false;
+
+                                } catch (e) {
+                                    console.log("Sigue escribiendo");
+                                }
+                            }
+                            return srcFile;
+                        });
+
+                })
         }
     },
 };
