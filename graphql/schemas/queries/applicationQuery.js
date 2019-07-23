@@ -348,14 +348,15 @@ const ApplicationQuery = {
 					}]
 				}]
 			}).then(applications => {
-				let app = {};
 				let applicationsArray = [];
-				applications.map(application => {
-					app = {
+				let Code_User = '';
+				applicationsArray = applications.map(application => {
+					if (application.dataValues.ApplicationEmployee)
+						Code_User = application.dataValues.ApplicationEmployee.dataValues.User ? application.dataValues.ApplicationEmployee.dataValues.Employees.dataValues.User.dataValues.Code_User : null;
+					return {
 						id: application.dataValues.id,
-						Code_User: application.dataValues.ApplicationEmployee ? application.dataValues.ApplicationEmployee.dataValues.Employees.dataValues.User.dataValues.Code_User : null
+						Code_User: Code_User
 					};
-					applicationsArray.push(app);
 				});
 				return applicationsArray;
 			});
