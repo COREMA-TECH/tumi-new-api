@@ -39,6 +39,7 @@ import BreakRuleDetailMutation from './breakRuleDetailsMutation';
 import ApplicantIndependentContractMutation from './applicantIndependentContractMutation';
 import VisitMutation from './visitMutation';
 import ApplicantVerificationLetterMutation from './applicantVerificationLetterMutation';
+import EmployeeByHotelMutation from './employeeByHotelMutation';
 
 export {
 	payrollMutation,
@@ -81,5 +82,6 @@ export {
 	BreakRuleMutation,
 	BreakRuleDetailMutation,
 	VisitMutation,
-	ApplicantVerificationLetterMutation
+	ApplicantVerificationLetterMutation,
+	EmployeeByHotelMutation
 };

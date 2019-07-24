@@ -44,8 +44,8 @@ import {
 	BreakRuleMutation,
 	BreakRuleDetailMutation,
 	VisitMutation,
-	ApplicantVerificationLetterMutation
-
+	ApplicantVerificationLetterMutation,
+	EmployeeByHotelMutation
 } from './mutations';
 import {
 	ApplicationQuery,
@@ -102,7 +102,8 @@ import {
 	ApplicationAccountQuery,
 	ApplicationSummaryQuery,
 	RegionQuery,
-	VisitQuery
+	VisitQuery,
+	EmployeeByHotelQuery
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -163,7 +164,8 @@ const RootQuery = new GraphQLObjectType({
 		...ApplicationAccountQuery,
 		...ApplicationSummaryQuery,
 		...RegionQuery,
-		...VisitQuery
+		...VisitQuery,
+		...EmployeeByHotelQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({
@@ -210,7 +212,8 @@ const RootMutation = new GraphQLObjectType({
 		...BreakRuleMutation,
 		...BreakRuleDetailMutation,
 		...VisitMutation,
-		...ApplicantVerificationLetterMutation
+		...ApplicantVerificationLetterMutation,
+		...EmployeeByHotelMutation
 	}
 });
 

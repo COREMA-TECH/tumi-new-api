@@ -50,7 +50,8 @@ import BreakRuleDetailFields from './breakRuleDetailFields';
 import Employee_BreakRuleFields from './employee_breakRuleFields';
 import TransactionLogFields from './transactionLogFields';
 import VisitFields from './visitFields';
-import ApplicantVerificationLetterFields from './applicantVerificationLetterFields'
+import ApplicantVerificationLetterFields from './applicantVerificationLetterFields';
+import EmployeeByHotelFields from './employeeByHotelFields';
 export {
 	ApplicantLanguagesFields,
 	ApplicationFields,
@@ -104,5 +105,6 @@ export {
 	Employee_BreakRuleFields,
 	TransactionLogFields,
 	VisitFields,
-	ApplicantVerificationLetterFields
+	ApplicantVerificationLetterFields,
+	EmployeeByHotelFields
 };

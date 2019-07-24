@@ -34,7 +34,8 @@ import {
 	ApplicantIndependentContractFields,
 	BreakRuleFields,
 	BreakRuleDetailFields,
-	VisitFields
+	VisitFields,
+	EmployeeByHotelFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -491,6 +492,19 @@ const inputUpdateVisit = new GraphQLInputObjectType({
 	}
 });
 
+const inputUpdateEmployeeByHotel = new GraphQLInputObjectType({
+	name: 'inputUpdateEmployeeByHotel',
+	description: 'Inputs for inputInsertEmployeeByHotel',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'EmployeeByHotelId'
+		},
+		...EmployeeByHotelFields
+	}
+});
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -527,5 +541,6 @@ export {
 	inputUpdateApplicantIndependentContract,
 	inputUpdateBreakRule,
 	inputUpdateBreakRuleDetail,
-	inputUpdateVisit
+	inputUpdateVisit,
+	inputUpdateEmployeeByHotel
 };

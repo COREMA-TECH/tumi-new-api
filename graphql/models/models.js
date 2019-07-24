@@ -65,6 +65,7 @@ import BreakRuleDetail from './breakRuleDetail';
 import Employee_BreakRuleModel from './employee_breakRuleTable';
 import ApplicantIndependentContractModel from './applicantIndependentContractTable';
 import VisitModel from './visitTable';
+import EmployyeByHotelModel from './employeeByHotelTable';
 import ApplicantVerificationLetterModel from './applicantVerificationLetterTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
@@ -133,6 +134,7 @@ const ApplicationAccount = ApplicationAccountModel.createModel(Conn);
 const Employee_BreakRule = Employee_BreakRuleModel.createModel(Conn);
 const ApplicantIndependentContract = ApplicantIndependentContractModel.createModel(Conn);
 const Visit = VisitModel.createModel(Conn);
+const EmployeeByHotel = EmployyeByHotelModel.createModel(Conn);
 const ApplicantVerificationLetter = ApplicantVerificationLetterModel.createModel(Conn);
 
 ApplicationPhases.belongsTo(CatalogItem, {
@@ -307,11 +309,11 @@ BusinessCompany.hasOne(CompanyPreference, {
 	as: "CompanyPref"
 });
 
-//commentar si da error al correr migracion
-BusinessCompany.belongsTo(BusinessCompany, {
-	foreignKey: 'Id_Parent',
-	as: "CompanyParent"
-});
+// //commentar si da error al correr migracion
+// BusinessCompany.belongsTo(BusinessCompany, {
+// 	foreignKey: 'Id_Parent',
+// 	as: "CompanyParent"
+// });
 
 Shift.hasMany(ShiftDetail, { onDelete: 'cascade' });
 ShiftDetail.hasOne(ShiftDetailEmployees, { onDelete: 'cascade' });
@@ -406,10 +408,10 @@ CatalogItem.hasMany(Contacts, {
 	as: 'Contacts'
 })
 
-//commentar si da error al correr migracion
-CatalogItem.hasMany(BusinessCompany, {
-	foreignKey: 'Region'
-});
+// //commentar si da error al correr migracion
+// CatalogItem.hasMany(BusinessCompany, {
+// 	foreignKey: 'Region'
+// });
 
 CatalogItem.hasMany(WorkOrder, {
 	foreignKey: 'departmentId'
@@ -430,10 +432,10 @@ Shift.hasMany(OpeningRecruiter, {
 
 SmsLog.belongsTo(Employees);
 SmsLog.belongsTo(Shift);
-//commentar si da error al correr migracion
-Contacts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
-//commentar si da error al correr migracion
-Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
+// //commentar si da error al correr migracion
+// Contacts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
+// //commentar si da error al correr migracion
+// Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
 BusinessCompany.hasMany(Contacts, { foreignKey: 'Id_Entity' });
 BusinessCompany.hasMany(Employees, { foreignKey: 'idEntity' });
 BusinessCompany.hasMany(CatalogItem, { foreignKey: 'Id_Entity' });
@@ -472,11 +474,19 @@ Employee_BreakRule.belongsTo(BreakRuleModel, {
 
 Visit.belongsTo(Users, {
 	foreignKey: 'OpManagerId'
-})
+});
 
 Visit.belongsTo(BusinessCompany, {
 	foreignKey: 'BusinessCompanyId'
-})
+});
+
+EmployeeByHotel.hasMany(BusinessCompany, {
+	foreignKey: 'BusinessCompanyId'
+});
+
+EmployeeByHotel.hasMany(Employees, {
+	foreignKey: 'EmployeeId'
+});
 
 ConfigRegions.belongsTo(Users, {
 	foreignKey: 'regionalManagerId',
@@ -491,7 +501,7 @@ Conn.authenticate()
 		console.error('Unable to connect to the database:', err);
 	});
 
-//Conn.sync({ force: false }).then(() => {
+Conn.sync({ force: false }).then(() => {
 /*make sure you use false here. otherwise the total data
 	from the impported models will get deleted and new tables will be created*/
 // now we cann do all db operations on customers table.
@@ -501,6 +511,6 @@ Conn.authenticate()
 //console.log('Applications are:-', applications);
 //	});
 //	console.log('sync is completed');
-// });
+ });
 
 export default Conn;
