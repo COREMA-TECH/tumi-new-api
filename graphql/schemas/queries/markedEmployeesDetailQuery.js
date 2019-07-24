@@ -76,6 +76,19 @@ const MarkedEmployeesDetailQuery = {
                 include: [{
                     model: Db.models.Employees,
                     where: { ...getPunchesEmployeeFilter(args) },
+                    include: [
+                        {
+                            model: Db.models.ApplicationEmployees,
+                            required: true,
+                            include: [
+                                {
+                                    model: Db.models.Applications,
+                                    as: "Application",
+                                    required: true
+                                }
+                            ]
+                        }
+                    ],
                     order: [
                         ['id', 'DESC'],
                     ],
@@ -108,10 +121,11 @@ const MarkedEmployeesDetailQuery = {
 
                         //Create new punch object if this object doesnt exist into the array of punches
                         if (!objPunches[groupKey]) {
+                            let application = employee.ApplicationEmployee.Application.dataValues;
                             var reportRow = {
                                 key: groupKey,
                                 employeeId: EmployeeId,
-                                name: `${employee.firstName} ${employee.lastName}`,
+                                name: `${application.firstName} ${application.lastName}`,
                                 date: moment.utc(markedDate).format('YYYY/MM/DD'),
                                 duration: 0,
                                 job: markType == '002' ? 'Lunch Break' : position.Position,

@@ -64,18 +64,18 @@ const ShiftMutation = {
 		},
 		resolve(source, args) {
 			return Db.models.Shift.destroy({ where: { id: args.id } }).then((deleted) => {
-				
+
 				var userdate = new Date();
-						var timezone = userdate.getTimezoneOffset();
-						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
-						Db.models.TransactionLogs.create({
-							codeUser: args.codeuser,
-							nameUser: args.nameUser,
-							actionDate: serverdate,
-							action: 'UPDATE ROW',
-							affectedObject: 'WORK ORDER - SHIFT'
-							});
+				var timezone = userdate.getTimezoneOffset();
+				var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
+				serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
+				Db.models.TransactionLogs.create({
+					codeUser: args.codeuser,
+					nameUser: args.nameUser,
+					actionDate: serverdate,
+					action: 'UPDATE ROW',
+					affectedObject: 'WORK ORDER - SHIFT'
+				});
 
 				return deleted;
 			});
@@ -108,16 +108,16 @@ const ShiftMutation = {
 
 						var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
-						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
+						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
 							actionDate: serverdate,
 							action: 'DELETED ROW',
 							affectedObject: 'SHIFT'
-							});
-							return record.dataValues;
+						});
+						return record.dataValues;
 					}
 					else return null;
 				});
@@ -160,16 +160,16 @@ const ShiftMutation = {
 				.then(function ([rowsUpdate, [record]]) {
 
 					var userdate = new Date();
-						var timezone = userdate.getTimezoneOffset();
-						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
-						Db.models.TransactionLogs.create({
-							codeUser: args.codeuser,
-							nameUser: args.nameUser,
-							actionDate: serverdate,
-							action: 'UPDATED ROW',
-							affectedObject: 'SHIFT'
-							});
+					var timezone = userdate.getTimezoneOffset();
+					var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
+					serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
+					Db.models.TransactionLogs.create({
+						codeUser: args.codeuser,
+						nameUser: args.nameUser,
+						actionDate: serverdate,
+						action: 'UPDATED ROW',
+						affectedObject: 'SHIFT'
+					});
 
 					if (args.status == 2) {
 						Db.models.ShiftWorkOrder.findAll({ where: { ShiftId: args.id } }).then((select) => {
@@ -195,41 +195,59 @@ const ShiftMutation = {
 																select.map((dataShiftDetails) => {
 																	Db.models.ShiftDetailEmployees.findAll({ where: { ShiftDetailId: dataShiftDetails.dataValues.id } }).then((select) => {
 																		select.map((dataShiftDetailEmployees) => {
-																			Db.models.Employees.findAll({ where: { id: dataShiftDetailEmployees.dataValues.EmployeeId } }).then((select) => {
-																				select.map((Employees) => {
-																					if (employeeIdTemp != Employees.dataValues.id) {
-																						strEmployees = strEmployees.trim() + ' - ' + Employees.dataValues.firstName.trim() + ' ' + Employees.dataValues.lastName.trim() + '<br> '
-																						employeeIdTemp = Employees.dataValues.id;
-																					}
+																			Db.models.Employees.findAll(
+																				{
+																					where: { id: dataShiftDetailEmployees.dataValues.EmployeeId },
+																					include: [
+																						{
+																							model: Db.models.ApplicationEmployees,
+																							required: true,
+																							include: [
+																								{
+																									model: Db.models.Applications,
+																									as: "Application",
+																									required: true
+																								}
+																							]
+																						}
+																					]
+																				}).then((select) => {
+																					select.map((Employees) => {
+																						if (employeeIdTemp != Employees.dataValues.id) {
+																							let application = Employees.dataValues.ApplicationEmployee.Application.dataValues;
 
-																					Db.models.PositionRate.findAll({ where: { Id: intPositionRateId } }).then((select) => {
-																						select.map((dataPositionRate) => {
-																							if (intEnvio == 0) {
-																								sendworkorderfilledemail({ email: strEmail, title: "Your order No. " + WOId + " has been fulfilled with position " + dataPositionRate.dataValues.Position, employees: strEmployees })
-																								intEnvio = intEnvio + 1;
+																							strEmployees = strEmployees.trim() + ' - ' + application.firstName.trim() + ' ' + application.lastName.trim() + '<br> '
+																							employeeIdTemp = Employees.dataValues.id;
+																						}
 
-																								let newPlacement = {
-																									UserId: 10,
-																									StageId: 30463,
-																									ApplicationId: Employees.dataValues.id,
-																									WorkOrderId: WOId,
-																									Comment: args.comment,
-																									ShiftId: args.id
-																								};
+																						Db.models.PositionRate.findAll({ where: { Id: intPositionRateId } }).then((select) => {
+																							select.map((dataPositionRate) => {
+																								if (intEnvio == 0) {
+																									sendworkorderfilledemail({ email: strEmail, title: "Your order No. " + WOId + " has been fulfilled with position " + dataPositionRate.dataValues.Position, employees: strEmployees })
+																									intEnvio = intEnvio + 1;
 
-																								return Db.models.applicationPhases.create(newPlacement)
-																									.then(() => {
-																										console.log("Created")
-																									})
-																									.catch(error => {
-																										console.log("Error creating phase")
-																									})
-																							}
+																									let newPlacement = {
+																										UserId: 10,
+																										StageId: 30463,
+																										ApplicationId: Employees.dataValues.id,
+																										WorkOrderId: WOId,
+																										Comment: args.comment,
+																										ShiftId: args.id
+																									};
+
+																									return Db.models.applicationPhases.create(newPlacement)
+																										.then(() => {
+																											console.log("Created")
+																										})
+																										.catch(error => {
+																											console.log("Error creating phase")
+																										})
+																								}
+																							});
 																						});
-																					});
 
+																					});
 																				});
-																			});
 
 																		});
 																	});
@@ -375,20 +393,19 @@ const ShiftMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-					if (record) 
-					{
+					if (record) {
 
 						var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();
-						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
+						var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
+						serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
 						Db.models.TransactionLogs.create({
 							codeUser: args.codeuser,
 							nameUser: args.nameUser,
 							actionDate: serverdate,
 							action: 'DELETED ROW',
 							affectedObject: 'SHIFT'
-							});
+						});
 
 						return record.dataValues;
 
@@ -905,18 +922,18 @@ const ShiftMutation = {
 					//Converts Shift from One status to other [1: W.OR, 2: Opening]
 					return Db.models.Shift.update({ status: args.targetStatus }, { where: { id: { [Op.in]: shiftsIds }, status: args.sourceStatus } })
 						.then(rowsUpdated => {
-							
+
 							var userdate = new Date();
 							var timezone = userdate.getTimezoneOffset();
-							var serverdate = new Date(userdate.setMinutes(userdate.getMinutes()+parseInt(timezone)));
-							serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');	 
+							var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
+							serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
 							Db.models.TransactionLogs.create({
 								codeUser: args.codeuser,
 								nameUser: args.nameUser,
 								actionDate: serverdate,
 								action: 'UPDATED ROW',
 								affectedObject: 'SHIFT'
-								});
+							});
 
 							return Db.models.Shift.findAll({ where: { id: { [Op.in]: shiftsIds } } })
 						});
