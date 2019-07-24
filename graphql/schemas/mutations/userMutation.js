@@ -108,6 +108,55 @@ const UserMutation = {
                 })
         }
     },
+    addUserForApplication: {
+        type: UsersType,
+        description: 'Add user for application into database',
+        args: {
+            user: { type: inputInsertUser },
+            applicationId: { type: GraphQLInt }
+        },
+        resolve(source, args) {
+            var user = {
+                ...args.user,
+                Password: Sequelize.fn('PGP_SYM_ENCRYPT', 'TEMP', 'AES_KEY')
+            }
+            //Begin transaction
+            return Db.transaction((t) => {
+                return Db.models.Users.create(user, { transaction: t })
+                    .then(_user => {
+                        return Db.models.ApplicationEmployees.findOne({ where: { ApplicationId: args.applicationId } })
+                            .then(_appEmp => {
+                                //If employee record exists then update user id 
+                                if (_appEmp) {
+                                    return Db.models.Employees.update({ idUsers: _user.dataValues.Id }, { where: { id: _appEmp.EmployeeId }, transaction: t })
+                                        .then(_updEmp => {
+                                            return _user;
+                                        })
+                                } else {
+                                    let employee = {
+                                        idRole: 13,
+                                        isActive: 1,
+                                        idEntity: args.user.Id_Entity == 0 ? null : args.user.Id_Entity,
+                                        userCreated: _user.dataValues.User_Created,
+                                        userUpdated: _user.dataValues.User_Updated,
+                                        idUsers: _user.dataValues.Id
+                                    }
+                                    return Db.models.Employees.create(employee, { transaction: t })
+                                        .then(_newEmp => {
+                                            return Db.models.ApplicationEmployees.create({
+                                                ApplicationId: args.applicationId,
+                                                EmployeeId: _newEmp.id
+                                            }, { transaction: t })
+                                                .then(_newRelation => {
+                                                    return _user
+                                                })
+                                        })
+                                }
+                            })
+                    })
+            })
+        }
+    },
     addUser: {
         type: UsersType,
         description: 'Add user to database',
