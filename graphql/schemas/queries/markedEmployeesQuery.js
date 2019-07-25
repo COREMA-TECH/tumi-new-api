@@ -4,7 +4,7 @@ import Db from '../../models/models';
 import GraphQLDate from 'graphql-date';
 import moment from 'moment';
 import Sequelize from 'sequelize';
-import {  SendSMS } from '../../../Configuration/Roots';
+import { SendSMS } from '../../../Configuration/Roots';
 
 
 const Op = Sequelize.Op;
@@ -106,11 +106,11 @@ const MarkedEmployeesQuery = {
         resolve(root, args) {
             let dateParam = {};
 
-            if(args)
+            if (args)
                 dateParam = args;
 
             dateParam = {
-                ...dateParam, 
+                ...dateParam,
                 markedDate: {
                     $gt: moment(Date.now()).subtract(2, "week").toDate()
                 }
@@ -137,22 +137,34 @@ const MarkedEmployeesQuery = {
                     model: Db.models.Employees,
                     as: 'Employees',
                     required: true,
-                    include: [{
-                        model: Db.models.ShiftDetailEmployees,
-                        required: true,
-                        include: [{
-                            model: Db.models.ShiftDetail,
+                    include: [
+                        {
+                            model: Db.models.ApplicationEmployees,
+                            required: true,
+                            include: [
+                                {
+                                    model: Db.models.Applications,
+                                    as: "Application",
+                                    required: true
+                                }
+                            ]
+                        },
+                        {
+                            model: Db.models.ShiftDetailEmployees,
                             required: true,
                             include: [{
-                                model: Db.models.Shift,
+                                model: Db.models.ShiftDetail,
                                 required: true,
                                 include: [{
-                                    model: Db.models.ShiftWorkOrder,
-                                    required: true
+                                    model: Db.models.Shift,
+                                    required: true,
+                                    include: [{
+                                        model: Db.models.ShiftWorkOrder,
+                                        required: true
+                                    }]
                                 }]
                             }]
                         }]
-                    }]
                 }, {
                     model: Db.models.CatalogItem,
                     as: 'CatalogMarked',
@@ -168,10 +180,11 @@ const MarkedEmployeesQuery = {
                     var markedDate = markedEmployee.dataValues.markedDate;
                     var key = `${moment(markedDate).format('YYYYMMDD')}`;
                     if (CurrentMarkedDate != key) {
+                        let application = markedEmployee.dataValues.Employees.dataValues.ApplicationEmployee.Application.dataValues;
                         details[key] = {
                             id: markedEmployee.dataValues.id,
                             date: markedEmployee.dataValues.markedDate,
-                            Employee: markedEmployee.dataValues.Employees.dataValues.firstName,
+                            Employee: application.firstName,
                             Location: markedEmployee.dataValues.BusinessCompany.dataValues.State
                         };
                         details[key].time = [];
@@ -209,6 +222,19 @@ const MarkedEmployeesQuery = {
                 include: [{
                     model: Db.models.Employees,
                     where: { ...getPunchesEmployeeFilter(args) },
+                    include: [
+                        {
+                            model: Db.models.ApplicationEmployees,
+                            required: true,
+                            include: [
+                                {
+                                    model: Db.models.Applications,
+                                    as: "Application",
+                                    required: true
+                                }
+                            ]
+                        }
+                    ],
                     as: 'Employees',
                     required: true
                 }, {
@@ -237,9 +263,10 @@ const MarkedEmployeesQuery = {
 
                         //Create new punch object if this object doesnt exist into the array of punches
                         if (!objPunches[key]) {
+                            let application = employee.ApplicationEmployee.Application.dataValues;
                             var reportRow = {
                                 employeeId: EmployeeId,
-                                name: `${employee.firstName} ${employee.lastName}`,
+                                name: `${application.firstName} ${application.lastName}`,
                                 hourCategory: '01Reg',
                                 hoursWorked: 0,
                                 payRate: position.Pay_Rate,

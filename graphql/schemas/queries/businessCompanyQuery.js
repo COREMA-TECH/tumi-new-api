@@ -37,9 +37,9 @@ const businessCompanyQuery = {
             operationManagerId: { type: GraphQLInt }
         },
         resolve(root, args) {
-            let whereProperty = {Id_Parent: {$notIn: [0,99999]}};
+            let whereProperty = { Id_Parent: { $notIn: [0, 99999] } };
             if (args.property)
-                whereProperty = {...whereProperty, ...args.property}
+                whereProperty = { ...whereProperty, ...args.property }
 
             return Db.models.BusinessCompany.findAll({
                 where: { ...whereProperty },
@@ -48,6 +48,17 @@ const businessCompanyQuery = {
                     include: [{
                         model: Db.models.PositionRate,
                         as: 'Title'
+                    },
+                    {
+                        model: Db.models.ApplicationEmployees,
+                        required: true,
+                        include: [
+                            {
+                                model: Db.models.Applications,
+                                as: "Application",
+                                required: true
+                            }
+                        ]
                     }]
                 }, {
                     model: Db.models.CatalogItem,
@@ -88,7 +99,7 @@ const businessCompanyQuery = {
                         if (Employee.dataValues.hireDate) {
                             let serverdate = moment.utc(Date.now());
                             markedDate = moment.utc(Employee.dataValues.hireDate);
-                            workedDays = serverdate.diff(markedDate,'days');
+                            workedDays = serverdate.diff(markedDate, 'days');
                         }
 
                         if (Employee.dataValues) {
@@ -96,9 +107,11 @@ const businessCompanyQuery = {
                             if (Employee.dataValues.Title) {
                                 title = Employee.dataValues.Title.dataValues ? Employee.dataValues.Title.dataValues.Position : 'N/A';
                             }
+                            let application = Employee.dataValues.ApplicationEmployee.Application.dataValues;
+
                             BusinessCompanyObj.employees.push({
                                 id: Employee.dataValues.id,
-                                name: Employee.dataValues.firstName + " " + Employee.dataValues.lastName,
+                                name: application.firstName + " " + application.lastName,
                                 position: title,
                                 los: workedDays,
                                 phone: Employee.dataValues.mobileNumber,
@@ -115,18 +128,18 @@ const businessCompanyQuery = {
                     userFilter = {
                         Id: args.operationManagerId
                     }
-                } 
-                
-                return Db.models.Users.findAll({returning: true, where: userFilter }).then(users => {
+                }
+
+                return Db.models.Users.findAll({ returning: true, where: userFilter }).then(users => {
                     let empProp = employeesByProperties;
-                    
-                    if (args.operationManagerId) { 
+
+                    if (args.operationManagerId) {
                         empProp = employeesByProperties.filter(employeesByProperty => {
                             return employeesByProperty.region === users[0].IdRegion
                         });
                     }
 
-                    if (empProp.length > 0){
+                    if (empProp.length > 0) {
                         empProp.map(employeesByProperty => {
                             users.map(user => {
                                 employeesByProperty.operationManager = employeesByProperty.region === user.IdRegion ? user.firstName + " " + user.lastName : 'N/A';

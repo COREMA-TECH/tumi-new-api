@@ -5,22 +5,6 @@ export default {
 		return Conn.define(
 			'Employees',
 			{
-				firstName: {
-					type: Sequelize.STRING,
-					allowNull: true
-				},
-				lastName: {
-					type: Sequelize.STRING,
-					allowNull: true
-				},
-				electronicAddress: {
-					type: Sequelize.STRING,
-					allowNull: true
-				},
-				mobileNumber: {
-					type: Sequelize.STRING,
-					allowNull: true
-				},
 				idRole: {
 					type: Sequelize.INTEGER,
 					allowNull: true

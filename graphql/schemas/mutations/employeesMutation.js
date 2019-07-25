@@ -75,14 +75,10 @@ const EmployeesMutation = {
 				//Find Application
 				return Db.models.Applications.findOne({ where: { id: args.ApplicationId } })
 					.then(_ => {
-						let { firstName, lastName, emailAddress, cellPhone, id } = _.dataValues;
+						let { id } = _.dataValues;
 						let { hireDate, startDate } = args;
 						//Create Employee
 						return Db.models.Employees.create({
-							firstName,
-							lastName,
-							electronicAddress: emailAddress,
-							mobileNumber: cellPhone,
 							idRole: 13,
 							hireDate,
 							startDate,
