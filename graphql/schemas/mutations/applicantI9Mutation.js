@@ -18,21 +18,22 @@ const ApplicantI9Mutation = {
 		resolve(source, args) {
 
             //aqui va la logica del PDF
-			// var options = {
-			// 	format: 'Letter',
-			// 	font: 'Arial',
-			// 	size: 12,
-			// 	type: "pdf",             // allowed file types: png, jpeg, pdf
-			// 	quality: "75",           // only used for types png & jpeg
-			// 	orientation: 'portrait',
-			// 	zoomFactor: 1,
-			// 	border: {
-			// 		top: '0.98in', // default is 0, units: mm, cm, in, px
-			// 		right: '0.98in',
-			// 		bottom: '0.98in',
-			// 		left: '0.98in'
-			// 	}
-			// };
+			var options = {
+				format: 'Letter',
+				font: 'Arial',
+				size: 12,
+				type: "pdf",             // allowed file types: png, jpeg, pdf
+				quality: "75",           // only used for types png & jpeg
+				orientation: 'portrait',
+				zoomFactor: 1,
+				border: {
+					top: '0.98in', // default is 0, units: mm, cm, in, px
+					right: '0.98in',
+					bottom: '0.98in',
+					left: '0.98in'
+				}
+			}
+
 			var filename = `i9_${args.ApplicationId}`;
 			var srcFile = `./public/${filename}.pdf`;
 
@@ -62,9 +63,10 @@ const ApplicantI9Mutation = {
 			// 	}
 			// });
 
-			// pdf.create(args.html, options).toFile(srcFile, function (err, res) {
-			// 	if (err) return console.log(err);
-			// });
+			pdf.create(args.html, options).toFile(srcFile, function (err, res) {
+				if (err) console.log(err);
+				console.log(res);
+			});
 
 			return Db.models.ApplicantI9.create({ fileName: filename, url: srcFile, fileExtension: ".pdf", completed: true, ApplicationId: args.ApplicationId, html: args.html }, { returning: true }).then((output) => {
 				// return output.map((element) => {
