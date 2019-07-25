@@ -1,4 +1,5 @@
 import { GraphQLInt, GraphQLList, GraphQLBoolean } from 'graphql';
+import GraphQLDate from 'graphql-date';
 import { EmployeeByHotelType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
@@ -15,6 +16,12 @@ const EmployeeByHotelQuery = {
             },
             BusinessCompanyId: {
                 type: GraphQLInt
+            },
+            createdAt: {
+                type: GraphQLDate
+            },
+            updatedAt: {
+                type: GraphQLDate
             },
             isDefault: {
                 type: GraphQLBoolean

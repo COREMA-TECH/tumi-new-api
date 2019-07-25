@@ -2,12 +2,6 @@ import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLBoolean } from 'graph
 import GraphQLDate from 'graphql-date';
 
 const EmployeeByHotelFields = {
-	creationDate: {
-        type: GraphQLDate
-    },
-    updateDate: {
-        type: new GraphQLNonNull(GraphQLDate)
-    },
     isDefault: {
         type: GraphQLBoolean
     },

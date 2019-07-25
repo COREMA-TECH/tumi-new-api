@@ -1872,6 +1872,14 @@ const EmployeeByHotelType = new GraphQLObjectType({
 				description: 'EmployeeByHotelType id'
 			},
 			...EmployeeByHotelFields,
+			createdAt: {
+				type: GraphQLDate,
+				description: 'Creation Date'
+			},
+			updatedAt: {
+				type: GraphQLDate,
+				description: 'Update Date'
+			},
 			Employee: {
 				type: EmployeesType,
 				resolve(me) {
