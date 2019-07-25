@@ -314,8 +314,20 @@ const ShiftQuery = {
                         where: datesRange,
                         required: true
                     }]
-                }, {
+                },
+                {
                     model: Db.models.MarkedEmployees
+                },
+                {
+                    model: Db.models.ApplicationEmployees,
+                    required: true,
+                    include: [
+                        {
+                            model: Db.models.Applications,
+                            as: "Application",
+                            required: true
+                        }
+                    ]
                 }]
             }).then(ret => {
                 //momentDurationFormatSetup(moment);
@@ -334,10 +346,10 @@ const ShiftQuery = {
 
                     totalSchedulesHours += SchedulesHours;
                     totalWorkedHours += totalWorkedHours;
-
+                    let application = Employee.dataValues.ApplicationEmployee.Application.dataValues;
                     return {
                         id: Employee.dataValues.id,
-                        name: Employee.dataValues.firstName + ' ' + Employee.dataValues.lastName,
+                        name: application.firstName + ' ' + application.lastName,
                         schedulesHours: SchedulesHours,
                         workedHours: 0,
                         difference: SchedulesHours - 0

@@ -1,5 +1,5 @@
 import { GraphQLList, GraphQLString, GraphQLInt } from 'graphql';
-import { PunchesReportType  } from '../types/operations/outputTypes';
+import { PunchesReportType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 import GraphQLDate from 'graphql-date';
 import moment from 'moment';
@@ -77,6 +77,19 @@ const MarkedEmployeesApproved = {
                 include: [{
                     model: Db.models.Employees,
                     where: { ...getPunchesEmployeeFilter(args) },
+                    include: [
+                        {
+                            model: Db.models.ApplicationEmployees,
+                            required: true,
+                            include: [
+                                {
+                                    model: Db.models.Applications,
+                                    as: "Application",
+                                    required: true
+                                }
+                            ]
+                        }
+                    ],
                     as: 'Employees',
                     required: true
                 }, {
@@ -105,9 +118,10 @@ const MarkedEmployeesApproved = {
 
                         //Create new punch object if this object doesnt exist into the array of punches
                         if (!objPunches[key]) {
+                            let application = employee.ApplicationEmployee.Application.dataValues;
                             var reportRow = {
                                 employeeId: EmployeeId,
-                                name: `${employee.firstName} ${employee.lastName}`,
+                                name: `${application.firstName} ${application.lastName}`,
                                 hourCategory: '01Reg',
                                 hoursWorked: 0,
                                 payRate: position.Pay_Rate,

@@ -36,10 +36,6 @@ const UserMutation = {
                     .then(_user => {
                         if (args.user.Id_Roles != 5 && args.user.Id_Roles != 10) {
                             var employee = {
-                                firstName: _user.firstName,
-                                lastName: _user.lastName,
-                                electronicAddress: _user.Electronic_Address,
-                                mobileNumber: _user.Phone_Number,
                                 idRole: _user.Id_Roles,
                                 isActive: true,
                                 userCreated: _user.User_Created,
@@ -49,15 +45,16 @@ const UserMutation = {
                             return Db.models.Employees.create(employee, { transaction: t })
                                 .then(_employee => {
                                     var _foundEmployee = _employee.dataValues;
+                                    let _newUser = _user.dataValues;
 
                                     //Crate Application
                                     var application = {
-                                        firstName: _foundEmployee.firstName,
+                                        firstName: _newUser.firstName,
                                         middleName: '',
-                                        lastName: _foundEmployee.lastName,
+                                        lastName: _newUser.lastName,
                                         date: new Date().toISOString(),
-                                        emailAddress: _foundEmployee.electronicAddress,
-                                        cellPhone: _foundEmployee.mobileNumber,
+                                        emailAddress: _newUser.Electronic_Address,
+                                        cellPhone: _newUser.Phone_Number,
                                         car: false,
                                         scheduleRestriction: false,
                                         scheduleExplain: '',
@@ -180,15 +177,15 @@ const UserMutation = {
                             .then(employee => {
                                 if (employee) {
                                     var _foundEmployee = employee.dataValues;
-
+                                    let _newUser = _user.dataValues;
                                     //Crate Application
                                     var application = {
-                                        firstName: _foundEmployee.firstName,
+                                        firstName: _newUser.firstName,
                                         middleName: '',
-                                        lastName: _foundEmployee.lastName,
+                                        lastName: _newUser.lastName,
                                         date: new Date().toISOString(),
-                                        emailAddress: _foundEmployee.electronicAddress,
-                                        cellPhone: _foundEmployee.mobileNumber,
+                                        emailAddress: _newUser.Electronic_Address,
+                                        cellPhone: _newUser.Phone_Number,
                                         car: false,
                                         scheduleRestriction: false,
                                         scheduleExplain: '',

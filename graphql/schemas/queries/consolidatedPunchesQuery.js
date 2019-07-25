@@ -85,6 +85,19 @@ const MarkedEmployeesConsolidated = {
                 include: [{
                     model: Db.models.Employees,
                     where: { ...getPunchesEmployeeFilter(args) },
+                    include: [
+                        {
+                            model: Db.models.ApplicationEmployees,
+                            required: true,
+                            include: [
+                                {
+                                    model: Db.models.Applications,
+                                    as: "Application",
+                                    required: true
+                                }
+                            ]
+                        }
+                    ],
                     order: [
                         ['id', 'DESC'],
                     ],
@@ -112,7 +125,9 @@ const MarkedEmployeesConsolidated = {
                         let punch = {};
 
                         var employeeName = args.employee || '';
-                        let name = `${employee.firstName} ${employee.lastName}`.trim();
+                        let application = employee.ApplicationEmployee.Application.dataValues;
+
+                        let name = `${application.firstName} ${application.lastName}`.trim();
                         //Filter employee based on filter param
                         if (name.toUpperCase().includes(employeeName.trim().toUpperCase())) {
                             //Create punch record
