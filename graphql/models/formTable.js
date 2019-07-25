@@ -59,6 +59,11 @@ export default {
 				Date_Updated: {
 					type: Sequelize.STRING,
 					allowNull: true
+				},
+				sort: {
+					type: Sequelize.INTEGER,
+					allowNull: false,
+					defaultValue: 0
 				}
 			},
 			{

@@ -15,7 +15,7 @@ const FormsQuery = {
             },
         },
         resolve(root, args) {
-            return Db.models.Forms.findAll({ where: args });
+            return Db.models.Forms.findAll({ where: args, order: [['sort', 'ASC']] });
         }
     }
 };

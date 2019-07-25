@@ -1036,7 +1036,7 @@ const RolesType = new GraphQLObjectType({
 });
 
 const FormsType = new GraphQLObjectType({
-	name: 'Forms',
+	name: 'FormsType',
 	description: 'This is for Forms Table',
 	fields: () => {
 		return {

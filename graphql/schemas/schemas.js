@@ -45,7 +45,8 @@ import {
 	BreakRuleDetailMutation,
 	VisitMutation,
 	ApplicantVerificationLetterMutation,
-	EmployeeByHotelMutation
+	EmployeeByHotelMutation,
+	FormMutation
 } from './mutations';
 import {
 	ApplicationQuery,
@@ -213,7 +214,8 @@ const RootMutation = new GraphQLObjectType({
 		...BreakRuleDetailMutation,
 		...VisitMutation,
 		...ApplicantVerificationLetterMutation,
-		...EmployeeByHotelMutation
+		...EmployeeByHotelMutation,
+		...FormMutation
 	}
 });
 
