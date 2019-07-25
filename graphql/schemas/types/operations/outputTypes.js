@@ -61,7 +61,8 @@ import {
 	Employee_BreakRuleFields,
 	TransactionLogFields,
 	VisitFields,
-	ApplicantVerificationLetterFields
+	ApplicantVerificationLetterFields,
+	EmployeeByHotelFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -1859,7 +1860,41 @@ const ApplicantVerificationLetterType = new GraphQLObjectType({
 			...ApplicantVerificationLetterFields
 		}
 	}
-})
+});
+
+const EmployeeByHotelType = new GraphQLObjectType({
+	name: 'EmployeeByHotelType',
+	description: 'Output for Employee by Hotel',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'EmployeeByHotelType id'
+			},
+			...EmployeeByHotelFields,
+			createdAt: {
+				type: GraphQLDate,
+				description: 'Creation Date'
+			},
+			updatedAt: {
+				type: GraphQLDate,
+				description: 'Update Date'
+			},
+			Employee: {
+				type: EmployeesType,
+				resolve(me) {
+					return me.getEmployee();
+				}
+			},
+			BusinessCompany: {
+				type: BusinessCompanyType,
+				resolve(me) {
+					return me.getBusinessCompany();
+				}
+			}
+		};
+	}
+});
 
 export {
 	ApplicationType,
@@ -1933,5 +1968,6 @@ export {
 	VisitType,
 	employeesByHotel,
 	ApplicantVerificationLetterType,
-	shiftVsWorkedHoursType
+	shiftVsWorkedHoursType,
+	EmployeeByHotelType
 };

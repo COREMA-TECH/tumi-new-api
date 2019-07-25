@@ -56,6 +56,7 @@ import ApplicationAccountQuery from './applicationAccountQuery';
 import TransactionLogQuery from './transactionLogQuery';
 import ApplicationSummaryQuery from './applicationSummaryQuery';
 import VisitQuery from './visitQuery';
+import EmployeeByHotelQuery from './employeeByHotelQuery';
 
 export {
 	ApplicantLanguageQuery,
@@ -111,5 +112,6 @@ export {
 	TransactionLogQuery,
 	ApplicationAccountQuery,
 	ApplicationSummaryQuery,
-	VisitQuery
+	VisitQuery,
+	EmployeeByHotelQuery
 };

@@ -53,7 +53,8 @@ import {
 	TransactionLogFields,
 	VisitFields,
 	BusinessCompanyFields,
-	ApplicantVerificationLetterFields
+	ApplicantVerificationLetterFields,
+	EmployeeByHotelFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -573,6 +574,15 @@ const inputInsertApplicantVerificationLetterType = new GraphQLInputObjectType({
 	}
 });
 
+const inputInsertEmployeeByHotel = new GraphQLInputObjectType({
+	name: 'inputInsertEmployeeByHotel',
+	description: 'Inputs for inputInsertEmployeeByHotel',
+
+	fields: {
+		...EmployeeByHotelFields
+	}
+});
+
 export {
 	insertPayrollType,
 	inputInsertApplicantLanguage,
@@ -631,5 +641,6 @@ export {
 	inputInsertVisit,
 	inputInsertBusinessCompany,
 	inputEmployeeUniquenessType,
-	inputInsertApplicantVerificationLetterType
+	inputInsertApplicantVerificationLetterType,
+	inputInsertEmployeeByHotel
 };

@@ -65,6 +65,7 @@ import BreakRuleDetail from './breakRuleDetail';
 import Employee_BreakRuleModel from './employee_breakRuleTable';
 import ApplicantIndependentContractModel from './applicantIndependentContractTable';
 import VisitModel from './visitTable';
+import EmployyeByHotelModel from './employeeByHotelTable';
 import ApplicantVerificationLetterModel from './applicantVerificationLetterTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
@@ -133,6 +134,7 @@ const ApplicationAccount = ApplicationAccountModel.createModel(Conn);
 const Employee_BreakRule = Employee_BreakRuleModel.createModel(Conn);
 const ApplicantIndependentContract = ApplicantIndependentContractModel.createModel(Conn);
 const Visit = VisitModel.createModel(Conn);
+const EmployeeByHotel = EmployyeByHotelModel.createModel(Conn);
 const ApplicantVerificationLetter = ApplicantVerificationLetterModel.createModel(Conn);
 
 ApplicationPhases.belongsTo(CatalogItem, {
@@ -472,11 +474,19 @@ Employee_BreakRule.belongsTo(BreakRuleModel, {
 
 Visit.belongsTo(Users, {
 	foreignKey: 'OpManagerId'
-})
+});
 
 Visit.belongsTo(BusinessCompany, {
 	foreignKey: 'BusinessCompanyId'
-})
+});
+
+EmployeeByHotel.belongsTo(BusinessCompany, {
+	foreignKey: 'BusinessCompanyId'
+});
+
+EmployeeByHotel.belongsTo(Employees, {
+	foreignKey: 'EmployeeId'
+});
 
 ConfigRegions.belongsTo(Users, {
 	foreignKey: 'regionalManagerId',
