@@ -1,5 +1,5 @@
 import { GraphQLList, GraphQLInt } from 'graphql';
-import { UsersType } from '../types/operations/outputTypes';
+import { UsersType, ApplicationType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 const userQuery = {
@@ -24,6 +24,25 @@ const userQuery = {
         },
         resolve(root, args) {
             return Db.models.Users.findAll({ where: args });
+        }
+    },
+
+    userApplication: {
+        type: ApplicationType,
+        description: 'Application info of a user',
+        args: {
+            Id: { type: GraphQLInt }
+        },
+
+        resolve(root, args) {
+            return Db.models.Applications.findOne({
+                include: [
+                    { 
+                        model: Db.models.Employees,
+                        where: { idUsers: args.Id }
+                    }
+                ]
+            })
         }
     }
 
