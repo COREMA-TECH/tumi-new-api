@@ -35,7 +35,8 @@ import {
 	BreakRuleFields,
 	BreakRuleDetailFields,
 	VisitFields,
-	EmployeeByHotelFields
+	EmployeeByHotelFields,
+	FeatureFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -505,6 +506,20 @@ const inputUpdateEmployeeByHotel = new GraphQLInputObjectType({
 	}
 });
 
+const inputUpdateFeatureType = new GraphQLInputObjectType({
+	name: 'inputUpdateFeatureType',
+	description: 'Inputs for inputUpdateFeatureType',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Table Id'
+		},
+		...FeatureFields
+	}
+});
+
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -542,5 +557,6 @@ export {
 	inputUpdateBreakRule,
 	inputUpdateBreakRuleDetail,
 	inputUpdateVisit,
-	inputUpdateEmployeeByHotel
+	inputUpdateEmployeeByHotel,
+	inputUpdateFeatureType
 };
