@@ -1044,7 +1044,13 @@ const FormsType = new GraphQLObjectType({
 				type: GraphQLInt,
 				description: 'table id'
 			},
-			...FormsFields
+			...FormsFields,
+			Parent: {
+				type: FormsType,
+				resolve(me) {
+					return me.getParentForm();
+				}
+			}
 		}
 	}
 });

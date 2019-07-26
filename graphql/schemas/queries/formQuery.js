@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLList } from 'graphql';
+import { GraphQLInt, GraphQLList, GraphQLBoolean } from 'graphql';
 import { FormsType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
@@ -13,6 +13,13 @@ const FormsQuery = {
             IsActive: {
                 type: GraphQLInt
             },
+            ParentId: {
+                type: GraphQLInt
+            },
+            show: {
+                type: GraphQLBoolean
+            }
+
         },
         resolve(root, args) {
             return Db.models.Forms.findAll({ where: args, order: [['sort', 'ASC']] });

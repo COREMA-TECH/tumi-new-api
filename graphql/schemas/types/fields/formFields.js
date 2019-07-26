@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLString } from 'graphql';
+import { GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
 const formFields = {
 	Code: {
 		type: GraphQLString
@@ -39,6 +39,12 @@ const formFields = {
 	},
 	sort: {
 		type: GraphQLInt
+	},
+	ParentId: {
+		type: GraphQLInt
+	},
+	show: {
+		type: GraphQLBoolean
 	}
 };
 export default formFields;

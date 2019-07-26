@@ -491,7 +491,12 @@ EmployeeByHotel.belongsTo(Employees, {
 ConfigRegions.belongsTo(Users, {
 	foreignKey: 'regionalManagerId',
 	as: 'OperationManager'
-})
+});
+
+Forms.belongsTo(Forms, {
+	foreignKey: 'ParentId',
+	as: 'ParentForm'
+});
 
 Conn.authenticate()
 	.then(() => {
