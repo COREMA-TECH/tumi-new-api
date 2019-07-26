@@ -41,6 +41,7 @@ import VisitMutation from './visitMutation';
 import ApplicantVerificationLetterMutation from './applicantVerificationLetterMutation';
 import EmployeeByHotelMutation from './employeeByHotelMutation';
 import FormMutation from './formMutation';
+import FeatureMutation from './featureMutation';
 
 export {
 	payrollMutation,
@@ -85,5 +86,6 @@ export {
 	VisitMutation,
 	ApplicantVerificationLetterMutation,
 	EmployeeByHotelMutation,
-	FormMutation
+	FormMutation,
+	FeatureMutation
 };
