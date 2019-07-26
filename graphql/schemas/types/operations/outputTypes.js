@@ -1121,56 +1121,64 @@ const EmployeesType = new GraphQLObjectType({
 				type: GraphQLString,
 				description: 'firstName comes from Application Table',
 				resolve(me) {
-					try {
-						let appEmp = me.dataValues.ApplicationEmployee;
-						let value = appEmp ? (appEmp.dataValues.Application ? appEmp.dataValues.Application.firstName : '') : '';
-						return value;
-					}
-					catch (e) {
+					return Db.models.Applications.findOne({
+						include: [{
+							model: Db.models.ApplicationEmployees,
+							where: { EmployeeId: me.id }
+						}]
+					}).then(_ => {
+						if (_)
+							return _.firstName;
 						return '';
-					}
+					})
 				}
 			},
 			lastName: {
 				type: GraphQLString,
 				description: 'lastName comes from Application Table',
 				resolve(me) {
-					try {
-						let appEmp = me.dataValues.ApplicationEmployee;
-						let value = appEmp ? (appEmp.dataValues.Application ? appEmp.dataValues.Application.lastName : '') : '';
-						return value;
-					}
-					catch (e) {
+					return Db.models.Applications.findOne({
+						include: [{
+							model: Db.models.ApplicationEmployees,
+							where: { EmployeeId: me.id }
+						}]
+					}).then(_ => {
+						if (_)
+							return _.lastName;
 						return '';
-					}
+					})
 				}
 			},
 			electronicAddress: {
 				type: GraphQLString,
 				description: 'electronicAddress comes from Application Table',
 				resolve(me) {
-					try {
-						let appEmp = me.dataValues.ApplicationEmployee;
-						let value = appEmp ? (appEmp.dataValues.Application ? appEmp.dataValues.Application.emailAddress : '') : '';
-						return value;
-					}
-					catch (e) {
+					return Db.models.Applications.findOne({
+						include: [{
+							model: Db.models.ApplicationEmployees,
+							where: { EmployeeId: me.id }
+						}]
+					}).then(_ => {
+						if (_)
+							return _.emailAddress;
 						return '';
-					}
+					})
 				}
 			},
 			mobileNumber: {
 				type: GraphQLString,
 				description: 'mobileNumber comes from Application Table',
 				resolve(me) {
-					try {
-						let appEmp = me.dataValues.ApplicationEmployee;
-						let value = appEmp ? (appEmp.dataValues.Application ? appEmp.dataValues.Application.cellPhone : '') : '';
-						return value;
-					}
-					catch (e) {
+					return Db.models.Applications.findOne({
+						include: [{
+							model: Db.models.ApplicationEmployees,
+							where: { EmployeeId: me.id }
+						}]
+					}).then(_ => {
+						if (_)
+							return _.cellPhone;
 						return '';
-					}
+					})
 				}
 			},
 			...EmployeesFields,
@@ -1201,25 +1209,38 @@ const EmployeesType = new GraphQLObjectType({
 			idEntity: {
 				type: GraphQLInt,
 				resolve(me) {
-					try {
-						let result = me.dataValues.EmployeeByHotels.find(r => r.isDefault === true);
-						return result ? result.BusinessCompanyId : 0;
-					}
-					catch (e) {
-						return 0;
-					}
+					return Db.models.EmployeeByHotels.findOne({
+						where: { isDefault: true },
+						include: [{
+							model: Db.models.Employees,
+							as: 'Employees',
+							where: { id: me.id }
+						}]
+					}).then(_ => {
+						if (_)
+							return _.BusinessCompanyId;
+						return '';
+					})
 				}
 			},
 			BusinessCompany: {
 				type: BusinessCompanyType,
 				resolve(me) {
-					try {
-						let result = me.dataValues.EmployeeByHotels.find(r => r.isDefault === true);
-						return result ? result.BusinessCompany : {};
-					}
-					catch (e) {
-						return {};
-					}
+					return Db.models.EmployeeByHotels.findOne({
+						where: { isDefault: true },
+						include: [{
+							model: Db.models.Employees,
+							as: 'Employees',
+							where: { id: me.id }
+						}, {
+							model: Db.models.BusinessCompany,
+							as: 'BussinessCompanies'
+						}]
+					}).then(_ => {
+						if (_)
+							return _.dataValues.BussinessCompanies;
+						return null;
+					})
 				}
 			}
 		}
