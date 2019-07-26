@@ -133,13 +133,20 @@ const UserMutation = {
                                     let employee = {
                                         idRole: 13,
                                         isActive: 1,
-                                        idEntity: args.user.Id_Entity == 0 ? null : args.user.Id_Entity,
                                         userCreated: _user.dataValues.User_Created,
                                         userUpdated: _user.dataValues.User_Updated,
                                         idUsers: _user.dataValues.Id
                                     }
                                     return Db.models.Employees.create(employee, { transaction: t })
                                         .then(_newEmp => {
+                                            let empHotel = {
+                                                isDefault: true,
+                                                isActive: true,
+                                                BusinessCompanyId: args.user.Id_Entity == 0 ? null : args.user.Id_Entity,
+                                                EmployeeId: _newEmp.id
+                                            }
+                                            Db.models.EmployeeByHotels.create(empHotel, { transaction: t })
+
                                             return Db.models.ApplicationEmployees.create({
                                                 ApplicationId: args.applicationId,
                                                 EmployeeId: _newEmp.id

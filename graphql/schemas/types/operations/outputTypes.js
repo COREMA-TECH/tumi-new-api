@@ -1136,12 +1136,25 @@ const EmployeesType = new GraphQLObjectType({
 					return me.getShiftDetailEmployees()
 				}
 			},
-			BusinessCompany: {
-				type: BusinessCompanyType,
+			EmployeeByHotels: {
+				type: new GraphQLList(EmployeeByHotelType),
 				resolve(me) {
-					return me.getBusinessCompany()
+					return me.dataValues.EmployeeByHotels || [];
 				}
-			}
+			},
+			BusinessCompanyByDefaultId: {
+				type: GraphQLInt,
+				resolve(me) {
+					try{
+						let result = me.dataValues.EmployeeByHotels.find(r => r.isDefault === true);
+						return result ? result.BusinessCompanyId : 0;
+					}
+					catch(e){
+						console.log(e);
+						return 0
+					}
+				}
+			} 
 		}
 	}
 });

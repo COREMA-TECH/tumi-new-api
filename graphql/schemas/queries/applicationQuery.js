@@ -97,6 +97,8 @@ const ApplicationQuery = {
 		},
 		resolve(root, args) {
 			let isActiveFilter = {};
+			let { idEntity, ...rest } = args;
+			let employeeArgs = { ...rest };
 			if (args.isActive) {
 				isActiveFilter = { isActive: { [Op.in]: args.isActive } }
 			}
@@ -111,7 +113,7 @@ const ApplicationQuery = {
 							model: Db.models.Employees,
 							required: args.idUsers != null || args.idEntity != null || args.Id_Department != null,
 							as: "Employees",
-							where: args
+							where: employeeArgs
 						}]
 
 					}]
