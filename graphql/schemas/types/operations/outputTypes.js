@@ -1117,6 +1117,62 @@ const EmployeesType = new GraphQLObjectType({
 				type: GraphQLInt,
 				description: 'table id'
 			},
+			firstName: {
+				type: GraphQLString,
+				description: 'firstName comes from Application Table',
+				resolve(me) {
+					try {
+						let appEmp = me.dataValues.ApplicationEmployee;
+						let value = appEmp ? (appEmp.dataValues.Application ? appEmp.dataValues.Application.firstName : '') : '';
+						return value;
+					}
+					catch (e) {
+						return '';
+					}
+				}
+			},
+			lastName: {
+				type: GraphQLString,
+				description: 'lastName comes from Application Table',
+				resolve(me) {
+					try {
+						let appEmp = me.dataValues.ApplicationEmployee;
+						let value = appEmp ? (appEmp.dataValues.Application ? appEmp.dataValues.Application.lastName : '') : '';
+						return value;
+					}
+					catch (e) {
+						return '';
+					}
+				}
+			},
+			electronicAddress: {
+				type: GraphQLString,
+				description: 'electronicAddress comes from Application Table',
+				resolve(me) {
+					try {
+						let appEmp = me.dataValues.ApplicationEmployee;
+						let value = appEmp ? (appEmp.dataValues.Application ? appEmp.dataValues.Application.emailAddress : '') : '';
+						return value;
+					}
+					catch (e) {
+						return '';
+					}
+				}
+			},
+			mobileNumber: {
+				type: GraphQLString,
+				description: 'mobileNumber comes from Application Table',
+				resolve(me) {
+					try {
+						let appEmp = me.dataValues.ApplicationEmployee;
+						let value = appEmp ? (appEmp.dataValues.Application ? appEmp.dataValues.Application.cellPhone : '') : '';
+						return value;
+					}
+					catch (e) {
+						return '';
+					}
+				}
+			},
 			...EmployeesFields,
 			ApplicationEmployees: {
 				type: ApplicationEmployeesType,
@@ -1145,16 +1201,15 @@ const EmployeesType = new GraphQLObjectType({
 			BusinessCompanyByDefaultId: {
 				type: GraphQLInt,
 				resolve(me) {
-					try{
+					try {
 						let result = me.dataValues.EmployeeByHotels.find(r => r.isDefault === true);
 						return result ? result.BusinessCompanyId : 0;
 					}
-					catch(e){
-						console.log(e);
-						return 0
+					catch (e) {
+						return 0;
 					}
 				}
-			} 
+			}
 		}
 	}
 });
