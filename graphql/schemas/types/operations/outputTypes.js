@@ -1198,7 +1198,7 @@ const EmployeesType = new GraphQLObjectType({
 					return me.dataValues.EmployeeByHotels || [];
 				}
 			},
-			BusinessCompanyByDefaultId: {
+			idEntity: {
 				type: GraphQLInt,
 				resolve(me) {
 					try {
@@ -1207,6 +1207,18 @@ const EmployeesType = new GraphQLObjectType({
 					}
 					catch (e) {
 						return 0;
+					}
+				}
+			},
+			BusinessCompany: {
+				type: BusinessCompanyType,
+				resolve(me) {
+					try {
+						let result = me.dataValues.EmployeeByHotels.find(r => r.isDefault === true);
+						return result ? result.BusinessCompany : {};
+					}
+					catch (e) {
+						return {};
 					}
 				}
 			}
