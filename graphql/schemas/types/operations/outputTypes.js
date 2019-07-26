@@ -5,7 +5,6 @@ import {
 	GraphQLObjectType,
 	GraphQLList,
 	GraphQLBoolean,
-	GraphQLInputObjectType,
 	GraphQLFloat
 } from 'graphql';
 import GraphQLDate from 'graphql-date';
@@ -62,7 +61,8 @@ import {
 	TransactionLogFields,
 	VisitFields,
 	ApplicantVerificationLetterFields,
-	EmployeeByHotelFields
+	EmployeeByHotelFields,
+	FeatureFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -1896,6 +1896,17 @@ const EmployeeByHotelType = new GraphQLObjectType({
 	}
 });
 
+const FeatureType = new GraphQLObjectType({
+	name: 'FeatureType',
+	description: 'This object represents an Feature Record',
+	fields: () => {
+		return {
+			id: { type: GraphQLInt },
+			...FeatureFields
+		}
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -1969,5 +1980,6 @@ export {
 	employeesByHotel,
 	ApplicantVerificationLetterType,
 	shiftVsWorkedHoursType,
-	EmployeeByHotelType
+	EmployeeByHotelType,
+	FeatureType
 };

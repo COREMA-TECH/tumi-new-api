@@ -67,6 +67,7 @@ import ApplicantIndependentContractModel from './applicantIndependentContractTab
 import VisitModel from './visitTable';
 import EmployyeByHotelModel from './employeeByHotelTable';
 import ApplicantVerificationLetterModel from './applicantVerificationLetterTable';
+import FeatureModel from './featureTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
 const BreakRuleDetailModel = BreakRuleDetail.createModel(Conn);
@@ -136,6 +137,7 @@ const ApplicantIndependentContract = ApplicantIndependentContractModel.createMod
 const Visit = VisitModel.createModel(Conn);
 const EmployeeByHotel = EmployyeByHotelModel.createModel(Conn);
 const ApplicantVerificationLetter = ApplicantVerificationLetterModel.createModel(Conn);
+const Feature = FeatureModel.createModel(Conn);
 
 ApplicationPhases.belongsTo(CatalogItem, {
 	foreignKey: 'ReasonId',
@@ -493,6 +495,10 @@ ConfigRegions.belongsTo(Users, {
 	as: 'OperationManager'
 })
 
+Feature.belongsTo(Forms);
+Feature.belongsTo(Roles);
+
+
 Conn.authenticate()
 	.then(() => {
 		console.log('Connection has been established successfully.');
@@ -501,7 +507,7 @@ Conn.authenticate()
 		console.error('Unable to connect to the database:', err);
 	});
 
-//Conn.sync({ force: false }).then(() => {
+// Conn.sync({ force: false }).then(() => {
 /*make sure you use false here. otherwise the total data
 	from the impported models will get deleted and new tables will be created*/
 // now we cann do all db operations on customers table.
