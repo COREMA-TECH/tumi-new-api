@@ -1,6 +1,6 @@
 import { GraphQLList, GraphQLBoolean, GraphQLInt, GraphQLNonNull } from 'graphql';
-import { EmployeesType, EmployeeUniquenessOutputType } from '../types/operations/outputTypes';
-import { inputEmployeeUniquenessType } from '../types/operations/insertTypes';
+import { EmployeesType, EmployeeUniquenessOutputType, EmployeeByHotelType } from '../types/operations/outputTypes';
+import { inputEmployeeUniquenessType, inputInsertEmployeeByHotel } from '../types/operations/insertTypes';
 
 import Db from '../../models/models';
 import moment from 'moment';
@@ -19,15 +19,26 @@ const EmployeesQuery = {
             isActive: {
                 type: GraphQLBoolean
             },
-            idEntity: {
-                type: GraphQLInt
-            },
             idUsers: {
                 type: GraphQLInt
+            },
+            EmployeeByHotel: {
+                type: inputInsertEmployeeByHotel,
+                description: 'EmployeByHotel relation'
             }
         },
         resolve(root, args) {
-            return Db.models.Employees.findAll({ where: args });
+            let {EmployeeByHotel, ...rest} = args;
+            let employeeArgs = { ...rest };
+            let employeeByHotelArgs = {...EmployeeByHotel};
+            return Db.models.Employees.findAll({ 
+                where: employeeArgs,
+                include: [{
+                    model: Db.models.EmployeeByHotels,
+                    where: employeeByHotelArgs,
+                    required: Object.keys(employeeByHotelArgs).length !== 0
+                }]
+            });
         }
     },
     employeesWSSN: {
@@ -125,6 +136,10 @@ const EmployeesQuery = {
                             }
                         },
                         order: [['markedDate', 'DESC']],
+                    },
+                    {
+                        model: Db.models.EmployeeByHotels,
+                        required: false
                     }
                 ]
             });
