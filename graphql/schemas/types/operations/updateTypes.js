@@ -36,6 +36,7 @@ import {
 	BreakRuleDetailFields,
 	VisitFields,
 	EmployeeByHotelFields,
+	ContactsFields,
 	FormsFields,
 	FeatureFields
 } from '../fields';
@@ -468,6 +469,18 @@ const inputUpdateBreakRuleDetail = new GraphQLInputObjectType({
 	}
 });
 
+const inputUpdateContact = new GraphQLInputObjectType({
+	name: 'inputUpdateContactType',
+	description: 'Input for updating Contact',
+	fields: {
+		Id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Contact Id'
+		},
+		...ContactsFields
+	}
+})
+
 const inputUpdateApplicantIndependentContract = new GraphQLInputObjectType({
 	name: 'inputUpdateApplicantIndependentContract',
 	description: 'Inputs for Applications Independent Contract',
@@ -572,6 +585,7 @@ export {
 	inputUpdateBreakRuleDetail,
 	inputUpdateVisit,
 	inputUpdateEmployeeByHotel,
+	inputUpdateContact,
 	inputUpdateFormType,
 	inputUpdateFeatureType
 };
