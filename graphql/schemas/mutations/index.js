@@ -40,6 +40,7 @@ import ApplicantIndependentContractMutation from './applicantIndependentContract
 import VisitMutation from './visitMutation';
 import ApplicantVerificationLetterMutation from './applicantVerificationLetterMutation';
 import EmployeeByHotelMutation from './employeeByHotelMutation';
+import FormMutation from './formMutation';
 import FeatureMutation from './featureMutation';
 
 export {
@@ -85,5 +86,6 @@ export {
 	VisitMutation,
 	ApplicantVerificationLetterMutation,
 	EmployeeByHotelMutation,
+	FormMutation,
 	FeatureMutation
 };

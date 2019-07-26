@@ -46,6 +46,7 @@ import {
 	VisitMutation,
 	ApplicantVerificationLetterMutation,
 	EmployeeByHotelMutation,
+	FormMutation,
 	FeatureMutation
 } from './mutations';
 import {
@@ -217,6 +218,7 @@ const RootMutation = new GraphQLObjectType({
 		...VisitMutation,
 		...ApplicantVerificationLetterMutation,
 		...EmployeeByHotelMutation,
+		...FormMutation,
 		...FeatureMutation
 	}
 });

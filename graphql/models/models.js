@@ -296,6 +296,8 @@ Users.belongsTo(Contacts, {
 	as: 'Contact'
 });
 
+Forms.hasMany(RolesForms, { foreignKey: 'IdForms' });
+
 RolesForms.belongsTo(Forms, {
 	foreignKey: 'IdForms',
 	as: 'Forms'
@@ -493,7 +495,12 @@ EmployeeByHotel.belongsTo(Employees, {
 ConfigRegions.belongsTo(Users, {
 	foreignKey: 'regionalManagerId',
 	as: 'OperationManager'
-})
+});
+
+Forms.belongsTo(Forms, {
+	foreignKey: 'ParentId',
+	as: 'ParentForm'
+});
 
 Feature.belongsTo(Forms);
 Feature.belongsTo(Roles);

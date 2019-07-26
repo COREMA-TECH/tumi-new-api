@@ -1036,7 +1036,7 @@ const RolesType = new GraphQLObjectType({
 });
 
 const FormsType = new GraphQLObjectType({
-	name: 'Forms',
+	name: 'FormsType',
 	description: 'This is for Forms Table',
 	fields: () => {
 		return {
@@ -1044,7 +1044,13 @@ const FormsType = new GraphQLObjectType({
 				type: GraphQLInt,
 				description: 'table id'
 			},
-			...FormsFields
+			...FormsFields,
+			Parent: {
+				type: FormsType,
+				resolve(me) {
+					return me.getParentForm();
+				}
+			}
 		}
 	}
 });
