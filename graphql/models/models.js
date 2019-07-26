@@ -65,8 +65,9 @@ import BreakRuleDetail from './breakRuleDetail';
 import Employee_BreakRuleModel from './employee_breakRuleTable';
 import ApplicantIndependentContractModel from './applicantIndependentContractTable';
 import VisitModel from './visitTable';
-import EmployyeByHotelModel from './employeeByHotelTable';
 import ApplicantVerificationLetterModel from './applicantVerificationLetterTable';
+import EmployeeByHotelModel from './employeeByHotelTable';
+import FeatureModel from './featureTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
 const BreakRuleDetailModel = BreakRuleDetail.createModel(Conn);
@@ -134,8 +135,9 @@ const ApplicationAccount = ApplicationAccountModel.createModel(Conn);
 const Employee_BreakRule = Employee_BreakRuleModel.createModel(Conn);
 const ApplicantIndependentContract = ApplicantIndependentContractModel.createModel(Conn);
 const Visit = VisitModel.createModel(Conn);
-const EmployeeByHotel = EmployyeByHotelModel.createModel(Conn);
+const EmployeeByHotel = EmployeeByHotelModel.createModel(Conn);
 const ApplicantVerificationLetter = ApplicantVerificationLetterModel.createModel(Conn);
+const Feature = FeatureModel.createModel(Conn);
 
 ApplicationPhases.belongsTo(CatalogItem, {
 	foreignKey: 'ReasonId',
@@ -298,6 +300,8 @@ Users.belongsTo(Contacts, {
 	as: 'Contact'
 });
 
+Forms.hasMany(RolesForms, { foreignKey: 'IdForms' });
+
 RolesForms.belongsTo(Forms, {
 	foreignKey: 'IdForms',
 	as: 'Forms'
@@ -313,11 +317,11 @@ BusinessCompany.hasOne(CompanyPreference, {
 	as: "CompanyPref"
 });
 
-//commentar si da error al correr migracion
-BusinessCompany.belongsTo(BusinessCompany, {
-	foreignKey: 'Id_Parent',
-	as: "CompanyParent"
-});
+// //commentar si da error al correr migracion
+// BusinessCompany.belongsTo(BusinessCompany, {
+// 	foreignKey: 'Id_Parent',
+// 	as: "CompanyParent"
+// });
 
 Shift.hasMany(ShiftDetail, { onDelete: 'cascade' });
 ShiftDetail.hasOne(ShiftDetailEmployees, { onDelete: 'cascade' });
@@ -359,10 +363,6 @@ ShiftDetailEmployees.belongsTo(Employees, {
 
 Employees.belongsTo(Users, {
 	foreignKey: 'idUsers'
-})
-
-Employees.belongsTo(BusinessCompany, {
-	foreignKey: 'idEntity'
 })
 
 Employees.hasMany(MarkedEmployees)
@@ -412,10 +412,10 @@ CatalogItem.hasMany(Contacts, {
 	as: 'Contacts'
 })
 
-//commentar si da error al correr migracion
-CatalogItem.hasMany(BusinessCompany, {
-	foreignKey: 'Region'
-});
+// //commentar si da error al correr migracion
+// CatalogItem.hasMany(BusinessCompany, {
+// 	foreignKey: 'Region'
+// });
 
 CatalogItem.hasMany(WorkOrder, {
 	foreignKey: 'departmentId'
@@ -436,12 +436,12 @@ Shift.hasMany(OpeningRecruiter, {
 
 SmsLog.belongsTo(Employees);
 SmsLog.belongsTo(Shift);
-//commentar si da error al correr migracion
-Contacts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
-//commentar si da error al correr migracion
-Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
+// //commentar si da error al correr migracion
+// Contacts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
+// //commentar si da error al correr migracion
+// Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
 BusinessCompany.hasMany(Contacts, { foreignKey: 'Id_Entity' });
-BusinessCompany.hasMany(Employees, { foreignKey: 'idEntity' });
+
 BusinessCompany.hasMany(CatalogItem, { foreignKey: 'Id_Entity' });
 
 BusinessCompany.hasMany(WorkOrder, { foreignKey: 'IdEntity' });
@@ -484,18 +484,34 @@ Visit.belongsTo(BusinessCompany, {
 	foreignKey: 'BusinessCompanyId'
 });
 
+BusinessCompany.hasMany(EmployeeByHotel);
+
 EmployeeByHotel.belongsTo(BusinessCompany, {
-	foreignKey: 'BusinessCompanyId'
+	foreignKey: 'BusinessCompanyId',
+	as: 'BussinessCompanies'
 });
 
+Employees.hasMany(EmployeeByHotel);
+
 EmployeeByHotel.belongsTo(Employees, {
-	foreignKey: 'EmployeeId'
+	foreignKey: 'EmployeeId',
+	as: 'Employees'
 });
+
 
 ConfigRegions.belongsTo(Users, {
 	foreignKey: 'regionalManagerId',
 	as: 'OperationManager'
-})
+});
+
+Forms.belongsTo(Forms, {
+	foreignKey: 'ParentId',
+	as: 'ParentForm'
+});
+
+Feature.belongsTo(Forms);
+Feature.belongsTo(Roles);
+
 
 Conn.authenticate()
 	.then(() => {
@@ -515,6 +531,6 @@ Conn.authenticate()
 //console.log('Applications are:-', applications);
 //	});
 //	console.log('sync is completed');
-// });
+//});
 
 export default Conn;

@@ -21,9 +21,6 @@ const employeesFields = {
 	idUsers: {
 		type: GraphQLInt
 	},
-	idEntity: {
-		type: GraphQLInt
-	},
 	hireDate: {
 		type: GraphQLString
 	},

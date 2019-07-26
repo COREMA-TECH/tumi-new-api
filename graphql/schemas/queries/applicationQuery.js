@@ -97,6 +97,8 @@ const ApplicationQuery = {
 		},
 		resolve(root, args) {
 			let isActiveFilter = {};
+			let { idEntity, ...rest } = args;
+			let employeeArgs = { ...rest };
 			if (args.isActive) {
 				isActiveFilter = { isActive: { [Op.in]: args.isActive } }
 			}
@@ -111,44 +113,17 @@ const ApplicationQuery = {
 							model: Db.models.Employees,
 							required: args.idUsers != null || args.idEntity != null || args.Id_Department != null,
 							as: "Employees",
-							where: args
+							where: employeeArgs,
+							include: [
+								{
+									model: Db.models.EmployeeByHotels,
+									where: { BusinessCompanyId: args.idEntity, isActive: true }
+								}
+							]
 						}]
 
 					}]
-				}).then(_ => {
-					let applicationList = [];
-					let applicationIds = [];
-					//Get applications and applications ids
-					_.map(_application => {
-						let application = _application.dataValues;
-
-						applicationIds.push(application.id);
-						applicationList.push(_application);
-
-					})
-					//return first filter if idEntity is null and idUser and Id_Department have values
-					if (!args.idEntity || args.idUsers || args.Id_Department) return applicationList;
-
-					//Get applications by contacts and hotel
-					return Db.models.Contacts.findAll({ where: { Id_Entity: args.idEntity, IsActive: 1, ApplicationId: { $notIn: applicationIds } } })
-						.then(_contacts => {
-							applicationIds = [];//reset array
-							_contacts.map(_contact => {
-								let contact = _contact.dataValues;
-								applicationIds.push(contact.ApplicationId);
-							})
-							return Db.models.Applications.findAll(
-								{
-									where: { isActive: { [Op.in]: args.isActive }, id: { $in: applicationIds } },
-								})
-								.then(_applicationContacts => {
-									_applicationContacts.map(_applicationContact => {
-										applicationList.push(_applicationContact);
-									})
-									return applicationList;
-								})
-						})
-				});
+				})
 		}
 	},
 	applicationsByMatches: {

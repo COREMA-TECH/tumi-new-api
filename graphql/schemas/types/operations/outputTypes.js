@@ -5,7 +5,6 @@ import {
 	GraphQLObjectType,
 	GraphQLList,
 	GraphQLBoolean,
-	GraphQLInputObjectType,
 	GraphQLFloat
 } from 'graphql';
 import GraphQLDate from 'graphql-date';
@@ -62,7 +61,8 @@ import {
 	TransactionLogFields,
 	VisitFields,
 	ApplicantVerificationLetterFields,
-	EmployeeByHotelFields
+	EmployeeByHotelFields,
+	FeatureFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -1036,7 +1036,7 @@ const RolesType = new GraphQLObjectType({
 });
 
 const FormsType = new GraphQLObjectType({
-	name: 'Forms',
+	name: 'FormsType',
 	description: 'This is for Forms Table',
 	fields: () => {
 		return {
@@ -1044,7 +1044,13 @@ const FormsType = new GraphQLObjectType({
 				type: GraphQLInt,
 				description: 'table id'
 			},
-			...FormsFields
+			...FormsFields,
+			Parent: {
+				type: FormsType,
+				resolve(me) {
+					return me.getParentForm();
+				}
+			}
 		}
 	}
 });
@@ -1111,6 +1117,70 @@ const EmployeesType = new GraphQLObjectType({
 				type: GraphQLInt,
 				description: 'table id'
 			},
+			firstName: {
+				type: GraphQLString,
+				description: 'firstName comes from Application Table',
+				resolve(me) {
+					return Db.models.Applications.findOne({
+						include: [{
+							model: Db.models.ApplicationEmployees,
+							where: { EmployeeId: me.id }
+						}]
+					}).then(_ => {
+						if (_)
+							return _.firstName;
+						return '';
+					})
+				}
+			},
+			lastName: {
+				type: GraphQLString,
+				description: 'lastName comes from Application Table',
+				resolve(me) {
+					return Db.models.Applications.findOne({
+						include: [{
+							model: Db.models.ApplicationEmployees,
+							where: { EmployeeId: me.id }
+						}]
+					}).then(_ => {
+						if (_)
+							return _.lastName;
+						return '';
+					})
+				}
+			},
+			electronicAddress: {
+				type: GraphQLString,
+				description: 'electronicAddress comes from Application Table',
+				resolve(me) {
+					return Db.models.Applications.findOne({
+						include: [{
+							model: Db.models.ApplicationEmployees,
+							where: { EmployeeId: me.id }
+						}]
+					}).then(_ => {
+						if (_)
+							return _.emailAddress;
+						return '';
+					})
+				}
+			},
+			mobileNumber: {
+				type: GraphQLString,
+				description: 'mobileNumber comes from Application Table',
+				resolve(me) {
+					return Db.models.Applications.findOne({
+						include: [{
+							model: Db.models.ApplicationEmployees,
+							where: { EmployeeId: me.id }
+						}]
+					}).then(_ => {
+						if (_)
+							return _.cellPhone;
+						return '';
+					})
+				}
+			},
 			...EmployeesFields,
 			ApplicationEmployees: {
 				type: ApplicationEmployeesType,
@@ -1130,10 +1200,47 @@ const EmployeesType = new GraphQLObjectType({
 					return me.getShiftDetailEmployees()
 				}
 			},
+			EmployeeByHotels: {
+				type: new GraphQLList(EmployeeByHotelType),
+				resolve(me) {
+					return me.dataValues.EmployeeByHotels || [];
+				}
+			},
+			idEntity: {
+				type: GraphQLInt,
+				resolve(me) {
+					return Db.models.EmployeeByHotels.findOne({
+						where: { isDefault: true },
+						include: [{
+							model: Db.models.Employees,
+							as: 'Employees',
+							where: { id: me.id }
+						}]
+					}).then(_ => {
+						if (_)
+							return _.BusinessCompanyId;
+						return '';
+					})
+				}
+			},
 			BusinessCompany: {
 				type: BusinessCompanyType,
 				resolve(me) {
-					return me.getBusinessCompany()
+					return Db.models.EmployeeByHotels.findOne({
+						where: { isDefault: true },
+						include: [{
+							model: Db.models.Employees,
+							as: 'Employees',
+							where: { id: me.id }
+						}, {
+							model: Db.models.BusinessCompany,
+							as: 'BussinessCompanies'
+						}]
+					}).then(_ => {
+						if (_)
+							return _.dataValues.BussinessCompanies;
+						return null;
+					})
 				}
 			}
 		}
@@ -1896,6 +2003,17 @@ const EmployeeByHotelType = new GraphQLObjectType({
 	}
 });
 
+const FeatureType = new GraphQLObjectType({
+	name: 'FeatureType',
+	description: 'This object represents an Feature Record',
+	fields: () => {
+		return {
+			id: { type: GraphQLInt },
+			...FeatureFields
+		}
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -1969,5 +2087,6 @@ export {
 	employeesByHotel,
 	ApplicantVerificationLetterType,
 	shiftVsWorkedHoursType,
-	EmployeeByHotelType
+	EmployeeByHotelType,
+	FeatureType
 };

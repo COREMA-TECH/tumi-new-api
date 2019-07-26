@@ -4,8 +4,7 @@ import {
 	GraphQLBoolean,
 	GraphQLString,
 	GraphQLInt,
-	GraphQLList,
-	GraphQLObjectType
+	GraphQLList
 } from 'graphql';
 import GraphQLDate from 'graphql-date';
 import {
@@ -54,7 +53,9 @@ import {
 	VisitFields,
 	BusinessCompanyFields,
 	ApplicantVerificationLetterFields,
-	EmployeeByHotelFields
+	EmployeeByHotelFields,
+	FormsFields,
+	FeatureFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -583,6 +584,25 @@ const inputInsertEmployeeByHotel = new GraphQLInputObjectType({
 	}
 });
 
+const inputInsertFormType = new GraphQLInputObjectType({
+	name: 'inputInsertFormType',
+	description: 'Inputs for inputInsertFormType',
+
+	fields: {
+		...FormsFields
+	}
+});
+
+const inputInsertFeatureType = new GraphQLInputObjectType({
+	name: 'inputInsertFeatureType',
+	description: 'Inputs for inputInsertFeatureType',
+
+	fields: {
+		...FeatureFields
+	}
+});
+
+
 export {
 	insertPayrollType,
 	inputInsertApplicantLanguage,
@@ -642,5 +662,7 @@ export {
 	inputInsertBusinessCompany,
 	inputEmployeeUniquenessType,
 	inputInsertApplicantVerificationLetterType,
-	inputInsertEmployeeByHotel
+	inputInsertEmployeeByHotel,
+	inputInsertFormType,
+	inputInsertFeatureType
 };

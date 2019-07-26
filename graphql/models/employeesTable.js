@@ -33,10 +33,6 @@ export default {
 					type: Sequelize.INTEGER,
 					allowNull: true
 				},
-				idEntity: {
-					type: Sequelize.INTEGER,
-					allowNull: true
-				},
 				hireDate: {
 					type: Sequelize.STRING,
 					allowNull: true

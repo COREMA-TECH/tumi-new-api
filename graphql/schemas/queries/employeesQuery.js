@@ -1,6 +1,6 @@
 import { GraphQLList, GraphQLBoolean, GraphQLInt, GraphQLNonNull } from 'graphql';
-import { EmployeesType, EmployeeUniquenessOutputType } from '../types/operations/outputTypes';
-import { inputEmployeeUniquenessType } from '../types/operations/insertTypes';
+import { EmployeesType, EmployeeUniquenessOutputType, EmployeeByHotelType } from '../types/operations/outputTypes';
+import { inputEmployeeUniquenessType, inputInsertEmployeeByHotel } from '../types/operations/insertTypes';
 
 import Db from '../../models/models';
 import moment from 'moment';
@@ -19,15 +19,27 @@ const EmployeesQuery = {
             isActive: {
                 type: GraphQLBoolean
             },
-            idEntity: {
+            idUsers: {
                 type: GraphQLInt
             },
-            idUsers: {
+            idEntity: {
                 type: GraphQLInt
             }
         },
         resolve(root, args) {
-            return Db.models.Employees.findAll({ where: args });
+            let { idEntity, ...rest } = args;
+            let entityId = {};
+
+            if (idEntity)
+                entityId = {BusinessCompanyId: idEntity};
+
+            return Db.models.Employees.findAll({
+                where: rest,
+                include: [{
+                    model: Db.models.EmployeeByHotels,
+                    where: entityId
+                }]
+            });
         }
     },
     employeesWSSN: {
@@ -40,65 +52,28 @@ const EmployeesQuery = {
         },
         resolve(root, args) {
 
-            return Db.models.Contacts.findAll({ where: { Id_Entity: args.idEntity, IsActive: 1 } }).then(_contacts => {
-                var applicationIds = [], filter = {};
-                _contacts.map(_record => {
-                    if (_record.dataValues.ApplicationId)
-                        applicationIds.push(_record.dataValues.ApplicationId);
-                })
-                if (applicationIds.length > 0)
-                    filter = { id: { $in: applicationIds } }
 
-                //Get actives applications associated to contacts from a specific company
-                return Db.models.Employees.findAll({
-                    where: { isActive: true },
-                    include: [
-                        {
-                            model: Db.models.ApplicationEmployees,
-                            required: true,
-                            include: [
-                                {
-                                    model: Db.models.Applications,
-                                    as: "Application",
-                                    where: { ...filter, isActive: true },
-                                    required: true
-                                }
-                            ]
-                        }
-                    ]
-                }).then(_employees => {
-                    let employeeList = [];
-                    _employees.map(_record => {
-                        _record.dataValues.idEntity = args.idEntity;
-                        employeeList.push(_record);//add employees realated to contacts within filtered entity
-                    })
-                    //Get active applications assosiated to a specific company
-                    return Db.models.Employees.findAll({
-                        where: { isActive: true, idEntity: args.idEntity },
+            //Get actives applications associated to contacts from a specific company
+            return Db.models.Employees.findAll({
+                where: { isActive: true },
+                include: [
+                    {
+                        model: Db.models.ApplicationEmployees,
+                        required: true,
                         include: [
                             {
-                                model: Db.models.ApplicationEmployees,
-                                required: true,
-                                include: [
-                                    {
-                                        model: Db.models.Applications,
-                                        as: "Application",
-                                        where: { isActive: true, id: { $notIn: applicationIds } },
-                                        required: true
-                                    }
-                                ]
+                                model: Db.models.Applications,
+                                as: "Application",
+                                where: { isActive: true },
+                                required: true
                             }
                         ]
-                    }).then(_otherEmployees => {
-                        _otherEmployees.map(_record => {
-                            _record.dataValues.idEntity = args.idEntity;
-                            employeeList.push(_record);//add employees not realated to contacts and filtered by application entityId column
-                        })
-                        return employeeList;
-                    })
-
-                })
-
+                    },
+                    {
+                        model: Db.models.EmployeeByHotels,
+                        where: { BusinessCompanyId: args.idEntity, isActive: true }
+                    }
+                ]
             })
         }
     },
@@ -125,6 +100,10 @@ const EmployeesQuery = {
                             }
                         },
                         order: [['markedDate', 'DESC']],
+                    },
+                    {
+                        model: Db.models.EmployeeByHotels,
+                        required: false
                     }
                 ]
             });

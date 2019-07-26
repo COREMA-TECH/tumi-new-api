@@ -59,6 +59,21 @@ export default {
 				Date_Updated: {
 					type: Sequelize.STRING,
 					allowNull: true
+				},
+				sort: {
+					type: Sequelize.INTEGER,
+					allowNull: false,
+					defaultValue: 0
+				},
+				ParentId: {
+					type: Sequelize.INTEGER,
+					allowNull: false,
+					defaultValue: 0
+				}				,
+				show: {
+					type: Sequelize.BOOLEAN	,
+					allowNull: false,
+					defaultValue: false
 				}
 			},
 			{
