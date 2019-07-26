@@ -314,10 +314,10 @@ BusinessCompany.hasOne(CompanyPreference, {
 });
 
 // //commentar si da error al correr migracion
-// BusinessCompany.belongsTo(BusinessCompany, {
-// 	foreignKey: 'Id_Parent',
-// 	as: "CompanyParent"
-// });
+BusinessCompany.belongsTo(BusinessCompany, {
+	foreignKey: 'Id_Parent',
+	as: "CompanyParent"
+});
 
 Shift.hasMany(ShiftDetail, { onDelete: 'cascade' });
 ShiftDetail.hasOne(ShiftDetailEmployees, { onDelete: 'cascade' });
