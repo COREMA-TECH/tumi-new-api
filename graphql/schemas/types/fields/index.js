@@ -52,6 +52,8 @@ import TransactionLogFields from './transactionLogFields';
 import VisitFields from './visitFields';
 import ApplicantVerificationLetterFields from './applicantVerificationLetterFields';
 import EmployeeByHotelFields from './employeeByHotelFields';
+import FeatureFields from './featureFiels';
+
 export {
 	ApplicantLanguagesFields,
 	ApplicationFields,
@@ -106,5 +108,6 @@ export {
 	TransactionLogFields,
 	VisitFields,
 	ApplicantVerificationLetterFields,
-	EmployeeByHotelFields
+	EmployeeByHotelFields,
+	FeatureFields
 };

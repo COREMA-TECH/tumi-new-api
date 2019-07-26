@@ -67,6 +67,7 @@ import ApplicantIndependentContractModel from './applicantIndependentContractTab
 import VisitModel from './visitTable';
 import ApplicantVerificationLetterModel from './applicantVerificationLetterTable';
 import EmployeeByHotelModel from './employeeByHotelTable';
+import FeatureModel from './featureTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
 const BreakRuleDetailModel = BreakRuleDetail.createModel(Conn);
@@ -136,6 +137,7 @@ const ApplicantIndependentContract = ApplicantIndependentContractModel.createMod
 const Visit = VisitModel.createModel(Conn);
 const EmployeeByHotel = EmployeeByHotelModel.createModel(Conn);
 const ApplicantVerificationLetter = ApplicantVerificationLetterModel.createModel(Conn);
+const Feature = FeatureModel.createModel(Conn);
 
 ApplicationPhases.belongsTo(CatalogItem, {
 	foreignKey: 'ReasonId',
@@ -293,6 +295,8 @@ Users.belongsTo(Contacts, {
 	foreignKey: 'Id_Contact',
 	as: 'Contact'
 });
+
+Forms.hasMany(RolesForms, { foreignKey: 'IdForms' });
 
 RolesForms.belongsTo(Forms, {
 	foreignKey: 'IdForms',
@@ -494,7 +498,16 @@ EmployeeByHotel.belongsTo(Employees, {
 ConfigRegions.belongsTo(Users, {
 	foreignKey: 'regionalManagerId',
 	as: 'OperationManager'
-})
+});
+
+Forms.belongsTo(Forms, {
+	foreignKey: 'ParentId',
+	as: 'ParentForm'
+});
+
+Feature.belongsTo(Forms);
+Feature.belongsTo(Roles);
+
 
 Conn.authenticate()
 	.then(() => {

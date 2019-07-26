@@ -1,5 +1,4 @@
-import { GraphQLInt, GraphQLString, GraphQLBoolean, GraphQLNonNull } from 'graphql';
-import GraphQLDate from 'graphql-date';
+import { GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
 const formFields = {
 	Code: {
 		type: GraphQLString
@@ -37,6 +36,15 @@ const formFields = {
 	},
 	Date_Updated: {
 		type: GraphQLString
+	},
+	sort: {
+		type: GraphQLInt
+	},
+	ParentId: {
+		type: GraphQLInt
+	},
+	show: {
+		type: GraphQLBoolean
 	}
 };
 export default formFields;
