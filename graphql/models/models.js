@@ -294,6 +294,8 @@ Users.belongsTo(Contacts, {
 	as: 'Contact'
 });
 
+Forms.hasMany(RolesForms, { foreignKey: 'IdForms' });
+
 RolesForms.belongsTo(Forms, {
 	foreignKey: 'IdForms',
 	as: 'Forms'
