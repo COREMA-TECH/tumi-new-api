@@ -22,21 +22,22 @@ const EmployeesQuery = {
             idUsers: {
                 type: GraphQLInt
             },
-            EmployeeByHotel: {
-                type: inputInsertEmployeeByHotel,
-                description: 'EmployeByHotel relation'
+            idEntity: {
+                type: GraphQLInt
             }
         },
         resolve(root, args) {
-            let { EmployeeByHotel, ...rest } = args;
-            let employeeArgs = { ...rest };
-            let employeeByHotelArgs = { ...EmployeeByHotel };
+            let { idEntity, ...rest } = args;
+            let entityId = {};
+
+            if (idEntity)
+                entityId = {BusinessCompanyId: idEntity};
+
             return Db.models.Employees.findAll({
-                where: employeeArgs,
+                where: rest,
                 include: [{
                     model: Db.models.EmployeeByHotels,
-                    where: employeeByHotelArgs,
-                    required: Object.keys(employeeByHotelArgs).length !== 0
+                    where: entityId
                 }]
             });
         }
