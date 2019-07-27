@@ -174,8 +174,8 @@ Application.hasOne(ApplicantIndependentContract);
 Application.hasOne(ApplicationAccount);
 Application.hasOne(ApplicantVerificationLetter);
 
-Application.belongsToMany(Employees, {through: 'ApplicationEmployees'});
-Employees.belongsToMany(Application, {through: 'ApplicationEmployees'});
+Application.belongsToMany(Employees, { through: 'ApplicationEmployees' });
+Employees.belongsToMany(Application, { through: 'ApplicationEmployees' });
 
 ApplicationPhases.belongsTo(Application);
 ApplicantLanguage.belongsTo(Application);
@@ -318,10 +318,10 @@ BusinessCompany.hasOne(CompanyPreference, {
 });
 
 // //commentar si da error al correr migracion
-// BusinessCompany.belongsTo(BusinessCompany, {
-// 	foreignKey: 'Id_Parent',
-// 	as: "CompanyParent"
-// });
+BusinessCompany.belongsTo(BusinessCompany, {
+	foreignKey: 'Id_Parent',
+	as: "CompanyParent"
+});
 
 Shift.hasMany(ShiftDetail, { onDelete: 'cascade' });
 ShiftDetail.hasOne(ShiftDetailEmployees, { onDelete: 'cascade' });
