@@ -1,5 +1,5 @@
 import { GraphQLInt, GraphQLString, GraphQLList, GraphQLBoolean, GraphQLNonNull } from 'graphql';
-import { ApplicationCodeUserType, ApplicationType, ApplicationCompletedDataType, ApplicationTypeBoard } from '../types/operations/outputTypes';
+import { ApplicationCodeUserType, ApplicationType, ApplicationCompletedDataType, UsersType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 import GraphQLDate from 'graphql-date';
@@ -337,6 +337,30 @@ const ApplicationQuery = {
 			});
 		}
 	},
+
+	applicationUser: {
+		type: UsersType,
+		description: 'User linked to an application',
+		args: {
+			Id: {
+				type: GraphQLInt
+			}
+		},
+		resolve(root, args) {
+			return Db.models.Applications.findOne({
+				where: { id: args.Id },
+				include: [{
+					model: Db.models.Employees,
+					include: [{
+						model: Db.models.Users
+					}]
+				}]
+			}).then(application => {
+				return application.dataValues.Employees[0].dataValues.User.dataValues
+			})			
+		}
+	},
+
 	validateApplicationUniqueness: {
 		type: ApplicationType,
 		description: 'Return an specific Application filtered by Name , Phone and SSN, this is to validate Application Uniqueness',

@@ -363,7 +363,11 @@ ShiftDetailEmployees.belongsTo(Employees, {
 
 Employees.belongsTo(Users, {
 	foreignKey: 'idUsers'
-})
+});
+
+Users.hasOne(Employees, {
+	foreignKey: 'idUsers'
+});
 
 Employees.hasMany(MarkedEmployees)
 
