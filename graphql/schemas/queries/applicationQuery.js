@@ -356,7 +356,7 @@ const ApplicationQuery = {
 					}]
 				}]
 			}).then(application => {
-				return application.dataValues.Employees[0].dataValues.User.dataValues
+				return application.dataValues.Employees.length > 0 ? application.dataValues.Employees[0].dataValues.User.dataValues : null;
 			})			
 		}
 	},

@@ -16,7 +16,7 @@ const UserMutation = {
         },
         resolve(source, args) {
             return Db.models.Users.update(args.user, { where: { Id: args.user.Id } })
-        }
+        },        
     },
     insertUser: {
         type: UsersType,
