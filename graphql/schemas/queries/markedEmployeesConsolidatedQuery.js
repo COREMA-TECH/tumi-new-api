@@ -102,6 +102,16 @@ const MarkedEmployeesConsolidated = {
                                     required: true
                                 }
                             ]
+                        },
+                        {
+                            model: Db.models.EmployeeByHotels,
+                            required: true,
+                            include: [{
+                                model: Db.models.BusinessCompany,
+                                as: 'BussinessCompanies',
+                                where: { ...getPunchesCompanyFilter(args) },
+                                required: true
+                            }]
                         }
                     ],
                     order: [
@@ -109,7 +119,8 @@ const MarkedEmployeesConsolidated = {
                     ],
                     as: 'Employees',
                     required: true
-                }, {
+                },
+                {
                     model: Db.models.BusinessCompany,
                     where: { ...getPunchesCompanyFilter(args) },
                     required: true
@@ -246,10 +257,12 @@ const MarkedEmployeesConsolidated = {
                     include: [{
                         model: Db.models.CatalogItem,
                         as: 'CatalogDepartment'
-                    }, {
+                    },
+                    {
                         model: Db.models.PositionRate,
                         as: 'Title'
-                    }, {
+                    },
+                    {
                         model: Db.models.ApplicationEmployees,
                         required: true,
                         include: [{
@@ -258,8 +271,19 @@ const MarkedEmployeesConsolidated = {
                             required: true,
                             where: { directDeposit: args.directDeposit }
                         }]
+                    },
+                    {
+                        model: Db.models.EmployeeByHotels,
+                        required: true,
+                        include: [{
+                            model: Db.models.BusinessCompany,
+                            as: 'BussinessCompanies',
+                            where: { ...getPunchesCompanyFilter(args) },
+                            required: true
+                        }]
                     }]
-                }, {
+                },
+                {
                     model: Db.models.BusinessCompany,
                     where: { ...getPunchesCompanyFilter(args) },
                     required: true
