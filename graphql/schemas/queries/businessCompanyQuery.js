@@ -38,27 +38,34 @@ const businessCompanyQuery = {
         },
         resolve(root, args) {
             let whereProperty = { Id_Parent: { $notIn: [0, 99999] } };
+            let companyFilter = {};
             if (args.property)
-                whereProperty = { ...whereProperty, ...args.property }
+                if (args.property.Id)
+                    companyFilter = { BusinessCompanyId: args.property.Id }
 
             return Db.models.BusinessCompany.findAll({
                 where: { ...whereProperty },
                 include: [{
-                    model: Db.models.Employees,
+                    model: Db.models.EmployeeByHotels,
+                    where: companyFilter,
                     include: [{
-                        model: Db.models.PositionRate,
-                        as: 'Title'
-                    },
-                    {
-                        model: Db.models.ApplicationEmployees,
-                        required: true,
-                        include: [
-                            {
-                                model: Db.models.Applications,
-                                as: "Application",
-                                required: true
-                            }
-                        ]
+                        model: Db.models.Employees,
+                        as: 'Employees',
+                        include: [{
+                            model: Db.models.PositionRate,
+                            as: 'Title'
+                        },
+                        {
+                            model: Db.models.ApplicationEmployees,
+                            required: true,
+                            include: [
+                                {
+                                    model: Db.models.Applications,
+                                    as: "Application",
+                                    required: true
+                                }
+                            ]
+                        }]
                     }]
                 }, {
                     model: Db.models.CatalogItem,
@@ -93,7 +100,7 @@ const businessCompanyQuery = {
                         employees: []
                     };
 
-                    BusinessCompany.Employees.map(Employee => {
+                    (BusinessCompany.Employees || []).map(Employee => {
                         let workedDays = 0;
                         let markedDate = "N/A"
                         if (Employee.dataValues.hireDate) {
@@ -146,7 +153,7 @@ const businessCompanyQuery = {
                             });
                         });
                     }
-                    return empProp;
+                    return empProp || [];
                 }).catch(error => console.log(error));
 
             }).catch(error => console.log(error));
