@@ -10,6 +10,10 @@ export default {
 			idPosition: {
 				type: Sequelize.INTEGER,
 				allowNull: true
+			},
+			isDefault: {
+				type: Sequelize.BOOLEAN,
+				allowNull: true
 			}
 		});
 	}
