@@ -174,8 +174,8 @@ Application.hasOne(ApplicantIndependentContract);
 Application.hasOne(ApplicationAccount);
 Application.hasOne(ApplicantVerificationLetter);
 
-Application.belongsToMany(Employees, {through: 'ApplicationEmployees'});
-Employees.belongsToMany(Application, {through: 'ApplicationEmployees'});
+Application.belongsToMany(Employees, { through: 'ApplicationEmployees' });
+Employees.belongsToMany(Application, { through: 'ApplicationEmployees' });
 
 ApplicationPhases.belongsTo(Application);
 ApplicantLanguage.belongsTo(Application);
