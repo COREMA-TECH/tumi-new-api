@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLList } from 'graphql';
+import { GraphQLInt, GraphQLList, GraphQLBoolean } from 'graphql';
 import { ApplicantIdealJobType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
@@ -15,6 +15,9 @@ const ApplicantIdealJobQuery = {
 			},
 			idPosition: {
 				type: GraphQLInt
+			},
+			isDefault: {
+				type: GraphQLBoolean
 			}
 		},
 		resolve(root, args) {
