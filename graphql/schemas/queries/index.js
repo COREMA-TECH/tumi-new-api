@@ -40,7 +40,6 @@ import UserQuery from './userQuery';
 import payrollQuery from './payrollQuery';
 
 import phaseworkOrderQuery from './phaseworkOrderQuery';
-import consolidatedPunchesQuery from './consolidatedPunchesQuery';
 import SmsLogQuery from './smsLogQuery';
 import businessCompanyQuery from './businessCompanyQuery';
 import MarkedEmployeesConsolidated from './markedEmployeesConsolidatedQuery';
@@ -101,7 +100,6 @@ export {
 	TimeElapsedQuery,
 	UserQuery,
 	payrollQuery,
-	consolidatedPunchesQuery,
 	SmsLogQuery,
 	businessCompanyQuery,
 	MarkedEmployeesConsolidated,

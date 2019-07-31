@@ -317,11 +317,12 @@ BusinessCompany.hasOne(CompanyPreference, {
 	as: "CompanyPref"
 });
 
-// //commentar si da error al correr migracion
-// BusinessCompany.belongsTo(BusinessCompany, {
-// 	foreignKey: 'Id_Parent',
-// 	as: "CompanyParent"
-// });
+
+//commentar si da error al correr migracion
+BusinessCompany.belongsTo(BusinessCompany, {
+	foreignKey: 'Id_Parent',
+	as: "CompanyParent"
+});
 
 Shift.hasMany(ShiftDetail, { onDelete: 'cascade' });
 ShiftDetail.hasOne(ShiftDetailEmployees, { onDelete: 'cascade' });
@@ -363,7 +364,11 @@ ShiftDetailEmployees.belongsTo(Employees, {
 
 Employees.belongsTo(Users, {
 	foreignKey: 'idUsers'
-})
+});
+
+Users.hasOne(Employees, {
+	foreignKey: 'idUsers'
+});
 
 Employees.hasMany(MarkedEmployees)
 
@@ -412,10 +417,10 @@ CatalogItem.hasMany(Contacts, {
 	as: 'Contacts'
 })
 
-// //commentar si da error al correr migracion
-// CatalogItem.hasMany(BusinessCompany, {
-// 	foreignKey: 'Region'
-// });
+//commentar si da error al correr migracion
+CatalogItem.hasMany(BusinessCompany, {
+	foreignKey: 'Region'
+});
 
 CatalogItem.hasMany(WorkOrder, {
 	foreignKey: 'departmentId'
@@ -436,10 +441,10 @@ Shift.hasMany(OpeningRecruiter, {
 
 SmsLog.belongsTo(Employees);
 SmsLog.belongsTo(Shift);
-// //commentar si da error al correr migracion
-// Contacts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
-// //commentar si da error al correr migracion
-// Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
+//commentar si da error al correr migracion
+Contacts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
+//commentar si da error al correr migracion
+Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
 BusinessCompany.hasMany(Contacts, { foreignKey: 'Id_Entity' });
 
 BusinessCompany.hasMany(CatalogItem, { foreignKey: 'Id_Entity' });

@@ -31,7 +31,7 @@ const EmployeesQuery = {
             let entityId = {};
 
             if (idEntity)
-                entityId = {BusinessCompanyId: idEntity};
+                entityId = { BusinessCompanyId: idEntity };
 
             return Db.models.Employees.findAll({
                 where: rest,
@@ -56,6 +56,7 @@ const EmployeesQuery = {
             //Get actives applications associated to contacts from a specific company
             return Db.models.Employees.findAll({
                 where: { isActive: true },
+                order: [[{ model: Db.models.ApplicationEmployees }, { model: Db.models.Applications, as: "Application" }, 'firstName', 'ASC']],
                 include: [
                     {
                         model: Db.models.ApplicationEmployees,
@@ -64,7 +65,12 @@ const EmployeesQuery = {
                             {
                                 model: Db.models.Applications,
                                 as: "Application",
-                                where: { isActive: true },
+                                where: {
+                                    $and: [
+                                        { isActive: true },
+                                        Sequelize.where(Sequelize.fn('CHAR_LENGTH', Sequelize.col("pin")), { $gte: 4 })
+                                    ]
+                                },
                                 required: true
                             }
                         ]
