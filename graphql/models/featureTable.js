@@ -8,11 +8,6 @@ export default {
                 code: {
                     type: Sequelize.STRING,
                     allowNull: false
-                },
-                crud: {
-                    type: Sequelize.STRING,
-                    allowNull: false,
-                    defaultValue: ''
                 }
             }
         );
