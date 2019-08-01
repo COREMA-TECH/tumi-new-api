@@ -220,10 +220,7 @@ const MarkedEmployeesConsolidated = {
                             _punch.duration = !isNaN(parseFloat(workedTime)) ? parseFloat(workedTime) : 0; //Update worked time
                         })
                         punchesConsolidated.push(punche);
-
                     });
-
-
                     return punchesConsolidated;//Return list of punches
                 })
         }
