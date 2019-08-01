@@ -1,7 +1,7 @@
 import { inputInsertEmployeeByHotel } from '../types/operations/insertTypes';
 import { inputUpdateEmployeeByHotel } from '../types/operations/updateTypes';
 import { EmployeeByHotelType } from '../types/operations/outputTypes';
-import { GraphQLList } from 'graphql';
+import { GraphQLList, GraphQLString, GraphQLBoolean } from 'graphql';
 
 import Db from '../../models/models';
 
@@ -43,6 +43,33 @@ const EmployeeByHotelMutation = {
                     if (record) return record.dataValues;
                     else return null;
                 });
+        }
+    },
+
+    bulkUpdateEmployeeByHotel: {
+        type: GraphQLBoolean,
+        description: "Update a list of EmployeHotel relations",
+        args: {
+            relationList: { type: new GraphQLList(inputUpdateEmployeeByHotel) }
+        },
+        async resolve(source, args) {
+            let result = true;
+
+            for(let relation of args.relationList){
+                console.log(relation);
+                await Db.models.EmployeeByHotels.update(relation, {
+                    where: {
+                        id: relation.id
+                    },
+                    returning: true
+                })
+                .catch(error => {
+                    console.log(error)
+                    result = false;
+                })
+            }
+
+            return result;
         }
     }
 };

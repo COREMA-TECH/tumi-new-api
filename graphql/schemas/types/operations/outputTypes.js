@@ -1990,13 +1990,13 @@ const EmployeeByHotelType = new GraphQLObjectType({
 			Employee: {
 				type: EmployeesType,
 				resolve(me) {
-					return me.getEmployee();
+					return me.getEmployees();
 				}
 			},
 			BusinessCompany: {
 				type: BusinessCompanyType,
 				resolve(me) {
-					return me.getBusinessCompany();
+					return me.getBussinessCompanies();
 				}
 			}
 		};

@@ -1,6 +1,6 @@
 import { GraphQLInt, GraphQLList, GraphQLBoolean } from 'graphql';
 import GraphQLDate from 'graphql-date';
-import { EmployeeByHotelType } from '../types/operations/outputTypes';
+import { EmployeeByHotelType, BusinessCompanyType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 const EmployeeByHotelQuery = {
@@ -36,16 +36,18 @@ const EmployeeByHotelQuery = {
                 include: [
                     {
                         model: Db.models.Employees,
+                        as: 'Employees',
                         required: true
                     },
                     {
                         model: Db.models.BusinessCompany,
+                        as: 'BussinessCompanies',
                         required: true
                     }
                 ]
             });
         }
-    }
+    }    
 };
 
 export default EmployeeByHotelQuery;
