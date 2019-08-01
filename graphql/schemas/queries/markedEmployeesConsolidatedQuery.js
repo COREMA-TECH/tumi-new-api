@@ -221,6 +221,8 @@ const MarkedEmployeesConsolidated = {
                         })
                         punchesConsolidated.push(punche);
                     });
+                    if (punchesConsolidated.length > 0)
+                        punchesConsolidated = punchesConsolidated.sort((a, b) => b.key - a.key)//Sort descending
                     return punchesConsolidated;//Return list of punches
                 })
         }
