@@ -108,7 +108,7 @@ const MarkedEmployeesConsolidated = {
                             required: true,
                             include: [{
                                 model: Db.models.BusinessCompany,
-                                as: 'BussinessCompanies',
+                                as: 'BusinessCompanies',
                                 where: { ...getPunchesCompanyFilter(args) },
                                 required: true
                             }]
@@ -277,7 +277,7 @@ const MarkedEmployeesConsolidated = {
                         required: true,
                         include: [{
                             model: Db.models.BusinessCompany,
-                            as: 'BussinessCompanies',
+                            as: 'BusinessCompanies',
                             where: { ...getPunchesCompanyFilter(args) },
                             required: true
                         }]
@@ -314,9 +314,9 @@ const MarkedEmployeesConsolidated = {
                             hoursWorked: 0,
                             lunchDeduction: 0,
                             payRate,
-                            dateIn: '',
-                            dateOut: '',
-                            clockIn: '00::00',
+                            dateIn: moment.utc(mark.markedDate).format('MM/DD/YYYY'),
+                            dateOut: moment.utc(mark.markedDate).format('MM/DD/YYYY'),
+                            clockIn: '00:00',
                             clockOut: '24:00',
                             hotelCode: company.Code,
                             departmentCode: department,
@@ -428,26 +428,6 @@ const MarkedEmployeesConsolidated = {
                             // output file in the same folder
                             const filename = path.join(mainPath + '/public/', 'output-' + random.substring(0, 5) + '.csv'); // TODO: test url
                             const output = []; // holds all rows of data
-
-                            // Create first row to show header with titles
-                            const row = [];
-                            row.push("Employee Number");
-                            row.push("");
-                            row.push("HOUR CATEGORY");
-                            row.push("HRS TRABAJADAS");
-                            row.push("$LUNCH DEDUCTION");
-                            row.push("PAY RATE");
-                            row.push("");
-                            row.push("CLOCK IN");
-                            row.push("CLOCK OUT");
-                            row.push("");
-                            row.push("");
-                            row.push("HOTEL CODE");
-                            row.push("DEPARTMENT CODE");
-                            row.push("POSITION CODE");
-
-                            // Save the first row
-                            output.push(row.join())
 
                             punchesCSV.forEach((d) => {
                                 // a new array for each row of data
