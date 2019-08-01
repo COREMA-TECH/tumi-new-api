@@ -1,4 +1,4 @@
-import { GraphQLNonNull, GraphQLString, GraphQLInt } from 'graphql';
+import { GraphQLNonNull, GraphQLString, GraphQLInt, GraphQLBoolean } from 'graphql';
 
 const ApplicantIdealJobFields = {
 	ApplicationId: {
@@ -12,6 +12,10 @@ const ApplicantIdealJobFields = {
 	idPosition: {
 		type: GraphQLInt,
 		description: 'Position Id'
+	},
+	isDefault: {
+		type: GraphQLBoolean,
+		description: 'Is Default'
 	}
 };
 

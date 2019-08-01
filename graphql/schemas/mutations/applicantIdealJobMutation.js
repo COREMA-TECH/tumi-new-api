@@ -4,6 +4,8 @@ import { ApplicantIdealJobType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt } from 'graphql';
 
 import Db from '../../models/models';
+import Sequelize from 'sequelize';
+const Op = Sequelize.Op;
 
 const ApplicantIdealJobMutation = {
 	addApplicantIdealJob: {
@@ -46,6 +48,52 @@ const ApplicantIdealJobMutation = {
 				.then(function ([rowsUpdate, [record]]) {
 					if (record) return record.dataValues;
 					else return null;
+				});
+		}
+	},
+	setDefaultApplicantIdealJob: {
+		type: ApplicantIdealJobType,
+		description: 'Set Default Applicant Ideal Job Record Info',
+		args: {
+			id: { type: GraphQLInt }
+		},
+		resolve(source, args) {
+			return Db.models.ApplicantIdealJobs
+				.update(
+					{
+						isDefault: true
+					},
+					{
+						where: {
+							id: args.id
+						},
+						returning: true
+					}
+				)
+				.then(function ([rowsUpdate, [record]]) {
+					let appIdealJob;
+					if (record){
+						appIdealJob = record.dataValues;
+						return Db.models.ApplicantIdealJobs
+								.update(
+									{isDefault: false},
+									{
+										where: {
+										[Op.and]: [
+											{ApplicationId: appIdealJob.ApplicationId},
+											{id: {[Op.ne]: appIdealJob.id}},
+											{isDefault: true}
+										]},
+										returning: true
+									})
+									.then(() => {
+										return appIdealJob;
+									})
+									.catch(() => {
+										return appIdealJob;
+									});
+					} 
+					return null;
 				});
 		}
 	},

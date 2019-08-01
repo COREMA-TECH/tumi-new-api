@@ -1,5 +1,4 @@
-import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLBoolean } from 'graphql';
-import GraphQLDate from 'graphql-date';
+import { GraphQLInt, GraphQLBoolean } from 'graphql';
 
 const EmployeeByHotelFields = {
     isDefault: {

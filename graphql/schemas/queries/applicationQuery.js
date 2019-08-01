@@ -1,5 +1,5 @@
 import { GraphQLInt, GraphQLString, GraphQLList, GraphQLBoolean, GraphQLNonNull } from 'graphql';
-import { ApplicationCodeUserType, ApplicationType, ApplicationCompletedDataType, UsersType } from '../types/operations/outputTypes';
+import { ApplicationCodeUserType, ApplicationType, ApplicationCompletedDataType, UsersType, ApplicationListType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 import GraphQLDate from 'graphql-date';
@@ -87,24 +87,33 @@ const ApplicationQuery = {
 		}
 	},
 	applicationsByUser: {
-		type: new GraphQLList(ApplicationType),
+		type: new GraphQLList(ApplicationListType),
 		description: 'List applications records',
 		args: {
 			idUsers: { type: GraphQLInt },
 			Id_Deparment: { type: GraphQLInt },
 			idEntity: { type: GraphQLInt },
-			isActive: { type: new GraphQLList(GraphQLBoolean) }
+			isActive: { type: new GraphQLList(GraphQLBoolean) },
+			id: { type: GraphQLInt }
 		},
 		resolve(root, args) {
 			let isActiveFilter = {};
-			let { idEntity, ...rest } = args;
+			let { idEntity, id, ...rest } = args;
 			let employeeArgs = { ...rest };
+			let employeeByHotelFilter = {}
+			let idFilter = {};
+
 			if (args.isActive) {
 				isActiveFilter = { isActive: { [Op.in]: args.isActive } }
 			}
+			if (args.idEntity)
+				employeeByHotelFilter = { BusinessCompanyId: args.idEntity }
+			if (args.id)
+				idFilter = { id: args.id }
+
 			return Db.models.Applications.findAll(
 				{
-					where: { ...isActiveFilter },
+					where: { ...isActiveFilter, ...idFilter },
 					as: "Applications",
 					include: [{
 						model: Db.models.ApplicationEmployees,
@@ -117,12 +126,62 @@ const ApplicationQuery = {
 							include: [
 								{
 									model: Db.models.EmployeeByHotels,
-									where: { BusinessCompanyId: args.idEntity, isActive: true }
+									where: { ...employeeByHotelFilter, isActive: true }
 								}
 							]
 						}]
 
+					}, {
+						model: Db.models.Users,
+						as: 'Recruiter'
+					}, {
+						model: Db.models.WorkOrder,
+						as: 'PositionApplyingFor',
+						include: [{
+							model: Db.models.PositionRate
+						}, {
+							model: Db.models.BusinessCompany,
+							as: 'BusinessCompanyWO'
+						}]
+					}, {
+						model: Db.models.Users,
+						as: 'User'
 					}]
+				})
+				.then(_ => {
+					let dataList = [];
+
+					_.map(app => {
+						let { Recruiter, PositionApplyingFor, ApplicationEmployee, User } = app.dataValues;
+						let record = {
+							...app.dataValues,
+							workOrderId: null,
+							Position: null,
+							Recruiter: null,
+							Employee: null
+						}
+						if (User)
+							record = { ...record, User: User.dataValues };
+						if (Recruiter)
+							record = { ...record, Recruiter: Recruiter.dataValues };
+						if (PositionApplyingFor) {
+							let { id, PositionRate, BusinessCompanyWO } = PositionApplyingFor;
+							record = { ...record, workOrderId: id };
+							if (PositionRate)
+								record = { ...record, Position: PositionRate.dataValues }
+							if (BusinessCompanyWO)
+								record = { ...record, PositionCompany: BusinessCompanyWO.dataValues }
+						}
+						if (ApplicationEmployee) {
+							let appEmp = ApplicationEmployee.dataValues;
+							if (appEmp.Employees) {
+								let employee = appEmp.Employees.dataValues;
+								record = { ...record, Employee: employee }
+							}
+						}
+						dataList.push(record);
+					})
+					return dataList;
 				})
 		}
 	},
@@ -357,7 +416,7 @@ const ApplicationQuery = {
 				}]
 			}).then(application => {
 				return application.dataValues.Employees.length > 0 ? application.dataValues.Employees[0].dataValues.User.dataValues : null;
-			})			
+			})
 		}
 	},
 

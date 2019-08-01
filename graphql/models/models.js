@@ -493,7 +493,7 @@ BusinessCompany.hasMany(EmployeeByHotel);
 
 EmployeeByHotel.belongsTo(BusinessCompany, {
 	foreignKey: 'BusinessCompanyId',
-	as: 'BussinessCompanies'
+	as: 'BusinessCompanies'
 });
 
 Employees.hasMany(EmployeeByHotel);

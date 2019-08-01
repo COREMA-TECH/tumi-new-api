@@ -264,6 +264,110 @@ const ApplicationType = new GraphQLObjectType({
 	}
 });
 
+const ApplicationListType = new GraphQLObjectType({
+	name: 'ApplicationListType',
+	description: 'This is for application form',
+	fields: () => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Applicant Id'
+			},
+			...ApplicationFields,
+			workOrderId: { type: WorkOrderType },
+			Position: { type: PositionRateType },
+			User: { type: UsersType },
+			PositionCompany: { type: BusinessCompanyType },
+			Companies: {
+				type: new GraphQLList(BusinessCompanyType),
+				resolve(me) {
+					if (me.Employee) {
+						return Db.models.BusinessCompany.findAll({
+							include: [{
+								model: Db.models.EmployeeByHotels,
+								where: { isActive: true },
+								include: [
+									{
+										model: Db.models.Employees,
+										as: 'Employees',
+										where: { id: me.Employee.id }
+									}
+								]
+							}]
+						})
+					}
+				}
+			},
+			DefaultCompany: {
+				type: BusinessCompanyType,
+				resolve(me) {
+					if (me.Employee) {
+						return Db.models.EmployeeByHotels.findOne({
+							where: { isDefault: true },
+							include: [{
+								model: Db.models.Employees,
+								as: 'Employees',
+								where: { id: me.Employee.id }
+							}, {
+								model: Db.models.BusinessCompany,
+								as: 'BusinessCompanies'
+							}]
+						}).then(_ => {
+							if (_)
+								return _.dataValues.BusinessCompanies;
+							return null;
+						})
+					}
+				}
+			},
+			Recruiter: { type: UsersType },
+			Employee: { type: EmployeesType },
+			workOrderId: { type: GraphQLInt },
+			statusCompleted: {
+				type: GraphQLBoolean,
+				resolve(me) {
+					return Db.models.Applications.findOne({
+						where: { id: me.id },
+						include: [{
+							model: Db.models.ApplicantBackgroundChecks,
+							where: { completed: true },
+							required: true
+						}, {
+							model: Db.models.ApplicantDisclosures,
+							where: { completed: true },
+							required: true
+						}, {
+							model: Db.models.ApplicantConductCodes,
+							where: { completed: true },
+							required: true
+						}, {
+							model: Db.models.ApplicantHarassmentPolicy,
+							where: { completed: true },
+							required: true
+						}, {
+							model: Db.models.ApplicantWorkerCompensation,
+							where: { completed: true },
+							required: true
+						}, {
+							model: Db.models.ApplicantW4,
+							where: { completed: true },
+							required: true
+						}, {
+							model: Db.models.ApplicantI9,
+							where: { completed: true },
+							required: true
+						}]
+					})
+						.then(_application => {
+							return _application != null; //Return true when all record associated to this application are completed
+						})
+
+				}
+			}
+		};
+	}
+});
+
 const ApplicationCodeUserType = new GraphQLObjectType({
 	name: 'ApplicationCodeUserType',
 	description: 'This is for application form',
@@ -1234,11 +1338,11 @@ const EmployeesType = new GraphQLObjectType({
 							where: { id: me.id }
 						}, {
 							model: Db.models.BusinessCompany,
-							as: 'BussinessCompanies'
+							as: 'BusinessCompanies'
 						}]
 					}).then(_ => {
 						if (_)
-							return _.dataValues.BussinessCompanies;
+							return _.dataValues.BusinessCompanies;
 						return null;
 					})
 				}
@@ -2088,5 +2192,6 @@ export {
 	ApplicantVerificationLetterType,
 	shiftVsWorkedHoursType,
 	EmployeeByHotelType,
-	FeatureType
+	FeatureType,
+	ApplicationListType
 };
