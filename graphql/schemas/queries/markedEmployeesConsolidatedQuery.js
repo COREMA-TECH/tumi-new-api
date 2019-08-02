@@ -84,7 +84,7 @@ const MarkedEmployeesConsolidated = {
         },
         resolve(root, args) {
             return Db.models.MarkedEmployees.findAll({
-                where: { ...getPunchesMarkerFilter(args), EmployeeId: 207 },
+                where: { ...getPunchesMarkerFilter(args) },
                 order: [
                     ['EmployeeId', 'DESC'],
                     ['entityId', 'DESC'],
