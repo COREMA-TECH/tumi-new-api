@@ -13,6 +13,7 @@ const CLOCKIN = 30570;
 const CLOCKOUT = 30571;
 const BREAKIN = 30572;
 const BREAKOUT = 30573;
+const NOW_DESCRIPTION = "Now"
 const Op = Sequelize.Op;
 
 const getPunchesEmployeeFilter = (filter) => {
@@ -86,6 +87,8 @@ const MarkedEmployeesConsolidated = {
                 where: { ...getPunchesMarkerFilter(args) },
                 order: [
                     ['EmployeeId', 'DESC'],
+                    ['entityId', 'DESC'],
+                    ['markedDate', 'ASC'],
                     ['markedTime', 'ASC']
                 ],
                 include: [{
@@ -132,9 +135,9 @@ const MarkedEmployeesConsolidated = {
                     for (var index = 0; index < marks.length; index++) {
                         let _mark = marks[index];
 
-                        var { typeMarkedId, markedTime, EmployeeId, notes, markedDate, imageMarked, id, notes } = _mark.dataValues;
+                        var { typeMarkedId, markedTime, EmployeeId, notes, markedDate, imageMarked, id, notes, entityId } = _mark.dataValues;
 
-                        var key = `${EmployeeId}-${moment.utc(markedDate).format('YYYYMMDD')}`;
+                        var key = `${entityId}-${EmployeeId}-${moment.utc(markedDate).format('YYYYMMDD')}`;
                         var groupKey = `${moment.utc(markedDate).format('YYYYMMDD')}`;
                         var employee = _mark.dataValues.Employees.dataValues;
                         // var shift = _mark.dataValues.Shift.dataValues;
@@ -154,7 +157,8 @@ const MarkedEmployeesConsolidated = {
                                 employeeId: EmployeeId,
                                 job: '',
                                 hotelCode: company.Name,
-                                hotelId: company.Id
+                                hotelId: company.Id,
+                                clockOut: moment.utc(markedDate).format('YYYY/MM/DD') == moment.utc(new Date()).format('YYYY/MM/DD') ? NOW_DESCRIPTION : "24:00"
                             }
                             //Create new punch object if this object doesnt exist into the array of punches
                             if (!objPunches[groupKey]) {
@@ -191,7 +195,8 @@ const MarkedEmployeesConsolidated = {
                                     var _nextMarkHour = moment.utc(_nextMarkValues.markedTime, 'HH:mm').format('HH:mm');
 
                                     if (_nextMarkValues.EmployeeId == _mark.EmployeeId &&
-                                        moment.utc(_nextMarkValues.markedDate).local().format("YYYYMMDDD") == moment.utc(_mark.markedDate).local().format("YYYYMMDDD")) {
+                                        moment.utc(_nextMarkValues.markedDate).local().format("YYYYMMDDD") == moment.utc(_mark.markedDate).local().format("YYYYMMDDD") &&
+                                        _nextMarkValues.entityId == _mark.entityId) {
                                         punch.clockOut = _nextMarkHour;
                                         punch.imageMarkedOut = _nextMarkValues.imageMarked;
                                         punch.clockOutId = _nextMarkValues.id;
@@ -214,6 +219,7 @@ const MarkedEmployeesConsolidated = {
                         punche.punches.map(_punch => {
                             var startTime = moment.utc(_punch.clockIn, 'HH:mm:ss');//Get Start Time
                             var endTime = moment.utc(_punch.clockOut, 'HH:mm:ss');//Get End Time
+
                             var duration = moment.duration(endTime.diff(startTime));//Calculate duration between times
                             var workedTime = (duration.asHours() * 1.00).toFixed(2)//((duration.hours() + (duration.minutes() / 60)) * 1.00).toFixed(2);//Calulate duration in minutes/float
 
