@@ -53,6 +53,7 @@ import VisitFields from './visitFields';
 import ApplicantVerificationLetterFields from './applicantVerificationLetterFields';
 import EmployeeByHotelFields from './employeeByHotelFields';
 import FeatureFields from './featureFiels';
+import ContractFields from './contractFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -109,5 +110,6 @@ export {
 	VisitFields,
 	ApplicantVerificationLetterFields,
 	EmployeeByHotelFields,
-	FeatureFields
+	FeatureFields,
+	ContractFields
 };

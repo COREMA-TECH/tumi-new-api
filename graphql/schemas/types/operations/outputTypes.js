@@ -62,7 +62,8 @@ import {
 	VisitFields,
 	ApplicantVerificationLetterFields,
 	EmployeeByHotelFields,
-	FeatureFields
+	FeatureFields,
+	ContractFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -2118,6 +2119,20 @@ const FeatureType = new GraphQLObjectType({
 	}
 });
 
+const ContractType = new GraphQLObjectType({
+	name: 'ContractType',
+	description: 'Output Contract',
+	fields: () => {
+		return {
+			id: {
+				type: new GraphQLNonNull(GraphQLInt),
+				description: 'Contract Id'
+			},
+			...ContractFields
+		};
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -2193,5 +2208,6 @@ export {
 	shiftVsWorkedHoursType,
 	EmployeeByHotelType,
 	FeatureType,
-	ApplicationListType
+	ApplicationListType,
+	ContractType
 };
