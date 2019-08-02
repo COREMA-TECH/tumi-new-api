@@ -2100,7 +2100,7 @@ const EmployeeByHotelType = new GraphQLObjectType({
 			BusinessCompany: {
 				type: BusinessCompanyType,
 				resolve(me) {
-					return me.getBussinessCompanies();
+					return me.getBusinessCompanies();
 				}
 			}
 		};

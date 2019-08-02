@@ -41,7 +41,7 @@ const EmployeeByHotelQuery = {
                     },
                     {
                         model: Db.models.BusinessCompany,
-                        as: 'BussinessCompanies',
+                        as: 'BusinessCompanies',
                         required: true
                     }
                 ]
