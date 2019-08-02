@@ -55,7 +55,8 @@ import {
 	ApplicantVerificationLetterFields,
 	EmployeeByHotelFields,
 	FormsFields,
-	FeatureFields
+	FeatureFields,
+	ContractFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -602,6 +603,15 @@ const inputInsertFeatureType = new GraphQLInputObjectType({
 	}
 });
 
+const inputInsertContracts = new GraphQLInputObjectType({
+	name: 'inputInsertContracts',
+	description: 'Inputs for contracts',
+
+	fields: {
+		...ContactsFields
+	}
+});
+
 
 export {
 	insertPayrollType,
@@ -664,5 +674,6 @@ export {
 	inputInsertApplicantVerificationLetterType,
 	inputInsertEmployeeByHotel,
 	inputInsertFormType,
-	inputInsertFeatureType
+	inputInsertFeatureType,
+	inputInsertContracts
 };

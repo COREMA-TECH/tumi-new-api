@@ -68,6 +68,7 @@ import VisitModel from './visitTable';
 import ApplicantVerificationLetterModel from './applicantVerificationLetterTable';
 import EmployeeByHotelModel from './employeeByHotelTable';
 import FeatureModel from './featureTable';
+import ContractModel from './contractTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
 const BreakRuleDetailModel = BreakRuleDetail.createModel(Conn);
@@ -138,6 +139,7 @@ const Visit = VisitModel.createModel(Conn);
 const EmployeeByHotel = EmployeeByHotelModel.createModel(Conn);
 const ApplicantVerificationLetter = ApplicantVerificationLetterModel.createModel(Conn);
 const Feature = FeatureModel.createModel(Conn);
+const Contracts = ContractModel.createModel(Conn);
 
 ApplicationPhases.belongsTo(CatalogItem, {
 	foreignKey: 'ReasonId',
@@ -489,6 +491,8 @@ Visit.belongsTo(BusinessCompany, {
 	foreignKey: 'BusinessCompanyId'
 });
 
+
+
 BusinessCompany.hasMany(EmployeeByHotel);
 
 EmployeeByHotel.belongsTo(BusinessCompany, {
@@ -516,6 +520,15 @@ Forms.belongsTo(Forms, {
 
 Feature.belongsTo(Forms);
 Feature.belongsTo(Roles);
+
+Contracts.belongsTo(BusinessCompany, {foreignKey: 'Id_Entity'});
+Contracts.belongsTo(BusinessCompany, {foreignKey: 'IdManagement'});
+BusinessCompany.hasMany(Contracts, {foreignKey: 'Id_Entity'});
+BusinessCompany.hasMany(Contracts, {foreignKey: 'IdManagement'});
+Contracts.belongsTo(Users, {foreignKey: 'Id_User_Signed'});
+Contracts.belongsTo(Users, {foreignKey: 'Id_User_Billing_Contact'});
+Users.hasMany(Contracts, {foreignKey: 'Id_User_Signed'});
+Users.hasMany(Contracts, {foreignKey: 'Id_User_Billing_Contact'});
 
 
 Conn.authenticate()

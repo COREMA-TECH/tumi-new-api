@@ -38,7 +38,8 @@ import {
 	EmployeeByHotelFields,
 	ContactsFields,
 	FormsFields,
-	FeatureFields
+	FeatureFields,
+	ContractFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -546,6 +547,18 @@ const inputUpdateFeatureType = new GraphQLInputObjectType({
 	}
 });
 
+const inputUpdateContracts = new GraphQLInputObjectType({
+	name: 'inputUpdateContracts',
+	description: 'Inputs update for Contracts',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Contract Id'
+		},
+		...ContractFields
+	}
+});
 
 export {
 	inputUpdateApplicantLanguage,
@@ -587,5 +600,6 @@ export {
 	inputUpdateEmployeeByHotel,
 	inputUpdateContact,
 	inputUpdateFormType,
-	inputUpdateFeatureType
+	inputUpdateFeatureType,
+	inputUpdateContracts
 };
