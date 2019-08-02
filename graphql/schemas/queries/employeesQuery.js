@@ -38,6 +38,9 @@ const EmployeesQuery = {
                 include: [{
                     model: Db.models.EmployeeByHotels,
                     where: entityId
+                }, {
+                    model: Db.models.ApplicationEmployees,
+                    required: true
                 }]
             });
         }
