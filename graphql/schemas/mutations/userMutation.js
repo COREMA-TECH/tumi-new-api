@@ -8,6 +8,19 @@ import Sequelize from 'sequelize';
 import { sendEmailResetPassword } from '../../../Configuration/Roots';
 
 const UserMutation = {
+    createUser: {
+        type: UsersType,
+        description: 'Insert user to database',
+        args: { user: { type: inputInsertUser } },
+        resolve(source, args) {
+            let user = {
+                ...args.user,
+                Password: Sequelize.fn('PGP_SYM_ENCRYPT', 'TEMP', 'AES_KEY'),
+            }
+            //Begin transaction
+            return Db.models.Users.create(user);
+        }
+    },
     udpdateUser: {
         type: UsersType,
         description: 'Update user to database',
@@ -15,8 +28,16 @@ const UserMutation = {
             user: { type: inputUpdateUser }
         },
         resolve(source, args) {
-            return Db.models.Users.update(args.user, { where: { Id: args.user.Id } })
-        },        
+            let { Password, Id, ...rest } = args.user;
+            if (Password)
+                rest = { ...rest, Password: Sequelize.fn('PGP_SYM_ENCRYPT', Password, 'AES_KEY') }
+
+            return Db.models.Users.update(rest, { where: { Id }, returning: true })
+                .then(function ([rowsUpdate, [record]]) {
+                    if (record) return record.dataValues;
+                    else return null;
+                });
+        },
     },
     insertUser: {
         type: UsersType,

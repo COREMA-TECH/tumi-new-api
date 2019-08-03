@@ -1,4 +1,4 @@
-import { GraphQLList, GraphQLInt } from 'graphql';
+import { GraphQLList, GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
 import { UsersType, ApplicationType, ContactsType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
@@ -19,7 +19,10 @@ const userQuery = {
             IdRegion: {
                 type: GraphQLInt
             },
-            Id_Contact: { type: GraphQLInt }
+            Id_Contact: { type: GraphQLInt },
+            Code_User: { type: GraphQLString },
+            Id_Entity: { type: GraphQLInt },
+            manageApp: { type: GraphQLBoolean }
 
         },
         resolve(root, args) {
@@ -37,7 +40,7 @@ const userQuery = {
         resolve(root, args) {
             return Db.models.Applications.findOne({
                 include: [
-                    { 
+                    {
                         model: Db.models.Employees,
                         where: { idUsers: args.Id }
                     }
