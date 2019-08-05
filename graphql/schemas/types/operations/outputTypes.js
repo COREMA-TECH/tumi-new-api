@@ -2124,8 +2124,8 @@ const ContractType = new GraphQLObjectType({
 	description: 'Output Contract',
 	fields: () => {
 		return {
-			id: {
-				type: new GraphQLNonNull(GraphQLInt),
+			Id: {
+				type: GraphQLInt,
 				description: 'Contract Id'
 			},
 			...ContractFields

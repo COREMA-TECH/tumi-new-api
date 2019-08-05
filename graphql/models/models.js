@@ -319,6 +319,11 @@ BusinessCompany.hasOne(CompanyPreference, {
 	as: "CompanyPref"
 });
 
+BusinessCompany.hasMany(PositionRate, {
+	foreignKey: 'Id_Entity'
+});
+
+PositionRate.belongsTo(BusinessCompany);
 
 //commentar si da error al correr migracion
 BusinessCompany.belongsTo(BusinessCompany, {

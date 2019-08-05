@@ -552,7 +552,7 @@ const inputUpdateContracts = new GraphQLInputObjectType({
 	description: 'Inputs update for Contracts',
 
 	fields: {
-		id: {
+		Id: {
 			type: new GraphQLNonNull(GraphQLInt),
 			description: 'Contract Id'
 		},

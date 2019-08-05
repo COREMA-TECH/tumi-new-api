@@ -608,7 +608,7 @@ const inputInsertContracts = new GraphQLInputObjectType({
 	description: 'Inputs for contracts',
 
 	fields: {
-		...ContactsFields
+		...ContractFields
 	}
 });
 

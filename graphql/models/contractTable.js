@@ -5,6 +5,12 @@ export default {
 		return Conn.define(
 			'Contracts',
 			{
+				Id: {
+					type: Sequelize.INTEGER,
+					allowNull: false,
+					primaryKey: true,
+					autoIncrement: true
+				},
                 Id_Company: {
 					type: Sequelize.INTEGER,
 					allowNull: true
@@ -129,6 +135,12 @@ export default {
 					type: Sequelize.STRING,
 					allowNull: true
                 }
+			},
+			{
+				freezeTableName: true,
+				timestamps: false,
+				// define the table's name
+				tableName: 'Contracts'
 			}
 		);
 	}
