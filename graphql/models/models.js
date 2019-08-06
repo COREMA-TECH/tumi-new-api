@@ -69,6 +69,7 @@ import ApplicantVerificationLetterModel from './applicantVerificationLetterTable
 import EmployeeByHotelModel from './employeeByHotelTable';
 import FeatureModel from './featureTable';
 import ContractModel from './contractTable';
+import TokenModel from './tokenTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
 const BreakRuleDetailModel = BreakRuleDetail.createModel(Conn);
@@ -140,6 +141,7 @@ const EmployeeByHotel = EmployeeByHotelModel.createModel(Conn);
 const ApplicantVerificationLetter = ApplicantVerificationLetterModel.createModel(Conn);
 const Feature = FeatureModel.createModel(Conn);
 const Contracts = ContractModel.createModel(Conn);
+const Tokens = TokenModel.createModel(Conn);
 
 ApplicationPhases.belongsTo(CatalogItem, {
 	foreignKey: 'ReasonId',
@@ -323,7 +325,7 @@ BusinessCompany.hasMany(PositionRate, {
 	foreignKey: 'Id_Entity'
 });
 
-PositionRate.belongsTo(BusinessCompany);
+PositionRate.belongsTo(BusinessCompany, {foreignKey: 'Id_Entity'});
 
 //commentar si da error al correr migracion
 BusinessCompany.belongsTo(BusinessCompany, {
@@ -534,6 +536,9 @@ Contracts.belongsTo(Users, {foreignKey: 'Id_User_Signed'});
 Contracts.belongsTo(Users, {foreignKey: 'Id_User_Billing_Contact'});
 Users.hasMany(Contracts, {foreignKey: 'Id_User_Signed'});
 Users.hasMany(Contracts, {foreignKey: 'Id_User_Billing_Contact'});
+
+Contracts.hasMany(Tokens, {foreignKey: 'Id_Contract'});
+Tokens.belongsTo(Contracts, {foreignKey: 'Id_Contract'});
 
 
 Conn.authenticate()

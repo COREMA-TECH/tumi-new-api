@@ -43,6 +43,7 @@ import EmployeeByHotelMutation from './employeeByHotelMutation';
 import FormMutation from './formMutation';
 import FeatureMutation from './featureMutation';
 import ContractMutation from './contractMutation';
+import TokenMutation from './tokenMutation';
 
 export {
 	payrollMutation,
@@ -89,5 +90,6 @@ export {
 	EmployeeByHotelMutation,
 	FormMutation,
 	FeatureMutation,
-	ContractMutation
+	ContractMutation,
+	TokenMutation
 };
