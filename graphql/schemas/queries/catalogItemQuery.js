@@ -109,6 +109,43 @@ const CatalogItemQuery = {
         resolve(root, args) {
             return Db.models.CatalogItem.findAll({ where: getQueryForUniqueCatalog(args) });
         }
+    },
+    departmentsByUser: {
+        type: new GraphQLList(CatalogItemType),
+        description: 'List Catalog Items records',
+        args: {
+            UserId: {
+                type: GraphQLInt
+            }
+        },
+        resolve(root, args) {
+            return Db.models.Users.findOne({ where: { Id: args.UserId } })
+                .then(_ => {
+                    let { Id_Roles } = _.dataValues;
+                    if (Id_Roles == 5) //Hotel Manager
+                        return Db.models.CatalogItem.findAll({
+                            where: { Id_Catalog: 8, IsActive: 1 },
+                            required: true,
+                            order: [['Name', 'ASC']],
+                            include: [{
+                                model: Db.models.Employees,
+                                required: true,
+                                include: [{
+                                    model: Db.models.ApplicationEmployees,
+                                    required: true,
+                                    include: [{
+                                        model: Db.models.Applications,
+                                        as: 'Application',
+                                        required: true,
+                                        where: { UserId: args.UserId }
+                                    }]
+                                }]
+                            }]
+                        });
+                    return Db.models.CatalogItem.findAll({ where: { Id_Catalog: 8, IsActive: 1 }, order: [['Name', 'ASC']], });
+                })
+
+        }
     }
 };
 

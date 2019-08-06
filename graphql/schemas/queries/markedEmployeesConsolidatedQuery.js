@@ -28,8 +28,10 @@ const getPunchesEmployeeFilter = (filter) => {
         //Validate if the filter has value
         if (filter[prop])
             //Exclude startDate and endDate from filters
-            if (!["employee", "startDate", "endDate", "idEntity"].join().includes(prop))
+            if (!["employee", "startDate", "endDate", "idEntity", "Id_Deparment"].join().includes(prop))
                 newFilter = { ...newFilter, [prop]: filter[prop] };
+            else if (prop == "Id_Deparment")
+                newFilter = { ...newFilter, [prop]: { $in: filter[prop] } };
     }
     return newFilter;
 }
@@ -66,7 +68,7 @@ const getPunchesCompanyFilter = (filter) => {
         if (filter[prop])
             //Only filter by idEntity
             if (prop == "idEntity")
-                newFilter = { ...newFilter, Id: filter[prop] };
+                newFilter = { ...newFilter, Id: { $in: filter[prop] } };
     }
     return newFilter;
 }
@@ -76,8 +78,8 @@ const MarkedEmployeesConsolidated = {
         type: new GraphQLList(PunchesReportConsolidateType),
         description: "Get Punches report",
         args: {
-            idEntity: { type: GraphQLInt },
-            Id_Department: { type: GraphQLInt },
+            idEntity: { type: new GraphQLList(GraphQLInt) },
+            Id_Deparment: { type: new GraphQLList(GraphQLInt) },
             employee: { type: GraphQLString },
             startDate: { type: GraphQLDate },
             endDate: { type: GraphQLDate },
@@ -239,8 +241,8 @@ const MarkedEmployeesConsolidated = {
         type: GraphQLString,
         description: "Get Punches report",
         args: {
-            idEntity: { type: GraphQLInt },
-            Id_Department: { type: GraphQLInt },
+            idEntity: { type: new GraphQLList(GraphQLInt) },
+            Id_Deparment: { type: new GraphQLList(GraphQLInt) },
             employee: { type: GraphQLString },
             startDate: { type: GraphQLDate },
             endDate: { type: GraphQLDate },

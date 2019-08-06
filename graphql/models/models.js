@@ -376,6 +376,11 @@ Employees.belongsTo(CatalogItem, {
 	foreignKey: 'Id_Deparment',
 	as: 'CatalogDepartment'
 });
+
+CatalogItem.hasMany(Employees, {
+	foreignKey: 'Id_Deparment'
+});
+
 Employees.belongsTo(PositionRate, {
 	foreignKey: 'Contact_Title',
 	as: 'Title'
@@ -421,6 +426,11 @@ CatalogItem.hasMany(Contacts, {
 CatalogItem.hasMany(BusinessCompany, {
 	foreignKey: 'Region'
 });
+
+BusinessCompany.belongsTo(CatalogItem, {
+	foreignKey: 'Region',
+	as: 'Regions'
+})
 
 CatalogItem.hasMany(WorkOrder, {
 	foreignKey: 'departmentId'
@@ -507,6 +517,15 @@ EmployeeByHotel.belongsTo(Employees, {
 ConfigRegions.belongsTo(Users, {
 	foreignKey: 'regionalManagerId',
 	as: 'OperationManager'
+});
+
+ConfigRegions.belongsTo(CatalogItem, {
+	foreignKey: 'regionId',
+	as: 'Region'
+});
+CatalogItem.hasOne(ConfigRegions, {
+	as: 'ConfigRegion',
+	foreignKey: 'regionId'
 });
 
 Forms.belongsTo(Forms, {
