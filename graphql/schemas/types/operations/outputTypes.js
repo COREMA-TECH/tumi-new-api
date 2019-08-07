@@ -1808,7 +1808,9 @@ const PunchesReportConsolidatedPunchesType = new GraphQLObjectType({
 			clockInId: { type: GraphQLInt },
 			clockOutId: { type: GraphQLInt },
 			noteIn: { type: GraphQLString },
-			noteOut: { type: GraphQLString }
+			noteOut: { type: GraphQLString },
+			flagIn: { type: GraphQLBoolean },
+			flagOut: { type: GraphQLBoolean }
 		}
 	}
 })

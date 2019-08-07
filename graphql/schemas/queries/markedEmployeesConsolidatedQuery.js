@@ -137,7 +137,7 @@ const MarkedEmployeesConsolidated = {
                     for (var index = 0; index < marks.length; index++) {
                         let _mark = marks[index];
 
-                        var { typeMarkedId, markedTime, EmployeeId, notes, markedDate, imageMarked, id, notes, entityId } = _mark.dataValues;
+                        var { typeMarkedId, markedTime, EmployeeId, notes, markedDate, imageMarked, id, notes, entityId, flag } = _mark.dataValues;
 
                         var key = `${entityId}-${EmployeeId}-${moment.utc(markedDate).format('YYYYMMDD')}`;
                         var groupKey = `${moment.utc(markedDate).format('YYYYMMDD')}`;
@@ -190,6 +190,7 @@ const MarkedEmployeesConsolidated = {
                                 punch.imageMarkedIn = imageMarked;
                                 punch.clockInId = id;
                                 punch.noteIn = notes;
+                                punch.flagIn = flag;
 
                                 let nextMark = marks[index + 1];
                                 if (nextMark) {
@@ -203,6 +204,7 @@ const MarkedEmployeesConsolidated = {
                                         punch.imageMarkedOut = _nextMarkValues.imageMarked;
                                         punch.clockOutId = _nextMarkValues.id;
                                         punch.noteOut = notes;
+                                        punch.flagOut = flag;
                                         if (_nextMarkValues.typeMarkedId == BREAKOUT && typeMarkedId == BREAKIN)
                                             punch.job = 'Lunch Break'
                                     }
