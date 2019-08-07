@@ -57,6 +57,8 @@ import ApplicationSummaryQuery from './applicationSummaryQuery';
 import VisitQuery from './visitQuery';
 import EmployeeByHotelQuery from './employeeByHotelQuery';
 import FeatureQuery from './featureQuery';
+import ContractQuery from './contractQuery';
+import TokenQuery from './tokenQuery';
 
 export {
 	ApplicantLanguageQuery,
@@ -113,5 +115,7 @@ export {
 	ApplicationSummaryQuery,
 	VisitQuery,
 	EmployeeByHotelQuery,
-	FeatureQuery
+	FeatureQuery,
+	ContractQuery,
+	TokenQuery
 };

@@ -62,7 +62,9 @@ import {
 	VisitFields,
 	ApplicantVerificationLetterFields,
 	EmployeeByHotelFields,
-	FeatureFields
+	FeatureFields,
+	ContractFields,
+	TokenFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -2118,6 +2120,34 @@ const FeatureType = new GraphQLObjectType({
 	}
 });
 
+const ContractType = new GraphQLObjectType({
+	name: 'ContractType',
+	description: 'Output Contract',
+	fields: () => {
+		return {
+			Id: {
+				type: GraphQLInt,
+				description: 'Contract Id'
+			},
+			...ContractFields
+		};
+	}
+});
+
+const TokenType = new GraphQLObjectType({
+	name: 'TokenType',
+	description: 'Output Token',
+	fields: () => {
+		return {
+			Id: {
+				type: GraphQLInt,
+				description: 'Token Id'
+			},
+			...TokenFields
+		};
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -2193,5 +2223,7 @@ export {
 	shiftVsWorkedHoursType,
 	EmployeeByHotelType,
 	FeatureType,
-	ApplicationListType
+	ApplicationListType,
+	ContractType,
+	TokenType
 };

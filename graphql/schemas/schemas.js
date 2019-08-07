@@ -47,7 +47,9 @@ import {
 	ApplicantVerificationLetterMutation,
 	EmployeeByHotelMutation,
 	FormMutation,
-	FeatureMutation
+	FeatureMutation,
+	ContractMutation,
+	TokenMutation
 } from './mutations';
 import {
 	ApplicationQuery,
@@ -105,7 +107,9 @@ import {
 	RegionQuery,
 	VisitQuery,
 	EmployeeByHotelQuery,
-	FeatureQuery
+	FeatureQuery,
+	ContractQuery,
+	TokenQuery
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -167,7 +171,9 @@ const RootQuery = new GraphQLObjectType({
 		...RegionQuery,
 		...VisitQuery,
 		...EmployeeByHotelQuery,
-		...FeatureQuery
+		...FeatureQuery,
+		...ContractQuery,
+		...TokenQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({
@@ -217,7 +223,9 @@ const RootMutation = new GraphQLObjectType({
 		...ApplicantVerificationLetterMutation,
 		...EmployeeByHotelMutation,
 		...FormMutation,
-		...FeatureMutation
+		...FeatureMutation,
+		...ContractMutation,
+		...TokenMutation
 	}
 });
 
