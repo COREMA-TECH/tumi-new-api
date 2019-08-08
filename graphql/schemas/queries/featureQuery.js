@@ -9,9 +9,6 @@ const FeatureQuery = {
             code: {
                 type: GraphQLString
             },
-            FormId: {
-                type: GraphQLInt
-            },
             RoleId: {
                 type: GraphQLInt
             }
