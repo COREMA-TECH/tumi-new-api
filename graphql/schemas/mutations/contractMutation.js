@@ -976,6 +976,64 @@ const generateContractTerms = (contract, businessCompany, supervisor, posRate) =
          )
 }
 
+const generatePdfFile = (html, srcFile) => {
+   return new Promise((resolve, reject) => {
+      var options = {
+         format: 'Letter',
+         font: 'Arial',
+         size: 12,
+         type: "pdf",             // allowed file types: png, jpeg, pdf
+         quality: "75",           // only used for types png & jpeg
+         orientation: 'portrait',
+         zoomFactor: 0.5,
+         border: {
+            top: '0.98in', // default is 0, units: mm, cm, in, px
+            right: '0.98in',
+            bottom: '0.98in',
+            left: '0.98in'
+         }
+      };
+      pdf.create(html, options).toFile(srcFile, function (err, res) {
+         if (err) return console.log(err);
+         resolve(res);
+      });
+   });
+}
+
+const uploadToS3 = (filePath) => {
+   return new Promise((resolve, reject) => {
+      try {
+         var s3 = new AWS.S3({
+            accessKeyId: 'AKIAZTTPXWUZ6OPRW2P6',
+            secretAccessKey: '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',
+            region: 'us-east-1'
+         });
+         
+         // return
+         var params = {
+            Bucket: 'orion1-files',
+            Body : fs.createReadStream(filePath),
+            ACL: 'public-read',
+            Key : 'contracts/' + filePath.replace('./public/', '')
+         };
+
+         s3.upload(params, function (err, data) {
+            //handle error
+            if (err) {
+               console.log("Error", err);
+               resolve(null);
+            }
+            //success
+            if (data) {
+               resolve(data);
+            }
+         });
+      } catch (error) {
+         resolve(null);
+      }
+      
+   })
+}
 
 const ContractMutation = {
     addContract: {
@@ -1025,100 +1083,44 @@ const ContractMutation = {
                   
                   let html = generateContractTerms(contract, busCompany, {Full_Name: fullName}, posRate);
 
-                  var options = {
-                     format: 'Letter',
-                     font: 'Arial',
-                     size: 12,
-                     type: "pdf",             // allowed file types: png, jpeg, pdf
-                     quality: "75",           // only used for types png & jpeg
-                     orientation: 'portrait',
-                     zoomFactor: 1,
-                     border: {
-                        top: '0.98in', // default is 0, units: mm, cm, in, px
-                        right: '0.98in',
-                        bottom: '0.98in',
-                        left: '0.98in'
-                     }
-                  };
+                  
                   var filename = `${contract.Contract_Name}`;
                   srcFile = `./public/${filename}.pdf`;
 
-                  const pdfPromise = new Promise((resolve, reject) => {
-                     pdf.create(html, options).toFile(srcFile, function (err, res) {
-                        if (err) return console.log(err);
-                        resolve(res);
-                     });
-                  });
-
+                  const pdfPromise = generatePdfFile(html, srcFile);
                   return pdfPromise.then(() => {
                      //aqui va la logica de S3
-                  
-                     var s3 = new AWS.S3({
-                        accessKeyId: 'AKIAZTTPXWUZ6OPRW2P6',
-                        secretAccessKey: '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',
-                        region: 'us-east-1'
-                     });
-                     
-                     var filePath = srcFile;
-                  
-                  // return
-                     var params = {
-                        Bucket: 'orion1-files',
-                        Body : fs.createReadStream(filePath),
-                        ACL: 'public-read',
-                        Key : 'contracts/' + filePath.replace('./public/', '')
-                     };
-            
-                     return new Promise((resolve, reject) => {
-                        s3.upload(params, function (err, data) {
-                           //handle error
-                           if (err) {
-                              console.log("Error", err);
-                              resolve(null);
-                           }
-                           //success
-                           if (data) {
-                              let url = data.Location;
-                              contract.Contract_Terms = url;
-                              console.log("Uploaded in:", data.Location);
-                              Db.models.Contracts.create(contract, { returning: true }).then(async ret => {
-                                 let contractExpDate = contract.Contract_Expiration_Date ? moment(contract.Contract_Expiration_Date).format('MM/DD/YYYY') : '';
-                                 let newToken = [{
-                                    Token: Math.floor(Math.random() * 90000) + 10000,
-                                    IsActive: 1,
-                                    Id_Contract: ret ? ret.dataValues.Id : 0,
-                                    Signatory: 'C'
-                                 },
-                                 {
-                                    Token: Math.floor(Math.random() * 90000) + 10000,
-                                    IsActive: 1,
-                                    Id_Contract: ret ? ret.dataValues.Id : 0,
-                                    Signatory: 'E'
-                                 }];
-                                 await Db.models.Token.bulkCreate(newToken, { returning: true })
-                                 await Db.models.BusinessCompany.update({Contract_Expiration_Date: contractExpDate} ,{ where: {Id: entityId}}, { returning: true });
-                                 
-                                 resolve(ret.dataValues);
-                              });
-                           }
+                     return uploadToS3(srcFile).then((data) =>{
+                        let url = data.Location;
+                        contract.Contract_Terms = url;
+                        return Db.models.Contracts.create(contract, { returning: true }).then(async ret => {
+                           let contractExpDate = contract.Contract_Expiration_Date ? moment(contract.Contract_Expiration_Date).format('MM/DD/YYYY') : '';
+                           let newToken = [{
+                              Token: Math.floor(Math.random() * 90000) + 10000,
+                              IsActive: 1,
+                              Id_Contract: ret ? ret.dataValues.Id : 0,
+                              Signatory: 'C'
+                           },
+                           {
+                              Token: Math.floor(Math.random() * 90000) + 10000,
+                              IsActive: 1,
+                              Id_Contract: ret ? ret.dataValues.Id : 0,
+                              Signatory: 'E'
+                           }];
+                           await Db.models.Token.bulkCreate(newToken, { returning: true })
+                           await Db.models.BusinessCompany.update({Contract_Expiration_Date: contractExpDate} ,{ where: {Id: entityId}}, { returning: true });
+                           
+                           return ret.dataValues;
                         });
-                     })
-                  
+                     });
+
                   });
 
                }).catch(() => {
                   return null
                });
                
-            })
-
-            
-            
-            // return Db.models.Contracts.bulkCreate(await Promise.all(newContracts), { returning: true }).then((output) => {
-            //    return output.map((element) => {
-            //         return element.dataValues;
-            //     });
-            // });
+            });
         }
     },
     updateContract: {
@@ -1128,20 +1130,75 @@ const ContractMutation = {
             contract: { type: inputUpdateContracts }
         },
         resolve(source, args) {
-            return Db.models.Contracts
-                .update(
-                        args.contract,
-                    {
-                        where: {
-                            id: args.contract.id
-                        },
-                        returning: true
-                    }
-                )
-                .then(function ([rowsUpdate, [record]]) {
-                    if (record) return record.dataValues;
-                    else return null;
+         let {contract} = args;
+         let entityId = contract.Id_Entity || contract.IdManagement;
+         return Db.models.BusinessCompany.findOne({
+            where: {
+               Id: entityId
+             },
+             include: [{
+                model: Db.models.PositionRate,
+                include: [{
+                   model: Db.models.CatalogItem,
+                   as: 'Department'
+                }],
+                required: false
+             }]
+          })
+          .then(busCompany => {
+             let dispLabel;
+             let posRate = busCompany.dataValues.PositionRates.map(p => {
+                dispLabel = p.dataValues.Department.dataValues.DisplayLabel;
+                return {
+                   DisplayLabel: dispLabel ? dispLabel.trim() : '',
+                   Position: p.Position ? p.Position : '',
+                   Shift: p.Shift,
+                   Bill_Rate: p.Bill_Rate
+                }
+             });
+             
+             let srcFile = '';
+
+             return Db.models.Contacts.findOne({ 
+                where: { Id_Entity: entityId }
+             }).then(ret => {
+                let {First_Name, Middle_Name, Last_Name} = ret.dataValues;
+                let fullName = [
+                   First_Name ? First_Name.trim() : '',
+                   Middle_Name ? Middle_Name.trim() : '',
+                   Last_Name ? Last_Name.trim() : ''
+                ].join(' ');
+                
+                let html = generateContractTerms(contract, busCompany, {Full_Name: fullName}, posRate);
+
+                
+                var filename = `${contract.Contract_Name}`;
+                srcFile = `./public/${filename}.pdf`;
+
+                const pdfPromise = generatePdfFile(html, srcFile);
+                return pdfPromise.then(() => {
+                   //aqui va la logica de S3
+                   return uploadToS3(srcFile).then((data) =>{
+                      let url = data.Location;
+                      contract.Contract_Terms = url;
+                      return Db.models.Contracts.update(contract, {
+                              where: {
+                                 Id: contract.Id
+                              },
+                              returning: true
+                           }).then(function ([rowsUpdate, [record]]) {
+                           if (record) return record.dataValues;
+                           else return null;
+                        });
+                   });
+                
                 });
+
+             }).catch(() => {
+                return null
+             });
+             
+          });
         }
     }
 };
