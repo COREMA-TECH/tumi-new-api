@@ -104,7 +104,10 @@ const MarkedEmployeesConsolidated = {
                                 {
                                     model: Db.models.Applications,
                                     as: "Application",
-                                    required: true
+                                    required: true,
+                                    where: Sequelize.where(Sequelize.fn('upper', Sequelize.fn("concat", Sequelize.col("firstName"), ' ', Sequelize.col("lastName"))), {
+                                        $like: `%${args.employee.toUpperCase()}%`
+                                    })
                                 }
                             ]
                         },
@@ -147,69 +150,65 @@ const MarkedEmployeesConsolidated = {
                         let company = _mark.dataValues.BusinessCompany.dataValues;
                         let punch = {};
 
-                        var employeeName = args.employee || '';
                         let application = employee.ApplicationEmployee.Application.dataValues;
                         let name = `${application.firstName} ${application.lastName}`.trim();
-                        //Filter employee based on filter param
-                        if (name.toUpperCase().includes(employeeName.trim().toUpperCase())) {
-                            //Create punch record
-                            punch = {
-                                key,
-                                name,
-                                employeeId: EmployeeId,
-                                job: '',
-                                hotelCode: company.Name,
-                                hotelId: company.Id,
-                                clockOut: moment.utc(markedDate).format('YYYY/MM/DD') == moment.utc(new Date()).format('YYYY/MM/DD') ? NOW_DESCRIPTION : "24:00"
-                            }
-                            //Create new punch object if this object doesnt exist into the array of punches
-                            if (!objPunches[groupKey]) {
-                                var reportRow = {
-                                    key: groupKey,
-                                    date: moment.utc(markedDate).format('YYYY/MM/DD'),
-                                    duration: 0,
-                                    punches: [punch]
-                                }
-                                objPunches = { ...objPunches, [groupKey]: reportRow }
-                            }
-                            else {
-                                //Exclude ClockOut mark from list
-                                if (typeMarkedId != CLOCKOUT)
-                                    objPunches[groupKey].punches.push(punch);
-                            }
 
+                        //Create punch record
+                        punch = {
+                            key,
+                            name,
+                            employeeId: EmployeeId,
+                            job: '',
+                            hotelCode: company.Name,
+                            hotelId: company.Id,
+                            clockOut: moment.utc(markedDate).format('YYYY/MM/DD') == moment.utc(new Date()).format('YYYY/MM/DD') ? NOW_DESCRIPTION : "24:00"
+                        }
+                        //Create new punch object if this object doesnt exist into the array of punches
+                        if (!objPunches[groupKey]) {
+                            var reportRow = {
+                                key: groupKey,
+                                date: moment.utc(markedDate).format('YYYY/MM/DD'),
+                                duration: 0,
+                                punches: [punch]
+                            }
+                            objPunches = { ...objPunches, [groupKey]: reportRow }
+                        }
+                        else {
                             //Exclude ClockOut mark from list
-                            if (typeMarkedId != CLOCKOUT) {
+                            if (typeMarkedId != CLOCKOUT)
+                                objPunches[groupKey].punches.push(punch);
+                        }
 
-                                //Format punche time
-                                var hour = moment.utc(markedTime, 'HH:mm').format('HH:mm');
+                        //Exclude ClockOut mark from list
+                        if (typeMarkedId != CLOCKOUT) {
 
-                                //Update marker type hour based on type and hour
-                                //  if ("30570||30572".includes(typeMarkedId)) {
-                                punch.clockIn = hour;
-                                punch.imageMarkedIn = imageMarked;
-                                punch.clockInId = id;
-                                punch.noteIn = notes;
-                                punch.flagIn = flag;
+                            //Format punche time
+                            var hour = moment.utc(markedTime, 'HH:mm').format('HH:mm');
 
-                                let nextMark = marks[index + 1];
-                                if (nextMark) {
-                                    let _nextMarkValues = nextMark.dataValues;
-                                    var _nextMarkHour = moment.utc(_nextMarkValues.markedTime, 'HH:mm').format('HH:mm');
+                            //Update marker type hour based on type and hour
+                            //  if ("30570||30572".includes(typeMarkedId)) {
+                            punch.clockIn = hour;
+                            punch.imageMarkedIn = imageMarked;
+                            punch.clockInId = id;
+                            punch.noteIn = notes;
+                            punch.flagIn = flag;
 
-                                    if (_nextMarkValues.EmployeeId == _mark.EmployeeId &&
-                                        moment.utc(_nextMarkValues.markedDate).local().format("YYYYMMDDD") == moment.utc(_mark.markedDate).local().format("YYYYMMDDD") &&
-                                        _nextMarkValues.entityId == _mark.entityId) {
-                                        punch.clockOut = _nextMarkHour;
-                                        punch.imageMarkedOut = _nextMarkValues.imageMarked;
-                                        punch.clockOutId = _nextMarkValues.id;
-                                        punch.noteOut = notes;
-                                        punch.flagOut = flag;
-                                        if (_nextMarkValues.typeMarkedId == BREAKOUT && typeMarkedId == BREAKIN)
-                                            punch.job = 'Lunch Break'
-                                    }
+                            let nextMark = marks[index + 1];
+                            if (nextMark) {
+                                let _nextMarkValues = nextMark.dataValues;
+                                var _nextMarkHour = moment.utc(_nextMarkValues.markedTime, 'HH:mm').format('HH:mm');
+
+                                if (_nextMarkValues.EmployeeId == _mark.EmployeeId &&
+                                    moment.utc(_nextMarkValues.markedDate).local().format("YYYYMMDDD") == moment.utc(_mark.markedDate).local().format("YYYYMMDDD") &&
+                                    _nextMarkValues.entityId == _mark.entityId) {
+                                    punch.clockOut = _nextMarkHour;
+                                    punch.imageMarkedOut = _nextMarkValues.imageMarked;
+                                    punch.clockOutId = _nextMarkValues.id;
+                                    punch.noteOut = notes;
+                                    punch.flagOut = flag;
+                                    if (_nextMarkValues.typeMarkedId == BREAKOUT && typeMarkedId == BREAKIN)
+                                        punch.job = 'Lunch Break'
                                 }
-
                             }
 
                         }
@@ -278,7 +277,13 @@ const MarkedEmployeesConsolidated = {
                             model: Db.models.Applications,
                             as: 'Application',
                             required: true,
-                            where: { directDeposit: args.directDeposit }
+                            where: {
+                                $and: [
+                                    { directDeposit: args.directDeposit },
+                                    Sequelize.where(Sequelize.fn('upper', Sequelize.fn("concat", Sequelize.col("firstName"), ' ', Sequelize.col("lastName"))), {
+                                        $like: `%${args.employee.toUpperCase()}%`
+                                    })]
+                            }
                         }]
                     },
                     {
