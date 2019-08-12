@@ -56,7 +56,8 @@ import {
 	EmployeeByHotelFields,
 	FormsFields,
 	FeatureFields,
-	ContractFields
+	ContractFields,
+	TokenFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -608,7 +609,16 @@ const inputInsertContracts = new GraphQLInputObjectType({
 	description: 'Inputs for contracts',
 
 	fields: {
-		...ContactsFields
+		...ContractFields
+	}
+});
+
+const inputInsertTokens = new GraphQLInputObjectType({
+	name: 'inputInsertTokens',
+	description: 'Inputs for token',
+
+	fields: {
+		...TokenFields
 	}
 });
 
@@ -675,5 +685,6 @@ export {
 	inputInsertEmployeeByHotel,
 	inputInsertFormType,
 	inputInsertFeatureType,
-	inputInsertContracts
+	inputInsertContracts,
+	inputInsertTokens
 };

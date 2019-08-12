@@ -69,6 +69,7 @@ import ApplicantVerificationLetterModel from './applicantVerificationLetterTable
 import EmployeeByHotelModel from './employeeByHotelTable';
 import FeatureModel from './featureTable';
 import ContractModel from './contractTable';
+import TokenModel from './tokenTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
 const BreakRuleDetailModel = BreakRuleDetail.createModel(Conn);
@@ -140,6 +141,7 @@ const EmployeeByHotel = EmployeeByHotelModel.createModel(Conn);
 const ApplicantVerificationLetter = ApplicantVerificationLetterModel.createModel(Conn);
 const Feature = FeatureModel.createModel(Conn);
 const Contracts = ContractModel.createModel(Conn);
+const Tokens = TokenModel.createModel(Conn);
 
 ApplicationPhases.belongsTo(CatalogItem, {
 	foreignKey: 'ReasonId',
@@ -319,6 +321,11 @@ BusinessCompany.hasOne(CompanyPreference, {
 	as: "CompanyPref"
 });
 
+BusinessCompany.hasMany(PositionRate, {
+	foreignKey: 'Id_Entity'
+});
+
+PositionRate.belongsTo(BusinessCompany, {foreignKey: 'Id_Entity'});
 
 //commentar si da error al correr migracion
 BusinessCompany.belongsTo(BusinessCompany, {
@@ -378,6 +385,11 @@ Employees.belongsTo(CatalogItem, {
 	foreignKey: 'Id_Deparment',
 	as: 'CatalogDepartment'
 });
+
+CatalogItem.hasMany(Employees, {
+	foreignKey: 'Id_Deparment'
+});
+
 Employees.belongsTo(PositionRate, {
 	foreignKey: 'Contact_Title',
 	as: 'Title'
@@ -423,6 +435,11 @@ CatalogItem.hasMany(Contacts, {
 CatalogItem.hasMany(BusinessCompany, {
 	foreignKey: 'Region'
 });
+
+BusinessCompany.belongsTo(CatalogItem, {
+	foreignKey: 'Region',
+	as: 'Regions'
+})
 
 CatalogItem.hasMany(WorkOrder, {
 	foreignKey: 'departmentId'
@@ -513,12 +530,20 @@ ConfigRegions.belongsTo(Users, {
 	as: 'OperationManager'
 });
 
+ConfigRegions.belongsTo(CatalogItem, {
+	foreignKey: 'regionId',
+	as: 'Region'
+});
+CatalogItem.hasOne(ConfigRegions, {
+	as: 'ConfigRegion',
+	foreignKey: 'regionId'
+});
+
 Forms.belongsTo(Forms, {
 	foreignKey: 'ParentId',
 	as: 'ParentForm'
 });
 
-Feature.belongsTo(Forms);
 Feature.belongsTo(Roles);
 
 Contracts.belongsTo(BusinessCompany, {foreignKey: 'Id_Entity'});
@@ -529,6 +554,9 @@ Contracts.belongsTo(Users, {foreignKey: 'Id_User_Signed'});
 Contracts.belongsTo(Users, {foreignKey: 'Id_User_Billing_Contact'});
 Users.hasMany(Contracts, {foreignKey: 'Id_User_Signed'});
 Users.hasMany(Contracts, {foreignKey: 'Id_User_Billing_Contact'});
+
+Contracts.hasMany(Tokens, {foreignKey: 'Id_Contract'});
+Tokens.belongsTo(Contracts, {foreignKey: 'Id_Contract'});
 
 
 Conn.authenticate()

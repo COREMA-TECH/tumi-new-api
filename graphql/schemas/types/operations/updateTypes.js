@@ -39,7 +39,8 @@ import {
 	ContactsFields,
 	FormsFields,
 	FeatureFields,
-	ContractFields
+	ContractFields,
+	TokenFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -552,11 +553,24 @@ const inputUpdateContracts = new GraphQLInputObjectType({
 	description: 'Inputs update for Contracts',
 
 	fields: {
-		id: {
+		Id: {
 			type: new GraphQLNonNull(GraphQLInt),
 			description: 'Contract Id'
 		},
 		...ContractFields
+	}
+});
+
+const inputUpdateTokens = new GraphQLInputObjectType({
+	name: 'inputUpdateTokens',
+	description: 'Inputs update for token',
+
+	fields: {
+		Id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Token Id'
+		},
+		...TokenFields
 	}
 });
 
@@ -601,5 +615,6 @@ export {
 	inputUpdateContact,
 	inputUpdateFormType,
 	inputUpdateFeatureType,
-	inputUpdateContracts
+	inputUpdateContracts,
+	inputUpdateTokens
 };

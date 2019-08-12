@@ -13,6 +13,7 @@ const CLOCKIN = 30570;
 const CLOCKOUT = 30571;
 const BREAKIN = 30572;
 const BREAKOUT = 30573;
+const NOW_DESCRIPTION = "Now"
 const Op = Sequelize.Op;
 
 const getPunchesEmployeeFilter = (filter) => {
@@ -27,8 +28,10 @@ const getPunchesEmployeeFilter = (filter) => {
         //Validate if the filter has value
         if (filter[prop])
             //Exclude startDate and endDate from filters
-            if (!["employee", "startDate", "endDate", "idEntity"].join().includes(prop))
+            if (!["employee", "startDate", "endDate", "idEntity", "Id_Deparment"].join().includes(prop))
                 newFilter = { ...newFilter, [prop]: filter[prop] };
+            else if (prop == "Id_Deparment")
+                newFilter = { ...newFilter, [prop]: { $in: filter[prop] } };
     }
     return newFilter;
 }
@@ -65,7 +68,7 @@ const getPunchesCompanyFilter = (filter) => {
         if (filter[prop])
             //Only filter by idEntity
             if (prop == "idEntity")
-                newFilter = { ...newFilter, Id: filter[prop] };
+                newFilter = { ...newFilter, Id: { $in: filter[prop] } };
     }
     return newFilter;
 }
@@ -75,8 +78,8 @@ const MarkedEmployeesConsolidated = {
         type: new GraphQLList(PunchesReportConsolidateType),
         description: "Get Punches report",
         args: {
-            idEntity: { type: GraphQLInt },
-            Id_Department: { type: GraphQLInt },
+            idEntity: { type: new GraphQLList(GraphQLInt) },
+            Id_Deparment: { type: new GraphQLList(GraphQLInt) },
             employee: { type: GraphQLString },
             startDate: { type: GraphQLDate },
             endDate: { type: GraphQLDate },
@@ -86,6 +89,8 @@ const MarkedEmployeesConsolidated = {
                 where: { ...getPunchesMarkerFilter(args) },
                 order: [
                     ['EmployeeId', 'DESC'],
+                    ['entityId', 'DESC'],
+                    ['markedDate', 'ASC'],
                     ['markedTime', 'ASC']
                 ],
                 include: [{
@@ -99,7 +104,10 @@ const MarkedEmployeesConsolidated = {
                                 {
                                     model: Db.models.Applications,
                                     as: "Application",
-                                    required: true
+                                    required: true,
+                                    where: Sequelize.where(Sequelize.fn('upper', Sequelize.fn("concat", Sequelize.col("firstName"), ' ', Sequelize.col("lastName"))), {
+                                        $like: `%${args.employee.toUpperCase()}%`
+                                    })
                                 }
                             ]
                         },
@@ -132,9 +140,9 @@ const MarkedEmployeesConsolidated = {
                     for (var index = 0; index < marks.length; index++) {
                         let _mark = marks[index];
 
-                        var { typeMarkedId, markedTime, EmployeeId, notes, markedDate, imageMarked, id, notes } = _mark.dataValues;
+                        var { typeMarkedId, markedTime, EmployeeId, notes, markedDate, imageMarked, id, notes, entityId, flag } = _mark.dataValues;
 
-                        var key = `${EmployeeId}-${moment.utc(markedDate).format('YYYYMMDD')}`;
+                        var key = `${entityId}-${EmployeeId}-${moment.utc(markedDate).format('YYYYMMDD')}`;
                         var groupKey = `${moment.utc(markedDate).format('YYYYMMDD')}`;
                         var employee = _mark.dataValues.Employees.dataValues;
                         // var shift = _mark.dataValues.Shift.dataValues;
@@ -142,65 +150,65 @@ const MarkedEmployeesConsolidated = {
                         let company = _mark.dataValues.BusinessCompany.dataValues;
                         let punch = {};
 
-                        var employeeName = args.employee || '';
                         let application = employee.ApplicationEmployee.Application.dataValues;
                         let name = `${application.firstName} ${application.lastName}`.trim();
-                        //Filter employee based on filter param
-                        if (name.toUpperCase().includes(employeeName.trim().toUpperCase())) {
-                            //Create punch record
-                            punch = {
-                                key,
-                                name,
-                                employeeId: EmployeeId,
-                                job: '',
-                                hotelCode: company.Name,
-                                hotelId: company.Id
-                            }
-                            //Create new punch object if this object doesnt exist into the array of punches
-                            if (!objPunches[groupKey]) {
-                                var reportRow = {
-                                    key: groupKey,
-                                    date: moment.utc(markedDate).format('YYYY/MM/DD'),
-                                    duration: 0,
-                                    punches: [punch]
-                                }
-                                objPunches = { ...objPunches, [groupKey]: reportRow }
-                            }
-                            else {
-                                //Exclude ClockOut mark from list
-                                if (typeMarkedId != CLOCKOUT)
-                                    objPunches[groupKey].punches.push(punch);
-                            }
 
+                        //Create punch record
+                        punch = {
+                            key,
+                            name,
+                            employeeId: EmployeeId,
+                            job: '',
+                            hotelCode: company.Name,
+                            hotelId: company.Id,
+                            clockOut: moment.utc(markedDate).format('YYYY/MM/DD') == moment.utc(new Date()).format('YYYY/MM/DD') ? NOW_DESCRIPTION : "24:00"
+                        }
+                        //Create new punch object if this object doesnt exist into the array of punches
+                        if (!objPunches[groupKey]) {
+                            var reportRow = {
+                                key: groupKey,
+                                date: moment.utc(markedDate).format('YYYY/MM/DD'),
+                                duration: 0,
+                                punches: [punch]
+                            }
+                            objPunches = { ...objPunches, [groupKey]: reportRow }
+                        }
+                        else {
                             //Exclude ClockOut mark from list
-                            if (typeMarkedId != CLOCKOUT) {
+                            if (typeMarkedId != CLOCKOUT)
+                                objPunches[groupKey].punches.push(punch);
+                        }
 
-                                //Format punche time
-                                var hour = moment.utc(markedTime, 'HH:mm').format('HH:mm');
+                        //Exclude ClockOut mark from list
+                        if (typeMarkedId != CLOCKOUT) {
 
-                                //Update marker type hour based on type and hour
-                                //  if ("30570||30572".includes(typeMarkedId)) {
-                                punch.clockIn = hour;
-                                punch.imageMarkedIn = imageMarked;
-                                punch.clockInId = id;
-                                punch.noteIn = notes;
+                            //Format punche time
+                            var hour = moment.utc(markedTime, 'HH:mm').format('HH:mm');
 
-                                let nextMark = marks[index + 1];
-                                if (nextMark) {
-                                    let _nextMarkValues = nextMark.dataValues;
-                                    var _nextMarkHour = moment.utc(_nextMarkValues.markedTime, 'HH:mm').format('HH:mm');
+                            //Update marker type hour based on type and hour
+                            //  if ("30570||30572".includes(typeMarkedId)) {
+                            punch.clockIn = hour;
+                            punch.imageMarkedIn = imageMarked;
+                            punch.clockInId = id;
+                            punch.noteIn = notes;
+                            punch.flagIn = flag;
 
-                                    if (_nextMarkValues.EmployeeId == _mark.EmployeeId &&
-                                        moment.utc(_nextMarkValues.markedDate).local().format("YYYYMMDDD") == moment.utc(_mark.markedDate).local().format("YYYYMMDDD")) {
-                                        punch.clockOut = _nextMarkHour;
-                                        punch.imageMarkedOut = _nextMarkValues.imageMarked;
-                                        punch.clockOutId = _nextMarkValues.id;
-                                        punch.noteOut = notes;
-                                        if (_nextMarkValues.typeMarkedId == BREAKOUT && typeMarkedId == BREAKIN)
-                                            punch.job = 'Lunch Break'
-                                    }
+                            let nextMark = marks[index + 1];
+                            if (nextMark) {
+                                let _nextMarkValues = nextMark.dataValues;
+                                var _nextMarkHour = moment.utc(_nextMarkValues.markedTime, 'HH:mm').format('HH:mm');
+
+                                if (_nextMarkValues.EmployeeId == _mark.EmployeeId &&
+                                    moment.utc(_nextMarkValues.markedDate).local().format("YYYYMMDDD") == moment.utc(_mark.markedDate).local().format("YYYYMMDDD") &&
+                                    _nextMarkValues.entityId == _mark.entityId) {
+                                    punch.clockOut = _nextMarkHour;
+                                    punch.imageMarkedOut = _nextMarkValues.imageMarked;
+                                    punch.clockOutId = _nextMarkValues.id;
+                                    punch.noteOut = notes;
+                                    punch.flagOut = flag;
+                                    if (_nextMarkValues.typeMarkedId == BREAKOUT && typeMarkedId == BREAKIN)
+                                        punch.job = 'Lunch Break'
                                 }
-
                             }
 
                         }
@@ -214,16 +222,16 @@ const MarkedEmployeesConsolidated = {
                         punche.punches.map(_punch => {
                             var startTime = moment.utc(_punch.clockIn, 'HH:mm:ss');//Get Start Time
                             var endTime = moment.utc(_punch.clockOut, 'HH:mm:ss');//Get End Time
+
                             var duration = moment.duration(endTime.diff(startTime));//Calculate duration between times
                             var workedTime = (duration.asHours() * 1.00).toFixed(2)//((duration.hours() + (duration.minutes() / 60)) * 1.00).toFixed(2);//Calulate duration in minutes/float
 
                             _punch.duration = !isNaN(parseFloat(workedTime)) ? parseFloat(workedTime) : 0; //Update worked time
                         })
                         punchesConsolidated.push(punche);
-
                     });
-
-
+                    if (punchesConsolidated.length > 0)
+                        punchesConsolidated = punchesConsolidated.sort((a, b) => b.key - a.key)//Sort descending
                     return punchesConsolidated;//Return list of punches
                 })
         }
@@ -233,8 +241,8 @@ const MarkedEmployeesConsolidated = {
         type: GraphQLString,
         description: "Get Punches report",
         args: {
-            idEntity: { type: GraphQLInt },
-            Id_Department: { type: GraphQLInt },
+            idEntity: { type: new GraphQLList(GraphQLInt) },
+            Id_Deparment: { type: new GraphQLList(GraphQLInt) },
             employee: { type: GraphQLString },
             startDate: { type: GraphQLDate },
             endDate: { type: GraphQLDate },
@@ -269,7 +277,13 @@ const MarkedEmployeesConsolidated = {
                             model: Db.models.Applications,
                             as: 'Application',
                             required: true,
-                            where: { directDeposit: args.directDeposit }
+                            where: {
+                                $and: [
+                                    { directDeposit: args.directDeposit },
+                                    Sequelize.where(Sequelize.fn('upper', Sequelize.fn("concat", Sequelize.col("firstName"), ' ', Sequelize.col("lastName"))), {
+                                        $like: `%${args.employee.toUpperCase()}%`
+                                    })]
+                            }
                         }]
                     },
                     {

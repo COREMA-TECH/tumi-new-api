@@ -1,4 +1,4 @@
-import { GraphQLList, GraphQLString, GraphQLBoolean, GraphQLInt } from 'graphql';
+import { GraphQLList, GraphQLString, GraphQLBoolean, GraphQLInt, GraphQLNonNull } from 'graphql';
 import { BusinessCompanyType, employeesByPropertiesType } from '../types/operations/outputTypes';
 import { inputInsertBusinessCompany } from '../types/operations/insertTypes';
 import Db from '../../models/models';
@@ -158,7 +158,58 @@ const businessCompanyQuery = {
 
             }).catch(error => console.log(error));
         }
-    }
+    },
+    companiesByUser: {
+        type: new GraphQLList(BusinessCompanyType),
+        description: 'List Companies records by user',
+        args: {
+            userId: { type: new GraphQLNonNull(GraphQLInt) }
+        },
+        resolve(root, args) {
+            return Db.models.Users.findOne({ where: { Id: args.userId } })
+                .then(_ => {
+                    let { Id_Roles } = _.dataValues;
+                    if (Id_Roles == 3) //Operation Manager
+                        return Db.models.BusinessCompany.findAll({
+                            where: { IsActive: 1 },
+                            order: [['Name', 'ASC']],
+                            include: [{
+                                model: Db.models.CatalogItem,
+                                required: true,
+                                as: 'Regions',
+                                include: [{
+                                    model: Db.models.ConfigRegions,
+                                    as: 'ConfigRegion',
+                                    where: { regionalManagerId: args.userId },
+                                    required: true
+                                }]
+                            }]
+                        });
+                    if (Id_Roles == 5) //Hotel Manager
+                        return Db.models.BusinessCompany.findAll({
+                            where: { IsActive: 1 },
+                            order: [['Name', 'ASC']],
+                            include: [{
+                                model: Db.models.EmployeeByHotels,
+                                required: true,
+                                include: [{
+                                    model: Db.models.Employees,
+                                    as: 'Employees',
+                                    required: true,
+                                    include: [{
+                                        model: Db.models.Applications,
+                                        required: true,
+                                        where: { UserId: args.userId }
+                                    }]
+                                }]
+                            }]
+                        });
+                    return Db.models.BusinessCompany.findAll({ order: [['Name', 'ASC']], where: { IsActive: 1 } });
+
+                })
+
+        }
+    },
 };
 
 export default businessCompanyQuery;

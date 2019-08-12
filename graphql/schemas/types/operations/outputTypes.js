@@ -63,7 +63,8 @@ import {
 	ApplicantVerificationLetterFields,
 	EmployeeByHotelFields,
 	FeatureFields,
-	ContractFields
+	ContractFields,
+	TokenFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -1807,7 +1808,9 @@ const PunchesReportConsolidatedPunchesType = new GraphQLObjectType({
 			clockInId: { type: GraphQLInt },
 			clockOutId: { type: GraphQLInt },
 			noteIn: { type: GraphQLString },
-			noteOut: { type: GraphQLString }
+			noteOut: { type: GraphQLString },
+			flagIn: { type: GraphQLBoolean },
+			flagOut: { type: GraphQLBoolean }
 		}
 	}
 })
@@ -2095,13 +2098,13 @@ const EmployeeByHotelType = new GraphQLObjectType({
 			Employee: {
 				type: EmployeesType,
 				resolve(me) {
-					return me.getEmployee();
+					return me.getEmployees();
 				}
 			},
 			BusinessCompany: {
 				type: BusinessCompanyType,
 				resolve(me) {
-					return me.getBusinessCompany();
+					return me.getBusinessCompanies();
 				}
 			}
 		};
@@ -2124,11 +2127,25 @@ const ContractType = new GraphQLObjectType({
 	description: 'Output Contract',
 	fields: () => {
 		return {
-			id: {
-				type: new GraphQLNonNull(GraphQLInt),
+			Id: {
+				type: GraphQLInt,
 				description: 'Contract Id'
 			},
 			...ContractFields
+		};
+	}
+});
+
+const TokenType = new GraphQLObjectType({
+	name: 'TokenType',
+	description: 'Output Token',
+	fields: () => {
+		return {
+			Id: {
+				type: GraphQLInt,
+				description: 'Token Id'
+			},
+			...TokenFields
 		};
 	}
 });
@@ -2209,5 +2226,6 @@ export {
 	EmployeeByHotelType,
 	FeatureType,
 	ApplicationListType,
-	ContractType
+	ContractType,
+	TokenType
 };

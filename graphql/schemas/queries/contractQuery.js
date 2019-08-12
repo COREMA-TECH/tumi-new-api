@@ -8,7 +8,21 @@ const ContractQuery = {
         type: new GraphQLList(ContractType),
         description: 'Contract list',
         args: {
-            contract: { type: inputUpdateContracts }
+            Id: { 
+                type: GraphQLInt 
+            },
+            Id_Entity: { 
+                type: GraphQLInt 
+            },
+            Id_User_Signed: {
+                type: GraphQLInt
+            },
+            Id_User_Billing_Contact: {
+                type: GraphQLInt
+            },
+            IdManagement: {
+                type: GraphQLInt
+            }
         },
         resolve(root, args) {
             return Db.models.Contracts.findAll({ 

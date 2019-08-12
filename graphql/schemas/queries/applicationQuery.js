@@ -386,7 +386,7 @@ const ApplicationQuery = {
 				let Code_User = '';
 				applicationsArray = applications.map(application => {
 					if (application.dataValues.ApplicationEmployee)
-						Code_User = application.dataValues.ApplicationEmployee.dataValues.User ? application.dataValues.ApplicationEmployee.dataValues.Employees.dataValues.User.dataValues.Code_User : null;
+						Code_User = application.dataValues.ApplicationEmployee.dataValues.Employees.dataValues.User ? application.dataValues.ApplicationEmployee.dataValues.Employees.dataValues.User.dataValues.Code_User : null;
 					return {
 						id: application.dataValues.id,
 						Code_User: Code_User
