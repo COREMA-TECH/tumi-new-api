@@ -366,6 +366,43 @@ const ShiftQuery = {
                 return EmployeesHoursTotal;
             });
         }
+    },
+    shiftByEmployeesByWeek: {
+        type: new GraphQLList(ShiftBoardType),
+        description: 'List Shift records of board',
+        args: {
+            shift: { type: inputShiftQuery },
+        },
+        resolve(root, args) { 
+            return Db.models.Employees.findAll({
+                include: [{
+                    model: Db.models.ApplicationEmployees,
+                    require: true,
+                    include: [{
+                        model: Db.models.Applications,
+                        as: 'Application'
+                    }]
+                },{
+                    model: Db.models.ShiftDetailEmployees,
+                    include: [{
+                        model: Db.models.ShiftDetail
+                    }]
+                }]
+            }).then(ret => {
+                console.log(ret)
+                // return {
+                //     id,
+                //     employeeId: {},
+                //     firstDay: '0',
+                //     secondDay: '0',
+                //     thirdDay: '0',
+                //     fourthDay: '0',
+                //     fifthDay: '0',
+                //     sixthDay: '0',
+                //     seventhDay: '0',
+                // }
+            });
+        }
     }
 };
 
