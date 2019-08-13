@@ -11,7 +11,7 @@ import Db from '../../models/models';
 
 const contractTemplate = () => {
     return `<!DOCTYPE html>,
-    <html lang="en" style="zoom: 1">
+    <html lang="en" style="zoom: 0.5">
        
        <head>
          
@@ -985,7 +985,7 @@ const generatePdfFile = (html, srcFile) => {
          type: "pdf",             // allowed file types: png, jpeg, pdf
          quality: "75",           // only used for types png & jpeg
          orientation: 'portrait',
-         zoomFactor: 0.5,
+         zoomFactor: 1,
          border: {
             top: '0.98in', // default is 0, units: mm, cm, in, px
             right: '0.98in',
