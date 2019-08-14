@@ -1325,7 +1325,7 @@ const EmployeesType = new GraphQLObjectType({
 					}).then(_ => {
 						if (_)
 							return _.BusinessCompanyId;
-						return '';
+						return null;
 					})
 				}
 			},
