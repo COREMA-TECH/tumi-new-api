@@ -204,8 +204,8 @@ const MarkedEmployeesConsolidated = {
                                     punch.clockOut = _nextMarkHour;
                                     punch.imageMarkedOut = _nextMarkValues.imageMarked;
                                     punch.clockOutId = _nextMarkValues.id;
-                                    punch.noteOut = notes;
-                                    punch.flagOut = flag;
+                                    punch.noteOut = _nextMarkValues.notes;
+                                    punch.flagOut = _nextMarkValues.flag;
                                     if (_nextMarkValues.typeMarkedId == BREAKOUT && typeMarkedId == BREAKIN)
                                         punch.job = 'Lunch Break'
                                 }
