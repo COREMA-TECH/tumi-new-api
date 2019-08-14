@@ -130,7 +130,7 @@ const BusinessCompanyFields = {
 		type: GraphQLInt
 	},
 	Contract_Expiration_Date: {
-		type: GraphQLInt
+		type: GraphQLString
 	}
 };
 export default BusinessCompanyFields;
