@@ -16,6 +16,11 @@ const ApplicantW4Mutation = {
 			ApplicationId: { type: GraphQLInt }
 		},
 		resolve(source, args) {
+			Db.models.ApplicantW4.destroy({
+				where: {
+					ApplicationId: args.ApplicationId
+				}
+			})
 
             //aqui va la logica del PDF
 			var options = {
