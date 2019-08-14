@@ -544,7 +544,6 @@ Forms.belongsTo(Forms, {
 	as: 'ParentForm'
 });
 
-Feature.belongsTo(Forms);
 Feature.belongsTo(Roles);
 
 Contracts.belongsTo(BusinessCompany, {foreignKey: 'Id_Entity'});

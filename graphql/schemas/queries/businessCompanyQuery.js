@@ -6,6 +6,32 @@ import moment from 'moment';
 import moment_tz from 'moment-timezone';
 
 const businessCompanyQuery = {
+    businessCompanies: {
+        type: new GraphQLList(BusinessCompanyType),
+        description: 'List Companies records',
+        args: {
+            Id: {
+                type: GraphQLInt
+            },
+            IsActive: {
+                type: GraphQLInt
+            }
+        },
+        resolve(root, args) {
+            return Db.models.BusinessCompany.findAll({
+                where: args,
+                include: [{
+                    model: Db.models.Contacts,
+                    where: { IsActive: 1 },
+                    required: false,
+                    include: [{
+                        model: Db.models.Applications,
+                        required: false
+                    }]
+                }]
+            });
+        }
+    },
     companiesByApplications: {
         type: new GraphQLList(BusinessCompanyType),
         description: 'List Companies records',
