@@ -67,9 +67,9 @@ const ApplicantI9Mutation = {
 			// 	}
 			// });
 
-			// pdf.create(args.html, options).toFile(srcFile, function (err, res) {
-			// 	if (err) return console.log(err);
-			// });
+			pdf.create(args.html, options).toFile(srcFile, function (err, res) {
+				if (err) return console.log(err);
+			});
 
 			return Db.models.ApplicantI9.create({ fileName: filename, url: srcFile, fileExtension: ".pdf", completed: true, ApplicationId: args.ApplicationId, html: args.html }, { returning: true }).then((output) => {
 				// return output.map((element) => {
