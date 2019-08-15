@@ -16,6 +16,11 @@ const ApplicantI9Mutation = {
 			ApplicationId: { type: GraphQLInt }
 		},
 		resolve(source, args) {
+			Db.models.ApplicantI9.destroy({
+				where: {
+					ApplicationId: args.ApplicationId
+				}
+			});
 
             //aqui va la logica del PDF
 			// var options = {
