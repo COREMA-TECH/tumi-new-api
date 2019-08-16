@@ -325,7 +325,7 @@ BusinessCompany.hasMany(PositionRate, {
 	foreignKey: 'Id_Entity'
 });
 
-PositionRate.belongsTo(BusinessCompany, {foreignKey: 'Id_Entity'});
+PositionRate.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
 
 //commentar si da error al correr migracion
 BusinessCompany.belongsTo(BusinessCompany, {
@@ -546,17 +546,17 @@ Forms.belongsTo(Forms, {
 
 Feature.belongsTo(Roles);
 
-Contracts.belongsTo(BusinessCompany, {foreignKey: 'Id_Entity'});
-Contracts.belongsTo(BusinessCompany, {foreignKey: 'IdManagement'});
-BusinessCompany.hasMany(Contracts, {foreignKey: 'Id_Entity'});
-BusinessCompany.hasMany(Contracts, {foreignKey: 'IdManagement'});
-Contracts.belongsTo(Users, {foreignKey: 'Id_User_Signed'});
-Contracts.belongsTo(Users, {foreignKey: 'Id_User_Billing_Contact'});
-Users.hasMany(Contracts, {foreignKey: 'Id_User_Signed'});
-Users.hasMany(Contracts, {foreignKey: 'Id_User_Billing_Contact'});
+Contracts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
+Contracts.belongsTo(BusinessCompany, { foreignKey: 'IdManagement' });
+BusinessCompany.hasMany(Contracts, { foreignKey: 'Id_Entity' });
+BusinessCompany.hasMany(Contracts, { foreignKey: 'IdManagement' });
+Contracts.belongsTo(Users, { foreignKey: 'Id_User_Signed' });
+Contracts.belongsTo(Users, { foreignKey: 'Id_User_Billing_Contact' });
+Users.hasMany(Contracts, { foreignKey: 'Id_User_Signed' });
+Users.hasMany(Contracts, { foreignKey: 'Id_User_Billing_Contact' });
 
-Contracts.hasMany(Tokens, {foreignKey: 'Id_Contract'});
-Tokens.belongsTo(Contracts, {foreignKey: 'Id_Contract'});
+Contracts.hasMany(Tokens, { foreignKey: 'Id_Contract' });
+Tokens.belongsTo(Contracts, { foreignKey: 'Id_Contract' });
 
 
 Conn.authenticate()

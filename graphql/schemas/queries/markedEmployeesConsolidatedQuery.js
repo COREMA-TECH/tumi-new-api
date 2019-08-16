@@ -1,5 +1,5 @@
-import { GraphQLList, GraphQLString, GraphQLInt, GraphQLBoolean } from 'graphql';
-import { PunchesReportConsolidateType, PunchesConsolidatedForCSVType } from '../types/operations/outputTypes';
+import { GraphQLList, GraphQLString, GraphQLInt, GraphQLBoolean, GraphQLNonNull } from 'graphql';
+import { PunchesReportConsolidateType, ApprovePunchesType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 import GraphQLDate from 'graphql-date';
 import moment from 'moment';
@@ -13,8 +13,43 @@ const CLOCKIN = 30570;
 const CLOCKOUT = 30571;
 const BREAKIN = 30572;
 const BREAKOUT = 30573;
-const NOW_DESCRIPTION = "Now"
+const NOW_DESCRIPTION = "Now";
 const Op = Sequelize.Op;
+
+const getDuration = (_startTime, _endTime) => {
+    let startTime = moment.utc(_startTime, 'HH:mm:ss');//Get Start Time
+    let endTime = moment.utc(_endTime, 'HH:mm:ss');//Get End Time
+    let duration = moment.duration(endTime.diff(startTime));//Calculate duration between times
+    let diff = ((duration.hours() + (duration.minutes() / 60)) * 1.00).toFixed(2);//Calulate duration in minutes/float
+    return !isNaN(parseFloat(diff)) ? parseFloat(diff) : 0;
+}
+
+const getWorkedTime = (data) => {
+    let workedTime = 0.00;
+    data.map(_det => {
+        let currentMark = _det;
+        let startTime = '00:00';
+        let endTime = '24:00';
+        let prevMark = data.find(_this => _this.markedDate === currentMark.markedDate && _this.markedTime < currentMark.markedTime);
+        let nextMark = data.find(_this => _this.markedDate === currentMark.markedDate && _this.markedTime > currentMark.markedTime);
+
+        //Set initial start and end time
+        startTime = currentMark.markedTime;
+        if (nextMark) endTime = nextMark.markedTime;
+
+        // If this mark is Clockout and prevMark doesnt exist calculate based on 00:00
+        if (currentMark.typeMarkedId === CLOCKOUT && !prevMark)
+            endTime = currentMark.markedTime;
+        else if (currentMark.typeMarkedId !== CLOCKOUT) {
+            //There is an enter to work or enter to lunch MARK but not and out of work MARK
+            if (`${CLOCKIN}|${BREAKIN}`.includes(currentMark.typeMarkedId) && !nextMark)
+                startTime = currentMark.markedTime; //endTime = 24:00
+        }
+        workedTime = ((parseFloat(workedTime) + getDuration(startTime, endTime)) * 1.00).toFixed(2);
+        if (!nextMark) workedTime = ((parseFloat(workedTime) - (workedTime > 4 ? 0.5 : 0)) * 1.00).toFixed(2);
+    })
+    return workedTime;
+}
 
 const getPunchesEmployeeFilter = (filter) => {
     var newFilter = {};
@@ -481,6 +516,89 @@ const MarkedEmployeesConsolidated = {
                             return '/public/' + 'output-' + random.substring(0, 5) + '.csv'; //Return the filename - path
 
                         })
+                })
+        }
+    },
+    approvePunchesReport: {
+        type: GraphQLList(ApprovePunchesType),
+        description: "Get Punches report",
+        args: {
+            idEmployee: { type: GraphQLInt },
+            status: { type: new GraphQLNonNull(GraphQLString) },
+            startDate: { type: new GraphQLNonNull(GraphQLDate) },
+            endDate: { type: new GraphQLNonNull(GraphQLDate) },
+        },
+        resolve(root, args) {
+            let filter = {};
+
+            //------------------Create filters
+            //Filter by date range
+            if (args.startDate && args.endDate)
+                filter = {
+                    ...filter,
+                    $and: [
+                        { markedDate: { $gte: new Date(args.startDate.setUTCHours(0, 0, 0)) } },
+                        { markedDate: { $lte: new Date(args.endDate.setUTCHours(23, 59, 59)) } }]
+                };
+
+            //Filter by status
+            if (args.status !== "W")
+                if (args.status === "A")
+                    filter = { ...filter, approvedDate: { $ne: null } };
+                else filter = { ...filter, approvedDate: { $is: null } };
+
+            if (args.idEmployee)
+                filter = { ...filter, EmployeeId: args.idEmployee };
+
+            //------------------Return query
+            return Db.models.MarkedEmployees.findAll(
+                {
+                    where: filter,
+                    include: [{
+                        model: Db.models.Employees,
+                        as: "Employees",
+                        required: true,
+                        include: [{
+                            model: Db.models.ApplicationEmployees,
+                            required: true,
+                            include: [{
+                                model: Db.models.Applications,
+                                as: "Application",
+                                required: true
+                            }]
+                        }]
+                    }],
+                    order: [
+                        ['EmployeeId', 'DESC'],
+                        ['entityId', 'DESC'],
+                        ['markedDate', 'ASC'],
+                        ['markedTime', 'ASC']
+                    ],
+                }
+            )
+                .then(_ => {
+                    let employees = [];
+                    _.map(mark => {
+                        let { EmployeeId, Employees, approvedDate, id, typeMarkedId, markedDate, markedTime } = mark.dataValues;
+                        let { ApplicationEmployee } = Employees.dataValues;
+                        let { Application } = ApplicationEmployee.dataValues;
+                        let employee = employees.find(emp => emp.id === EmployeeId);
+                        if (!employee) {
+                            employee = { id: EmployeeId, approvedWorkedTime: 0.00, unapprovedWorkedTime: 0.00, fullName: `${Application.firstName} ${Application.lastName}`, detailApproved: [], detailUnapproved: [] };
+                            employees.push(employee);
+                        }
+                        if (approvedDate)
+                            employee.detailApproved.push({ id, typeMarkedId, markedDate, markedTime });
+                        else employee.detailUnapproved.push({ id, typeMarkedId, markedDate, markedTime });
+                    })
+                    //Calculte total worked total hours by date and status
+                    employees.map(_emp => {
+                        _emp.unapprovedWorkedTime = getWorkedTime(_emp.detailUnapproved);
+                        _emp.approvedWorkedTime = getWorkedTime(_emp.detailApproved);
+                        _emp.approvedDate = _emp.detailApproved.length === 0 ? 'never approved' : _emp.detailApproved.sort((a, b) => b.markedDate.localeCompare(a.markedDate))[0].markedDate
+                    })
+                    // console.log(employees)
+                    return employees.sort((a, b) => a.fullName.localeCompare(b.fullName));
                 })
         }
     }

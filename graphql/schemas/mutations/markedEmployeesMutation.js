@@ -1,14 +1,12 @@
 import { inputInsertMarkedEmployees } from '../types/operations/insertTypes';
 import { inputUpdateMarkedEmployees } from '../types/operations/updateTypes';
 import { MarkedEmployeesType } from '../types/operations/outputTypes';
-import { GraphQLList, GraphQLInt, GraphQLBoolean } from 'graphql';
+import { GraphQLList, GraphQLInt, GraphQLNonNull } from 'graphql';
+import GraphQLDate from 'graphql-date';
+
 import moment from 'moment';
 
 import Db from '../../models/models';
-
-import Sequelize from 'sequelize';
-import { ContextualizedQueryLatencyStats } from 'apollo-engine-reporting-protobuf';
-const Op = Sequelize.Op;
 
 
 const MarkedEmployeesMutation = {
@@ -58,6 +56,51 @@ const MarkedEmployeesMutation = {
 					{
 						where: {
 							id: args.markedemployees.id
+						},
+						returning: true
+					}
+				)
+				.then(function ([rowsUpdate, [record]]) {
+					if (record) return record.dataValues;
+					else return null;
+				});
+		}
+	},
+	approveMarks: {
+		type: MarkedEmployeesType,
+		description: 'Approve Marks',
+		args: {
+			approvedDate: { type: new GraphQLNonNull(GraphQLDate) },
+			idsToApprove: { type: new GraphQLNonNull(new GraphQLList(GraphQLInt)) }
+		},
+		resolve(source, args) {
+			return Db.models.MarkedEmployees
+				.update({ approvedDate: args.approvedDate },
+					{
+						where: {
+							id: { $in: args.idsToApprove }
+						},
+						returning: true
+					}
+				)
+				.then(function ([rowsUpdate, [record]]) {
+					if (record) return record.dataValues;
+					else return null;
+				});
+		}
+	},
+	unapproveMarks: {
+		type: MarkedEmployeesType,
+		description: 'Unapprove Marks',
+		args: {
+			idsToUnapprove: { type: new GraphQLNonNull(new GraphQLList(GraphQLInt)) }
+		},
+		resolve(source, args) {
+			return Db.models.MarkedEmployees
+				.update({ approvedDate: null },
+					{
+						where: {
+							id: { $in: args.idsToUnapprove }
 						},
 						returning: true
 					}

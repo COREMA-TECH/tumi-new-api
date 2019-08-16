@@ -49,6 +49,9 @@ export default {
 				},
 				key: {
 					type: Sequelize.STRING
+				},
+				approvedDate: {
+					type: Sequelize.DATEONLY
 				}
 			}, {
 				hooks: {

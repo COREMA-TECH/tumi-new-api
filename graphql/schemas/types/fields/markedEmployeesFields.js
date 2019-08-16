@@ -31,6 +31,9 @@ const markedEmployeesFields = {
 	},
 	key: {
 		type: GraphQLString
+	},
+	approvedDate: {
+		type: GraphQLDate
 	}
 };
 export default markedEmployeesFields;
