@@ -100,6 +100,10 @@ const ApplicationQuery = {
 			if (args.isActive) {
 				isActiveFilter = { isActive: { [Op.in]: args.isActive } }
 			}
+			let { idUsers, ...rest } = args;
+			let filter = { ...rest };
+			if (idUsers) filter = { ...filter, idUsers };
+
 			return Db.models.Applications.findAll(
 				{
 					where: { ...isActiveFilter },
@@ -111,7 +115,7 @@ const ApplicationQuery = {
 							model: Db.models.Employees,
 							required: args.idUsers != null || args.idEntity != null || args.Id_Department != null,
 							as: "Employees",
-							where: args
+							where: filter
 						}]
 
 					}]
