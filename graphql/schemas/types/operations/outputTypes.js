@@ -2159,6 +2159,7 @@ const ApprovePunchesType = new GraphQLObjectType({
 			unapprovedWorkedTime: { type: GraphQLFloat },
 			approvedWorkedTime: { type: GraphQLFloat },
 			approvedDate: { type: GraphQLString },
+			selected: { type: GraphQLBoolean },
 			fullName: { type: GraphQLString },
 			detailApproved: { type: new GraphQLList(DetailApprovePunchesType) },
 			detailUnapproved: { type: new GraphQLList(DetailApprovePunchesType) }
