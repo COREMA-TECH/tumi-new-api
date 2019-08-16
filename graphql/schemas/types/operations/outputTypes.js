@@ -2150,6 +2150,35 @@ const TokenType = new GraphQLObjectType({
 	}
 });
 
+const ApprovePunchesType = new GraphQLObjectType({
+	name: 'ApprovePunchesType',
+	description: 'Output type for Approve and Reject Punches',
+	fields: () => {
+		return {
+			id: { type: GraphQLInt },
+			unapprovedWorkedTime: { type: GraphQLFloat },
+			approvedWorkedTime: { type: GraphQLFloat },
+			approvedDate: { type: GraphQLString },
+			fullName: { type: GraphQLString },
+			detailApproved: { type: new GraphQLList(DetailApprovePunchesType) },
+			detailUnapproved: { type: new GraphQLList(DetailApprovePunchesType) }
+		};
+	}
+});
+
+const DetailApprovePunchesType = new GraphQLObjectType({
+	name: 'DetailApprovePunchesType',
+	description: 'Detail Output type for Approve and Reject Punches',
+	fields: () => {
+		return {
+			id: { type: GraphQLInt },
+			typeMarkedId: { type: GraphQLInt },
+			markedDate: { type: GraphQLString },
+			markedTime: { type: GraphQLString }
+		};
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -2227,5 +2256,6 @@ export {
 	FeatureType,
 	ApplicationListType,
 	ContractType,
-	TokenType
+	TokenType,
+	ApprovePunchesType
 };
