@@ -63,7 +63,7 @@ const getPunchesEmployeeFilter = (filter) => {
         //Validate if the filter has value
         if (filter[prop])
             //Exclude startDate and endDate from filters
-            if (!["employee", "startDate", "endDate", "idEntity", "Id_Deparment"].join().includes(prop))
+            if (!["employee", "startDate", "endDate", "idEntity", "Id_Deparment", "EmployeeId"].join().includes(prop))
                 newFilter = { ...newFilter, [prop]: filter[prop] };
             else if (prop == "Id_Deparment")
                 newFilter = { ...newFilter, [prop]: { $in: filter[prop] } };
@@ -76,6 +76,8 @@ const getPunchesMarkerFilter = (filter) => {
     //Validate if filter object exists
     if (!filter)
         return newFilter;
+
+    if(filter.EmployeeId) newFilter = {...newFilter, EmployeeId: filter.EmployeeId}
 
     let startDate = moment.utc(filter.startDate).local()._d;
     let endDate = moment.utc(filter.endDate).local()._d;
@@ -118,6 +120,7 @@ const MarkedEmployeesConsolidated = {
             employee: { type: GraphQLString },
             startDate: { type: GraphQLDate },
             endDate: { type: GraphQLDate },
+            EmployeeId: { type: GraphQLInt }
         },
         resolve(root, args) {
             return Db.models.MarkedEmployees.findAll({
