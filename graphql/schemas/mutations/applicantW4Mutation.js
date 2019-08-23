@@ -13,7 +13,8 @@ const ApplicantW4Mutation = {
 		description: 'Add W4 DocumentType to database',
 		args: {
 			html: { type: GraphQLString },
-			ApplicationId: { type: GraphQLInt }
+			ApplicationId: { type: GraphQLInt },
+			json: { type: GraphQLString }
 		},
 		resolve(source, args) {
 
@@ -66,7 +67,7 @@ const ApplicantW4Mutation = {
 				if (err) return console.log(err);
 			});
 
-			return Db.models.ApplicantW4.create({ fileName: filename, url: srcFile, fileExtension: ".pdf", completed: true, ApplicationId: args.ApplicationId, html: args.html }, { returning: true }).then((output) => {
+			return Db.models.ApplicantW4.create({ fieldsData: args.json, fileName: filename, url: srcFile, fileExtension: ".pdf", completed: true, ApplicationId: args.ApplicationId, html: args.html }, { returning: true }).then((output) => {
 				// return output.map((element) => {
 				// 	return element.dataValues;
 				// });
