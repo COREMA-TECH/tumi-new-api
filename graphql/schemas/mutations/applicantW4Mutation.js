@@ -1,9 +1,7 @@
-import { inputInsertApplicantW4 } from '../types/operations/insertTypes';
 import { ApplicantW4Type } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLBoolean, GraphQLString } from 'graphql';
 import pdf from 'html-pdf';
-import AWS from 'aws-sdk';
-import fs from 'fs';
+const uuidv4 = require('uuid/v4');
 
 import Db from '../../models/models';
 
@@ -17,6 +15,12 @@ const ApplicantW4Mutation = {
 			json: { type: GraphQLString }
 		},
 		resolve(source, args) {
+
+			Db.models.ApplicantW4.destroy({
+				where: {
+					ApplicationId: args.ApplicationId
+				}
+			})
 
             //aqui va la logica del PDF
 			var options = {
@@ -34,7 +38,10 @@ const ApplicantW4Mutation = {
 					left: '0.98in'
 				}
 			};
-			var filename = `w4_${args.ApplicationId}`;
+
+			const identifier = uuidv4();
+			
+			var filename = `w4_${identifier}_${args.ApplicationId}`;
 			var srcFile = `./public/${filename}.pdf`;
 
 			// AWS.config.update({

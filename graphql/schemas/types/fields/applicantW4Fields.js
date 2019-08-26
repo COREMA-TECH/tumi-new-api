@@ -24,6 +24,10 @@ const ApplicantW4Fields = {
 	html: {
 		type: GraphQLString,
 		description: 'Html'
+	},
+	fieldsData: {
+		type: GraphQLString,
+		description: 'Json string holding the values of the saved W4'
 	}
 };
 
