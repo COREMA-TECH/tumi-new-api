@@ -55,9 +55,9 @@ const contractTemplate = () => {
                                        
                    <tr style="height: 17px;">
                                               
-                      <td style="width: 28.6408%; height: 17px;"><strong>1. Duties &amp; Responsibilities</strong></td>
+                      <td style="width: 71.3592%; height: 17px;"><strong>1. Duties &amp; Responsibilities</strong></td>
                                               
-                      <td style="width: 71.3592%; height: 17px; text-align: right;">3</td>
+                      <td style="width: 28.6408%; height: 17px; text-align: right;">3</td>
                                           
                    </tr>
                                        
