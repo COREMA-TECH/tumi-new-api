@@ -1,9 +1,7 @@
-import { inputInsertApplicantW4 } from '../types/operations/insertTypes';
 import { ApplicantI9Type } from '../types/operations/outputTypes';
-import { GraphQLList, GraphQLInt, GraphQLBoolean, GraphQLString } from 'graphql';
+import { GraphQLList, GraphQLInt, GraphQLString } from 'graphql';
 import pdf from 'html-pdf';
-import AWS from 'aws-sdk';
-import fs from 'fs';
+const uuidv4 = require('uuid/v4');
 
 import Db from '../../models/models';
 
@@ -13,9 +11,16 @@ const ApplicantI9Mutation = {
 		description: 'Add I9 DocumentType to database',
 		args: {
 			html: { type: GraphQLString },
-			ApplicationId: { type: GraphQLInt }
+			ApplicationId: { type: GraphQLInt },
+			json: { type: GraphQLString }
 		},
 		resolve(source, args) {
+
+			Db.models.ApplicantI9.destroy({
+				where: {
+					ApplicationId: args.ApplicationId
+				}
+			})
 
             //aqui va la logica del PDF
 			var options = {
@@ -34,8 +39,10 @@ const ApplicantI9Mutation = {
 				}
 			}
 
-			var filename = `i9_${args.ApplicationId}`;
-			var srcFile = `./public/${filename}.pdf`;
+			const identifier = uuidv4();
+
+			var filename = `i9_${identifier}_${args.ApplicationId}`;
+			var srcFile = `./public/${filename}.pdf`;			
 
 			// AWS.config.update({
 			// 	accessKeyId: "AKIAJKPVCC36B44OOXJA",
@@ -68,7 +75,7 @@ const ApplicantI9Mutation = {
 				console.log(res);
 			});
 
-			return Db.models.ApplicantI9.create({ fileName: filename, url: srcFile, fileExtension: ".pdf", completed: true, ApplicationId: args.ApplicationId, html: args.html }, { returning: true }).then((output) => {
+			return Db.models.ApplicantI9.create({ fieldsData: args.json, fileName: filename, url: srcFile, fileExtension: ".pdf", completed: true, ApplicationId: args.ApplicationId, html: args.html }, { returning: true }).then((output) => {
 				// return output.map((element) => {
 				// 	return element.dataValues;
 				// });

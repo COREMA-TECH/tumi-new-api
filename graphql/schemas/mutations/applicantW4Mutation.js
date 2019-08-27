@@ -1,9 +1,7 @@
-import { inputInsertApplicantW4 } from '../types/operations/insertTypes';
 import { ApplicantW4Type } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLBoolean, GraphQLString } from 'graphql';
 import pdf from 'html-pdf';
-import AWS from 'aws-sdk';
-import fs from 'fs';
+const uuidv4 = require('uuid/v4');
 
 import Db from '../../models/models';
 
@@ -13,9 +11,16 @@ const ApplicantW4Mutation = {
 		description: 'Add W4 DocumentType to database',
 		args: {
 			html: { type: GraphQLString },
-			ApplicationId: { type: GraphQLInt }
+			ApplicationId: { type: GraphQLInt },
+			json: { type: GraphQLString }
 		},
 		resolve(source, args) {
+
+			Db.models.ApplicantW4.destroy({
+				where: {
+					ApplicationId: args.ApplicationId
+				}
+			})
 
             //aqui va la logica del PDF
 			var options = {
@@ -33,7 +38,10 @@ const ApplicantW4Mutation = {
 					left: '0.98in'
 				}
 			};
-			var filename = `w4_${args.ApplicationId}`;
+
+			const identifier = uuidv4();
+			
+			var filename = `w4_${identifier}_${args.ApplicationId}`;
 			var srcFile = `./public/${filename}.pdf`;
 
 			// AWS.config.update({
@@ -66,7 +74,7 @@ const ApplicantW4Mutation = {
 				if (err) return console.log(err);
 			});
 
-			return Db.models.ApplicantW4.create({ fileName: filename, url: srcFile, fileExtension: ".pdf", completed: true, ApplicationId: args.ApplicationId, html: args.html }, { returning: true }).then((output) => {
+			return Db.models.ApplicantW4.create({ fieldsData: args.json, fileName: filename, url: srcFile, fileExtension: ".pdf", completed: true, ApplicationId: args.ApplicationId, html: args.html }, { returning: true }).then((output) => {
 				// return output.map((element) => {
 				// 	return element.dataValues;
 				// });
