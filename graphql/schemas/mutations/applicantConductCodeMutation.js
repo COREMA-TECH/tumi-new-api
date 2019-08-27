@@ -30,12 +30,7 @@ const ApplicantConductCodeMutation = {
 			return Db.models.ApplicantConductCodes
 				.update(
 					{
-						signature: args.conductCode.signature,
-						content: args.conductCode.content,
-						date: args.conductCode.date,
-						applicantName: args.conductCode.applicantName,
-						ApplicationId: args.conductCode.ApplicationId,
-						completed: args.conductCode.completed
+						...args.conductCode
 					},
 					{
 						where: {

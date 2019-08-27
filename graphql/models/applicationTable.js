@@ -209,6 +209,10 @@ export default {
 			employmentType: {
 				type: Sequelize.STRING,
 				allowNull: true
+			},
+			pdfUrl: {
+				type: Sequelize.STRING,
+				allowNull: true
 			}
 		});
 	}

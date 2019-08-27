@@ -25,6 +25,10 @@ const ApplicantConductCodeFields = {
 	completed: {
 		type: GraphQLBoolean,
 		description: 'Shows if this record is completed'
+	},
+	pdfUrl: {
+		type: GraphQLString,
+		description: 'Code of conduct file url'
 	}
 };
 

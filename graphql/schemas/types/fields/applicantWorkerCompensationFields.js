@@ -57,6 +57,10 @@ const ApplicantWorkerCompensationFields = {
 	completed: {
 		type: GraphQLBoolean,
 		description: "Shows if this record is completed"
+	},
+	pdfUrl: {
+		type: GraphQLString,
+		description: 'Workers Compensation file url'
 	}
 };
 
