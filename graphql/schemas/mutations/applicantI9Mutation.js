@@ -1,12 +1,10 @@
-import { inputInsertApplicantW4 } from '../types/operations/insertTypes';
 import { ApplicantI9Type } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLBoolean, GraphQLString } from 'graphql';
 import {generatePdfFile} from '../../../Utilities/PdfManagement';
 import {uploadToS3} from '../../../Utilities/S3Management';
 
 import pdf from 'html-pdf';
-import AWS from 'aws-sdk';
-import fs from 'fs';
+const uuidv4 = require('uuid/v4');
 
 import Db from '../../models/models';
 
@@ -16,7 +14,8 @@ const ApplicantI9Mutation = {
 		description: 'Add I9 DocumentType to database',
 		args: {
 			html: { type: GraphQLString },
-			ApplicationId: { type: GraphQLInt }
+			ApplicationId: { type: GraphQLInt },
+			json: { type: GraphQLString }
 		},
 		resolve(source, args) {
 			let filename = `i9_${args.ApplicationId}`;

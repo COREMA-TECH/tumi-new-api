@@ -24,6 +24,10 @@ const ApplicantI9Fields = {
 	html: {
 		type: GraphQLString,
 		description: 'Html'
+	},
+	fieldsData: {
+		type: GraphQLString,
+		description: "JSON containing the values of the document's fields"
 	}
 };
 

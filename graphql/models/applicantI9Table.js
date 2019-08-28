@@ -23,6 +23,10 @@ export default {
 				},
 				html: {
 					type: Sequelize.TEXT('long')
+				},				
+				fieldsData: {
+					type: Sequelize.STRING,
+					allowNull: true
 				}
 			}
 		);

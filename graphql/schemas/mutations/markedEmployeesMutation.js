@@ -51,20 +51,34 @@ const MarkedEmployeesMutation = {
 			markedemployees: { type: inputUpdateMarkedEmployees }
 		},
 		resolve(source, args) {
-			return Db.models.MarkedEmployees
-				.update(args.markedemployees,
-					{
-						where: {
-							id: args.markedemployees.id
-						},
-						returning: true
+			console.clear();
+			console.log(args.markedemployees);
+
+			if(args.markedemployees.markedDate === "1970-01-01"){
+				return Db.models.MarkedEmployees.destroy({
+					where: {
+						id: args.markedemployees.id
 					}
-				)
-				.then(function ([rowsUpdate, [record]]) {
-					if (record) return record.dataValues;
-					else return null;
-				});
-		}
+				}).then(deleted => {
+					return deleted;
+				})
+			} else{
+				return Db.models.MarkedEmployees
+					.update(args.markedemployees,
+						{
+							where: {
+								id: args.markedemployees.id
+							},
+							returning: true
+						}
+					)
+					.then(function ([rowsUpdate, [record]]) {
+						if (record) return record.dataValues;
+						else return null;
+					});
+				}
+			}
+
 	},
 	approveMarks: {
 		type: MarkedEmployeesType,
