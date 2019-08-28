@@ -27,15 +27,19 @@ const ApplicantDisclosureMutation = {
 			disclosure: { type: inputUpdateApplicantDisclosure }
 		},
 		resolve(source, args) {
+			// Si se actualiza un campo distinto a pdfUrl lo setea a null para poder generar un nuevo pdf
+			let disclosure = args.disclosure.pdfUrl ? args.disclosure : { ...args.disclosure, pdfUrl: null};
 			return Db.models.ApplicantDisclosures
 				.update(
 					{
-						signature: args.disclosure.signature,
-						content: args.disclosure.content,
-						date: args.disclosure.date,
-						applicantName: args.disclosure.applicantName,
-						ApplicationId: args.disclosure.ApplicationId,
-						completed: args.disclosure.completed
+						...disclosure
+						// TODO: (LF) Quitar codigo comentado
+						// signature: args.disclosure.signature,
+						// content: args.disclosure.content,
+						// date: args.disclosure.date,
+						// applicantName: args.disclosure.applicantName,
+						// ApplicationId: args.disclosure.ApplicationId,
+						// completed: args.disclosure.completed
 					},
 					{
 						where: {

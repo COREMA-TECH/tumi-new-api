@@ -2994,12 +2994,13 @@ async function CreateDocumentsPDF(args) {
 		//Strfilename = './public/Documents/' + args.Name.trim() + '.pdf'; // TODO: (LF) Quitar codigo comentado
 
 		return generatePdfFile(content, args.Name.trim() + '.pdf').then(fileFullPath => {
+			console.log('mostrando url formateada', process.env); // TODO: (LF) Quitar console log
 			console.log('lo que retorna el generador de pdf', fileFullPath); // TODO: (LF) Quitar console log
 			if(!fileFullPath) return null;
 			
 			return uploadToS3(fileFullPath).then(url => {
 				console.log('lo que retorna el s3 upload', url); // TODO: (LF) Quitar console log
-				if(url === null) return 'http://localhost:5000' + fileFullPath.replace('.', '');
+				if(url === null) return 'http://localhost:5000' + fileFullPath.replace('.', ''); // solo para prueba local
 				
 				fs.unlinkSync(fileFullPath);
 				return url;

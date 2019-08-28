@@ -12,7 +12,7 @@ import Db from '../../models/models';
 
 const ApplicantI9Mutation = {
 	addApplicantI9: {
-		type: new GraphQLList(ApplicantI9Type),
+		type: ApplicantI9Type,
 		description: 'Add I9 DocumentType to database',
 		args: {
 			html: { type: GraphQLString },
@@ -25,8 +25,11 @@ const ApplicantI9Mutation = {
 				if(!fileFullPath) return this.type;
 
 				return uploadToS3(fileFullPath).then(url =>{
+					if(!url) {
+						let path = 'http://localhost:5000' + fileFullPath.replace('.', ''); // solo para prueba local
+						return Db.models.ApplicantI9.create({ fileName: filename, url: path, fileExtension: ".pdf", completed: true, ApplicationId: args.ApplicationId, html: args.html }, { returning: true });
+					}
 					fs.unlinkSync(fileFullPath);
-					if(!url) return this.type;
 					return Db.models.ApplicantI9.create({ fileName: filename, url, fileExtension: ".pdf", completed: true, ApplicationId: args.ApplicationId, html: args.html }, { returning: true });
 				});
 			});

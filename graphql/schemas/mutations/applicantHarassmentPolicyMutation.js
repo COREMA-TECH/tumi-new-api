@@ -29,16 +29,19 @@ const ApplicantHarassmentPolicyMutation = {
 			harassmentPolicy: { type: inputUpdateApplicantHarassmentPolicy }
 		},
 		resolve(source, args) {
+			let harassmentPolicy = args.harassmentPolicy.pdfUrl ? args.harassmentPolicy : { ...args.harassmentPolicy, pdfUrl: null };
 			return Db.models.ApplicantHarassmentPolicy
 				.update(
 					{
-						companyPhoneNumber: args.harassmentPolicy.companyPhoneNumber,
-						signature: args.harassmentPolicy.signature,
-						content: args.harassmentPolicy.content,
-						date: args.harassmentPolicy.date,
-						applicantName: args.harassmentPolicy.applicantName,
-						ApplicationId: args.harassmentPolicy.ApplicationId,
-						completed: args.harassmentPolicy.completed
+						...harassmentPolicy
+						// TODO: (LF) QUitar codigo comentado
+						// companyPhoneNumber: args.harassmentPolicy.companyPhoneNumber,
+						// signature: args.harassmentPolicy.signature,
+						// content: args.harassmentPolicy.content,
+						// date: args.harassmentPolicy.date,
+						// applicantName: args.harassmentPolicy.applicantName,
+						// ApplicationId: args.harassmentPolicy.ApplicationId,
+						// completed: args.harassmentPolicy.completed
 					},
 					{
 						where: {
