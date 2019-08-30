@@ -21,6 +21,9 @@ const roleFields = {
 	},
 	Date_Updated: {
 		type: GraphQLString
+	},
+	default_form_id: {
+		type: GraphQLInt
 	}
 };
 export default roleFields;

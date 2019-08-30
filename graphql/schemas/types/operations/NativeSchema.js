@@ -186,6 +186,7 @@ input iParamEA {
 		User_Updated : Int
 		Date_Created: String
 		Date_Updated: String
+		default_form_id: Int
 	}
 	input iCompany{
 			Id : Int
@@ -647,6 +648,7 @@ input iParamEA {
 		User_Updated : Int
 		Date_Created: String
 		Date_Updated: String
+		default_form_id: Int
 	}
 	type Forms{
 		Id: Int
