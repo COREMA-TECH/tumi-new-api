@@ -59,6 +59,7 @@ import EmployeeByHotelQuery from './employeeByHotelQuery';
 import FeatureQuery from './featureQuery';
 import ContractQuery from './contractQuery';
 import TokenQuery from './tokenQuery';
+import PositionRateQuery from './positionRateQuery';
 
 export {
 	ApplicantLanguageQuery,
@@ -117,5 +118,6 @@ export {
 	EmployeeByHotelQuery,
 	FeatureQuery,
 	ContractQuery,
-	TokenQuery
+	TokenQuery,
+	PositionRateQuery
 };
