@@ -109,7 +109,8 @@ import {
 	EmployeeByHotelQuery,
 	FeatureQuery,
 	ContractQuery,
-	TokenQuery
+	TokenQuery,
+	PositionRateQuery
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -173,7 +174,8 @@ const RootQuery = new GraphQLObjectType({
 		...EmployeeByHotelQuery,
 		...FeatureQuery,
 		...ContractQuery,
-		...TokenQuery
+		...TokenQuery,
+		...PositionRateQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({
