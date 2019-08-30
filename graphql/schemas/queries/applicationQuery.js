@@ -99,7 +99,7 @@ const ApplicationQuery = {
 		resolve(root, args) {
 			let isActiveFilter = {};
 			let { idEntity, id, ...rest } = args;
-			let employeeArgs = { ...rest };
+			let { isActive, ...employeeArgs } = rest;
 			let employeeByHotelFilter = {}
 			let idFilter = {};
 
@@ -125,8 +125,9 @@ const ApplicationQuery = {
 							where: employeeArgs,
 							include: [
 								{
+									required: args.idEntity != null,
 									model: Db.models.EmployeeByHotels,
-									where: { ...employeeByHotelFilter, isActive: true }
+									where: { ...employeeByHotelFilter }
 								}
 							]
 						}]
