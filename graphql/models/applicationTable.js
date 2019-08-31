@@ -209,7 +209,11 @@ export default {
 			employmentType: {
 				type: Sequelize.STRING,
 				allowNull: true
-			}
+			},
+			sendInterview: {
+				type: Sequelize.BOOLEAN,
+				allowNull: true
+			},
 		});
 	}
 };
