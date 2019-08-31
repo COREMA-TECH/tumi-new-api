@@ -2991,59 +2991,17 @@ async function ValidTokens(args) {
 async function CreateDocumentsPDF(args) {
 	try {
 		var content = args.contentHTML;
-		//Strfilename = './public/Documents/' + args.Name.trim() + '.pdf'; // TODO: (LF) Quitar codigo comentado
 
 		return generatePdfFile(content, args.Name.trim() + '.pdf').then(fileFullPath => {
-			console.log('mostrando url formateada', process.env); // TODO: (LF) Quitar console log
-			console.log('lo que retorna el generador de pdf', fileFullPath); // TODO: (LF) Quitar console log
 			if(!fileFullPath) return null;
 			
 			return uploadToS3(fileFullPath).then(url => {
-				console.log('lo que retorna el s3 upload', url); // TODO: (LF) Quitar console log
-				if(url === null) return 'http://localhost:5000' + fileFullPath.replace('.', ''); // solo para prueba local
+				if(url === null) return 'http://localhost:5000' + fileFullPath.replace('.', ''); // TODO: (LF) Quitar | solo para prueba local
 				
 				fs.unlinkSync(fileFullPath);
 				return url;
 			});
 		});
-
-		// TODO: (LF) Quitar codigo comentado
-		// if (fs.existsSync(Strfilename) == false) {
-
-		// 	var options = {
-		// 		format: 'Letter',
-		// 		font: 'Arial',
-		// 		size: 12,
-		// 		type: "pdf",             // allowed file types: png, jpeg, pdf
-		// 		quality: "75",           // only used for types png & jpeg
-		// 		orientation: 'portrait',
-		// 		zoomFactor: 1,
-		// 		border: {
-		// 			top: '0.98in', // default is 0, units: mm, cm, in, px
-		// 			right: '0.98in',
-		// 			bottom: '0.98in',
-		// 			left: '0.98in'
-		// 		}
-		// 	};
-
-		// 	pdf.create(content, options).toFile(Strfilename, function (err, res) {
-		// 		console.log('toFile');
-		// 		if (err) return console.log(err);
-		// 		console.log(res);
-		// 		console.log('PDF Created');
-		// 	});
-
-		// 	while (true) {
-		// 		try {
-		// 			fs.accessSync(Strfilename, fs.W_OK)
-		// 			return Strfilename;
-		// 		} catch (e) {
-		// 			console.log("Sigue escribiendo", e)
-		// 		}
-		// 	}
-		// }
-
-		// return Strfilename;
 	} catch (err) {
 		console.log('Database ' + err);
 		return null;
