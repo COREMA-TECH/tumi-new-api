@@ -213,6 +213,10 @@ export default {
 			pdfUrl: {
 				type: Sequelize.STRING,
 				allowNull: true
+			},
+			sendInterview: {
+				type: Sequelize.BOOLEAN,
+				allowNull: true
 			}
 		});
 	}
