@@ -1,10 +1,19 @@
 import { GraphQLInt, GraphQLString, GraphQLList, GraphQLBoolean, GraphQLNonNull } from 'graphql';
 import { ApplicationCodeUserType, ApplicationType, ApplicationCompletedDataType, UsersType, ApplicationListType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
+const PDFMerge = require('pdf-merge');
+import axios from 'axios';
+
+import fs from 'fs';
+//const path = require('path');
+import http from 'http';
+const uuidv4 = require('uuid/v4');
 
 import GraphQLDate from 'graphql-date';
 import Sequelize from 'sequelize';
+import { isArray } from 'util';
 
+const tokenApiPdfMerge = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VyIjoiNlA0MTczNDU0ciIsImVtYWlsIjoibHVpcy5mYWphcmRvQHNtYnNzb2x1dGlvbnMuY29tIn0sImlhdCI6MTU2NzU1MTI2NX0.bryGpfwXuhsydPT0HZv8e79Kul5QkIZTMVmupUdpxn4';
 
 const Op = Sequelize.Op;
 const FilterStatus = (filter) => {
@@ -39,6 +48,27 @@ const getRecruiterReportFilters = (filter) => {
 
 		}
 	return newFilter;
+}
+
+const pdfMergeApi = (data) => {
+	return new Promise((resolve, reject) => {
+		const config = {
+            headers: {
+				'Content-Type': 'application/json',
+                authorization: tokenApiPdfMerge
+            }
+        };
+        
+        axios.post('http://localhost:3000/api/documents', {
+			urls: data
+		}, config)
+        .then(function (response) {
+            resolve(response);
+        })
+        .catch(function (error) {
+            reject(error);
+        });
+	});
 }
 
 const ApplicationQuery = {
@@ -473,6 +503,81 @@ const ApplicationQuery = {
 					]
 				}
 			})
+		}
+	},
+
+	pdfMergeQuery: {
+		type: GraphQLString,
+		description: 'pdf merging',
+		args: {
+			applicationId: {
+				type: GraphQLInt
+			}
+		},
+		resolve(root, args) {
+			
+			let files = [];
+
+			return Db.models.Applications.findOne({
+				where: { id: args.applicationId },
+				include: [
+					{
+						model: Db.models.ApplicantBackgroundChecks,
+						attributes: ['pdfUrl']
+					},
+					{
+						model: Db.models.ApplicantDisclosures,
+						attributes: ['pdfUrl']
+					},
+					{
+						model: Db.models.ApplicantConductCodes,
+						attributes: ['pdfUrl']
+					},
+					{
+						model: Db.models.ApplicantHarassmentPolicy,
+						attributes: ['pdfUrl']
+					},
+					{
+						model: Db.models.ApplicantWorkerCompensation,
+						attributes: ['pdfUrl']
+					},
+					{
+						model: Db.models.ApplicantI9,
+						attributes: ['url']
+					},
+					{
+						model: Db.models.ApplicantW4,
+						attributes: ['url']
+					}
+				]
+			}).then(async resp => {
+				
+				if(resp){
+					const {pdfUrl, ApplicantBackgroundCheck, ApplicantDisclosure, ApplicantConductCode,
+						ApplicantHarassmentPolicy, ApplicantWorkerCompensation, ApplicantI9, ApplicantW4} = resp.dataValues;
+					if(pdfUrl) files = [...files, pdfUrl];
+					if(ApplicantBackgroundCheck) files = [...files, ApplicantBackgroundCheck.dataValues.pdfUrl];
+					if(ApplicantDisclosure) files = [...files, ApplicantDisclosure.dataValues.pdfUrl];
+					if(ApplicantConductCode) files = [...files, ApplicantConductCode.dataValues.pdfUrl];
+					if(ApplicantHarassmentPolicy) files = [...files, ApplicantHarassmentPolicy.dataValues.pdfUrl];
+					if(ApplicantWorkerCompensation) files = [...files, ApplicantWorkerCompensation.dataValues.pdfUrl];
+					if(ApplicantI9) files = [...files, ApplicantI9.dataValues.url];
+					if(ApplicantW4) files = [...files, ApplicantW4.dataValues.url];
+
+					const serializedArray = JSON.stringify(files);
+
+					try {
+						let s3Url = await pdfMergeApi(serializedArray);
+						return s3Url.data.url;
+					}
+					catch(err) {
+						console.log(err);
+						return null;
+					}
+				}
+				else
+					return null;
+			});
 		}
 	}
 };

@@ -2996,8 +2996,6 @@ async function CreateDocumentsPDF(args) {
 			if(!fileFullPath) return null;
 			
 			return uploadToS3(fileFullPath).then(url => {
-				if(url === null) return 'http://localhost:5000' + fileFullPath.replace('.', ''); // TODO: (LF) Quitar | solo para prueba local
-				
 				fs.unlinkSync(fileFullPath);
 				return url;
 			});

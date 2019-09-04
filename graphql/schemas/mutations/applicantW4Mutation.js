@@ -27,12 +27,10 @@ const ApplicantW4Mutation = {
 			})
 
 			return generatePdfFile(args.html, filename + '.pdf').then(fileFullPath => {
-				if(!fileFullPath) return this.type;
+				// Si falla al generar el pdf debe poder guardar el resto de datos
+				if(!fileFullPath) return Db.models.ApplicantW4.create({ fieldsData: args.json, fileName: filename, url: null, fileExtension: ".pdf", completed: true, ApplicationId: args.ApplicationId, html: args.html }, { returning: true });
+
 				return uploadToS3(fileFullPath).then(url => {
-					if(!url) {
-						let path = 'http://localhost:5000' + fileFullPath.replace('.', ''); // TODO: (LF) Quitar | solo para prueba local
-						return Db.models.ApplicantW4.create({ fieldsData: args.json, fileName: filename, url: path, fileExtension: ".pdf", completed: true, ApplicationId: args.ApplicationId, html: args.html }, { returning: true });
-					}
 					fs.unlinkSync(fileFullPath);
 					return Db.models.ApplicantW4.create({ fieldsData: args.json, fileName: filename, url, fileExtension: ".pdf", completed: true, ApplicationId: args.ApplicationId, html: args.html }, { returning: true });
 				});
