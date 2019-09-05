@@ -2,6 +2,7 @@ import { ApplicantW4Type } from '../types/operations/outputTypes';
 import { GraphQLInt, GraphQLString } from 'graphql';
 import {generatePdfFile} from '../../../Utilities/PdfManagement';
 import {uploadToS3} from '../../../Utilities/S3Management';
+const fs = require('fs');
 
 const uuidv4 = require('uuid/v4');
 

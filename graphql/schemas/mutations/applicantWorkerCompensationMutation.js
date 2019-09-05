@@ -34,21 +34,6 @@ const ApplicantWorkerCompensationMutation = {
 				.update(
 					{
 						...workerCompensation
-						// TODO: (LF) Quitar codigo comentado
-						// applicantAddress: args.workerCompensation.applicantAddress,
-						// applicantCity: args.workerCompensation.applicantCity,
-						// applicantState: args.workerCompensation.applicantState,
-						// applicantZipCode: args.workerCompensation.applicantZipCode,
-						// employerName: args.workerCompensation.employerName,
-						// initialNotification: args.workerCompensation.initialNotification,
-						// injuryNotification: args.workerCompensation.injuryNotification,
-						// injuryDate: args.workerCompensation.injuryDate,
-						// completed: args.workerCompensation.completed,
-						// signature: args.workerCompensation.signature,
-						// content: args.workerCompensation.content,
-						// date: args.workerCompensation.date,
-						// applicantName: args.workerCompensation.applicantName,
-						// ApplicationId: args.workerCompensation.ApplicationId
 					},
 					{
 						where: {

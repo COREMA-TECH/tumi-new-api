@@ -1,19 +1,14 @@
 import { GraphQLInt, GraphQLString, GraphQLList, GraphQLBoolean, GraphQLNonNull } from 'graphql';
 import { ApplicationCodeUserType, ApplicationType, ApplicationCompletedDataType, UsersType, ApplicationListType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
-const PDFMerge = require('pdf-merge');
 import axios from 'axios';
-
-import fs from 'fs';
-//const path = require('path');
-import http from 'http';
-const uuidv4 = require('uuid/v4');
 
 import GraphQLDate from 'graphql-date';
 import Sequelize from 'sequelize';
-import { isArray } from 'util';
 
 const tokenApiPdfMerge = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VyIjoiNlA0MTczNDU0ciIsImVtYWlsIjoibHVpcy5mYWphcmRvQHNtYnNzb2x1dGlvbnMuY29tIn0sImlhdCI6MTU2NzU1MTI2NX0.bryGpfwXuhsydPT0HZv8e79Kul5QkIZTMVmupUdpxn4';
+const urlSmbsPdfApiLocal = 'http://localhost:3000/api/documents';
+const urlSmbsPdfApiEc2 = 'http://ec2-3-18-223-95.us-east-2.compute.amazonaws.com:3000/api/documents';
 
 const Op = Sequelize.Op;
 const FilterStatus = (filter) => {
@@ -50,18 +45,16 @@ const getRecruiterReportFilters = (filter) => {
 	return newFilter;
 }
 
-const pdfMergeApi = (data) => {
+const pdfMergeApi = (filesUrl) => {
 	return new Promise((resolve, reject) => {
 		const config = {
             headers: {
 				'Content-Type': 'application/json',
                 authorization: tokenApiPdfMerge
-            }
+			}
         };
         
-        axios.post('http://localhost:3000/api/documents', {
-			urls: data
-		}, config)
+        axios.post(urlSmbsPdfApiEc2, {urls: filesUrl}, config)
         .then(function (response) {
             resolve(response);
         })
@@ -564,10 +557,8 @@ const ApplicationQuery = {
 					if(ApplicantI9) files = [...files, ApplicantI9.dataValues.url];
 					if(ApplicantW4) files = [...files, ApplicantW4.dataValues.url];
 
-					const serializedArray = JSON.stringify(files);
-
 					try {
-						let s3Url = await pdfMergeApi(serializedArray);
+						let s3Url = await pdfMergeApi(files);
 						return s3Url.data.url;
 					}
 					catch(err) {

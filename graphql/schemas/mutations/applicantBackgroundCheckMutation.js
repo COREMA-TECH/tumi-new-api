@@ -31,22 +31,10 @@ const ApplicantBackgroundCheckMutation = {
 		resolve(source, args) {
 			// Cada actualizacion borrará la url del pdf a menos que se pase la url como argumento
 			let backgroundCheck = args.backgroundCheck.pdfUrl ? args.backgroundCheck : {...args.backgroundCheck, pdfUrl: null} ;
-			console.log('Mostrando background check',backgroundCheck); // TODO: (LF) Quitar console log
 			return Db.models.ApplicantBackgroundChecks
 				.update(
 					{
 						...backgroundCheck
-						// vehicleReportRequired: args.backgroundCheck.vehicleReportRequired,
-						// driverLicenseNumber: args.backgroundCheck.driverLicenseNumber,
-						// commercialDriverLicense: args.backgroundCheck.commercialDriverLicense,
-						// licenseState: args.backgroundCheck.licenseState,
-						// licenseExpiration: args.backgroundCheck.licenseExpiration,
-						// completed: args.backgroundCheck.completed,
-						// signature: args.backgroundCheck.signature,
-						// content: args.backgroundCheck.content,
-						// date: args.backgroundCheck.date,
-						// applicantName: args.backgroundCheck.applicantName,
-						// ApplicationId: args.backgroundCheck.ApplicationId
 					},
 					{
 						where: {

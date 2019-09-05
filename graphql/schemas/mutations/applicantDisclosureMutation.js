@@ -33,13 +33,6 @@ const ApplicantDisclosureMutation = {
 				.update(
 					{
 						...disclosure
-						// TODO: (LF) Quitar codigo comentado
-						// signature: args.disclosure.signature,
-						// content: args.disclosure.content,
-						// date: args.disclosure.date,
-						// applicantName: args.disclosure.applicantName,
-						// ApplicationId: args.disclosure.ApplicationId,
-						// completed: args.disclosure.completed
 					},
 					{
 						where: {

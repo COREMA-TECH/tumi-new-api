@@ -34,14 +34,6 @@ const ApplicantHarassmentPolicyMutation = {
 				.update(
 					{
 						...harassmentPolicy
-						// TODO: (LF) QUitar codigo comentado
-						// companyPhoneNumber: args.harassmentPolicy.companyPhoneNumber,
-						// signature: args.harassmentPolicy.signature,
-						// content: args.harassmentPolicy.content,
-						// date: args.harassmentPolicy.date,
-						// applicantName: args.harassmentPolicy.applicantName,
-						// ApplicationId: args.harassmentPolicy.ApplicationId,
-						// completed: args.harassmentPolicy.completed
 					},
 					{
 						where: {
