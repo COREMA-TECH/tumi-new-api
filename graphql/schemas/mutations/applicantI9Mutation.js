@@ -1,84 +1,40 @@
 import { ApplicantI9Type } from '../types/operations/outputTypes';
-import { GraphQLList, GraphQLInt, GraphQLString } from 'graphql';
-import pdf from 'html-pdf';
+import { GraphQLInt, GraphQLString } from 'graphql';
+import {generatePdfFile} from '../../../Utilities/PdfManagement';
+import {uploadToS3} from '../../../Utilities/S3Management';
+const fs = require('fs');
+
 const uuidv4 = require('uuid/v4');
 
 import Db from '../../models/models';
 
 const ApplicantI9Mutation = {
 	addApplicantI9: {
-		type: new GraphQLList(ApplicantI9Type),
+		type: ApplicantI9Type,
 		description: 'Add I9 DocumentType to database',
 		args: {
 			html: { type: GraphQLString },
 			ApplicationId: { type: GraphQLInt },
 			json: { type: GraphQLString }
 		},
-		resolve(source, args) {
+		async resolve(source, args) {
+			const identifier = uuidv4();
+			let filename = `i9_${identifier}_${args.ApplicationId}`;
 
-			Db.models.ApplicantI9.destroy({
+			await Db.models.ApplicantI9.destroy({
 				where: {
 					ApplicationId: args.ApplicationId
 				}
-			})
-
-            //aqui va la logica del PDF
-			var options = {
-				format: 'Letter',
-				font: 'Arial',
-				size: 12,
-				type: "pdf",             // allowed file types: png, jpeg, pdf
-				quality: "75",           // only used for types png & jpeg
-				orientation: 'portrait',
-				zoomFactor: 1,
-				border: {
-					top: '0.98in', // default is 0, units: mm, cm, in, px
-					right: '0.98in',
-					bottom: '0.98in',
-					left: '0.98in'
-				}
-			}
-
-			const identifier = uuidv4();
-
-			var filename = `i9_${identifier}_${args.ApplicationId}`;
-			var srcFile = `./public/${filename}.pdf`;			
-
-			// AWS.config.update({
-			// 	accessKeyId: "AKIAJKPVCC36B44OOXJA",
-			// 	secretAccessKey: "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"
-			// });
-
-			// //aqui va la logica de S3
-			// var s3 = new AWS.S3();
-			// var filePath = srcFile;
-
-			// var params = {
-			// 	Bucket: 'imagestumi',
-			// 	Body : fs.createReadStream(filePath),
-			// 	Key : "PDF/" + path.basename(filePath)
-			// };
-
-			// s3.upload(params, function (err, data) {
-			// 	//handle error
-			// 	if (err) {
-			// 		console.log("Error", err);
-			// 	}
-			// 	//success
-			// 	if (data) {
-			// 		console.log("Uploaded in:", data.Location);
-			// 	}
-			// });
-
-			pdf.create(args.html, options).toFile(srcFile, function (err, res) {
-				if (err) console.log(err);
-				console.log(res);
 			});
 
-			return Db.models.ApplicantI9.create({ fieldsData: args.json, fileName: filename, url: srcFile, fileExtension: ".pdf", completed: true, ApplicationId: args.ApplicationId, html: args.html }, { returning: true }).then((output) => {
-				// return output.map((element) => {
-				// 	return element.dataValues;
-				// });
+			return generatePdfFile(args.html, filename + '.pdf').then(fileFullPath => {
+				// Si falla al generar el pdf debe poder guardar el resto de datos
+				if(!fileFullPath) return Db.models.ApplicantI9.create({ fieldsData: args.json, fileName: filename, url: null, fileExtension: ".pdf", completed: true, ApplicationId: args.ApplicationId, html: args.html }, { returning: true });
+
+				return uploadToS3(fileFullPath).then(url =>{
+					fs.unlinkSync(fileFullPath);
+					return Db.models.ApplicantI9.create({ fieldsData: args.json, fileName: filename, url, fileExtension: ".pdf", completed: true, ApplicationId: args.ApplicationId, html: args.html }, { returning: true });
+				});
 			});
 		}
 	},

@@ -210,10 +210,14 @@ export default {
 				type: Sequelize.STRING,
 				allowNull: true
 			},
+			pdfUrl: {
+				type: Sequelize.STRING,
+				allowNull: true
+			},
 			sendInterview: {
 				type: Sequelize.BOOLEAN,
 				allowNull: true
-			},
+			}
 		});
 	}
 };

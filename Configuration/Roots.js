@@ -1,6 +1,10 @@
 const pg = require('pg');
 import { URLWeb, URLReject, URLAccept, ConfigPg } from './Configuration';
 import jwt from 'jsonwebtoken';
+import {generatePdfFile} from '../Utilities/PdfManagement';
+import {uploadToS3} from '../Utilities/S3Management';
+
+
 //Requerimos el paquete
 const nodemailer = require('nodemailer');
 const pdf = require('html-pdf');
@@ -2426,77 +2430,6 @@ async function getContracts(args) {
 	}
 }
 
-// async function CreateContracts(args) {
-// 	try {
-// 		var strparam1, strparam2;
-
-// 		if (args.IsActive >= 0) {
-// 			strparam1 = args.IsActive;
-// 		} else {
-// 			strparam1 = null;
-// 		}
-
-// 		if (args.Id >= 0) {
-// 			strparam2 = args.Id;
-// 		} else {
-// 			strparam2 = null;
-// 		}
-
-// 		Strquery =
-// 			'select "Contracts"."Id","Token"."Token","Token"."Signatory", "Id_Company", "IdManagement","Id_Entity", "Contract_Name", "Contrat_Owner", "Id_User_Signed",(SELECT "Electronic_Address" FROM public."Contacts" where "Id"= "Contracts"."Id_User_Signed") as "Electronic_Address", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed", "Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F", "Client_Signature", "Company_Signature","Contract_Expiration_Date",(SELECT "Primary_Email" FROM public."Company" where "Id"= "Contracts"."Id_Company") as "Primary_Email"  from public."Contracts" inner join public."Token" on "Token"."Id_Contract" = "Contracts"."Id"  where "Contracts"."IsActive" = coalesce(' +
-// 			strparam1 +
-// 			',"Contracts"."IsActive") and "Contracts"."Id" = coalesce(' +
-// 			strparam2 +
-// 			',"Contracts"."Id") order by "Contracts"."Id"';
-
-
-// 		const { rows } = await query(Strquery);
-// 		var content = rows[0].Contract_Terms;
-
-// 		Strfilename = './public/Contract_' + rows[0].Contract_Name.trim() + '.pdf';
-// 		var StrfilnameHTML = './public/Contract_' + rows[0].Contract_Name.trim() + '.html';
-// 		//var html = fs.readFileSync(content, 'utf8');
-
-// 		var options = {
-// 			format: 'Letter',
-// 			font: 'Arial',
-// 			size: 12,
-// 			type: "pdf",             // allowed file types: png, jpeg, pdf
-// 			quality: "75",           // only used for types png & jpeg
-// 			orientation: 'portrait',
-// 			zoomFactor: 1,
-// 			border: {
-// 				top: '0.98in', // default is 0, units: mm, cm, in, px
-// 				right: '0.98in',
-// 				bottom: '0.98in',
-// 				left: '0.98in'
-// 			}
-// 		};
-
-// 		pdf.create(content, options).toFile(Strfilename, function (err, res) {
-// 			console.log('toFile');
-// 			if (err) return console.log(err);
-// 			console.log(res);
-// 			console.log('PDF Created');
-// 		});
-
-// 		while (true) {
-// 			try {
-// 				fs.accessSync(Strfilename, fs.W_OK)
-// 				return rows;
-// 			} catch (e) {
-// 				console.log("Sigue escribiendo", e)
-// 			}
-// 		}
-
-// 	} catch (err) {
-// 		console.log('Database ' + err);
-// 		return err;
-// 	}
-
-// }
-
-
 
 //Method Connect to Send Contracts by emails
 async function SendContracts(args) {
@@ -2797,93 +2730,6 @@ async function SendContracts(args) {
 	}
 }
 
-// async function InsContracts(args) {
-// 	try {
-// 		if (args) {
-// 			console.log(args);
-// 			Strquery =
-// 				'INSERT INTO public."Contracts" ("Id_Company", "Contract_Name", "Contrat_Owner","IdManagement", "Id_Entity", "Id_User_Signed", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed","Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","Contract_Expiration_Date","Id_Contract_Template","legalName") VALUES(' +
-// 				args.input.Id_Company +
-// 				',' +
-// 				args.input.Contract_Name +
-// 				',' +
-// 				args.input.Contrat_Owner +
-// 				',' +
-// 				args.input.IdManagement +
-// 				',' +
-// 				args.input.Id_Entity +
-// 				',' +
-// 				args.input.Id_User_Signed +
-// 				',' +
-// 				args.input.User_Signed_Title +
-// 				',' +
-// 				args.input.Signed_Date +
-// 				',' +
-// 				args.input.Contract_Status +
-// 				',' +
-// 				args.input.Contract_Start_Date +
-// 				',' +
-// 				args.input.Contract_Term +
-// 				',' +
-// 				args.input.Owner_Expiration_Notification +
-// 				',' +
-// 				args.input.Company_Signed +
-// 				',' +
-// 				args.input.Company_Signed_Date +
-// 				',' +
-// 				args.input.Id_User_Billing_Contact +
-// 				',' +
-// 				args.input.Billing_Street +
-// 				',' +
-// 				args.input.Billing_City +
-// 				',' +
-// 				args.input.Billing_State +
-// 				',' +
-// 				args.input.Billing_Zip_Code +
-// 				',' +
-// 				args.input.Billing_Country +
-// 				',' +
-// 				args.input.Contract_Terms +
-// 				',' +
-// 				args.input.Exhibit_B +
-// 				',' +
-// 				args.input.Exhibit_C +
-// 				',' +
-// 				args.input.Exhibit_D +
-// 				',' +
-// 				args.input.Exhibit_E +
-// 				',' +
-// 				args.input.Exhibit_F +
-// 				',' +
-// 				args.input.IsActive +
-// 				',' +
-// 				args.input.User_Created +
-// 				',' +
-// 				args.input.User_Updated +
-// 				',' +
-// 				args.input.Date_Created +
-// 				',' +
-// 				args.input.Date_Updated +
-// 				',' +
-// 				args.input.Contract_Expiration_Date +
-// 				',' +
-// 				args.input.Id_Contract_Template +
-// 				',' +
-// 				args.input.legalName +
-// 				') RETURNING "Id","Id_Company", "Contract_Name", "Contrat_Owner","IdManagement", "Id_Entity", "Id_User_Signed", "User_Signed_Title", "Signed_Date", "Contract_Status", "Contract_Start_Date", "Contract_Term", "Owner_Expiration_Notification", "Company_Signed","Company_Signed_Date", "Id_User_Billing_Contact", "Billing_Street", "Billing_City", "Billing_State", "Billing_Zip_Code", "Billing_Country", "Contract_Terms", "Exhibit_B", "Exhibit_C", "Exhibit_D", "Exhibit_E", "Exhibit_F","IsActive","User_Created","User_Updated","Date_Created","Date_Updated","Contract_Expiration_Date","Id_Contract_Template","legalName"';
-// 		} else {
-// 			console.log('Error Insert Data');
-// 		}
-
-// 		const { rows } = await query(Strquery);
-
-// 		return rows[0];
-// 	} catch (err) {
-// 		console.log('Database ' + err);
-// 		return err;
-// 	}
-// }
-
 async function UpdContracts(args) {
 	try {
 		if (args) {
@@ -3145,47 +2991,18 @@ async function ValidTokens(args) {
 async function CreateDocumentsPDF(args) {
 	try {
 		var content = args.contentHTML;
-		Strfilename = './public/Documents/' + args.Name.trim() + '.pdf';
 
-		if (fs.existsSync(Strfilename) == false) {
-
-			var options = {
-				format: 'Letter',
-				font: 'Arial',
-				size: 12,
-				type: "pdf",             // allowed file types: png, jpeg, pdf
-				quality: "75",           // only used for types png & jpeg
-				orientation: 'portrait',
-				zoomFactor: 1,
-				border: {
-					top: '0.98in', // default is 0, units: mm, cm, in, px
-					right: '0.98in',
-					bottom: '0.98in',
-					left: '0.98in'
-				}
-			};
-
-			pdf.create(content, options).toFile(Strfilename, function (err, res) {
-				console.log('toFile');
-				if (err) return console.log(err);
-				console.log(res);
-				console.log('PDF Created');
+		return generatePdfFile(content, args.Name.trim() + '.pdf').then(fileFullPath => {
+			if(!fileFullPath) return null;
+			
+			return uploadToS3(fileFullPath).then(url => {
+				fs.unlinkSync(fileFullPath);
+				return url;
 			});
-
-			while (true) {
-				try {
-					fs.accessSync(Strfilename, fs.W_OK)
-					return Strfilename;
-				} catch (e) {
-					console.log("Sigue escribiendo", e)
-				}
-			}
-		}
-
-		return Strfilename;
+		});
 	} catch (err) {
 		console.log('Database ' + err);
-		return err;
+		return null;
 	}
 }
 

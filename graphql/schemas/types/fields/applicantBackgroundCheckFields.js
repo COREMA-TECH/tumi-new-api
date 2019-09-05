@@ -45,6 +45,10 @@ const ApplicantBackgroundCheckFields = {
 	completed: {
 		type: GraphQLBoolean,
 		description: "Shows if this records is completed"
+	},
+	pdfUrl: {
+		type: GraphQLString,
+		description: 'BackgroundCheck file url'
 	}
 };
 

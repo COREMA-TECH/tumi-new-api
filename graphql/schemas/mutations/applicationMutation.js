@@ -316,6 +316,32 @@ const ApplicationMutation = {
 					else return null;
 				});
 		}
+	},
+	updatePdfUrlSummary: {
+		type: ApplicationType,
+		description: 'Update Summary PDF url',
+		args: {
+			id: { type: GraphQLInt },
+			pdfUrl: { type: GraphQLString }
+		},
+		resolve(source, args) {
+			return Db.models.Applications
+				.update(
+					{
+						pdfUrl: args.pdfUrl
+					},
+					{
+						where: {
+							id: args.id
+						},
+						returning: true
+					}
+				)
+				.then(function ([rowsUpdate, [record]]) {
+					if (record) return record.dataValues;
+					else return null;
+				});
+		}
 	}
 };
 

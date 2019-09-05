@@ -215,6 +215,10 @@ const ApplicationFields = {
 	employmentType: {
 		type: GraphQLString,
 		description: 'employmentType'
+	},
+	pdfUrl: {
+		type: GraphQLString,
+		description: 'Summary file url'
 	}
 };
 

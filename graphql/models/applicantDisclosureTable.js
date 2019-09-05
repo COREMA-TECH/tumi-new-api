@@ -22,6 +22,10 @@ export default {
 			completed: {
 				type: Sequelize.BOOLEAN,
 				defaultValue: false
+			},
+			pdfUrl: {
+				type: Sequelize.STRING,
+				allowNull: true
 			}
 		});
 	}
