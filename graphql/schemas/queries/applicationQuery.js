@@ -557,6 +557,8 @@ const ApplicationQuery = {
 					if(ApplicantI9) files = [...files, ApplicantI9.dataValues.url];
 					if(ApplicantW4) files = [...files, ApplicantW4.dataValues.url];
 
+					if(files.length === 0) return null;
+
 					try {
 						let s3Url = await pdfMergeApi(files);
 						return s3Url.data.url;
