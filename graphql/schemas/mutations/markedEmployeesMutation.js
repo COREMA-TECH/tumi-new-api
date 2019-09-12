@@ -54,7 +54,7 @@ const MarkedEmployeesMutation = {
 			console.clear();
 			console.log(args.markedemployees);
 
-			if(args.markedemployees.markedDate === "1970-01-01"){
+			if (args.markedemployees.markedDate === "1970-01-01") {
 				return Db.models.MarkedEmployees.destroy({
 					where: {
 						id: args.markedemployees.id
@@ -62,7 +62,7 @@ const MarkedEmployeesMutation = {
 				}).then(deleted => {
 					return deleted;
 				})
-			} else{
+			} else {
 				return Db.models.MarkedEmployees
 					.update(args.markedemployees,
 						{
@@ -76,8 +76,8 @@ const MarkedEmployeesMutation = {
 						if (record) return record.dataValues;
 						else return null;
 					});
-				}
 			}
+		}
 
 	},
 	approveMarks: {
@@ -124,7 +124,24 @@ const MarkedEmployeesMutation = {
 					else return null;
 				});
 		}
-	}
+	},
+	deleteMarks: {
+		type: GraphQLInt,
+		description: 'Approve Marks',
+		args: {
+			idsToDelete: { type: new GraphQLNonNull(new GraphQLList(GraphQLInt)) }
+		},
+		resolve(source, args) {
+			return Db.models.MarkedEmployees
+				.destroy(
+					{
+						where: {
+							id: { $in: args.idsToDelete }
+						}
+					}
+				)
+		}
+	},
 };
 
 export default MarkedEmployeesMutation;
