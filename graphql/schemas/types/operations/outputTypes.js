@@ -64,7 +64,8 @@ import {
 	EmployeeByHotelFields,
 	FeatureFields,
 	ContractFields,
-	TokenFields
+	TokenFields,
+	RegionsRolesFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -2182,6 +2183,20 @@ const DetailApprovePunchesType = new GraphQLObjectType({
 	}
 });
 
+const RegionsRolesType = new GraphQLObjectType({
+	name: 'RegionsRolesType',
+	description: 'Output Region by Roles',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'RegionRol Id'
+			},
+			...RegionsRolesFields
+		};
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -2260,5 +2275,6 @@ export {
 	ApplicationListType,
 	ContractType,
 	TokenType,
-	ApprovePunchesType
+	ApprovePunchesType,
+	RegionsRolesType
 };

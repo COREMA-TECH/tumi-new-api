@@ -49,7 +49,8 @@ import {
 	FormMutation,
 	FeatureMutation,
 	ContractMutation,
-	TokenMutation
+	TokenMutation,
+	RegionsRolesMutation
 } from './mutations';
 import {
 	ApplicationQuery,
@@ -110,7 +111,8 @@ import {
 	FeatureQuery,
 	ContractQuery,
 	TokenQuery,
-	PositionRateQuery
+	PositionRateQuery,
+	RegionsRolesQuery
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -175,7 +177,8 @@ const RootQuery = new GraphQLObjectType({
 		...FeatureQuery,
 		...ContractQuery,
 		...TokenQuery,
-		...PositionRateQuery
+		...PositionRateQuery,
+		...RegionsRolesQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({
@@ -227,7 +230,8 @@ const RootMutation = new GraphQLObjectType({
 		...FormMutation,
 		...FeatureMutation,
 		...ContractMutation,
-		...TokenMutation
+		...TokenMutation,
+		...RegionsRolesMutation
 	}
 });
 
