@@ -55,6 +55,9 @@ const WorkOrderFields = {
 	},
 	quantityFilled: {
 		type: GraphQLInt
+	},
+	groupKey: {
+		type: GraphQLString
 	}
 };
 

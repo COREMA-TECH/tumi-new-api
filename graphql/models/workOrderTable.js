@@ -74,6 +74,10 @@ export default {
 				type: Sequelize.INTEGER,
 				allowNull: true
 			},
+			groupKey: {
+				type: Sequelize.STRING,
+				allowNull: true
+			}
 		});
 	}
 };
