@@ -90,7 +90,7 @@ const WorkOrderMutation = {
 
 								currentDate.setDate(currentDate.getDate() + 1)
 							}
-							
+
 							//se guarda un registro en la tabla transaction log, uno por cada shift creado
 							Db.models.TransactionLogs.create({
 								codeUser: args.codeuser,
@@ -115,7 +115,7 @@ const WorkOrderMutation = {
 					return Db.models.ShiftWorkOrder.bulkCreate(ShiftWorkOrder).then(() => {
 						return Db.models.ShiftDetail.bulkCreate(dates).then(() => {
 
-							
+
 						});
 					}).catch(error => {
 						console.log(error)
@@ -449,7 +449,7 @@ const WorkOrderMutation = {
 		},
 		resolve(source, args) {
 
-			args.workOrder.map(_ => {
+			return args.workOrder.map(_ => {
 				let shifts = [], phasesData = [], dates = [], ShiftWorkOrder = [];
 				let workOrderRecord = {}, employeeId;
 				Object.keys(_).map(key => {
@@ -535,7 +535,7 @@ const WorkOrderMutation = {
 											action: 'CREATED ROW',
 											affectedObject: 'WORK ORDER'
 										});
-										return workOrderRecord;
+										return workOrder;
 									})
 								});
 							}).catch(error => {
