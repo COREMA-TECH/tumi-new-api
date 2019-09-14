@@ -524,10 +524,10 @@ EmployeeByHotel.belongsTo(Employees, {
 	as: 'Employees'
 });
 
-CatalogItem.hasMany(RegionsRoles);
+CatalogItem.hasMany(RegionsRoles, {foreignKey: 'RegionId'});
 RegionsRoles.belongsTo(CatalogItem, {foreignKey: 'RegionId'});
 
-Roles.hasMany(RegionsRoles);
+Roles.hasMany(RegionsRoles, {foreignKey: 'RolId'});
 RegionsRoles.belongsTo(Roles, {foreignKey: 'RolId'});
 
 ConfigRegions.belongsTo(Users, {

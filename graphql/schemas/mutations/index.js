@@ -45,6 +45,7 @@ import FeatureMutation from './featureMutation';
 import ContractMutation from './contractMutation';
 import TokenMutation from './tokenMutation';
 import RegionsRolesMutation from './regionsRolesMutation';
+import RolesMutation from './roleMutation';
 
 export {
 	payrollMutation,
@@ -93,5 +94,6 @@ export {
 	FeatureMutation,
 	ContractMutation,
 	TokenMutation,
-	RegionsRolesMutation
+	RegionsRolesMutation,
+	RolesMutation
 };

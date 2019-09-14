@@ -50,7 +50,8 @@ import {
 	FeatureMutation,
 	ContractMutation,
 	TokenMutation,
-	RegionsRolesMutation
+	RegionsRolesMutation,
+	RolesMutation
 } from './mutations';
 import {
 	ApplicationQuery,
@@ -231,7 +232,8 @@ const RootMutation = new GraphQLObjectType({
 		...FeatureMutation,
 		...ContractMutation,
 		...TokenMutation,
-		...RegionsRolesMutation
+		...RegionsRolesMutation,
+		...RolesMutation
 	}
 });
 
