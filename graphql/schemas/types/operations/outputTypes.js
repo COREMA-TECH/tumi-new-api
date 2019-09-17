@@ -65,7 +65,7 @@ import {
 	FeatureFields,
 	ContractFields,
 	TokenFields,
-	RegionsRolesFields
+	RegionsUsersFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -2183,16 +2183,16 @@ const DetailApprovePunchesType = new GraphQLObjectType({
 	}
 });
 
-const RegionsRolesType = new GraphQLObjectType({
-	name: 'RegionsRolesType',
-	description: 'Output Region by Roles',
+const RegionsUsersType = new GraphQLObjectType({
+	name: 'RegionsUsersType',
+	description: 'Output Region by Users',
 	fields: () => {
 		return {
 			id: {
 				type: GraphQLInt,
-				description: 'RegionRol Id'
+				description: 'RegionUser Id'
 			},
-			...RegionsRolesFields
+			...RegionsUsersFields
 		};
 	}
 });
@@ -2276,5 +2276,5 @@ export {
 	ContractType,
 	TokenType,
 	ApprovePunchesType,
-	RegionsRolesType
+	RegionsUsersType
 };

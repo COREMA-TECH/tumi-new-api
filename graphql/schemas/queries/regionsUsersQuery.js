@@ -1,21 +1,21 @@
 import { GraphQLList, GraphQLInt, GraphQLBoolean } from 'graphql';
-import { inputUpdateRegionsRoles } from '../types/operations/updateTypes';
-import { RegionsRolesType } from '../types/operations/outputTypes';
+import { inputUpdateRegionsUsers } from '../types/operations/updateTypes';
+import { RegionsUsersType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
-const RegionsRolesQuery = {
-    regionsRoles: {
-        type: new GraphQLList(RegionsRolesType),
-        description: 'List Regions by Roles',
+const RegionsUsersQuery = {
+    regionsUsers: {
+        type: new GraphQLList(RegionsUsersType),
+        description: 'List Regions by Users',
         args: {
-            regionRol: { type: inputUpdateRegionsRoles }
+            regionUser: { type: inputUpdateRegionsUsers }
         },
         resolve(root, args) {
-            return Db.models.RegionsRoles.findAll({ 
-                where: args.regionRol,
+            return Db.models.RegionsUsers.findAll({ 
+                where: args.regionUser,
                 include: [
                     {
-                        model: Db.models.Roles,
+                        model: Db.models.Users,
                         required: true
                     },
                     {
@@ -26,19 +26,19 @@ const RegionsRolesQuery = {
             });
         }
     },
-    regionsRolesByRolesId: {
-        type: new GraphQLList(RegionsRolesType),
-        description: 'List Regions by Roles by rolesId',
+    regionsUsersByUsersId: {
+        type: new GraphQLList(RegionsUsersType),
+        description: 'List Regions by User by UsersId',
         args: {
-            RolId: { type: new GraphQLList(GraphQLInt) },
+            UserId: { type: new GraphQLList(GraphQLInt) },
             isActive: { type: GraphQLBoolean } 
         },
         resolve(root, args) {
-            return Db.models.RegionsRoles.findAll({ 
+            return Db.models.RegionsUsers.findAll({ 
                 where: args,
                 include: [
                     {
-                        model: Db.models.Roles,
+                        model: Db.models.Users,
                         required: true
                     },
                     {
@@ -51,4 +51,4 @@ const RegionsRolesQuery = {
     }
 };
 
-export default RegionsRolesQuery;
+export default RegionsUsersQuery;

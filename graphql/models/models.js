@@ -70,7 +70,7 @@ import EmployeeByHotelModel from './employeeByHotelTable';
 import FeatureModel from './featureTable';
 import ContractModel from './contractTable';
 import TokenModel from './tokenTable';
-import RegionsRolesModel from './regionsRolesTable';
+import RegionsUsersModel from './regionsUsersTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
 const BreakRuleDetailModel = BreakRuleDetail.createModel(Conn);
@@ -143,7 +143,7 @@ const ApplicantVerificationLetter = ApplicantVerificationLetterModel.createModel
 const Feature = FeatureModel.createModel(Conn);
 const Contracts = ContractModel.createModel(Conn);
 const Tokens = TokenModel.createModel(Conn);
-const RegionsRoles = RegionsRolesModel.createModel(Conn);
+const RegionsUsers = RegionsUsersModel.createModel(Conn);
 
 ApplicationPhases.belongsTo(CatalogItem, {
 	foreignKey: 'ReasonId',
@@ -524,11 +524,11 @@ EmployeeByHotel.belongsTo(Employees, {
 	as: 'Employees'
 });
 
-CatalogItem.hasMany(RegionsRoles, {foreignKey: 'RegionId'});
-RegionsRoles.belongsTo(CatalogItem, {foreignKey: 'RegionId'});
+CatalogItem.hasMany(RegionsUsers, {foreignKey: 'RegionId'});
+RegionsUsers.belongsTo(CatalogItem, {foreignKey: 'RegionId'});
 
-Roles.hasMany(RegionsRoles, {foreignKey: 'RolId'});
-RegionsRoles.belongsTo(Roles, {foreignKey: 'RolId'});
+Users.hasMany(RegionsUsers, {foreignKey: 'UserId'});
+RegionsUsers.belongsTo(Users, {foreignKey: 'UserId'});
 
 ConfigRegions.belongsTo(Users, {
 	foreignKey: 'regionalManagerId',

@@ -1,14 +1,14 @@
 import { GraphQLInt, GraphQLBoolean } from 'graphql';
 
-const RegionsRolesFields = {
+const RegionsUsersFields = {
     isActive: {
         type: GraphQLBoolean
     },
-    RolId: {
+    UserId: {
         type: GraphQLInt
     },
     RegionId: {
         type: GraphQLInt
     }
 };
-export default RegionsRolesFields;
+export default RegionsUsersFields;

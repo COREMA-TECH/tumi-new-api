@@ -5,37 +5,42 @@ import { GraphQLList, GraphQLInt, GraphQLBoolean } from 'graphql';
 
 import Db from '../../models/models';
 
-const addOrActiveRegionsRoles = async (rolId, listRegionsId) => {
-    let regionRolesFound = await Db.models.RegionsRoles.findAll({ where: {RolId: rolId} });
-    console.log('regionsroles encontradas -- ', regionRolesFound); // TODO: (LF) Quitar console log
-    let updateRegionsRoles = listRegionsId.map(regionId => {
-        const regionRole = regionRolesFound.find(rr => rr.RegionId === regionId);
-        if(regionRole)
-            return Db.models.RegionsRoles.update({isActive: true},{where: {id: regionRole.id}, returning: true});
-        else
-            return Db.models.RegionsRoles.create({
-                RolId: rolId,
-                RegionId: regionId,
-                isActive: true
-            });
-    });
+// const addOrActiveRegionsRoles = async (rolId, listRegionsId) => {
+// 	let regionRolesFound = await Db.models.RegionsRoles.findAll({ where: {RolId: rolId} });
+	
+// 	let inactiveRegionsRoles = regionRolesFound.filter(rr => !listRegionsId.includes(rr.RegionId)).map(rr => {
+// 		return Db.models.RegionsRoles.update({isActive: false},{where: {id: rr.id}, returning: true});
+// 	});
+	
+// 	console.log('regionsroles encontradas -- ', regionRolesFound); // TODO: (LF) Quitar console log
+//     let updateRegionsRoles = listRegionsId.map(async regionId => {
+//         const regionRole = await regionRolesFound.find(rr => rr.RegionId === regionId);
+//         if(regionRole)
+//             return Db.models.RegionsRoles.update({isActive: true},{where: {id: regionRole.id}, returning: true});
+//         else
+//             return Db.models.RegionsRoles.create({
+//                 RolId: rolId,
+//                 RegionId: regionId,
+//                 isActive: true
+//             });
+//     });
     
-    return Promise.all(updateRegionsRoles);
-}
+//     return Promise.all([inactiveRegionsRoles,updateRegionsRoles]);
+// }
 
 const RolesMutation = {
 	addRol: {
 		type: RolesType,
 		description: 'Add Rol to database',
 		args: {
-            rol: { type: inputInsertRoles },
-            regionsId: { type: new GraphQLList(GraphQLInt) }
+            rol: { type: inputInsertRoles }
 		},
-		resolve(source, args) {
-            let rolFound = Db.models.Roles.findOne({where: {Description: rol.Description}});
+		async resolve(source, args) {
+			console.log('Entrando a la mutacion para agregar rol'); // TODO. (LF) Quitar console log
+			let rolFound = await Db.models.Roles.findOne({where: {Description: args.rol.Description}});
+			console.log('+++++++++++++++++++++++++++++Mostrando el rol encontrado', rolFound); // TODO. (LF) Quitar console log
             if(rolFound){
-                let { IsActive, ...restRol } = args.rol;
-                return Db.models.Roles.update({...restRol, IsActive: 1},
+                return Db.models.Roles.update(args.rol,
 					{
 						where: {
 							Id: rolFound.Id
@@ -44,33 +49,13 @@ const RolesMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-                    if (record) {
-                        if(args.regionsId && args.regionsId.length){
-                            return addOrActiveRegionsRoles(rolFound.Id, args.regionsId).then(_ => {
-                                return record.dataValues;
-                            });
-                        }
-                        else return record.dataValues;
-                    }
+                    if (record) return record.dataValues;
 					else return null;
 				});
             }
             else {
                 return Db.models.Roles.create(args.rol, { returning: true }).then((ret) => {
-                    if(args.regionsId && args.regionsId.length){
-                        let regionsRoles = args.regionsId.map(regionId => {
-                            return {
-                                RolId: args.rol.Id,
-                                RegionId: regionId,
-                                isActive: true
-                            }
-                        });
-    
-                        return Db.models.RegionsRoles.bulkCreate(regionsRoles, { returning: true }).then(res => {
-                            return ret;
-                        })
-                    }
-                    else return ret;
+                    return ret;
                 });
             }
 
@@ -80,8 +65,7 @@ const RolesMutation = {
 		type: RolesType,
 		description: 'Update Rol Info',
 		args: {
-            rol: { type: inputUpdateRoles },
-            regionsId: { type: new GraphQLList(GraphQLInt) }
+            rol: { type: inputUpdateRoles }
 		},
 		resolve(source, args) {
             console.log('argumentos ', args); // TODO: (LF) Quitar console log
@@ -98,14 +82,7 @@ const RolesMutation = {
 					}
 				)
 				.then(function ([rowsUpdate, [record]]) {
-                    if (record) {
-                        if(args.regionsId && args.regionsId.length){
-                            return addOrActiveRegionsRoles(args.rol.Id, args.regionsId).then(_ => {
-                                return record.dataValues;
-                            });
-                        }
-                        else return record.dataValues;
-                    }
+                    if (record) return record.dataValues;
 					else return null;
 				});
 		}

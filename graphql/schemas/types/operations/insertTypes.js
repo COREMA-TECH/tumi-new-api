@@ -59,7 +59,7 @@ import {
 	ContractFields,
 	TokenFields,
 	PositionRateFields,
-	RegionsRolesFields,
+	RegionsUsersFields,
 	RolesFields,
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
@@ -643,12 +643,12 @@ const inputPositionRateType = new GraphQLInputObjectType({
 	}
 });
 
-const inputInsertRegionsRoles = new GraphQLInputObjectType({
-	name: 'inputInsertRegionsRoles',
-	description: 'Inputs for Region by Rol',
+const inputInsertRegionsUsers = new GraphQLInputObjectType({
+	name: 'inputInsertRegionsUsers',
+	description: 'Inputs for Region by User',
 
 	fields: {
-		...RegionsRolesFields
+		...RegionsUsersFields
 	}
 });
 
@@ -717,6 +717,6 @@ export {
 	inputInsertContracts,
 	inputInsertTokens,
 	inputPositionRateType,
-	inputInsertRegionsRoles,
+	inputInsertRegionsUsers,
 	inputInsertRoles
 };

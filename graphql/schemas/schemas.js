@@ -50,7 +50,7 @@ import {
 	FeatureMutation,
 	ContractMutation,
 	TokenMutation,
-	RegionsRolesMutation,
+	RegionsUsersMutation,
 	RolesMutation
 } from './mutations';
 import {
@@ -113,7 +113,7 @@ import {
 	ContractQuery,
 	TokenQuery,
 	PositionRateQuery,
-	RegionsRolesQuery
+	RegionsUsersQuery
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -179,7 +179,7 @@ const RootQuery = new GraphQLObjectType({
 		...ContractQuery,
 		...TokenQuery,
 		...PositionRateQuery,
-		...RegionsRolesQuery
+		...RegionsUsersQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({
@@ -232,7 +232,7 @@ const RootMutation = new GraphQLObjectType({
 		...FeatureMutation,
 		...ContractMutation,
 		...TokenMutation,
-		...RegionsRolesMutation,
+		...RegionsUsersMutation,
 		...RolesMutation
 	}
 });

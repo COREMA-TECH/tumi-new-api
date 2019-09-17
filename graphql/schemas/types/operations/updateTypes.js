@@ -41,7 +41,7 @@ import {
 	FeatureFields,
 	ContractFields,
 	TokenFields,
-	RegionsRolesFields,
+	RegionsUsersFields,
 	RolesFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
@@ -589,16 +589,16 @@ const inputUpdateTokens = new GraphQLInputObjectType({
 	}
 });
 
-const inputUpdateRegionsRoles = new GraphQLInputObjectType({
-	name: 'inputUpdateRegionsRoles',
-	description: 'Inputs for Region by Rol',
+const inputUpdateRegionsUsers = new GraphQLInputObjectType({
+	name: 'inputUpdateRegionsUsers',
+	description: 'Inputs for Region by User',
 
 	fields: {
 		id: {
 			type: new GraphQLNonNull(GraphQLInt),
-			description: 'Region by Rol Id'
+			description: 'Region by User Id'
 		},
-		...RegionsRolesFields
+		...RegionsUsersFields
 	}
 });
 
@@ -645,6 +645,6 @@ export {
 	inputUpdateFeatureType,
 	inputUpdateContracts,
 	inputUpdateTokens,
-	inputUpdateRegionsRoles,
+	inputUpdateRegionsUsers,
 	inputUpdateRoles
 };

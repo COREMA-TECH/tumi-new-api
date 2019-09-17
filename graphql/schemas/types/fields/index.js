@@ -55,7 +55,7 @@ import EmployeeByHotelFields from './employeeByHotelFields';
 import FeatureFields from './featureFiels';
 import ContractFields from './contractFields';
 import TokenFields from './tokenFields';
-import RegionsRolesFields from './regionsRolesFields';
+import RegionsUsersFields from './regionsUsersFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -115,5 +115,5 @@ export {
 	FeatureFields,
 	ContractFields,
 	TokenFields,
-	RegionsRolesFields
+	RegionsUsersFields
 };
