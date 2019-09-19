@@ -33,8 +33,8 @@ const RegionsUsersQuery = {
             UserId: { type: new GraphQLList(GraphQLInt) },
             isActive: { type: GraphQLBoolean } 
         },
-        resolve(root, args) {
-            return Db.models.RegionsUsers.findAll({ 
+        async resolve(root, args) {
+            let result = await Db.models.RegionsUsers.findAll({ 
                 where: args,
                 include: [
                     {
@@ -47,6 +47,8 @@ const RegionsUsersQuery = {
                     }
                 ]
             });
+
+            return result;
         }
     }
 };

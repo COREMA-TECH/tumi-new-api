@@ -2192,6 +2192,10 @@ const RegionsUsersType = new GraphQLObjectType({
 				type: GraphQLInt,
 				description: 'RegionUser Id'
 			},
+			CatalogItem: {
+				type: CatalogItemType,
+				description: 'Regions related'
+			},
 			...RegionsUsersFields
 		};
 	}

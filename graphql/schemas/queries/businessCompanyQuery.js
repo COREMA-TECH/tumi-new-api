@@ -4,6 +4,10 @@ import { inputInsertBusinessCompany } from '../types/operations/insertTypes';
 import Db from '../../models/models';
 import moment from 'moment';
 import moment_tz from 'moment-timezone';
+import BusinessCompanyFields from '../types/fields/businessCompanyFields';
+
+import Sequelize from 'sequelize';
+const Op = Sequelize.Op;
 
 const businessCompanyQuery = {
     businessCompanies: {
@@ -29,6 +33,37 @@ const businessCompanyQuery = {
                         required: false
                     }]
                 }]
+            });
+        }
+    },
+    getbusinesscompanies: {
+        type: new GraphQLList(BusinessCompanyType),
+        description: 'List Companies records',
+        args: {
+            Id: {
+                type: GraphQLInt
+            },
+            // IsActive: {
+            //     type: GraphQLInt
+            // },
+            // Id_Parent: {
+            //     type: GraphQLInt
+            // },
+            // Contract_Status: {
+            //     type: GraphQLString
+            // },
+            ...BusinessCompanyFields
+        },
+        resolve(root, args) {
+            let {Id_Parent, ...filter} = args;
+            const idParentFilter = (args.Id_Parent === -1 || args.Id_Parent === 0) ? {[Op.notIn]:[0]} : args.Id_Parent;
+            
+            if(idParentFilter){
+                filter = {...filter, Id_Parent: idParentFilter} 
+            }
+            
+            return Db.models.BusinessCompany.findAll({
+                where: {...filter}
             });
         }
     },

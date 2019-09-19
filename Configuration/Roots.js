@@ -255,86 +255,86 @@ async function getCompanies(args) {
 	}
 }
 
-//Method Connect to table BusinessCompany
-async function getBusinessCompanies(args) {
-	try {
-		//console.log(args.IsActive);
-		var strparam1, strparam2, strparam3, strparam4, strparam5;
+// //Method Connect to table BusinessCompany
+// async function getBusinessCompanies(args) {
+// 	try {
+// 		//console.log(args.IsActive);
+// 		var strparam1, strparam2, strparam3, strparam4, strparam5;
 
-		if (args.IsActive >= 0) {
-			strparam1 = args.IsActive;
-		} else {
-			strparam1 = null;
-		}
+// 		if (args.IsActive >= 0) {
+// 			strparam1 = args.IsActive;
+// 		} else {
+// 			strparam1 = null;
+// 		}
 
-		if (args.Id > 0) {
-			strparam2 = args.Id;
-		} else {
-			strparam2 = null;
-		}
+// 		if (args.Id > 0) {
+// 			strparam2 = args.Id;
+// 		} else {
+// 			strparam2 = null;
+// 		}
 
-		if (args.Region >= 0) {
-			strparam5 = args.Region;
-		} else {
-			strparam5 = null;
-		}
+// 		if (args.Region >= 0) {
+// 			strparam5 = args.Region;
+// 		} else {
+// 			strparam5 = null;
+// 		}
 
-		if (args.Id_Parent >= -1) {
-			strparam4 = args.Id_Parent;
-		}
-		else if (args.Id_Parent == -2) {
-			strparam4 = -2
-		}
-		else {
-			strparam4 = null;
-		}
+// 		if (args.Id_Parent >= -1) {
+// 			strparam4 = args.Id_Parent;
+// 		}
+// 		else if (args.Id_Parent == -2) {
+// 			strparam4 = -2
+// 		}
+// 		else {
+// 			strparam4 = null;
+// 		}
 
-		strparam3 = args.Contract_Status;
+// 		strparam3 = args.Contract_Status;
 
-		if (strparam4 == -1) {
-			Strquery =
-				'SELECT * from public.vwBusinessCompany_Format  where "Region" = coalesce(' + strparam5 + ', "Region") and "Contract_Status" =coalesce(' +
-				strparam3 +
-				',"Contract_Status") and "IsActive" = coalesce(' +
-				strparam1 +
-				',"IsActive") and "Id" = coalesce(' +
+// 		if (strparam4 == -1) {
+// 			Strquery =
+// 				'SELECT * from public.vwBusinessCompany_Format  where "Region" = coalesce(' + strparam5 + ', "Region") and "Contract_Status" =coalesce(' +
+// 				strparam3 +
+// 				',"Contract_Status") and "IsActive" = coalesce(' +
+// 				strparam1 +
+// 				',"IsActive") and "Id" = coalesce(' +
 
-				strparam2 +
-				',"Id") and "Id_Parent" <> 0 order by "Name"';
-		}
-		else if (strparam4 == -2) {
-			Strquery =
-				'SELECT * from public.vwBusinessCompany_Format  where "Region" = coalesce(' + strparam5 + ', "Region") and "Contract_Status" =coalesce(' +
-				strparam3 +
-				',"Contract_Status") and "IsActive" = coalesce(' +
-				strparam1 +
-				',"IsActive") and "Id" = coalesce(' +
-				strparam2 +
-				',"Id") and "Id_Parent" not in (99999,0) order by "Name"';
+// 				strparam2 +
+// 				',"Id") and "Id_Parent" <> 0 order by "Name"';
+// 		}
+// 		else if (strparam4 == -2) {
+// 			Strquery =
+// 				'SELECT * from public.vwBusinessCompany_Format  where "Region" = coalesce(' + strparam5 + ', "Region") and "Contract_Status" =coalesce(' +
+// 				strparam3 +
+// 				',"Contract_Status") and "IsActive" = coalesce(' +
+// 				strparam1 +
+// 				',"IsActive") and "Id" = coalesce(' +
+// 				strparam2 +
+// 				',"Id") and "Id_Parent" not in (99999,0) order by "Name"';
 
-		}
-		else {
-			Strquery =
-				'SELECT * from public.vwBusinessCompany_Format  where "Region" = coalesce(' + strparam5 + ', "Region") and "Contract_Status" =coalesce(' +
-				strparam3 +
-				',"Contract_Status") and "IsActive" = coalesce(' +
-				strparam1 +
-				',"IsActive") and "Id" = coalesce(' +
-				strparam2 +
-				',"Id") and "Id_Parent" = coalesce(' +
-				strparam4 +
-				',"Id_Parent") order by "Name"';
-		}
+// 		}
+// 		else {
+// 			Strquery =
+// 				'SELECT * from public.vwBusinessCompany_Format  where "Region" = coalesce(' + strparam5 + ', "Region") and "Contract_Status" =coalesce(' +
+// 				strparam3 +
+// 				',"Contract_Status") and "IsActive" = coalesce(' +
+// 				strparam1 +
+// 				',"IsActive") and "Id" = coalesce(' +
+// 				strparam2 +
+// 				',"Id") and "Id_Parent" = coalesce(' +
+// 				strparam4 +
+// 				',"Id_Parent") order by "Name"';
+// 		}
 
-		console.log('query de companies ', Strquery);
+// 		console.log('query de companies ', Strquery);
 
-		const { rows } = await query(Strquery);
-		return rows;
-	} catch (err) {
-		console.log('Database ' + err);
-		return err;
-	}
-}
+// 		const { rows } = await query(Strquery);
+// 		return rows;
+// 	} catch (err) {
+// 		console.log('Database ' + err);
+// 		return err;
+// 	}
+// }
 
 async function InsBusinessCompanies(args) {
 	try {
@@ -3427,7 +3427,7 @@ async function SendEmailResetPassword(args) {
 const root = {
 	getcompanies: getCompanies,
 
-	getbusinesscompanies: getBusinessCompanies,
+	//getbusinesscompanies: getBusinessCompanies,
 	insbusinesscompanies: InsBusinessCompanies,
 	updbusinesscompanies: UpdBusinessCompanies,
 	updregionbusinescompanies: UpdRegionBusinessCompanies,
