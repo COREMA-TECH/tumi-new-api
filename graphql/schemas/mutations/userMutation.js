@@ -1,11 +1,33 @@
 import { inputInsertUser } from '../types/operations/insertTypes';
 import { inputUpdateUser } from '../types/operations/updateTypes';
 import { UsersType } from '../types/operations/outputTypes';
-import { GraphQLList, GraphQLInt, GraphQLString } from 'graphql';
+import { GraphQLList, GraphQLInt, GraphQLString, responsePathAsArray } from 'graphql';
 
 import Db from '../../models/models';
 import Sequelize from 'sequelize';
 import { sendEmailResetPassword } from '../../../Configuration/Roots';
+
+const addOrActiveRegionsUsers = async (userId, listRegionsId, transaction) => {
+	let regionsUsersFound = await Db.models.RegionsUsers.findAll({ where: {UserId: userId} });
+	
+	let inactiveRegionsUsers = regionsUsersFound.filter(ru => !listRegionsId.includes(ru.RegionId)).map(ru => {
+		return Db.models.RegionsUsers.update({isActive: false},{where: {id: ru.id}, returning: true, transaction});
+	});
+	
+    let updateRegionsUsers = listRegionsId.map(async regionId => {
+        const regionUser = await regionsUsersFound.find(ru => ru.RegionId === regionId);
+        if(regionUser)
+            return Db.models.RegionsUsers.update({isActive: true},{where: {id: regionUser.id}, returning: true, transaction});
+        else
+            return Db.models.RegionsUsers.create({
+                UserId: userId,
+                RegionId: regionId,
+                isActive: true
+            }, {returning: true, transaction});
+    });
+
+    return Promise.all([...inactiveRegionsUsers, ...updateRegionsUsers]);
+}
 
 const UserMutation = {
     createUser: {
@@ -25,25 +47,38 @@ const UserMutation = {
         type: UsersType,
         description: 'Update user to database',
         args: {
-            user: { type: inputUpdateUser }
+            user: { type: inputUpdateUser },
+            regionsId: {type: new GraphQLList(GraphQLInt)}
         },
-        resolve(source, args) {
+        async resolve(source, args) {
             let { Password, Id, ...rest } = args.user;
+
             if (Password)
                 rest = { ...rest, Password: Sequelize.fn('PGP_SYM_ENCRYPT', Password, 'AES_KEY') }
 
-            return Db.models.Users.update(rest, { where: { Id }, returning: true })
-                .then(function ([rowsUpdate, [record]]) {
-                    if (record) return record.dataValues;
-                    else return null;
-                });
+            return Db.transaction(t => {
+                return Db.models.Users.update(rest, { where: { Id }, returning: true, transaction: t })
+                    .then(async function ([rowsUpdate, [record]]) {
+                        if (record) {
+                            if(args.regionsId && args.regionsId.length > 0){
+                                return await addOrActiveRegionsUsers(Id, args.regionsId, t).then(_ => {
+                                    return record.dataValues;
+                                });
+                            }
+                            else return record.dataValues
+                        }
+                        else return null;
+                    });
+            });
+            
         },
     },
     insertUser: {
         type: UsersType,
         description: 'Insert user to database',
         args: {
-            user: { type: inputInsertUser }
+            user: { type: inputInsertUser },
+            regionsId: {type: new GraphQLList(GraphQLInt)}
         },
         resolve(source, args) {
             var user = {
@@ -55,6 +90,14 @@ const UserMutation = {
             return Db.transaction(t => {
                 return Db.models.Users.create(user, { transaction: t })
                     .then(_user => {
+                        // Insert Regions
+                        if(args.regionsId && args.regionsId.length > 0){
+                            const regions = args.regionsId.map(r => {
+                                return {UserId: _user.dataValues.Id, RegionId: r, isActive: true}
+                            });
+                            Db.models.RegionsUsers.bulkCreate(regions, {transaction: t});
+                        }
+
                         if (args.user.Id_Roles != 5 && args.user.Id_Roles != 10) {
                             var employee = {
                                 idRole: _user.Id_Roles,

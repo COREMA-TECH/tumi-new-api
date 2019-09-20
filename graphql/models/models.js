@@ -70,6 +70,7 @@ import EmployeeByHotelModel from './employeeByHotelTable';
 import FeatureModel from './featureTable';
 import ContractModel from './contractTable';
 import TokenModel from './tokenTable';
+import RegionsUsersModel from './regionsUsersTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
 const BreakRuleDetailModel = BreakRuleDetail.createModel(Conn);
@@ -142,6 +143,7 @@ const ApplicantVerificationLetter = ApplicantVerificationLetterModel.createModel
 const Feature = FeatureModel.createModel(Conn);
 const Contracts = ContractModel.createModel(Conn);
 const Tokens = TokenModel.createModel(Conn);
+const RegionsUsers = RegionsUsersModel.createModel(Conn);
 
 ApplicationPhases.belongsTo(CatalogItem, {
 	foreignKey: 'ReasonId',
@@ -508,8 +510,6 @@ Visit.belongsTo(BusinessCompany, {
 	foreignKey: 'BusinessCompanyId'
 });
 
-
-
 BusinessCompany.hasMany(EmployeeByHotel);
 
 EmployeeByHotel.belongsTo(BusinessCompany, {
@@ -524,6 +524,11 @@ EmployeeByHotel.belongsTo(Employees, {
 	as: 'Employees'
 });
 
+CatalogItem.hasMany(RegionsUsers, {foreignKey: 'RegionId'});
+RegionsUsers.belongsTo(CatalogItem, {foreignKey: 'RegionId'});
+
+Users.hasMany(RegionsUsers, {foreignKey: 'UserId'});
+RegionsUsers.belongsTo(Users, {foreignKey: 'UserId'});
 
 ConfigRegions.belongsTo(Users, {
 	foreignKey: 'regionalManagerId',

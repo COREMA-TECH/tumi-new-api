@@ -40,7 +40,9 @@ import {
 	FormsFields,
 	FeatureFields,
 	ContractFields,
-	TokenFields
+	TokenFields,
+	RegionsUsersFields,
+	RolesFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -54,6 +56,19 @@ const inputUpdateApplication = new GraphQLInputObjectType({
 			description: 'Applicant Id'
 		},
 		...ApplicationFields
+	}
+});
+
+const inputUpdateRoles = new GraphQLInputObjectType({
+	name: 'inputUpdateRoles',
+	description: 'Inputs for Roles Mutation',
+
+	fields: {
+		Id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Rol Id'
+		},
+		...RolesFields
 	}
 });
 
@@ -574,6 +589,19 @@ const inputUpdateTokens = new GraphQLInputObjectType({
 	}
 });
 
+const inputUpdateRegionsUsers = new GraphQLInputObjectType({
+	name: 'inputUpdateRegionsUsers',
+	description: 'Inputs for Region by User',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'Region by User Id'
+		},
+		...RegionsUsersFields
+	}
+});
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -616,5 +644,7 @@ export {
 	inputUpdateFormType,
 	inputUpdateFeatureType,
 	inputUpdateContracts,
-	inputUpdateTokens
+	inputUpdateTokens,
+	inputUpdateRegionsUsers,
+	inputUpdateRoles
 };
