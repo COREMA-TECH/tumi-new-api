@@ -64,7 +64,8 @@ import {
 	EmployeeByHotelFields,
 	FeatureFields,
 	ContractFields,
-	TokenFields
+	TokenFields,
+	RegionsUsersFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -2204,6 +2205,24 @@ const PairType = new GraphQLObjectType({
 			code: { type: GraphQLString },
 			value: { type: GraphQLString }
 		}
+});
+
+const RegionsUsersType = new GraphQLObjectType({
+	name: 'RegionsUsersType',
+	description: 'Output Region by Users',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'RegionUser Id'
+			},
+			CatalogItem: {
+				type: CatalogItemType,
+				description: 'Regions related'
+			},
+			...RegionsUsersFields
+		};
+
 	}
 });
 
@@ -2287,4 +2306,5 @@ export {
 	TokenType,
 	ApprovePunchesType,
 	WorkOrderGridType
+	RegionsUsersType
 };

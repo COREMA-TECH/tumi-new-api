@@ -291,7 +291,6 @@ input iParamEA {
 	{
 		getcontracts(Id:Int,IsActive:Int,IdManagement: Int,Id_Entity: Int): [Contracts]
 		getcompanies(Id:Int,IsActive:Int): [Company]
-		getbusinesscompanies(Id:Int,IsActive:Int,Contract_Status:String,Id_Parent:Int, Region:Int): [BusinessCompany]
 		getelectronicaddress(Id:Int,IsActive:Int, Related_Table: String, Id_Entity :Int): [ElectronicAddress]
 		getphonenumbers(Id:Int,IsActive:Int,Related_Table:String,Id_Entity :Int): [PhoneNumbers]
 		getaddress(Id:Int,IsActive:Int,Related_Table: String, Id_Entity :Int): [Address]

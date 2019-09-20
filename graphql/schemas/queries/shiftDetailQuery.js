@@ -76,7 +76,7 @@ const ShiftDetailQuery = {
             var daysWeek = args.daysWeek.replace("MO", 1).replace("TU", 2).replace("WE", 3).replace("TH", 4).replace("FR", 5).replace("SA", 6).replace("SU", 0)
             //Get every day between startDate and endDate to generate ShiftDetail records
             while (currentDate <= args.endDate) {
-                let newDate = new Date(currentDate)
+                let newDate = new Date(currentDate);
                 if (daysWeek.includes(newDate.getDay())) {
                     datesList.push(newDate);
                 }
@@ -105,6 +105,47 @@ const ShiftDetailQuery = {
                             ]
                         }, {
                             id: { [Op.notIn]: args.shiftDetailId }
+                        }]
+
+                },
+                include: [
+                    {
+                        model: Db.models.ShiftDetailEmployees,
+                        where: { EmployeeId: { [Op.in]: args.employeeId } }
+                    }
+                ]
+
+            });
+        }
+    },
+    ShiftDetailBySpecificDate: {
+        type: new GraphQLList(ShiftDetailType),
+        description: 'List Shift Details  records',
+        args: {
+            date: { type: GraphQLDate },
+            employeeId: { type: new GraphQLList(GraphQLInt) },
+            startTime: { type: GraphQLString },
+            endTime: { type: GraphQLString }
+        },
+        resolve(root, args) {
+            return Db.models.ShiftDetail.findAll({
+                where: {
+                    [Op.and]: [
+                        {
+                            startDate: args.date
+
+                        },
+                        {
+                            [Op.or]: [
+                                {
+                                    startTime: { [Op.lte]: args.startTime },
+                                    endTime: { [Op.gte]: args.startTime }
+                                },
+                                {
+                                    startTime: { [Op.lte]: args.endTime },
+                                    endTime: { [Op.gte]: args.endTime }
+                                }
+                            ]
                         }]
 
                 },
