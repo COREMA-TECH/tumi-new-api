@@ -2205,6 +2205,7 @@ const PairType = new GraphQLObjectType({
 			code: { type: GraphQLString },
 			value: { type: GraphQLString }
 		}
+	}
 });
 
 const RegionsUsersType = new GraphQLObjectType({
@@ -2305,6 +2306,6 @@ export {
 	ContractType,
 	TokenType,
 	ApprovePunchesType,
-	WorkOrderGridType
+	WorkOrderGridType,
 	RegionsUsersType
 };
