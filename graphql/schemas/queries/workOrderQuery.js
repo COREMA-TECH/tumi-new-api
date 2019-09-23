@@ -46,6 +46,7 @@ const WorkOrderQuery = {
 		args: {
 			IdEntity: { type: new GraphQLNonNull(GraphQLInt) },
 			departmentId: { type: new GraphQLNonNull(GraphQLInt) },
+			PositionRateId: { type: new GraphQLNonNull(GraphQLInt) },
 			startDate: { type: new GraphQLNonNull(GraphQLDate) },
 			endDate: { type: new GraphQLNonNull(GraphQLDate) }
 		},
@@ -104,7 +105,7 @@ const WorkOrderQuery = {
 									employeeIds.push(employeeId);
 								let dataFound = data.find(_record => _record.groupKey === workOrder.groupKey && _record.employeeId === employeeId);
 								if (!dataFound)
-									data.push({ groupKey: workOrder.groupKey, employeeId, dates: [{ code: moment.utc(workOrder.startDate).format("MM/DD/YYYY"), value: workOrder.shift }], departmentId: workOrder.departmentId, IdEntity: workOrder.IdEntity });
+									data.push({ groupKey: workOrder.groupKey, employeeId, dates: [{ code: moment.utc(workOrder.startDate).format("MM/DD/YYYY"), value: workOrder.shift }], departmentId: workOrder.departmentId, IdEntity: workOrder.IdEntity, PositionRateId: workOrder.PositionRateId });
 								else dataFound.dates.push({ code: moment.utc(workOrder.startDate).format("MM/DD/YYYY"), value: workOrder.shift });
 							})
 						})

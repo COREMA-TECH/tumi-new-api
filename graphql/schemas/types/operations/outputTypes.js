@@ -2192,6 +2192,7 @@ const WorkOrderGridType = new GraphQLObjectType({
 			employeeId: { type: GraphQLInt },
 			departmentId: { type: GraphQLInt },
 			IdEntity: { type: GraphQLInt },
+			PositionRateId: { type: GraphQLInt },
 			dates: { type: new GraphQLList(PairType) }
 		}
 	}
