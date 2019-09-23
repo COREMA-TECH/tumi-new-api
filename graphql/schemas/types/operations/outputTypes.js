@@ -2183,6 +2183,32 @@ const DetailApprovePunchesType = new GraphQLObjectType({
 	}
 });
 
+const WorkOrderGridType = new GraphQLObjectType({
+	name: 'WorkOrderGridType',
+	description: 'WorkOrderGridType for Grid View into Schedule',
+	fields: () => {
+		return {
+			groupKey: { type: GraphQLString },
+			employeeId: { type: GraphQLInt },
+			departmentId: { type: GraphQLInt },
+			IdEntity: { type: GraphQLInt },
+			PositionRateId: { type: GraphQLInt },
+			dates: { type: new GraphQLList(PairType) }
+		}
+	}
+});
+
+const PairType = new GraphQLObjectType({
+	name: 'PairType',
+	description: 'PairType',
+	fields: () => {
+		return {
+			code: { type: GraphQLString },
+			value: { type: GraphQLString }
+		}
+	}
+});
+
 const RegionsUsersType = new GraphQLObjectType({
 	name: 'RegionsUsersType',
 	description: 'Output Region by Users',
@@ -2198,6 +2224,7 @@ const RegionsUsersType = new GraphQLObjectType({
 			},
 			...RegionsUsersFields
 		};
+
 	}
 });
 
@@ -2280,5 +2307,6 @@ export {
 	ContractType,
 	TokenType,
 	ApprovePunchesType,
+	WorkOrderGridType,
 	RegionsUsersType
 };
