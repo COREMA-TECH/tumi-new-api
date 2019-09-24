@@ -223,6 +223,7 @@ ApplicationAccount.hasMany(ApplicationAccountDocument, {
 });
 
 WorkOrder.belongsTo(PositionRate);
+PositionRate.hasMany(WorkOrder);
 
 WorkOrder.belongsTo(BusinessCompany, {
 	foreignKey: 'IdEntity',
@@ -524,11 +525,11 @@ EmployeeByHotel.belongsTo(Employees, {
 	as: 'Employees'
 });
 
-CatalogItem.hasMany(RegionsUsers, {foreignKey: 'RegionId'});
-RegionsUsers.belongsTo(CatalogItem, {foreignKey: 'RegionId'});
+CatalogItem.hasMany(RegionsUsers, { foreignKey: 'RegionId' });
+RegionsUsers.belongsTo(CatalogItem, { foreignKey: 'RegionId' });
 
-Users.hasMany(RegionsUsers, {foreignKey: 'UserId'});
-RegionsUsers.belongsTo(Users, {foreignKey: 'UserId'});
+Users.hasMany(RegionsUsers, { foreignKey: 'UserId' });
+RegionsUsers.belongsTo(Users, { foreignKey: 'UserId' });
 
 ConfigRegions.belongsTo(Users, {
 	foreignKey: 'regionalManagerId',
