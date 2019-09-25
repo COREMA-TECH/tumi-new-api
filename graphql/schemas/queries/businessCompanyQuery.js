@@ -43,20 +43,24 @@ const businessCompanyQuery = {
             Id: {
                 type: GraphQLInt
             },
-            // IsActive: {
-            //     type: GraphQLInt
-            // },
-            // Id_Parent: {
-            //     type: GraphQLInt
-            // },
-            // Contract_Status: {
-            //     type: GraphQLString
-            // },
             ...BusinessCompanyFields
         },
         resolve(root, args) {
             let {Id_Parent, ...filter} = args;
-            const idParentFilter = (args.Id_Parent === -1 || args.Id_Parent === 0) ? {[Op.notIn]:[0]} : args.Id_Parent;
+            let idParentFilter;
+            
+            switch (args.Id_Parent) {
+                case -1:
+                case null:
+                    idParentFilter= {[Op.notIn]:[0]};
+                    break;
+                case -2:
+                    idParentFilter= {[Op.notIn]:[0,99999]};
+                    break;
+                default:
+                    idParentFilter = args.Id_Parent;
+                    break;
+            }
             
             if(filter.Id === null) delete filter.Id;
             if(filter.Contract_Status === null) delete filter.Contract_Status;
@@ -70,7 +74,46 @@ const businessCompanyQuery = {
             }
             
             return Db.models.BusinessCompany.findAll({
-                where: {...filter}
+                where: {...filter},
+                order: [
+                    ['Name', 'ASC']
+                ]
+            });
+        }
+    },
+    propertiesByUserCount: {
+        type: GraphQLInt,
+        description: 'properties by user Count',
+        args: {
+            userId: {
+                type: GraphQLInt
+            },
+            isActive: {
+                type: GraphQLInt
+            }
+        },
+        resolve(root, args) {
+            return Db.models.RegionsUsers.findAll({
+                where: {
+                    UserId: args.userId,
+                    isActive: true
+                },
+                attributes: ['RegionId']
+            }).then(regionsUsersList => {
+                let params = {
+                    Id_Parent: {[Op.notIn]:[0]}
+                };
+
+                if(args.isActive === 1 || args.isActive === 0) params = {...params, IsActive: args.isActive};
+                
+                const regionsId = regionsUsersList.map(rul => rul.dataValues.RegionId);
+                
+                return Db.models.BusinessCompany.count({
+                    where: {
+                        ...params,
+                        Region: {[Op.in]:regionsId},
+                    }
+                });
             });
         }
     },
