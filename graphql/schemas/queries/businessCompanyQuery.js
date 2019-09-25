@@ -58,8 +58,15 @@ const businessCompanyQuery = {
             let {Id_Parent, ...filter} = args;
             const idParentFilter = (args.Id_Parent === -1 || args.Id_Parent === 0) ? {[Op.notIn]:[0]} : args.Id_Parent;
             
+            if(filter.Id === null) delete filter.Id;
+            if(filter.Contract_Status === null) delete filter.Contract_Status;
+
             if(idParentFilter){
                 filter = {...filter, Id_Parent: idParentFilter} 
+            }
+
+            if(filter.Contract_Status && filter.Contract_Status.indexOf("'") !== -1){
+                filter.Contract_Status = filter.Contract_Status.replace(/'/g, "");
             }
             
             return Db.models.BusinessCompany.findAll({
