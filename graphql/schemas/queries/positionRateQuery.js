@@ -1,7 +1,8 @@
-import { GraphQLInt, GraphQLList, GraphQLString } from 'graphql';
+import { GraphQLInt, GraphQLList, GraphQLString, GraphQLNonNull } from 'graphql';
 import { PositionRateType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 import Sequelize from 'sequelize';
+import GraphQLDate from 'graphql-date';
 
 const PositionRateQuery = {
     positions: {
@@ -37,8 +38,8 @@ const PositionRateQuery = {
                         filter.push(
                             Sequelize.where(
                                 Sequelize.fn('upper', Sequelize.col(key)), {
-                                    $eq: args[key].toUpperCase()
-                                }
+                                $eq: args[key].toUpperCase()
+                            }
                             ),
                         )
                     else filter.push({ [key]: args[key] });
@@ -69,8 +70,8 @@ const PositionRateQuery = {
                         filter.push(
                             Sequelize.where(
                                 Sequelize.fn('upper', Sequelize.col(key)), {
-                                    $eq: args[key].toUpperCase()
-                                }
+                                $eq: args[key].toUpperCase()
+                            }
                             ),
                         )
                     else if (key === "Id")
@@ -84,6 +85,40 @@ const PositionRateQuery = {
                 });
             }
             else return null;
+        }
+    },
+    positionsWithWorkOrders: {
+        type: new GraphQLList(PositionRateType),
+        description: 'List work order records',
+        args: {
+            IdEntity: { type: new GraphQLNonNull(GraphQLInt) },
+            departmentId: { type: new GraphQLNonNull(GraphQLInt) },
+            startDate: { type: new GraphQLNonNull(GraphQLDate) },
+            endDate: { type: new GraphQLNonNull(GraphQLDate) }
+        },
+        resolve(root, args) {
+            let { startDate, endDate, ...filter } = args;
+
+            filter = {
+                ...filter, groupKey: { $not: null },
+                $and: [
+                    { startDate: { $gte: new Date(startDate.setUTCHours(0, 0, 0)) } },
+                    { startDate: { $lte: new Date(endDate.setUTCHours(23, 59, 59)) } }]
+            };
+
+            return Db.models.PositionRate.findAll({
+                order: [
+                    ['Position', 'ASC']
+                ],
+                include: [
+                    {
+                        model: Db.models.WorkOrder,
+                        required: true,
+                        where: filter
+
+                    }
+                ]
+            })
         }
     }
 };
