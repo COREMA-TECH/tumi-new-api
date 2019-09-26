@@ -64,7 +64,8 @@ import {
 	EmployeeByHotelFields,
 	FeatureFields,
 	ContractFields,
-	TokenFields
+	TokenFields,
+	BusinessRulesFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -2113,6 +2114,32 @@ const EmployeeByHotelType = new GraphQLObjectType({
 	}
 });
 
+const BusinessRuleType = new GraphQLObjectType({
+	name: "BusinessRuleType",
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt
+			},
+			...BusinessRulesFields,
+			createdAt: {
+				type: GraphQLDate,
+				description: 'Creation Date'
+			},
+			updatedAt: {
+				type: GraphQLDate,
+				description: 'Update Date'
+			},
+			ruleType: {
+				type: CatalogItemType,
+				resolve(me) {
+					return me.getRuleType();
+				}
+			}
+		}
+	}
+});
+
 const FeatureType = new GraphQLObjectType({
 	name: 'FeatureType',
 	description: 'This object represents an Feature Record',
@@ -2260,5 +2287,6 @@ export {
 	ApplicationListType,
 	ContractType,
 	TokenType,
-	ApprovePunchesType
+	ApprovePunchesType,
+	BusinessRuleType
 };

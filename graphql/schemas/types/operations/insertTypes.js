@@ -58,7 +58,8 @@ import {
 	FeatureFields,
 	ContractFields,
 	TokenFields,
-	PositionRateFields
+	PositionRateFields,
+	BusinessRulesFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -632,6 +633,12 @@ const inputPositionRateType = new GraphQLInputObjectType({
 	}
 });
 
+const inputBusinessRule = new GraphQLInputObjectType({
+	name: 'inputBusinessRule',
+	description: "Input for a Business Rule",
+	fields: { ...BusinessRulesFields }
+});
+
 export {
 	insertPayrollType,
 	inputInsertApplicantLanguage,
@@ -696,5 +703,6 @@ export {
 	inputInsertFeatureType,
 	inputInsertContracts,
 	inputInsertTokens,
-	inputPositionRateType
+	inputPositionRateType,
+	inputBusinessRule
 };

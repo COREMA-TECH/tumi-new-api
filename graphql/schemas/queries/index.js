@@ -60,7 +60,7 @@ import FeatureQuery from './featureQuery';
 import ContractQuery from './contractQuery';
 import TokenQuery from './tokenQuery';
 import PositionRateQuery from './positionRateQuery';
-
+import BusinessRuleQuery from './businessRuleQueries';
 export {
 	ApplicantLanguageQuery,
 	ApplicationQuery,
@@ -119,5 +119,6 @@ export {
 	FeatureQuery,
 	ContractQuery,
 	TokenQuery,
-	PositionRateQuery
+	PositionRateQuery,
+	BusinessRuleQuery
 };
