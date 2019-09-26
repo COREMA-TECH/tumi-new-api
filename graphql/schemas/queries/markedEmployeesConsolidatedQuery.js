@@ -77,7 +77,7 @@ const getPunchesMarkerFilter = (filter) => {
     if (!filter)
         return newFilter;
 
-    if(filter.EmployeeId) newFilter = {...newFilter, EmployeeId: filter.EmployeeId}
+    if (filter.EmployeeId) newFilter = { ...newFilter, EmployeeId: filter.EmployeeId }
 
     let startDate = moment.utc(filter.startDate).local()._d;
     let endDate = moment.utc(filter.endDate).local()._d;
@@ -268,7 +268,9 @@ const MarkedEmployeesConsolidated = {
 
                             _punch.duration = !isNaN(parseFloat(workedTime)) ? parseFloat(workedTime) : 0; //Update worked time
                         })
-                        punchesConsolidated.push(punche);
+                        punche.punches = punche.punches.filter(_ => _.clockInId != null || _.clockOutId != null);
+                        if (punche.punches.length > 0)
+                            punchesConsolidated.push(punche);
                     });
                     if (punchesConsolidated.length > 0)
                         punchesConsolidated = punchesConsolidated.sort((a, b) => b.key - a.key)//Sort descending
