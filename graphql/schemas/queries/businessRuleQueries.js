@@ -1,5 +1,6 @@
 import Db from '../../models/models';
-import { GraphQLInt, GraphQLString, GraphQLBoolean, GraphQLList, GraphQLFloat } from 'graphql';
+import { GraphQLInt, GraphQLString, GraphQLBoolean, GraphQLList, GraphQLFloat, GraphQLNonNull } from 'graphql';
+import Sequelize from 'sequelize';
 
 import { BusinessRuleType } from '../types/operations/outputTypes';
 
@@ -40,6 +41,36 @@ const businessRuleQuery = {
                     ['name', 'ASC'],
                 ],
             })
+        }
+    },
+
+    overlappingRules: {
+        type: new GraphQLList(BusinessRuleType),
+        args: {
+            days: {
+                type: GraphQLString
+            },
+            ruleType: {
+                type: new GraphQLNonNull(GraphQLInt)
+            }
+        },
+        async resolve(root, args){
+            const days = args.days.match(/(..?)/g);
+
+            const overlapping = await Db.models.BusinessRule.findAll({
+                where: {                    
+                    catalogItemId: args.ruleType,
+                    $or: days.map(item => {
+                        return {
+                            days: {
+                                $like: `%${item}%`
+                            }
+                        }
+                    })
+                }
+            });
+            
+            return overlapping;
         }
     }
 }
