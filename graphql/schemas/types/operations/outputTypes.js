@@ -222,6 +222,14 @@ const ApplicationType = new GraphQLObjectType({
 					return me.getApplicantIndependentContract();
 				}
 			},
+			sentToInterview: {
+				type: GraphQLDate,
+				async resolve(me) {
+					let phase = await Db.models.ApplicationPhases.findOne({ where: { ApplicationId: me.id, StageId: 30461 } });
+					if (phase) return phase.createdAt;
+					return null;
+				}
+			},
 			statusCompleted: {
 				type: GraphQLBoolean,
 				resolve(me) {
