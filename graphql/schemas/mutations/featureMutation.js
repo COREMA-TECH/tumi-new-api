@@ -1,7 +1,7 @@
 import { inputInsertFeatureType } from '../types/operations/insertTypes';
 import { inputUpdateFeatureType } from '../types/operations/updateTypes';
 import { FeatureType } from '../types/operations/outputTypes';
-import { GraphQLList, GraphQLInt } from 'graphql';
+import { GraphQLList, GraphQLInt, GraphQLString } from 'graphql';
 
 import Db from '../../models/models';
 
@@ -44,6 +44,19 @@ const FeatureMutation = {
                     else return null;
                 });
         }
+    },
+    deleteFeature: {
+        type: GraphQLInt,
+		description: 'Delete feature record from database',
+		args: {
+            RoleId: { type: GraphQLInt },
+            code: { type: GraphQLString }
+		},
+		resolve(source, args) {
+			return Db.models.Feature.destroy({ where: args }).then((deleted) => {
+				return deleted;
+			});
+		}
     }
 };
 

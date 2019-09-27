@@ -56,6 +56,7 @@ import FeatureFields from './featureFiels';
 import ContractFields from './contractFields';
 import TokenFields from './tokenFields';
 import BusinessRulesFields from './businessRulesFields';
+import RegionsUsersFields from './regionsUsersFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -115,5 +116,6 @@ export {
 	FeatureFields,
 	ContractFields,
 	TokenFields,
-	BusinessRulesFields
+	BusinessRulesFields,
+	RegionsUsersFields,
 };

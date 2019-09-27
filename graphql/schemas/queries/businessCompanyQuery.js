@@ -4,6 +4,10 @@ import { inputInsertBusinessCompany } from '../types/operations/insertTypes';
 import Db from '../../models/models';
 import moment from 'moment';
 import moment_tz from 'moment-timezone';
+import BusinessCompanyFields from '../types/fields/businessCompanyFields';
+
+import Sequelize from 'sequelize';
+const Op = Sequelize.Op;
 
 const businessCompanyQuery = {
     businessCompanies: {
@@ -29,6 +33,87 @@ const businessCompanyQuery = {
                         required: false
                     }]
                 }]
+            });
+        }
+    },
+    getbusinesscompanies: {
+        type: new GraphQLList(BusinessCompanyType),
+        description: 'List Companies records',
+        args: {
+            Id: {
+                type: GraphQLInt
+            },
+            ...BusinessCompanyFields
+        },
+        resolve(root, args) {
+            let {Id_Parent, ...filter} = args;
+            let idParentFilter;
+            
+            switch (args.Id_Parent) {
+                case -1:
+                case null:
+                    idParentFilter= {[Op.notIn]:[0]};
+                    break;
+                case -2:
+                    idParentFilter= {[Op.notIn]:[0,99999]};
+                    break;
+                default:
+                    idParentFilter = args.Id_Parent;
+                    break;
+            }
+            
+            if(filter.Id === null) delete filter.Id;
+            if(filter.Contract_Status === null) delete filter.Contract_Status;
+
+            if(idParentFilter){
+                filter = {...filter, Id_Parent: idParentFilter} 
+            }
+
+            if(filter.Contract_Status && filter.Contract_Status.indexOf("'") !== -1){
+                filter.Contract_Status = filter.Contract_Status.replace(/'/g, "");
+            }
+            
+            return Db.models.BusinessCompany.findAll({
+                where: {...filter},
+                order: [
+                    ['Name', 'ASC']
+                ]
+            });
+        }
+    },
+    propertiesByUserCount: {
+        type: GraphQLInt,
+        description: 'properties by user Count',
+        args: {
+            userId: {
+                type: GraphQLInt
+            },
+            isActive: {
+                type: GraphQLInt
+            }
+        },
+        resolve(root, args) {
+            return Db.models.RegionsUsers.findAll({
+                where: {
+                    UserId: args.userId,
+                    isActive: true
+                },
+                attributes: ['RegionId']
+            }).then(regionsUsersList => {
+                let params = {
+                    Id_Parent: {[Op.notIn]:[0]}
+                };
+
+                if(args.isActive === 1 || args.isActive === 0) params = {...params, IsActive: args.isActive};
+                
+                const regionsId = regionsUsersList.map(rul => rul.dataValues.RegionId);
+                
+                return Db.models.BusinessCompany.count({
+                    where: {
+                        ...params,
+                        Region: {[Op.in]:regionsId},
+                    }
+                });
             });
         }
     },

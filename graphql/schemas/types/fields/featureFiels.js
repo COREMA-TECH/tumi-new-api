@@ -2,6 +2,9 @@ import { GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLBoolean } from 'graph
 const FeatureFields = {
     code: {
         type: new GraphQLNonNull(GraphQLString)
+    },
+    RoleId: {
+        type: GraphQLInt
     }
 };
 export default FeatureFields;

@@ -65,7 +65,8 @@ import {
 	FeatureFields,
 	ContractFields,
 	TokenFields,
-	BusinessRulesFields
+	BusinessRulesFields,
+	RegionsUsersFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -2209,6 +2210,51 @@ const DetailApprovePunchesType = new GraphQLObjectType({
 	}
 });
 
+const WorkOrderGridType = new GraphQLObjectType({
+	name: 'WorkOrderGridType',
+	description: 'WorkOrderGridType for Grid View into Schedule',
+	fields: () => {
+		return {
+			groupKey: { type: GraphQLString },
+			employeeId: { type: GraphQLInt },
+			departmentId: { type: GraphQLInt },
+			IdEntity: { type: GraphQLInt },
+			PositionRateId: { type: GraphQLInt },
+			dates: { type: new GraphQLList(PairType) }
+		}
+	}
+});
+
+const PairType = new GraphQLObjectType({
+	name: 'PairType',
+	description: 'PairType',
+	fields: () => {
+		return {
+			code: { type: GraphQLString },
+			value: { type: GraphQLString }
+		}
+	}
+});
+
+const RegionsUsersType = new GraphQLObjectType({
+	name: 'RegionsUsersType',
+	description: 'Output Region by Users',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'RegionUser Id'
+			},
+			CatalogItem: {
+				type: CatalogItemType,
+				description: 'Regions related'
+			},
+			...RegionsUsersFields
+		};
+
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -2288,5 +2334,7 @@ export {
 	ContractType,
 	TokenType,
 	ApprovePunchesType,
-	BusinessRuleType
+	BusinessRuleType,
+	WorkOrderGridType,
+	RegionsUsersType
 };

@@ -59,7 +59,9 @@ import {
 	ContractFields,
 	TokenFields,
 	PositionRateFields,
-	BusinessRulesFields
+	BusinessRulesFields,
+	RegionsUsersFields,
+	RolesFields,
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -69,6 +71,15 @@ const inputInsertEmployees = new GraphQLInputObjectType({
 
 	fields: {
 		...EmployeesFields
+	}
+});
+
+const inputInsertRoles = new GraphQLInputObjectType({
+	name: 'inputInsertRoles',
+	description: 'Inputs for Roles Mutation',
+
+	fields: {
+		...RolesFields
 	}
 });
 
@@ -639,6 +650,15 @@ const inputBusinessRule = new GraphQLInputObjectType({
 	fields: { ...BusinessRulesFields }
 });
 
+const inputInsertRegionsUsers = new GraphQLInputObjectType({
+	name: 'inputInsertRegionsUsers',
+	description: 'Inputs for Region by User',
+
+	fields: {
+		...RegionsUsersFields
+	}
+});
+
 export {
 	insertPayrollType,
 	inputInsertApplicantLanguage,
@@ -704,5 +724,7 @@ export {
 	inputInsertContracts,
 	inputInsertTokens,
 	inputPositionRateType,
-	inputBusinessRule
+	inputBusinessRule,
+	inputInsertRegionsUsers,
+	inputInsertRoles,
 };
