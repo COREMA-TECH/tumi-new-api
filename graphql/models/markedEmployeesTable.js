@@ -19,19 +19,31 @@ export default {
 					type: Sequelize.INTEGER,
 					allowNull: true
 				},
-				typeMarkedId: {
-					type: Sequelize.INTEGER,
-					allowNull: true
-				},
 				markedDate: {
 					type: Sequelize.DATE,
 					allowNull: true
 				},
-				markedTime: {
+				inboundMarkTypeId: {
+					type: Sequelize.INTEGER,
+					allowNull: true
+				},
+				inboundMarkTime: {
 					type: Sequelize.STRING,
 					allowNull: true
 				},
-				imageMarked: {
+				inboundMarkImage: {
+					type: Sequelize.TEXT('long'),
+					allowNull: true
+				},
+				outboundMarkTypeId: {
+					type: Sequelize.INTEGER,
+					allowNull: true
+				},
+				outboundMarkTime: {
+					type: Sequelize.STRING,
+					allowNull: true
+				},
+				outboundMarkImage: {
 					type: Sequelize.TEXT('long'),
 					allowNull: true
 				},
