@@ -47,6 +47,10 @@ export default {
 					type: Sequelize.TEXT('long'),
 					allowNull: true
 				},
+				positionId:{
+					type: Sequelize.STRING,
+					allowNull: true	
+				},			
 				EmployeeId: {
 					type: Sequelize.INTEGER,
 				},

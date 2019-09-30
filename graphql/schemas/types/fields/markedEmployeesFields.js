@@ -26,6 +26,9 @@ const markedEmployeesFields = {
 	outboundMarkImage: {
 		type: GraphQLString
 	},
+	positionId: {
+		type: GraphQLInt
+	},
 	EmployeeId: {
 		type: GraphQLInt
 	},
