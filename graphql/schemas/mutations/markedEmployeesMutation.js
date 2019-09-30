@@ -21,6 +21,19 @@ const MarkedEmployeesMutation = {
 
 		}
 	},
+
+	createMark: {
+		type: MarkedEmployeesType,
+		description: "Add a signle mark (in-out)",
+		args: {
+			input: { type: inputInsertMarkedEmployees }
+		},
+		resolve(source, args) {
+			return Db.models.MarkedEmployees.create(args.input)
+			.then(created => { return created });
+		}
+	},
+
 	actualizarFormatoHoraMarcas: {
 		type: new GraphQLList(MarkedEmployeesType),
 		description: 'Actualizar de forma masiva las marcadas',
