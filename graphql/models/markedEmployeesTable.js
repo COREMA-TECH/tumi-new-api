@@ -1,8 +1,8 @@
 import Sequelize from 'sequelize';
 import moment from 'moment';
 
-const getHour = (mark) => {
-	let hours = mark.markedTime.split(' ');
+const getHour = (mark, field) => {
+	let hours = mark[field].split(' ');
 	let _hour = hours[0];
 	if (hours[1] == 'PM' && parseInt(hours[0]) != 12)
 		_hour = moment(_hour, "hh:mm").add(12, 'hours').format("HH:mm");
@@ -68,12 +68,14 @@ export default {
 			}, {
 				hooks: {
 					beforeCreate: function (_, options) {
-						_.markedTime = getHour(_);
+						_.inboundMarkTime = getHour(_, "inboundMarkTime");
+						_.outboundMarkTime = getHour(_, "outboundMarkTime");
 					},
 					beforeBulkCreate: function (_, options) {
 						_.map(_ => {
 							let mark = _.dataValues;
-							mark.markedTime = getHour(mark);
+							mark.inboundMarkTime = getHour(mark, "inboundMarkTime");
+							mark.outboundMarkTime = getHour(mark, "outboundMarkTime");
 						})
 					}
 				}
