@@ -1,4 +1,4 @@
-import { GraphQLList, GraphQLString, GraphQLInt } from 'graphql';
+import { GraphQLList, GraphQLString, GraphQLInt, GraphQLNonNull } from 'graphql';
 import { MarkedEmployeesType, PunchesReportType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 import GraphQLDate from 'graphql-date';
@@ -83,6 +83,58 @@ const MarkedEmployeesQuery = {
             return Db.models.MarkedEmployees.findAll({ where: args });
         }
     },
+
+    marks: {
+        type: new GraphQLList(MarkedEmployeesType),
+        description: "Lists all marks",
+        args: {
+            id: {
+                type: GraphQLInt
+            },
+            inboundMarkTypeId: {
+                type: GraphQLInt
+            },
+            outboundMarkTypeId: {
+                type: GraphQLInt
+            },
+            markedDate: {
+                type: GraphQLDate
+            },
+            inboundMarkTime: {
+                type: GraphQLString
+            },
+            outboundMarkTime: {
+                type: GraphQLString
+            },
+        },
+
+        resolve(_, args) {
+            return Db.models.MarkedEmployees.findAll({ where: args });
+        }
+    },
+
+    previousMark: {
+        type: MarkedEmployeesType,
+        description: "Find matching time mark",
+        args: {
+            entityId: { type: GraphQLInt },
+            EmployeeId: { type: new GraphQLNonNull(GraphQLInt) },
+            markedDate: { type: new GraphQLNonNull(GraphQLString) },            
+        },
+
+        async resolve(_, args){
+            const found = await Db.models.MarkedEmployees.findAll({
+                limit: 1,
+                where: args,
+                order: [
+                    ['createdAt', "DESC"]
+                ]
+            });
+
+            return found[0];
+        }
+    },
+
     activeEmployeesByMarks: {
         type: new GraphQLList(MarkedEmployeesType),
         description: 'List employees records',

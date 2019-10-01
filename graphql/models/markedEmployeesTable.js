@@ -2,6 +2,10 @@ import Sequelize from 'sequelize';
 import moment from 'moment';
 
 const getHour = (mark, field) => {
+	if(!mark || !mark[field]){
+		return null;
+	}
+
 	let hours = mark[field].split(' ');
 	let _hour = hours[0];
 	if (hours[1] == 'PM' && parseInt(hours[0]) != 12)
@@ -48,7 +52,7 @@ export default {
 					allowNull: true
 				},
 				positionId:{
-					type: Sequelize.STRING,
+					type: Sequelize.INTEGER,
 					allowNull: true	
 				},			
 				EmployeeId: {
@@ -71,13 +75,13 @@ export default {
 				}
 			}, {
 				hooks: {
-					beforeCreate: function (_, options) {
-						_.inboundMarkTime = getHour(_, "inboundMarkTime");
-						_.outboundMarkTime = getHour(_, "outboundMarkTime");
+					beforeCreate: function (data) {
+						data.inboundMarkTime = getHour(data, "inboundMarkTime");
+						data.outboundMarkTime = getHour(data, "outboundMarkTime");
 					},
-					beforeBulkCreate: function (_, options) {
-						_.map(_ => {
-							let mark = _.dataValues;
+					beforeBulkCreate: function (data) {
+						data.map(data => {
+							let mark = data.dataValues;
 							mark.inboundMarkTime = getHour(mark, "inboundMarkTime");
 							mark.outboundMarkTime = getHour(mark, "outboundMarkTime");
 						})

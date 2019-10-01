@@ -403,10 +403,10 @@ MarkedEmployees.belongsTo(Employees, {
 	as: 'Employees'
 });
 
-MarkedEmployees.belongsTo(CatalogItem, {
-	foreignKey: 'typeMarkedId',
-	as: 'CatalogMarked'
-});
+// MarkedEmployees.belongsTo(CatalogItem, {
+// 	foreignKey: 'typeMarkedId',
+// 	as: 'CatalogMarked'
+// });
 
 MarkedEmployees.belongsTo(Shift);
 MarkedEmployees.belongsTo(BusinessCompany, {
