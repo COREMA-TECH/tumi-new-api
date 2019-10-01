@@ -1,7 +1,7 @@
 import { inputInsertMarkedEmployees } from '../types/operations/insertTypes';
 import { inputUpdateMarkedEmployees } from '../types/operations/updateTypes';
 import { MarkedEmployeesType } from '../types/operations/outputTypes';
-import { GraphQLList, GraphQLInt, GraphQLNonNull } from 'graphql';
+import { GraphQLList, GraphQLInt, GraphQLNonNull, GraphQLBoolean } from 'graphql';
 import GraphQLDate from 'graphql-date';
 
 import moment from 'moment';
@@ -155,6 +155,84 @@ const MarkedEmployeesMutation = {
 				)
 		}
 	},
+	migrateNewMarkedEmployees: {
+        type: GraphQLInt,
+        description: 'migrate old data to new marked employee',
+        args: {
+            
+        },
+        async resolve(root, args){
+            const CLOCKIN = 30570;
+            const CLOCKOUT = 30571;
+            const BREAKIN = 30572;
+            const BREAKOUT = 30573;
+
+            const data = await Db.models.MarkedEmployees_old.findAll({
+                order: [
+                    ['EmployeeId', 'DESC'],
+                    ['entityId', 'DESC'],
+                    ['markedDate', 'ASC'],
+                    ['markedTime', 'ASC']
+                ]
+            });
+
+            const inboundMark = (mark) => {
+                return {
+                    entityId: mark.entityId,
+                    markedDate: mark.markedDate,
+                    inboundMarkTypeId: mark.typeMarkedId,
+                    inboundMarkTime: mark.markedTime,
+                    inboundMarkImage: mark.imageMarked,
+                    outboundMarkTypeId: 0,
+                    outboundMarkTime: '',
+                    outboundMarkImage: '',
+                    positionId: null,
+                    EmployeeId: mark.EmployeeId,
+                    ShiftId: mark.ShiftId,
+                    flag: mark.flag,
+                    notes: mark.notes,
+                    key: mark.key,
+                    approvedDate: mark.approvedDate
+                }
+            }
+
+            const outboundMark = (mark) => {
+                return {
+                    outboundMarkTypeId: mark.typeMarkedId,
+                    outboundMarkTime: mark.markedTime,
+                    outboundMarkImage: mark.imageMarked
+                }
+            }
+
+            const INBOUND_TYPE = 'inbound', OUTBOUND_TYPE = 'outbound';
+            let control = INBOUND_TYPE;
+            let newRecord, editRecord;
+            let saveData = [];
+
+            let success = data.map(({dataValues: d}) => {
+                if(control === OUTBOUND_TYPE && d.typeMarkedId != CLOCKIN && d.EmployeeId === newRecord.EmployeeId && d.markedDate === newRecord.markedDate && d.entityId === newRecord.entityId){
+                    editRecord = outboundMark(d);
+                    newRecord = {...newRecord, ...editRecord};
+                    control = INBOUND_TYPE;
+                    saveData = [...saveData, newRecord];
+                    newRecord = null;
+                }
+                else if(d.typeMarkedId != CLOCKOUT){
+                    if(newRecord && newRecord.outboundMarkTypeId === 0) saveData = [...saveData, newRecord];
+                    newRecord = inboundMark(d);
+                    control = OUTBOUND_TYPE;
+                }
+
+                return true;
+            });
+
+            return Promise.all(success).then(async _ => {
+                return await Db.models.MarkedEmployees_tests.bulkCreate(saveData).then(output => {
+                    return output ? output.length : 0;
+                });
+            });
+        }
+    }
 };
 
 export default MarkedEmployeesMutation;

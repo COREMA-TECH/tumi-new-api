@@ -1,4 +1,4 @@
-import { GraphQLList, GraphQLString, GraphQLInt } from 'graphql';
+import { GraphQLList, GraphQLString, GraphQLInt, GraphQLBoolean } from 'graphql';
 import { MarkedEmployeesType, PunchesReportType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 import GraphQLDate from 'graphql-date';
@@ -331,38 +331,6 @@ const MarkedEmployeesQuery = {
             SendSMS({
                 msg: "hola",
                 number: "+17322070986"
-            });
-        }
-    },
-    migrateNewMarkedEmployees: {
-        type: new GraphQLList(MarkedEmployeesType),
-        description: 'migrate old data to new marked employee',
-        args: {
-            
-        },
-        async resolve(root, args){
-            const CLOCKIN = 30570;
-            const CLOCKOUT = 30571;
-            const BREAKIN = 30572;
-            const BREAKOUT = 30573;
-
-            const data = await Db.models.MarkedEmployees.findAll({
-                order: [
-                    ['EmployeeId', 'DESC'],
-                    ['entityId', 'DESC'],
-                    ['markedDate', 'ASC'],
-                    ['markedTime', 'ASC']
-                ]
-            });
-
-            //const employeesId = data.dataValues.map(d => d.EmployeeId).filter((item, i, ar) => ar.indexOf(item) === i);
-            const employeesId = data.dataValues.map(d => d.EmployeeId).reduce((uniq, item) => uniq.includes(item) ? uniq : [...uniq, item], []);
-            return employeesId.map(emp => {
-                const dataByEmp = data.dataValues.filter(d.EmployeeId === emp);
-                const entitiesId = dataByEmp.reduce((u, i) => u.includes(i.entityId) ? u : [...u, i.entityId], []);
-                return entitiesId.map(ent => {
-                    return dataByEmp;
-                });
             });
         }
     }
