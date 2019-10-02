@@ -7,7 +7,22 @@ import GraphQLDate from 'graphql-date';
 import moment from 'moment';
 
 import Db from '../../models/models';
+import Sequelize from 'sequelize';
 
+const Op = Sequelize.Op;
+const CLOCKIN = 30570;
+const CLOCKOUT = 30571;
+const BREAKIN = 30572;
+const BREAKOUT = 30573;
+
+export const closePunches = async () => {
+	let closeMark = {
+		outboundMarkTypeId: CLOCKOUT,
+		outboundMarkTime: moment('24:00').format('HH:mm')
+	}
+	//await Db.models.MarkedEmployees.findAll({ where: { Id_Roles: 9 } })
+	await Db.models.MarkedEmployees.update(closeMark, {where: {outboundMarkTypeId: null}});
+}
 
 const MarkedEmployeesMutation = {
 	addMarkedEmployees: {
@@ -162,11 +177,6 @@ const MarkedEmployeesMutation = {
             
         },
         async resolve(root, args){
-            const CLOCKIN = 30570;
-            const CLOCKOUT = 30571;
-            const BREAKIN = 30572;
-            const BREAKOUT = 30573;
-
             const data = await Db.models.MarkedEmployees_old.findAll({
                 order: [
                     ['EmployeeId', 'DESC'],
