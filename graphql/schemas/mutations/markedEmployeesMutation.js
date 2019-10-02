@@ -205,10 +205,8 @@ const MarkedEmployeesMutation = {
             let control = INBOUND_TYPE;
             let newRecord, editRecord;
 			let saveData = [];
-			console.log('console log inicio', newRecord); //TODO: (LF) Quitar console log
 
             let success = data.map(({dataValues: d}) => {
-				console.log('cada uno ggg', newRecord); //TODO: (LF) Quitar console log
                 if(control === OUTBOUND_TYPE && d.typeMarkedId != CLOCKIN && d.EmployeeId === newRecord.EmployeeId && d.markedDate === newRecord.markedDate && d.entityId === newRecord.entityId){
                     editRecord = outboundMark(d);
                     newRecord = {...newRecord, ...editRecord};
@@ -226,7 +224,6 @@ const MarkedEmployeesMutation = {
             });
 
             return Promise.all(success).then(async _ => {
-				console.log('datos a guardar ppp', saveData); //TODO: (LF) Quitar console log
                 return await Db.models.MarkedEmployees_tests.bulkCreate(saveData).then(output => {
                     return output ? output.length : 0;
                 });
