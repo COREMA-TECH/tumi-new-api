@@ -21,9 +21,9 @@ var Strquery, Strquery_2, Strfilename;
 cron.schedule('59 23 * * *', () => {
 	console.log('running a task At 23:59.');
 	closePunches(); // proceso de cierre de ponchadas
-	// SendExpiredContracts();
-	// ChangeStatustoExpired();
-	// ChangeStatustoCompleted();
+	SendExpiredContracts();
+	ChangeStatustoExpired();
+	ChangeStatustoCompleted();
 });
 
 

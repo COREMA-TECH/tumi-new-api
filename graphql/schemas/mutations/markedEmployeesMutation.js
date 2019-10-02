@@ -18,10 +18,9 @@ const BREAKOUT = 30573;
 export const closePunches = async () => {
 	let closeMark = {
 		outboundMarkTypeId: CLOCKOUT,
-		outboundMarkTime: moment('24:00').format('HH:mm')
+		outboundMarkTime: '24:00'
 	}
-	//await Db.models.MarkedEmployees.findAll({ where: { Id_Roles: 9 } })
-	await Db.models.MarkedEmployees.update(closeMark, {where: {outboundMarkTypeId: null}});
+	await Db.models.MarkedEmployees_tests.update(closeMark, {where: {outboundMarkTypeId: null}});
 }
 
 const MarkedEmployeesMutation = {
