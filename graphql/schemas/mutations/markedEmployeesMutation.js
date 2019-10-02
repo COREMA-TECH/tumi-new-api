@@ -1,6 +1,6 @@
-import { inputInsertMarkedEmployees } from '../types/operations/insertTypes';
-import { inputUpdateMarkedEmployees } from '../types/operations/updateTypes';
-import { MarkedEmployeesType } from '../types/operations/outputTypes';
+import { inputInsertMarkedEmployees, inputTimeMark } from '../types/operations/insertTypes';
+import { inputUpdateMarkedEmployees, TimeMarkUpdateType } from '../types/operations/updateTypes';
+import { MarkedEmployeesType, TimeMarkType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLNonNull } from 'graphql';
 import GraphQLDate from 'graphql-date';
 
@@ -23,15 +23,52 @@ const MarkedEmployeesMutation = {
 	},
 
 	createMark: {
-		type: MarkedEmployeesType,
+		type: TimeMarkType,
 		description: "Add a signle mark (in-out)",
 		args: {
-			input: { type: inputInsertMarkedEmployees }
+			input: { type: inputTimeMark }
 		},
 		resolve(source, args) {
 			return Db.models.MarkedEmployees.create(args.input)
 			.then(created => { return created });
 		}
+	},
+
+	updateMark: {
+		type: TimeMarkType,
+		description: 'Update Marked Employees Info',
+		args: {
+			markedemployees: { type: TimeMarkUpdateType }
+		},
+		resolve(source, args) {
+			console.clear();
+			console.log(args.markedemployees);
+
+			if (args.markedemployees.markedDate === "1970-01-01") {
+				return Db.models.MarkedEmployees.destroy({
+					where: {
+						id: args.markedemployees.id
+					}
+				}).then(deleted => {
+					return deleted;
+				})
+			} else {
+				return Db.models.MarkedEmployees
+					.update(args.markedemployees,
+						{
+							where: {
+								id: args.markedemployees.id
+							},
+							returning: true
+						}
+					)
+					.then(function ([rowsUpdate, [record]]) {
+						if (record) return record.dataValues;
+						else return null;
+					});
+			}
+		}
+
 	},
 
 	actualizarFormatoHoraMarcas: {

@@ -360,6 +360,18 @@ const inputUpdateShiftDetail = new GraphQLInputObjectType({
 	}
 });
 
+const TimeMarkUpdateType = new GraphQLInputObjectType({
+	name: 'TimeMarkUpdateType',
+	description: 'Inputs for Marked Employees Update',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...MarkedEmployeesFields
+	}
+});
 
 const inputUpdateMarkedEmployees = new GraphQLInputObjectType({
 	name: 'inputUpdateMarkedEmployees',
@@ -646,5 +658,6 @@ export {
 	inputUpdateContracts,
 	inputUpdateTokens,
 	inputUpdateRegionsUsers,
-	inputUpdateRoles
+	inputUpdateRoles,
+	TimeMarkUpdateType
 };

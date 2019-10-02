@@ -343,6 +343,12 @@ const inputInsertShiftDetailEmployee = new GraphQLInputObjectType({
 
 });
 
+const inputTimeMark = new GraphQLInputObjectType({
+	name: 'inputTimeMark',
+	description: 'Inputs for MarkedEmployees Employee Insert',
+	fields: { ...MarkedEmployeesFields }
+});
+
 const inputInsertMarkedEmployees = new GraphQLInputObjectType({
 	name: 'inputInsertMarkedEmployees',
 	description: 'Inputs for MarkedEmployees Employee Insert',
@@ -718,5 +724,6 @@ export {
 	inputInsertTokens,
 	inputPositionRateType,
 	inputInsertRegionsUsers,
-	inputInsertRoles
+	inputInsertRoles,
+	inputTimeMark
 };

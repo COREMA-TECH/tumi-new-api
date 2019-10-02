@@ -1643,6 +1643,32 @@ const TemplateType = new GraphQLObjectType({
 	}
 });
 
+const TimeMarkType = new GraphQLObjectType({
+	name: 'TimeMarkType',
+	description: 'This is for Marked Employees Table',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...MarkedEmployeesFields,
+			Employees: {
+				type: EmployeesType,
+				resolve(me) {
+					return me.getEmployees();
+				}
+			},
+			TypeMarked: {
+				type: CatalogItemType,
+				resolve(me) {
+					return me.getCatalogMarked();
+				}
+			},
+		}
+	}
+});
+
 const MarkedEmployeesType = new GraphQLObjectType({
 	name: 'MarkedEmployees',
 	description: 'This is for Marked Employees Table',
@@ -2308,5 +2334,6 @@ export {
 	TokenType,
 	ApprovePunchesType,
 	WorkOrderGridType,
-	RegionsUsersType
+	RegionsUsersType,
+	TimeMarkType
 };

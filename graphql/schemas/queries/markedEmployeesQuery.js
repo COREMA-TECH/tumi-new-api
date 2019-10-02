@@ -113,6 +113,20 @@ const MarkedEmployeesQuery = {
         }
     },
 
+    mark: {
+        type: MarkedEmployeesType,
+        description: "Find a mark",
+        args: {
+            id: {
+                type: new GraphQLNonNull(GraphQLInt)
+            },
+        },
+
+        resolve(_, args) {
+            return Db.models.MarkedEmployees.findOne({ where: args });
+        }
+    },
+
     previousMark: {
         type: MarkedEmployeesType,
         description: "Find matching time mark",
@@ -127,7 +141,7 @@ const MarkedEmployeesQuery = {
                 limit: 1,
                 where: args,
                 order: [
-                    ['createdAt', "DESC"]
+                    ['inboundMarkTime', "DESC"]
                 ]
             });
 
