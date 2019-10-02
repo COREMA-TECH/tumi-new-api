@@ -203,18 +203,32 @@ const MarkedEmployeesMutation = {
 
             const INBOUND_TYPE = 'inbound', OUTBOUND_TYPE = 'outbound';
             let control = INBOUND_TYPE;
-            let newRecord, editRecord;
 			let saveData = [];
-
+			let newRecord, editRecord, breakRecord, closeBreakRecord;
+			
             let success = data.map(({dataValues: d}) => {
                 if(control === OUTBOUND_TYPE && d.typeMarkedId != CLOCKIN && d.EmployeeId === newRecord.EmployeeId && d.markedDate === newRecord.markedDate && d.entityId === newRecord.entityId){
                     editRecord = outboundMark(d);
                     newRecord = {...newRecord, ...editRecord};
                     control = INBOUND_TYPE;
                     saveData = [...saveData, newRecord];
-                    newRecord = null;
+					newRecord = null;
+					//break mark
+					if(d.typeMarkedId !== CLOCKOUT){
+						breakRecord = inboundMark(d);
+					}
                 }
-                else if(d.typeMarkedId != CLOCKOUT){
+                else if(d.typeMarkedId !== CLOCKOUT){
+					//break mark
+					if(breakRecord){
+						if(d.typeMarkedId != CLOCKIN && breakRecord.EmployeeId === d.EmployeeId && breakRecord.markedDate === d.markedDate && breakRecord.entityId === d.entityId){
+							closeBreakRecord = outboundMark(d);
+							breakRecord = {...breakRecord, ...closeBreakRecord};
+						}
+						saveData = [...saveData, breakRecord];
+						breakRecord = null;	
+					}
+
                     if(newRecord && !newRecord.outboundMarkTypeId) saveData = [...saveData, newRecord];
                     newRecord = inboundMark(d);
                     control = OUTBOUND_TYPE;
