@@ -192,10 +192,7 @@ const MarkedEmployeesMutation = {
                     markedDate: mark.markedDate,
                     inboundMarkTypeId: mark.typeMarkedId,
                     inboundMarkTime: mark.markedTime,
-                    inboundMarkImage: mark.imageMarked,
-                    outboundMarkTypeId: 0,
-                    outboundMarkTime: '',
-                    outboundMarkImage: '',
+					inboundMarkImage: mark.imageMarked,
                     positionId: null,
                     EmployeeId: mark.EmployeeId,
                     ShiftId: mark.ShiftId,
@@ -210,16 +207,18 @@ const MarkedEmployeesMutation = {
                 return {
                     outboundMarkTypeId: mark.typeMarkedId,
                     outboundMarkTime: mark.markedTime,
-                    outboundMarkImage: mark.imageMarked
+                    outboundMarkImage: mark.imageMarked,
                 }
             }
 
             const INBOUND_TYPE = 'inbound', OUTBOUND_TYPE = 'outbound';
             let control = INBOUND_TYPE;
             let newRecord, editRecord;
-            let saveData = [];
+			let saveData = [];
+			console.log('console log inicio', newRecord); //TODO: (LF) Quitar console log
 
             let success = data.map(({dataValues: d}) => {
+				console.log('cada uno ggg', newRecord); //TODO: (LF) Quitar console log
                 if(control === OUTBOUND_TYPE && d.typeMarkedId != CLOCKIN && d.EmployeeId === newRecord.EmployeeId && d.markedDate === newRecord.markedDate && d.entityId === newRecord.entityId){
                     editRecord = outboundMark(d);
                     newRecord = {...newRecord, ...editRecord};
@@ -228,7 +227,7 @@ const MarkedEmployeesMutation = {
                     newRecord = null;
                 }
                 else if(d.typeMarkedId != CLOCKOUT){
-                    if(newRecord && newRecord.outboundMarkTypeId === 0) saveData = [...saveData, newRecord];
+                    if(newRecord && !newRecord.outboundMarkTypeId) saveData = [...saveData, newRecord];
                     newRecord = inboundMark(d);
                     control = OUTBOUND_TYPE;
                 }
@@ -237,10 +236,12 @@ const MarkedEmployeesMutation = {
             });
 
             return Promise.all(success).then(async _ => {
+				console.log('datos a guardar ppp', saveData); //TODO: (LF) Quitar console log
                 return await Db.models.MarkedEmployees_tests.bulkCreate(saveData).then(output => {
                     return output ? output.length : 0;
                 });
-            });
+			});
+
         }
     }
 };

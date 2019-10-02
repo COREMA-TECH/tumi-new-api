@@ -2,7 +2,10 @@ import Sequelize from 'sequelize';
 import moment from 'moment';
 
 const getHour = (mark, field) => {
-	let hours = mark[field].split(' ');
+	let fieldMark = mark[field];
+	if(!fieldMark) return null;
+
+	let hours = fieldMark.split(' ');
 	let _hour = hours[0];
 	if (hours[1] == 'PM' && parseInt(hours[0]) != 12)
 		_hour = moment(_hour, "hh:mm").add(12, 'hours').format("HH:mm");
