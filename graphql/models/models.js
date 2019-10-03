@@ -156,424 +156,424 @@ CatalogItem.hasMany(BusinessRule, {
 });
 const RegionsUsers = RegionsUsersModel.createModel(Conn);
 
-// ApplicationPhases.belongsTo(CatalogItem, {
-// 	foreignKey: 'ReasonId',
-// 	as: 'Reason'
-// });
+ApplicationPhases.belongsTo(CatalogItem, {
+	foreignKey: 'ReasonId',
+	as: 'Reason'
+});
 
-// ApplicationPhases.belongsTo(WorkOrder, {
-// 	foreignKey: 'WorkOrderId',
-// 	as: 'WorkOrder'
-// })
+ApplicationPhases.belongsTo(WorkOrder, {
+	foreignKey: 'WorkOrderId',
+	as: 'WorkOrder'
+})
 
-// ApplicationPhases.belongsTo(Shift, {
-// 	foreignKey: 'ShiftId',
-// 	as: 'Shift'
-// });
+ApplicationPhases.belongsTo(Shift, {
+	foreignKey: 'ShiftId',
+	as: 'Shift'
+});
 
-// Application.hasMany(ApplicationPhases);
-// Application.hasMany(ApplicantLanguage);
-// Application.hasMany(ApplicantEducation);
-// Application.hasMany(ApplicantPreviousEmployment);
-// Application.hasMany(ApplicantMilitaryServices);
-// Application.hasMany(ApplicantSkill);
-// Application.hasMany(ApplicantIdealJob);
-// Application.hasMany(ApplicantDocument);
+Application.hasMany(ApplicationPhases);
+Application.hasMany(ApplicantLanguage);
+Application.hasMany(ApplicantEducation);
+Application.hasMany(ApplicantPreviousEmployment);
+Application.hasMany(ApplicantMilitaryServices);
+Application.hasMany(ApplicantSkill);
+Application.hasMany(ApplicantIdealJob);
+Application.hasMany(ApplicantDocument);
 
-// Application.hasOne(ApplicantDisclosure);
-// Application.hasOne(ApplicantConductCode);
-// Application.hasOne(ApplicantBackgroundCheck);
-// Application.hasOne(ApplicantHarassmentPolicy);
-// Application.hasOne(ApplicantWorkerCompensation);
-// Application.hasOne(ApplicantW4);
-// Application.hasOne(ApplicantI9);
-// Application.hasOne(ApplicantIndependentContract);
-// Application.hasOne(ApplicationAccount);
-// Application.hasOne(ApplicantVerificationLetter);
+Application.hasOne(ApplicantDisclosure);
+Application.hasOne(ApplicantConductCode);
+Application.hasOne(ApplicantBackgroundCheck);
+Application.hasOne(ApplicantHarassmentPolicy);
+Application.hasOne(ApplicantWorkerCompensation);
+Application.hasOne(ApplicantW4);
+Application.hasOne(ApplicantI9);
+Application.hasOne(ApplicantIndependentContract);
+Application.hasOne(ApplicationAccount);
+Application.hasOne(ApplicantVerificationLetter);
 
-// Application.belongsToMany(Employees, { through: 'ApplicationEmployees' });
-// Employees.belongsToMany(Application, { through: 'ApplicationEmployees' });
+Application.belongsToMany(Employees, { through: 'ApplicationEmployees' });
+Employees.belongsToMany(Application, { through: 'ApplicationEmployees' });
 
-// ApplicationPhases.belongsTo(Application);
-// ApplicantLanguage.belongsTo(Application);
-// ApplicantEducation.belongsTo(Application);
-// ApplicantPreviousEmployment.belongsTo(Application);
-// ApplicantMilitaryServices.belongsTo(Application);
-// ApplicantSkill.belongsTo(Application);
-// ApplicantIdealJob.belongsTo(Application);
-// ApplicantDocument.belongsTo(Application);
-// ApplicantDocument.belongsTo(CatalogItem);
-// ApplicantIndependentContract.belongsTo(Application);
-// ApplicantVerificationLetter.belongsTo(Application);
+ApplicationPhases.belongsTo(Application);
+ApplicantLanguage.belongsTo(Application);
+ApplicantEducation.belongsTo(Application);
+ApplicantPreviousEmployment.belongsTo(Application);
+ApplicantMilitaryServices.belongsTo(Application);
+ApplicantSkill.belongsTo(Application);
+ApplicantIdealJob.belongsTo(Application);
+ApplicantDocument.belongsTo(Application);
+ApplicantDocument.belongsTo(CatalogItem);
+ApplicantIndependentContract.belongsTo(Application);
+ApplicantVerificationLetter.belongsTo(Application);
 
-// ApplicantW4.belongsTo(Application);
-// ApplicantI9.belongsTo(Application);
+ApplicantW4.belongsTo(Application);
+ApplicantI9.belongsTo(Application);
 
-// ApplicantIdealJob.belongsTo(CatalogItem, {
-// 	foreignKey: 'idPosition',
-// 	as: 'CatalogPosition'
-// });
+ApplicantIdealJob.belongsTo(CatalogItem, {
+	foreignKey: 'idPosition',
+	as: 'CatalogPosition'
+});
 
-// ApplicantDisclosure.belongsTo(Application);
-// ApplicantConductCode.belongsTo(Application);
-// ApplicantBackgroundCheck.belongsTo(Application);
-// ApplicantHarassmentPolicy.belongsTo(Application);
-// ApplicantWorkerCompensation.belongsTo(Application);
+ApplicantDisclosure.belongsTo(Application);
+ApplicantConductCode.belongsTo(Application);
+ApplicantBackgroundCheck.belongsTo(Application);
+ApplicantHarassmentPolicy.belongsTo(Application);
+ApplicantWorkerCompensation.belongsTo(Application);
 
-// ApplicationAccount.belongsTo(Application);
-// Application.hasMany(ApplicationAccount, {
-// 	foreignKey: 'applicationId'
-// });
+ApplicationAccount.belongsTo(Application);
+Application.hasMany(ApplicationAccount, {
+	foreignKey: 'applicationId'
+});
 
-// ApplicationAccountDocument.belongsTo(ApplicationAccount, {
-// 	foreignKey: 'applicationAccountId'
-// });
+ApplicationAccountDocument.belongsTo(ApplicationAccount, {
+	foreignKey: 'applicationAccountId'
+});
 
-// ApplicationAccount.hasMany(ApplicationAccountDocument, {
-// 	foreignKey: 'applicationAccountId'
-// });
+ApplicationAccount.hasMany(ApplicationAccountDocument, {
+	foreignKey: 'applicationAccountId'
+});
 
-// WorkOrder.belongsTo(PositionRate);
-// PositionRate.hasMany(WorkOrder);
+WorkOrder.belongsTo(PositionRate);
+PositionRate.hasMany(WorkOrder);
 
-// WorkOrder.belongsTo(BusinessCompany, {
-// 	foreignKey: 'IdEntity',
-// 	as: 'BusinessCompanyWO'
-// });
+WorkOrder.belongsTo(BusinessCompany, {
+	foreignKey: 'IdEntity',
+	as: 'BusinessCompanyWO'
+});
 
 
-// WorkOrder.hasMany(WorkOrderPosition, { onDelete: 'cascade' });
-// WorkOrderPosition.belongsTo(PositionRate);
+WorkOrder.hasMany(WorkOrderPosition, { onDelete: 'cascade' });
+WorkOrderPosition.belongsTo(PositionRate);
 
-// PositionRate.belongsTo(CatalogItem, {
-// 	foreignKey: 'Id_Department',
-// 	as: 'Department'
-// });
+PositionRate.belongsTo(CatalogItem, {
+	foreignKey: 'Id_Department',
+	as: 'Department'
+});
 
-// WorkOrder.hasMany(phaseworkOrder);
-// phaseworkOrder.belongsTo(WorkOrder);
+WorkOrder.hasMany(phaseworkOrder);
+phaseworkOrder.belongsTo(WorkOrder);
 
-// phaseworkOrder.belongsTo(CatalogItem, {
-// 	foreignKey: 'phaseworkOrderId',
-// 	as: 'CatalogPhaseWO'
-// });
+phaseworkOrder.belongsTo(CatalogItem, {
+	foreignKey: 'phaseworkOrderId',
+	as: 'CatalogPhaseWO'
+});
 
-// phaseworkOrder.belongsTo(Users, {
-// 	foreignKey: 'userId',
-// 	as: 'UsersWO'
-// });
+phaseworkOrder.belongsTo(Users, {
+	foreignKey: 'userId',
+	as: 'UsersWO'
+});
 
-// Application.belongsTo(WorkOrder, {
-// 	foreignKey: 'positionApplyingFor',
-// 	as: 'PositionApplyingFor'
-// });
+Application.belongsTo(WorkOrder, {
+	foreignKey: 'positionApplyingFor',
+	as: 'PositionApplyingFor'
+});
 
-// Application.belongsTo(CatalogItem, {
-// 	foreignKey: 'state',
-// 	as: 'CatalogState'
-// });
+Application.belongsTo(CatalogItem, {
+	foreignKey: 'state',
+	as: 'CatalogState'
+});
 
-// Application.belongsTo(CatalogItem, {
-// 	foreignKey: 'city',
-// 	as: 'CatalogCity'
-// });
+Application.belongsTo(CatalogItem, {
+	foreignKey: 'city',
+	as: 'CatalogCity'
+});
 
-// Application.belongsTo(Coordenadas, {
-// 	foreignKey: 'zipCode',
-// 	as: 'Coordenadas'
-// });
+Application.belongsTo(Coordenadas, {
+	foreignKey: 'zipCode',
+	as: 'Coordenadas'
+});
 
-// Application.belongsTo(Users, {
-// 	foreignKey: 'idRecruiter',
-// 	as: "Recruiter"
-// });
+Application.belongsTo(Users, {
+	foreignKey: 'idRecruiter',
+	as: "Recruiter"
+});
 
-// Application.belongsTo(Users, {
-// 	foreignKey: 'UserId',
-// 	as: "User"
-// })
+Application.belongsTo(Users, {
+	foreignKey: 'UserId',
+	as: "User"
+})
 
-// Shift.belongsTo(PositionRate, {
-// 	foreignKey: 'idPosition',
-// 	as: 'CatalogPosition'
-// });
+Shift.belongsTo(PositionRate, {
+	foreignKey: 'idPosition',
+	as: 'CatalogPosition'
+});
 
-// Users.belongsTo(Roles, {
-// 	foreignKey: 'Id_Roles',
-// 	as: 'Role'
-// });
+Users.belongsTo(Roles, {
+	foreignKey: 'Id_Roles',
+	as: 'Role'
+});
 
-// Users.belongsTo(CatalogItem, {
-// 	foreignKey: 'Id_Language',
-// 	as: 'Language'
-// });
+Users.belongsTo(CatalogItem, {
+	foreignKey: 'Id_Language',
+	as: 'Language'
+});
 
-// Contacts.hasMany(Users, {
-// 	foreignKey: 'Id_Contact',
-// 	as: 'Users'
-// });
+Contacts.hasMany(Users, {
+	foreignKey: 'Id_Contact',
+	as: 'Users'
+});
 
-// Users.belongsTo(Contacts, {
-// 	foreignKey: 'Id_Contact',
-// 	as: 'Contact'
-// });
+Users.belongsTo(Contacts, {
+	foreignKey: 'Id_Contact',
+	as: 'Contact'
+});
 
-// Forms.hasMany(RolesForms, { foreignKey: 'IdForms' });
+Forms.hasMany(RolesForms, { foreignKey: 'IdForms' });
 
-// RolesForms.belongsTo(Forms, {
-// 	foreignKey: 'IdForms',
-// 	as: 'Forms'
-// })
+RolesForms.belongsTo(Forms, {
+	foreignKey: 'IdForms',
+	as: 'Forms'
+})
 
-// RolesForms.belongsTo(Roles, {
-// 	foreignKey: 'IdRoles',
-// 	as: 'Roles'
-// })
+RolesForms.belongsTo(Roles, {
+	foreignKey: 'IdRoles',
+	as: 'Roles'
+})
 
-// BusinessCompany.hasOne(CompanyPreference, {
-// 	foreignKey: 'EntityId',
-// 	as: "CompanyPref"
-// });
+BusinessCompany.hasOne(CompanyPreference, {
+	foreignKey: 'EntityId',
+	as: "CompanyPref"
+});
 
-// BusinessCompany.hasMany(PositionRate, {
-// 	foreignKey: 'Id_Entity'
-// });
+BusinessCompany.hasMany(PositionRate, {
+	foreignKey: 'Id_Entity'
+});
 
-// PositionRate.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
+PositionRate.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
 
-// //commentar si da error al correr migracion
-// BusinessCompany.belongsTo(BusinessCompany, {
-// 	foreignKey: 'Id_Parent',
-// 	as: "CompanyParent"
-// });
+//commentar si da error al correr migracion
+BusinessCompany.belongsTo(BusinessCompany, {
+	foreignKey: 'Id_Parent',
+	as: "CompanyParent"
+});
 
-// Shift.hasMany(ShiftDetail, { onDelete: 'cascade' });
-// ShiftDetail.hasOne(ShiftDetailEmployees, { onDelete: 'cascade' });
-// ShiftDetail.belongsTo(Shift);
+Shift.hasMany(ShiftDetail, { onDelete: 'cascade' });
+ShiftDetail.hasOne(ShiftDetailEmployees, { onDelete: 'cascade' });
+ShiftDetail.belongsTo(Shift);
 
-// ShiftDetailEmployees.belongsTo(ShiftDetail);
-// ShiftDetailEmployees.belongsTo(Employees);
+ShiftDetailEmployees.belongsTo(ShiftDetail);
+ShiftDetailEmployees.belongsTo(Employees);
 
-// Shift.hasOne(ShiftWorkOrder, { onDelete: 'cascade' });
+Shift.hasOne(ShiftWorkOrder, { onDelete: 'cascade' });
 
-// Shift.belongsTo(BusinessCompany, {
-// 	foreignKey: 'entityId',
-// 	as: 'ShiftEntity'
-// })
+Shift.belongsTo(BusinessCompany, {
+	foreignKey: 'entityId',
+	as: 'ShiftEntity'
+})
 
-// ShiftDetail.belongsTo(ShiftWorkOrder, {
-// 	foreignKey: 'ShiftId',
-// 	as: 'ShiftWorkOrder'
-// })
+ShiftDetail.belongsTo(ShiftWorkOrder, {
+	foreignKey: 'ShiftId',
+	as: 'ShiftWorkOrder'
+})
 
-// WorkOrder.hasMany(ShiftWorkOrder);
+WorkOrder.hasMany(ShiftWorkOrder);
 
-// ShiftWorkOrder.belongsTo(WorkOrder, {
-// 	foreignKey: 'WorkOrderId',
-// 	as: 'WorkOrder'
-// });
+ShiftWorkOrder.belongsTo(WorkOrder, {
+	foreignKey: 'WorkOrderId',
+	as: 'WorkOrder'
+});
 
-// ShiftWorkOrder.belongsTo(Shift, {
-// 	foreignKey: 'ShiftId',
-// 	as: 'Shift'
-// });
+ShiftWorkOrder.belongsTo(Shift, {
+	foreignKey: 'ShiftId',
+	as: 'Shift'
+});
 
-// Employees.hasMany(ShiftDetailEmployees);
+Employees.hasMany(ShiftDetailEmployees);
 
-// ShiftDetailEmployees.belongsTo(Employees, {
-// 	foreignKey: 'EmployeeId',
-// 	as: 'Employees'
-// });
+ShiftDetailEmployees.belongsTo(Employees, {
+	foreignKey: 'EmployeeId',
+	as: 'Employees'
+});
 
-// Employees.belongsTo(Users, {
-// 	foreignKey: 'idUsers'
-// });
+Employees.belongsTo(Users, {
+	foreignKey: 'idUsers'
+});
 
-// Users.hasOne(Employees, {
-// 	foreignKey: 'idUsers'
-// });
+Users.hasOne(Employees, {
+	foreignKey: 'idUsers'
+});
 
-// Employees.hasMany(MarkedEmployees)
+Employees.hasMany(MarkedEmployees)
 
-// Employees.belongsTo(CatalogItem, {
-// 	foreignKey: 'Id_Deparment',
-// 	as: 'CatalogDepartment'
-// });
+Employees.belongsTo(CatalogItem, {
+	foreignKey: 'Id_Deparment',
+	as: 'CatalogDepartment'
+});
 
-// CatalogItem.hasMany(Employees, {
-// 	foreignKey: 'Id_Deparment'
-// });
+CatalogItem.hasMany(Employees, {
+	foreignKey: 'Id_Deparment'
+});
 
-// Employees.belongsTo(PositionRate, {
-// 	foreignKey: 'Contact_Title',
-// 	as: 'Title'
-// });
+Employees.belongsTo(PositionRate, {
+	foreignKey: 'Contact_Title',
+	as: 'Title'
+});
 
-// MarkedEmployees.belongsTo(Employees, {
-// 	foreignKey: 'EmployeeId',
-// 	as: 'Employees'
-// });
+MarkedEmployees.belongsTo(Employees, {
+	foreignKey: 'EmployeeId',
+	as: 'Employees'
+});
 
 // MarkedEmployees.belongsTo(CatalogItem, {
 // 	foreignKey: 'typeMarkedId',
 // 	as: 'CatalogMarked'
 // });
 
-// MarkedEmployees.belongsTo(Shift);
-// MarkedEmployees.belongsTo(BusinessCompany, {
-// 	foreignKey: 'entityId',
-// });
+MarkedEmployees.belongsTo(Shift);
+MarkedEmployees.belongsTo(BusinessCompany, {
+	foreignKey: 'entityId',
+});
 
 
-// Application.hasOne(ApplicationEmployees);
-// Employees.hasOne(ApplicationEmployees);
+Application.hasOne(ApplicationEmployees);
+Employees.hasOne(ApplicationEmployees);
 
-// ApplicationEmployees.belongsTo(Employees, {
-// 	foreignKey: 'EmployeeId',
-// 	as: 'Employees'
-// });
+ApplicationEmployees.belongsTo(Employees, {
+	foreignKey: 'EmployeeId',
+	as: 'Employees'
+});
 
-// ApplicationEmployees.belongsTo(Application, {
-// 	foreignKey: 'ApplicationId',
-// 	as: 'Application'
-// });
+ApplicationEmployees.belongsTo(Application, {
+	foreignKey: 'ApplicationId',
+	as: 'Application'
+});
 
-// TemplateShift.belongsTo(Template);
-// TemplateShift.belongsTo(Shift);
-// CatalogItem.hasMany(Contacts, {
-// 	foreignKey: 'Id_Deparment',
-// 	as: 'Contacts'
-// })
+TemplateShift.belongsTo(Template);
+TemplateShift.belongsTo(Shift);
+CatalogItem.hasMany(Contacts, {
+	foreignKey: 'Id_Deparment',
+	as: 'Contacts'
+})
 
-// //commentar si da error al correr migracion
-// CatalogItem.hasMany(BusinessCompany, {
-// 	foreignKey: 'Region'
-// });
+//commentar si da error al correr migracion
+CatalogItem.hasMany(BusinessCompany, {
+	foreignKey: 'Region'
+});
 
-// BusinessCompany.belongsTo(CatalogItem, {
-// 	foreignKey: 'Region',
-// 	as: 'Regions'
-// })
+BusinessCompany.belongsTo(CatalogItem, {
+	foreignKey: 'Region',
+	as: 'Regions'
+})
 
-// CatalogItem.hasMany(WorkOrder, {
-// 	foreignKey: 'departmentId'
-// });
+CatalogItem.hasMany(WorkOrder, {
+	foreignKey: 'departmentId'
+});
 
 
-// // Opening recruiter associations
-// OpeningRecruiter.belongsTo(Users, { foreignKey: 'recruiterId' });
-// OpeningRecruiter.belongsTo(Shift, { foreignKey: 'openingId' });
+// Opening recruiter associations
+OpeningRecruiter.belongsTo(Users, { foreignKey: 'recruiterId' });
+OpeningRecruiter.belongsTo(Shift, { foreignKey: 'openingId' });
 
-// Users.hasMany(OpeningRecruiter, {
-// 	foreignKey: 'recruiterId'
-// });
+Users.hasMany(OpeningRecruiter, {
+	foreignKey: 'recruiterId'
+});
 
-// Shift.hasMany(OpeningRecruiter, {
-// 	foreignKey: 'openingId'
-// });
+Shift.hasMany(OpeningRecruiter, {
+	foreignKey: 'openingId'
+});
 
-// SmsLog.belongsTo(Employees);
-// SmsLog.belongsTo(Shift);
-// //commentar si da error al correr migracion
-// Contacts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
-// //commentar si da error al correr migracion
-// Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
-// BusinessCompany.hasMany(Contacts, { foreignKey: 'Id_Entity' });
+SmsLog.belongsTo(Employees);
+SmsLog.belongsTo(Shift);
+//commentar si da error al correr migracion
+Contacts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
+//commentar si da error al correr migracion
+Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
+BusinessCompany.hasMany(Contacts, { foreignKey: 'Id_Entity' });
 
-// BusinessCompany.hasMany(CatalogItem, { foreignKey: 'Id_Entity' });
+BusinessCompany.hasMany(CatalogItem, { foreignKey: 'Id_Entity' });
 
-// BusinessCompany.hasMany(WorkOrder, { foreignKey: 'IdEntity' });
+BusinessCompany.hasMany(WorkOrder, { foreignKey: 'IdEntity' });
 
-// BreakRuleModel.belongsTo(BusinessCompany, {
-// 	foreignKey: 'businessCompanyId',
-// 	as: 'BusinessCompany'
-// })
+BreakRuleModel.belongsTo(BusinessCompany, {
+	foreignKey: 'businessCompanyId',
+	as: 'BusinessCompany'
+})
 
-// BreakRuleModel.hasOne(BreakRuleDetailModel, {
-// 	foreignKey: 'breakRuleId'
-// })
+BreakRuleModel.hasOne(BreakRuleDetailModel, {
+	foreignKey: 'breakRuleId'
+})
 
-// BreakRuleDetailModel.belongsTo(BreakRuleModel, {
-// 	foreignKey: 'breakRuleId',
-// 	as: 'BreakRule'
-// });
+BreakRuleDetailModel.belongsTo(BreakRuleModel, {
+	foreignKey: 'breakRuleId',
+	as: 'BreakRule'
+});
 
-// Employees.hasMany(Employee_BreakRule, {
-// 	foreignKey: 'employeeId'
-// });
+Employees.hasMany(Employee_BreakRule, {
+	foreignKey: 'employeeId'
+});
 
-// BreakRuleModel.hasMany(Employee_BreakRule, {
-// 	foreignKey: 'breakRuleId'
-// });
+BreakRuleModel.hasMany(Employee_BreakRule, {
+	foreignKey: 'breakRuleId'
+});
 
-// Employee_BreakRule.belongsTo(Employees, {
-// 	foreignKey: 'employeeId'
-// });
+Employee_BreakRule.belongsTo(Employees, {
+	foreignKey: 'employeeId'
+});
 
-// Employee_BreakRule.belongsTo(BreakRuleModel, {
-// 	foreignKey: 'breakRuleId'
-// });
+Employee_BreakRule.belongsTo(BreakRuleModel, {
+	foreignKey: 'breakRuleId'
+});
 
-// Visit.belongsTo(Users, {
-// 	foreignKey: 'OpManagerId'
-// });
+Visit.belongsTo(Users, {
+	foreignKey: 'OpManagerId'
+});
 
-// Visit.belongsTo(BusinessCompany, {
-// 	foreignKey: 'BusinessCompanyId'
-// });
+Visit.belongsTo(BusinessCompany, {
+	foreignKey: 'BusinessCompanyId'
+});
 
-// BusinessCompany.hasMany(EmployeeByHotel);
+BusinessCompany.hasMany(EmployeeByHotel);
 
-// EmployeeByHotel.belongsTo(BusinessCompany, {
-// 	foreignKey: 'BusinessCompanyId',
-// 	as: 'BusinessCompanies'
-// });
+EmployeeByHotel.belongsTo(BusinessCompany, {
+	foreignKey: 'BusinessCompanyId',
+	as: 'BusinessCompanies'
+});
 
-// Employees.hasMany(EmployeeByHotel);
+Employees.hasMany(EmployeeByHotel);
 
-// EmployeeByHotel.belongsTo(Employees, {
-// 	foreignKey: 'EmployeeId',
-// 	as: 'Employees'
-// });
+EmployeeByHotel.belongsTo(Employees, {
+	foreignKey: 'EmployeeId',
+	as: 'Employees'
+});
 
-// CatalogItem.hasMany(RegionsUsers, { foreignKey: 'RegionId' });
-// RegionsUsers.belongsTo(CatalogItem, { foreignKey: 'RegionId' });
+CatalogItem.hasMany(RegionsUsers, { foreignKey: 'RegionId' });
+RegionsUsers.belongsTo(CatalogItem, { foreignKey: 'RegionId' });
 
-// Users.hasMany(RegionsUsers, { foreignKey: 'UserId' });
-// RegionsUsers.belongsTo(Users, { foreignKey: 'UserId' });
+Users.hasMany(RegionsUsers, { foreignKey: 'UserId' });
+RegionsUsers.belongsTo(Users, { foreignKey: 'UserId' });
 
-// ConfigRegions.belongsTo(Users, {
-// 	foreignKey: 'regionalManagerId',
-// 	as: 'OperationManager'
-// });
+ConfigRegions.belongsTo(Users, {
+	foreignKey: 'regionalManagerId',
+	as: 'OperationManager'
+});
 
-// ConfigRegions.belongsTo(CatalogItem, {
-// 	foreignKey: 'regionId',
-// 	as: 'Region'
-// });
-// CatalogItem.hasOne(ConfigRegions, {
-// 	as: 'ConfigRegion',
-// 	foreignKey: 'regionId'
-// });
+ConfigRegions.belongsTo(CatalogItem, {
+	foreignKey: 'regionId',
+	as: 'Region'
+});
+CatalogItem.hasOne(ConfigRegions, {
+	as: 'ConfigRegion',
+	foreignKey: 'regionId'
+});
 
-// Forms.belongsTo(Forms, {
-// 	foreignKey: 'ParentId',
-// 	as: 'ParentForm'
-// });
+Forms.belongsTo(Forms, {
+	foreignKey: 'ParentId',
+	as: 'ParentForm'
+});
 
-// Feature.belongsTo(Roles);
+Feature.belongsTo(Roles);
 
-// Contracts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
-// Contracts.belongsTo(BusinessCompany, { foreignKey: 'IdManagement' });
-// BusinessCompany.hasMany(Contracts, { foreignKey: 'Id_Entity' });
-// BusinessCompany.hasMany(Contracts, { foreignKey: 'IdManagement' });
-// Contracts.belongsTo(Users, { foreignKey: 'Id_User_Signed' });
-// Contracts.belongsTo(Users, { foreignKey: 'Id_User_Billing_Contact' });
-// Users.hasMany(Contracts, { foreignKey: 'Id_User_Signed' });
-// Users.hasMany(Contracts, { foreignKey: 'Id_User_Billing_Contact' });
+Contracts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
+Contracts.belongsTo(BusinessCompany, { foreignKey: 'IdManagement' });
+BusinessCompany.hasMany(Contracts, { foreignKey: 'Id_Entity' });
+BusinessCompany.hasMany(Contracts, { foreignKey: 'IdManagement' });
+Contracts.belongsTo(Users, { foreignKey: 'Id_User_Signed' });
+Contracts.belongsTo(Users, { foreignKey: 'Id_User_Billing_Contact' });
+Users.hasMany(Contracts, { foreignKey: 'Id_User_Signed' });
+Users.hasMany(Contracts, { foreignKey: 'Id_User_Billing_Contact' });
 
-// Contracts.hasMany(Tokens, { foreignKey: 'Id_Contract' });
-// Tokens.belongsTo(Contracts, { foreignKey: 'Id_Contract' });
+Contracts.hasMany(Tokens, { foreignKey: 'Id_Contract' });
+Tokens.belongsTo(Contracts, { foreignKey: 'Id_Contract' });
 
 
 Conn.authenticate()

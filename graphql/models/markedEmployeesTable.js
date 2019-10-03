@@ -2,9 +2,7 @@ import Sequelize from 'sequelize';
 import moment from 'moment';
 
 const getHour = (mark, field) => {
-	if (!mark || !mark[field]) {
-		return null;
-	}
+
 	let hours = mark[field].split(' ');
 	let _hour = hours[0];
 	if (hours[1] == 'PM' && parseInt(hours[0]) != 12)
@@ -50,6 +48,10 @@ export default {
 					type: Sequelize.TEXT('long'),
 					allowNull: true
 				},
+				positionId:{
+					type: Sequelize.STRING,
+					allowNull: true	
+				},			
 				EmployeeId: {
 					type: Sequelize.INTEGER,
 				},
@@ -69,6 +71,7 @@ export default {
 					type: Sequelize.DATEONLY
 				}
 			}, {
+
 			hooks: {
 				beforeCreate: function (data) {
 					data.inboundMarkTime = getHour(data, "inboundMarkTime");
