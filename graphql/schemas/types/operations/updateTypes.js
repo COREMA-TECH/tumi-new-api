@@ -41,6 +41,7 @@ import {
 	FeatureFields,
 	ContractFields,
 	TokenFields,
+	BusinessRulesFields,
 	RegionsUsersFields,
 	RolesFields
 } from '../fields';
@@ -589,7 +590,18 @@ const inputUpdateTokens = new GraphQLInputObjectType({
 	}
 });
 
-const inputUpdateRegionsUsers = new GraphQLInputObjectType({
+const inputUpdateBusinessRule = new GraphQLInputObjectType({
+	name: 'inputUpdateBusinessRule',
+	description: "Input for updating a Business Rule",
+	fields: { 
+		Id: {
+			type: new GraphQLNonNull(GraphQLInt)
+		},
+		...BusinessRulesFields 
+  }
+});
+
+    const inputUpdateRegionsUsers = new GraphQLInputObjectType({
 	name: 'inputUpdateRegionsUsers',
 	description: 'Inputs for Region by User',
 
@@ -645,6 +657,7 @@ export {
 	inputUpdateFeatureType,
 	inputUpdateContracts,
 	inputUpdateTokens,
+	inputUpdateBusinessRule,
 	inputUpdateRegionsUsers,
 	inputUpdateRoles
 };

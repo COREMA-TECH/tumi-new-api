@@ -65,6 +65,7 @@ import {
 	FeatureFields,
 	ContractFields,
 	TokenFields,
+	BusinessRulesFields,
 	RegionsUsersFields
 } from '../fields';
 
@@ -220,6 +221,14 @@ const ApplicationType = new GraphQLObjectType({
 				type: ApplicantIndepenentContractType,
 				resolve(me) {
 					return me.getApplicantIndependentContract();
+				}
+			},
+			sentToInterview: {
+				type: GraphQLDate,
+				async resolve(me) {
+					let phase = await Db.models.ApplicationPhases.findOne({ where: { ApplicationId: me.id, StageId: 30461 } });
+					if (phase) return phase.createdAt;
+					return null;
 				}
 			},
 			statusCompleted: {
@@ -1648,23 +1657,14 @@ const MarkedEmployeesType = new GraphQLObjectType({
 	description: 'This is for Marked Employees Table',
 	fields: () => {
 		return {
-			id: {
-				type: GraphQLInt,
-				description: 'table id'
-			},
-			...MarkedEmployeesFields,
-			Employees: {
-				type: EmployeesType,
-				resolve(me) {
-					return me.getEmployees();
-				}
-			},
-			TypeMarked: {
-				type: CatalogItemType,
-				resolve(me) {
-					return me.getCatalogMarked();
-				}
-			},
+			id: { type: GraphQLInt },
+			entityId: { type: GraphQLInt },
+			typeMarkedId: { type: GraphQLInt },
+			markedDate: { type: GraphQLDate },
+			markedTime: { type: GraphQLString },
+			imageMarked: { type: GraphQLString },
+			EmployeeId: { type: GraphQLInt },
+			key: { type: GraphQLString }
 		}
 	}
 });
@@ -2112,6 +2112,32 @@ const EmployeeByHotelType = new GraphQLObjectType({
 	}
 });
 
+const BusinessRuleType = new GraphQLObjectType({
+	name: "BusinessRuleType",
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt
+			},
+			...BusinessRulesFields,
+			createdAt: {
+				type: GraphQLDate,
+				description: 'Creation Date'
+			},
+			updatedAt: {
+				type: GraphQLDate,
+				description: 'Update Date'
+			},
+			ruleType: {
+				type: CatalogItemType,
+				resolve(me) {
+					return me.getRuleType();
+				}
+			}
+		}
+	}
+});
+
 const FeatureType = new GraphQLObjectType({
 	name: 'FeatureType',
 	description: 'This object represents an Feature Record',
@@ -2305,6 +2331,7 @@ export {
 	ContractType,
 	TokenType,
 	ApprovePunchesType,
+	BusinessRuleType,
 	WorkOrderGridType,
 	RegionsUsersType
 };

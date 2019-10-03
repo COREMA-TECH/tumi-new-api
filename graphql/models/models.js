@@ -70,6 +70,7 @@ import EmployeeByHotelModel from './employeeByHotelTable';
 import FeatureModel from './featureTable';
 import ContractModel from './contractTable';
 import TokenModel from './tokenTable';
+import BusinessRuleModel from './businessRule';
 import RegionsUsersModel from './regionsUsersTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
@@ -143,6 +144,16 @@ const ApplicantVerificationLetter = ApplicantVerificationLetterModel.createModel
 const Feature = FeatureModel.createModel(Conn);
 const Contracts = ContractModel.createModel(Conn);
 const Tokens = TokenModel.createModel(Conn);
+const BusinessRule = BusinessRuleModel.createModel(Conn);
+
+BusinessRule.belongsTo(CatalogItem, {
+	foreignKey: "catalogItemId",
+	as: "RuleType"
+});
+
+CatalogItem.hasMany(BusinessRule, {
+	foreignKey: "catalogItemId",
+});
 const RegionsUsers = RegionsUsersModel.createModel(Conn);
 
 ApplicationPhases.belongsTo(CatalogItem, {
