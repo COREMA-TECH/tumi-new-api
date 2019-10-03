@@ -16,6 +16,7 @@ import {
 	ApplicantDocumentFields,
 	ApplicantW4Fields,
 	ApplicantI9Fields,
+	BusinessCompanyFields,
 	WorkOrderFields,
 	WorkOrderPositionFields,
 	ApplicationPhaseFields,
@@ -56,6 +57,19 @@ const inputUpdateApplication = new GraphQLInputObjectType({
 			description: 'Applicant Id'
 		},
 		...ApplicationFields
+	}
+});
+
+const inputUpdateBusinessCompany = new GraphQLInputObjectType({
+	name: 'inputUpdateBusinessCompany',
+	description: 'Inputs for Business Company',
+
+	fields: {
+		Id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'BusinessCompany Id'
+		},
+		...BusinessCompanyFields
 	}
 });
 
@@ -646,5 +660,6 @@ export {
 	inputUpdateContracts,
 	inputUpdateTokens,
 	inputUpdateRegionsUsers,
-	inputUpdateRoles
+	inputUpdateRoles,
+	inputUpdateBusinessCompany
 };
