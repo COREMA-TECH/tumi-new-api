@@ -40,34 +40,34 @@ const ApplicationPhaseQuery = {
             });
         }
     },
-    applicationPhaseByDate: {
-        type: new GraphQLList(ApplicationPhaseType),
-        description: 'List Application by Phases records by a date range',
-        args: {
-            startDate: {
-                type: (GraphQLDate)
-            },
-            endDate: {
-                type: (GraphQLDate)
-            },
-            idRecruiter: {
-                type: (GraphQLInt)
-            }
-        },
-        resolve(root, args) {
-            return Db.models.ApplicationPhases.findAll({
-                where: {
-                    ReasonId: 30458,
-                    UserId: args.idRecruiter,
-                    [Op.and]: [
-                        { createdAt: { [Op.gte]: new Date(args.startDate.setUTCHours(0, 0, 0)) } },
-                        { createdAt: { [Op.lte]: new Date(args.endDate.setUTCHours(23, 59, 59)) } }
-                    ]
-                },
-                order: [['createdAt', 'DESC']]
-            });
-        }
-    },
+    // applicationPhaseByDate: {
+    //     type: new GraphQLList(ApplicationPhaseType),
+    //     description: 'List Application by Phases records by a date range',
+    //     args: {
+    //         startDate: {
+    //             type: (GraphQLDate)
+    //         },
+    //         endDate: {
+    //             type: (GraphQLDate)
+    //         },
+    //         idRecruiter: {
+    //             type: (GraphQLInt)
+    //         }
+    //     },
+    //     resolve(root, args) {
+    //         return Db.models.ApplicationPhases.findAll({
+    //             where: {
+    //                 ReasonId: 30458,
+    //                 UserId: args.idRecruiter,
+    //                 [Op.and]: [
+    //                     { createdAt: { [Op.gte]: new Date(args.startDate.setUTCHours(0, 0, 0)) } },
+    //                     { createdAt: { [Op.lte]: new Date(args.endDate.setUTCHours(23, 59, 59)) } }
+    //                 ]
+    //             },
+    //             order: [['createdAt', 'DESC']]
+    //         });
+    //     }
+    // },
     applicationPhaseByDate_Resume: {
         type: ApplicationPhaseResumeType,
         description: 'List Application by Phases records by a date range',
@@ -85,7 +85,7 @@ const ApplicationPhaseQuery = {
         resolve(root, args) {
             return Db.models.ApplicationPhases.findAll({
                 where: {
-                    ReasonId: 30458,
+
                     UserId: args.idRecruiter,
                     [Op.and]: [
                         { createdAt: { [Op.gte]: new Date(args.startDate.setUTCHours(0, 0, 0)) } },
@@ -98,19 +98,19 @@ const ApplicationPhaseQuery = {
                 },
                 order: [['createdAt', 'DESC']]
             }).then(_phases => {
-                let leadEntered = 0, sentToInterview = 0, showed = 0, noShow = 0, hired = 0, applications = [], data = [];
+                let leadEntered = [], sentToInterview = [], showed = 0, noShow = [], hired = 0, applications = [], data = [];
                 _phases.map(_ => {
                     //Crate applications id list
                     if (!applications.find(i => i == _.ApplicationId))
                         applications.push(_.ApplicationId);
 
                     //Count status of application based on application phase or reason
-                    if (_.StageId == 30460)
-                        leadEntered++;
-                    else if (_.StageId == 30461)
-                        sentToInterview++;
-                    if (_.ReasonId == 30458 && _.StageId == 30460)
-                        noShow++;
+                    if (_.StageId == 30460 && !leadEntered.find(me => me.ApplicationId == _.ApplicationId))
+                        leadEntered.push({ ApplicationId: _.ApplicationId });
+                    else if (_.StageId == 30461 && !sentToInterview.find(me => me.ApplicationId == _.ApplicationId))
+                        sentToInterview.push({ ApplicationId: _.ApplicationId });
+                    if (_.ReasonId == 30458 && _.StageId == 30460 && !noShow.find(me => me.ApplicationId == _.ApplicationId))
+                        noShow.push({ ApplicationId: _.ApplicationId });
                 })
                 return Db.models.Applications.findAll(
                     {
@@ -125,7 +125,7 @@ const ApplicationPhaseQuery = {
                         }]
                     }
                 ).then(_ => {
-                    return { leadEntered, sentToInterview, noShow, showed: sentToInterview - noShow, hired: _.length };
+                    return { leadEntered: leadEntered.length, sentToInterview: sentToInterview.length, noShow: noShow.length, showed: sentToInterview.length - noShow.length, hired: _.length };
                 })
 
             })
