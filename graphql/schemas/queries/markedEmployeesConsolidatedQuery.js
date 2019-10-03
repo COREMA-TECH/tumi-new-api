@@ -12,6 +12,7 @@ const uuidv4 = require('uuid/v4');
 const CLOCKIN = 30570;
 const CLOCKOUT = 30571;
 const BREAKIN = 30572;
+const BREAKOUT = 30573;
 const NOW_DESCRIPTION = "Now";
 const Op = Sequelize.Op;
 
@@ -121,7 +122,7 @@ const MarkedEmployeesConsolidated = {
             endDate: { type: GraphQLDate },
             EmployeeId: { type: GraphQLInt }
         },
-        resolve(args) {
+        resolve(root, args) {
             return Db.models.MarkedEmployees.findAll({
                 where: { ...getPunchesMarkerFilter(args) },
                 order: [
@@ -169,15 +170,14 @@ const MarkedEmployeesConsolidated = {
                     required: true
                 }]
             }).then(marks => {
-                return;
-                var key = "", localGroupKey = "";
+                    var key = "", localGroupKey = "";
                 var groupKey = [];
                 var employee;
                 var punch = {};
 
                 const punches = marks.map(mark => {
 
-                    let { EmployeeId, markedDate, entityId, positionId, inboundMarkImage, outboundMarkTime } = mark.dataValues;
+                    let { EmployeeId, markedDate, entityId, positionId, inboundMarkImage, outboundMarkTime, inboundMarkTime, outboundMarkImage } = mark.dataValues;
 
                     employee = mark.dataValues.Employees.dataValues;
                     let application = employee.ApplicationEmployee.Application.dataValues;
@@ -199,10 +199,10 @@ const MarkedEmployeesConsolidated = {
                         hotelCode: company.Name,
                         hotelId: company.Id,
                         imageMarkedIn: inboundMarkImage,
-                        imageMarkedOut: outboundMarkTime,
-                        clockIn:inboundMarkTime,
-                        clockOut: moment.utc(markedDate).format('YYYY/MM/DD') == moment.utc(new Date()).format('YYYY/MM/DD') ? NOW_DESCRIPTION : "24:00",
-                        duration: 0
+                        imageMarkedOut: outboundMarkImage,
+                        clockIn: inboundMarkTime,
+                        clockOut: outboundMarkTime === "" ? NOW_DESCRIPTION : outboundMarkTime,
+                        duration: outboundMarkTime === "" ? 0 : moment.duration(moment(outboundMarkTime,'HH:mm').diff(moment(inboundMarkTime,'HH:mm'))).asHours()
                     }
                     return punch;
                 });
@@ -222,6 +222,7 @@ const MarkedEmployeesConsolidated = {
                     if (newPunches.hasOwnProperty(key)) {
                         _punches.push({
                             key,
+                            date: moment(key, "YYYY/MM/DD").format("YYYY/MM/DD"),
                             punches : newPunches[key]
                         });
                     }
@@ -243,7 +244,7 @@ const MarkedEmployeesConsolidated = {
             endDate: { type: GraphQLDate },
             directDeposit: { type: GraphQLBoolean }
         },
-        resolve(args) {
+        resolve(root, args) {
             return Db.models.MarkedEmployees.findAll({
                 where: { ...getPunchesMarkerFilter(args), typeMarkedId: { $in: [CLOCKIN, CLOCKOUT] } },
                 order: [
@@ -467,6 +468,7 @@ const MarkedEmployeesConsolidated = {
                             console.log("Filename ----> ", filename.toString());
 
 
+                            let pathname = filename.toString();
                             /**
                              *
                              */
@@ -487,7 +489,7 @@ const MarkedEmployeesConsolidated = {
             startDate: { type: new GraphQLNonNull(GraphQLDate) },
             endDate: { type: new GraphQLNonNull(GraphQLDate) },
         },
-        resolve(args) {
+        resolve(root, args) {
             let filter = {};
 
             //------------------Create filters
