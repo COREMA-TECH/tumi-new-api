@@ -5,16 +5,25 @@ const markedEmployeesFields = {
 	entityId: {
 		type: GraphQLInt
 	},
-	typeMarkedId: {
-		type: GraphQLInt
-	},
 	markedDate: {
 		type: GraphQLDate
 	},
-	markedTime: {
+	inboundMarkTypeId: {
+		type: GraphQLInt
+	},
+	inboundMarkTime: {
 		type: GraphQLString
 	},
-	imageMarked: {
+	inboundMarkImage: {
+		type: GraphQLString
+	},
+	outboundMarkTypeId: {
+		type: GraphQLInt
+	},
+	outboundMarkTime: {
+		type: GraphQLString
+	},
+	outboundMarkImage: {
 		type: GraphQLString
 	},
 	EmployeeId: {

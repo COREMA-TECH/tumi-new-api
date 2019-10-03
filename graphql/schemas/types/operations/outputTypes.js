@@ -1657,23 +1657,14 @@ const MarkedEmployeesType = new GraphQLObjectType({
 	description: 'This is for Marked Employees Table',
 	fields: () => {
 		return {
-			id: {
-				type: GraphQLInt,
-				description: 'table id'
-			},
-			...MarkedEmployeesFields,
-			Employees: {
-				type: EmployeesType,
-				resolve(me) {
-					return me.getEmployees();
-				}
-			},
-			TypeMarked: {
-				type: CatalogItemType,
-				resolve(me) {
-					return me.getCatalogMarked();
-				}
-			},
+			id: { type: GraphQLInt },
+			entityId: { type: GraphQLInt },
+			typeMarkedId: { type: GraphQLInt },
+			markedDate: { type: GraphQLDate },
+			markedTime: { type: GraphQLString },
+			imageMarked: { type: GraphQLString },
+			EmployeeId: { type: GraphQLInt },
+			key: { type: GraphQLString }
 		}
 	}
 });

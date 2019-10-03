@@ -8,6 +8,10 @@ import moment from 'moment';
 
 import Db from '../../models/models';
 
+const CLOCKIN = 30570;
+const CLOCKOUT = 30571;
+const BREAKIN = 30572;
+const BREAKOUT = 30573;
 
 const MarkedEmployeesMutation = {
 	addMarkedEmployees: {
@@ -17,7 +21,95 @@ const MarkedEmployeesMutation = {
 			MarkedEmployees: { type: new GraphQLList(inputInsertMarkedEmployees) }
 		},
 		resolve(source, args) {
-			return Db.models.MarkedEmployees.bulkCreate(args.MarkedEmployees);
+			let marks = args.MarkedEmployees || [];
+			let data = marks.sort((a, b) => a.entityId - b.entityId)
+				.sort((a, b) => a.EmployeeId - b.EmployeeId)
+				.sort((a, b) => a.markedDate - b.markedDate)
+				.sort((a, b) => a.markedTime.localeCompare(b.markedTime));
+
+			return new Promise((resolve, reject) => {
+				const processData = async (i = 0) => {
+					let mark = data[i];
+
+					await Db.models.MarkedEmployees.findOne(
+						{
+							where: {
+								$or: [{ outboundMarkTypeId: null }, { outboundMarkTime: '24:00' }],
+								entityId: mark.entityId,
+								EmployeeId: mark.EmployeeId,
+								markedDate: mark.markedDate
+							},
+						})
+						.then(async dbMark => {
+							if (dbMark)
+								await Db.models.MarkedEmployees.update({
+									outboundMarkTypeId: mark.typeMarkedId,
+									outboundMarkTime: mark.markedTime,
+									outboundMarkImage: mark.imageMarked
+								}, {
+									where: { id: dbMark.id },
+								})
+							else {
+								let lastMark = await Db.models.MarkedEmployees.findOne(
+									{
+										where: {
+											entityId: mark.entityId,
+											EmployeeId: mark.EmployeeId,
+											markedDate: mark.markedDate
+										},
+										order: [['outboundMarkTime', 'DESC']]
+									})
+								let newMarkedEmployee = {};
+								if (lastMark && lastMark.outboundMarkTypeId != CLOCKOUT)
+									newMarkedEmployee = {
+										inboundMarkTypeId: lastMark.outboundMarkTypeId,
+										inboundMarkTime: lastMark.outboundMarkTime,
+										inboundMarkImage: lastMark.outboundMarkImage,
+										outboundMarkTypeId: mark.typeMarkedId,
+										outboundMarkTime: mark.markedTime,
+										outboundMarkImage: mark.imageMarked,
+										markedDate: mark.markedDate,
+										entityId: mark.entityId,
+										EmployeeId: mark.EmployeeId,
+										key: mark.key,
+										flag: true
+									}
+								else newMarkedEmployee = {
+									inboundMarkTypeId: mark.typeMarkedId,
+									inboundMarkTime: mark.markedTime,
+									inboundMarkImage: mark.imageMarked,
+									markedDate: mark.markedDate,
+									entityId: mark.entityId,
+									EmployeeId: mark.EmployeeId,
+									key: mark.key,
+									flag: true
+								}
+								let markFound = await Db.models.MarkedEmployees.findOne(
+									{
+										where: {
+											entityId: mark.entityId,
+											EmployeeId: mark.EmployeeId,
+											markedDate: mark.markedDate,
+											$or: [
+												{ $and: [{ inboundMarkTypeId: mark.typeMarkedId }, { inboundMarkTime: mark.markedTime }] },
+												{ $and: [{ outboundMarkTypeId: mark.typeMarkedId }, { outboundMarkTime: mark.markedTime }] }
+											]
+										},
+										order: [['outboundMarkTime', 'DESC']]
+									})
+								if (!markFound)
+									await Db.models.MarkedEmployees.create(newMarkedEmployee);
+
+							}
+						})
+					if (i < data.length - 1)
+						processData(i + 1)
+					else resolve(args.MarkedEmployees);
+				}
+				if (data.length > 0)
+					processData();
+			})
+
 
 		}
 	},

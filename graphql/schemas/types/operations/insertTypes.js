@@ -347,7 +347,15 @@ const inputInsertShiftDetailEmployee = new GraphQLInputObjectType({
 const inputInsertMarkedEmployees = new GraphQLInputObjectType({
 	name: 'inputInsertMarkedEmployees',
 	description: 'Inputs for MarkedEmployees Employee Insert',
-	fields: { ...MarkedEmployeesFields }
+	fields: {
+		entityId: { type: GraphQLInt },
+		typeMarkedId: { type: GraphQLInt },
+		markedDate: { type: GraphQLDate },
+		markedTime: { type: GraphQLString },
+		imageMarked: { type: GraphQLString },
+		EmployeeId: { type: GraphQLInt },
+		key: { type: GraphQLString }
+	}
 
 });
 

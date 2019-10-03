@@ -1,8 +1,11 @@
 import Sequelize from 'sequelize';
 import moment from 'moment';
 
-const getHour = (mark) => {
-	let hours = mark.markedTime.split(' ');
+const getHour = (mark, field) => {
+	if (!mark || !mark[field]) {
+		return null;
+	}
+	let hours = mark[field].split(' ');
 	let _hour = hours[0];
 	if (hours[1] == 'PM' && parseInt(hours[0]) != 12)
 		_hour = moment(_hour, "hh:mm").add(12, 'hours').format("HH:mm");
@@ -19,19 +22,31 @@ export default {
 					type: Sequelize.INTEGER,
 					allowNull: true
 				},
-				typeMarkedId: {
-					type: Sequelize.INTEGER,
-					allowNull: true
-				},
 				markedDate: {
 					type: Sequelize.DATE,
 					allowNull: true
 				},
-				markedTime: {
+				inboundMarkTypeId: {
+					type: Sequelize.INTEGER,
+					allowNull: true
+				},
+				inboundMarkTime: {
 					type: Sequelize.STRING,
 					allowNull: true
 				},
-				imageMarked: {
+				inboundMarkImage: {
+					type: Sequelize.TEXT('long'),
+					allowNull: true
+				},
+				outboundMarkTypeId: {
+					type: Sequelize.INTEGER,
+					allowNull: true
+				},
+				outboundMarkTime: {
+					type: Sequelize.STRING,
+					allowNull: true
+				},
+				outboundMarkImage: {
 					type: Sequelize.TEXT('long'),
 					allowNull: true
 				},
@@ -54,18 +69,20 @@ export default {
 					type: Sequelize.DATEONLY
 				}
 			}, {
-				hooks: {
-					beforeCreate: function (_, options) {
-						_.markedTime = getHour(_);
-					},
-					beforeBulkCreate: function (_, options) {
-						_.map(_ => {
-							let mark = _.dataValues;
-							mark.markedTime = getHour(mark);
-						})
-					}
+			hooks: {
+				beforeCreate: function (data) {
+					data.inboundMarkTime = getHour(data, "inboundMarkTime");
+					data.outboundMarkTime = getHour(data, "outboundMarkTime");
+				},
+				beforeBulkCreate: function (data) {
+					data.map(data => {
+						let mark = data.dataValues;
+						mark.inboundMarkTime = getHour(mark, "inboundMarkTime");
+						mark.outboundMarkTime = getHour(mark, "outboundMarkTime");
+					})
 				}
 			}
+		}
 
 		);
 	},
