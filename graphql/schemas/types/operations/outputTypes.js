@@ -1806,8 +1806,6 @@ const PunchesReportConsolidatedPunchesType = new GraphQLObjectType({
 			job: { type: GraphQLString },
 			hotelCode: { type: GraphQLString },
 			hotelId: { type: GraphQLString },
-			clockInId: { type: GraphQLInt },
-			clockOutId: { type: GraphQLInt },
 			noteIn: { type: GraphQLString },
 			noteOut: { type: GraphQLString },
 			flagIn: { type: GraphQLBoolean },
