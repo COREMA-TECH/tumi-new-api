@@ -128,8 +128,6 @@ const MarkedEmployeesConsolidated = {
                 order: [
                     ['EmployeeId', 'DESC'],
                     ['entityId', 'DESC'],
-                    ['markedDate', 'ASC'],
-                    ['markedTime', 'ASC']
                 ],
                 include: [{
                     model: Db.models.Employees,
@@ -171,111 +169,67 @@ const MarkedEmployeesConsolidated = {
                     where: { ...getPunchesCompanyFilter(args) },
                     required: true
                 }]
-            })
-                .then(marks => {
-                    var objPunches = {};
+            }).then(marks => {
+                    var key = "", localGroupKey = "";
+                var groupKey = [];
+                var employee;
+                var punch = {};
 
-                    for (var index = 0; index < marks.length; index++) {
-                        let _mark = marks[index];
+                const punches = marks.map(mark => {
 
-                        var { typeMarkedId, markedTime, EmployeeId, notes, markedDate, imageMarked, id, notes, entityId, flag, approvedDate } = _mark.dataValues;
+                    let { EmployeeId, markedDate, entityId, positionId, inboundMarkImage, outboundMarkTime, inboundMarkTime, outboundMarkImage } = mark.dataValues;
 
-                        var key = `${entityId}-${EmployeeId}-${moment.utc(markedDate).format('YYYYMMDD')}`;
-                        var groupKey = `${moment.utc(markedDate).format('YYYYMMDD')}`;
-                        var employee = _mark.dataValues.Employees.dataValues;
-                        // var shift = _mark.dataValues.Shift.dataValues;
-                        // var position = shift.CatalogPosition.dataValues;
-                        let company = _mark.dataValues.BusinessCompany.dataValues;
-                        let punch = {};
+                    employee = mark.dataValues.Employees.dataValues;
+                    let application = employee.ApplicationEmployee.Application.dataValues;
+                    let name = `${application.firstName} ${application.lastName}`.trim();
+                    let company = mark.dataValues.BusinessCompany.dataValues;
+                    
+                    key = `${entityId}-${EmployeeId}-${moment.utc(markedDate).format('YYYYMMDD')}`;
+                    
+                    localGroupKey = `${moment.utc(markedDate).format('YYYYMMDD')}`;
+                    if (!groupKey.includes(localGroupKey))
+                        groupKey = [...groupKey, localGroupKey];
 
-                        let application = employee.ApplicationEmployee.Application.dataValues;
-                        let name = `${application.firstName} ${application.lastName}`.trim();
-
-                        //Create punch record
-                        punch = {
-                            key,
-                            name,
-                            employeeId: EmployeeId,
-                            job: '',
-                            hotelCode: company.Name,
-                            hotelId: company.Id,
-                            clockOut: moment.utc(markedDate).format('YYYY/MM/DD') == moment.utc(new Date()).format('YYYY/MM/DD') ? NOW_DESCRIPTION : "24:00"
-                        }
-                        //Create new punch object if this object doesnt exist into the array of punches
-                        if (!objPunches[groupKey]) {
-                            var reportRow = {
-                                key: groupKey,
-                                date: moment.utc(markedDate).format('YYYY/MM/DD'),
-                                duration: 0,
-                                punches: [punch]
-                            }
-                            objPunches = { ...objPunches, [groupKey]: reportRow }
-                        }
-                        else {
-                            //Exclude ClockOut mark from list
-                            if (typeMarkedId != CLOCKOUT)
-                                objPunches[groupKey].punches.push(punch);
-                        }
-
-                        //Exclude ClockOut mark from list
-                        if (typeMarkedId != CLOCKOUT) {
-
-                            //Format punche time
-                            var hour = moment.utc(markedTime, 'HH:mm').format('HH:mm');
-
-                            //Update marker type hour based on type and hour
-                            //  if ("30570||30572".includes(typeMarkedId)) {
-                            punch.clockIn = hour;
-                            punch.imageMarkedIn = imageMarked;
-                            punch.clockInId = id;
-                            punch.noteIn = notes;
-                            punch.flagIn = flag;
-                            punch.approvedDateIn = approvedDate ? moment.utc(approvedDate).format('YYYY/MM/DD') : null;
-
-                            let nextMark = marks[index + 1];
-                            if (nextMark) {
-                                let _nextMarkValues = nextMark.dataValues;
-                                var _nextMarkHour = moment.utc(_nextMarkValues.markedTime, 'HH:mm').format('HH:mm');
-
-                                if (_nextMarkValues.EmployeeId == _mark.EmployeeId &&
-                                    moment.utc(_nextMarkValues.markedDate).local().format("YYYYMMDDD") == moment.utc(_mark.markedDate).local().format("YYYYMMDDD") &&
-                                    _nextMarkValues.entityId == _mark.entityId) {
-                                    punch.clockOut = _nextMarkHour;
-                                    punch.imageMarkedOut = _nextMarkValues.imageMarked;
-                                    punch.clockOutId = _nextMarkValues.id;
-                                    punch.noteOut = _nextMarkValues.notes;
-                                    punch.flagOut = _nextMarkValues.flag;
-                                    punch.approvedDateOut = _nextMarkValues.approvedDate ? moment.utc(_nextMarkValues.approvedDate).format('YYYY/MM/DD') : null;
-                                    if (_nextMarkValues.typeMarkedId == BREAKOUT && typeMarkedId == BREAKIN)
-                                        punch.job = 'Lunch Break'
-                                }
-                            }
-
-                        }
+                    punch = {
+                        key,
+                        localGroupKey,
+                        name,
+                        employeeId: EmployeeId,
+                        job: positionId,
+                        hotelCode: company.Name,
+                        hotelId: company.Id,
+                        imageMarkedIn: inboundMarkImage,
+                        imageMarkedOut: outboundMarkImage,
+                        clockIn: inboundMarkTime,
+                        clockOut: outboundMarkTime === "" ? NOW_DESCRIPTION : outboundMarkTime,
+                        duration: outboundMarkTime === "" ? 0 : moment.duration(moment(outboundMarkTime,'HH:mm').diff(moment(inboundMarkTime,'HH:mm'))).asHours()
                     }
+                    return punch;
+                });
 
-                    // Create array of punches based on object structure to calculate duration
-                    var punchesConsolidated = [];
-                    Object.keys(objPunches).map(i => {
 
-                        var punche = objPunches[i];//Get Punche Object
-                        punche.punches.map(_punch => {
-                            var startTime = moment.utc(_punch.clockIn, 'HH:mm:ss');//Get Start Time
-                            var endTime = moment.utc(_punch.clockOut, 'HH:mm:ss');//Get End Time
+                let newPunches = {};
 
-                            var duration = moment.duration(endTime.diff(startTime));//Calculate duration between times
-                            var workedTime = (duration.asHours() * 1.00).toFixed(2)//((duration.hours() + (duration.minutes() / 60)) * 1.00).toFixed(2);//Calulate duration in minutes/float
-
-                            _punch.duration = !isNaN(parseFloat(workedTime)) ? parseFloat(workedTime) : 0; //Update worked time
-                        })
-                        punche.punches = punche.punches.filter(_ => _.clockInId != null || _.clockOutId != null);
-                        if (punche.punches.length > 0)
-                            punchesConsolidated.push(punche);
+                groupKey.forEach((group) => {
+                    newPunches[group] = punches.filter(punch => {
+                        return punch.localGroupKey === group
                     });
-                    if (punchesConsolidated.length > 0)
-                        punchesConsolidated = punchesConsolidated.sort((a, b) => b.key - a.key)//Sort descending
-                    return punchesConsolidated;//Return list of punches
-                })
+                });
+
+                let _punches = [];
+
+                for (const key in newPunches) {
+                    if (newPunches.hasOwnProperty(key)) {
+                        _punches.push({
+                            key,
+                            date: moment(key, "YYYY/MM/DD").format("YYYY/MM/DD"),
+                            punches : newPunches[key]
+                        });
+                    }
+                }
+                
+                return _punches;//Return list of punches
+            })
         }
     },
     markedEmployeesConsolidatedForCSV: {

@@ -48,19 +48,19 @@ const getRecruiterReportFilters = (filter) => {
 const pdfMergeApi = (filesUrl) => {
 	return new Promise((resolve, reject) => {
 		const config = {
-            headers: {
+			headers: {
 				'Content-Type': 'application/json',
-                authorization: tokenApiPdfMerge
+				authorization: tokenApiPdfMerge
 			}
-        };
-        
-        axios.post(urlSmbsPdfApiEc2, {urls: filesUrl}, config)
-        .then(function (response) {
-            resolve(response);
-        })
-        .catch(function (error) {
-            reject(error);
-        });
+		};
+
+		axios.post(urlSmbsPdfApiEc2, { urls: filesUrl }, config)
+			.then(function (response) {
+				resolve(response);
+			})
+			.catch(function (error) {
+				reject(error);
+			});
 	});
 }
 
@@ -465,13 +465,13 @@ const ApplicationQuery = {
 							$and: [
 								Sequelize.where(
 									Sequelize.fn('upper', Sequelize.col('firstName')), {
-										$eq: args.firstName.toUpperCase()
-									}
+									$eq: args.firstName.toUpperCase()
+								}
 								),
 								Sequelize.where(
 									Sequelize.fn('upper', Sequelize.col('lastName')), {
-										$eq: args.lastName.toUpperCase()
-									}
+									$eq: args.lastName.toUpperCase()
+								}
 								),
 								{
 									$or: [{
@@ -508,7 +508,7 @@ const ApplicationQuery = {
 			}
 		},
 		resolve(root, args) {
-			
+
 			let files = [];
 
 			return Db.models.Applications.findOne({
@@ -544,26 +544,26 @@ const ApplicationQuery = {
 					}
 				]
 			}).then(async resp => {
-				
-				if(resp){
-					const {pdfUrl, ApplicantBackgroundCheck, ApplicantDisclosure, ApplicantConductCode,
-						ApplicantHarassmentPolicy, ApplicantWorkerCompensation, ApplicantI9, ApplicantW4} = resp.dataValues;
-					if(pdfUrl) files = [...files, pdfUrl];
-					if(ApplicantBackgroundCheck) files = [...files, ApplicantBackgroundCheck.dataValues.pdfUrl];
-					if(ApplicantDisclosure) files = [...files, ApplicantDisclosure.dataValues.pdfUrl];
-					if(ApplicantConductCode) files = [...files, ApplicantConductCode.dataValues.pdfUrl];
-					if(ApplicantHarassmentPolicy) files = [...files, ApplicantHarassmentPolicy.dataValues.pdfUrl];
-					if(ApplicantWorkerCompensation) files = [...files, ApplicantWorkerCompensation.dataValues.pdfUrl];
-					if(ApplicantI9) files = [...files, ApplicantI9.dataValues.url];
-					if(ApplicantW4) files = [...files, ApplicantW4.dataValues.url];
 
-					if(files.length === 0) return null;
+				if (resp) {
+					const { pdfUrl, ApplicantBackgroundCheck, ApplicantDisclosure, ApplicantConductCode,
+						ApplicantHarassmentPolicy, ApplicantWorkerCompensation, ApplicantI9, ApplicantW4 } = resp.dataValues;
+					if (pdfUrl) files = [...files, pdfUrl];
+					if (ApplicantBackgroundCheck) files = [...files, ApplicantBackgroundCheck.dataValues.pdfUrl];
+					if (ApplicantDisclosure) files = [...files, ApplicantDisclosure.dataValues.pdfUrl];
+					if (ApplicantConductCode) files = [...files, ApplicantConductCode.dataValues.pdfUrl];
+					if (ApplicantHarassmentPolicy) files = [...files, ApplicantHarassmentPolicy.dataValues.pdfUrl];
+					if (ApplicantWorkerCompensation) files = [...files, ApplicantWorkerCompensation.dataValues.pdfUrl];
+					if (ApplicantI9) files = [...files, ApplicantI9.dataValues.url];
+					if (ApplicantW4) files = [...files, ApplicantW4.dataValues.url];
+
+					if (files.length === 0) return null;
 
 					try {
 						let s3Url = await pdfMergeApi(files);
 						return s3Url.data.url;
 					}
-					catch(err) {
+					catch (err) {
 						console.log(err);
 						return null;
 					}
@@ -572,7 +572,41 @@ const ApplicationQuery = {
 					return null;
 			});
 		}
-	}
+	},
+	applicationPhaseByDate: {
+		type: new GraphQLList(ApplicationType),
+		description: 'List Application by Phases records by a date range',
+		args: {
+			startDate: {
+				type: (GraphQLDate)
+			},
+			endDate: {
+				type: (GraphQLDate)
+			},
+			idRecruiter: {
+				type: (GraphQLInt)
+			}
+		},
+		resolve(root, args) {
+			return Db.models.Applications.findAll({
+				order: [['createdAt', 'DESC']],
+				include: [
+					{
+						model: Db.models.ApplicationPhases,
+						where: {
+							ReasonId: 30458,
+							UserId: args.idRecruiter,
+							[Op.and]: [
+								{ createdAt: { [Op.gte]: new Date(args.startDate.setUTCHours(0, 0, 0)) } },
+								{ createdAt: { [Op.lte]: new Date(args.endDate.setUTCHours(23, 59, 59)) } }
+							]
+						}
+					}
+
+				]
+			})
+		}
+	},
 };
 
 export default ApplicationQuery;

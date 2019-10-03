@@ -70,6 +70,7 @@ import EmployeeByHotelModel from './employeeByHotelTable';
 import FeatureModel from './featureTable';
 import ContractModel from './contractTable';
 import TokenModel from './tokenTable';
+import BusinessRuleModel from './businessRule';
 import RegionsUsersModel from './regionsUsersTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
@@ -143,6 +144,16 @@ const ApplicantVerificationLetter = ApplicantVerificationLetterModel.createModel
 const Feature = FeatureModel.createModel(Conn);
 const Contracts = ContractModel.createModel(Conn);
 const Tokens = TokenModel.createModel(Conn);
+const BusinessRule = BusinessRuleModel.createModel(Conn);
+
+BusinessRule.belongsTo(CatalogItem, {
+	foreignKey: "catalogItemId",
+	as: "RuleType"
+});
+
+CatalogItem.hasMany(BusinessRule, {
+	foreignKey: "catalogItemId",
+});
 const RegionsUsers = RegionsUsersModel.createModel(Conn);
 
 ApplicationPhases.belongsTo(CatalogItem, {
@@ -403,10 +414,10 @@ MarkedEmployees.belongsTo(Employees, {
 	as: 'Employees'
 });
 
-MarkedEmployees.belongsTo(CatalogItem, {
-	foreignKey: 'typeMarkedId',
-	as: 'CatalogMarked'
-});
+// MarkedEmployees.belongsTo(CatalogItem, {
+// 	foreignKey: 'typeMarkedId',
+// 	as: 'CatalogMarked'
+// });
 
 MarkedEmployees.belongsTo(Shift);
 MarkedEmployees.belongsTo(BusinessCompany, {
@@ -573,7 +584,7 @@ Conn.authenticate()
 		console.error('Unable to connect to the database:', err);
 	});
 
-//Conn.sync({ force: false }).then(() => {
+// Conn.sync({ force: false }).then(() => {
 /*make sure you use false here. otherwise the total data
 	from the impported models will get deleted and new tables will be created*/
 // now we cann do all db operations on customers table.
@@ -583,6 +594,6 @@ Conn.authenticate()
 //console.log('Applications are:-', applications);
 //	});
 //	console.log('sync is completed');
-//});
+// });
 
 export default Conn;
