@@ -59,6 +59,7 @@ import {
 	ContractFields,
 	TokenFields,
 	PositionRateFields,
+	BusinessRulesFields,
 	RegionsUsersFields,
 	RolesFields,
 } from '../fields';
@@ -643,6 +644,12 @@ const inputPositionRateType = new GraphQLInputObjectType({
 	}
 });
 
+const inputBusinessRule = new GraphQLInputObjectType({
+	name: 'inputBusinessRule',
+	description: "Input for a Business Rule",
+	fields: { ...BusinessRulesFields }
+});
+
 const inputInsertRegionsUsers = new GraphQLInputObjectType({
 	name: 'inputInsertRegionsUsers',
 	description: 'Inputs for Region by User',
@@ -717,6 +724,7 @@ export {
 	inputInsertContracts,
 	inputInsertTokens,
 	inputPositionRateType,
+	inputBusinessRule,
 	inputInsertRegionsUsers,
-	inputInsertRoles
+	inputInsertRoles,
 };
