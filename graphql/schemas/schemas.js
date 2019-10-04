@@ -52,7 +52,8 @@ import {
 	TokenMutation,
 	BusinessRuleMutation,
 	RegionsUsersMutation,
-	RolesMutation
+	RolesMutation,
+	BusinessCompanyMutation
 } from './mutations';
 import {
 	ApplicationQuery,
@@ -235,9 +236,10 @@ const RootMutation = new GraphQLObjectType({
 		...FeatureMutation,
 		...ContractMutation,
 		...TokenMutation,
-		...BusinessRuleMutation
+		...BusinessRuleMutation,
 		...RegionsUsersMutation,
 		...RolesMutation,
+		...BusinessCompanyMutation
 	}
 });
 

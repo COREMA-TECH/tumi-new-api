@@ -2252,6 +2252,23 @@ const RegionsUsersType = new GraphQLObjectType({
 	}
 });
 
+const PropertiesCountType = new GraphQLObjectType({
+	name: 'PropertiesCountType',
+	description: 'Output Properties count',
+	fields: () => {
+		return {
+			actives: {
+				type: GraphQLInt,
+				description: 'Actives properties'
+			},
+			inactives: {
+				type: GraphQLInt,
+				description: 'Inactive Properties'
+			}
+		};
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -2333,5 +2350,6 @@ export {
 	ApprovePunchesType,
 	BusinessRuleType,
 	WorkOrderGridType,
-	RegionsUsersType
+	RegionsUsersType,
+	PropertiesCountType
 };
