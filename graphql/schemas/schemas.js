@@ -235,7 +235,7 @@ const RootMutation = new GraphQLObjectType({
 		...FeatureMutation,
 		...ContractMutation,
 		...TokenMutation,
-		...BusinessRuleMutation
+		...BusinessRuleMutation,
 		...RegionsUsersMutation,
 		...RolesMutation,
 	}
