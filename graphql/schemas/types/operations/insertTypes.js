@@ -59,6 +59,7 @@ import {
 	ContractFields,
 	TokenFields,
 	PositionRateFields,
+	BusinessRulesFields,
 	RegionsUsersFields,
 	RolesFields,
 } from '../fields';
@@ -346,7 +347,15 @@ const inputInsertShiftDetailEmployee = new GraphQLInputObjectType({
 const inputInsertMarkedEmployees = new GraphQLInputObjectType({
 	name: 'inputInsertMarkedEmployees',
 	description: 'Inputs for MarkedEmployees Employee Insert',
-	fields: { ...MarkedEmployeesFields }
+	fields: {
+		entityId: { type: GraphQLInt },
+		typeMarkedId: { type: GraphQLInt },
+		markedDate: { type: GraphQLDate },
+		markedTime: { type: GraphQLString },
+		imageMarked: { type: GraphQLString },
+		EmployeeId: { type: GraphQLInt },
+		key: { type: GraphQLString }
+	}
 
 });
 
@@ -643,6 +652,12 @@ const inputPositionRateType = new GraphQLInputObjectType({
 	}
 });
 
+const inputBusinessRule = new GraphQLInputObjectType({
+	name: 'inputBusinessRule',
+	description: "Input for a Business Rule",
+	fields: { ...BusinessRulesFields }
+});
+
 const inputInsertRegionsUsers = new GraphQLInputObjectType({
 	name: 'inputInsertRegionsUsers',
 	description: 'Inputs for Region by User',
@@ -717,6 +732,7 @@ export {
 	inputInsertContracts,
 	inputInsertTokens,
 	inputPositionRateType,
+	inputBusinessRule,
 	inputInsertRegionsUsers,
-	inputInsertRoles
+	inputInsertRoles,
 };
