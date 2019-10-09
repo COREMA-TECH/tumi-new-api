@@ -1,6 +1,10 @@
 const pg = require('pg');
 import { ConfigPg } from './Configuration';
+
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+
+import Db from '../graphql/models/models';
 
 var Strquery, Strfilename;
 
@@ -26,36 +30,25 @@ async function query(q) {
 
 async function getValid_Users(args, { SECRET }) {
 
-	try {
-		Strquery =
-			'select "Id","Password","Code_User","Full_Name" ,"Id_Roles" ,"Electronic_Address"  ,"Phone_Number"  ,"Id_Language"  ,"IsAdmin"  ,"AllowEdit"  ,"AllowDelete"  ,"AllowInsert","AllowExport" ,"IsActive","IdSchedulesEmployees","IdSchedulesManager","isEmployee","manageApp","Id_Entity","CompanyName" from public.vwValid_User Where  "Code_User" = ' +
-			args.Code_User +
-			' and "Password" = ' +
-			args.Password;
+	const {Code_User, Password} = args;            
+	const data = await Db.models.Users.findOne({
+		where: { Code_User },
+		returning: true
+	});
 
-		//console.log(Strquery);
-
-		const { rows } = await query(Strquery);
-
-		if (rows.length <= 0) return null;
-		else {
-			const user = rows[0];
-			const token = jwt.sign(
-				{
-					user: { Id: user.Id, Code_User: user.Code_User }
-				},
-				SECRET,
-				{
-					expiresIn: '1y'
-				}
-			);
-
-			return { Token: token, ...user };
-		}
-	} catch (err) {
-		//console.log('Database ' + err);
-		return err;
+	if(!data || !data.dataValues){
+		throw new Error("Access Denied");
 	}
+
+	const {dataValues: user} = data;
+	const match = await bcrypt.compare(Password, user.Password);
+
+	if(!match){
+		throw new Error("Access Denied");
+	}
+
+	const Token = await jwt.sign({ user: { Id: user.Id, Code_User: user.Code_User }}, process.env.SECRET, { expiresIn: '1y' });
+	return {...user, Token};
 }
 
 const root = {

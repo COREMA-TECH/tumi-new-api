@@ -3,6 +3,8 @@ const GraphHTTP = require('express-graphql');
 const Schema = require('./graphql/schemas/schemas').default;
 const root = require('./Configuration/Roots.js');
 const PublicRoot = require('./Configuration/PublicRoot');
+const dotenv = require('dotenv');
+
 import { MY_PORT } from './Configuration/Configuration';
 
 const path = require('path');
@@ -14,6 +16,8 @@ import { PublicSchema } from './Configuration/PublicSchema';
 var cors = require('cors');
 var app = express();
 const SECRET = 'asda47#$*5444adtyydssdZad!#%**';
+
+dotenv.config({ path: './config.env' });
 
 const addUser = async (req, res) => {
 	const token = req.headers.authentication;
