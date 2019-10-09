@@ -272,6 +272,32 @@ const WorkOrderMutation = {
 				});
 		}
 	},
+
+	cascadeDisableWO: {
+		type: GraphQLString,
+		description: "Disables a Work Order and all related records",
+		args: {
+			id: { type: new GraphQLNonNull(GraphQLInt) }
+		},
+		async resolve(_, args){
+			const {id: WorkOrderId} = args;
+
+			const shifts = await Db.models.ShiftWorkOrder.findAll({
+				where: { WorkOrderId }
+			}).map(item => item.dataValues.ShiftId);
+
+			try {
+				Db.models.WorkOrder.update({ status: 0 }, { where: { id: args.id }, returning: true });
+				Db.models.Shift.update({status: 0}, { where: {id: {$in: shifts}}, returning: true });
+				Db.models.ShiftDetail.update({status: 0}, { where: {ShiftId: {$in: shifts}}, returning: true });
+			} catch (error) {
+				return `${error}`
+			}
+
+			return `done`;	
+		}		
+	},
+
 	deleteShiftDetailEmployees: {
 		type: EmployeesType,
 		description: 'Delete employees record from database',

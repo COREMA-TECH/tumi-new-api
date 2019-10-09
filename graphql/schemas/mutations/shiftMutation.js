@@ -1,7 +1,7 @@
 import { inputInsertShift, filterShiftConvertToOpening, filterShiftWOConvertToOpening, inputApplicantPhase } from '../types/operations/insertTypes';
 import { inputUpdateShift } from '../types/operations/updateTypes';
 import { ShiftType } from '../types/operations/outputTypes';
-import { GraphQLList, GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
+import { GraphQLList, GraphQLInt, GraphQLString, GraphQLNonNull } from 'graphql';
 import { sendworkorderfilledemail } from '../../../Configuration/Roots';
 import GraphQLDate from 'graphql-date';
 import moment from 'moment-timezone';
@@ -121,6 +121,26 @@ const ShiftMutation = {
 					}
 					else return null;
 				});
+		}
+	},
+
+	disableShiftCascade: {
+		type: GraphQLString,
+		description: "Disables a Shift and all related records",
+		args: {
+			id: { type: new GraphQLNonNull(GraphQLInt) }
+		},
+		resolve(_, args){
+			const {id: ShiftId} = args;
+
+			try {
+				Db.models.Shift.update({status: 0}, { where: { id: ShiftId }, returning: true });
+				Db.models.ShiftDetail.update({status: 0}, { where: { ShiftId }, returning: true });				
+			} catch (error) {
+				return `${error}`;
+			}
+
+			return `done`;	
 		}
 	},
 	changeStatusShift: {
