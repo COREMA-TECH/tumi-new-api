@@ -7,23 +7,25 @@ import Db from '../../models/models';
 import Sequelize from 'sequelize';
 import { sendEmailResetPassword } from '../../../Configuration/Roots';
 
+const bcrypt = require('bcrypt');
+
 const addOrActiveRegionsUsers = async (userId, listRegionsId, transaction) => {
-	let regionsUsersFound = await Db.models.RegionsUsers.findAll({ where: {UserId: userId} });
-	
-	let inactiveRegionsUsers = regionsUsersFound.filter(ru => !listRegionsId.includes(ru.RegionId)).map(ru => {
-		return Db.models.RegionsUsers.update({isActive: false},{where: {id: ru.id}, returning: true, transaction});
-	});
-	
+    let regionsUsersFound = await Db.models.RegionsUsers.findAll({ where: { UserId: userId } });
+
+    let inactiveRegionsUsers = regionsUsersFound.filter(ru => !listRegionsId.includes(ru.RegionId)).map(ru => {
+        return Db.models.RegionsUsers.update({ isActive: false }, { where: { id: ru.id }, returning: true, transaction });
+    });
+
     let updateRegionsUsers = listRegionsId.map(async regionId => {
         const regionUser = await regionsUsersFound.find(ru => ru.RegionId === regionId);
-        if(regionUser)
-            return Db.models.RegionsUsers.update({isActive: true},{where: {id: regionUser.id}, returning: true, transaction});
+        if (regionUser)
+            return Db.models.RegionsUsers.update({ isActive: true }, { where: { id: regionUser.id }, returning: true, transaction });
         else
             return Db.models.RegionsUsers.create({
                 UserId: userId,
                 RegionId: regionId,
                 isActive: true
-            }, {returning: true, transaction});
+            }, { returning: true, transaction });
     });
 
     return Promise.all([...inactiveRegionsUsers, ...updateRegionsUsers]);
@@ -48,7 +50,7 @@ const UserMutation = {
         description: 'Update user to database',
         args: {
             user: { type: inputUpdateUser },
-            regionsId: {type: new GraphQLList(GraphQLInt)}
+            regionsId: { type: new GraphQLList(GraphQLInt) }
         },
         async resolve(source, args) {
             let { Password, Id, ...rest } = args.user;
@@ -60,7 +62,7 @@ const UserMutation = {
                 return Db.models.Users.update(rest, { where: { Id }, returning: true, transaction: t })
                     .then(async function ([rowsUpdate, [record]]) {
                         if (record) {
-                            if(args.regionsId && args.regionsId.length > 0){
+                            if (args.regionsId && args.regionsId.length > 0) {
                                 return await addOrActiveRegionsUsers(Id, args.regionsId, t).then(_ => {
                                     return record.dataValues;
                                 });
@@ -70,7 +72,7 @@ const UserMutation = {
                         else return null;
                     });
             });
-            
+
         },
     },
     insertUser: {
@@ -78,7 +80,7 @@ const UserMutation = {
         description: 'Insert user to database',
         args: {
             user: { type: inputInsertUser },
-            regionsId: {type: new GraphQLList(GraphQLInt)}
+            regionsId: { type: new GraphQLList(GraphQLInt) }
         },
         resolve(source, args) {
             var user = {
@@ -91,11 +93,11 @@ const UserMutation = {
                 return Db.models.Users.create(user, { transaction: t })
                     .then(_user => {
                         // Insert Regions
-                        if(args.regionsId && args.regionsId.length > 0){
+                        if (args.regionsId && args.regionsId.length > 0) {
                             const regions = args.regionsId.map(r => {
-                                return {UserId: _user.dataValues.Id, RegionId: r, isActive: true}
+                                return { UserId: _user.dataValues.Id, RegionId: r, isActive: true }
                             });
-                            Db.models.RegionsUsers.bulkCreate(regions, {transaction: t});
+                            Db.models.RegionsUsers.bulkCreate(regions, { transaction: t });
                         }
 
                         if (args.user.Id_Roles != 5 && args.user.Id_Roles != 10) {
@@ -311,6 +313,24 @@ const UserMutation = {
                     })
             })
 
+        }
+    },
+    updatePasswordWithNewMethod: {
+        type: new GraphQLList(UsersType),
+        description: 'this method will be used to update old method encrypt/bd with new method bcrypt',
+        resolve(source, args) {
+            return Db.models.Users.findAll({
+                attributes: [
+                    "Id",
+                    [Sequelize.fn('PGP_SYM_DECRYPT', Sequelize.cast(Sequelize.col('Password'), 'bytea'), 'AES_KEY'), "Password"]
+                ]
+            }).then(users => {
+                return users.forEach(userObj => {
+                    let user = userObj.dataValues;
+                    let hash = bcrypt.hashSync(user.Password, 10);
+                    return Db.models.Users.update({ Password: hash }, { where: { Id: user.Id } })
+                })
+            })
         }
     }
 }
