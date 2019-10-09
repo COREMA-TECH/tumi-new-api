@@ -20,7 +20,7 @@ export const closePunches = async () => {
 		outboundMarkTypeId: CLOCKOUT,
 		outboundMarkTime: '24:00'
 	}
-	await Db.models.MarkedEmployees_tests.update(closeMark, {where: {outboundMarkTypeId: null}});
+	await Db.models.MarkedEmployees.update(closeMark, {where: {outboundMarkTypeId: null}});
 }
 
 const MarkedEmployeesMutation = {
