@@ -3,6 +3,7 @@ import { URLWeb, URLReject, URLAccept, ConfigPg } from './Configuration';
 import jwt from 'jsonwebtoken';
 import {generatePdfFile} from '../Utilities/PdfManagement';
 import {uploadToS3} from '../Utilities/S3Management';
+import {closePunches} from '../graphql/schemas/mutations/markedEmployeesMutation';
 
 
 //Requerimos el paquete
@@ -17,8 +18,9 @@ var cron = require('node-cron');
 
 var Strquery, Strquery_2, Strfilename;
 
-cron.schedule('59 11 * * *', () => {
+cron.schedule('59 23 * * *', () => {
 	console.log('running a task At 23:59.');
+	closePunches(); // proceso de cierre de ponchadas
 	SendExpiredContracts();
 	ChangeStatustoExpired();
 	ChangeStatustoCompleted();

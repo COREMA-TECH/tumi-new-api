@@ -41,6 +41,8 @@ import CatalogItemModel from './catalogItemTable';
 import UsersModel from './UsersTable';
 
 import MarkedEmployeesModel from './markedEmployeesTable';
+import MarkedEmployeesTestModel from './markedEmployeesTestTable';
+import MarkedEmployeesOldModel from './markedEmployeesTableOld';
 import ApplicationEmployeesModel from './applicationEmployeesTable';
 
 import TemplateModel from './templateTable';
@@ -123,6 +125,8 @@ const ShiftDetailEmployees = ShiftDetailEmployeesModel.createModel(Conn);
 const ShiftWorkOrder = ShiftWorkOrderModel.createModel(Conn);
 
 const MarkedEmployees = MarkedEmployeesModel.createModel(Conn);
+const MarkedEmployeesTest = MarkedEmployeesTestModel.createModel(Conn);
+const MarkedEmployeesOld = MarkedEmployeesOldModel.createModel(Conn);
 const ApplicationEmployees = ApplicationEmployeesModel.createModel(Conn);
 const ApplicationPhases = ApplicationPhasesModel.createModel(Conn);
 
@@ -450,6 +454,7 @@ CatalogItem.hasMany(BusinessCompany, {
 	foreignKey: 'Region'
 });
 
+//commentar si da error al correr migracion
 BusinessCompany.belongsTo(CatalogItem, {
 	foreignKey: 'Region',
 	as: 'Regions'
@@ -479,7 +484,7 @@ Contacts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
 //commentar si da error al correr migracion
 Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
 BusinessCompany.hasMany(Contacts, { foreignKey: 'Id_Entity' });
-
+//commentar si da error al correr migracion
 BusinessCompany.hasMany(CatalogItem, { foreignKey: 'Id_Entity' });
 
 BusinessCompany.hasMany(WorkOrder, { foreignKey: 'IdEntity' });
