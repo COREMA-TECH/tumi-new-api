@@ -66,7 +66,8 @@ import {
 	ContractFields,
 	TokenFields,
 	BusinessRulesFields,
-	RegionsUsersFields
+	RegionsUsersFields,
+	ApplicantLegalDocumentsFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -2269,6 +2270,28 @@ const PropertiesCountType = new GraphQLObjectType({
 	}
 });
 
+const ApplicantLegalDocumentType = new GraphQLObjectType({
+	name: 'ApplicantLegalDocumentType',
+	description: 'Output Applicant Document',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'ApplicantLegalDocumentId'
+			},
+			createdAt: {
+				type: new GraphQLNonNull(GraphQLDate),
+				description: 'Creation Date'
+			},
+			updatedAt: {
+				type: new GraphQLNonNull(GraphQLDate),
+				description: 'Update Date'
+			},
+			...ApplicantLegalDocumentsFields
+		};
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -2351,5 +2374,6 @@ export {
 	BusinessRuleType,
 	WorkOrderGridType,
 	RegionsUsersType,
-	PropertiesCountType
+	PropertiesCountType,
+	ApplicantLegalDocumentType
 };

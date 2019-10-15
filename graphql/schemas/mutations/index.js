@@ -48,6 +48,7 @@ import BusinessRuleMutation from './businessRulesMutations';
 import RegionsUsersMutation from './regionsUsersMutation';
 import RolesMutation from './roleMutation';
 import BusinessCompanyMutation from './businessCompanyMutation';
+import ApplicantLegalDocumentsMutation from './applicantLegalDocumentsMutation';
 
 export {
 	payrollMutation,
@@ -99,5 +100,6 @@ export {
 	BusinessRuleMutation,
 	RegionsUsersMutation,
 	RolesMutation,
-	BusinessCompanyMutation
+	BusinessCompanyMutation,
+	ApplicantLegalDocumentsMutation
 };

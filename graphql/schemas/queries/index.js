@@ -62,6 +62,7 @@ import TokenQuery from './tokenQuery';
 import PositionRateQuery from './positionRateQuery';
 import BusinessRuleQuery from './businessRuleQueries';
 import RegionsUsersQuery from './regionsUsersQuery';
+import ApplicantLegalDocumentsQuery from './applicantLegalDocumentsQuery';
 export {
 	ApplicantLanguageQuery,
 	ApplicationQuery,
@@ -122,5 +123,6 @@ export {
 	TokenQuery,
 	PositionRateQuery,
 	BusinessRuleQuery,
-	RegionsUsersQuery
+	RegionsUsersQuery,
+	ApplicantLegalDocumentsQuery
 };

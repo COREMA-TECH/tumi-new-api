@@ -44,7 +44,8 @@ import {
 	TokenFields,
 	BusinessRulesFields,
 	RegionsUsersFields,
-	RolesFields
+	RolesFields,
+	ApplicantLegalDocumentsFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -628,6 +629,17 @@ const inputUpdateBusinessRule = new GraphQLInputObjectType({
 	}
 });
 
+const inputUpdateApplicantLegalDocuments = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantLegalDocuments',
+	description: "Input for updating applicant documents",
+	fields: { 
+		id: {
+			type: new GraphQLNonNull(GraphQLInt)
+		},
+		...ApplicantLegalDocumentsFields 
+  }
+});
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -674,5 +686,6 @@ export {
 	inputUpdateBusinessRule,
 	inputUpdateRegionsUsers,
 	inputUpdateRoles,
-	inputUpdateBusinessCompany
+	inputUpdateBusinessCompany,
+	inputUpdateApplicantLegalDocuments
 };
