@@ -62,6 +62,7 @@ import {
 	BusinessRulesFields,
 	RegionsUsersFields,
 	RolesFields,
+	ApplicantLegalDocumentsFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -667,6 +668,15 @@ const inputInsertRegionsUsers = new GraphQLInputObjectType({
 	}
 });
 
+const inputInsertApplicantLegalDocuments = new GraphQLInputObjectType({
+	name: 'inputInsertApplicantLegalDocuments',
+	description: 'Inputs for applicant documents',
+
+	fields: {
+		...ApplicantLegalDocumentsFields
+	}
+});
+
 export {
 	insertPayrollType,
 	inputInsertApplicantLanguage,
@@ -735,4 +745,5 @@ export {
 	inputBusinessRule,
 	inputInsertRegionsUsers,
 	inputInsertRoles,
+	inputInsertApplicantLegalDocuments
 };
