@@ -314,24 +314,6 @@ const UserMutation = {
             })
 
         }
-    },
-    updatePasswordWithNewMethod: {
-        type: new GraphQLList(UsersType),
-        description: 'this method will be used to update old method encrypt/bd with new method bcrypt',
-        resolve(source, args) {
-            return Db.models.Users.findAll({
-                attributes: [
-                    "Id",
-                    [Sequelize.fn('PGP_SYM_DECRYPT', Sequelize.cast(Sequelize.col('Password'), 'bytea'), 'AES_KEY'), "Password"]
-                ]
-            }).then(users => {
-                return users.forEach(userObj => {
-                    let user = userObj.dataValues;
-                    let hash = bcrypt.hashSync(user.Password, 10);
-                    return Db.models.Users.update({ Password: hash }, { where: { Id: user.Id } })
-                })
-            })
-        }
     }
 }
 export default UserMutation;
