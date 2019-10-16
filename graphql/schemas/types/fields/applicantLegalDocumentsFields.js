@@ -17,7 +17,7 @@ const ApplicantLegalDocumentsFields = {
     ApplicationDocumentTypeId: {
 		type: GraphQLInt,
 		description: 'User Id'
-    },
+	},
 	ApplicationId: {
 		type: GraphQLInt,
 		description: 'Application Id'

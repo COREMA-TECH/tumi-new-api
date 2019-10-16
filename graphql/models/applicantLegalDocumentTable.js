@@ -13,11 +13,6 @@ export default {
                     type: Sequelize.STRING,
                     allowNull: true
                 },
-                userId: {
-                    type: Sequelize.STRING,
-                    allowNull: false
-                }
-                ,
                 completed: {
                     type: Sequelize.BOOLEAN,
                     allowNull: false
