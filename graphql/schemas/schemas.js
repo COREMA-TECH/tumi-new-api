@@ -118,7 +118,8 @@ import {
 	PositionRateQuery,
 	BusinessRuleQuery,
 	RegionsUsersQuery,
-	ApplicantLegalDocumentsQuery
+	ApplicantLegalDocumentsQuery,
+	ApplicationDocumentTypeQuery
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -186,7 +187,8 @@ const RootQuery = new GraphQLObjectType({
 		...PositionRateQuery,
 		...BusinessRuleQuery,
 		...RegionsUsersQuery,
-		...ApplicantLegalDocumentsQuery
+		...ApplicantLegalDocumentsQuery,
+		...ApplicationDocumentTypeQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({
