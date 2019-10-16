@@ -12,10 +12,6 @@ export default {
                 description: {
                     type: Sequelize.STRING,
                     allowNull: false
-                },
-                url: {
-                    type: Sequelize.STRING,
-                    allowNull: false
                 }
             }
         );
