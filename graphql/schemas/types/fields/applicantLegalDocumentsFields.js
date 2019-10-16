@@ -5,24 +5,24 @@ const ApplicantLegalDocumentsFields = {
 	fieldsData: {
 		type: new GraphQLNonNull(GraphQLString),
 		description: 'Fields data'
-    },
-    url: {
+	},
+	url: {
 		type: new GraphQLNonNull(GraphQLString),
 		description: 'Url'
-    },
-	userId: {
+	},
+	UserId: {
 		type: new GraphQLNonNull(GraphQLInt),
 		description: 'User Id'
-    },
-    ApplicationDocumentTypeId: {
+	},
+	ApplicationDocumentTypeId: {
 		type: new GraphQLNonNull(GraphQLInt),
 		description: 'User Id'
-    },
+	},
 	ApplicationId: {
 		type: new GraphQLNonNull(GraphQLInt),
 		description: 'Application Id'
-    },
-    completed: {
+	},
+	completed: {
 		type: new GraphQLNonNull(GraphQLBoolean),
 		description: 'completed'
 	}
