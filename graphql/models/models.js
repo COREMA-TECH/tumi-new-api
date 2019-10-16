@@ -354,10 +354,10 @@ BusinessCompany.hasMany(PositionRate, {
 PositionRate.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
 
 //commentar si da error al correr migracion
-// BusinessCompany.belongsTo(BusinessCompany, {
-// 	foreignKey: 'Id_Parent',
-// 	as: "CompanyParent"
-// });
+BusinessCompany.belongsTo(BusinessCompany, {
+	foreignKey: 'Id_Parent',
+	as: "CompanyParent"
+});
 
 Shift.hasMany(ShiftDetail, { onDelete: 'cascade' });
 ShiftDetail.hasOne(ShiftDetailEmployees, { onDelete: 'cascade' });
@@ -458,15 +458,15 @@ CatalogItem.hasMany(Contacts, {
 })
 
 //commentar si da error al correr migracion
-// CatalogItem.hasMany(BusinessCompany, {
-// 	foreignKey: 'Region'
-// });
+CatalogItem.hasMany(BusinessCompany, {
+	foreignKey: 'Region'
+});
 
 //commentar si da error al correr migracion
-// BusinessCompany.belongsTo(CatalogItem, {
-// 	foreignKey: 'Region',
-// 	as: 'Regions'
-// })
+BusinessCompany.belongsTo(CatalogItem, {
+	foreignKey: 'Region',
+	as: 'Regions'
+})
 
 CatalogItem.hasMany(WorkOrder, {
 	foreignKey: 'departmentId'
@@ -488,12 +488,12 @@ Shift.hasMany(OpeningRecruiter, {
 SmsLog.belongsTo(Employees);
 SmsLog.belongsTo(Shift);
 //commentar si da error al correr migracion
-// Contacts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
+Contacts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
 //commentar si da error al correr migracion
-// Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
-// BusinessCompany.hasMany(Contacts, { foreignKey: 'Id_Entity' });
+Contacts.belongsTo(Application, { foreignKey: 'ApplicationId' });
+BusinessCompany.hasMany(Contacts, { foreignKey: 'Id_Entity' });
 //commentar si da error al correr migracion
-// BusinessCompany.hasMany(CatalogItem, { foreignKey: 'Id_Entity' });
+BusinessCompany.hasMany(CatalogItem, { foreignKey: 'Id_Entity' });
 
 BusinessCompany.hasMany(WorkOrder, { foreignKey: 'IdEntity' });
 
@@ -597,16 +597,16 @@ Conn.authenticate()
 		console.error('Unable to connect to the database:', err);
 	});
 
-Conn.sync({ force: false }).then(() => {
-	/*make sure you use false here. otherwise the total data
-		from the impported models will get deleted and new tables will be created*/
-	// now we cann do all db operations on customers table.
-	//Ex:- lets read all data
-	//	console.log('Applications Inside Connection', Applications.findAll);
-	//	Applications.findAll().then((applications) => {
-	//console.log('Applications are:-', applications);
-	//	});
-	//	console.log('sync is completed');
-});
+// Conn.sync({ force: false }).then(() => {
+/*make sure you use false here. otherwise the total data
+	from the impported models will get deleted and new tables will be created*/
+// now we cann do all db operations on customers table.
+//Ex:- lets read all data
+//	console.log('Applications Inside Connection', Applications.findAll);
+//	Applications.findAll().then((applications) => {
+//console.log('Applications are:-', applications);
+//	});
+//	console.log('sync is completed');
+// });
 
 export default Conn;
