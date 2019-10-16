@@ -10,7 +10,7 @@ const ApplicantLegalDocumentsFields = {
 		type: GraphQLString,
 		description: 'Url'
     },
-	userId: {
+	UserId: {
 		type: GraphQLInt,
 		description: 'User Id'
     },
