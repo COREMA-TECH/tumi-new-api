@@ -28,12 +28,12 @@ const ApplicantLegalDocumentsQuery = {
 			}
 		},
 		async resolve(root, args) {
-			const temp = await Db.models.ApplicantLegalDocument.findAll({ 
+			const temp = await Db.models.ApplicantLegalDocument.findAll({
 				where: args,
 				include: [{
 					model: Db.models.Users,
 					required: true
-				},{
+				}, {
 					model: Db.models.ApplicationDocumentType,
 					required: true
 				}]
@@ -57,19 +57,20 @@ const ApplicantLegalDocumentsQuery = {
 			}
 		},
 		async resolve(root, args) {
-			const temp = await Db.models.ApplicantLegalDocument.findOne({ 
+			const temp = await Db.models.ApplicantLegalDocument.findOne({
 				where: args,
 				order: [['createdAt', 'DESC']],
 				include: [{
 					model: Db.models.Users,
 					required: true
-				},{
+				}, {
 					model: Db.models.ApplicationDocumentType,
+					required: true
+				}, {
+					model: Db.models.Applications,
 					required: true
 				}]
 			});
-
-			console.log('ultimo registro --- ', temp);
 			return temp;
 		}
 	}

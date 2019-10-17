@@ -2314,7 +2314,11 @@ const ApplicantLegalDocumentType = new GraphQLObjectType({
 				type: ApplicationDocumentTypeType,
 				description: 'Type Document relation'
 			},
-			User:{
+			Application: {
+				type: ApplicationType,
+				description: 'Application'
+			},
+			User: {
 				type: UsersType,
 				description: 'User who created the registry'
 			},
