@@ -3,27 +3,27 @@ import GraphQLDate from 'graphql-date';
 
 const ApplicantLegalDocumentsFields = {
 	fieldsData: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Fields data'
     },
     url: {
-		type: new GraphQLNonNull(GraphQLString),
+		type: GraphQLString,
 		description: 'Url'
     },
-	userId: {
-		type: new GraphQLNonNull(GraphQLInt),
+	UserId: {
+		type: GraphQLInt,
 		description: 'User Id'
     },
     ApplicationDocumentTypeId: {
-		type: new GraphQLNonNull(GraphQLInt),
+		type: GraphQLInt,
 		description: 'User Id'
-    },
+	},
 	ApplicationId: {
-		type: new GraphQLNonNull(GraphQLInt),
+		type: GraphQLInt,
 		description: 'Application Id'
     },
     completed: {
-		type: new GraphQLNonNull(GraphQLBoolean),
+		type: GraphQLBoolean,
 		description: 'completed'
 	}
 };
