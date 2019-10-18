@@ -147,11 +147,15 @@ const ApplicationQuery = {
 			Id_Deparment: { type: GraphQLInt },
 			idEntity: { type: GraphQLInt },
 			isActive: { type: new GraphQLList(GraphQLBoolean) },
-			id: { type: GraphQLInt }
+			id: { type: GraphQLInt },
+			isLead: { type: GraphQLBoolean }
 		},
 		resolve(root, args) {
 			let isActiveFilter = {};
-			let { idEntity, id, ...rest } = args;
+			let { idEntity, id, isLead, ...rest } = args;
+
+			delete rest.isLead;
+
 			let { isActive, ...employeeArgs } = rest;
 			let employeeByHotelFilter = {}
 			let idFilter = {};

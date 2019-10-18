@@ -34,7 +34,7 @@ const ApplicantLegalDocumentsQuery = {
 				include: [{
 					model: Db.models.Users,
 					required: true
-				},{
+				}, {
 					model: Db.models.ApplicationDocumentType,
 					required: true
 				}]
@@ -61,8 +61,11 @@ const ApplicantLegalDocumentsQuery = {
 				include: [{
 					model: Db.models.Users,
 					required: true
-				},{
+				}, {
 					model: Db.models.ApplicationDocumentType,
+					required: true
+				}, {
+					model: Db.models.Applications,
 					required: true
 				}]
 			});
