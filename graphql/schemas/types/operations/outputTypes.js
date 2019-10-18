@@ -886,27 +886,16 @@ const ApplicationCompletedDataType = new GraphQLObjectType({
 	description: 'Returns the state of all tables related to the applicant.',
 	fields: () => {
 		return {
-			ApplicantBackgroundCheck: {
-				type: GraphQLBoolean
-			},
-			ApplicantDisclosure: {
-				type: GraphQLBoolean
-			},
-			ApplicantConductCode: {
-				type: GraphQLBoolean
-			},
-			ApplicantHarassmentPolicy: {
-				type: GraphQLBoolean
-			},
-			ApplicantWorkerCompensation: {
-				type: GraphQLBoolean
-			},
-			ApplicantW4: {
-				type: GraphQLBoolean
-			},
-			ApplicantI9: {
-				type: GraphQLBoolean
-			}
+			W4: { type: GraphQLBoolean },
+			I9: { type: GraphQLBoolean },
+			BackgroundCheck: { type: GraphQLBoolean },
+			HarassmentPolicy: { type: GraphQLBoolean },
+			AntiDiscrimination: { type: GraphQLBoolean },
+			Disclosure: { type: GraphQLBoolean },
+			NonRelation: { type: GraphQLBoolean },
+			ConductCode: { type: GraphQLBoolean },
+			BenefitElection: { type: GraphQLBoolean },
+			WorkerCompensation: { type: GraphQLBoolean }
 		}
 	}
 });

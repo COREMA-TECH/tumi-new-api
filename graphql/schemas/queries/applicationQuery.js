@@ -5,8 +5,8 @@ import axios from 'axios';
 
 import GraphQLDate from 'graphql-date';
 import Sequelize from 'sequelize';
-import {generatePdfFile} from '../../../Utilities/PdfManagement';
-import {uploadToS3} from '../../../Utilities/S3Management';
+import { generatePdfFile } from '../../../Utilities/PdfManagement';
+import { uploadToS3 } from '../../../Utilities/S3Management';
 const fs = require('fs');
 const tokenApiPdfMerge = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VyIjoiNlA0MTczNDU0ciIsImVtYWlsIjoibHVpcy5mYWphcmRvQHNtYnNzb2x1dGlvbnMuY29tIn0sImlhdCI6MTU2NzU1MTI2NX0.bryGpfwXuhsydPT0HZv8e79Kul5QkIZTMVmupUdpxn4';
 const urlSmbsPdfApiLocal = 'http://localhost:3000/api/documents';
@@ -30,11 +30,20 @@ const FilterStatus = (filter) => {
 	else { return {} }
 }
 
+const getLegalDocumentInfo = (ApplicationId, ApplicationDocumentTypeId) => {
+	return Db.models.ApplicantLegalDocument.findOne({
+		where: { ApplicationId, ApplicationDocumentTypeId },
+		order: [['createdAt', 'DESC']]
+	}).then(result => {
+		return result ? result.dataValues : null;
+	});
+}
+
 async function newPdf(fileName, html) {
 	try {
 		return generatePdfFile(html, fileName.trim() + '.pdf').then(fileFullPath => {
-			if(!fileFullPath) return null;
-			
+			if (!fileFullPath) return null;
+
 			return uploadToS3(fileFullPath).then(url => {
 				fs.unlinkSync(fileFullPath);
 				return url;
@@ -291,43 +300,30 @@ const ApplicationQuery = {
 		args: {
 			id: { type: new GraphQLNonNull(GraphQLInt) }
 		},
-		resolve(root, args) {
-			return Db.models.Applications.findOne({
-				where: { ...args },
-				include: [{
-					model: Db.models.ApplicantBackgroundChecks,
-					where: { completed: true },
-					required: true
-				}, {
-					model: Db.models.ApplicantDisclosures,
-					where: { completed: true },
-					required: true
-				}, {
-					model: Db.models.ApplicantConductCodes,
-					where: { completed: true },
-					required: true
-				}, {
-					model: Db.models.ApplicantHarassmentPolicy,
-					where: { completed: true },
-					required: true
-				}, {
-					model: Db.models.ApplicantWorkerCompensation,
-					where: { completed: true },
-					required: true
-				}, {
-					model: Db.models.ApplicantW4,
-					where: { completed: true },
-					required: true
-				}, {
-					model: Db.models.ApplicantI9,
-					where: { completed: true },
-					required: true
-				}]
-			})
-				.then(_application => {
-					return _application != null; //Return true when all record associated to this application are completed
-				})
+		async resolve(root, args) {
 
+
+			const getInformation = (documentId) => {
+				return getLegalDocumentInfo(args.id, documentId)
+			}
+			let data = {
+				W4: await getInformation(16),
+				I9: await getInformation(12),
+				BackgroundCheck: await getLegalDocumentInfo(args.id, 7),
+				HarassmentPolicy: await getInformation(11),
+				AntiDiscrimination: await getInformation(19),
+				Disclosure: await getInformation(10),
+				NonRelation: await getInformation(21),
+				ConductCode: await getInformation(8),
+				BenefitElection: await getInformation(22),
+				WorkerCompensation: await getInformation(17),
+			}
+
+			let resultData = {};
+			Object.keys(data).forEach(key => {
+				resultData = { ...resultData, [key]: data[key] ? data[key].completed : false }
+			});
+			return Object.values(resultData).filter(value => value === false).length === 0;
 		}
 	},
 	applicationCompletedData: {
@@ -336,38 +332,30 @@ const ApplicationQuery = {
 		args: {
 			id: { type: new GraphQLNonNull(GraphQLInt) }
 		},
-		resolve(root, args) {
-			return Db.models.Applications.findOne({
-				where: { ...args },
-				include: [{
-					model: Db.models.ApplicantBackgroundChecks,
-				}, {
-					model: Db.models.ApplicantDisclosures,
-				}, {
-					model: Db.models.ApplicantConductCodes,
-				}, {
-					model: Db.models.ApplicantHarassmentPolicy,
-				}, {
-					model: Db.models.ApplicantWorkerCompensation,
-				}, {
-					model: Db.models.ApplicantW4,
-				}, {
-					model: Db.models.ApplicantI9,
-				}]
-			}).then(_application => {
-				var ApplicationsStatus = {
-					ApplicantBackgroundCheck: _application.dataValues.ApplicantBackgroundCheck == null ? false : _application.dataValues.ApplicantBackgroundCheck.completed,
-					ApplicantDisclosure: _application.dataValues.ApplicantDisclosure == null ? false : _application.dataValues.ApplicantDisclosure.completed,
-					ApplicantConductCode: _application.dataValues.ApplicantConductCode == null ? false : _application.dataValues.ApplicantConductCode.completed,
-					ApplicantHarassmentPolicy: _application.dataValues.ApplicantHarassmentPolicy == null ? false : _application.dataValues.ApplicantHarassmentPolicy.completed,
-					ApplicantWorkerCompensation: _application.dataValues.ApplicantWorkerCompensation == null ? false : _application.dataValues.ApplicantWorkerCompensation.completed,
-					ApplicantW4: _application.dataValues.ApplicantW4 == null ? false : _application.dataValues.ApplicantW4.completed,
-					ApplicantI9: _application.dataValues.ApplicantI9 == null ? false : _application.dataValues.ApplicantI9.completed
+		async resolve(root, args) {
 
-				};
-				return ApplicationsStatus; //Return true when all record associated to this application are completed
+
+			const getInformation = (documentId) => {
+				return getLegalDocumentInfo(args.id, documentId)
+			}
+			let data = {
+				W4: await getInformation(16),
+				I9: await getInformation(12),
+				BackgroundCheck: await getLegalDocumentInfo(args.id, 7),
+				HarassmentPolicy: await getInformation(11),
+				AntiDiscrimination: await getInformation(19),
+				Disclosure: await getInformation(10),
+				NonRelation: await getInformation(21),
+				ConductCode: await getInformation(8),
+				BenefitElection: await getInformation(22),
+				WorkerCompensation: await getInformation(17),
+			}
+
+			let resultData = {};
+			Object.keys(data).forEach(key => {
+				resultData = { ...resultData, [key]: data[key] ? data[key].completed : false }
 			})
-
+			return resultData;
 		}
 	},
 	recruiterReport: {
@@ -558,24 +546,19 @@ const ApplicationQuery = {
 			const conductCode = typeDocu.find(td => td && td.name === 'Conduct Code');
 			const workerCompensation = typeDocu.find(td => td && td.name === 'Worker Compensation');
 
-			const getDocumentUrl = (ApplicationId, ApplicationDocumentTypeId) => {
-				return Db.models.ApplicantLegalDocument.findOne({ 
-					attributes: ['url'],
-					where: {ApplicationId, ApplicationDocumentTypeId},
-					order: [['createdAt', 'DESC']]
-				}).then(result => {
-					return result ? result.dataValues.url : null;
-				});
+			const getDocumentURL = async (docId) => {
+				let data = await getLegalDocumentInfo(args.applicationId, docId);
+				return data ? data.url : null;
 			}
 
-			const w4PdfUrl = w4 ? await getDocumentUrl(args.applicationId, w4.id) : W4_EMPTY_URL;
-			const i9PdfUrl = i9 ? await getDocumentUrl(args.applicationId, i9.id) : I9_EMPTY_URL;
-			const backgroundCheckPdfUrl = backgroundCheck ? await getDocumentUrl(args.applicationId, backgroundCheck.id) : BACKGROUNDCHECK_EMPTY_URL;
-			const antiHarasmentPdfUrl = antiHarasment ? await getDocumentUrl(args.applicationId, antiHarasment.id) : ANTIHARASMENT_EMPTY_URL;
-			const antiDiscPdfUrl = antiDiscrimination ? await getDocumentUrl(args.applicationId, antiDiscrimination.id) : ANTIDISC_EMPTY_URL;
-			const nonDisclosurePdfUrl = nonDisclosure ? await getDocumentUrl(args.applicationId, nonDisclosure.id) : NONDISCLOSURE_EMPTY_URL;
-			const conductCodePdfUrl = conductCode ? await getDocumentUrl(args.applicationId, conductCode.id) : CONDUCTCODE_EMPTY_URL;
-			const workerCompPdfUrl = workerCompensation ? await getDocumentUrl(args.applicationId, workerCompensation.id) : WORKCOMP_EMPTY_URL;
+			const w4PdfUrl = w4 ? await getDocumentURL(w4.id) : W4_EMPTY_URL;
+			const i9PdfUrl = i9 ? await getDocumentURL(i9.id) : I9_EMPTY_URL;
+			const backgroundCheckPdfUrl = backgroundCheck ? await getDocumentURL(backgroundCheck.id) : BACKGROUNDCHECK_EMPTY_URL;
+			const antiHarasmentPdfUrl = antiHarasment ? await getDocumentURL(antiHarasment.id) : ANTIHARASMENT_EMPTY_URL;
+			const antiDiscPdfUrl = antiDiscrimination ? await getDocumentURL(antiDiscrimination.id) : ANTIDISC_EMPTY_URL;
+			const nonDisclosurePdfUrl = nonDisclosure ? await getDocumentURL(nonDisclosure.id) : NONDISCLOSURE_EMPTY_URL;
+			const conductCodePdfUrl = conductCode ? await getDocumentURL(conductCode.id) : CONDUCTCODE_EMPTY_URL;
+			const workerCompPdfUrl = workerCompensation ? await getDocumentURL(workerCompensation.id) : WORKCOMP_EMPTY_URL;
 
 			try {
 				let s3Url = await pdfMergeApi([
