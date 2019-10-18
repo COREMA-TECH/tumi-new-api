@@ -5,15 +5,45 @@ import axios from 'axios';
 
 import GraphQLDate from 'graphql-date';
 import Sequelize from 'sequelize';
-
+import {generatePdfFile} from '../../../Utilities/PdfManagement';
+import {uploadToS3} from '../../../Utilities/S3Management';
+const fs = require('fs');
 const tokenApiPdfMerge = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VyIjoiNlA0MTczNDU0ciIsImVtYWlsIjoibHVpcy5mYWphcmRvQHNtYnNzb2x1dGlvbnMuY29tIn0sImlhdCI6MTU2NzU1MTI2NX0.bryGpfwXuhsydPT0HZv8e79Kul5QkIZTMVmupUdpxn4';
 const urlSmbsPdfApiLocal = 'http://localhost:3000/api/documents';
 const urlSmbsPdfApiEc2 = 'http://ec2-3-18-223-95.us-east-2.compute.amazonaws.com:3000/api/documents';
 
 const Op = Sequelize.Op;
+
+const SUMMARY_EMPTY_URL = 'https://smbs-recruitment.s3.us-east-2.amazonaws.com/documents/Summary-EMPTY.pdf'
+const W4_EMPTY_URL = 'https://smbs-recruitment.s3.us-east-2.amazonaws.com/documents/W4-EMPTY.pdf'
+const I9_EMPTY_URL = 'https://smbs-recruitment.s3.us-east-2.amazonaws.com/documents/I9-EMPTY.pdf'
+const BACKGROUNDCHECK_EMPTY_URL = 'https://smbs-recruitment.s3.us-east-2.amazonaws.com/documents/BackgroundCheck-EMPTY.pdf'
+const ANTIHARASMENT_EMPTY_URL = 'https://smbs-recruitment.s3.us-east-2.amazonaws.com/documents/AntiHarassment-EMPTY.pdf'
+const ANTIDISC_EMPTY_URL = ''
+const NONDISCLOSURE_EMPTY_URL = 'https://smbs-recruitment.s3.us-east-2.amazonaws.com/documents/NonDisclosure-EMPTY.pdf'
+const CONDUCTCODE_EMPTY_URL = 'https://smbs-recruitment.s3.us-east-2.amazonaws.com/documents/ConductCode-EMPTY.pdf'
+const WORKCOMP_EMPTY_URL = 'https://smbs-recruitment.s3.us-east-2.amazonaws.com/documents/WorkerCompensation-EMPTY.pdf'
+
+
 const FilterStatus = (filter) => {
 	if (filter.isActive) { return { isActive: filter.isActive } }
 	else { return {} }
+}
+
+async function newPdf(fileName, html) {
+	try {
+		return generatePdfFile(html, fileName.trim() + '.pdf').then(fileFullPath => {
+			if(!fileFullPath) return null;
+			
+			return uploadToS3(fileFullPath).then(url => {
+				fs.unlinkSync(fileFullPath);
+				return url;
+			});
+		});
+	} catch (err) {
+		console.log('Database ' + err);
+		return null;
+	}
 }
 
 const getRecruiterReportFilters = (filter) => {
@@ -505,72 +535,123 @@ const ApplicationQuery = {
 		args: {
 			applicationId: {
 				type: GraphQLInt
+			},
+			summaryHtml: {
+				type: GraphQLString
 			}
 		},
-		resolve(root, args) {
+		async resolve(root, args) {
 
 			let files = [];
+			const typeDocu = await Db.models.ApplicationDocumentType.findAll();
+			const summaryPdfUrl = await newPdf('SummaryNHP', args.summaryHtml);
+			const w4 = typeDocu.find(td => td && td.name === 'W4');
+			const i9 = typeDocu.find(td => td && td.name === 'I9');
+			const backgroundCheck = typeDocu.find(td => td && td.name === 'Background Check');
+			const antiHarasment = typeDocu.find(td => td && td.name === 'Harassment Policies');
+			const antiDiscrimination = typeDocu.find(td => td && td.name === 'Anti Discrimination');
+			const nonDisclosure = typeDocu.find(td => td && td.name === 'Non Disclosure');
+			const conductCode = typeDocu.find(td => td && td.name === 'Conduct Code');
+			const workerCompensation = typeDocu.find(td => td && td.name === 'Worker Compensation');
 
-			return Db.models.Applications.findOne({
-				where: { id: args.applicationId },
-				include: [
-					{
-						model: Db.models.ApplicantBackgroundChecks,
-						attributes: ['pdfUrl']
-					},
-					{
-						model: Db.models.ApplicantDisclosures,
-						attributes: ['pdfUrl']
-					},
-					{
-						model: Db.models.ApplicantConductCodes,
-						attributes: ['pdfUrl']
-					},
-					{
-						model: Db.models.ApplicantHarassmentPolicy,
-						attributes: ['pdfUrl']
-					},
-					{
-						model: Db.models.ApplicantWorkerCompensation,
-						attributes: ['pdfUrl']
-					},
-					{
-						model: Db.models.ApplicantI9,
-						attributes: ['url']
-					},
-					{
-						model: Db.models.ApplicantW4,
-						attributes: ['url']
-					}
-				]
-			}).then(async resp => {
+			const getDocumentUrl = (ApplicationId, ApplicationDocumentTypeId) => {
+				return Db.models.ApplicantLegalDocument.findOne({ 
+					attributes: ['url'],
+					where: {ApplicationId, ApplicationDocumentTypeId},
+					order: [['createdAt', 'DESC']]
+				}).then(result => {
+					return result ? result.dataValues.url : null;
+				});
+			}
 
-				if (resp) {
-					const { pdfUrl, ApplicantBackgroundCheck, ApplicantDisclosure, ApplicantConductCode,
-						ApplicantHarassmentPolicy, ApplicantWorkerCompensation, ApplicantI9, ApplicantW4 } = resp.dataValues;
-					if (pdfUrl) files = [...files, pdfUrl];
-					if (ApplicantBackgroundCheck) files = [...files, ApplicantBackgroundCheck.dataValues.pdfUrl];
-					if (ApplicantDisclosure) files = [...files, ApplicantDisclosure.dataValues.pdfUrl];
-					if (ApplicantConductCode) files = [...files, ApplicantConductCode.dataValues.pdfUrl];
-					if (ApplicantHarassmentPolicy) files = [...files, ApplicantHarassmentPolicy.dataValues.pdfUrl];
-					if (ApplicantWorkerCompensation) files = [...files, ApplicantWorkerCompensation.dataValues.pdfUrl];
-					if (ApplicantI9) files = [...files, ApplicantI9.dataValues.url];
-					if (ApplicantW4) files = [...files, ApplicantW4.dataValues.url];
+			const w4PdfUrl = w4 ? await getDocumentUrl(args.applicationId, w4.id) : W4_EMPTY_URL;
+			const i9PdfUrl = i9 ? await getDocumentUrl(args.applicationId, i9.id) : I9_EMPTY_URL;
+			const backgroundCheckPdfUrl = backgroundCheck ? await getDocumentUrl(args.applicationId, backgroundCheck.id) : BACKGROUNDCHECK_EMPTY_URL;
+			const antiHarasmentPdfUrl = antiHarasment ? await getDocumentUrl(args.applicationId, antiHarasment.id) : ANTIHARASMENT_EMPTY_URL;
+			const antiDiscPdfUrl = antiDiscrimination ? await getDocumentUrl(args.applicationId, antiDiscrimination.id) : ANTIDISC_EMPTY_URL;
+			const nonDisclosurePdfUrl = nonDisclosure ? await getDocumentUrl(args.applicationId, nonDisclosure.id) : NONDISCLOSURE_EMPTY_URL;
+			const conductCodePdfUrl = conductCode ? await getDocumentUrl(args.applicationId, conductCode.id) : CONDUCTCODE_EMPTY_URL;
+			const workerCompPdfUrl = workerCompensation ? await getDocumentUrl(args.applicationId, workerCompensation.id) : WORKCOMP_EMPTY_URL;
 
-					if (files.length === 0) return null;
+			try {
+				let s3Url = await pdfMergeApi([
+					summaryPdfUrl || SUMMARY_EMPTY_URL,
+					w4PdfUrl || W4_EMPTY_URL,
+					i9PdfUrl || I9_EMPTY_URL,
+					backgroundCheckPdfUrl || BACKGROUNDCHECK_EMPTY_URL,
+					antiHarasmentPdfUrl || ANTIHARASMENT_EMPTY_URL,
+					antiDiscPdfUrl || ANTIDISC_EMPTY_URL,
+					nonDisclosurePdfUrl || NONDISCLOSURE_EMPTY_URL,
+					conductCodePdfUrl || CONDUCTCODE_EMPTY_URL,
+					workerCompPdfUrl || WORKCOMP_EMPTY_URL
+				]);
+				return s3Url.data.url;
+			}
+			catch (err) {
+				console.log(err);
+				return null;
+			}
 
-					try {
-						let s3Url = await pdfMergeApi(files);
-						return s3Url.data.url;
-					}
-					catch (err) {
-						console.log(err);
-						return null;
-					}
-				}
-				else
-					return null;
-			});
+			// return Db.models.Applications.findOne({
+			// 	where: { id: args.applicationId },
+			// 	include: [
+			// 		{
+			// 			model: Db.models.ApplicantBackgroundChecks,
+			// 			attributes: ['pdfUrl']
+			// 		},
+			// 		{
+			// 			model: Db.models.ApplicantDisclosures,
+			// 			attributes: ['pdfUrl']
+			// 		},
+			// 		{
+			// 			model: Db.models.ApplicantConductCodes,
+			// 			attributes: ['pdfUrl']
+			// 		},
+			// 		{
+			// 			model: Db.models.ApplicantHarassmentPolicy,
+			// 			attributes: ['pdfUrl']
+			// 		},
+			// 		{
+			// 			model: Db.models.ApplicantWorkerCompensation,
+			// 			attributes: ['pdfUrl']
+			// 		},
+			// 		{
+			// 			model: Db.models.ApplicantI9,
+			// 			attributes: ['url']
+			// 		},
+			// 		{
+			// 			model: Db.models.ApplicantW4,
+			// 			attributes: ['url']
+			// 		}
+			// 	]
+			// }).then(async resp => {
+
+			// 	if (resp) {
+			// 		const { pdfUrl, ApplicantBackgroundCheck, ApplicantDisclosure, ApplicantConductCode,
+			// 			ApplicantHarassmentPolicy, ApplicantWorkerCompensation, ApplicantI9, ApplicantW4 } = resp.dataValues;
+			// 		if (pdfUrl) files = [...files, pdfUrl];
+			// 		if (ApplicantBackgroundCheck) files = [...files, ApplicantBackgroundCheck.dataValues.pdfUrl];
+			// 		if (ApplicantDisclosure) files = [...files, ApplicantDisclosure.dataValues.pdfUrl];
+			// 		if (ApplicantConductCode) files = [...files, ApplicantConductCode.dataValues.pdfUrl];
+			// 		if (ApplicantHarassmentPolicy) files = [...files, ApplicantHarassmentPolicy.dataValues.pdfUrl];
+			// 		if (ApplicantWorkerCompensation) files = [...files, ApplicantWorkerCompensation.dataValues.pdfUrl];
+			// 		if (ApplicantI9) files = [...files, ApplicantI9.dataValues.url];
+			// 		if (ApplicantW4) files = [...files, ApplicantW4.dataValues.url];
+
+			// 		if (files.length === 0) return null;
+
+			// 		try {
+			// 			let s3Url = await pdfMergeApi(files);
+			// 			return s3Url.data.url;
+			// 		}
+			// 		catch (err) {
+			// 			console.log(err);
+			// 			return null;
+			// 		}
+			// 	}
+			// 	else
+			// 		return null;
+			// });
 		}
 	},
 	applicationPhaseByDate: {

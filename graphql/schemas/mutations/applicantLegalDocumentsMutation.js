@@ -1,9 +1,12 @@
 import { inputInsertApplicantLegalDocuments } from '../types/operations/insertTypes';
 import { inputUpdateApplicantLegalDocuments } from '../types/operations/updateTypes';
 import { ApplicantLegalDocumentType } from '../types/operations/outputTypes';
-import { GraphQLList, GraphQLInt } from 'graphql';
+import { GraphQLList, GraphQLInt, GraphQLString } from 'graphql';
+import {generatePdfFile} from '../../../Utilities/PdfManagement';
+import {uploadToS3} from '../../../Utilities/S3Management';
 
 import Db from '../../models/models';
+const fs = require('fs');
 
 const ApplicantLegalDocumentsMutation = {
 	addApplicantLegalDocuments: {
@@ -20,6 +23,45 @@ const ApplicantLegalDocumentsMutation = {
 						return item.dataValues;
 					});
 				});
+		}
+	},
+	newApplicantLegalDocument: {
+		type: ApplicantLegalDocumentType,
+		description: 'Add a applicant legal document',
+		args: {
+			fileName: { type: GraphQLString },
+			html: { type: GraphQLString },
+			applicantLegalDocument: { type: inputInsertApplicantLegalDocuments }
+		},
+		resolve(source, args) {
+			let {applicantLegalDocument} = args;
+			const saveData = () => {
+				return Db.models.ApplicantLegalDocument
+					.create(applicantLegalDocument, { returning: true }).then(result => {
+						return result.dataValues;
+					});
+			}
+
+			try {
+				if(args.html){
+					const name = args.fileName || '';
+					const content = args.html;
+					return generatePdfFile(content, name.trim() + '.pdf').then(fileFullPath => {
+						if(!fileFullPath) return null;
+						
+						return uploadToS3(fileFullPath).then(url => {
+							fs.unlinkSync(fileFullPath);
+							applicantLegalDocument = {...applicantLegalDocument, url};
+							return saveData();
+						});
+					});
+				}
+				else return saveData();
+
+			} catch (err) {
+				console.log('Database ' + err);
+				return null;
+			}
 		}
 	},
 	updateApplicantLegalDocument: {
