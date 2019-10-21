@@ -18,13 +18,14 @@ const ShiftDetailQuery = {
             shiftDetailEmployee: { type: inputShiftDetailEmployeeQuery }
         },
         resolve(root, args) {
+            const shift = {...args.shift, status: 1};
+            
             return Db.models.ShiftDetail.findAll({
                 where: args.shiftDetail,
                 include: [
                     {
                         model: Db.models.Shift,
-                        where: args.shift,
-
+                        where: shift,
                     },
                     {
                         model: Db.models.ShiftDetailEmployees,

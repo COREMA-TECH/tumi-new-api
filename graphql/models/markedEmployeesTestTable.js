@@ -2,11 +2,10 @@ import Sequelize from 'sequelize';
 import moment from 'moment';
 
 const getHour = (mark, field) => {
-	if(!mark || !mark[field]){
-		return null;
-	}
+	let fieldMark = mark[field];
+	if(!fieldMark) return null;
 
-	let hours = mark[field].split(' ');
+	let hours = fieldMark.split(' ');
 	let _hour = hours[0];
 	if (hours[1] == 'PM' && parseInt(hours[0]) != 12)
 		_hour = moment(_hour, "hh:mm").add(12, 'hours').format("HH:mm");
@@ -17,7 +16,7 @@ const getHour = (mark, field) => {
 export default {
 	createModel(Conn) {
 		return Conn.define(
-			'MarkedEmployees',
+			'MarkedEmployees_tests',
 			{
 				entityId: {
 					type: Sequelize.INTEGER,
@@ -52,7 +51,7 @@ export default {
 					allowNull: true
 				},
 				positionId:{
-					type: Sequelize.INTEGER,
+					type: Sequelize.STRING,
 					allowNull: true	
 				},			
 				EmployeeId: {
@@ -74,21 +73,20 @@ export default {
 					type: Sequelize.DATEONLY
 				}
 			}, {
-
-			hooks: {
-				beforeCreate: function (data) {
-					data.inboundMarkTime = getHour(data, "inboundMarkTime");
-					data.outboundMarkTime = getHour(data, "outboundMarkTime");
-				},
-				beforeBulkCreate: function (data) {
-					data.map(data => {
-						let mark = data.dataValues;
-						mark.inboundMarkTime = getHour(mark, "inboundMarkTime");
-						mark.outboundMarkTime = getHour(mark, "outboundMarkTime");
-					})
+				hooks: {
+					beforeCreate: function (_, options) {
+						_.inboundMarkTime = getHour(_, "inboundMarkTime");
+						_.outboundMarkTime = getHour(_, "outboundMarkTime");
+					},
+					beforeBulkCreate: function (_, options) {
+						_.map(_ => {
+							let mark = _.dataValues;
+							mark.inboundMarkTime = getHour(mark, "inboundMarkTime");
+							mark.outboundMarkTime = getHour(mark, "outboundMarkTime");
+						})
+					}
 				}
 			}
-		}
 
 		);
 	},

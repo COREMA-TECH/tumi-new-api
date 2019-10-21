@@ -1,5 +1,5 @@
 import { GraphQLList, GraphQLString, GraphQLBoolean, GraphQLInt, GraphQLNonNull } from 'graphql';
-import { BusinessCompanyType, employeesByPropertiesType } from '../types/operations/outputTypes';
+import { BusinessCompanyType, employeesByPropertiesType, PropertiesCountType } from '../types/operations/outputTypes';
 import { inputInsertBusinessCompany } from '../types/operations/insertTypes';
 import Db from '../../models/models';
 import moment from 'moment';
@@ -82,13 +82,10 @@ const businessCompanyQuery = {
         }
     },
     propertiesByUserCount: {
-        type: GraphQLInt,
+        type: PropertiesCountType,
         description: 'properties by user Count',
         args: {
             userId: {
-                type: GraphQLInt
-            },
-            isActive: {
                 type: GraphQLInt
             }
         },
@@ -99,21 +96,26 @@ const businessCompanyQuery = {
                     isActive: true
                 },
                 attributes: ['RegionId']
-            }).then(regionsUsersList => {
-                let params = {
-                    Id_Parent: {[Op.notIn]:[0]}
-                };
-
-                if(args.isActive === 1 || args.isActive === 0) params = {...params, IsActive: args.isActive};
-                
+            }).then(async regionsUsersList => {
                 const regionsId = regionsUsersList.map(rul => rul.dataValues.RegionId);
                 
-                return Db.models.BusinessCompany.count({
+                const actives = await Db.models.BusinessCompany.count({
                     where: {
-                        ...params,
+                        Id_Parent: {[Op.notIn]:[0]},
+                        IsActive: 1,
                         Region: {[Op.in]:regionsId},
                     }
                 });
+
+                const inactives = await Db.models.BusinessCompany.count({
+                    where: {
+                        Id_Parent: {[Op.notIn]:[0]},
+                        IsActive: 0,
+                        Region: {[Op.in]:regionsId},
+                    }
+                });
+
+                return {actives, inactives};
             });
         }
     },

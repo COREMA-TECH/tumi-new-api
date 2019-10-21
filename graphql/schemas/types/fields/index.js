@@ -55,7 +55,10 @@ import EmployeeByHotelFields from './employeeByHotelFields';
 import FeatureFields from './featureFiels';
 import ContractFields from './contractFields';
 import TokenFields from './tokenFields';
+import BusinessRulesFields from './businessRulesFields';
 import RegionsUsersFields from './regionsUsersFields';
+import ApplicantLegalDocumentsFields from './applicantLegalDocumentsFields';
+import ApplicationDocumentTypeFields from './applicationDocumentTypeFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -115,5 +118,8 @@ export {
 	FeatureFields,
 	ContractFields,
 	TokenFields,
-	RegionsUsersFields
+	BusinessRulesFields,
+	RegionsUsersFields,
+	ApplicantLegalDocumentsFields,
+	ApplicationDocumentTypeFields
 };

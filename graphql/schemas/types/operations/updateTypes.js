@@ -16,6 +16,7 @@ import {
 	ApplicantDocumentFields,
 	ApplicantW4Fields,
 	ApplicantI9Fields,
+	BusinessCompanyFields,
 	WorkOrderFields,
 	WorkOrderPositionFields,
 	ApplicationPhaseFields,
@@ -41,8 +42,11 @@ import {
 	FeatureFields,
 	ContractFields,
 	TokenFields,
+	BusinessRulesFields,
 	RegionsUsersFields,
-	RolesFields
+	RolesFields,
+	ApplicantLegalDocumentsFields,
+	ApplicationDocumentTypeFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -56,6 +60,19 @@ const inputUpdateApplication = new GraphQLInputObjectType({
 			description: 'Applicant Id'
 		},
 		...ApplicationFields
+	}
+});
+
+const inputUpdateBusinessCompany = new GraphQLInputObjectType({
+	name: 'inputUpdateBusinessCompany',
+	description: 'Inputs for Business Company',
+
+	fields: {
+		Id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'BusinessCompany Id'
+		},
+		...BusinessCompanyFields
 	}
 });
 
@@ -601,7 +618,18 @@ const inputUpdateTokens = new GraphQLInputObjectType({
 	}
 });
 
-const inputUpdateRegionsUsers = new GraphQLInputObjectType({
+const inputUpdateBusinessRule = new GraphQLInputObjectType({
+	name: 'inputUpdateBusinessRule',
+	description: "Input for updating a Business Rule",
+	fields: { 
+		Id: {
+			type: new GraphQLNonNull(GraphQLInt)
+		},
+		...BusinessRulesFields 
+  }
+});
+
+    const inputUpdateRegionsUsers = new GraphQLInputObjectType({
 	name: 'inputUpdateRegionsUsers',
 	description: 'Inputs for Region by User',
 
@@ -612,6 +640,28 @@ const inputUpdateRegionsUsers = new GraphQLInputObjectType({
 		},
 		...RegionsUsersFields
 	}
+});
+
+const inputUpdateApplicantLegalDocuments = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantLegalDocuments',
+	description: "Input for updating applicant documents",
+	fields: { 
+		id: {
+			type: new GraphQLNonNull(GraphQLInt)
+		},
+		...ApplicantLegalDocumentsFields 
+  }
+});
+
+const inputUpdateApplicationDocumentType = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicationDocumentType',
+	description: "Input for updating application document type",
+	fields: { 
+		id: {
+			type: new GraphQLNonNull(GraphQLInt)
+		},
+		...ApplicationDocumentTypeFields
+  }
 });
 
 export {
@@ -657,7 +707,11 @@ export {
 	inputUpdateFeatureType,
 	inputUpdateContracts,
 	inputUpdateTokens,
+	inputUpdateBusinessRule,
 	inputUpdateRegionsUsers,
 	inputUpdateRoles,
-	TimeMarkUpdateType
+	TimeMarkUpdateType,
+	inputUpdateBusinessCompany,
+	inputUpdateApplicantLegalDocuments,
+	inputUpdateApplicationDocumentType
 };

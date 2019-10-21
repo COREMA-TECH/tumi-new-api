@@ -40,6 +40,53 @@ const WorkOrderQuery = {
 			});
 		}
 	},
+
+	worKOrderEmployeeCount: {
+		type: GraphQLInt,
+		description: "Returns amount of ShiftDetailEmployees records",
+		args: {
+			workOrderId: { type: GraphQLInt }
+		},
+		resolve(_, args){
+			return Db.models.WorkOrder.findAll({
+				where: { id: args.workOrderId },
+				include: [
+					{
+						model: Db.models.ShiftWorkOrder,
+						include: [
+							{
+								model: Db.models.Shift,
+								as: "Shift",
+								include: [
+									{
+										model: Db.models.ShiftDetail,
+										include: [
+											{
+												model: Db.models.ShiftDetailEmployees
+											}
+										]
+									}
+								]								
+							}
+						]
+					}
+				]
+			})
+			.then(data => {
+				const shifts = data[0].dataValues.ShiftWorkOrders.map(item => item.dataValues.Shift).map(shift => shift.dataValues.ShiftDetails).reduce((acc, crr) => {
+					if(crr.ShiftDetailEmployee){
+						return acc + 1
+					} else {
+						return acc
+					}
+				}, 0);
+
+				console.log(shifts);
+				return shifts;
+			})
+		}
+	},
+
 	workOrderForScheduleView: {
 		type: new GraphQLList(WorkOrderGridType),
 		description: 'List work order records',

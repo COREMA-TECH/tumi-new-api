@@ -1,4 +1,4 @@
-import { GraphQLList, GraphQLString, GraphQLInt, GraphQLNonNull } from 'graphql';
+import { GraphQLList, GraphQLString, GraphQLInt, GraphQLBoolean } from 'graphql';
 import { MarkedEmployeesType, PunchesReportType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 import GraphQLDate from 'graphql-date';

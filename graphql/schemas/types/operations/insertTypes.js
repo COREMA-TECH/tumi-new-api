@@ -59,8 +59,11 @@ import {
 	ContractFields,
 	TokenFields,
 	PositionRateFields,
+	BusinessRulesFields,
 	RegionsUsersFields,
 	RolesFields,
+	ApplicantLegalDocumentsFields,
+	ApplicationDocumentTypeFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -352,7 +355,15 @@ const inputTimeMark = new GraphQLInputObjectType({
 const inputInsertMarkedEmployees = new GraphQLInputObjectType({
 	name: 'inputInsertMarkedEmployees',
 	description: 'Inputs for MarkedEmployees Employee Insert',
-	fields: { ...MarkedEmployeesFields }
+	fields: {
+		entityId: { type: GraphQLInt },
+		typeMarkedId: { type: GraphQLInt },
+		markedDate: { type: GraphQLDate },
+		markedTime: { type: GraphQLString },
+		imageMarked: { type: GraphQLString },
+		EmployeeId: { type: GraphQLInt },
+		key: { type: GraphQLString }
+	}
 
 });
 
@@ -649,12 +660,36 @@ const inputPositionRateType = new GraphQLInputObjectType({
 	}
 });
 
+const inputBusinessRule = new GraphQLInputObjectType({
+	name: 'inputBusinessRule',
+	description: "Input for a Business Rule",
+	fields: { ...BusinessRulesFields }
+});
+
 const inputInsertRegionsUsers = new GraphQLInputObjectType({
 	name: 'inputInsertRegionsUsers',
 	description: 'Inputs for Region by User',
 
 	fields: {
 		...RegionsUsersFields
+	}
+});
+
+const inputInsertApplicantLegalDocuments = new GraphQLInputObjectType({
+	name: 'inputInsertApplicantLegalDocuments',
+	description: 'Inputs for applicant documents',
+
+	fields: {
+		...ApplicantLegalDocumentsFields
+	}
+});
+
+const inputInsertApplicationDocumentType = new GraphQLInputObjectType({
+	name: 'inputInsertApplicationDocumentType',
+	description: 'Inputs for application document types',
+
+	fields: {
+		...ApplicationDocumentTypeFields
 	}
 });
 
@@ -723,7 +758,10 @@ export {
 	inputInsertContracts,
 	inputInsertTokens,
 	inputPositionRateType,
+	inputBusinessRule,
 	inputInsertRegionsUsers,
 	inputInsertRoles,
-	inputTimeMark
+	inputTimeMark,
+	inputInsertApplicantLegalDocuments,
+	inputInsertApplicationDocumentType
 };

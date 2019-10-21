@@ -3,6 +3,7 @@ import { URLWeb, URLReject, URLAccept, ConfigPg } from './Configuration';
 import jwt from 'jsonwebtoken';
 import {generatePdfFile} from '../Utilities/PdfManagement';
 import {uploadToS3} from '../Utilities/S3Management';
+import {closePunches} from '../graphql/schemas/mutations/markedEmployeesMutation';
 
 
 //Requerimos el paquete
@@ -17,8 +18,9 @@ var cron = require('node-cron');
 
 var Strquery, Strquery_2, Strfilename;
 
-cron.schedule('59 11 * * *', () => {
+cron.schedule('59 23 * * *', () => {
 	console.log('running a task At 23:59.');
+	closePunches(); // proceso de cierre de ponchadas
 	SendExpiredContracts();
 	ChangeStatustoExpired();
 	ChangeStatustoCompleted();
@@ -223,37 +225,7 @@ async function query(q) {
 
 //Method Connect to table Company
 //Method Connect to table Company
-async function getCompanies(args) {
-	try {
-		var strparam1, strparam2, strparam3;
 
-		if (args.IsActive >= 0) {
-			strparam1 = args.IsActive;
-		} else {
-			strparam1 = null;
-		}
-
-		if (args.Id >= 0) {
-			strparam2 = args.Id;
-		} else {
-			strparam2 = null;
-		}
-
-		Strquery =
-			'select * from public."Company"  where "IsActive" = coalesce(' +
-			strparam1 +
-			',"IsActive") and "Id" = coalesce(' +
-			strparam2 +
-			',"Id") order by "Name"';
-		//	console.log('query de companies ', Strquery);
-
-		const { rows } = await query(Strquery);
-		return rows;
-	} catch (err) {
-		console.log('Database ' + err);
-		return err;
-	}
-}
 
 // //Method Connect to table BusinessCompany
 // async function getBusinessCompanies(args) {
@@ -3425,7 +3397,6 @@ async function SendEmailResetPassword(args) {
 }
 
 const root = {
-	getcompanies: getCompanies,
 
 	//getbusinesscompanies: getBusinessCompanies,
 	insbusinesscompanies: InsBusinessCompanies,

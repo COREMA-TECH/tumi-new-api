@@ -65,7 +65,10 @@ import {
 	FeatureFields,
 	ContractFields,
 	TokenFields,
-	RegionsUsersFields
+	BusinessRulesFields,
+	RegionsUsersFields,
+	ApplicantLegalDocumentsFields,
+	ApplicationDocumentTypeFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -220,6 +223,14 @@ const ApplicationType = new GraphQLObjectType({
 				type: ApplicantIndepenentContractType,
 				resolve(me) {
 					return me.getApplicantIndependentContract();
+				}
+			},
+			sentToInterview: {
+				type: GraphQLDate,
+				async resolve(me) {
+					let phase = await Db.models.ApplicationPhases.findOne({ where: { ApplicationId: me.id, StageId: 30461 } });
+					if (phase) return phase.createdAt;
+					return null;
 				}
 			},
 			statusCompleted: {
@@ -875,27 +886,16 @@ const ApplicationCompletedDataType = new GraphQLObjectType({
 	description: 'Returns the state of all tables related to the applicant.',
 	fields: () => {
 		return {
-			ApplicantBackgroundCheck: {
-				type: GraphQLBoolean
-			},
-			ApplicantDisclosure: {
-				type: GraphQLBoolean
-			},
-			ApplicantConductCode: {
-				type: GraphQLBoolean
-			},
-			ApplicantHarassmentPolicy: {
-				type: GraphQLBoolean
-			},
-			ApplicantWorkerCompensation: {
-				type: GraphQLBoolean
-			},
-			ApplicantW4: {
-				type: GraphQLBoolean
-			},
-			ApplicantI9: {
-				type: GraphQLBoolean
-			}
+			W4: { type: GraphQLBoolean },
+			I9: { type: GraphQLBoolean },
+			BackgroundCheck: { type: GraphQLBoolean },
+			HarassmentPolicy: { type: GraphQLBoolean },
+			AntiDiscrimination: { type: GraphQLBoolean },
+			Disclosure: { type: GraphQLBoolean },
+			NonRelation: { type: GraphQLBoolean },
+			ConductCode: { type: GraphQLBoolean },
+			BenefitElection: { type: GraphQLBoolean },
+			WorkerCompensation: { type: GraphQLBoolean }
 		}
 	}
 });
@@ -1674,23 +1674,14 @@ const MarkedEmployeesType = new GraphQLObjectType({
 	description: 'This is for Marked Employees Table',
 	fields: () => {
 		return {
-			id: {
-				type: GraphQLInt,
-				description: 'table id'
-			},
-			...MarkedEmployeesFields,
-			Employees: {
-				type: EmployeesType,
-				resolve(me) {
-					return me.getEmployees();
-				}
-			},
-			TypeMarked: {
-				type: CatalogItemType,
-				resolve(me) {
-					return me.getCatalogMarked();
-				}
-			},
+			id: { type: GraphQLInt },
+			entityId: { type: GraphQLInt },
+			typeMarkedId: { type: GraphQLInt },
+			markedDate: { type: GraphQLDate },
+			markedTime: { type: GraphQLString },
+			imageMarked: { type: GraphQLString },
+			EmployeeId: { type: GraphQLInt },
+			key: { type: GraphQLString }
 		}
 	}
 });
@@ -1832,8 +1823,6 @@ const PunchesReportConsolidatedPunchesType = new GraphQLObjectType({
 			job: { type: GraphQLString },
 			hotelCode: { type: GraphQLString },
 			hotelId: { type: GraphQLString },
-			clockInId: { type: GraphQLInt },
-			clockOutId: { type: GraphQLInt },
 			noteIn: { type: GraphQLString },
 			noteOut: { type: GraphQLString },
 			flagIn: { type: GraphQLBoolean },
@@ -2140,6 +2129,32 @@ const EmployeeByHotelType = new GraphQLObjectType({
 	}
 });
 
+const BusinessRuleType = new GraphQLObjectType({
+	name: "BusinessRuleType",
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt
+			},
+			...BusinessRulesFields,
+			createdAt: {
+				type: GraphQLDate,
+				description: 'Creation Date'
+			},
+			updatedAt: {
+				type: GraphQLDate,
+				description: 'Update Date'
+			},
+			ruleType: {
+				type: CatalogItemType,
+				resolve(me) {
+					return me.getRuleType();
+				}
+			}
+		}
+	}
+});
+
 const FeatureType = new GraphQLObjectType({
 	name: 'FeatureType',
 	description: 'This object represents an Feature Record',
@@ -2254,6 +2269,79 @@ const RegionsUsersType = new GraphQLObjectType({
 	}
 });
 
+const PropertiesCountType = new GraphQLObjectType({
+	name: 'PropertiesCountType',
+	description: 'Output Properties count',
+	fields: () => {
+		return {
+			actives: {
+				type: GraphQLInt,
+				description: 'Actives properties'
+			},
+			inactives: {
+				type: GraphQLInt,
+				description: 'Inactive Properties'
+			}
+		};
+	}
+});
+
+const ApplicationDocumentTypeType = new GraphQLObjectType({
+	name: 'ApplicationDocumentTypeType',
+	description: 'Output Application document type',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'ApplicantLegalDocumentId'
+			},
+			createdAt: {
+				type: GraphQLDate,
+				description: 'Creation Date'
+			},
+			updatedAt: {
+				type: GraphQLDate,
+				description: 'Update Date'
+			},
+			...ApplicationDocumentTypeFields
+		};
+	}
+});
+
+const ApplicantLegalDocumentType = new GraphQLObjectType({
+	name: 'ApplicantLegalDocumentType',
+	description: 'Output Applicant Document',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'ApplicantLegalDocumentId'
+			},
+			createdAt: {
+				type: new GraphQLNonNull(GraphQLDate),
+				description: 'Creation Date'
+			},
+			updatedAt: {
+				type: new GraphQLNonNull(GraphQLDate),
+				description: 'Update Date'
+			},
+			ApplicationDocumentType: {
+				type: ApplicationDocumentTypeType,
+				description: 'Type Document relation'
+			},
+			Application: {
+				type: ApplicationType,
+				description: 'Application'
+			},
+			User: {
+				type: UsersType,
+				description: 'User who created the registry'
+			},
+			...ApplicantLegalDocumentsFields
+		};
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -2333,7 +2421,11 @@ export {
 	ContractType,
 	TokenType,
 	ApprovePunchesType,
+	BusinessRuleType,
 	WorkOrderGridType,
 	RegionsUsersType,
-	TimeMarkType
+	TimeMarkType,
+	PropertiesCountType,
+	ApplicantLegalDocumentType,
+	ApplicationDocumentTypeType
 };
