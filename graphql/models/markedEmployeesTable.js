@@ -2,6 +2,9 @@ import Sequelize from 'sequelize';
 import moment from 'moment';
 
 const getHour = (mark, field) => {
+	if(!mark || !mark[field]){
+		return null;
+	}
 
 	let hours = mark[field].split(' ');
 	let _hour = hours[0];
@@ -49,7 +52,7 @@ export default {
 					allowNull: true
 				},
 				positionId:{
-					type: Sequelize.STRING,
+					type: Sequelize.INTEGER,
 					allowNull: true	
 				},			
 				EmployeeId: {
