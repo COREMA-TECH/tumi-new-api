@@ -1812,6 +1812,7 @@ const PunchesReportConsolidatedPunchesType = new GraphQLObjectType({
 	description: 'This structured is used to generate report consolidated about punches',
 	fields: () => {
 		return {
+			markId: { type: GraphQLInt },
 			key: { type: GraphQLString },
 			name: { type: GraphQLString },
 			employeeId: { type: GraphQLInt },

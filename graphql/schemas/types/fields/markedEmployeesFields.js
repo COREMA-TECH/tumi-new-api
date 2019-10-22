@@ -6,7 +6,7 @@ const markedEmployeesFields = {
 		type: GraphQLInt
 	},
 	markedDate: {
-		type: GraphQLDate
+		type: GraphQLString
 	},
 	inboundMarkTypeId: {
 		type: GraphQLInt
