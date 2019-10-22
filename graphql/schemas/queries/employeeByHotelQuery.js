@@ -2,6 +2,7 @@ import { GraphQLInt, GraphQLList, GraphQLBoolean } from 'graphql';
 import GraphQLDate from 'graphql-date';
 import { EmployeeByHotelType, BusinessCompanyType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
+import Sequelize from 'sequelize';
 
 const EmployeeByHotelQuery = {
     EmployeeByHotels: {
@@ -31,7 +32,8 @@ const EmployeeByHotelQuery = {
             }
         },
         resolve(root, args) {
-            return Db.models.EmployeeByHotels.findAll({ 
+            return Db.models.EmployeeByHotels.findAll({
+                distinct: 'id',
                 where: args,
                 include: [
                     {
