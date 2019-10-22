@@ -2444,7 +2444,6 @@ export {
 	PropertiesCountType,
 	UserLoginType,
 	TimeMarkType,
-	PropertiesCountType,
 	ApplicantLegalDocumentType,
 	ApplicationDocumentTypeType
 };
