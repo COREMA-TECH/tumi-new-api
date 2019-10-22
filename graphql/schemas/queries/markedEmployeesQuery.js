@@ -1,5 +1,5 @@
-import { GraphQLList, GraphQLString, GraphQLInt, GraphQLBoolean } from 'graphql';
-import { MarkedEmployeesType, PunchesReportType } from '../types/operations/outputTypes';
+import { GraphQLList, GraphQLString, GraphQLInt, GraphQLNonNull } from 'graphql';
+import { MarkedEmployeesType, PunchesReportType, TimeMarkType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 import GraphQLDate from 'graphql-date';
 import moment from 'moment';
@@ -114,7 +114,7 @@ const MarkedEmployeesQuery = {
     },
 
     mark: {
-        type: MarkedEmployeesType,
+        type: TimeMarkType,
         description: "Find a mark",
         args: {
             id: {
@@ -123,7 +123,7 @@ const MarkedEmployeesQuery = {
         },
 
         resolve(_, args) {
-            return Db.models.MarkedEmployees.findOne({ where: args });
+            return Db.models.MarkedEmployees.findOne({ where: args });           
         }
     },
 
