@@ -66,7 +66,9 @@ import {
 	ContractFields,
 	TokenFields,
 	BusinessRulesFields,
-	RegionsUsersFields
+	RegionsUsersFields,
+	ApplicantLegalDocumentsFields,
+	ApplicationDocumentTypeFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -900,27 +902,16 @@ const ApplicationCompletedDataType = new GraphQLObjectType({
 	description: 'Returns the state of all tables related to the applicant.',
 	fields: () => {
 		return {
-			ApplicantBackgroundCheck: {
-				type: GraphQLBoolean
-			},
-			ApplicantDisclosure: {
-				type: GraphQLBoolean
-			},
-			ApplicantConductCode: {
-				type: GraphQLBoolean
-			},
-			ApplicantHarassmentPolicy: {
-				type: GraphQLBoolean
-			},
-			ApplicantWorkerCompensation: {
-				type: GraphQLBoolean
-			},
-			ApplicantW4: {
-				type: GraphQLBoolean
-			},
-			ApplicantI9: {
-				type: GraphQLBoolean
-			}
+			W4: { type: GraphQLBoolean },
+			I9: { type: GraphQLBoolean },
+			BackgroundCheck: { type: GraphQLBoolean },
+			HarassmentPolicy: { type: GraphQLBoolean },
+			AntiDiscrimination: { type: GraphQLBoolean },
+			Disclosure: { type: GraphQLBoolean },
+			NonRelation: { type: GraphQLBoolean },
+			ConductCode: { type: GraphQLBoolean },
+			BenefitElection: { type: GraphQLBoolean },
+			WorkerCompensation: { type: GraphQLBoolean }
 		}
 	}
 });
@@ -1668,6 +1659,32 @@ const TemplateType = new GraphQLObjectType({
 	}
 });
 
+const TimeMarkType = new GraphQLObjectType({
+	name: 'TimeMarkType',
+	description: 'This is for Marked Employees Table',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...MarkedEmployeesFields,
+			Employees: {
+				type: EmployeesType,
+				resolve(me) {
+					return me.getEmployees();
+				}
+			},
+			TypeMarked: {
+				type: CatalogItemType,
+				resolve(me) {
+					return me.getCatalogMarked();
+				}
+			},
+		}
+	}
+});
+
 const MarkedEmployeesType = new GraphQLObjectType({
 	name: 'MarkedEmployees',
 	description: 'This is for Marked Employees Table',
@@ -1811,6 +1828,7 @@ const PunchesReportConsolidatedPunchesType = new GraphQLObjectType({
 	description: 'This structured is used to generate report consolidated about punches',
 	fields: () => {
 		return {
+			markId: { type: GraphQLInt },
 			key: { type: GraphQLString },
 			name: { type: GraphQLString },
 			employeeId: { type: GraphQLInt },
@@ -2285,6 +2303,62 @@ const PropertiesCountType = new GraphQLObjectType({
 	}
 });
 
+const ApplicationDocumentTypeType = new GraphQLObjectType({
+	name: 'ApplicationDocumentTypeType',
+	description: 'Output Application document type',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'ApplicantLegalDocumentId'
+			},
+			createdAt: {
+				type: GraphQLDate,
+				description: 'Creation Date'
+			},
+			updatedAt: {
+				type: GraphQLDate,
+				description: 'Update Date'
+			},
+			...ApplicationDocumentTypeFields
+		};
+	}
+});
+
+const ApplicantLegalDocumentType = new GraphQLObjectType({
+	name: 'ApplicantLegalDocumentType',
+	description: 'Output Applicant Document',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'ApplicantLegalDocumentId'
+			},
+			createdAt: {
+				type: new GraphQLNonNull(GraphQLDate),
+				description: 'Creation Date'
+			},
+			updatedAt: {
+				type: new GraphQLNonNull(GraphQLDate),
+				description: 'Update Date'
+			},
+			ApplicationDocumentType: {
+				type: ApplicationDocumentTypeType,
+				description: 'Type Document relation'
+			},
+			Application: {
+				type: ApplicationType,
+				description: 'Application'
+			},
+			User: {
+				type: UsersType,
+				description: 'User who created the registry'
+			},
+			...ApplicantLegalDocumentsFields
+		};
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -2368,5 +2442,9 @@ export {
 	WorkOrderGridType,
 	RegionsUsersType,
 	PropertiesCountType,
-	UserLoginType
+	UserLoginType,
+	TimeMarkType,
+	PropertiesCountType,
+	ApplicantLegalDocumentType,
+	ApplicationDocumentTypeType
 };

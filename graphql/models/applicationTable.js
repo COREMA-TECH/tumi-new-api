@@ -23,6 +23,10 @@ export default {
 				type: Sequelize.STRING(50),
 				allowNull: true
 			},
+			alias: {
+				type: Sequelize.STRING(255),
+				allowNull: true
+			},
 			date: {
 				type: Sequelize.DATE,
 				allowNull: true

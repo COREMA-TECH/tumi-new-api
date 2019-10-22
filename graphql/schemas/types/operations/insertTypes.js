@@ -62,6 +62,8 @@ import {
 	BusinessRulesFields,
 	RegionsUsersFields,
 	RolesFields,
+	ApplicantLegalDocumentsFields,
+	ApplicationDocumentTypeFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -342,6 +344,12 @@ const inputInsertShiftDetailEmployee = new GraphQLInputObjectType({
 	description: 'Inputs for Shift Detail Employee Insert',
 	fields: { ...ShiftDetailEmployeesFields }
 
+});
+
+const inputTimeMark = new GraphQLInputObjectType({
+	name: 'inputTimeMark',
+	description: 'Inputs for MarkedEmployees Employee Insert',
+	fields: { ...MarkedEmployeesFields }
 });
 
 const inputInsertMarkedEmployees = new GraphQLInputObjectType({
@@ -667,6 +675,24 @@ const inputInsertRegionsUsers = new GraphQLInputObjectType({
 	}
 });
 
+const inputInsertApplicantLegalDocuments = new GraphQLInputObjectType({
+	name: 'inputInsertApplicantLegalDocuments',
+	description: 'Inputs for applicant documents',
+
+	fields: {
+		...ApplicantLegalDocumentsFields
+	}
+});
+
+const inputInsertApplicationDocumentType = new GraphQLInputObjectType({
+	name: 'inputInsertApplicationDocumentType',
+	description: 'Inputs for application document types',
+
+	fields: {
+		...ApplicationDocumentTypeFields
+	}
+});
+
 export {
 	insertPayrollType,
 	inputInsertApplicantLanguage,
@@ -735,4 +761,7 @@ export {
 	inputBusinessRule,
 	inputInsertRegionsUsers,
 	inputInsertRoles,
+	inputTimeMark,
+	inputInsertApplicantLegalDocuments,
+	inputInsertApplicationDocumentType
 };

@@ -57,6 +57,7 @@ import CoordenadasModel from './coordenadasTable';
 
 import ApplicationAccountModel from './applicationAccount';
 import ApplicationAccountDocumentsModel from './applicationAccountDocuments';
+import ApplicantLegalDocumentModel from './applicantLegalDocumentTable';
 
 // OpeningRecruiter
 import OpeningRecruiterModel from './openingrecruiterModel';
@@ -74,6 +75,7 @@ import ContractModel from './contractTable';
 import TokenModel from './tokenTable';
 import BusinessRuleModel from './businessRule';
 import RegionsUsersModel from './regionsUsersTable';
+import ApplicationDocumentTypeModel from './applicationDocumentTypeTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
 const BreakRuleDetailModel = BreakRuleDetail.createModel(Conn);
@@ -149,6 +151,12 @@ const Feature = FeatureModel.createModel(Conn);
 const Contracts = ContractModel.createModel(Conn);
 const Tokens = TokenModel.createModel(Conn);
 const BusinessRule = BusinessRuleModel.createModel(Conn);
+const ApplicationDocumentType = ApplicationDocumentTypeModel.createModel(Conn);
+const ApplicantLegalDocumentType = ApplicantLegalDocumentModel.createModel(Conn);
+
+ApplicantLegalDocumentType.belongsTo(ApplicationDocumentType);
+ApplicantLegalDocumentType.belongsTo(Application);
+ApplicantLegalDocumentType.belongsTo(Users);
 
 BusinessRule.belongsTo(CatalogItem, {
 	foreignKey: "catalogItemId",

@@ -22,6 +22,10 @@ const ApplicationFields = {
 		type: GraphQLString,
 		description: 'Applicant Second Last Name'
 	},
+	alias: {
+		type: GraphQLString,
+		description: "AKA field. Provides additional descrition of a person"
+	},
 	date: {
 		type: GraphQLDate,
 		description: 'Applicant Date'

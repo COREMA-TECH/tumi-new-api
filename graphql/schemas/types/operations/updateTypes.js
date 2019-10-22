@@ -44,7 +44,9 @@ import {
 	TokenFields,
 	BusinessRulesFields,
 	RegionsUsersFields,
-	RolesFields
+	RolesFields,
+	ApplicantLegalDocumentsFields,
+	ApplicationDocumentTypeFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -375,6 +377,18 @@ const inputUpdateShiftDetail = new GraphQLInputObjectType({
 	}
 });
 
+const TimeMarkUpdateType = new GraphQLInputObjectType({
+	name: 'TimeMarkUpdateType',
+	description: 'Inputs for Marked Employees Update',
+
+	fields: {
+		id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			description: 'table Id'
+		},
+		...MarkedEmployeesFields
+	}
+});
 
 const inputUpdateMarkedEmployees = new GraphQLInputObjectType({
 	name: 'inputUpdateMarkedEmployees',
@@ -628,6 +642,28 @@ const inputUpdateBusinessRule = new GraphQLInputObjectType({
 	}
 });
 
+const inputUpdateApplicantLegalDocuments = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicantLegalDocuments',
+	description: "Input for updating applicant documents",
+	fields: { 
+		id: {
+			type: new GraphQLNonNull(GraphQLInt)
+		},
+		...ApplicantLegalDocumentsFields 
+  }
+});
+
+const inputUpdateApplicationDocumentType = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicationDocumentType',
+	description: "Input for updating application document type",
+	fields: { 
+		id: {
+			type: new GraphQLNonNull(GraphQLInt)
+		},
+		...ApplicationDocumentTypeFields
+  }
+});
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -674,5 +710,8 @@ export {
 	inputUpdateBusinessRule,
 	inputUpdateRegionsUsers,
 	inputUpdateRoles,
-	inputUpdateBusinessCompany
+	TimeMarkUpdateType,
+	inputUpdateBusinessCompany,
+	inputUpdateApplicantLegalDocuments,
+	inputUpdateApplicationDocumentType
 };

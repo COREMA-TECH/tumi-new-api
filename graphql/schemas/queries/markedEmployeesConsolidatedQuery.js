@@ -177,7 +177,7 @@ const MarkedEmployeesConsolidated = {
 
                 const punches = marks.map(mark => {
 
-                    let { EmployeeId, markedDate, entityId, positionId, inboundMarkImage, outboundMarkTime, inboundMarkTime, outboundMarkImage } = mark.dataValues;
+                    let { id, EmployeeId, markedDate, entityId, positionId, inboundMarkImage, outboundMarkTime, inboundMarkTime, outboundMarkImage } = mark.dataValues;
 
                     employee = mark.dataValues.Employees.dataValues;
                     let application = employee.ApplicationEmployee.Application.dataValues;
@@ -191,6 +191,7 @@ const MarkedEmployeesConsolidated = {
                         groupKey = [...groupKey, localGroupKey];
 
                     punch = {
+                        markId: id,
                         key,
                         localGroupKey,
                         name,

@@ -20,10 +20,10 @@ export const generatePdfFile = (html, fileName, filePath = pdfFilesPathDefault) 
           orientation: 'portrait',
           zoomFactor: 1,
           border: {
-             top: '0.98in', // default is 0, units: mm, cm, in, px
-             right: '0.98in',
-             bottom: '0.98in',
-             left: '0.98in'
+             top: '0.35in', // default is 0, units: mm, cm, in, px
+             right: '0.35in',
+             bottom: '0.35in',
+             left: '0.35in'
           }
        };
        pdf.create(html, options).toFile(filePath + fileName, function (err, {filename}) {
