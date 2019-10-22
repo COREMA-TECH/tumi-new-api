@@ -724,6 +724,22 @@ const UsersType = new GraphQLObjectType({
 	}
 });
 
+const UserLoginType = new GraphQLObjectType({
+	name: "UserLoginType",
+	description: "Returns an User, alongside a validation token",
+	fields: _ => {
+		return {
+			Id: {
+				type: GraphQLInt
+			},
+			Token: {
+				type: GraphQLString
+			},
+			...UsersFields,
+		}
+	}
+});
+
 const ApplicantDisclosureType = new GraphQLObjectType({
 	name: 'ApplicantDisclosureType',
 	description: 'This is for Application Disclosures',
@@ -2425,8 +2441,9 @@ export {
 	BusinessRuleType,
 	WorkOrderGridType,
 	RegionsUsersType,
-	TimeMarkType,
 	PropertiesCountType,
+	UserLoginType,
+	TimeMarkType,
 	ApplicantLegalDocumentType,
 	ApplicationDocumentTypeType
 };
