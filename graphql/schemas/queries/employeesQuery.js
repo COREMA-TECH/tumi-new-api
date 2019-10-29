@@ -9,6 +9,29 @@ import Sequelize from 'sequelize';
 const Op = Sequelize.Op;
 
 const EmployeesQuery = {
+    recruiters: {
+        type: new GraphQLList(EmployeesType),
+        description: 'Lists recruiters records',
+        args: {
+            isActive: {
+                type: GraphQLBoolean
+            },
+        },
+        resolve(root, args){
+            return Db.models.Employees.findAll({
+                where: args,
+                include: [
+                    { 
+                        model: Db.models.Users,
+                        where: {
+                            Id_Roles: 4
+                        }
+                    }
+                ]
+            })
+        }
+    },
+
     employees: {
         type: new GraphQLList(EmployeesType),
         description: 'List employees records',
