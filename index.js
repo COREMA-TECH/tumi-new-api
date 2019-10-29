@@ -11,6 +11,7 @@ import jwt from 'jsonwebtoken';
 import { MY_PORT } from './Configuration/Configuration';
 import depthLimit from 'graphql-depth-limit';
 import Db from './graphql/models/models';
+import sequelize from 'sequelize';
 
 const path = require('path');
 const SECRET = 'asda47#$*5444adtyydssdZad!#%**';
@@ -65,7 +66,10 @@ app.use(
 const processLogin = async (req, res) => {
 	const {Code_User, Password} = req.body;            
 	const data = await Db.models.Users.findOne({
-		where: { Code_User },
+		where: sequelize.where(
+			sequelize.fn('lower', sequelize.col('Code_User')), 
+			sequelize.fn('lower', Code_User)
+		),
 		returning: true
 	});
 
