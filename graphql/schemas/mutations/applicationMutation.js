@@ -6,6 +6,7 @@ import Db from '../../models/models';
 import { graphql, GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
 import moment from 'moment-timezone';
 import { SendSMS } from '../../../Configuration/Roots';
+import { SendSMSApi } from '../../../Utilities/SMSManagement';
 
 const ApplicationMutation = {
 	addApplication: {
@@ -19,8 +20,6 @@ const ApplicationMutation = {
 		resolve(source, args) {
 
 			return Db.models.Applications.create(args.application).then(application => {
-
-
 
 				var userdate = new Date();
 				var timezone = userdate.getTimezoneOffset();
