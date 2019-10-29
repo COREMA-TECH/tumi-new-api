@@ -338,6 +338,7 @@ const ApplicationListType = new GraphQLObjectType({
 			Recruiter: { type: UsersType },
 			Employee: { type: EmployeesType },
 			workOrderId: { type: GraphQLInt },
+
 			statusCompleted: {
 				type: GraphQLBoolean,
 				resolve(me) {
@@ -354,6 +355,7 @@ const ApplicationListType = new GraphQLObjectType({
 					});
 				}
 			}
+
 		};
 	}
 });
