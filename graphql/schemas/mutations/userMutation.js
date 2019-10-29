@@ -82,10 +82,13 @@ const UserMutation = {
             user: { type: inputInsertUser },
             regionsId: { type: new GraphQLList(GraphQLInt) }
         },
-        resolve(source, args) {
+        async resolve(source, args) {
+
+            const password = await bcrypt.hash('TEMP', 10);
+
             var user = {
                 ...args.user,
-                Password: Sequelize.fn('PGP_SYM_ENCRYPT', 'TEMP', 'AES_KEY'),
+                Password: password,
                 isEmployee: args.user.Id_Roles == 9
             }
             //Begin transaction
@@ -178,10 +181,12 @@ const UserMutation = {
             user: { type: inputInsertUser },
             applicationId: { type: GraphQLInt }
         },
-        resolve(source, args) {
+        async resolve(source, args) {
+            const password = await bcrypt.hash('TEMP', 10);
+
             var user = {
                 ...args.user,
-                Password: Sequelize.fn('PGP_SYM_ENCRYPT', 'TEMP', 'AES_KEY')
+                Password: password
             }
             //Begin transaction
             return Db.transaction((t) => {
