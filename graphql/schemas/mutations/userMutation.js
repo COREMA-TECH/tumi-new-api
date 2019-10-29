@@ -156,11 +156,18 @@ const UserMutation = {
         type: UsersType,
         description: 'Reset password based on Username',
         args: {
-            Code_User: { type: GraphQLString }
+            Code_User: { type: GraphQLString },
+            password: { type: GraphQLString }
         },
-        resolve(source, args) {
+        async resolve(source, args) {
             let password = 'TEMP';
-            return Db.models.Users.update({ Password: Sequelize.fn('PGP_SYM_ENCRYPT', password, 'AES_KEY') }, { where: { Code_User: args.Code_User }, returning: true })
+
+            if (args.password)
+                password = args.password;
+
+            password = await bcrypt.hash(password, 10);
+
+            return Db.models.Users.update({ Password: password }, { where: { Code_User: args.Code_User }, returning: true })
                 .then(([rowsUpdated, [Users]]) => {
                     if (Users) {
                         let { Electronic_Address, Code_User } = Users.dataValues;
