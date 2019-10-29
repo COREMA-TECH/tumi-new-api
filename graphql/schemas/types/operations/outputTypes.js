@@ -73,6 +73,7 @@ import {
 
 import Db from '../../../models/models';
 import payrollFields from "../fields/payrollFields";
+import Sequelize from 'sequelize';
 
 const ApplicationType = new GraphQLObjectType({
 	name: 'Applications',
@@ -341,44 +342,17 @@ const ApplicationListType = new GraphQLObjectType({
 			statusCompleted: {
 				type: GraphQLBoolean,
 				resolve(me) {
-					return Db.models.Applications.findOne({
-						where: { id: me.id },
-						// include: [{
-						// 	model: Db.models.ApplicantBackgroundChecks,
-						// 	where: { completed: true },
-						// 	required: true
-						// }, {
-						// 	model: Db.models.ApplicantDisclosures,
-						// 	where: { completed: true },
-						// 	required: true
-						// }, {
-						// 	model: Db.models.ApplicantConductCodes,
-						// 	where: { completed: true },
-						// 	required: true
-						// }, {
-						// 	model: Db.models.ApplicantHarassmentPolicy,
-						// 	where: { completed: true },
-						// 	required: true
-						// }, {
-						// 	model: Db.models.ApplicantWorkerCompensation,
-						// 	where: { completed: true },
-						// 	required: true
-						// }, {
-						// 	model: Db.models.ApplicantW4,
-						// 	where: { completed: true },
-						// 	required: true
-						// }, {
-						// 	model: Db.models.ApplicantI9,
-						// 	where: { completed: true },
-						// 	required: true
-						// }]
-					})
-						.then(_application => {
-							//Return true when all record associated to this application are completed
-							return _application != null;
-							// return false;
+					return Db.models.ApplicationDocumentType.count().then(typeDocQuantity => {
+						return Db.models.ApplicantLegalDocument.findAll({
+							where: {ApplicationId: me.id},
+							attributes: [
+								[Sequelize.fn('DISTINCT', Sequelize.col('ApplicationDocumentTypeId')) ,'ApplicationDocumentTypeId']
+							]
 						})
-
+						.then(nhp => {
+							return nhp && nhp.length === typeDocQuantity;
+						})
+					});
 				}
 			}
 
