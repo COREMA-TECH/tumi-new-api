@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLString, GraphQLBoolean, GraphQLNonNull } from 'graphql';
+import { GraphQLInt, GraphQLString, GraphQLBoolean, GraphQLNonNull, GraphQLFloat } from 'graphql';
 const BusinessCompanyFields = {
 	Id_Contract: {
 		type: GraphQLInt
@@ -55,7 +55,7 @@ const BusinessCompanyFields = {
 		type: GraphQLString
 	},
 	Rate: {
-		type: GraphQLInt
+		type: GraphQLFloat
 	},
 	Zipcode: {
 		type: GraphQLString
