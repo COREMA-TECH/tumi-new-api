@@ -89,34 +89,52 @@ const businessCompanyQuery = {
                 type: GraphQLInt
             }
         },
-        resolve(root, args) {
-            return Db.models.RegionsUsers.findAll({
+        async resolve(root, args) {
+            /* Funcionalidad temporal sin filtrar por region */
+            const actives = await Db.models.BusinessCompany.count({
                 where: {
-                    UserId: args.userId,
-                    isActive: true
-                },
-                attributes: ['RegionId']
-            }).then(async regionsUsersList => {
-                const regionsId = regionsUsersList.map(rul => rul.dataValues.RegionId);
-                
-                const actives = await Db.models.BusinessCompany.count({
-                    where: {
-                        Id_Parent: {[Op.notIn]:[0]},
-                        IsActive: 1,
-                        Region: {[Op.in]:regionsId},
-                    }
-                });
-
-                const inactives = await Db.models.BusinessCompany.count({
-                    where: {
-                        Id_Parent: {[Op.notIn]:[0]},
-                        IsActive: 0,
-                        Region: {[Op.in]:regionsId},
-                    }
-                });
-
-                return {actives, inactives};
+                    Id_Parent: {[Op.notIn]:[0]},
+                    IsActive: 1
+                }
             });
+
+            const inactives = await Db.models.BusinessCompany.count({
+                where: {
+                    Id_Parent: {[Op.notIn]:[0]},
+                    IsActive: 0
+                }
+            });
+
+            return {actives, inactives};
+
+            /* Funcionalidad no disponible temporalmente */
+            // return Db.models.RegionsUsers.findAll({
+            //     where: {
+            //         UserId: args.userId,
+            //         isActive: true
+            //     },
+            //     attributes: ['RegionId']
+            // }).then(async regionsUsersList => {
+            //     const regionsId = regionsUsersList.map(rul => rul.dataValues.RegionId);
+                
+            //     const actives = await Db.models.BusinessCompany.count({
+            //         where: {
+            //             Id_Parent: {[Op.notIn]:[0]},
+            //             IsActive: 1,
+            //             Region: {[Op.in]:regionsId},
+            //         }
+            //     });
+
+            //     const inactives = await Db.models.BusinessCompany.count({
+            //         where: {
+            //             Id_Parent: {[Op.notIn]:[0]},
+            //             IsActive: 0,
+            //             Region: {[Op.in]:regionsId},
+            //         }
+            //     });
+
+            //     return {actives, inactives};
+            // });
         }
     },
     companiesByApplications: {
