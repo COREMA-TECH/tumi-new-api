@@ -3,7 +3,8 @@ import { inputUpdateShiftDetail } from '../types/operations/updateTypes';
 import { ShiftDetailType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLString, GraphQLNonNull, GraphQLBoolean } from 'graphql';
 import GraphQLDate from 'graphql-date';
-import { sendgenericemail, SendSMS } from '../../../Configuration/Roots';
+import { sendgenericemail } from '../../../Configuration/Roots';
+import {sendSMSApi} from '../../../Utilities/SMSManagement';
 
 import Sequelize from 'sequelize';
 const Op = Sequelize.Op;
@@ -197,7 +198,7 @@ const shiftDetailMutation = {
 																						select.map((dataCatalogItem) => {
 																							var weekDays = args.shift.dayWeek.replace("MO", "Monday, ").replace("TU", "Tuesday, ").replace("WE", "Wednesday, ").replace("TH", "Thursday, ").replace("FR", "Friday,").replace("SA", "Saturday, ").replace("SU", "Sunday, ")
 																							sendgenericemail({ StartDate: args.shift.startDate.toISOString().substring(0, 10), ToDate: args.shift.endDate.toISOString().substring(0, 10), ShiftStart: args.startHour, ShiftEnd: args.endHour, shift: dataShiftDetails.dataValues.ShiftId, email: datashiftEmployee.dataValues.electronicAddress, title: dataPositionRate.dataValues.Position, supervisor: dataContacts.dataValues.First_Name.trim + ' ' + dataContacts.dataValues.Last_Name, Department: dataCatalogItem.dataValues.DisplayLabel, Hotel: dataBusinessCompany.dataValues.Name, Workdays: weekDays, specialComment: dataPositionRate.dataValues.Comment })
-																							SendSMS({
+																							sendSMSApi({
 																								msg: dataContacts.dataValues.First_Name.trim + ' ' + dataContacts.dataValues.Last_Name,
 																								number: dataContacts.dataValues.Phone_Number
 																							});

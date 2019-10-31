@@ -5,8 +5,8 @@ import { ApplicationType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 import { graphql, GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
 import moment from 'moment-timezone';
-import { SendSMS } from '../../../Configuration/Roots';
-import { SendSMSApi } from '../../../Utilities/SMSManagement';
+//import { SendSMS } from '../../../Configuration/Roots'; // TODO: (LF) QUITAR CODIGO COMENTADO
+//import { sendSMSApi } from '../../../Utilities/SMSManagement';
 
 const ApplicationMutation = {
 	addApplication: {
@@ -26,12 +26,13 @@ const ApplicationMutation = {
 				var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
 				serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
 
-				if (args.application.sendInterview) {
-					SendSMS({
-						msg: args.application.firstName + ' ' + args.application.lastName,
-						number: args.application.cellPhone
-					});
-				}
+				// TODO: (LF) QUITAR CODIGO COMENTADO
+				// if (args.application.sendInterview) {
+				// 	sendSMSApi({
+				// 		msg: args.application.firstName + ' ' + args.application.lastName,
+				// 		number: args.application.cellPhone
+				// 	});
+				// }
 
 
 				if (args.application.isLead) {
@@ -78,12 +79,13 @@ const ApplicationMutation = {
 				)
 				.then(function ([rowsUpdate, [record]]) {
 					if (record) {
-						if (args.application.sendInterview) {
-							SendSMS({
-								msg: args.application.firstName + ' ' + args.application.lastName,
-								number: args.application.cellPhone
-							});
-						}
+						// TODO: (LF) QUITAR CODIGO COMENTADO
+						// if (args.application.sendInterview) {
+						// 	sendSMSApi({
+						// 		msg: args.application.firstName + ' ' + args.application.lastName,
+						// 		number: args.application.cellPhone
+						// 	});
+						// }
 
 						var userdate = new Date();
 						var timezone = userdate.getTimezoneOffset();

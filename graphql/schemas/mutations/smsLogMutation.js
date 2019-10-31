@@ -5,7 +5,8 @@ import { GraphQLList, GraphQLInt, GraphQLString } from 'graphql';
 import Sequelize from 'sequelize';
 
 import Db from '../../models/models';
-import { SendSMS } from '../../../Configuration/Roots';
+//import { SendSMS } from '../../../Configuration/Roots';
+import { sendSMSApi } from '../../../Utilities/SMSManagement';
 
 const Op = Sequelize.Op;
 
@@ -97,7 +98,7 @@ const SmsLogMutation = {
                                                 msg: "Congratulations!! The Job is yours!!",
                                                 number: _smsLog.dataValues.number
                                             })
-                                            SendSMS({
+                                            sendSMSApi({
                                                 msg: "Congratulations!! The Job is yours!!",
                                                 number: _smsLog.dataValues.number
                                             });
@@ -114,7 +115,7 @@ const SmsLogMutation = {
                                                         msg: "This Job is not available anymore.",
                                                         number: _rejected.number
                                                     });
-                                                    SendSMS({
+                                                    sendSMSApi({
                                                         msg: "This Job is not available anymore.",
                                                         number: _rejected.number
                                                     });
