@@ -62,7 +62,7 @@ const RolesFormsMutation = {
 			IsActive: { type: GraphQLBoolean }
 		},
 		async resolve(root, args) {
-			let result = false;
+			let result = true;
 
 			for(let formId of args.rolesForms){
 				const IsActive = args.IsActive ? 1 : 0;
