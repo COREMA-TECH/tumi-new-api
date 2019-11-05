@@ -1156,6 +1156,26 @@ const FormsType = new GraphQLObjectType({
 	}
 });
 
+const NewFormsType = new GraphQLObjectType({
+	name: 'NewFormsType',
+	description: 'This is for Forms Table',
+	fields: () => {
+		return {
+			Id: {
+				type: GraphQLInt,
+				description: 'table id'
+			},
+			...FormsFields,
+			Children: {
+				type: new GraphQLList(FormsType),
+				resolve(me) {
+					return me.getChildForm();
+				}
+			}
+		}
+	}
+});
+
 const TimeElapsedType = new GraphQLObjectType({
 	name: 'TimeElapsed',
 	description: 'This is for Time Elapsed',
@@ -2423,5 +2443,6 @@ export {
 	UserLoginType,
 	TimeMarkType,
 	ApplicantLegalDocumentType,
-	ApplicationDocumentTypeType
+	ApplicationDocumentTypeType,
+	NewFormsType
 };

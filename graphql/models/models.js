@@ -574,6 +574,11 @@ Forms.belongsTo(Forms, {
 	as: 'ParentForm'
 });
 
+Forms.hasMany(Forms, {
+	foreignKey: 'ParentId',
+	as: 'ChildForm'
+});
+
 Feature.belongsTo(Roles);
 
 Contracts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });

@@ -1,5 +1,5 @@
 import { GraphQLInt, GraphQLList, GraphQLBoolean } from 'graphql';
-import { FormsType } from '../types/operations/outputTypes';
+import { FormsType, NewFormsType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 const getFormFilters = (filter) => {
@@ -37,6 +37,15 @@ const getRolesFormFilter = (filter) => {
     }
     return newFilter;
 }
+
+const groupByKey = (key, array) => {
+    return array.reduce((grouped, curr) => {
+        const value = curr.dataValues[key];
+        grouped[value] = (grouped[value] || []).concat(curr.dataValues);
+        return grouped;
+    }, {});
+}
+    
 
 const FormsQuery = {
     forms: {
@@ -94,6 +103,49 @@ const FormsQuery = {
                         }]
                     }]
                 });
+        }
+    },
+
+    getParentItems: {
+        type: new GraphQLList(NewFormsType),
+        description: "Find parent nodes for the form roles table",
+        args: {},
+        async resolve(root, args){
+            const parentNodes = await Db.models.Forms.findAll({
+                where: { ParentId: 0 }
+            });
+
+            return parentNodes;
+        }
+    },
+
+    getFormRolesList: {
+        type: new GraphQLList(FormsType),
+        description: "Data for the permission assignment screen",
+        args: {
+            IdRoles: {
+                type: GraphQLInt
+            }
+        },
+        async resolve(root, args) {
+            const forms = await Db.models.Forms.findAll({
+                where: { show: true, IsActive: 1 },
+                order: [['sort', 'ASC']],
+                include: [{
+                    model: Db.models.RolesForms,                       
+                    include: [{
+                        model: Db.models.Roles,
+                        where: { IsActive: 1 },
+                        as: 'Roles'
+                    }]
+                }]
+            });
+
+            const formRoles = await Db.models.RolesForms.findAll({
+                where: { IdRoles: args.IdRoles }
+            });            
+
+            return forms;
         }
     }
 };
