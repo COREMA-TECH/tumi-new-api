@@ -9,19 +9,6 @@ const formFields = {
 	Value: {
 		type: GraphQLString
 	},
-	Value01: {
-		type: GraphQLString
-	},
-
-	Value02: {
-		type: GraphQLString
-	},
-	Value03: {
-		type: GraphQLString
-	},
-	Value04: {
-		type: GraphQLInt
-	},
 	IsActive: {
 		type: GraphQLInt
 	},
@@ -45,6 +32,9 @@ const formFields = {
 	},
 	show: {
 		type: GraphQLBoolean
+	},
+	icon: {
+		type: GraphQLString
 	}
 };
 export default formFields;
