@@ -23,23 +23,6 @@ export default {
 					type: Sequelize.STRING,
 					allowNull: true
 				},
-				Value01: {
-					type: Sequelize.STRING,
-					allowNull: true
-				},
-
-				Value02: {
-					type: Sequelize.STRING,
-					allowNull: true
-				},
-				Value03: {
-					type: Sequelize.STRING,
-					allowNull: true
-				},
-				Value04: {
-					type: Sequelize.STRING,
-					allowNull: true
-				},
 				IsActive: {
 					type: Sequelize.INTEGER,
 					allowNull: true
@@ -74,6 +57,10 @@ export default {
 					type: Sequelize.BOOLEAN	,
 					allowNull: false,
 					defaultValue: false
+				},
+				icon: {
+					type: Sequelize.STRING,
+					allowNull: true
 				}
 			},
 			{

@@ -38,29 +38,32 @@ const getRolesFormFilter = (filter) => {
     return newFilter;
 }
 
-const FormsQuery = {
-    forms: {
-        type: new GraphQLList(FormsType),
-        description: 'List of Forms',
-        args: {
-            Id: {
-                type: GraphQLInt
-            },
-            IsActive: {
-                type: GraphQLInt
-            },
-            ParentId: {
-                type: GraphQLInt
-            },
-            show: {
-                type: GraphQLBoolean
-            }
-
+const _forms = {
+    type: new GraphQLList(FormsType),
+    description: 'List of Forms',
+    args: {
+        Id: {
+            type: GraphQLInt
         },
-        resolve(root, args) {
-            return Db.models.Forms.findAll({ where: args, order: [['sort', 'ASC']] });
+        IsActive: {
+            type: GraphQLInt
+        },
+        ParentId: {
+            type: GraphQLInt
+        },
+        show: {
+            type: GraphQLBoolean
         }
+
     },
+    resolve(root, args) {
+        return Db.models.Forms.findAll({ where: args, order: [['sort', 'ASC']] });
+    }
+}
+
+const FormsQuery = {
+    forms: _forms,
+    getforms: _forms,
     activeFormsByRole: {
         type: new GraphQLList(FormsType),
         description: 'List of Forms',

@@ -300,7 +300,6 @@ input iParamEA {
 		getcatalog(Id:Int,IsActive:Int): [Catalog]
 		getcatalogitem(Id:Int,IsActive:Int,Id_Catalog:Int,Id_Parent:Int,Value:String, Id_Entity:Int): [CatalogItem]
 		getroles(Id:Int,IsActive:Int,Id_Company:Int): [Roles]
-		getforms(Id:Int,IsActive:Int): [Forms]
 		getusers(Id:Int,IsActive:Int, IsRecruiter:Int,IdRegion:Int): [Users]
 		getcontracttemplate(Id:Int,IsActive:Int): [ContractsTemplates]
 		sendcontracts(Id:Int,IsActive:Int): [Contracts]
