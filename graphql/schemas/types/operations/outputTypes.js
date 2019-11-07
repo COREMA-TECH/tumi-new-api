@@ -68,7 +68,9 @@ import {
 	BusinessRulesFields,
 	RegionsUsersFields,
 	ApplicantLegalDocumentsFields,
-	ApplicationDocumentTypeFields
+	ApplicationDocumentTypeFields,
+	TypeTaskFields,
+	TaskFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -2357,6 +2359,50 @@ const ApplicantLegalDocumentType = new GraphQLObjectType({
 	}
 });
 
+const TypeTaskType = new GraphQLObjectType({
+	name: 'TypeTaskType',
+	description: 'Output Type Task',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'TypeTaskId'
+			},
+			createdAt: {
+				type: new GraphQLNonNull(GraphQLDate),
+				description: 'Creation Date'
+			},
+			updatedAt: {
+				type: new GraphQLNonNull(GraphQLDate),
+				description: 'Update Date'
+			},
+			...TypeTaskFields
+		};
+	}
+});
+
+const TaskType = new GraphQLObjectType({
+	name: 'TaskType',
+	description: 'Output Task',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'TaskId'
+			},
+			createdAt: {
+				type: new GraphQLNonNull(GraphQLDate),
+				description: 'Creation Date'
+			},
+			updatedAt: {
+				type: new GraphQLNonNull(GraphQLDate),
+				description: 'Update Date'
+			},
+			...TaskFields
+		};
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -2444,5 +2490,7 @@ export {
 	TimeMarkType,
 	ApplicantLegalDocumentType,
 	ApplicationDocumentTypeType,
-	NewFormsType
+	NewFormsType,
+	TypeTaskType,
+	TaskType
 };

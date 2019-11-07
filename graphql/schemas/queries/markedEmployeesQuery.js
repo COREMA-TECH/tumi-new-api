@@ -4,8 +4,7 @@ import Db from '../../models/models';
 import GraphQLDate from 'graphql-date';
 import moment from 'moment';
 import Sequelize from 'sequelize';
-import { SendSMS } from '../../../Configuration/Roots';
-
+import { sendSMSApi } from '../../../Utilities/SMSManagement';
 
 const Op = Sequelize.Op;
 
@@ -394,7 +393,7 @@ const MarkedEmployeesQuery = {
             endDate: { type: GraphQLDate },
         },
         resolve(root, args) {
-            SendSMS({
+            sendSMSApi({
                 msg: "hola",
                 number: "+17322070986"
             });

@@ -64,6 +64,9 @@ import BusinessRuleQuery from './businessRuleQueries';
 import RegionsUsersQuery from './regionsUsersQuery';
 import ApplicantLegalDocumentsQuery from './applicantLegalDocumentsQuery';
 import ApplicationDocumentTypeQuery from './applicationDocumentTypeQuery';
+import TypeTaskQuery from './typeTaskQuery';
+import TaskQuery from './taskQuery';
+
 export {
 	ApplicantLanguageQuery,
 	ApplicationQuery,
@@ -126,5 +129,7 @@ export {
 	BusinessRuleQuery,
 	RegionsUsersQuery,
 	ApplicantLegalDocumentsQuery,
-	ApplicationDocumentTypeQuery
+	ApplicationDocumentTypeQuery,
+	TypeTaskQuery,
+	TaskQuery
 };
