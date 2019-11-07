@@ -223,91 +223,6 @@ async function query(q) {
 	return res;
 }
 
-//Method Connect to table Company
-//Method Connect to table Company
-
-
-// //Method Connect to table BusinessCompany
-// async function getBusinessCompanies(args) {
-// 	try {
-// 		//console.log(args.IsActive);
-// 		var strparam1, strparam2, strparam3, strparam4, strparam5;
-
-// 		if (args.IsActive >= 0) {
-// 			strparam1 = args.IsActive;
-// 		} else {
-// 			strparam1 = null;
-// 		}
-
-// 		if (args.Id > 0) {
-// 			strparam2 = args.Id;
-// 		} else {
-// 			strparam2 = null;
-// 		}
-
-// 		if (args.Region >= 0) {
-// 			strparam5 = args.Region;
-// 		} else {
-// 			strparam5 = null;
-// 		}
-
-// 		if (args.Id_Parent >= -1) {
-// 			strparam4 = args.Id_Parent;
-// 		}
-// 		else if (args.Id_Parent == -2) {
-// 			strparam4 = -2
-// 		}
-// 		else {
-// 			strparam4 = null;
-// 		}
-
-// 		strparam3 = args.Contract_Status;
-
-// 		if (strparam4 == -1) {
-// 			Strquery =
-// 				'SELECT * from public.vwBusinessCompany_Format  where "Region" = coalesce(' + strparam5 + ', "Region") and "Contract_Status" =coalesce(' +
-// 				strparam3 +
-// 				',"Contract_Status") and "IsActive" = coalesce(' +
-// 				strparam1 +
-// 				',"IsActive") and "Id" = coalesce(' +
-
-// 				strparam2 +
-// 				',"Id") and "Id_Parent" <> 0 order by "Name"';
-// 		}
-// 		else if (strparam4 == -2) {
-// 			Strquery =
-// 				'SELECT * from public.vwBusinessCompany_Format  where "Region" = coalesce(' + strparam5 + ', "Region") and "Contract_Status" =coalesce(' +
-// 				strparam3 +
-// 				',"Contract_Status") and "IsActive" = coalesce(' +
-// 				strparam1 +
-// 				',"IsActive") and "Id" = coalesce(' +
-// 				strparam2 +
-// 				',"Id") and "Id_Parent" not in (99999,0) order by "Name"';
-
-// 		}
-// 		else {
-// 			Strquery =
-// 				'SELECT * from public.vwBusinessCompany_Format  where "Region" = coalesce(' + strparam5 + ', "Region") and "Contract_Status" =coalesce(' +
-// 				strparam3 +
-// 				',"Contract_Status") and "IsActive" = coalesce(' +
-// 				strparam1 +
-// 				',"IsActive") and "Id" = coalesce(' +
-// 				strparam2 +
-// 				',"Id") and "Id_Parent" = coalesce(' +
-// 				strparam4 +
-// 				',"Id_Parent") order by "Name"';
-// 		}
-
-// 		console.log('query de companies ', Strquery);
-
-// 		const { rows } = await query(Strquery);
-// 		return rows;
-// 	} catch (err) {
-// 		console.log('Database ' + err);
-// 		return err;
-// 	}
-// }
-
 async function InsBusinessCompanies(args) {
 	try {
 		if (args) {
@@ -1840,39 +1755,6 @@ async function DelRoles(args) {
 	}
 }
 
-//Method Connect to table Forms
-async function getForms(args) {
-	try {
-		var strparam1, strparam2, strparam3;
-
-		if (args.IsActive >= 0) {
-			strparam1 = args.IsActive;
-		} else {
-			strparam1 = null;
-		}
-
-		if (args.Id >= 0) {
-			strparam2 = args.Id;
-		} else {
-			strparam2 = null;
-		}
-
-		Strquery =
-			'select * from public."Forms" Where  "IsActive" = coalesce(' +
-			strparam1 +
-			',"IsActive") and "Id" = coalesce(' +
-			strparam2 +
-			',"Id") order by "Code"';
-		console.log(Strquery);
-
-		const { rows } = await query(Strquery);
-		return rows;
-	} catch (err) {
-		console.log('Database ' + err);
-		return err;
-	}
-}
-
 async function InsForms(args) {
 	try {
 		if (args) {
@@ -1975,119 +1857,6 @@ async function DelForms(args) {
 		return err;
 	}
 }
-
-//Method Connect to table RolesForms
-/*async function getRolesForms(args) {
-	try {
-		var strparam1, strparam2, strparam3;
-
-		if (args.IsActive >= 0) {
-			strparam1 = args.IsActive;
-		} else {
-			strparam1 = null;
-		}
-
-		if (args.Id >= 0) {
-			strparam2 = args.Id;
-		} else {
-			strparam2 = null;
-		}
-
-		Strquery =
-			'select * from public."RolesForms" Where  "IsActive" = coalesce(' +
-			strparam1 +
-			',"IsActive") and "Id" = coalesce(' +
-			strparam2 +
-			',"Id") order by "IdRoles"';
-		//console.log(Strquery);
-
-		const { rows } = await query(Strquery);
-		return rows;
-	} catch (err) {
-		console.log('Database ' + err);
-		return err;
-	}
-}
-
-async function InsRolesForms(args) {
-	try {
-		console.log('InsRolesForms ', args);
-		if (args) {
-			Strquery =
-				'INSERT INTO public."RolesForms" ("IdRoles", "IdForms", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated") VALUES(' +
-				args.input.IdRoles +
-				',' +
-				args.input.IdForms +
-				',' +
-				args.input.IsActive +
-				',' +
-				args.input.User_Created +
-				',' +
-				args.input.User_Updated +
-				',' +
-				args.input.Date_Created +
-				',' +
-				args.input.Date_Updated +
-				')  RETURNING "Id","IdRoles"';
-		} else {
-			console.log('Error Insert Data');
-		}
-
-		console.log(Strquery);
-
-		const { rows } = await query(Strquery);
-		return rows[0];
-	} catch (err) {
-		console.log('Database ' + err);
-		return err;
-	}
-}
-
-async function UpdRolesForms(args) {
-	try {
-		if (args) {
-			Strquery =
-				'UPDATE public."RolesForms" SET "IdRoles"=' +
-				args.input.IdRoles +
-				',"IdForms"=' +
-				args.input.IdForms +
-				', "IsActive"=' +
-				args.input.IsActive +
-				', "User_Updated"=' +
-				args.input.User_Updated +
-				', "Date_Created"=' +
-				args.input.Date_Updated +
-				' where "Id"=' +
-				args.input.Id;
-		} else {
-			console.log('Error Insert Data');
-		}
-
-		console.log(Strquery);
-
-		const { rows } = await query(Strquery);
-		return rows;
-	} catch (err) {
-		console.log('Database ' + err);
-		return err;
-	}
-}
-
-async function DelRolesForms(args) {
-	try {
-		if (args) {
-			Strquery = 'UPDATE public."RolesForms" SET "IsActive"=' + args.IsActive + ' where "Id"=' + args.Id;
-		} else {
-			console.log('Error Update Data');
-		}
-
-		const { rows } = await query(Strquery);
-		return rows;
-	} catch (err) {
-		console.log('Database ' + err);
-		return err;
-	}
-}*/
 
 async function getUsers(args) {
 	try {
@@ -3442,7 +3211,6 @@ const root = {
 	updroles: UpdRoles,
 	delroles: DelRoles,
 
-	getforms: getForms,
 	insforms: InsForms,
 	updforms: UpdForms,
 	delforms: DelForms,

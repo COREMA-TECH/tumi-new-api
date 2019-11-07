@@ -1,5 +1,5 @@
 import { GraphQLInt, GraphQLList, GraphQLBoolean } from 'graphql';
-import { FormsType } from '../types/operations/outputTypes';
+import { FormsType, NewFormsType } from '../types/operations/outputTypes';
 import Db from '../../models/models';
 
 const getFormFilters = (filter) => {
@@ -38,29 +38,31 @@ const getRolesFormFilter = (filter) => {
     return newFilter;
 }
 
-const FormsQuery = {
-    forms: {
-        type: new GraphQLList(FormsType),
-        description: 'List of Forms',
-        args: {
-            Id: {
-                type: GraphQLInt
-            },
-            IsActive: {
-                type: GraphQLInt
-            },
-            ParentId: {
-                type: GraphQLInt
-            },
-            show: {
-                type: GraphQLBoolean
-            }
-
+const _forms = {
+    type: new GraphQLList(FormsType),
+    description: 'List of Forms',
+    args: {
+        Id: {
+            type: GraphQLInt
         },
-        resolve(root, args) {
-            return Db.models.Forms.findAll({ where: args, order: [['sort', 'ASC']] });
+        IsActive: {
+            type: GraphQLInt
+        },
+        ParentId: {
+            type: GraphQLInt
+        },
+        show: {
+            type: GraphQLBoolean
         }
     },
+    resolve(root, args) {
+        return Db.models.Forms.findAll({ where: args, order: [['sort', 'ASC']] });
+    }
+}
+
+const FormsQuery = {
+    forms: _forms,
+    getforms: _forms,
     activeFormsByRole: {
         type: new GraphQLList(FormsType),
         description: 'List of Forms',
@@ -94,6 +96,49 @@ const FormsQuery = {
                         }]
                     }]
                 });
+        }
+    },
+
+    getParentItems: {
+        type: new GraphQLList(NewFormsType),
+        description: "Find parent nodes for the form roles table",
+        args: {},
+        async resolve(root, args){
+            const parentNodes = await Db.models.Forms.findAll({
+                where: { ParentId: 0 }
+            });
+
+            return parentNodes;
+        }
+    },
+
+    getFormRolesList: {
+        type: new GraphQLList(FormsType),
+        description: "Data for the permission assignment screen",
+        args: {
+            IdRoles: {
+                type: GraphQLInt
+            }
+        },
+        async resolve(root, args) {
+            const forms = await Db.models.Forms.findAll({
+                where: { show: true, IsActive: 1 },
+                order: [['sort', 'ASC']],
+                include: [{
+                    model: Db.models.RolesForms,                       
+                    include: [{
+                        model: Db.models.Roles,
+                        where: { IsActive: 1 },
+                        as: 'Roles'
+                    }]
+                }]
+            });
+
+            const formRoles = await Db.models.RolesForms.findAll({
+                where: { IdRoles: args.IdRoles }
+            });            
+
+            return forms;
         }
     }
 };
