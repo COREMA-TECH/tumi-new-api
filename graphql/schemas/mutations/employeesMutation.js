@@ -3,8 +3,11 @@ import { inputUpdateEmployees } from '../types/operations/updateTypes';
 import { EmployeesType } from '../types/operations/outputTypes';
 import { GraphQLList, GraphQLInt, GraphQLString } from 'graphql';
 import moment from 'moment-timezone';
+import {sendSMSApi} from '../../../Utilities/SMSManagement';
 
 import Db from '../../models/models';
+
+const hiredMessage = (contactName, contactNumber) => `Congratulations! You have been hired, for further information please contact ${contactName} ${contactNumber}. This text is read only do not respond`;
 
 const insertAuditLog = ({ codeuser, nameUser, action, object }) => {
 	var userdate = new Date();
@@ -59,24 +62,47 @@ const EmployeesMutation = {
 			if (args.id) {
 				let { hireDate, startDate, id } = args;
 				console.log({ hireDate, startDate })
-				return Db.models.Employees
-					.update({ hireDate: hireDate, startDate: startDate }, { where: { id }, returning: true })
-					.then(function ([rowsUpdate, [record]]) {
-						if (record) {
-							if (args.codeuser) {
-								let { codeuser, nameUser } = args;
-								insertAuditLog({ codeuser, nameUser, action: 'UPDATED ROW', object: 'EMPLOYEES' })
+
+				return Db.models.Employees.findOne({where: { id }, attributes: ['hireDate']}).then(empFound => {
+					return Db.models.Employees
+						.update({ hireDate: hireDate, startDate: startDate }, { where: { id }, returning: true })
+						.then(function ([rowsUpdate, [record]]) {
+							// send hired sms
+							if(!empFound.dataValues.hireDate && record.dataValues.hireDate){
+								Db.models.Applications.findOne({
+									where: { id: args.ApplicationId }
+								})
+								.then(async app => {
+									const number = app ? app.dataValues.cellPhone : null;
+									const recruiterFound = await app.getRecruiter();
+									const {Full_Name, Phone_Number} = recruiterFound ? recruiterFound.dataValues : {};
+									if(number){
+										sendSMSApi({
+											msg: hiredMessage(Full_Name, Phone_Number),
+											number: String(number)
+										});
+									}
+								})
 							}
-							return record.dataValues;
-						}
-						else return null;
-					});
+							if (record) {
+								if (args.codeuser) {
+									let { codeuser, nameUser } = args;
+									insertAuditLog({ codeuser, nameUser, action: 'UPDATED ROW', object: 'EMPLOYEES' })
+								}
+								return record.dataValues;
+							}
+							else return null;
+						});
+				});
+
 			} else {
+				
 				//Find Application
 				return Db.models.Applications.findOne({ where: { id: args.ApplicationId } })
 					.then(_ => {
-						let { id } = _.dataValues;
+						let { id, cellPhone } = _.dataValues;
 						let { hireDate, startDate } = args;
+
 						//Create Employee
 						return Db.models.Employees.create({
 							idRole: 13,
@@ -92,7 +118,18 @@ const EmployeesMutation = {
 								return Db.models.ApplicationEmployees.create({
 									ApplicationId: id,
 									EmployeeId: _newEmp.id
-								}).then(_relation => {
+								}).then(async _relation => {
+									//Send sms to employee
+									const recruiterFound = await _.getRecruiter();
+									const {Full_Name, Phone_Number} = recruiterFound ? recruiterFound.dataValues : {};
+									if(args.hireDate && cellPhone){
+										sendSMSApi({
+											msg: hiredMessage(Full_Name, Phone_Number),
+											number: String(cellPhone)
+										});
+									}
+
+									// return emp data
 									return _newEmp
 								})
 							})

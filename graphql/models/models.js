@@ -76,6 +76,8 @@ import TokenModel from './tokenTable';
 import BusinessRuleModel from './businessRule';
 import RegionsUsersModel from './regionsUsersTable';
 import ApplicationDocumentTypeModel from './applicationDocumentTypeTable';
+import TypeTaskModel from './typeTaskTable';
+import TaskModel from './taskTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
 const BreakRuleDetailModel = BreakRuleDetail.createModel(Conn);
@@ -153,6 +155,8 @@ const Tokens = TokenModel.createModel(Conn);
 const BusinessRule = BusinessRuleModel.createModel(Conn);
 const ApplicationDocumentType = ApplicationDocumentTypeModel.createModel(Conn);
 const ApplicantLegalDocumentType = ApplicantLegalDocumentModel.createModel(Conn);
+const TypeTask = TypeTaskModel.createModel(Conn);
+const Task = TaskModel.createModel(Conn);
 
 ApplicantLegalDocumentType.belongsTo(ApplicationDocumentType);
 ApplicantLegalDocumentType.belongsTo(Application);
@@ -574,6 +578,11 @@ Forms.belongsTo(Forms, {
 	as: 'ParentForm'
 });
 
+Forms.hasMany(Forms, {
+	foreignKey: 'ParentId',
+	as: 'ChildForm'
+});
+
 Feature.belongsTo(Roles);
 
 Contracts.belongsTo(BusinessCompany, { foreignKey: 'Id_Entity' });
@@ -588,6 +597,14 @@ Users.hasMany(Contracts, { foreignKey: 'Id_User_Billing_Contact' });
 Contracts.hasMany(Tokens, { foreignKey: 'Id_Contract' });
 Tokens.belongsTo(Contracts, { foreignKey: 'Id_Contract' });
 
+TypeTask.hasMany(Task, {foreignKey: 'typeTaskId'})
+Task.belongsTo(TypeTask, {foreignKey: 'typeTaskId'});
+Users.hasMany(Task, {foreignKey: 'userId'});
+Task.belongsTo(Users, {foreignKey: 'userId'});
+Users.hasMany(Task, {foreignKey: 'userCreated'});
+Task.belongsTo(Users, {foreignKey: 'userCreated'});
+Users.hasMany(Task, {foreignKey: 'userUpdated'});
+Task.belongsTo(Users, {foreignKey: 'userUpdated'});
 
 Conn.authenticate()
 	.then(() => {

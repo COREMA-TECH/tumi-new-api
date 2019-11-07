@@ -59,6 +59,8 @@ import BusinessRulesFields from './businessRulesFields';
 import RegionsUsersFields from './regionsUsersFields';
 import ApplicantLegalDocumentsFields from './applicantLegalDocumentsFields';
 import ApplicationDocumentTypeFields from './applicationDocumentTypeFields';
+import TypeTaskFields from './typeTaskFields';
+import TaskFields from './taskFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -121,5 +123,7 @@ export {
 	BusinessRulesFields,
 	RegionsUsersFields,
 	ApplicantLegalDocumentsFields,
-	ApplicationDocumentTypeFields
+	ApplicationDocumentTypeFields,
+	TypeTaskFields,
+	TaskFields
 };

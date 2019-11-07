@@ -49,6 +49,8 @@ import RegionsUsersMutation from './regionsUsersMutation';
 import RolesMutation from './roleMutation';
 import BusinessCompanyMutation from './businessCompanyMutation';
 import ApplicantLegalDocumentsMutation from './applicantLegalDocumentsMutation';
+import TypeTaskMutation from './typeTaskMutation';
+import TaskMutation from './taskMutation';
 
 export {
 	payrollMutation,
@@ -101,5 +103,7 @@ export {
 	RegionsUsersMutation,
 	RolesMutation,
 	BusinessCompanyMutation,
-	ApplicantLegalDocumentsMutation
+	ApplicantLegalDocumentsMutation,
+	TypeTaskMutation,
+	TaskMutation
 };
