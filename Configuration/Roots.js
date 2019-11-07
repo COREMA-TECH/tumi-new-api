@@ -1277,64 +1277,64 @@ async function getCatalogItem(args) {
 	}
 }
 
-async function getParentCatalogItem(args) {
-	try {
-		console.log('getParentCatalogItem estoy aqui ');
+// async function getParentCatalogItem(args) {
+// 	try {
+// 		console.log('getParentCatalogItem estoy aqui ');
 
-		var strparam1, strparam2, strparam3;
+// 		var strparam1, strparam2, strparam3;
 
-		if (args.IsActive >= 0) {
-			strparam1 = args.IsActive;
-		} else {
-			strparam1 = null;
-		}
+// 		if (args.IsActive >= 0) {
+// 			strparam1 = args.IsActive;
+// 		} else {
+// 			strparam1 = null;
+// 		}
 
-		if (args.Id_Catalog >= -2) {
-			strparam2 = args.Id_Catalog;
-		} else {
-			strparam2 = null;
-		}
+// 		if (args.Id_Catalog >= -2) {
+// 			strparam2 = args.Id_Catalog;
+// 		} else {
+// 			strparam2 = null;
+// 		}
 
-		if (args.Id_Entity >= 0) {
-			strparam3 = args.Id_Entity;
-		} else {
-			strparam3 = null;
-		}
+// 		if (args.Id_Entity >= 0) {
+// 			strparam3 = args.Id_Entity;
+// 		} else {
+// 			strparam3 = null;
+// 		}
 
-		if (args.Id > 0) {
-			Strquery =
-				'select * from public."CatalogParent" Where "Id_Catalog" =  coalesce(' +
-				strparam2 +
-				',"Id_Catalog") and "Id" <> (' +
-				args.Id +
-				') and "Id" not in (SELECT "Id" FROM public."CatalogItem" where "Id_Parent" =  ' +
-				args.Id +
-				') and "Id" not in (SELECT "Id" FROM public."CatalogItem" where "Id_Parent" in (SELECT "Id" FROM public."CatalogItem" where "Id_Parent" = ' +
-				args.Id +
-				')) and "IsActive" = coalesce(' +
-				strparam1 +
-				',"IsActive")';
-			console.log(Strquery);
-		}
-		if (args.Id == 0) {
-			Strquery =
-				'select * from public."CatalogParent" Where "Id_Catalog" =  coalesce(' +
-				strparam2 +
-				',"Id_Catalog") and "Id" <> (' +
-				args.Id +
-				') and "IsActive" = coalesce(' +
-				strparam1 +
-				',"IsActive") ';
-			console.log(Strquery);
-		}
+// 		if (args.Id > 0) {
+// 			Strquery =
+// 				'select * from public."CatalogParent" Where "Id_Catalog" =  coalesce(' +
+// 				strparam2 +
+// 				',"Id_Catalog") and "Id" <> (' +
+// 				args.Id +
+// 				') and "Id" not in (SELECT "Id" FROM public."CatalogItem" where "Id_Parent" =  ' +
+// 				args.Id +
+// 				') and "Id" not in (SELECT "Id" FROM public."CatalogItem" where "Id_Parent" in (SELECT "Id" FROM public."CatalogItem" where "Id_Parent" = ' +
+// 				args.Id +
+// 				')) and "IsActive" = coalesce(' +
+// 				strparam1 +
+// 				',"IsActive")';
+// 			console.log(Strquery);
+// 		}
+// 		if (args.Id == 0) {
+// 			Strquery =
+// 				'select * from public."CatalogParent" Where "Id_Catalog" =  coalesce(' +
+// 				strparam2 +
+// 				',"Id_Catalog") and "Id" <> (' +
+// 				args.Id +
+// 				') and "IsActive" = coalesce(' +
+// 				strparam1 +
+// 				',"IsActive") ';
+// 			console.log(Strquery);
+// 		}
 
-		const { rows } = await query(Strquery);
-		return rows;
-	} catch (err) {
-		console.log('Database ' + err);
-		return err;
-	}
-}
+// 		const { rows } = await query(Strquery);
+// 		return rows;
+// 	} catch (err) {
+// 		console.log('Database ' + err);
+// 		return err;
+// 	}
+// }
 
 async function InsCatalogItem(args) {
 	try {
@@ -3205,7 +3205,6 @@ const root = {
 	inscatalogitem: InsCatalogItem,
 	updcatalogitem: UpdCatalogItem,
 	delcatalogitem: DelCatalogItem,
-	getparentcatalogitem: getParentCatalogItem,
 
 	getroles: getRoles,
 	insroles: InsRoles,
