@@ -63,7 +63,9 @@ import {
 	RegionsUsersFields,
 	RolesFields,
 	ApplicantLegalDocumentsFields,
-	ApplicationDocumentTypeFields
+	ApplicationDocumentTypeFields,
+	TypeTaskFields,
+	TaskFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -693,6 +695,24 @@ const inputInsertApplicationDocumentType = new GraphQLInputObjectType({
 	}
 });
 
+const inputInsertTypeTask = new GraphQLInputObjectType({
+	name: 'inputInsertTypeTask',
+	description: 'Inputs for Type Task',
+
+	fields: {
+		...TypeTaskFields
+	}
+});
+
+const inputInsertTask = new GraphQLInputObjectType({
+	name: 'inputInsertTask',
+	description: 'Inputs for Task',
+
+	fields: {
+		...TaskFields
+	}
+});
+
 export {
 	insertPayrollType,
 	inputInsertApplicantLanguage,
@@ -763,5 +783,7 @@ export {
 	inputInsertRoles,
 	inputTimeMark,
 	inputInsertApplicantLegalDocuments,
-	inputInsertApplicationDocumentType
+	inputInsertApplicationDocumentType,
+	inputInsertTypeTask,
+	inputInsertTask
 };
