@@ -1346,7 +1346,7 @@ async function InsCatalogItem(args) {
 
 
 			Strquery =
-				'INSERT INTO public."CatalogItem" ( "Id_Catalog", "Id_Parent", "Name", "DisplayLabel", "Description", "Value", "Value01", "Value02", "Value03", "Value04", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Id_Entity") VALUES(' +
+				'INSERT INTO public."CatalogItem" ( "Id_Catalog", "Id_Parent", "Name", "DisplayLabel", "Description", "Value", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Id_Entity") VALUES(' +
 				args.input.Id_Catalog +
 				',' +
 				args.input.Id_Parent +
@@ -1358,14 +1358,14 @@ async function InsCatalogItem(args) {
 				args.input.Description +
 				',' +
 				args.input.Value +
-				',' +
-				args.input.Value01 +
-				',' +
-				args.input.Value02 +
-				',' +
-				args.input.Value03 +
-				',' +
-				args.input.Value04 +
+				// ',' + // TODO: (LF) QUITAR CODIGO COMENTADO
+				// args.input.Value01 +
+				// ',' +
+				// args.input.Value02 +
+				// ',' +
+				// args.input.Value03 +
+				// ',' +
+				// args.input.Value04 +
 				',' +
 				args.input.IsActive +
 				',' +
@@ -1378,7 +1378,7 @@ async function InsCatalogItem(args) {
 				args.input.Date_Updated +
 				',' +
 				args.input.Id_Entity +
-				') RETURNING "Id","Id_Catalog", "Id_Parent", "Name", "DisplayLabel", "Description", "Value", "Value01", "Value02", "Value03", "Value04", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated","Id_Entity"';
+				') RETURNING "Id","Id_Catalog", "Id_Parent", "Name", "DisplayLabel", "Description", "Value", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated","Id_Entity"';
 			console.log(Strquery);
 		} else {
 			console.log('Error Insert Data');
@@ -1414,14 +1414,14 @@ async function UpdCatalogItem(args) {
 				args.input.Description +
 				', "Value"=' +
 				args.input.Value +
-				', "Value01"=' +
-				args.input.Value01 +
-				', "Value02"=' +
-				args.input.Value02 +
-				', "Value03"=' +
-				args.input.Value03 +
-				', "Value04"=' +
-				args.input.Value04 +
+				// ', "Value01"=' + // TODO: (LF) QUITAR CODIGO COMENTADO
+				// args.input.Value01 +
+				// ', "Value02"=' +
+				// args.input.Value02 +
+				// ', "Value03"=' +
+				// args.input.Value03 +
+				// ', "Value04"=' +
+				// args.input.Value04 +
 				', "IsActive"=' +
 				args.input.IsActive +
 				', "User_Created"=' +

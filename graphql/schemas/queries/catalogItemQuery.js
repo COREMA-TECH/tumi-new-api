@@ -49,18 +49,18 @@ const CatalogItemQuery = {
             Value: {
                 type: GraphQLString
             },
-            Value01: {
-                type: GraphQLString
-            },
-            Value02: {
-                type: GraphQLString
-            },
-            Value03: {
-                type: GraphQLString
-            },
-            Value04: {
-                type: GraphQLString
-            },
+            // Value01: {
+            //     type: GraphQLString
+            // },
+            // Value02: {
+            //     type: GraphQLString
+            // },
+            // Value03: {
+            //     type: GraphQLString
+            // },
+            // Value04: {
+            //     type: GraphQLString
+            // },
             Name: {
                 type: GraphQLString
             }
@@ -91,18 +91,18 @@ const CatalogItemQuery = {
             Value: {
                 type: GraphQLString
             },
-            Value01: {
-                type: GraphQLString
-            },
-            Value02: {
-                type: GraphQLString
-            },
-            Value03: {
-                type: GraphQLString
-            },
-            Value04: {
-                type: GraphQLString
-            },
+            // Value01: {
+            //     type: GraphQLString
+            // },
+            // Value02: {
+            //     type: GraphQLString
+            // },
+            // Value03: {
+            //     type: GraphQLString
+            // },
+            // Value04: {
+            //     type: GraphQLString
+            // },
             Name: {
                 type: GraphQLString
             }
