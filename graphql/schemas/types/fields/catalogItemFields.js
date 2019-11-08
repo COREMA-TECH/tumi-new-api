@@ -21,18 +21,18 @@ const CatalogItemFields = {
 	Value: {
 		type: GraphQLString
 	},
-	Value01: {
-		type: GraphQLString
-	},
-	Value02: {
-		type: GraphQLString
-	},
-	Value03: {
-		type: GraphQLString
-	},
-	Value04: {
-		type: GraphQLString
-	},
+	// Value01: {
+	// 	type: GraphQLString
+	// },
+	// Value02: {
+	// 	type: GraphQLString
+	// },
+	// Value03: {
+	// 	type: GraphQLString
+	// },
+	// Value04: {
+	// 	type: GraphQLString
+	// },
 	IsActive: {
 		type: GraphQLInt
 	},

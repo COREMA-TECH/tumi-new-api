@@ -88,10 +88,6 @@ input iParamEA {
 		DisplayLabel: String
 		Description: String
 		Value: String
-		Value01: String
-		Value02: String
-		Value03: String
-		Value04: String
 		IsActive: Int
 		User_Created: Int
 		User_Updated: Int
@@ -501,10 +497,6 @@ input iParamEA {
 		DisplayLabel: String
 		Description: String
 		Value: String
-		Value01: String
-		Value02: String
-		Value03: String
-		Value04: String
 		IsActive: Int,
 		User_Created: Int
 		User_Updated: Int
@@ -576,10 +568,6 @@ input iParamEA {
 		DisplayLabel: String
 		Description: String
 		Value: String
-		Value01: String
-		Value02: String
-		Value03: String
-		Value04: String
 		IsActive: Int
 		User_Created: Int
 		User_Updated: Int
