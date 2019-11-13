@@ -48,7 +48,9 @@ import {
 	ApplicantLegalDocumentsFields,
 	ApplicationDocumentTypeFields,
 	TypeTaskFields,
-	TaskFields
+	TaskFields,
+	HiredStateFields,
+	ApplicationHiredStateFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -688,6 +690,28 @@ const inputUpdateTask = new GraphQLInputObjectType({
   }
 });
 
+const inputUpdateHiredState = new GraphQLInputObjectType({
+	name: 'inputUpdateHiredState',
+	description: "Input for updating HiredState",
+	fields: { 
+		id: {
+			type: new GraphQLNonNull(GraphQLInt)
+		},
+		...HiredStateFields
+  	}
+});
+
+const inputUpdateApplicationHiredState = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicationHiredState',
+	description: "Input for updating ApplicationHiredState",
+	fields: { 
+		id: {
+			type: new GraphQLNonNull(GraphQLInt)
+		},
+		...ApplicationHiredStateFields
+  	}
+});
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -739,5 +763,7 @@ export {
 	inputUpdateApplicantLegalDocuments,
 	inputUpdateApplicationDocumentType,
 	inputUpdateTypeTask,
-	inputUpdateTask
+	inputUpdateTask,
+	inputUpdateHiredState,
+	inputUpdateApplicationHiredState
 };

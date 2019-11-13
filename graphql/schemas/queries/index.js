@@ -66,6 +66,8 @@ import ApplicantLegalDocumentsQuery from './applicantLegalDocumentsQuery';
 import ApplicationDocumentTypeQuery from './applicationDocumentTypeQuery';
 import TypeTaskQuery from './typeTaskQuery';
 import TaskQuery from './taskQuery';
+import HiredStateQuery from './hiredStateQuery';
+import ApplicationHiredStateQuery from './applicationHiredStateQuery';
 
 export {
 	ApplicantLanguageQuery,
@@ -131,5 +133,7 @@ export {
 	ApplicantLegalDocumentsQuery,
 	ApplicationDocumentTypeQuery,
 	TypeTaskQuery,
-	TaskQuery
+	TaskQuery,
+	HiredStateQuery,
+	ApplicationHiredStateQuery
 };
