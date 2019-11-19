@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import {generatePdfFile} from '../Utilities/PdfManagement';
 import {uploadToS3} from '../Utilities/S3Management';
 import {closePunches} from '../graphql/schemas/mutations/markedEmployeesMutation';
+import { dailyEmployeeReport } from '../graphql/schemas/mutations/applicationHiredStateMutation';
 
 
 //Requerimos el paquete
@@ -24,8 +25,8 @@ cron.schedule('59 23 * * *', () => {
 	SendExpiredContracts();
 	ChangeStatustoExpired();
 	ChangeStatustoCompleted();
+	dailyEmployeeReport(); // generador de archivo csv de reporte de empleados nuevos diarios
 });
-
 
 
 let mailParams = {
