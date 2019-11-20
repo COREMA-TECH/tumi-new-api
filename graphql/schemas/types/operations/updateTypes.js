@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLNonNull, GraphQLInputObjectType } from 'graphql';
+import { GraphQLInt, GraphQLNonNull, GraphQLInputObjectType, GraphQLString, GraphQLBoolean } from 'graphql';
 import {
 	ApplicantLanguagesFields,
 	ApplicationFields,
@@ -48,7 +48,8 @@ import {
 	ApplicantLegalDocumentsFields,
 	ApplicationDocumentTypeFields,
 	TypeTaskFields,
-	TaskFields
+	TaskFields,
+	ScheduleFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -688,6 +689,21 @@ const inputUpdateTask = new GraphQLInputObjectType({
   }
 });
 
+const inputUpdateSchedule = new GraphQLInputObjectType({
+	name: 'inputUpdateSchedule',
+	description: "Input for updating schedule (microservice info) record",
+	fields: { 
+		id: { type: new GraphQLNonNull(GraphQLInt) },
+		task_type: { type: GraphQLInt },
+		task_code: { type: GraphQLString },
+		subject: { type: GraphQLString },
+		description: { type: GraphQLString },
+		due_date: { type: GraphQLString },
+		email_reminder: { type: GraphQLString },
+		is_active: { type: GraphQLBoolean },		
+  	}
+});
+
 export {
 	inputUpdateApplicantLanguage,
 	inputUpdateApplication,
@@ -739,5 +755,6 @@ export {
 	inputUpdateApplicantLegalDocuments,
 	inputUpdateApplicationDocumentType,
 	inputUpdateTypeTask,
-	inputUpdateTask
+	inputUpdateTask,
+	inputUpdateSchedule
 };

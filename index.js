@@ -4,6 +4,7 @@ const GraphHTTP = require('express-graphql');
 const Schema = require('./graphql/schemas/schemas').default;
 const root = require('./Configuration/Roots.js');
 const dotenv = require('dotenv');
+const axios = require('axios');
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -93,5 +94,5 @@ app.post('/login', async (req, res) => {
 });
 
 app.listen(process.env.PORT || MY_PORT, function () {
-	console.log(`Server is running.. on Port ${MY_PORT}`);
+	console.log(`Server is running.. on Port ${MY_PORT}`);		
 });

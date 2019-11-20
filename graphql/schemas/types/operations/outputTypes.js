@@ -70,7 +70,8 @@ import {
 	ApplicantLegalDocumentsFields,
 	ApplicationDocumentTypeFields,
 	TypeTaskFields,
-	TaskFields
+	TaskFields,
+	ScheduleFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -2403,6 +2404,88 @@ const TaskType = new GraphQLObjectType({
 	}
 });
 
+const ScheduleType = new GraphQLObjectType({
+	name: "ScheduleType",
+	description: "Output type for info saved up on the Schedule microservice",
+	fields: _ => ({
+		id: {
+			type: GraphQLInt
+		},
+		task_type: { type: GraphQLInt },
+		task_code: { type: GraphQLString },
+		subject: { type: GraphQLString },
+		description: { type: GraphQLString },
+		due_date: { type: GraphQLString },
+		email_reminder: { type: GraphQLString },
+		is_active: { type: GraphQLBoolean },
+		created_at: { type: GraphQLString },
+		updated_at: { type: GraphQLString }
+	})
+});
+
+const ScheduleItemCategory = new GraphQLObjectType({
+	name: "ScheduleCategory",
+	description: "Info about the types of tasks able to be scheduled",
+	fields: _ => ({
+		id: { type: GraphQLInt },
+		name: { type: GraphQLString },
+		description: { type: GraphQLString },
+		is_active: { type: GraphQLBoolean }
+	})
+});
+
+const ScheduleLogType = new GraphQLObjectType({
+	name: "ScheduleLogType",
+	description: "Output type for log info saved up on the Schedule microservice",
+	fields: _ => ({
+		id: {
+			type: GraphQLInt
+		},
+		log_type: { type: GraphQLInt },
+		log_code: { type: GraphQLString },
+		contacted: { type: GraphQLString },
+		description: { type: GraphQLString },
+		date: { type: GraphQLString },
+		call_outcome: { type: GraphQLString },
+		is_active: { type: GraphQLBoolean },
+		created_at: { type: GraphQLString },
+		updated_at: { type: GraphQLString }
+	})
+});
+
+const ScheduleMeetingType = new GraphQLObjectType({
+	name: "ScheduleMeetingType",
+	description: "Output type for meeting info saved up on the Schedule microservice",
+	fields: _ => ({
+		id: {
+			type: GraphQLInt
+		},
+		meeting_code: { type: GraphQLString },
+		duration: { type: GraphQLInt },
+		description: { type: GraphQLString },
+		date: { type: GraphQLString },
+		attendees: { type: GraphQLString },
+		is_active: { type: GraphQLBoolean },
+		created_at: { type: GraphQLString },
+		updated_at: { type: GraphQLString }
+	})
+});
+
+const ScheduleNoteType = new GraphQLObjectType({
+	name: "ScheduleNoteType",
+	description: "Output type for note info saved up on the Schedule microservice",
+	fields: _ => ({
+		id: {
+			type: GraphQLInt
+		},
+		note_code: { type: GraphQLString },
+		description: { type: GraphQLString },
+		is_active: { type: GraphQLBoolean },
+		created_at: { type: GraphQLString },
+		updated_at: { type: GraphQLString }
+	})
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -2492,5 +2575,10 @@ export {
 	ApplicationDocumentTypeType,
 	NewFormsType,
 	TypeTaskType,
-	TaskType
+	TaskType,
+	ScheduleType,
+	ScheduleLogType,
+	ScheduleMeetingType,
+	ScheduleNoteType,
+	ScheduleItemCategory
 };

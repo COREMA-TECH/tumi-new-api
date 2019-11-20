@@ -51,6 +51,8 @@ import BusinessCompanyMutation from './businessCompanyMutation';
 import ApplicantLegalDocumentsMutation from './applicantLegalDocumentsMutation';
 import TypeTaskMutation from './typeTaskMutation';
 import TaskMutation from './taskMutation';
+// import ScheduleMutation from './scheduleMutation';
+import ScheduleTaskMutation from './scheduleTaskMutation';
 
 export {
 	payrollMutation,
@@ -105,5 +107,6 @@ export {
 	BusinessCompanyMutation,
 	ApplicantLegalDocumentsMutation,
 	TypeTaskMutation,
-	TaskMutation
+	TaskMutation,
+	ScheduleTaskMutation
 };

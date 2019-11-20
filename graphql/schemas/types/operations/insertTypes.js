@@ -65,7 +65,8 @@ import {
 	ApplicantLegalDocumentsFields,
 	ApplicationDocumentTypeFields,
 	TypeTaskFields,
-	TaskFields
+	TaskFields,
+	ScheduleFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -713,6 +714,53 @@ const inputInsertTask = new GraphQLInputObjectType({
 	}
 });
 
+const inputScheduleType = new GraphQLInputObjectType({
+	name: 'inputScheduleType',
+	description: 'Inputs for schedule (microservice data) record',
+
+	fields: {
+		task_type: { type: GraphQLInt },
+		subject: { type: GraphQLString },
+		description: { type: GraphQLString },
+		due_date: { type: GraphQLString },
+		email_reminder: { type: GraphQLString },		
+	}
+});
+
+const inputScheduleLogType = new GraphQLInputObjectType({
+	name: 'inputScheduleLogType',
+	description: 'Inputs for schedule (microservice data) record',
+
+	fields: {
+		log_type: { type: GraphQLInt },
+		contacted: { type: GraphQLString },
+		call_outcome: { type: GraphQLString },
+		date: { type: GraphQLString },
+		description: { type: GraphQLString }		
+	}
+});
+
+const inputScheduleNoteType = new GraphQLInputObjectType({
+	name: 'inputScheduleNoteType',
+	description: 'Inputs for schedule (microservice data) record',
+
+	fields: {
+		description: { type: GraphQLString }		
+	}
+});
+
+const inputScheduleMeetingType = new GraphQLInputObjectType({
+	name: 'inputScheduleMeetingType',
+	description: 'Inputs for schedule (microservice data) record',
+
+	fields: {
+		attendees: { type: GraphQLString },
+		date: { type: GraphQLString },
+		duration: { type: GraphQLString },
+		description: { type: GraphQLString }		
+	}
+});
+
 export {
 	insertPayrollType,
 	inputInsertApplicantLanguage,
@@ -785,5 +833,9 @@ export {
 	inputInsertApplicantLegalDocuments,
 	inputInsertApplicationDocumentType,
 	inputInsertTypeTask,
-	inputInsertTask
+	inputInsertTask,
+	inputScheduleType,
+	inputScheduleLogType,
+	inputScheduleNoteType,
+	inputScheduleMeetingType
 };

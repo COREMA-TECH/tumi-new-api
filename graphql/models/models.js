@@ -78,6 +78,7 @@ import RegionsUsersModel from './regionsUsersTable';
 import ApplicationDocumentTypeModel from './applicationDocumentTypeTable';
 import TypeTaskModel from './typeTaskTable';
 import TaskModel from './taskTable';
+import ScheduleModel from './scheduleTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
 const BreakRuleDetailModel = BreakRuleDetail.createModel(Conn);
@@ -157,6 +158,7 @@ const ApplicationDocumentType = ApplicationDocumentTypeModel.createModel(Conn);
 const ApplicantLegalDocumentType = ApplicantLegalDocumentModel.createModel(Conn);
 const TypeTask = TypeTaskModel.createModel(Conn);
 const Task = TaskModel.createModel(Conn);
+const Schedule = ScheduleModel.createModel(Conn);
 
 ApplicantLegalDocumentType.belongsTo(ApplicationDocumentType);
 ApplicantLegalDocumentType.belongsTo(Application);
@@ -165,6 +167,14 @@ ApplicantLegalDocumentType.belongsTo(Users);
 BusinessRule.belongsTo(CatalogItem, {
 	foreignKey: "catalogItemId",
 	as: "RuleType"
+});
+
+Schedule.belongsTo(Users, {
+	foreignKey: "userId"
+});
+
+Users.hasMany(Schedule, {
+	foreignKey: "userId"
 });
 
 CatalogItem.hasMany(BusinessRule, {

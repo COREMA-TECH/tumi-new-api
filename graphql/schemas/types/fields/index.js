@@ -61,6 +61,7 @@ import ApplicantLegalDocumentsFields from './applicantLegalDocumentsFields';
 import ApplicationDocumentTypeFields from './applicationDocumentTypeFields';
 import TypeTaskFields from './typeTaskFields';
 import TaskFields from './taskFields';
+import ScheduleFields from './scheduleFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -125,5 +126,6 @@ export {
 	ApplicantLegalDocumentsFields,
 	ApplicationDocumentTypeFields,
 	TypeTaskFields,
-	TaskFields
+	TaskFields,
+	ScheduleFields
 };
