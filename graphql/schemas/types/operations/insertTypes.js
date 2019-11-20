@@ -66,7 +66,9 @@ import {
 	ApplicationDocumentTypeFields,
 	TypeTaskFields,
 	TaskFields,
-	ScheduleFields
+	ScheduleFields,
+	HiredStateFields,
+	ApplicationHiredStateFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -757,7 +759,17 @@ const inputScheduleMeetingType = new GraphQLInputObjectType({
 		attendees: { type: GraphQLString },
 		date: { type: GraphQLString },
 		duration: { type: GraphQLString },
-		description: { type: GraphQLString }		
+		description: { type: GraphQLString }	
+	}
+});
+
+
+const inputInsertApplicationHiredState = new GraphQLInputObjectType({
+	name: 'inputInsertApplicationHiredState',
+	description: 'Inputs for ApplicationHiredState',
+
+	fields: {
+		...ApplicationHiredStateFields
 	}
 });
 
@@ -837,5 +849,7 @@ export {
 	inputScheduleType,
 	inputScheduleLogType,
 	inputScheduleNoteType,
-	inputScheduleMeetingType
+	inputScheduleMeetingType,
+	inputInsertHiredState,
+	inputInsertApplicationHiredState
 };

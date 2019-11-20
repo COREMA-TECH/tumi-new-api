@@ -62,6 +62,8 @@ import ApplicationDocumentTypeFields from './applicationDocumentTypeFields';
 import TypeTaskFields from './typeTaskFields';
 import TaskFields from './taskFields';
 import ScheduleFields from './scheduleFields';
+import HiredStateFields from './hiredStateFields';
+import ApplicationHiredStateFields from './applicationHiredStateFields';
 
 export {
 	ApplicantLanguagesFields,
@@ -127,5 +129,7 @@ export {
 	ApplicationDocumentTypeFields,
 	TypeTaskFields,
 	TaskFields,
-	ScheduleFields
+	ScheduleFields,
+	HiredStateFields,
+	ApplicationHiredStateFields
 };

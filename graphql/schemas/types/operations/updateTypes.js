@@ -49,7 +49,9 @@ import {
 	ApplicationDocumentTypeFields,
 	TypeTaskFields,
 	TaskFields,
-	ScheduleFields
+	ScheduleFields,
+	HiredStateFields,
+	ApplicationHiredStateFields
 } from '../fields';
 import payrollFields from "../fields/payrollFields";
 
@@ -700,7 +702,29 @@ const inputUpdateSchedule = new GraphQLInputObjectType({
 		description: { type: GraphQLString },
 		due_date: { type: GraphQLString },
 		email_reminder: { type: GraphQLString },
-		is_active: { type: GraphQLBoolean },		
+		is_active: { type: GraphQLBoolean },
+	}
+});
+		
+const inputUpdateHiredState = new GraphQLInputObjectType({
+	name: 'inputUpdateHiredState',
+	description: "Input for updating HiredState",
+	fields: { 
+		id: {
+			type: new GraphQLNonNull(GraphQLInt)
+		},
+		...HiredStateFields
+  	}
+});
+
+const inputUpdateApplicationHiredState = new GraphQLInputObjectType({
+	name: 'inputUpdateApplicationHiredState',
+	description: "Input for updating ApplicationHiredState",
+	fields: { 
+		id: {
+			type: new GraphQLNonNull(GraphQLInt)
+		},
+		...ApplicationHiredStateFields
   	}
 });
 
@@ -756,5 +780,7 @@ export {
 	inputUpdateApplicationDocumentType,
 	inputUpdateTypeTask,
 	inputUpdateTask,
-	inputUpdateSchedule
+	inputUpdateSchedule,
+	inputUpdateHiredState,
+	inputUpdateApplicationHiredState
 };

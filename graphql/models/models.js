@@ -79,6 +79,8 @@ import ApplicationDocumentTypeModel from './applicationDocumentTypeTable';
 import TypeTaskModel from './typeTaskTable';
 import TaskModel from './taskTable';
 import ScheduleModel from './scheduleTable';
+import HiredStateModel from './hiredStateTable';
+import ApplicationHiredStateModel from './applicationHiredStateTable';
 
 const BreakRuleModel = BreakRule.createModel(Conn);
 const BreakRuleDetailModel = BreakRuleDetail.createModel(Conn);
@@ -159,6 +161,8 @@ const ApplicantLegalDocumentType = ApplicantLegalDocumentModel.createModel(Conn)
 const TypeTask = TypeTaskModel.createModel(Conn);
 const Task = TaskModel.createModel(Conn);
 const Schedule = ScheduleModel.createModel(Conn);
+const HiredState = HiredStateModel.createModel(Conn);
+const ApplicationHiredState = ApplicationHiredStateModel.createModel(Conn);
 
 ApplicantLegalDocumentType.belongsTo(ApplicationDocumentType);
 ApplicantLegalDocumentType.belongsTo(Application);
@@ -615,6 +619,22 @@ Users.hasMany(Task, {foreignKey: 'userCreated'});
 Task.belongsTo(Users, {foreignKey: 'userCreated'});
 Users.hasMany(Task, {foreignKey: 'userUpdated'});
 Task.belongsTo(Users, {foreignKey: 'userUpdated'});
+
+// hiredStateTable relations
+HiredState.hasMany(ApplicationHiredState, {foreignKey: 'hiredStateId'})
+ApplicationHiredState.belongsTo(HiredState, {foreignKey: 'hiredStateId'});
+Users.hasMany(HiredState, {foreignKey: 'userCreated'});
+HiredState.belongsTo(Users, {foreignKey: 'userCreated'});
+Users.hasMany(HiredState, {foreignKey: 'userUpdated'});
+HiredState.belongsTo(Users, {foreignKey: 'userUpdated'});
+
+
+Application.hasMany(ApplicationHiredState, {foreignKey: 'applicationId'})
+ApplicationHiredState.belongsTo(Application, {foreignKey: 'applicationId'});
+Users.hasMany(ApplicationHiredState, {foreignKey: 'userCreated'});
+ApplicationHiredState.belongsTo(Users, {foreignKey: 'userCreated'});
+Users.hasMany(ApplicationHiredState, {foreignKey: 'userUpdated'});
+ApplicationHiredState.belongsTo(Users, {foreignKey: 'userUpdated'});
 
 Conn.authenticate()
 	.then(() => {

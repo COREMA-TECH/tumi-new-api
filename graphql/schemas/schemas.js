@@ -57,7 +57,9 @@ import {
 	ApplicantLegalDocumentsMutation,
 	TypeTaskMutation,
 	TaskMutation,
-	ScheduleTaskMutation
+	ScheduleTaskMutation,
+	HiredStateMutation,
+	ApplicationHiredStateMutation
 } from './mutations';
 import {
 	ApplicationQuery,
@@ -125,7 +127,9 @@ import {
 	ApplicationDocumentTypeQuery,
 	TypeTaskQuery,
 	TaskQuery,
-	ScheduleQueries
+	ScheduleQueries,
+	HiredStateQuery,
+	ApplicationHiredStateQuery
 } from './queries';
 
 const RootQuery = new GraphQLObjectType({
@@ -197,7 +201,9 @@ const RootQuery = new GraphQLObjectType({
 		...ApplicationDocumentTypeQuery,
 		...TypeTaskQuery,
 		...TaskQuery,
-		...ScheduleQueries
+		...ScheduleQueries,
+		...HiredStateQuery,
+		...ApplicationHiredStateQuery
 	}
 });
 const RootMutation = new GraphQLObjectType({
@@ -257,7 +263,9 @@ const RootMutation = new GraphQLObjectType({
 		...ApplicantLegalDocumentsMutation,
 		...TypeTaskMutation,
 		...TaskMutation,
-		...ScheduleTaskMutation
+		...ScheduleTaskMutation,
+		...HiredStateMutation,
+		...ApplicationHiredStateMutation
 	}
 });
 

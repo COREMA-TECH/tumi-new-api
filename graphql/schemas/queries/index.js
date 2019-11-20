@@ -67,6 +67,8 @@ import ApplicationDocumentTypeQuery from './applicationDocumentTypeQuery';
 import TypeTaskQuery from './typeTaskQuery';
 import TaskQuery from './taskQuery';
 import ScheduleQueries from './scheduleQueries';
+import HiredStateQuery from './hiredStateQuery';
+import ApplicationHiredStateQuery from './applicationHiredStateQuery';
 
 export {
 	ApplicantLanguageQuery,
@@ -133,5 +135,7 @@ export {
 	ApplicationDocumentTypeQuery,
 	TypeTaskQuery,
 	TaskQuery,
-	ScheduleQueries
+	ScheduleQueries,
+	HiredStateQuery,
+	ApplicationHiredStateQuery
 };

@@ -53,6 +53,8 @@ import TypeTaskMutation from './typeTaskMutation';
 import TaskMutation from './taskMutation';
 // import ScheduleMutation from './scheduleMutation';
 import ScheduleTaskMutation from './scheduleTaskMutation';
+import HiredStateMutation from './hiredStateMutation';
+import ApplicationHiredStateMutation from './applicationHiredStateMutation';
 
 export {
 	payrollMutation,
@@ -108,5 +110,7 @@ export {
 	ApplicantLegalDocumentsMutation,
 	TypeTaskMutation,
 	TaskMutation,
-	ScheduleTaskMutation
+	ScheduleTaskMutation,
+	HiredStateMutation,
+	ApplicationHiredStateMutation
 };

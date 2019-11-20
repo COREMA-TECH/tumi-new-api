@@ -71,7 +71,9 @@ import {
 	ApplicationDocumentTypeFields,
 	TypeTaskFields,
 	TaskFields,
-	ScheduleFields
+	ScheduleFields,
+	HiredStateFields,
+	ApplicationHiredStateFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -2486,6 +2488,50 @@ const ScheduleNoteType = new GraphQLObjectType({
 	})
 });
 
+const HiredStateType = new GraphQLObjectType({
+	name: 'HiredStateType',
+	description: 'Output HiredState',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'HiredStateId'
+			},
+			createdAt: {
+				type: new GraphQLNonNull(GraphQLDate),
+				description: 'Creation Date'
+			},
+			updatedAt: {
+				type: new GraphQLNonNull(GraphQLDate),
+				description: 'Update Date'
+			},
+			...HiredStateFields
+		};
+	}
+});
+
+const ApplicationHiredStateType = new GraphQLObjectType({
+	name: 'ApplicationHiredStateType',
+	description: 'Output ApplicationHiredState',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'ApplicationHiredStateId'
+			},
+			createdAt: {
+				type: new GraphQLNonNull(GraphQLDate),
+				description: 'Creation Date'
+			},
+			updatedAt: {
+				type: new GraphQLNonNull(GraphQLDate),
+				description: 'Update Date'
+			},
+			...ApplicationHiredStateFields
+		};
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -2580,5 +2626,7 @@ export {
 	ScheduleLogType,
 	ScheduleMeetingType,
 	ScheduleNoteType,
-	ScheduleItemCategory
+	ScheduleItemCategory,
+	HiredStateType,
+	ApplicationHiredStateType
 };
