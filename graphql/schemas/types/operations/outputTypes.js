@@ -293,72 +293,9 @@ const ApplicationListType = new GraphQLObjectType({
 				description: 'Applicant Id'
 			},
 			...ApplicationFields,
-			workOrderId: { type: WorkOrderType },
-			Position: { type: PositionRateType },
 			User: { type: UsersType },
-			PositionCompany: { type: BusinessCompanyType },
-			Companies: {
-				type: new GraphQLList(BusinessCompanyType),
-				resolve(me) {
-					if (me.Employee) {
-						return Db.models.BusinessCompany.findAll({
-							include: [{
-								model: Db.models.EmployeeByHotels,
-								where: { isActive: true },
-								include: [
-									{
-										model: Db.models.Employees,
-										as: 'Employees',
-										where: { id: me.Employee.id }
-									}
-								]
-							}]
-						})
-					}
-				}
-			},
-			DefaultCompany: {
-				type: BusinessCompanyType,
-				resolve(me) {
-					if (me.Employee) {
-						return Db.models.EmployeeByHotels.findOne({
-							where: { isDefault: true },
-							include: [{
-								model: Db.models.Employees,
-								as: 'Employees',
-								where: { id: me.Employee.id }
-							}, {
-								model: Db.models.BusinessCompany,
-								as: 'BusinessCompanies'
-							}]
-						}).then(_ => {
-							if (_)
-								return _.dataValues.BusinessCompanies;
-							return null;
-						})
-					}
-				}
-			},
 			Recruiter: { type: UsersType },
-			Employee: { type: EmployeesType },
-			workOrderId: { type: GraphQLInt },
-
-			statusCompleted: {
-				type: GraphQLBoolean,
-				resolve(me) {
-					return Db.models.ApplicationDocumentType.count().then(typeDocQuantity => {
-						return Db.models.ApplicantLegalDocument.findAll({
-							where: {ApplicationId: me.id},
-							attributes: [
-								[Sequelize.fn('DISTINCT', Sequelize.col('ApplicationDocumentTypeId')) ,'ApplicationDocumentTypeId']
-							]
-						})
-						.then(nhp => {
-							return nhp && nhp.length === typeDocQuantity;
-						})
-					});
-				}
-			}
+			statusCompleted: { type: GraphQLString }
 
 		};
 	}
