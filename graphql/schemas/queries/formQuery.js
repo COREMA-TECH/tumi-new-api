@@ -38,15 +38,6 @@ const getRolesFormFilter = (filter) => {
     return newFilter;
 }
 
-const groupByKey = (key, array) => {
-    return array.reduce((grouped, curr) => {
-        const value = curr.dataValues[key];
-        grouped[value] = (grouped[value] || []).concat(curr.dataValues);
-        return grouped;
-    }, {});
-}
-
-
 const _forms = {
     type: new GraphQLList(FormsType),
     description: 'List of Forms',

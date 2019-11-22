@@ -5,6 +5,7 @@ import Sequelize from 'sequelize';
 
 const Op = Sequelize.Op;
 
+
 const getQueryForUniqueCatalog = (filter) => {
     var newFilter = {};
 
@@ -48,18 +49,18 @@ const CatalogItemQuery = {
             Value: {
                 type: GraphQLString
             },
-            Value01: {
-                type: GraphQLString
-            },
-            Value02: {
-                type: GraphQLString
-            },
-            Value03: {
-                type: GraphQLString
-            },
-            Value04: {
-                type: GraphQLString
-            },
+            // Value01: {
+            //     type: GraphQLString
+            // },
+            // Value02: {
+            //     type: GraphQLString
+            // },
+            // Value03: {
+            //     type: GraphQLString
+            // },
+            // Value04: {
+            //     type: GraphQLString
+            // },
             Name: {
                 type: GraphQLString
             }
@@ -90,18 +91,18 @@ const CatalogItemQuery = {
             Value: {
                 type: GraphQLString
             },
-            Value01: {
-                type: GraphQLString
-            },
-            Value02: {
-                type: GraphQLString
-            },
-            Value03: {
-                type: GraphQLString
-            },
-            Value04: {
-                type: GraphQLString
-            },
+            // Value01: {
+            //     type: GraphQLString
+            // },
+            // Value02: {
+            //     type: GraphQLString
+            // },
+            // Value03: {
+            //     type: GraphQLString
+            // },
+            // Value04: {
+            //     type: GraphQLString
+            // },
             Name: {
                 type: GraphQLString
             }
@@ -145,6 +146,49 @@ const CatalogItemQuery = {
                     return Db.models.CatalogItem.findAll({ where: { Id_Catalog: 8, IsActive: 1 }, order: [['Name', 'ASC']], });
                 })
 
+        }
+    },
+    getparentcatalogitem: {
+        type: new GraphQLList(CatalogItemType),
+        description: 'List Catalog Items records',
+        args: {
+            Id: {
+                type: GraphQLInt
+            },
+            Id_Entity: {
+                type: GraphQLInt
+            },
+            Id_Catalog: {
+                type: GraphQLInt
+            },
+            IsActive: {
+                type: GraphQLInt
+            }
+        },
+        resolve(root, args) {
+            if (args.Id > 0){
+                return Db.models.CatalogItem.findAll({where: {Id_Parent: args.Id}})
+                .then(subquery => {
+                    let catSubqId = subquery.map(s => s.dataValues.Id);
+                    return Db.models.CatalogItem.findAll({
+                        where: {
+                            Id_Catalog: args.Id_Catalog,
+                            IsActive: args.IsActive,
+                            Id_Parent: {[Op.notIn]: [args.Id, ...catSubqId]},
+                            Id: {[Op.ne]: args.Id}
+                        }
+                    });
+                });
+            }
+            else {
+                return Db.models.CatalogItem.findAll({
+                    where: {
+                        Id_Catalog: args.Id_Catalog,
+                        Id: {[Op.ne]: args.Id},
+                        IsActive: args.IsActive
+                    }
+                });
+            }
         }
     }
 };

@@ -88,10 +88,6 @@ input iParamEA {
 		DisplayLabel: String
 		Description: String
 		Value: String
-		Value01: String
-		Value02: String
-		Value03: String
-		Value04: String
 		IsActive: Int
 		User_Created: Int
 		User_Updated: Int
@@ -296,7 +292,6 @@ input iParamEA {
 		getcontacts(Id:Int,IsActive:Int, Id_Entity :Int): [Contacts]
 		getposition(Id:Int,IsActive:Int, Id_Entity :Int,Id_Department:Int): [PositionRate]
 		getsupervisor(Id:Int,IsActive:Int,Id_Entity :Int): [Supervisor]
-		getparentcatalogitem(Id:Int,Id_Catalog: Int,IsActive:Int): [CatalogParent]
 		getcatalog(Id:Int,IsActive:Int): [Catalog]
 		getcatalogitem(Id:Int,IsActive:Int,Id_Catalog:Int,Id_Parent:Int,Value:String, Id_Entity:Int): [CatalogItem]
 		getroles(Id:Int,IsActive:Int,Id_Company:Int): [Roles]
@@ -502,10 +497,6 @@ input iParamEA {
 		DisplayLabel: String
 		Description: String
 		Value: String
-		Value01: String
-		Value02: String
-		Value03: String
-		Value04: String
 		IsActive: Int,
 		User_Created: Int
 		User_Updated: Int
@@ -577,10 +568,6 @@ input iParamEA {
 		DisplayLabel: String
 		Description: String
 		Value: String
-		Value01: String
-		Value02: String
-		Value03: String
-		Value04: String
 		IsActive: Int
 		User_Created: Int
 		User_Updated: Int

@@ -70,7 +70,9 @@ import {
 	ApplicantLegalDocumentsFields,
 	ApplicationDocumentTypeFields,
 	TypeTaskFields,
-	TaskFields
+	TaskFields,
+	HiredStateFields,
+	ApplicationHiredStateFields
 } from '../fields';
 
 import Db from '../../../models/models';
@@ -2340,6 +2342,50 @@ const TaskType = new GraphQLObjectType({
 	}
 });
 
+const HiredStateType = new GraphQLObjectType({
+	name: 'HiredStateType',
+	description: 'Output HiredState',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'HiredStateId'
+			},
+			createdAt: {
+				type: new GraphQLNonNull(GraphQLDate),
+				description: 'Creation Date'
+			},
+			updatedAt: {
+				type: new GraphQLNonNull(GraphQLDate),
+				description: 'Update Date'
+			},
+			...HiredStateFields
+		};
+	}
+});
+
+const ApplicationHiredStateType = new GraphQLObjectType({
+	name: 'ApplicationHiredStateType',
+	description: 'Output ApplicationHiredState',
+	fields: () => {
+		return {
+			id: {
+				type: GraphQLInt,
+				description: 'ApplicationHiredStateId'
+			},
+			createdAt: {
+				type: new GraphQLNonNull(GraphQLDate),
+				description: 'Creation Date'
+			},
+			updatedAt: {
+				type: new GraphQLNonNull(GraphQLDate),
+				description: 'Update Date'
+			},
+			...ApplicationHiredStateFields
+		};
+	}
+});
+
 export {
 	ApplicationType,
 	ApplicantLanguageType,
@@ -2429,5 +2475,7 @@ export {
 	ApplicationDocumentTypeType,
 	NewFormsType,
 	TypeTaskType,
-	TaskType
+	TaskType,
+	HiredStateType,
+	ApplicationHiredStateType
 };

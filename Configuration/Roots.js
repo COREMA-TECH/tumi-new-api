@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import {generatePdfFile} from '../Utilities/PdfManagement';
 import {uploadToS3} from '../Utilities/S3Management';
 import {closePunches} from '../graphql/schemas/mutations/markedEmployeesMutation';
+import { dailyEmployeeReport } from '../graphql/schemas/mutations/applicationHiredStateMutation';
 
 
 //Requerimos el paquete
@@ -24,8 +25,8 @@ cron.schedule('59 23 * * *', () => {
 	SendExpiredContracts();
 	ChangeStatustoExpired();
 	ChangeStatustoCompleted();
+	dailyEmployeeReport(); // generador de archivo csv de reporte de empleados nuevos diarios
 });
-
 
 
 let mailParams = {
@@ -1277,64 +1278,64 @@ async function getCatalogItem(args) {
 	}
 }
 
-async function getParentCatalogItem(args) {
-	try {
-		console.log('getParentCatalogItem estoy aqui ');
+// async function getParentCatalogItem(args) {
+// 	try {
+// 		console.log('getParentCatalogItem estoy aqui ');
 
-		var strparam1, strparam2, strparam3;
+// 		var strparam1, strparam2, strparam3;
 
-		if (args.IsActive >= 0) {
-			strparam1 = args.IsActive;
-		} else {
-			strparam1 = null;
-		}
+// 		if (args.IsActive >= 0) {
+// 			strparam1 = args.IsActive;
+// 		} else {
+// 			strparam1 = null;
+// 		}
 
-		if (args.Id_Catalog >= -2) {
-			strparam2 = args.Id_Catalog;
-		} else {
-			strparam2 = null;
-		}
+// 		if (args.Id_Catalog >= -2) {
+// 			strparam2 = args.Id_Catalog;
+// 		} else {
+// 			strparam2 = null;
+// 		}
 
-		if (args.Id_Entity >= 0) {
-			strparam3 = args.Id_Entity;
-		} else {
-			strparam3 = null;
-		}
+// 		if (args.Id_Entity >= 0) {
+// 			strparam3 = args.Id_Entity;
+// 		} else {
+// 			strparam3 = null;
+// 		}
 
-		if (args.Id > 0) {
-			Strquery =
-				'select * from public."CatalogParent" Where "Id_Catalog" =  coalesce(' +
-				strparam2 +
-				',"Id_Catalog") and "Id" <> (' +
-				args.Id +
-				') and "Id" not in (SELECT "Id" FROM public."CatalogItem" where "Id_Parent" =  ' +
-				args.Id +
-				') and "Id" not in (SELECT "Id" FROM public."CatalogItem" where "Id_Parent" in (SELECT "Id" FROM public."CatalogItem" where "Id_Parent" = ' +
-				args.Id +
-				')) and "IsActive" = coalesce(' +
-				strparam1 +
-				',"IsActive")';
-			console.log(Strquery);
-		}
-		if (args.Id == 0) {
-			Strquery =
-				'select * from public."CatalogParent" Where "Id_Catalog" =  coalesce(' +
-				strparam2 +
-				',"Id_Catalog") and "Id" <> (' +
-				args.Id +
-				') and "IsActive" = coalesce(' +
-				strparam1 +
-				',"IsActive") ';
-			console.log(Strquery);
-		}
+// 		if (args.Id > 0) {
+// 			Strquery =
+// 				'select * from public."CatalogParent" Where "Id_Catalog" =  coalesce(' +
+// 				strparam2 +
+// 				',"Id_Catalog") and "Id" <> (' +
+// 				args.Id +
+// 				') and "Id" not in (SELECT "Id" FROM public."CatalogItem" where "Id_Parent" =  ' +
+// 				args.Id +
+// 				') and "Id" not in (SELECT "Id" FROM public."CatalogItem" where "Id_Parent" in (SELECT "Id" FROM public."CatalogItem" where "Id_Parent" = ' +
+// 				args.Id +
+// 				')) and "IsActive" = coalesce(' +
+// 				strparam1 +
+// 				',"IsActive")';
+// 			console.log(Strquery);
+// 		}
+// 		if (args.Id == 0) {
+// 			Strquery =
+// 				'select * from public."CatalogParent" Where "Id_Catalog" =  coalesce(' +
+// 				strparam2 +
+// 				',"Id_Catalog") and "Id" <> (' +
+// 				args.Id +
+// 				') and "IsActive" = coalesce(' +
+// 				strparam1 +
+// 				',"IsActive") ';
+// 			console.log(Strquery);
+// 		}
 
-		const { rows } = await query(Strquery);
-		return rows;
-	} catch (err) {
-		console.log('Database ' + err);
-		return err;
-	}
-}
+// 		const { rows } = await query(Strquery);
+// 		return rows;
+// 	} catch (err) {
+// 		console.log('Database ' + err);
+// 		return err;
+// 	}
+// }
 
 async function InsCatalogItem(args) {
 	try {
@@ -1346,7 +1347,7 @@ async function InsCatalogItem(args) {
 
 
 			Strquery =
-				'INSERT INTO public."CatalogItem" ( "Id_Catalog", "Id_Parent", "Name", "DisplayLabel", "Description", "Value", "Value01", "Value02", "Value03", "Value04", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Id_Entity") VALUES(' +
+				'INSERT INTO public."CatalogItem" ( "Id_Catalog", "Id_Parent", "Name", "DisplayLabel", "Description", "Value", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated", "Id_Entity") VALUES(' +
 				args.input.Id_Catalog +
 				',' +
 				args.input.Id_Parent +
@@ -1358,14 +1359,14 @@ async function InsCatalogItem(args) {
 				args.input.Description +
 				',' +
 				args.input.Value +
-				',' +
-				args.input.Value01 +
-				',' +
-				args.input.Value02 +
-				',' +
-				args.input.Value03 +
-				',' +
-				args.input.Value04 +
+				// ',' + // TODO: (LF) QUITAR CODIGO COMENTADO
+				// args.input.Value01 +
+				// ',' +
+				// args.input.Value02 +
+				// ',' +
+				// args.input.Value03 +
+				// ',' +
+				// args.input.Value04 +
 				',' +
 				args.input.IsActive +
 				',' +
@@ -1378,7 +1379,7 @@ async function InsCatalogItem(args) {
 				args.input.Date_Updated +
 				',' +
 				args.input.Id_Entity +
-				') RETURNING "Id","Id_Catalog", "Id_Parent", "Name", "DisplayLabel", "Description", "Value", "Value01", "Value02", "Value03", "Value04", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated","Id_Entity"';
+				') RETURNING "Id","Id_Catalog", "Id_Parent", "Name", "DisplayLabel", "Description", "Value", "IsActive", "User_Created", "User_Updated", "Date_Created", "Date_Updated","Id_Entity"';
 			console.log(Strquery);
 		} else {
 			console.log('Error Insert Data');
@@ -1414,14 +1415,14 @@ async function UpdCatalogItem(args) {
 				args.input.Description +
 				', "Value"=' +
 				args.input.Value +
-				', "Value01"=' +
-				args.input.Value01 +
-				', "Value02"=' +
-				args.input.Value02 +
-				', "Value03"=' +
-				args.input.Value03 +
-				', "Value04"=' +
-				args.input.Value04 +
+				// ', "Value01"=' + // TODO: (LF) QUITAR CODIGO COMENTADO
+				// args.input.Value01 +
+				// ', "Value02"=' +
+				// args.input.Value02 +
+				// ', "Value03"=' +
+				// args.input.Value03 +
+				// ', "Value04"=' +
+				// args.input.Value04 +
 				', "IsActive"=' +
 				args.input.IsActive +
 				', "User_Created"=' +
@@ -3205,7 +3206,6 @@ const root = {
 	inscatalogitem: InsCatalogItem,
 	updcatalogitem: UpdCatalogItem,
 	delcatalogitem: DelCatalogItem,
-	getparentcatalogitem: getParentCatalogItem,
 
 	getroles: getRoles,
 	insroles: InsRoles,
