@@ -43,6 +43,31 @@ const ZipcodeQuery = {
                 
             );
         }
+    },
+    zipCodeStateCity: {
+        type: ZipcodeType,
+        description: 'List Zipcode records',
+        args: {
+            Zipcode: {
+                type: GraphQLString
+            }
+        },
+        resolve(root, args) {
+            return Db.models.Zipcode.find(
+                { 
+                    where: {Zipcode:args.Zipcode,countryId:{ $ne: null} },
+                    include: [{
+                        model: Db.models.CatalogItem,
+                        required: true,
+                        as: 'stateRelation'
+                    },{
+                        model: Db.models.CatalogItem,
+                        required: true,
+                        as: 'cityRelation'
+                    }]
+                }
+            );
+        }
     }
 
 };

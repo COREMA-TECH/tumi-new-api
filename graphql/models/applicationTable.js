@@ -221,6 +221,14 @@ export default {
 			sendInterview: {
 				type: Sequelize.BOOLEAN,
 				allowNull: true
+			},
+			origin: {
+				type: Sequelize.STRING(30),
+				allowNull: true
+			},
+			proofofID: {
+				type: Sequelize.BOOLEAN,
+				allowNull: false
 			}
 		});
 	}

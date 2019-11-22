@@ -5,10 +5,6 @@ export default {
 		return Conn.define(
 			'ApplicationHiredStates',
 			{
-				origin: {
-					type: Sequelize.STRING,
-					allowNull: false
-				},
 				isActive: {
 					type: Sequelize.BOOLEAN,
 					allowNull: false

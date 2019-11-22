@@ -1,8 +1,5 @@
 import { GraphQLInt, GraphQLString, GraphQLBoolean } from 'graphql';
 const formFields = {
-	origin: {
-		type: GraphQLString
-	},
     applicationId: {
         type: GraphQLInt
     },

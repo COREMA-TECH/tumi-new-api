@@ -626,6 +626,11 @@ ApplicationHiredState.belongsTo(Users, {foreignKey: 'userCreated'});
 Users.hasMany(ApplicationHiredState, {foreignKey: 'userUpdated'});
 ApplicationHiredState.belongsTo(Users, {foreignKey: 'userUpdated'});
 
+CatalogItem.hasMany(Zipcode, {foreignKey: 'stateId', as: 'stateRelation'});
+Zipcode.belongsTo(CatalogItem, {foreignKey: 'stateId', as: 'stateRelation'});
+CatalogItem.hasMany(Zipcode, {foreignKey: 'countryId', as: 'cityRelation'});
+Zipcode.belongsTo(CatalogItem, {foreignKey: 'countryId', as: 'cityRelation'});
+
 Conn.authenticate()
 	.then(() => {
 		console.log('Connection has been established successfully.');
