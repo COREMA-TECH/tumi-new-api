@@ -162,6 +162,8 @@ ApplicantLegalDocumentType.belongsTo(ApplicationDocumentType);
 ApplicantLegalDocumentType.belongsTo(Application);
 ApplicantLegalDocumentType.belongsTo(Users);
 
+Application.hasMany(ApplicantLegalDocumentType);
+
 BusinessRule.belongsTo(CatalogItem, {
 	foreignKey: "catalogItemId",
 	as: "RuleType"

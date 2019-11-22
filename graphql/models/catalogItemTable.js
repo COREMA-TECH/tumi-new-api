@@ -39,23 +39,6 @@ export default {
 					type: Sequelize.STRING(500),
 					allowNull: false
 				},
-				Value01: {
-					type: Sequelize.STRING(10),
-					allowNull: false
-				},
-
-				Value02: {
-					type: Sequelize.STRING(10),
-					allowNull: false
-				},
-				Value03: {
-					type: Sequelize.STRING(10),
-					allowNull: false
-				},
-				Value04: {
-					type: Sequelize.STRING(10),
-					allowNull: false
-				},
 				IsActive: {
 					type: Sequelize.INTEGER,
 					allowNull: false
