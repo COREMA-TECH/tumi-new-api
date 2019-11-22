@@ -223,6 +223,10 @@ const ApplicationFields = {
 	pdfUrl: {
 		type: GraphQLString,
 		description: 'Summary file url'
+	},
+	origin: {
+		type: GraphQLString,
+		description: 'Record Origin'
 	}
 };
 

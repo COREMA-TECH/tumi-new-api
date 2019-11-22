@@ -183,45 +183,23 @@ const ApplicationQuery = {
 				{
 					where: { ...isActiveFilter, ...idFilter },
 					as: "Applications",
+					attributes: {
+						include: [
+							[Sequelize.literal('(SELECT count(DISTINCT( "ApplicationDocumentTypeId" )) AS "ApplicationDocumentTypeId" FROM	"public"."ApplicantLegalDocuments" AS"ApplicantLegalDocument" WHERE	"ApplicantLegalDocument"."ApplicationId" = "Applications"."id")'), 'totalAmount']
+						]
+					},
 					include: [{
-						model: Db.models.ApplicationEmployees,
-						required: args.idUsers != null || args.idEntity != null || args.Id_Department != null,
-						include: [{
-							model: Db.models.Employees,
-							required: args.idUsers != null || args.idEntity != null || args.Id_Department != null,
-							as: "Employees",
-							where: employeeArgs,
-							include: [
-								{
-									required: args.idEntity != null,
-									model: Db.models.EmployeeByHotels,
-									where: { ...employeeByHotelFilter }
-								}
-							]
-						}]
-
-					}, {
 						model: Db.models.Users,
 						as: 'Recruiter'
-					}, {
-						model: Db.models.WorkOrder,
-						as: 'PositionApplyingFor',
-						include: [{
-							model: Db.models.PositionRate
-						}, {
-							model: Db.models.BusinessCompany,
-							as: 'BusinessCompanyWO'
-						}]
-					}, {
-						model: Db.models.Users,
-						as: 'User'
 					}]
 				})
-				.then(_ => {
+				.then(async _ => {
 					let dataList = [];
 
+					const typeCount = await Db.models.ApplicationDocumentType.count();
+					
 					_.map(app => {
-						let { Recruiter, PositionApplyingFor, ApplicationEmployee, User } = app.dataValues;
+						let { Recruiter, User } = app.dataValues;
 						let record = {
 							...app.dataValues,
 							workOrderId: null,
@@ -233,21 +211,12 @@ const ApplicationQuery = {
 							record = { ...record, User: User.dataValues };
 						if (Recruiter)
 							record = { ...record, Recruiter: Recruiter.dataValues };
-						if (PositionApplyingFor) {
-							let { id, PositionRate, BusinessCompanyWO } = PositionApplyingFor;
-							record = { ...record, workOrderId: id };
-							if (PositionRate)
-								record = { ...record, Position: PositionRate.dataValues }
-							if (BusinessCompanyWO)
-								record = { ...record, PositionCompany: BusinessCompanyWO.dataValues }
-						}
-						if (ApplicationEmployee) {
-							let appEmp = ApplicationEmployee.dataValues;
-							if (appEmp.Employees) {
-								let employee = appEmp.Employees.dataValues;
-								record = { ...record, Employee: employee }
-							}
-						}
+
+						record = { 
+							...record,
+							statusCompleted: app.totalAmount && app.totalAmount === typeCount ? 'YES' : 'NO' 
+						};
+
 						dataList.push(record);
 					})
 					return dataList;
