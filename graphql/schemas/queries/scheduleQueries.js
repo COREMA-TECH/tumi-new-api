@@ -30,6 +30,7 @@ const scheduleQuery = {
         args: {
             taskType: { type: GraphQLInt },
             userId: { type: GraphQLInt },
+            applicationId: { type: GraphQLInt },
             isActive: { type: GraphQLBoolean },            
         },
         async resolve(root, args) {
@@ -43,7 +44,7 @@ const scheduleQuery = {
 
                 if(args.userId){
                     const local = await Db.models.Schedule.findAll({
-                        where: { userId: args.userId, isActive: args.isActive }
+                        where: { userId: args.userId, isActive: args.isActive, applicationId: args.applicationId }
                     });
 
                     const codes = local.map(({dataValues: schedule}) => {
@@ -69,6 +70,7 @@ const scheduleQuery = {
         args: {
             logType: { type: GraphQLInt },
             userId: { type: GraphQLInt },
+            applicationId: { type: GraphQLInt },
             isActive: { type: GraphQLBoolean },            
         },
         async resolve(root, args) {
@@ -82,7 +84,7 @@ const scheduleQuery = {
 
                 if(args.userId){
                     const local = await Db.models.Schedule.findAll({
-                        where: { userId: args.userId, isActive: args.isActive }
+                        where: { userId: args.userId, isActive: args.isActive, applicationId: args.applicationId }
                     });
 
                     const codes = local.map(({dataValues: schedule}) => {
@@ -107,6 +109,7 @@ const scheduleQuery = {
         type: new GraphQLList(ScheduleNoteType),
         args: {
             userId: { type: GraphQLInt },
+            applicationId: { type: GraphQLInt },
             isActive: { type: GraphQLBoolean },            
         },
         async resolve(root, args) {
@@ -120,7 +123,7 @@ const scheduleQuery = {
 
                 if(args.userId){
                     const local = await Db.models.Schedule.findAll({
-                        where: { userId: args.userId, isActive: args.isActive }
+                        where: { userId: args.userId, isActive: args.isActive, applicationId: args.applicationId }
                     });
 
                     const codes = local.map(({dataValues: schedule}) => {
@@ -145,6 +148,7 @@ const scheduleQuery = {
         type: new GraphQLList(ScheduleMeetingType),
         args: {
             userId: { type: GraphQLInt },
+            applicationId: { type: GraphQLInt },
             isActive: { type: GraphQLBoolean },            
         },
         async resolve(root, args) {
@@ -158,7 +162,7 @@ const scheduleQuery = {
 
                 if(args.userId){
                     const local = await Db.models.Schedule.findAll({
-                        where: { userId: args.userId, isActive: args.isActive }
+                        where: { userId: args.userId, isActive: args.isActive, applicationId: args.applicationId }
                     });
 
                     const codes = local.map(({dataValues: schedule}) => {

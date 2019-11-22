@@ -13,6 +13,9 @@ const ScheduleTaskMutation = {
             userId: {
                 type: new GraphQLNonNull(GraphQLInt)
             },
+            applicationId: {
+                type: new GraphQLNonNull(GraphQLInt)
+            },
             input: {
                 type: inputScheduleType
             }
@@ -46,6 +49,9 @@ const ScheduleTaskMutation = {
             userId: {
                 type: new GraphQLNonNull(GraphQLInt)
             },
+            applicationId: {
+                type: new GraphQLNonNull(GraphQLInt)
+            },
             input: {
                 type: inputScheduleNoteType
             }
@@ -74,6 +80,9 @@ const ScheduleTaskMutation = {
             userId: {
                 type: new GraphQLNonNull(GraphQLInt)
             },
+            applicationId: {
+                type: new GraphQLNonNull(GraphQLInt)
+            },
             input: {
                 type: inputScheduleLogType
             }
@@ -100,6 +109,9 @@ const ScheduleTaskMutation = {
         description: "create new schedule Note",
         args: {
             userId: {
+                type: new GraphQLNonNull(GraphQLInt)
+            },
+            applicationId: {
                 type: new GraphQLNonNull(GraphQLInt)
             },
             input: {

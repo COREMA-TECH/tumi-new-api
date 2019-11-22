@@ -773,6 +773,14 @@ const inputInsertApplicationHiredState = new GraphQLInputObjectType({
 	}
 });
 
+const inputInsertHiredState = new GraphQLInputObjectType({
+	name: 'inputInsertHiredState',
+	description: 'Inputs for Hired State',
+	fields: {
+		...HiredStateFields
+	}
+});
+
 export {
 	insertPayrollType,
 	inputInsertApplicantLanguage,

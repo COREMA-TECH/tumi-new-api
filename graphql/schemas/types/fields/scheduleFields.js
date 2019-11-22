@@ -6,6 +6,9 @@ const scheduleFields = {
 	code: {
 		type: new GraphQLNonNull(GraphQLString)
 	},
+	applicationId: {
+		type: new GraphQLNonNull(GraphQLInt)
+	},
 	IsActive: {
 		type: GraphQLBoolean
 	},

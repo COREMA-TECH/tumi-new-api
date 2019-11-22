@@ -9,6 +9,10 @@ export default {
 					type: Sequelize.INTEGER,
 					allowNull: false
 				},
+				applicationId: {
+					type: Sequelize.INTEGER,
+					allowNull: false
+				},
 				code: {
 					type: Sequelize.STRING,
 					allowNull: false
