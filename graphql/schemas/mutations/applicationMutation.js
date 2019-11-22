@@ -82,7 +82,6 @@ const ApplicationMutation = {
 				});
 
 				if(args.speakEnglish){
-					console.log('GUARDANDO IDIOMA\n', args.speakEnglish, '\n'); // TODO: (LF) QUITAR CONSOLE LOG
 					Db.models.ApplicantLanguages.create({
 						ApplicationId: application.dataValues.id,
 						language: 194, // Ingles

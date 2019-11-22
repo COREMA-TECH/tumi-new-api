@@ -32,7 +32,6 @@ const WorkOrderQuery = {
 
 			return Db.models.WorkOrder.findAll({
 				where: args.workOrder,
-				limit: 5, // TODO: (LF) DESCARTAR CAMBIOS EN ESTE ARCHIVO
 				include: [{
 					model: Db.models.BusinessCompany,
 					as: 'BusinessCompanyWO',
