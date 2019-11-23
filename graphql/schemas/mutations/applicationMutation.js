@@ -48,6 +48,53 @@ const ApplicationMutation = {
 			});
 		}
 	},
+	quickAddLead: {
+		type: ApplicationType,
+		description: 'Add new lead record to database',
+		args: {
+			application: { type: inputInsertApplication },
+			speakEnglish: { type: GraphQLBoolean },
+			codeuser: { type: GraphQLInt },
+			nameUser: { type: GraphQLString },
+		},
+		resolve(source, args) {
+			return Db.models.Applications.create(args.application).then(application => {
+
+				var userdate = new Date();
+				var timezone = userdate.getTimezoneOffset();
+				var serverdate = new Date(userdate.setMinutes(userdate.getMinutes() + parseInt(timezone)));
+				serverdate = moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm');
+				
+				Db.models.TransactionLogs.create({
+					codeUser: args.codeuser,
+					nameUser: args.nameUser,
+					actionDate: serverdate,
+					action: 'CREATED ROW',
+					affectedObject: 'LEAD'
+				});
+
+				Db.models.ApplicationHiredStates.create({
+					applicationId: application.dataValues.id,
+					hiredStateId: 1,
+					userCreated: args.codeuser,
+					userUpdated: args.codeuser,
+					isActive: true
+				});
+
+				if(args.speakEnglish){
+					Db.models.ApplicantLanguages.create({
+						ApplicationId: application.dataValues.id,
+						language: 194, // Ingles
+						writing: 5, // nivel maximo
+						conversation: 5
+					});
+				}
+
+
+				return application.dataValues;
+			});
+		}
+	},
 	updateApplication: {
 		type: ApplicationType,
 		description: 'Update Application Form Info',

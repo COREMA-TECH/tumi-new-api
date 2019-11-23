@@ -905,7 +905,15 @@ const ZipcodeType = new GraphQLObjectType({
 	description: 'This is for Zipcode Table',
 	fields: () => {
 		return {
-			...ZipcodeFields
+			...ZipcodeFields,
+			stateRelation: {
+				type: CatalogItemType,
+				description: 'State Relation'
+			},
+			cityRelation: {
+				type: CatalogItemType,
+				description: 'City Relation'
+			}
 		};
 	}
 });

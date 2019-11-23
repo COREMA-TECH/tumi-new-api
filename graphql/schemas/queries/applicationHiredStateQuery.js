@@ -20,9 +20,6 @@ const ApplicationHiredStateQuery = {
             hiredStateId: {
                 type: GraphQLInt
             },
-            origin: {
-                type: GraphQLString
-            },
             userCreated: {
                 type: GraphQLInt
             },

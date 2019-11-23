@@ -226,7 +226,11 @@ const ApplicationFields = {
 	},
 	origin: {
 		type: GraphQLString,
-		description: 'Record Origin'
+		description: 'Applicant origin'
+	},
+	proofofID: {
+		type: GraphQLBoolean,
+		description: 'Proof of ID'
 	}
 };
 
